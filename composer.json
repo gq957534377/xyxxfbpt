@@ -6,7 +6,13 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*"
+        "laravel/framework": "5.1.*",
+        "gregwar/captcha": "^1.1",
+        "ramsey/uuid": "^3.5",
+        "flc/alidayu": "^2.0",
+        "barryvdh/laravel-ide-helper": "^2.2",
+        "barryvdh/laravel-debugbar": "^2.3",
+        "riverslei/laravel-ueditor": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
