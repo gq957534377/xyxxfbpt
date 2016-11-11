@@ -55,6 +55,14 @@
                     <li><a href="{{url('training_publish')}}">发布</a></li>
                 </ul>
             </li>
+
+            {{--项目发布--}}
+            <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">项目发布管理</span><span class="menu-arrow"></span></a>
+                <ul class="list-unstyled">
+                    <li><a href="{{url('project/unchecked')}}">待审核项目管理</a></li>
+                    <li><a href="{{url('project/checked')}}">已发布项目管理</a></li>
+                </ul>
+            </li>
         </ul>
     </nav>
 

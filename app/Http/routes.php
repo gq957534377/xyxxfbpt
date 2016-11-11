@@ -42,6 +42,8 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/items','VentureContestController');
         // 路演活动
         Route::resource('/roald','RoaldController');
+        // 项目发布管理
+        Route::resource('/project','ProjectController');
 
     });
 
@@ -67,6 +69,10 @@ Route::group(['namespace' => 'Home'],function() {
     Route::resource('/roald','RoaldController');
     //创业技术培训
     Route::resource('/training', 'TrainingListController');
+    //创业技术培训
+    Route::resource('/project', 'ProjectController');
+    Route::get('/test', 'ProjectController@test');
+    Route::get('/getuptoken', 'ProjectController@getuptoken');
 
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
