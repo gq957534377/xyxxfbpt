@@ -41,6 +41,13 @@ class ProjectService {
         return ['status'=> false,'msg'=>'插入成功'];
     }
 
+    public function getData($data)
+    {
+        $data = self::$projectStore->getData($data);
+        if (!$data) return ['status'=> true,'msg'=> '查询失败'];
+        return ['status'=>true,'data'=>$data];
+    }
+
 
 
 }

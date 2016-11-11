@@ -21,4 +21,10 @@ class ProjectStore {
         return DB::table(self::$table)->insert($data);
     }
 
+    public function getData($data)
+    {
+        if(empty($data)) return false;
+        return DB::table(self::$table)->where($data)->get();
+    }
+
 }
