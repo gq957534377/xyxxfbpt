@@ -57,7 +57,21 @@ class TrainingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        //验证
+        $this->validate($request, [
+            'title' => 'required',
+            'groupname' => 'required',
+        ]);
+        $result = self::$TrainingService->addTraining($data);
+        switch ($result) {
+            case 'error';
+                return back()->withErrors("写入失败");
+                break;
+            case 'yes':
+                return redirect('/training');
+                break;
+        }
     }
 
     /**
