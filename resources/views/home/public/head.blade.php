@@ -60,7 +60,7 @@
                         </ul>
                     </li>
                     <li><a href="{{url('/training')}}">创业技术培训</a></li>
-                    <li><a href="contact-us.html">Contact</a></li>
+                    <li><a href="{{"./project/publish"}}">项目发布</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact-us.html">Contact</a></li>
                 </ul>
