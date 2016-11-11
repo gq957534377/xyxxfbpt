@@ -8,11 +8,8 @@
                 <div class="col-sm-6 col-xs-8">
                     <div class="social">
                         <ul class="social-share">
-                            <li><a href="{{url('/login')}}">登录</a></li>
-                            <li><a href="{{url('/register')}}">注册</a></li>
-                            <!--<li><a href="#"><i class="fa fa-linkedin"></i></a></li> -->
-                            <!--<li><a href="#"><i class="fa fa-dribbble"></i></a></li>-->
-                            <!--<li><a href="#"><i class="fa fa-skype"></i></a></li>-->
+                                <li><a href="{{url('/login')}}" id="login">登录</a><input type="hidden" name="guid"></li>
+                                <li><a href="{{url('/register')}}" id="register">注册</a></li>
                         </ul>
                         <div class="search">
                             <form role="form">
@@ -35,7 +32,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="logo"></a>
+                <a class="navbar-brand" href="index.html"><img src="{{asset('home/images/logo.png')}}" alt="logo"></a>
             </div>
 
             <div class="collapse navbar-collapse navbar-right">

@@ -5,24 +5,59 @@ namespace App\Services;
 use App\Http\Requests\Request;
 use App\Store\HomeStore;
 use App\Store\UserStore;
+use App\Store\RoleStore;
 use App\Tools\Common;
 use Illuminate\Support\Facades\Session;
 
 class UserService {
     protected static $homeStore = null;
     protected static $userStore = null;
+    protected static $roleStore = null;
 
     /**
-     * 构造函数注入
      * UserService constructor.
      * @param HomeStore $homeStore
+     * @param UserStore $userStore
+     * @param RoleStore $roleStore
      */
-    public function __construct(HomeStore $homeStore ,UserStore $userStore)
+    public function __construct(HomeStore $homeStore ,UserStore $userStore,  RoleStore $roleStore)
     {
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
+        self::$roleStore = $roleStore;
     }
 
+    /**
+     * 获取用户信息
+     * @param $where
+     * @return array
+     * @author 刘峻廷
+     */
+    public function userInfo($where)
+    {
+        $result = self::$userStore->getOneData(['guid'=>$where]);
+        //返回错误状态信息
+        if(!$result) return ['status'=>false,'msg'=>'没有找到'];
+        //返回数据
+        return  ['status'=>true,'msg'=>$result];
+    }
+    /**
+     * 检测用户登录状态
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function signOn()
+    {
+        $userinfo = Session::get('user');
+        if(!$userinfo) return ['status'=>false,'msg'=>'你还没登录'];
+        return $userinfo;
+    }
+    /**
+     * 注册用户
+     * @param $data
+     * @return string
+     * @author 刘峻廷
+     */
     public function addUser($data)
     {
         // 检验用户是否被注册
@@ -47,6 +82,7 @@ class UserService {
         // 数据写入失败
         if(!$loginInfo) return 'error';
         // 添加成功
+        $userInfo = self::$userStore->addUserInfo(['guid'=>$data['guid'],'nickname'=>$nickname,'tel'=>$phone,'email'=> $data['email']]);
         $userInfo = self::$userStore->addUserInfo(['guid'=>$data['guid'],'nickname'=>$nickname,'tel'=>$phone]);
         return 'yes';
     }
@@ -110,5 +146,24 @@ class UserService {
             Session::put('sms',$arr);
             return 'yes';
         }
+    }
+    /**
+     * 获取符合条件的所有用户
+     * @param $data
+     * @return array|bool
+     * @author wang fei long
+     */
+    public function getUserList($data)
+    {
+        $msg = '';
+        // 转向RoleStore层
+        if ($data == '0'){
+            $result = self::$roleStore->getUsers(['status' => '1']);
+            if (!$result) return ['status' => false, $msg => '系统错误'];
+            return $result;
+        }
+        $result = self::$userStore->getUsers(['role' => $data]);
+        if (!$result) return ['status' => false, $msg => '系统错误'];
+        return $result;
     }
 }

@@ -1,3 +1,4 @@
+/.idea
 /vendor
 /node_modules
 /public/storage
@@ -5,6 +6,5 @@ Homestead.json
 Homestead.yaml
 .env
 .DS_Store
-.idea
-.idea/workspace.xml
 _ide_helper.php
+.idea/workspace.xml

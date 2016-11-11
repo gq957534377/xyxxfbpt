@@ -138,7 +138,9 @@ class RoadController extends Controller
     }
 
     /**
-     * @return string
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 
      */
     public function updateStatus(Request $request)
     {

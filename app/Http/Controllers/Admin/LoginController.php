@@ -140,12 +140,13 @@ class LoginController extends Controller
         return Common::captcha($tmp,1);
     }
 
-    /* 登出
-     * @auther 王飞龙
+    /**
+     * 登出
+     * @author 王飞龙
      */
     public function logout()
     {
-        Session::flush();
+        Session::forget('manager');
         return redirect('/login');
     }
 }
