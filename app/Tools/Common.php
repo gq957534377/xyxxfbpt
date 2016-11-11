@@ -8,6 +8,7 @@
 namespace App\Tools;
 
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Gregwar\Captcha\CaptchaBuilder;
 //随机生成短语，自定义的多元化！
@@ -138,5 +139,28 @@ class Common {
             return $info->result->success;
         }
     }
+    /**
+     * 获取分页URL
+     * @param  object $data 把$request传进来
+     * @param  string $table 把表名传进来
+     * @param  string $url 把主URL传进来
+     * @return mixed(array | false)
+     * @author 郭庆
+     */
+    public static function getPageUrl($data, $table, $url)
+    {
+        if(empty($table) || empty($url)) return false;
+        $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
+        $count     = DB::table($table)->count();
+        $totalPage = ceil($count / PAGENUM);
+        $baseUrl   = url($url);
+        if($nowPage <= 0) $nowPage = 1;
+        if($nowPage > $totalPage) $nowPage = $totalPage;
 
+        return [
+            'nowPage' => $nowPage,
+            'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl,null),
+        ];
+
+    }
 }

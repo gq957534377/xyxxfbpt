@@ -15,7 +15,7 @@
  * 后台入口
  */
 //路由组中指定域名，命名空间
-Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
+Route::group(['domain' => 'admin.hero.com','namespace' => 'Admin'],function(){
     //补充资源控制器
     Route::get('/code/captcha/{tmp}','LoginController@captcha');
     // 后台登录页
@@ -34,14 +34,14 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         // 项目比赛
         Route::resource('/match','VentureContestController');
         // 路演活动
-        Route::resource('/roald','RoaldController');
+        Route::resource('/road','RoadController');
+        Route::resource('/road_info_page','RoadController@getInfoPage');
+        Route::resource('/road_one_info','RoadController@getOneRoad');
         // 用户管理
         Route::resource('/users', 'UserController');
         Route::resource('/training','');
         //项目比赛
         Route::resource('/items','VentureContestController');
-        // 路演活动
-        Route::resource('/roald','RoaldController');
 
     });
 
@@ -64,7 +64,7 @@ Route::group(['namespace' => 'Home'],function() {
     //众筹首页
     Route::resource('/crowd_funding', 'CrowdFundingController');
     //前台路演页面
-    Route::resource('/roald','RoaldController');
+    Route::resource('/road','RoadController');
     //创业技术培训
     Route::resource('/training', 'TrainingListController');
 

@@ -35,8 +35,8 @@
 
             <li class="has-submenu"><a href="#"><i class="zmdi zmdi-collection-text"></i> <span class="nav-label">路演管理</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="{{url('roald/create')}}">发布路演</a></li>
-                    <li><a href="{{url('roald')}}">路演管理</a></li>
+                    <li><a href="{{url('road/create')}}">发布路演</a></li>
+                    <li><a href="{{url('road')}}">路演管理</a></li>
                 </ul>
             </li>
 
