@@ -83,4 +83,5 @@
 
 @section('script')
 @include('home.ajax.userinfo')
+
 @endsection

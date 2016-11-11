@@ -83,6 +83,7 @@ class UserService {
         if(!$loginInfo) return 'error';
         // 添加成功
         $userInfo = self::$userStore->addUserInfo(['guid'=>$data['guid'],'nickname'=>$nickname,'tel'=>$phone,'email'=> $data['email']]);
+        $userInfo = self::$userStore->addUserInfo(['guid'=>$data['guid'],'nickname'=>$nickname,'tel'=>$phone]);
         return 'yes';
     }
     /**

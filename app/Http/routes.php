@@ -31,8 +31,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/','AdminController');
         //创业技术培训
         Route::resource('/training','TrainingController');
-        // 项目比赛
-        Route::resource('/match', 'VentureContestController');
         // 创业大赛->发布信息入口
         Route::resource('/match','VentureContestController');
         // 路演活动
@@ -41,7 +39,12 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/users', 'UserController');
         // 路演活动
         Route::resource('/roald','RoaldController');
-
+        //项目比赛
+        Route::resource('/items','VentureContestController');
+        // 路演活动
+        Route::resource('/roald','RoaldController');
+        //众筹
+        Route::resource('/project_approval', 'CrowdFundingController');
     });
 
 });
@@ -62,13 +65,18 @@ Route::group(['namespace' => 'Home'],function() {
     Route::resource('/register', 'RegisterController');
     //众筹首页
     Route::resource('/crowd_funding', 'CrowdFundingController');
+    //众筹首页ajax请求
+    Route::get('index_ajax',"CrowdFundingController@indexAjax");
+    //查询某类项目可分页数
+    Route::get("crow_funding_page/{id}","CrowdFundingController@endPage");
+    //查询某类项目某页内容
+    Route::post("crow_funding_page","CrowdFundingController@pageContent");
     //前台路演页面
     Route::resource('/roald','RoaldController');
     //创业技术培训
     Route::resource('/training', 'TrainingListController');
     // 创业大赛->团队报名入口
     Route::resource('/items','VentureContestController');
-
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         // 个人中心页

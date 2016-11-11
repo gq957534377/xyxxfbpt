@@ -27,7 +27,7 @@ class UserStore {
      * 添加用户信息
      * @param array $data
      * @return bool
-     * @auther 刘峻廷
+     * @author 刘峻廷
      */
     public function addUserInfo($data)
     {
@@ -42,7 +42,7 @@ class UserStore {
      * @param array $where
      * @param array $data
      * @return bool
-     * @auther 刘峻廷
+     * @author 刘峻廷
      */
     public function updateUserInfo($where,$data)
     {

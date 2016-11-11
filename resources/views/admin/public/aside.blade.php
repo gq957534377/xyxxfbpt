@@ -30,6 +30,9 @@
                 <a href="#"><i class="fa fa-dollar"></i> <span class="nav-label">众筹模块</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
                     <li><a href="{{url('crowd_funding')}}" target="">首页</a></li>
+                    <li><a href="{{url('project_approval')}}" target="">发布众筹</a></li>
+                    <li><a href="{{url('project_approval/info')}}" target="">众筹信息</a></li>
+
                 </ul>
             </li>
 
@@ -58,3 +61,4 @@
 
 </aside>
 <!-- Aside Ends-->
+

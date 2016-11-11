@@ -141,11 +141,19 @@ class LoginController extends Controller
     }
 
     /* 登出
+<<<<<<< HEAD
      * @author 王飞龙
      */
     public function logout()
     {
         Session::forget('manager');
+=======
+     * @auther 王飞龙
+     */
+    public function logout()
+    {
+        Session::flush();
+>>>>>>> origin/zxz
         return redirect('/login');
     }
 }

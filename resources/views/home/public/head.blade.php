@@ -10,7 +10,6 @@
                         <ul class="social-share">
                                 <li><a href="{{url('/login')}}" id="login">登录</a><input type="hidden" name="guid"></li>
                                 <li><a href="{{url('/register')}}" id="register">注册</a></li>
-
                         </ul>
                         <div class="search">
                             <form role="form">
