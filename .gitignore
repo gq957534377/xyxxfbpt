@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 /.idea
-_ide_helper.php
-=======
->>>>>>> origin/zxz
 /vendor
 /node_modules
 /public/storage
@@ -10,18 +6,5 @@ Homestead.json
 Homestead.yaml
 .env
 .DS_Store
-<<<<<<< HEAD
-<<<<<<< HEAD
-.idea/workspace.xml
-
-
-=======
-/.idea
-.idea
 _ide_helper.php
->>>>>>> origin/zxz
-=======
-.idea
 .idea/workspace.xml
-_ide_helper.php
->>>>>>> origin/guoqing
