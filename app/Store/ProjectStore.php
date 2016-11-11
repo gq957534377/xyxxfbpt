@@ -8,10 +8,10 @@ class ProjectStore {
     protected static $table = 'project_info_data';
 
     /**
-     * 添加项目
-     * @param array $data
+     * 给project_info表增加数据
+     * @param $data
      * @return bool
-     * @auther 贾济林
+     * @author 贾济林
      */
     public function addData($data)
     {

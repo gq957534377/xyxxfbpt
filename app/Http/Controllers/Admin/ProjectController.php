@@ -48,8 +48,9 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        if ($id = 'unchecked') return view('admin.project.unchecked_pros');
-        if ($id = 'checked') return view('admin.project.checked_pros');
+        if ($id = 'unchecked') return view('admin.project.unchecked');
+        if ($id = 'pass') return view('admin.project.pass');
+        if ($id = 'nopass') return view('admin.project.nopass');
     }
 
     /**

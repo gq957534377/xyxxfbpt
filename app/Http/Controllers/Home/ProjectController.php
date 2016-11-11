@@ -103,6 +103,11 @@ class ProjectController extends Controller
         //
     }
 
+    /**
+     * 获取七牛参数
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
+     */
     public function getuptoken()
     {
         // 需要填写你的 Access Key 和 Secret Key
