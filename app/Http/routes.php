@@ -66,10 +66,6 @@ Route::group(['namespace' => 'Home'],function() {
     Route::get("crow_funding_page/{id}","CrowdFundingController@endPage");
     //查询某类项目某页内容
     Route::post("crow_funding_page","CrowdFundingController@pageContent");
-    //前台路演页面
-    Route::resource('/road','RoadController');
-    //创业技术培训
-    Route::resource('/training', 'TrainingListController');
     //发布项目
     Route::resource('/project', 'ProjectController');
     Route::get('/test', 'ProjectController@test');
