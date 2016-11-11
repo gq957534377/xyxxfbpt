@@ -42,6 +42,8 @@ Route::group(['domain' => 'admin.hero.com','namespace' => 'Admin'],function(){
         Route::resource('/items','VentureContestController');
         // 路演活动
         Route::resource('/roald','RoaldController');
+        //众筹
+        Route::resource('/project_approval', 'CrowdFundingController');
 
     });
 
