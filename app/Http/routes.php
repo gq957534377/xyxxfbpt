@@ -75,5 +75,3 @@ Route::group(['namespace' => 'Home'],function() {
     });
 
 });
-
-

@@ -28,19 +28,19 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        // 需要进一步修改
         $data = $request->all();
         $role = $data['role'];
         switch ($role){
             // 待审核用户
             case "0":
-//                // 返回json数据
 //                $result = self::$userServer->getUserList($role);
 //                // 如果$result返回错误
 //                if(!$result['status'])
 //                    return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
 //
 //                return response()->json(['StatusCode' => 200, 'ResultData' => $result]);
+
+               /************************************************/
 
                 $result = self::$userServer->getUserList($role);
                 return view('admin.user.checkingUserList', ['data' => $result]);

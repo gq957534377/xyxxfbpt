@@ -162,11 +162,6 @@
 
 @endsection
 
-
-
-
-
-
 @section('script')
     <!--alertInfo JS-->
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
