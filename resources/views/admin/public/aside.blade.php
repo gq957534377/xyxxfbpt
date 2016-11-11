@@ -50,9 +50,7 @@
 
             <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">创业技术培训</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="{{url('')}}">列表页</a></li>
-                    <li><a href="{{url('crowd_funding')}}">详情页</a></li>
-                    <li><a href="{{url('training_publish')}}">发布</a></li>
+                    <li><a href="{{url('training')}}">列表页</a></li>
                 </ul>
             </li>
         </ul>
