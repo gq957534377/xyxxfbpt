@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="57b17d8a-9a58-4f97-b546-7cc0a7a8d7ab" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
+=======
+    <list default="true" id="57b17d8a-9a58-4f97-b546-7cc0a7a8d7ab" name="Default" comment="" />
+>>>>>>> origin/maolin
     <ignored path="laravel.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -29,6 +33,7 @@
     <favorites_list name="laravel" />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
 <<<<<<< HEAD
     <leaf />
 =======
@@ -59,10 +64,22 @@
             <state relative-caret-position="27">
               <caret line="10" column="10" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="10" />
               <folding />
+=======
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="VentureContestController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/VentureContestController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="418">
+              <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+              <folding>
+                <element signature="e#46#74#0#PHP" expanded="true" />
+              </folding>
+>>>>>>> origin/maolin
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="TrainingController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/TrainingController.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -70,11 +87,22 @@
               <caret line="67" column="25" selection-start-line="67" selection-start-column="25" selection-end-line="67" selection-end-column="25" />
               <folding>
                 <element signature="e#46#74#0#PHP" expanded="true" />
+=======
+      <file leaf-file-name="MatchService.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Services/MatchService.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="17" column="42" selection-start-line="17" selection-start-column="42" selection-end-line="17" selection-end-column="42" />
+              <folding>
+                <element signature="e#6#80#0#PHP" expanded="true" />
+                <element signature="e#106#131#0#PHP" expanded="true" />
+>>>>>>> origin/maolin
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="TrainingService.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Services/TrainingService.php">
           <provider selected="true" editor-type-id="text-editor">
@@ -82,13 +110,25 @@
               <caret line="10" column="21" selection-start-line="10" selection-start-column="21" selection-end-line="10" selection-end-column="21" />
               <folding>
                 <element signature="e#6#83#0#PHP" expanded="true" />
+=======
+      <file leaf-file-name="MatchStore.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Store/MatchStore.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="396">
+              <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+              <folding>
+                <element signature="e#6#84#0#PHP" expanded="true" />
+>>>>>>> origin/maolin
               </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+<<<<<<< HEAD
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -96,6 +136,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< HEAD
+=======
+        <option value="$PROJECT_DIR$/resources/views/admin/components/nestable.blade.php" />
+>>>>>>> origin/maolin
         <option value="$PROJECT_DIR$/resources/views/admin/components/portlets.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/components/rangSlider.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/components/widgets.blade.php" />
@@ -149,6 +193,7 @@
         <option value="$PROJECT_DIR$/resources/views/admin/training/list.blade.php" />
 >>>>>>> origin/wangtuo
         <option value="$PROJECT_DIR$/.gitignore" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/resources/views/home/ajax/ajax.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Home/HomeController.php" />
         <option value="$PROJECT_DIR$/resources/views/home/public/script.blade.php" />
@@ -163,6 +208,11 @@
         <option value="$PROJECT_DIR$/resources/views/home/ajax/userinfo.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/user/index.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/home/public/head.blade.php" />
+=======
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/VentureContestController.php" />
+        <option value="$PROJECT_DIR$/app/Services/MatchService.php" />
+        <option value="$PROJECT_DIR$/app/Store/MatchStore.php" />
+>>>>>>> origin/maolin
       </list>
     </option>
   </component>
@@ -178,6 +228,7 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <option name="x" value="605" />
     <option name="y" value="4" />
     <option name="width" value="1400" />
@@ -188,6 +239,12 @@
     <option name="width" value="1296" />
     <option name="height" value="696" />
 >>>>>>> origin/wangtuo
+=======
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1376" />
+    <option name="height" value="744" />
+>>>>>>> origin/maolin
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -202,8 +259,14 @@
     <OptionsSetting value="true" id="更新" />
     <OptionsSetting value="true" id="状态" />
     <OptionsSetting value="true" id="编辑" />
+<<<<<<< HEAD
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
+=======
+    <OptionsSetting value="true" id="检出" />
+    <ConfirmationsSetting value="0" id="添加" />
+    <ConfirmationsSetting value="0" id="移除" />
+>>>>>>> origin/maolin
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -220,6 +283,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< HEAD
+=======
+      <pane id="Scope" />
+>>>>>>> origin/maolin
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -292,6 +359,7 @@
               <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
             </PATH_ELEMENT>
           </PATH>
+<<<<<<< HEAD
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -299,6 +367,156 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../laravel" />
+=======
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Store" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Services" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controllers" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controllers" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Home" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hero" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Http" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Controllers" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Admin" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+>>>>>>> origin/maolin
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
@@ -393,13 +611,19 @@
       <workItem from="1478855471836" duration="23000" />
 =======
       <workItem from="1478780664560" duration="6015000" />
+<<<<<<< HEAD
       <workItem from="1478824405672" duration="8689000" />
       <workItem from="1478836736462" duration="4379000" />
 >>>>>>> origin/wangtuo
+=======
+      <workItem from="1478843898420" duration="55000" />
+      <workItem from="1478844392329" duration="407000" />
+>>>>>>> origin/maolin
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
 <<<<<<< HEAD
     <option name="totallyTimeSpent" value="75978000" />
   </component>
@@ -426,6 +650,18 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18851133" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+=======
+    <option name="totallyTimeSpent" value="47116000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1376" height="744" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21960486" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295082" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+>>>>>>> origin/maolin
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -475,7 +711,31 @@
   </component>
   <component name="editorHistoryManager">
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+    <entry file="file://$PROJECT_DIR$/resources/views/admin/interface/panels.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="109" column="6" selection-start-line="109" selection-start-column="6" selection-end-line="109" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/admin/interface/progressBars.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="236" column="11" selection-start-line="236" selection-start-column="11" selection-end-line="236" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/admin/interface/tabs.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="281" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> origin/maolin
     <entry file="file://$PROJECT_DIR$/resources/views/admin/interface/typography.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="243">
@@ -503,6 +763,9 @@
         <state relative-caret-position="33">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -510,8 +773,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
           <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+<<<<<<< HEAD
 =======
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -553,9 +819,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="216">
           <caret line="11" column="19" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="19" />
-          <folding>
-            <element signature="e#6#87#0#PHP" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -572,6 +835,7 @@
         <state relative-caret-position="267">
           <caret line="82" column="9" selection-start-line="82" selection-start-column="9" selection-end-line="82" selection-end-column="9" />
 <<<<<<< HEAD
+<<<<<<< HEAD
           <folding>
             <element signature="e#45#88#0#PHP" expanded="false" />
           </folding>
@@ -579,6 +843,15 @@
       </provider>
     </entry>
 =======
+=======
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Home/UserController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="777">
+          <caret line="88" column="0" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -624,6 +897,16 @@
         <state relative-caret-position="297">
           <caret line="9" column="7" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/Home/HomeMiddleware.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="759">
+          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -631,8 +914,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="429">
           <caret line="16" column="27" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="27" />
+<<<<<<< HEAD
 =======
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -649,25 +935,38 @@
         <state relative-caret-position="4059">
           <caret line="123" column="0" selection-start-line="123" selection-start-column="0" selection-end-line="123" selection-end-column="0" />
 <<<<<<< HEAD
+<<<<<<< HEAD
           <folding>
             <element signature="e#46#74#0#PHP" expanded="false" />
           </folding>
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/app.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="513">
           <caret line="196" column="54" selection-start-line="196" selection-start-column="54" selection-end-line="196" selection-end-column="54" />
+=======
+        <state relative-caret-position="2046">
+          <caret line="56" column="17" selection-start-line="56" selection-start-column="17" selection-end-line="56" selection-end-column="17" />
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/home/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
 =======
 >>>>>>> origin/wangtuo
+=======
+        <state relative-caret-position="297">
+          <caret line="9" column="38" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -716,6 +1015,7 @@
 =======
         <state relative-caret-position="513">
           <caret line="196" column="54" selection-start-line="196" selection-start-column="54" selection-end-line="196" selection-end-column="54" />
+<<<<<<< HEAD
 >>>>>>> origin/wangtuo
         </state>
       </provider>
@@ -724,6 +1024,8 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2240">
           <caret line="11" column="19" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="19" />
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -734,7 +1036,10 @@
           <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
 =======
           <caret line="15" column="20" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="20" />
+<<<<<<< HEAD
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -750,6 +1055,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
 <<<<<<< HEAD
+<<<<<<< HEAD
         </state>
       </provider>
     </entry>
@@ -759,6 +1065,8 @@
           <caret line="83" column="35" selection-start-line="83" selection-start-column="35" selection-end-line="83" selection-end-column="35" />
 =======
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -770,7 +1078,10 @@
 =======
         <state relative-caret-position="497">
           <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
+<<<<<<< HEAD
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -791,7 +1102,10 @@
 =======
         <state relative-caret-position="546">
           <caret line="32" column="77" selection-start-line="32" selection-start-column="77" selection-end-line="32" selection-end-column="77" />
+<<<<<<< HEAD
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -800,6 +1114,9 @@
         <state relative-caret-position="-3065">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -820,12 +1137,16 @@
 =======
         <state relative-caret-position="495">
           <caret line="15" column="113" selection-start-line="15" selection-start-column="113" selection-end-line="15" selection-end-column="113" />
+<<<<<<< HEAD
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Middleware/Home/HomeMiddleware.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <state relative-caret-position="645">
           <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
@@ -849,12 +1170,22 @@
         </state>
       </provider>
     </entry>
+=======
+        <state relative-caret-position="198">
+          <caret line="6" column="55" selection-start-line="6" selection-start-column="55" selection-end-line="6" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> origin/maolin
     <entry file="file://$PROJECT_DIR$/resources/views/home/layouts/index,blade.php" />
     <entry file="file://$PROJECT_DIR$/resources/views/home/public/footer.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="64" column="25" selection-start-line="64" selection-start-column="25" selection-end-line="64" selection-end-column="25" />
+<<<<<<< HEAD
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -866,7 +1197,10 @@
 =======
         <state relative-caret-position="528">
           <caret line="600" column="36" selection-start-line="600" selection-start-column="36" selection-end-line="600" selection-end-column="36" />
+<<<<<<< HEAD
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -878,7 +1212,10 @@
 =======
         <state relative-caret-position="1089">
           <caret line="69" column="23" selection-start-line="69" selection-start-column="23" selection-end-line="69" selection-end-column="23" />
+<<<<<<< HEAD
 >>>>>>> origin/wangtuo
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -911,6 +1248,7 @@
 =======
         <state relative-caret-position="759">
           <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+<<<<<<< HEAD
         </state>
       </provider>
     </entry>
@@ -986,6 +1324,8 @@
           <caret line="54" column="9" selection-start-line="54" selection-start-column="9" selection-end-line="54" selection-end-column="9" />
 >>>>>>> origin/wangtuo
           <folding />
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -997,8 +1337,11 @@
 =======
         <state relative-caret-position="27">
           <caret line="10" column="10" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="10" />
+<<<<<<< HEAD
 >>>>>>> origin/wangtuo
           <folding />
+=======
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -1022,6 +1365,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home/user/index.blade.php">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="1287">
           <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
         </state>
@@ -1044,6 +1388,10 @@
         <state relative-caret-position="243">
           <caret line="33" column="34" selection-start-line="33" selection-start-column="34" selection-end-line="33" selection-end-column="34" />
           <folding />
+=======
+        <state relative-caret-position="33">
+          <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>
@@ -1059,9 +1407,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="54">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding />
+=======
+        <state relative-caret-position="297">
+          <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Services/MatchService.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="17" column="42" selection-start-line="17" selection-start-column="42" selection-end-line="17" selection-end-column="42" />
+          <folding>
+            <element signature="e#6#80#0#PHP" expanded="true" />
+            <element signature="e#106#131#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Store/MatchStore.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="396">
+          <caret line="18" column="28" selection-start-line="18" selection-start-column="28" selection-end-line="18" selection-end-column="28" />
+          <folding>
+            <element signature="e#6#84#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/VentureContestController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+          <folding>
+            <element signature="e#46#74#0#PHP" expanded="true" />
+          </folding>
+>>>>>>> origin/maolin
         </state>
       </provider>
     </entry>

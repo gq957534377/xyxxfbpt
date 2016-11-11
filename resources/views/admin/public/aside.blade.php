@@ -13,7 +13,7 @@
     <!-- Navbar Start -->
     <nav class="navigation">
         <ul class="list-unstyled">
-            <li class="active"><a href="{{url('index')}}"><i class="zmdi zmdi-view-dashboard"></i> <span class="nav-label">控制台</span></a></li>
+            <li class="active"><a href="{{url('/')}}"><i class="zmdi zmdi-view-dashboard"></i> <span class="nav-label">控制台</span></a></li>
 
             <li class="has-submenu">
                 <a href="#"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span><span class="menu-arrow"></span></a>
@@ -42,7 +42,7 @@
 
             <li class="has-submenu"><a href="#"><i class="zmdi zmdi-chart"></i> <span class="nav-label">创业大赛</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="http://admin.hero.com/match">发布信息</a></li>
+                    <li><a href="{{asset('/match')}}">发布信息</a></li>
                     <li><a href="#">参赛者管理</a></li>
                     <li><a href="#">修改信息</a></li>
                 </ul>

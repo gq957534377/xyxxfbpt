@@ -29,17 +29,16 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
     Route::group(['middleware'=> 'AdminMiddleware'],function(){
         // 后台首页
         Route::resource('/','AdminController');
-        Route::resource('/index','AdminController');
         //创业技术培训
         Route::resource('/training','TrainingController');
         // 项目比赛
         Route::resource('/match', 'VentureContestController');
+        // 创业大赛->发布信息入口
+        Route::resource('/match','VentureContestController');
         // 路演活动
         Route::resource('/roald','RoaldController');
         // 用户管理
         Route::resource('/users', 'UserController');
-        //项目比赛
-        Route::resource('/items','VentureContestController');
         // 路演活动
         Route::resource('/roald','RoaldController');
 
@@ -67,6 +66,8 @@ Route::group(['namespace' => 'Home'],function() {
     Route::resource('/roald','RoaldController');
     //创业技术培训
     Route::resource('/training', 'TrainingListController');
+    // 创业大赛->团队报名入口
+    Route::resource('/items','VentureContestController');
 
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
@@ -79,5 +80,3 @@ Route::group(['namespace' => 'Home'],function() {
     });
 
 });
-
-
