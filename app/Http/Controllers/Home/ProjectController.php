@@ -55,7 +55,7 @@ class ProjectController extends Controller
         $res = self::$projectServer->addProject($request);
 
         if(!$res) return response()->json(['status'=>'400','msg'=>'插入失败']);
-        return response()->json(['status'=>'200','msg'=>'插入成功']);
+        return response()->json(['status'=>'200','msg'=>'插入成功'],);
     }
 
     /**
