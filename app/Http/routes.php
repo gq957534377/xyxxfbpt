@@ -37,7 +37,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/roald','RoaldController');
         // 用户管理
         Route::resource('/users', 'UserController');
-        Route::resource('/training','');
         //项目比赛
         Route::resource('/items','VentureContestController');
         // 路演活动

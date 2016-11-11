@@ -42,4 +42,16 @@ class UserStore {
 
     }
 
+    /**
+     * @param $condition
+     * @return bool
+     * @author wang fei long
+     * 需要进一步修改
+     */
+    public function getUsers($condition){
+        // 检验条件是否存在
+        if(empty($condition)) return false;
+        // 获取数据
+        return DB::table(self::$table)->where($condition)->get();
+    }
 }

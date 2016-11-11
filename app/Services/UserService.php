@@ -5,22 +5,26 @@ namespace App\Services;
 use App\Http\Requests\Request;
 use App\Store\HomeStore;
 use App\Store\UserStore;
+use App\Store\RoleStore;
 use App\Tools\Common;
 use Illuminate\Support\Facades\Session;
 
 class UserService {
     protected static $homeStore = null;
     protected static $userStore = null;
+    protected static $roleStore = null;
 
     /**
-     * 构造函数注入
      * UserService constructor.
      * @param HomeStore $homeStore
+     * @param UserStore $userStore
+     * @param RoleStore $roleStore
      */
-    public function __construct(HomeStore $homeStore ,UserStore $userStore)
+    public function __construct(HomeStore $homeStore ,UserStore $userStore,  RoleStore $roleStore)
     {
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
+        self::$roleStore = $roleStore;
     }
 
     public function addUser($data)
@@ -110,5 +114,23 @@ class UserService {
             Session::put('sms',$arr);
             return 'yes';
         }
+    }
+    /**
+     * 获取符合条件的所有用户
+     * @param $data
+     * @return array|bool
+     * @author wang fei long
+     */
+    public function getUserList($data){
+        $msg = '';
+        // 转向RoleStore层
+        if ($data == '0'){
+            $result = self::$roleStore->getUsers(['status' => '1']);
+            if (!$result) return ['status' => false, $msg => '系统错误'];
+            return $result;
+        }
+        $result = self::$userStore->getUsers(['role' => $data]);
+        if (!$result) return ['status' => false, $msg => '系统错误'];
+        return $result;
     }
 }
