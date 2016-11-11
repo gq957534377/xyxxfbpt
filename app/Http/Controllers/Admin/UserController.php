@@ -33,26 +33,14 @@ class UserController extends Controller
         switch ($role){
             // 待审核用户
             case "0":
-//                $result = self::$userServer->getUserList($role);
-//                // 如果$result返回错误
-//                if(!$result['status'])
-//                    return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-//
-//                return response()->json(['StatusCode' => 200, 'ResultData' => $result]);
-
-               /************************************************/
-
-                $result = self::$userServer->getUserList($role);
-                return view('admin.user.checkingUserList', ['data' => $result]);
+                return view('admin.user.checking');
             // 普通用户
             case "1":
-                $result = self::$userServer->getUserList($role);
-                return view('admin.user.normalUserList', ['data' => $result]);
+                return view('admin.user.normal');
             // 创业者用户
             case "2":
-                $result = self::$userServer->getUserList($role);
-                return view('admin.user.entrepreneursUserList', ['data' => $result]);
-            // 其它请求
+                return view('admin.user.entrepreneurs');
+            // 其它情形
             default:
                 return redirect('/');
         }
@@ -122,5 +110,31 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getUserData(Request $request)
+    {
+        $data = $request->all();
+        $role = $data['role'];
+        switch ($role){
+            // 待审核用户
+            case "0":
+                $result = self::$userServer->getUserList($role);
+                // 如果$result返回错误
+                if(!$result['status'])
+                    return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+
+                return response()->json(['StatusCode' => 200, 'ResultData' => $result]);
+
+            // 普通用户
+            case "1":
+
+            // 创业者用户
+            case "2":
+
+            // 其它情形
+            default:
+                return redirect('/');
+        }
     }
 }

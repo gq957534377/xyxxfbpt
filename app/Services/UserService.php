@@ -155,15 +155,14 @@ class UserService {
      */
     public function getUserList($data)
     {
-        $msg = '';
         // 转向RoleStore层
         if ($data == '0'){
             $result = self::$roleStore->getUsers(['status' => '1']);
-            if (!$result) return ['status' => false, $msg => '系统错误'];
-            return $result;
+            if (!$result) return ['status' => false, 'msg' => '系统错误'];
+            return ['status' => true, 'msg' => $result];
         }
         $result = self::$userStore->getUsers(['role' => $data]);
-        if (!$result) return ['status' => false, $msg => '系统错误'];
-        return $result;
+        if (!$result) return ['status' => false, 'msg' => '系统错误'];
+        return ['status' => true, 'msg' => $result];
     }
 }
