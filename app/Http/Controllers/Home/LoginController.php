@@ -135,4 +135,9 @@ class LoginController extends Controller
         return Common::captcha($tmp,2);
     }
 
+    public function logout()
+    {
+        Session::forget('user');
+        return redirect('/');
+    }
 }

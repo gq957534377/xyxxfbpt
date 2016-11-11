@@ -24,6 +24,8 @@
                                 <i class="fa fa-cog" aria-hidden="true"></i>编辑个人资料</h2>
                             <hr>
                             <form class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
+                                <input type="hidden" name="guid" value="">
+                                {{ csrf_field() }}
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">昵称</label>
                                     <div class="col-sm-6">
@@ -68,7 +70,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-6">
-                                        <input class="btn btn-info" id="user-edit-submit" value="应用修改" type="submit"></div>
+                                        <input class="btn btn-info" id="editSubmit" value="应用修改" type="button"></div>
                                 </div>
                             </form>
                         </div>
@@ -77,4 +79,8 @@
             </div>
         </div><!--/.container-->
     </section><!--/#contact-page-->
+@endsection
+
+@section('script')
+@include('home.ajax.userinfo')
 @endsection

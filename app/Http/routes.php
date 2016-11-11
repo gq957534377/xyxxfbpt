@@ -71,7 +71,10 @@ Route::group(['namespace' => 'Home'],function() {
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         // 个人中心页
+        Route::get('/userinfo','UserController@getUserInfo');
         Route::resource('/user','UserController');
+        // 前台登出
+        Route::get('/logout','LoginController@logout');
 
     });
 

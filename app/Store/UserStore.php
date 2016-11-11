@@ -13,6 +13,17 @@ class UserStore {
     protected static $table = 'data_user_info';
 
     /**
+     * 查询用户信息
+     * @param $where
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function getOneData($where)
+    {
+        if (empty($where)) return false;
+        return DB::table(self::$table)->where($where)->first();
+    }
+    /**
      * 添加用户信息
      * @param array $data
      * @return bool
