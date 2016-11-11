@@ -276,7 +276,7 @@
         }(window.jQuery),
 
 
-//initializing
+        //initializing
                 function($) {
                     "use strict";
                     $.FormValidator.init()

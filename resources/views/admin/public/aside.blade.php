@@ -42,7 +42,7 @@
 
             <li class="has-submenu"><a href="#"><i class="zmdi zmdi-chart"></i> <span class="nav-label">创业大赛</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="http://admin.hero.com/match">发布信息</a></li>
+                    <li><a href="{{asset('/match')}}">发布信息</a></li>
                     <li><a href="#">参赛者管理</a></li>
                     <li><a href="#">修改信息</a></li>
                 </ul>
