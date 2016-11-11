@@ -164,7 +164,7 @@
                 var _this = $(this);
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/update_user_info_status?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
+                    url     : '/road_chage_status?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
                     error   : ajaxErrorModel
@@ -183,7 +183,7 @@
                             } else if (_this.children().hasClass("btn-primary")) {
                                 _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
                             }
-                            $('#alert-info').html('<p>数据修改成功!</p>');
+                            $('#alert-info').html('<p>状态修改成功!</p>');
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');

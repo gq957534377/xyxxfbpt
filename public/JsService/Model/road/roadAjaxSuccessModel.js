@@ -40,13 +40,13 @@ function listHtml(data){
         html += '<td>' + e.speaker + '</td>';
         html += '<td>' + e.group + '</td>';
         html += '<td>' + e.roadShow_time + '</td>';
-        html += '<td><a class="info" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn btn-primary btn-xs">路演详情</button></a>';
+        html += '<td><a class="info" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn btn-primary btn-xs"><i class="ion-information-circled"></i></button></a>';
         html += '<a class="order" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>';
         html += '<a class="card" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></button></a>';
         if (e.status == 1) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn btn-danger btn-xs">禁用</button></a>';
+            html += '<a href="javascript:;" data-name="' + e.roadShow_id + '" data-status="' + e.status + '" class="status" onclick="modifyStatus()"><button class="btn btn-danger btn-xs">禁用</button></a>';
         } else if (e.status == 3) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn btn-primary btn-xs">启用</button></a>';
+            html += '<a href="javascript:;" data-name="' + e.roadShow_id + '" data-status="' + e.status + '" class="status" onclick="modifyStatus()"><button class="btn btn-primary btn-xs">启用</button></a>';
         }
         html += '</td>';
     });

@@ -112,10 +112,24 @@ class RoadService {
     {
         $status = isset($data['status']) ? $data['status'] : 0;
         $guid = isset($data['name']) ? $data['name'] : '';
-        if (empty($guid) && !in_array($status, [1, 2])) return ['status' => false, 'msg' => '数据来源异常'];
-        $result = self::$userInfoStore->updateData(['guid' => $guid], ['status' => $status]);
+        if (empty($guid) && !in_array($status, [1, 3])) return ['status' => false, 'msg' => '数据来源异常'];
+        switch ($status)
+        {
+            case 1:
+                $status = 3;
+                break;
+            case 2:
+                $status = 3;
+                break;
+            case 3:
+                $status = 1;
+                break;
+            default:
+                break;
+        }
+        $result = self::$roadStore->updateData(['roadShow_id' => $guid], ['status' => $status]);
         if (empty($result))return ['status' => false, 'msg' => '数据修改失败'];
-        return ['status' => true, 'msg' => $status];
+        return ['status' => true, 'msg' => $result];
     }
 
     /**发布路演+后端验证
