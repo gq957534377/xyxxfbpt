@@ -21,11 +21,10 @@
 
 @include('home.public.script')
 
-<<<<<<< HEAD
+
 @include('home.public.loginCheck')
 
-=======
->>>>>>> origin/zxz
+
 @yield('script')
 </body>
 </html>
