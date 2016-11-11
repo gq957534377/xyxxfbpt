@@ -26,6 +26,7 @@ class CrowdFundingController extends Controller
     public function index()
     {
         //
+        return view("admin.crowd.approval");
     }
 
     /**
