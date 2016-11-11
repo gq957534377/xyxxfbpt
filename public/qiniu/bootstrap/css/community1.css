@@ -1,0 +1,163 @@
+/*社区*/
+/*社区首页*/
+*{
+	margin:0 auto; 
+}
+body{
+	background: #f7f7f7;
+	font-family: '黑体-简';
+	font-size: 16px;
+	color: #1d1d1d;
+}
+/*.col-xs-12,.col-xs-10{
+	padding: 0;
+}*/
+.col-xs-1{
+	text-align: left;
+}
+.contain .row{
+	height: 45px;
+	line-height: 45px;
+	border-bottom:1px solid #e1e1e1;
+}
+.contain .ban_1{
+	height: 50px;
+	line-height: 50px;
+	background: #fff;
+}
+.contain .row .plate_title{
+	padding: 0;
+	margin: 0;
+}
+/*发布*/
+.publish{
+	margin-top: 10px;
+}
+.publish .col-xs-2{
+	text-align: right;
+}
+.publish .row{
+	height: 35px;
+	line-height: 35px;
+	border-bottom:1px solid #e1e1e1;
+}
+.publish .ban_1{
+	height: 40px;
+	line-height: 40px;
+	background: #fff;
+}
+.publish .col-xs-10{
+	padding-left: 10px;
+}
+/*投票*/
+.vote .ban_2{
+	height: 60px;
+	line-height: 55px;
+	border-bottom:none;
+	border-bottom:1px solid #e1e1e1;
+	padding: 5px 10px 0 10px;
+	background: #fff;
+}
+.vote .ban_2 p{
+	margin: 0;
+	height: 25px;
+	color: #464646;
+	line-height: 25px;
+}
+
+.vote .ban_2 .addpart{
+	color: #565656;
+	font-size: 13px;
+}
+.vote .col-xs-2{
+	padding: 0px;
+	color: #464646;
+	text-align: right;
+	padding-right: 10px;
+}
+.vote .col-xs-10{
+	color: #464646;
+	padding: 0;
+	padding-left: 10px;
+}
+.vote .subutton{
+	margin-top: 20px;
+}
+.vote .subutton .btn-default{
+	background: #ec584e;
+	border:1px solid #ec584e;
+	color: #fff;
+	font-weight: normal;
+	text-shadow: 0 0px 0 #000;
+}
+
+/*已投票*/
+.vote1 .col-xs-2{	
+	color: #cfcfcf;
+}
+.vote1 .red_e{
+	color: #ec584e
+}
+.vote1 .subutton .btn-default{
+	background: #eee;
+	border:1px solid #c9c9c9;
+	color: #2f2f2f;
+	font-weight: normal;
+	text-shadow: 0 0px 0 #000;
+}
+
+/*发起投票*/
+.ticket{
+	margin-top: 10px;
+	font-size: 16px;
+}
+.ticket .input-group{
+	width: 100%;
+	margin-bottom: 10px;
+}
+.ticket .input-group .form-control{
+	border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    width: 100%
+}
+.ticket .row{
+	margin-bottom: 10px;
+}
+.ticket .col-xs-10{
+	color: #959494;
+	padding: 0;
+	padding-left: 8px;
+	height: 25px;
+	line-height: 25px;
+	font-size: 13px;
+}
+.ticket .kuan3{
+	margin-bottom: 60px;
+}
+.ticket .kuan3 .form-control{
+	border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+.ticket .btn-default{
+	background: #fff;
+	border-left:none;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset
+}
+.addPor{
+	text-align: center;
+	height: 50px;
+	line-height: 50px;
+	background: #f3f3f3;
+	position: fixed;
+	bottom: 0;
+	z-index: 1000;
+	width: 100%;
+	margin:0 auto;
+	border-top:1px solid #c0c0c0; 
+}
+.addPor .col-xs-12{
+	color: #939393;
+	font-size: 16px;
+}

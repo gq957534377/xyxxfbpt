@@ -11,6 +11,7 @@ Homestead.yaml
 .env
 .DS_Store
 <<<<<<< HEAD
+<<<<<<< HEAD
 .idea/workspace.xml
 
 
@@ -19,3 +20,8 @@ Homestead.yaml
 .idea
 _ide_helper.php
 >>>>>>> origin/zxz
+=======
+.idea
+.idea/workspace.xml
+_ide_helper.php
+>>>>>>> origin/guoqing

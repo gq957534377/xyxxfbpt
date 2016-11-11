@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
     <meta name="author" content="Coderthemes">
-    <title>@section('title')坚固集团-后台管理系统@show</title>
+    <title>@section('title')hero-后台管理系统@show</title>
     @include('admin.public.style')
     @yield('styles')
 </head>
