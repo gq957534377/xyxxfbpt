@@ -162,11 +162,6 @@
 
 @endsection
 
-
-
-
-
-
 @section('script')
     <!--alertInfo JS-->
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
@@ -275,11 +270,11 @@
                     $.FormValidator = new FormValidator, $.FormValidator.Constructor = FormValidator
         }(window.jQuery),
 
-
-//initializing
+        //initializing
                 function($) {
                     "use strict";
                     $.FormValidator.init()
                 }(window.jQuery);
     </script>
 @endsection
+
