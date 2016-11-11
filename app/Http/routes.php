@@ -29,15 +29,15 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
     Route::group(['middleware'=> 'AdminMiddleware'],function(){
         // 后台首页
         Route::resource('/','AdminController');
+        Route::resource('/index','AdminController');
         //创业技术培训
-        Route::resource('/training_publish','TrainingIndexController');
+        Route::resource('/training','TrainingController');
         // 项目比赛
-        Route::resource('/match','VentureContestController');
+        Route::resource('/match', 'VentureContestController');
         // 路演活动
         Route::resource('/roald','RoaldController');
         // 用户管理
         Route::resource('/users', 'UserController');
-        Route::resource('/training','');
         //项目比赛
         Route::resource('/items','VentureContestController');
         // 路演活动
