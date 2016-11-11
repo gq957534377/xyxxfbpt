@@ -91,7 +91,7 @@
         </nav><!--/nav-->
 	</header><!--/header-->
 	<section id="portfolio">
-		<div class="container">
+		<div class="container" id="plotBord">
 			<div class="row wow fadeInUp">
 				<div class="portfolio-items">
 					<div style="margin-top: 35px;" class="portfolio-item apps col-xs-12 col-sm-4 col-md-3">
@@ -109,6 +109,10 @@
 				</div>
 			</div>
 		</div>
+        <center>
+            <ul class="pagination pagination-lg">
+            </ul>
+        </center>
 	</section>
     <section id="bottom">
         <div class="container wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
@@ -201,5 +205,8 @@
     <script src="{{asset('home/js/jquery.isotope.min.js')}}"></script>
     <script src="{{asset('home/js/main.js')}}"></script>
     <script src="{{asset('home/js/wow.min.js')}}"></script>
+
+    @include("home.crowdfunding.publicClass")
+    @include("home.crowdfunding.listScript")
 </body>
 </html>

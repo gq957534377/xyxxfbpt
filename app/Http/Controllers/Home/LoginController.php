@@ -135,4 +135,14 @@ class LoginController extends Controller
         return Common::captcha($tmp,2);
     }
 
+    /**
+     * 登出
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @author 刘峻廷
+     */
+    public function logout()
+    {
+        Session::forget('user');
+        return redirect('/');
+    }
 }

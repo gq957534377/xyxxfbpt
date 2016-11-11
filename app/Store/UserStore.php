@@ -13,10 +13,21 @@ class UserStore {
     protected static $table = 'data_user_info';
 
     /**
+     * 查询用户信息
+     * @param $where
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function getOneData($where)
+    {
+        if (empty($where)) return false;
+        return DB::table(self::$table)->where($where)->first();
+    }
+    /**
      * 添加用户信息
      * @param array $data
      * @return bool
-     * @auther 刘峻廷
+     * @author 刘峻廷
      */
     public function addUserInfo($data)
     {
@@ -31,7 +42,7 @@ class UserStore {
      * @param array $where
      * @param array $data
      * @return bool
-     * @auther 刘峻廷
+     * @author 刘峻廷
      */
     public function updateUserInfo($where,$data)
     {
@@ -48,7 +59,8 @@ class UserStore {
      * @author wang fei long
      * 需要进一步修改
      */
-    public function getUsers($condition){
+    public function getUsers($condition)
+    {
         // 检验条件是否存在
         if(empty($condition)) return false;
         // 获取数据

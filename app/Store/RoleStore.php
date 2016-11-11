@@ -21,7 +21,8 @@ class RoleStore
      * @return bool
      * @author wang fei long
      */
-    function getUsers($condition){
+    function getUsers($condition)
+    {
         // 检验条件是否存在
         if(empty($condition)) return false;
         // 获取数据

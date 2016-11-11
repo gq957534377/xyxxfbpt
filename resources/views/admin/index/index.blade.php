@@ -270,11 +270,11 @@
                     $.FormValidator = new FormValidator, $.FormValidator.Constructor = FormValidator
         }(window.jQuery),
 
-
-//initializing
+        //initializing
                 function($) {
                     "use strict";
                     $.FormValidator.init()
                 }(window.jQuery);
     </script>
 @endsection
+

@@ -1,0 +1,11 @@
+.uploadbox{border: 1px #eee solid;padding-bottom: 50px;margin-top: 30px;}
+.uploadbox .header{
+    background:#337AB7;color:#fff;padding: 20px 40px;border-radius: 5px;
+}
+.table_box{margin-top: -40px;}
+.upload_btn_box{margin-top: 10px;}
+._cancelbtn{
+    font-size: 8px;padding: 3px 5px;display:block;margin-top: -10px;
+}
+.status{display: inline;margin-left: 20px;}
+._block{font-size: 8px;margin-top: 10px;}

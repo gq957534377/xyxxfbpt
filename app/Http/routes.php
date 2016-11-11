@@ -26,24 +26,22 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
     Route::resource('/register','RegisterController');
 
     // 后台,中间件检验是否登录
-    Route::group(['middleware'=> 'AdminMiddleware'],function(){
+    Route::group(['middleware'=> 'AdminMiddleware'],function() {
         // 后台首页
-        Route::resource('/','AdminController');
+        Route::resource('/', 'AdminController');
         //创业技术培训
-        Route::resource('/training_publish','TrainingIndexController');
-        // 项目比赛
-        Route::resource('/match','VentureContestController');
+        Route::resource('/training', 'TrainingController');
+        // 创业大赛->发布信息入口
+        Route::resource('/match', 'VentureContestController');
         // 路演活动
-        Route::resource('/roald','RoaldController');
+        Route::resource('/road', 'RoadController');
+        Route::resource('/road_info_page', 'RoadController@getInfoPage');
+        Route::resource('/road_one_info', 'RoadController@getOneRoad');
         // 用户管理
         Route::resource('/users', 'UserController');
-        //项目比赛
-        Route::resource('/items','VentureContestController');
-        // 路演活动
-        Route::resource('/roald','RoaldController');
-
+        //众筹
+        Route::resource('/project_approval', 'CrowdFundingController');
     });
-
 });
 
 /**
@@ -62,16 +60,29 @@ Route::group(['namespace' => 'Home'],function() {
     Route::resource('/register', 'RegisterController');
     //众筹首页
     Route::resource('/crowd_funding', 'CrowdFundingController');
+    //众筹首页ajax请求
+    Route::get('index_ajax',"CrowdFundingController@indexAjax");
+    //查询某类项目可分页数
+    Route::get("crow_funding_page/{id}","CrowdFundingController@endPage");
+    //查询某类项目某页内容
+    Route::post("crow_funding_page","CrowdFundingController@pageContent");
     //前台路演页面
-    Route::resource('/roald','RoaldController');
+    Route::resource('/road','RoadController');
     //创业技术培训
     Route::resource('/training', 'TrainingListController');
-
+    //发布项目
+    Route::resource('/project', 'ProjectController');
+    Route::get('/test', 'ProjectController@test');
+    Route::get('/getuptoken', 'ProjectController@getuptoken');
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         // 个人中心页
+        Route::get('/userinfo','UserController@getUserInfo');
         Route::resource('/user','UserController');
+        // 前台登出
+        Route::get('/logout','LoginController@logout');
 
     });
 
 });
+
