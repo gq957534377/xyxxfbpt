@@ -27,4 +27,15 @@ class ProjectStore {
         return DB::table(self::$table)->where($data)->get();
     }
 
+    public function update($param, $data)
+    {
+        if(empty($data)) return false;
+        return DB::table(self::$table)->where($param)->update($data);
+    }
+
+    public function getPage($nowPage,$pageNum)
+    {
+        return DB::table(self::$table)->forPage($nowPage, $pageNum)->orderBy('project_id','desc')->get();
+    }
+
 }

@@ -43,6 +43,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/project_approval', 'CrowdFundingController');
         //发布项目
         Route::resource('/project', 'ProjectController');
+        Route::get('/jacklin', 'ProjectController@test');
     });
 });
 
