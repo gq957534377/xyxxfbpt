@@ -95,12 +95,12 @@
                         <textarea id="UE" class="roadShow_describe"></textarea>
                     </div>
                 </div>
+                <meta name="csrf-token" content="{{ csrf_token() }}">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-info" id="add_road">发布路演</button>
             </div>
-            <meta name="csrf-token" content="{{ csrf_token() }}">
         </div>
     </div>
 </div><!-- /.modal -->
@@ -108,7 +108,7 @@
 
 
 
-<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">Responsive Modal</button>
+<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">路演发布</button>
 
 
 
@@ -138,11 +138,8 @@
          * 添加用户
          * @author 郭庆
          */
-        ue();
-            $('#add_road').click(function () {
-                alert(5245);
+                $('#add_road').click(function () {
                 $('.modal-title').html('路演信息详情');
-                var ajax = new ajaxController();
                 var data = {
                     title:$('#title').val(),
                     speaker:$('#speaker').val(),
@@ -150,20 +147,33 @@
                     roadShow_time:$('#roadShow_time').val(),
                     banner:$('#banner').val(),
                     brief:$('#brief').val(),
-                    roadShow_describe:$('.roadShow_describe').val()
+                    roadShow_describe:ue.getContent()
                 };
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                ajax.ajax({
-                    url     : '/road',
+                $.ajax({
+                    url: '/road',
                     type:'post',
+                    dataType:'json',
                     data:data,
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : add,
-                    error   : ajaxErrorModel
+                    success : function (data) {
+                        $('.loading').hide();
+                        $('#myModal').modal('show');
+                        $('.modal-title').html('提示');
+                        if (data) {
+                            if (data.ServerNo == 200) {
+                                $('#fabu').hide();
+                                $('#alert-info').html('<p>路演发布成功!</p>');
+                            } else {
+                                $('#alert-form').hide();
+                                $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                            }
+                        } else {
+                            $('#alert-form').hide();
+                            $('#alert-info').html('<p>未知的错误</p>');
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    }
                 });
             });
 

@@ -34,6 +34,7 @@ function add(data){
     $('.loading').hide();
     $('#myModal').modal('show');
     $('.modal-title').html('提示');
+    console.log(data);
     if (data) {
         console.log(data);
         if (data.ServerNo == 200) {
@@ -45,9 +46,9 @@ function add(data){
             } else if (_this.children().hasClass("btn-primary")) {
                 _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
             }
-            $('#alert-info').html('<p>数据修改成功!</p>');
-        } else {
             $('#fabu').hide();
+            $('#alert-info').html('<p>路演发布成功!</p>');
+        } else {
             $('#alert-info').html('<p>' + data.ResultData + '</p>');
         }
     } else {

@@ -30,7 +30,6 @@
 <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
 
 <script type="text/javascript">
-    function ue() {
         var ue = UE.getEditor('UE', {
             toolbars: [
                 [
@@ -109,7 +108,7 @@
             initialFrameWidth : '100%',
             initialFrameHeight : '20%'
         });
-    }
+
 </script>
 <script type="text/javascript">
     jQuery(document).ready(function($) {
