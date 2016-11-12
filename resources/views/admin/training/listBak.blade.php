@@ -6,10 +6,8 @@
         }
     </style>
 @endsection
-
-
 @section('content')
-    {{-- 添加培训弹出表单开始 --}}
+    {{-- 弹出表单开始 --}}
     <button style="float: right;" class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">添加创业培训项目<i
                 class="fa fa-plus"></i></button>
     <!--继承组件-->
@@ -73,7 +71,7 @@
                 </div>
             </div>
         </div>
-        @endsection
+    @endsection
     <!--定义底部按钮-->
         @section('form-footer')
             <div class="modal-footer">
@@ -82,76 +80,86 @@
             </div>
     </form>
 @endsection
-{{-- 添加培训弹出表单结束 --}}
-
-
-
-
-@section('title', '用户列表')
-{{-- 弹出表单开始 --}}
-<!--继承组件-->
-<!--替换按钮ID-->
-@section('form-id', 'con-close-modal')
-<!--定义弹出表单ID-->
-@section('form-title', '详细信息：')
-<!--定义弹出内容-->
-@section('form-body')
-    <div class="row" id="alert-form"></div>
-    <div id="alert-info"></div>
-@endsection
-<!--定义底部按钮-->
-@section('form-footer')
-    <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-    <button type="submit" class="btn btn-info">保存修改</button>
-@endsection
 {{-- 弹出表单结束 --}}
 
 
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">创业项目培训列表</h3>
 
-
-<img src="{{asset('/admin/images/load.gif')}}" class="loading">
-
-<div class="wraper container-fluid">
-    <div id="data"></div>
+            </div>
+            {{--table开始--}}
+            <table class="table table-bordered table-striped" id="datatable-editable">
+                <thead>
+                <tr>
+                    <th>创业项目培训主题</th>
+                    <th>组织</th>
+                    <th>培训开始时间</th>
+                    <th>培训结束时间</th>
+                    <th>报名截止时间</th>
+                    <th>参与人数</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($msg as $v)
+                    <tr class="gradeU">
+                        <td>{{$v->title}}</td>
+                        <td>{{$v->groupname}}</td>
+                        <td>{{date('Y-m-d H:i:s', $v->start_time)}}</td>
+                        <td>{{date('Y-m-d H:i:s', $v->stop_time)}}</td>
+                        <td>{{date('Y-m-d H:i:s', $v->deadline)}}</td>
+                        <td>{{$v->population}}</td>
+                        <td>{{$v->status}}</td>
+                        <td class="actions">
+                            <a href="/training/{{$v->training_guid}}/edit" class="on-default edit-row"><i
+                                        class="fa fa-pencil"></i></a>
+                            <a href="/roald/{{$v->training_guid}}" class="on-default remove-row"><i
+                                        class="fa fa-trash-o"></i></a>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+            {{--table结束--}}
+        </div> <!-- panel -->
+    </div> <!-- col -->
 </div>
 @endsection
-
-
-
-
-
 @section('script')
-    <!--alertInfo JS-->
-    <script src="http://cdn.rooyun.com/js/classie.js"></script>
-    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
-    <!--引用ajax模块-->
-    <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
-    <script src="JsService/Model/training/TrainingAjaxBeforeModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/training/TrainingAjaxSuccessModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/training/TrainingAjaxErrorModel.js" type="text/javascript"></script>
-    <!--引用ajax模块-->
-    <!--alertInfo end-->
     <script>
-        // 显示个人信息详情
-        function showInfo() {
-            $('.info').click(function () {
-                var ajax = new ajaxController();
-                ajax.ajax({
-                    url     : '/training_show_one?name=' + $(this).data('name'),
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : showOneInfo,
-                    error   : ajaxErrorModel
-                });
-            });
-        }
+        $(function () {
+            $(".fa-pencil").click(function () {
+                ajaxData(data);
+            })
+        })
 
-        // 页面加载时触发事件请求分页数据
-        var ajax = new ajaxController();
-        ajax.ajax({
-            url     : '/training',
-            before  : ajaxBeforeModel,
-            success : getInfoList,
-            error   : ajaxErrorModel,
-        });
+        function ajaxData(data) {
+            var url = "/training/"+{{$v->training_guid}}+"/edit";
+            $.ajax({
+                url:url,
+                async:true,
+                type:"get",
+                beforeSend:function () {
+                    //菊花图
+                },
+                success:function (data) {
+                    //调用弹出层方法，传值
+                    //菊花图隐藏
+                },
+                error:function (XMLHttpRequest, errmsg) {
+                    //菊花图隐藏
+                    //调用弹出层，提示失败请求
+                }
+            })
+        }
     </script>
 @endsection
+
+
+
+
+

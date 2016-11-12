@@ -26,7 +26,7 @@ class TrainingService
         self::$trainingStore = $trainingStore;
     }
 
-    
+
     public function addTraining($data)
     {
         //纯净数据
@@ -43,7 +43,7 @@ class TrainingService
         //写入成功
         return 'yes';
     }
-    
+
     public function changeStatus($id)
     {
         $where = ['training_guid' => $id];
@@ -71,13 +71,7 @@ class TrainingService
      */
     public function getOneTraining($where)
     {
-        $data = self::$trainingStore->getOneData($where);
-        if (!$data) {
-            //获取失败
-//            Log::errer('培训内容获取失败', $data);
-            return ['status' => 500, 'msg' => '培训内容获取失败'];
-        }
-        //获取成功
-        return ['status' => 200, 'msg' => $data];
+        if (empty($where)) return false;
+        return self::$trainingStore->getOneData(['guid' => $where]);
     }
 }
