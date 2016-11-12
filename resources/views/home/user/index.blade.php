@@ -18,12 +18,13 @@
                     </div>
                 </div>
                 <div class="main-col col-md-9 left-col" style="margin-top: 15px;">
-                    <div class="panel panel-default padding-md">
+                    <div id="userBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
                         <div class="panel-body ">
-                            <h2>
-                                <i class="fa fa-cog" aria-hidden="true"></i>编辑个人资料</h2>
+                            <h2><i class="fa fa-cog" aria-hidden="true"></i>编辑个人资料  </h2>
+                            <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="position: absolute;z-index: 9999;" >
                             <hr>
-                            <form class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
+                            <form id="userform" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
+                                <input type="hidden" name="_mehtod" value="put">
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">昵称</label>
                                     <div class="col-sm-6">
@@ -80,6 +81,97 @@
 @endsection
 
 @section('script')
-@include('home.ajax.userinfo')
+{{--@include('home.ajax.userinfo')--}}
+<script>
+    $(function(){
+        // 用户信息获取
+        var nickname = $("input[name='nickname']");
+        var email = $("input[name='email']");
+        var realname = $("input[name='realname']");
+        var hometown = $("input[name='hometown']");
+        var birthday = $("input[name='birthday']");
+        var sex = $("input[name='sex']");
+        var phone = $("input[name='phone']");
+        var guid = $("#userinfo").val();
+        var url = '/user';
+        var width = $("#userBox").width()/2 -40;
+        var height = $("#userBox").height()/2 -50;
 
+        $.ajax({
+            type: "get",
+            url: url+'/'+guid,
+            beforeSend:function(){
+                $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
+            },
+            success: function(msg){
+                // 将传过json格式转换为json对象
+                switch(msg.StatusCode){
+                    case 200:
+                        nickname.empty().val(msg.ResultData.msg.nickname);
+                        email.empty().val(msg.ResultData.msg.email);
+                        realname.empty().val(msg.ResultData.msg.realname);
+                        hometown.empty().val(msg.ResultData.msg.hometown);
+                        birthday.empty().val(msg.ResultData.msg.birthday);
+                        phone.empty().val(msg.ResultData.msg.tel);
+                        $(".loading").hide();
+                        break;
+                    case 404:
+                        alert(msg.ResultData);
+//                    nickname.val('');
+//                    email.val('');
+//                    realname.val('');
+//                    hometown.val('');
+//                    birthday.val('');
+//                    phone.val('');
+                        break;
+                    case 500:
+                        alert(msg.ResultData);
+//                    nickname.val('');
+//                    email.val('');
+//                    realname.val('');
+//                    hometown.val('');
+//                    birthday.val('');
+//                    phone.val('');
+                        break;
+                }
+
+
+            }
+        });
+
+        // 个人中心修改
+        $("#editSubmit").click(function(){
+            var data = {
+                'nickname' : nickname.val(),
+                'email' : email.val(),
+                'realname' : realname.val(),
+                'hometown' : hometown.val(),
+                'birthday' : birthday.val(),
+                'phone' : phone.val()
+            };
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:'PUT',
+                data:data,
+                url:url+'/'+guid,
+                beforeSend:function(){
+                    $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
+                },
+                success:function(msg){
+                    console.log(msg);
+                },
+                error:function(msg){
+
+                }
+
+
+            });
+        });
+
+    });
+</script>
 @endsection

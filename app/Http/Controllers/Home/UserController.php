@@ -85,8 +85,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // 获取修改数据
         $data = $request->all();
-        return response()->josn($data);
+        //检验数据
+        $this->validate($request,[
+            'nickname'=> 'required|min:2',
+            'email'   => 'email',
+        ]);
     }
 
     /**

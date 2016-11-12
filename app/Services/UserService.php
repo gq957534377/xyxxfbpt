@@ -155,4 +155,8 @@ class UserService {
         if (!$result) return ['status' => false, $msg => '系统错误'];
         return $result;
     }
+    public function updataUserInfo($data)
+    {
+
+    }
 }
