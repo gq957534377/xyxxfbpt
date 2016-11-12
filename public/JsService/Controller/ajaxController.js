@@ -6,7 +6,8 @@
 // 执行ajax方法--构造方法
 function ajaxController() {
     this.type = 'get';
-    this.data = new FormData();
+    // this.data = new FormData();
+    this.data = 'role=0';
 }
 
 ajaxController.prototype.ajaxHead = function(){

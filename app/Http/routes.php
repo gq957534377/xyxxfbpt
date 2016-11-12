@@ -42,6 +42,8 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/road_chage_status','RoadController@updateStatus');
         // 用户管理
         Route::resource('/users', 'UserController');
+        Route::resource('/users_data', 'UserController@getUserData');
+        Route::resource('/users_page', 'UserController@getUserData');
         //众筹
         Route::resource('/project_approval', 'CrowdFundingController');
         //发布项目
@@ -72,7 +74,7 @@ Route::group(['namespace' => 'Home'],function() {
     Route::get("crow_funding_page/{id}","CrowdFundingController@endPage");
     //查询某类项目某页内容
     Route::post("crow_funding_page","CrowdFundingController@pageContent");
-    //创业项目模块
+    //发布项目
     Route::resource('/project', 'ProjectController');
     Route::get('/test', 'ProjectController@test');
     Route::get('/getuptoken', 'ProjectController@getuptoken');
@@ -83,8 +85,6 @@ Route::group(['namespace' => 'Home'],function() {
         Route::resource('/user','UserController');
         // 前台登出
         Route::get('/logout','LoginController@logout');
-
     });
-
 });
 
