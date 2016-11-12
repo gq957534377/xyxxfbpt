@@ -17,9 +17,9 @@
         <div class="wraper container-fluid">
             @yield('content')
         </div>
-        {{--引入弹出表单--}}
+        {{--引入弹出表单，包含@yield--}}
         @include('admin.libs.alertForm')
-        {{--引入弹出提示--}}
+        {{--引入弹出提示，包含@yield--}}
         @include('admin.libs.alertInfo')
         @include('admin.public.footer')
     </section>

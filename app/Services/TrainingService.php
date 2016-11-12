@@ -26,7 +26,11 @@ class TrainingService
         self::$trainingStore = $trainingStore;
     }
 
-    
+    /**
+     * 添加培训
+     * @param $data
+     * @return string
+     */
     public function addTraining($data)
     {
         //纯净数据
@@ -43,7 +47,13 @@ class TrainingService
         //写入成功
         return 'yes';
     }
-    
+
+    /**
+     * 修改培训状态
+     * @param $id
+     * @return bool
+     * @author 王拓
+     */
     public function changeStatus($id)
     {
         $where = ['training_guid' => $id];
@@ -51,6 +61,11 @@ class TrainingService
         return self::$trainingStore->updateData($where, $data);
     }
 
+    /**
+     * 获取整张数据表的数据
+     * @return array
+     * @author 王拓
+     */
     public function getAllTraining()
     {
         $data = self::$trainingStore->getAllData();
@@ -66,18 +81,14 @@ class TrainingService
     }
 
     /**
+     * 获取用培训信息分页后的数据
      * @param $where
      * @return array
+     * @author 王拓
      */
-    public function getOneTraining($where)
+    public function getTrainingList($where)
     {
-        $data = self::$trainingStore->getOneData($where);
-        if (!$data) {
-            //获取失败
-//            Log::errer('培训内容获取失败', $data);
-            return ['status' => 500, 'msg' => '培训内容获取失败'];
-        }
-        //获取成功
-        return ['status' => 200, 'msg' => $data];
+        if (empty($where)) return false;
+        return self::$trainingStore->getPageData(['guid' => $where]);
     }
 }
