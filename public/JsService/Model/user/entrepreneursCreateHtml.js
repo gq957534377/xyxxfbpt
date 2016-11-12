@@ -11,6 +11,7 @@ function listHtml(data){
                     '<th>item</th>' +
                     '<th>姓名</th>' +
                     '<th>手机</th>' +
+                    '<th>邮箱</th>' +
                     '<th>审核</th>' +
                     '<th>操作</th>' +
                 '</tr>' +
@@ -19,8 +20,9 @@ function listHtml(data){
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
         html += '<td>' + (i + 1) + '</td>';
-        html += '<td>' + e.realname + '</td>';
+        html += '<td>' + e.nickname + '</td>';
         html += '<td>' + e.tel + '</td>';
+        html += '<td>' + e.email + '</td>';
         html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-info btn-xs">审核</button></a>' + '</td>';
         html += '<td>';
         html += '<a href="javascript:;" data-name="' + e.guid + '" class="status"><button class="btn btn-success btn-xs">通过</button></a>';

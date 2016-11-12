@@ -186,7 +186,8 @@ class UserService {
         if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
         if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        $count = self::$roleStore->getUsersNumber();
+
+        $count = ($data['role'] == 0) ? (self::$roleStore->getUsersNumber(['status' => '1'])) : (self::$userStore->getUsersNumber(['role' => $data['role']]));
         $totalPage = ceil($count / PAGENUM);
         $baseUrl   = url('users_page');
         if($nowPage <= 0) $nowPage = 1;

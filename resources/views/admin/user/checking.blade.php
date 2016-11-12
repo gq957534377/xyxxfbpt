@@ -99,6 +99,7 @@
         var ajax = new ajaxController();
         ajax.ajax({
             url     : '/users_data',
+            data    : 'role=0',
             before  : ajaxBeforeModel,
             success : getInfoList,
             error   : ajaxErrorModel

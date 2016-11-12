@@ -42,6 +42,7 @@ function getPage() {
         ajax.ajax({
             url : url,
             before : ajaxBeforeModel,
+            data   : 'role=0',
             success: getInfoList,
             error: ajaxErrorModel
         });
