@@ -1,0 +1,102 @@
+//project_info创建待审核列表
+var creatTable = function(data){
+    for(i in data.data){
+        var tr = $('<tr></tr>');
+
+        var title_td = $('<td></td>');
+        title_td.html(data.data[i].title);
+
+        var image_td = $('<td></td>');
+        image_td.html(data.data[i].image);
+
+        var file_td = $('<td></td>');
+        file_td.html(data.data[i].file);
+
+        var status_td = $('<td>待审核</td>');
+        var btn_td = $('<td></td>');
+
+        var btn_yes = $("<button class='btn btn-success m-b-5 btn_yes changr_btn' status='yes'>YES</button>");
+        var btn_no = $("<button class='btn btn-primary m-b-5 btn_no changr_btn' status='no'>NO</button>");
+
+        btn_yes.attr({'id':data.data[i].project_id});
+        btn_no.attr({'id':data.data[i].project_id});
+        btn_td.append(btn_yes).append(btn_no);
+        tr.append(title_td).append(image_td).append(file_td).append(status_td).append(btn_td);
+        var thead_tr = $('<tr><td>项目标题</td><td>图片地址</td><td>项目文件</td><td>状态</td><td>操作</td></tr>');
+        $("#unchecked_table tbody").append(tr);
+    }
+    $("#unchecked_table thead").append(thead_tr);
+};
+
+var fpageClick = function(){
+    var class_name = $(this).prop('class');
+    if(class_name == 'disabled' || class_name == 'active') {
+        return false;
+    }
+    var url = $(this).children().prop('href');
+    $.ajax({
+        url:url,
+        type:'delete',
+        beforeSend:ajaxBeforeNoHiddenModel,
+        success:function (res) {
+            var data = res.data;
+            $('.loading').hide();
+            $("#unchecked_table thead").html('');
+            $("#unchecked_table tbody").html('');
+            $('.pagination').html('');
+            creatTable(data);
+            statusCheck($(".changr_btn"));
+            $("#unchecked_table").parent().append(data.pages);
+            $('.pagination li').click(fpageClick);
+        }
+    });
+    return false;
+};
+
+var statusCheck = function(dom){
+    dom.click(function(){
+        var id = $(this).attr('id');
+        $(this).parent().parent().addClass('tmp');
+        $.ajax({
+            url:'/project',
+            type:'post',
+            data:{
+                id:id,
+                status:$(this).attr('status')
+            },
+            beforeSend:ajaxBeforeNoHiddenModel,
+            success:function(data){
+                $(".loading").hide();
+                $('.tmp').remove();
+            }
+        })
+    })
+};
+$(function(){
+    //ajax请求数据
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+//        var nowPage = if($('.pagination'))?$('.pagination'):'1';
+//        请求待审核数据
+    $.ajax({
+        url:'status1',
+        type:'put',
+        data:{
+            status:'1'
+        },
+        beforeSend:ajaxBeforeNoHiddenModel,
+        success:function(res){
+            var data = res.data;
+            $('.loading').hide();
+            creatTable(data);
+            statusCheck($(".changr_btn"));
+            $("#unchecked_table").parent().append(data.pages);
+            $('.pagination li').click(fpageClick);
+        },
+        error:ajaxErrorModel
+    });
+
+})

@@ -147,7 +147,8 @@ class Common {
      * @return mixed(array | false)
      * @author 郭庆
      */
-    public static function getPageUrl($data, $table, $url,$n)
+
+    public static function getPageUrl($data, $table, $url, $n)
     {
         if(empty($table) || empty($url)) return false;
         $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
