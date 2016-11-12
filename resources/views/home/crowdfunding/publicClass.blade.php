@@ -9,10 +9,10 @@
             url:url,
             type:"get",
             success:function (data) {
-                if(!data.status){
-                    callFunction(data)
+                if(data.StatusCode == "200"){
+                    callFunction(data.ResultData)
                 }else {
-                    alert(data.msg)
+                    alert(data.ResultData)
                 }
             },
             error:function () {
@@ -31,10 +31,10 @@
             type:"post",
             data:postData,
             success:function (data) {
-                if(!data.status){
-                    callFunction(data)
+                if(data.StatusCode == "200"){
+                    callFunction(data.ResultData)
                 }else {
-                    alert(data.msg)
+                    alert(data.ResultData)
                 }
             },
             error:function () {

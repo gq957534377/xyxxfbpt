@@ -105,14 +105,13 @@ class ProjectController extends Controller
         return response()->json(['status'=>'200','data'=>$res]);
     }
 
-
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy(Request $request)
     {
         $data = $request->all();
@@ -152,5 +151,4 @@ class ProjectController extends Controller
         $pages = CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl, '');
         echo $pages;
     }
-
 }

@@ -7,6 +7,7 @@ use App\Store\HomeStore;
 use App\Store\UserStore;
 use App\Store\RoleStore;
 use App\Tools\Common;
+use App\Tools\CustomPage;
 use Illuminate\Support\Facades\Session;
 
 class UserService {
@@ -41,17 +42,7 @@ class UserService {
         //返回数据
         return  ['status'=>true,'msg'=>$result];
     }
-    /**
-     * 检测用户登录状态
-     * @return bool
-     * @author 刘峻廷
-     */
-    public function signOn()
-    {
-        $userinfo = Session::get('user');
-        if(!$userinfo) return ['status'=>false,'msg'=>'你还没登录'];
-        return $userinfo;
-    }
+
     /**
      * 注册用户
      * @param $data
@@ -148,22 +139,59 @@ class UserService {
         }
     }
     /**
-     * 获取符合条件的所有用户
+     * 获取符合请求的所有用户记录
      * @param $data
      * @return array|bool
      * @author wang fei long
      */
-    public function getUserList($data)
+    public function getData($data)
     {
-        $msg = '';
+        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
+        if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
+        $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
+        $userPage = self::getPage($data);
         // 转向RoleStore层
-        if ($data == '0'){
-            $result = self::$roleStore->getUsers(['status' => '1']);
-            if (!$result) return ['status' => false, $msg => '系统错误'];
-            return $result;
+        if ($data['role'] == '0'){
+            $userData = self::$roleStore->getUsersData($nowPage, ['status' => '1']);
+            //拼装数据,返回所需格式
+            $result = array_merge(['data'=> $userData], $userPage['data']);
+            if (!$result) return ['status' => false, 'data' => '系统错误'];
+            return ['status' => true, 'data' => $result];
         }
-        $result = self::$userStore->getUsers(['role' => $data]);
-        if (!$result) return ['status' => false, $msg => '系统错误'];
-        return $result;
+        $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role']]);
+        //拼装数据，返回所需格式
+        $result = array_merge(['data'=> $userData], $userPage['data']);
+        if (!$result) return ['status' => false, 'data' => '系统错误'];
+        return ['status' => true, 'data' => $result];
+    }
+
+    /**
+     * 获取分页
+     * @param $data
+     * @return array|bool
+     * @author wang fei long
+     */
+    private static function getPage($data)
+    {
+        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
+        if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
+        $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
+        $count = self::$roleStore->getUsersNumber();
+        $totalPage = ceil($count / PAGENUM);
+        $baseUrl   = url('users_page');
+        if($nowPage <= 0) $nowPage = 1;
+        if($nowPage > $totalPage) $nowPage = $totalPage;
+
+        return [
+            'status' => true,
+            'data' => [
+                'nowPage' => $nowPage,
+                'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl,null)
+            ]
+        ];
+    }
+    public function updataUserInfo($data)
+    {
+
     }
 }

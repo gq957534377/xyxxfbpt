@@ -34,7 +34,6 @@ class ProjectService {
         $data['status']='1';
         session(['guid'=>'testguid']);
         $data['guid']=session('guid');
-
         //插入数据
         $res = self::$projectStore->addData($data);
         if($res==0) return ['status'=> true,'msg'=>'插入失败'];
@@ -73,7 +72,5 @@ class ProjectService {
         if (!$res) return ['status'=>false,'msg'=>'获取失败'];
         return ['status'=>true,'data'=>$res];
     }
-
-
-
+    
 }

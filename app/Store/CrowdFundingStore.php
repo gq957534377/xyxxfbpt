@@ -74,4 +74,11 @@ class CrowdFundingStore
         $result = DB::table(self::$table)->where($where)->forPage($page,$pages)->lists($field);
         return $result;
     }
+
+    public function uplodData($where,$update)
+    {
+        if(!is_array($where)||!is_array($update))return null;
+        $result = DB::table(self::$table)->where($where)->update($update);
+        return $result;
+    }
 }

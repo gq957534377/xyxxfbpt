@@ -31,26 +31,32 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/', 'AdminController');
         //创业技术培训
         Route::resource('/training', 'TrainingController');
+        Route::resource('/training_show_one', 'TrainingController@getOneTraining');
         // 创业大赛->发布信息入口
         Route::resource('/match', 'VentureContestController');
         // 路演活动
-        Route::resource('/road', 'RoadController');
-        Route::resource('/road_info_page', 'RoadController@getInfoPage');
-        Route::resource('/road_one_info', 'RoadController@getOneRoad');
+        Route::resource('/road','RoadController');
+        Route::resource('/road_info_page','RoadController@getInfoPage');
+        Route::resource('/road_one_info','RoadController@getOneRoad');
+        Route::resource('/road_chage_status','RoadController@updateStatus');
         // 用户管理
         Route::resource('/users', 'UserController');
+        Route::resource('/users_data', 'UserController@getUserData');
+        Route::resource('/users_page', 'UserController@getUserData');
         //众筹
         Route::resource('/project_approval', 'CrowdFundingController');
         //发布项目
         Route::resource('/project', 'ProjectController');
         Route::get('/jacklin', 'ProjectController@test');
+            //众筹管理
+        Route::resource('/project_approval', 'CrowdFundingController');
     });
 });
 
 /**
  * 前台入口
  */
-Route::group(['namespace' => 'Home'],function() {
+Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 验证码
@@ -69,7 +75,7 @@ Route::group(['namespace' => 'Home'],function() {
     Route::get("crow_funding_page/{id}","CrowdFundingController@endPage");
     //查询某类项目某页内容
     Route::post("crow_funding_page","CrowdFundingController@pageContent");
-    //创业项目模块
+    //发布项目
     Route::resource('/project', 'ProjectController');
     Route::get('/test', 'ProjectController@test');
     Route::get('/getuptoken', 'ProjectController@getuptoken');
@@ -80,8 +86,6 @@ Route::group(['namespace' => 'Home'],function() {
         Route::resource('/user','UserController');
         // 前台登出
         Route::get('/logout','LoginController@logout');
-
     });
-
 });
 
