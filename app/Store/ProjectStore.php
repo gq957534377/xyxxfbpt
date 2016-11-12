@@ -33,9 +33,9 @@ class ProjectStore {
         return DB::table(self::$table)->where($param)->update($data);
     }
 
-    public function getPage($nowPage,$pageNum)
+    public function getPage($nowPage, $pageNum, $status)
     {
-        return DB::table(self::$table)->forPage($nowPage, $pageNum)->orderBy('project_id','desc')->get();
+        return DB::table(self::$table)->where(['status'=>$status])->forPage($nowPage, $pageNum)->orderBy('project_id','desc')->get();
     }
 
 }

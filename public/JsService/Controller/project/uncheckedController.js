@@ -37,6 +37,9 @@ var fpageClick = function(){
     $.ajax({
         url:url,
         type:'delete',
+        data:{
+            status:'1'
+        },
         beforeSend:ajaxBeforeNoHiddenModel,
         success:function (res) {
             var data = res.data;

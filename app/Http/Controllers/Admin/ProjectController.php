@@ -88,15 +88,24 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //获取需要的数据
         $data = $request->all();
-        $num = 3;
-        if ($id = 'status1') $res = self::$projectServer->getFrstPage($num);
-        //添加分页信息
-        $pages = Common::getPageUrl($data, 'project_info_data', 'project/unchecked', $num);
-        $res['pages'] = $pages['pages'];
+        $status = $data['status'];
+        $table = 'project_info_data';
+        $totalPage = DB::table($table)->where(['status'=>$status])->count();
+        $nowPage = 1;
+        $num = 1;
+
+//        获取首页数据
+        $res = self::$projectServer->getFrstPage($num, $status);
+
+        $pages = self::getpage($request,$num,$status);
+        $res['pages'] = $pages;
         if (!$res['status']) return response()->json(['status'=>'400','msg'=>'查询失败']);
         return response()->json(['status'=>'200','data'=>$res]);
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -107,18 +116,41 @@ class ProjectController extends Controller
     public function destroy(Request $request)
     {
         $data = $request->all();
+        $status = $data['status'];
         $nowPage = $data['nowPage'];
-        $num = 3;
-        $res = self::$projectServer->getPage($nowPage,$num);
-        $pages = Common::getPageUrl($data, 'project_info_data', 'project/unchecked', $num);
-        $res['pages'] = $pages['pages'];
+        $num = 1;
+        $res = self::$projectServer->getPage($nowPage,$num,$status);
+        $pages = self::getpage($request,$num,$status);
+        $res['pages'] = $pages;
         if (!$res['status']) return response()->json(['status'=>'400','msg'=>'查询失败']);
         return response()->json(['status'=>'200','data'=>$res]);
     }
 
-    public function test()
+    //返回分页
+    public function getpage($request, $num, $status)
     {
-        return $res = self::$projectServer->getFrstPage('3');
+        $data = $request->all();
+        $table = 'project_info_data';
+        $baseUrl = url('project/unchecked');
+        $count = DB::table($table)->where(['status'=>$status])->count();
+        $totalPage = ceil($count/$num);
+        $nowPage = isset($data['nowPage']) ? $data['nowPage'] : 1;
+        $pages = CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl, '');
+        return $pages;
+    }
+
+    public function test(Request $request)
+    {
+        $data = $request->all();
+        $table = 'project_info_data';
+        $baseUrl = url('project/unchecked');
+        $status = $data['status'];
+        $num = 1;
+        $count = DB::table($table)->where(['status'=>$status])->count();
+        $totalPage = ceil($count/$num);
+        $nowPage = isset($data['nowPage']) ? $data['nowPage'] : 1;
+        $pages = CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl, '');
+        echo $pages;
     }
 
 }

@@ -60,16 +60,16 @@ class ProjectService {
         return ['status'=>true,'msg'=>'修改成功'];
     }
 
-    public function getFrstPage($num)
+    public function getFrstPage($num, $status)
     {
-        $res = self::$projectStore->getPage('1',$num);
+        $res = self::$projectStore->getPage('1',$num,$status);
         if (!$res) return ['status'=>false,'msg'=>'获取失败'];
         return ['status'=>true,'data'=>$res];
     }
 
-    public function getPage($nowpage,$num)
+    public function getPage($nowpage, $num, $status)
     {
-        $res = self::$projectStore->getPage($nowpage,$num);
+        $res = self::$projectStore->getPage($nowpage,$num,$status);
         if (!$res) return ['status'=>false,'msg'=>'获取失败'];
         return ['status'=>true,'data'=>$res];
     }
