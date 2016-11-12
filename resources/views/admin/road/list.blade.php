@@ -1,96 +1,122 @@
 @extends('admin.layouts.master')
 <style>
     .loading{z-index:999;position:absolute;display: none;}
-    #alert-error-msg{padding-left:10px;}
+    #alert-info{padding-left:10px;}
+    table{font-size:14px;}
+    .table button{margin-right:15px;}
+    #fabu{
+        width: 80%;
+        height:80%;
+    }
 </style>
 @section('content')
-@section('title', '路演列表')
+@section('title', '路演管理')
 {{-- 弹出表单开始 --}}
-<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布路演</button>
 <!--继承组件-->
 <!--替换按钮ID-->
-@section('form-id', 'con-close-modal')
+@section('form-id', 'myModal')
 <!--定义弹出表单ID-->
-@section('form-title', '发布路演')
+@section('form-title', '详细信息：')
 <!--定义弹出内容-->
 @section('form-body')
-    <form>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="field-1" class="control-label">路演主题</label>
-                <input type="text" data-title="" class="form-control" id="title" placeholder="roaldShow title...">
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="field-2" class="control-label">主讲人</label>
-                <input type="text" class="form-control" id="speaker" placeholder="Doe">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="field-3">所属机构</label>
-                <div for="field-3">
-                    <select class="form-control" id="group" name="group">
-                        <option value="1">英雄会</option>
-                        <option value="2">兄弟会</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label for="field-4" class="control-label">路演开始时间：</label>
-                <input type="datetime-local" class="form-control" id="roadShow_time" placeholder="Boston">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="field-5" class="control-label">缩略图</label>
-                <input type="hidden" class="form-control" id="banner" placeholder="United States">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <img for="field-6" class="control-label" src="">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group no-margin">
-                <label for="field-7" class="control-label">路演简述</label>
-                <textarea class="form-control autogrow" id="brief" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <label class="col-md-12 control-label">路演详情</label>
-        <div class="col-md-12">
-            <textarea id="UE" class="roadShow_describe"></textarea>
-        </div>
-    </div>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <div class="row" id="alert-form"></div>
+    <div id="alert-info"></div>
 @endsection
 <!--定义底部按钮-->
 @section('form-footer')
-    <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-        <button type="button" onclick="add()" class="btn btn-info">发布</button>
-    </div>
-    </form>
+    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 @endsection
 {{-- 弹出表单结束 --}}
-<img src="{{asset('/admin/images/load.gif')}}" class="loading">
+<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" id="fabu">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Modal Content is Responsive</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">路演主题</label>
+                            <input type="text" data-title="" class="form-control" id="title" placeholder="roaldShow title...">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-2" class="control-label">主讲人</label>
+                            <input type="text" class="form-control" id="speaker" placeholder="Doe">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-3">所属机构</label>
+                            <div for="field-3">
+                                <select class="form-control" id="group" name="group">
+                                    <option value="1">英雄会</option>
+                                    <option value="2">兄弟会</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-4" class="control-label">路演开始时间：</label>
+                            <input type="datetime-local" class="form-control" id="roadShow_time" placeholder="Boston">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="field-5" class="control-label">缩略图</label>
+                            <input type="hidden" class="form-control" id="banner" placeholder="United States">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <img for="field-6" class="control-label" src="">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label for="field-7" class="control-label">路演简述</label>
+                            <textarea class="form-control autogrow" id="brief" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-md-12 control-label">路演详情</label>
+                    <div class="col-md-12">
+                        <textarea id="UE" class="roadShow_describe"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-info" id="add_road">发布路演</button>
+            </div>
+            <meta name="csrf-token" content="{{ csrf_token() }}">
+        </div>
+    </div>
+</div><!-- /.modal -->
+
+
+
+
+<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">Responsive Modal</button>
+
+
+
+<img src="/admin/images/load.gif" class="loading">
+
 <div class="wraper container-fluid">
     <div class="page-title">
-        <h3 class="title">路演活动管理</h3>
+        <h3 class="title">路演管理</h3>
     </div>
     <div class="panel" id="data"></div>
 </div>
@@ -108,46 +134,43 @@
     <!--引用ajax模块-->
     <!--alertInfo end-->
     <script>
-        function add() {
-            var data = {
-                title:$('#title').val(),
-                speaker:$('#speaker').val(),
-                group:$('#group option:selected').val(),
-                roadShow_time:$('#roadShow_time').val(),
-                banner:$('#banner').val(),
-                brief:$('#brief').val(),
-                roadShow_describe:$('.roadShow_describe').val()
-            };
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
+        /**
+         * 添加用户
+         * @author 郭庆
+         */
+        ue();
+            $('#add_road').click(function () {
+                alert(5245);
+                $('.modal-title').html('路演信息详情');
+                var ajax = new ajaxController();
+                var data = {
+                    title:$('#title').val(),
+                    speaker:$('#speaker').val(),
+                    group:$('#group option:selected').val(),
+                    roadShow_time:$('#roadShow_time').val(),
+                    banner:$('#banner').val(),
+                    brief:$('#brief').val(),
+                    roadShow_describe:$('.roadShow_describe').val()
+                };
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                ajax.ajax({
+                    url     : '/road',
+                    type:'post',
+                    data:data,
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : add,
+                    error   : ajaxErrorModel
+                });
             });
-            $.ajax({
-                url: '/road',
-                type: 'post',
-                dataType:'json',
-                data:data,
-                success: function (data) {
-                    $('.loading').hide();
-                    $('#alert-ok-msg').show();
-
-                    $('#con-close-modal').modal('show');
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-//                    var number = XMLHttpRequest.status;
-//                    var info = "系统错误：错误号为" + number + ",数据异常!";
-//                    $('#con-close-modal').modal('show');
-//                    $('.loading').hide();
-//                    $('#alert-ok-msg').hide();
-//                    $('#alert-error-msg').html('<p>' + info + '</p>');
-                },
-            });
-        }
 
         // 显示路演信息详情
         function showInfo() {
             $('.info').click(function () {
+                $('.modal-title').html('路演信息详情');
                 var ajax = new ajaxController();
                 ajax.ajax({
                     url     : '/road_one_info?name=' + $(this).data('name'),
@@ -157,6 +180,7 @@
                 });
             });
         }
+
 
         // 修改个人信息状态
         function modifyStatus() {
@@ -171,8 +195,10 @@
                 });
 
                 function checkStatus(data){
+                    console.log(data);
                     $('.loading').hide();
-                    $('#con-close-modal').modal('show');
+                    $('#myModal').modal('show');
+                    $('.modal-title').html('提示');
                     if (data) {
                         if (data.ServerNo == 200) {
                             var code = data.ResultData;
@@ -183,7 +209,7 @@
                             } else if (_this.children().hasClass("btn-primary")) {
                                 _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
                             }
-                            $('#alert-info').html('<p>状态修改成功!</p>');
+                            $('#alert-info').html('<p>数据修改成功!</p>');
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');

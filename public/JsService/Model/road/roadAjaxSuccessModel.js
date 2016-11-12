@@ -19,12 +19,38 @@ function getInfoList(data){
                 //showCard();
             }
         } else {
-            $('#con-close-modal').modal('show');
+            $('#myModal').modal('show');
             $('#alert-form').hide();
             $('#alert-info').html('<p>' + data.ResultData + '</p>');
         }
     } else {
-        $('#con-close-modal').modal('show');
+        $('#myModal').modal('show');
+        $('#alert-form').hide();
+        $('#alert-info').html('<p>未知的错误</p>');
+    }
+}
+
+function add(data){
+    $('.loading').hide();
+    $('#myModal').modal('show');
+    $('.modal-title').html('提示');
+    if (data) {
+        console.log(data);
+        if (data.ServerNo == 200) {
+            var code = data.ResultData;
+            $('#alert-form').hide();
+            _this.data('status', code);
+            if (_this.children().hasClass("btn-danger")) {
+                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
+            } else if (_this.children().hasClass("btn-primary")) {
+                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
+            }
+            $('#alert-info').html('<p>数据修改成功!</p>');
+        } else {
+            $('#fabu').hide();
+            $('#alert-info').html('<p>' + data.ResultData + '</p>');
+        }
+    } else {
         $('#alert-form').hide();
         $('#alert-info').html('<p>未知的错误</p>');
     }
@@ -36,17 +62,16 @@ function listHtml(data){
     html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th>路演主题</th><th>主讲人</th><th>所属机构</th><th>路演开始时间</th><th>操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
-        html += '<td>' + e.roadShow_title+ '</td>';
+        html += '<td>' + e.title+ '</td>';
         html += '<td>' + e.speaker + '</td>';
         html += '<td>' + e.group + '</td>';
         html += '<td>' + e.roadShow_time + '</td>';
-        html += '<td><a class="info" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn btn-primary btn-xs"><i class="ion-information-circled"></i></button></a>';
-        html += '<a class="order" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button></a>';
-        html += '<a class="card" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn btn-primary btn-xs"><i class="fa fa-trash-o"></i></button></a>';
+        html += '<td><a class="info" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn-primary">详情</button></a>';
+        html += '<a class="charge" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn-primary">修改路演</button></a>';
         if (e.status == 1) {
-            html += '<a href="javascript:;" data-name="' + e.roadShow_id + '" data-status="' + e.status + '" class="status" onclick="modifyStatus()"><button class="btn btn-danger btn-xs">禁用</button></a>';
+            html += '<a href="javascript:;" data-name="' + e.roadShow_id + '" data-status="' + e.status + '" class="status"><button class="btn-danger">禁用</button></a>';
         } else if (e.status == 3) {
-            html += '<a href="javascript:;" data-name="' + e.roadShow_id + '" data-status="' + e.status + '" class="status" onclick="modifyStatus()"><button class="btn btn-primary btn-xs">启用</button></a>';
+            html += '<a href="javascript:;" data-name="' + e.roadShow_id + '" data-status="' + e.status + '" class="status"><button class="btn-primary">启用</button></a>';
         }
         html += '</td>';
     });
@@ -76,33 +101,29 @@ function getPage() {
 function infoHtml(data){
     var html = '';
     html += '<div class="row"><div class="col-md-4"><div class="form-group"><label for="field-1" class="control-label">路演主题</label>';
-    html += '<input type="text" class="form-control" value="' + (data.roadShow_title || '') + '" id="surname" placeholder="roadShow_title..." disabled="true"></div></div>';
-    html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">名：</label>';
-    html += '<input type="text" class="form-control" value="' + (data.name || '') + '" id="name" placeholder="无" disabled="true"></div></div>';
-    html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">英文名：</label>';
-    html += '<input type="text" class="form-control" value="' + (data.english_name || '') + '" id="english_name" placeholder="无" disabled="true"></div></div></div>';
-    html += '<div class="row"><div class="col-md-3"><div class="form-group"><label for="field-2" class="control-label">证件类型：</label>';
-    html += '<input type="text" class="form-control" value="' + cardState(data.card_type)  + '" id="card_type" placeholder="无" disabled="true"></div></div>';
-    html += '<div class="col-md-3"><div class="form-group"><label for="field-5" class="control-label">签证国家：</label>';
-    html += '<input type="text" class="form-control" value="' + (data.card_state || '') + '" id="card_state" placeholder="无" disabled="true"></div></div>';
-    html += '<div class="col-md-6"><div class="form-group"><label for="field-4" class="control-label">证件号码：</label>';
-    html += '<input type="text" class="form-control" value="' + (data.card_number|| '') + '" id="card_number" placeholder="无" disabled="true"></div></div></div>';
-    html += '<div class="row"><div class="col-md-4"><div class="form-group"><label for="field-6" class="control-label">生日：</label>';
-    html += '<input type="text" class="form-control" value="' + (data.birthday || '') + '" id="birthday" placeholder="无" disabled="true"></div></div>';
-    html += '<div class="col-md-2"><div class="form-group no-margin"><label for="field-7" class="control-label">姓别：</label>';
-    html += '<input type="text" class="form-control" value="' + sexMethod(data.sex) + '" id="sex" placeholder="无" disabled="true"></div></div>';
-    html += '<div class="col-md-6"><div class="form-group no-margin"><label for="field-7" class="control-label">手机：</label>';
-    html += '<input type="text" class="form-control" value="' + (data.tel || '') + '" id="tel" placeholder="无" disabled="true"></div></div></div>';
-    html += '<div class="row"><div class="col-md-2"><div class="form-group no-margin"><label for="field-7" class="control-label">国籍：</label>';
-    html += '<input type="text" class="form-control" value="' + (data.address_state || '') + '" id="address_state" placeholder="无" disabled="true"></div></div>';
-    html += '<div class="col-md-10"><div class="form-group no-margin"><label for="field-7" class="control-label">家庭详细地址：</label>';
-    html += '<input type="text" class="form-control" value="' + (data.address || '') + '" id="address" placeholder="无" disabled="true"></div></div></div>';
-    html += '<div class="row"><div class="col-md-6"><div class="form-group no-margin"><label for="field-7" class="control-label">身份证正面：</label>';
-    html += '<img src="/images/card_pic_z.png" alt="身份证正面" width="150px"></div></div>';
-    html += '<div class="col-md-6"><div class="form-group no-margin"><label for="field-7" class="control-label">身份证反面：</label>';
-    html += '<img src="/images/card_pic_b.png" alt="身份证反面" width="150px"></div></div></div>';
+    html += '<input type="text" class="form-control" value="' + (data.title || '') + '" id="surname" placeholder="roadShow_title..." disabled="true"></div></div>';
+    html += '<div class="row"><div class="col-md-4"><div class="form-group"><label for="field-1" class="control-label">发布时间</label>';
+    html += '<input type="text" class="form-control" value="' + (data.time || '') + '" id="surname" placeholder="roadShow_title..." disabled="true"></div></div>';
+    html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">主讲人</label>';
+    html += '<input type="text" class="form-control" value="' + (data.speaker || '') + '" id="name" placeholder="speaker" disabled="true"></div></div>';
+    html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">所属机构</label>';
+    html += '<input type="text" class="form-control" value="' + (data.group || '') + '" id="english_name" placeholder="group" disabled="true"></div></div></div>';
+    html += '<div class="row"><div class="col-md-3"><div class="form-group"><label for="field-2" class="control-label">路演开始时间</label>';
+    html += '<input type="text" class="form-control" value="' + (data.roadShow_time)  + '" id="card_type" placeholder="无" disabled="true"></div></div>';
+    html += '<div class="col-md-3"><div class="form-group"><label for="field-7" class="control-label">缩略图</label>';
+    html += '<input type="text" class="form-control" value="' + (data.banner) + '" id="" placeholder="无" disabled="true"></div></div>';
+    html += '<div class="col-md-6"><div class="form-group"><label for="field-4" class="control-label">点赞人数</label>';
+    html += '<input type="text" class="form-control" value="' + (data.population|| '') + '" id="card_number" placeholder="无" disabled="true"></div></div></div>';
+    html += '<div class="row"><div class="col-md-4"><div class="form-group"><label for="field-6" class="control-label">状态</label>';
+    html += '<input type="text" class="form-control" value="' + (data.status || '') + '" id="birthday" placeholder="无" disabled="true"></div></div>';
+    html += '<div class="col-md-2"><div class="form-group no-margin"><label for="field-7" class="control-label">简述</label>';
+    html += '<input type="text" class="form-control" value="' + (data.brief) + '" id="sex" placeholder="无" disabled="true"></div></div>';
+    html += '<div class="col-md-6"><div class="form-group no-margin"><label for="field-7" class="control-label">详情</label>';
+    html += '<input type="text" class="form-control" value="' + (data.roadShow_descript || '') + '" id="tel" placeholder="无" disabled="true"></div></div></div>';
     return html;
 }
+
+
 
 // 判断身份证类型
 function cardState(code){
@@ -128,11 +149,11 @@ function sexMethod(code){
     }
 }
 
-// 显示个人用户详情
+// 显示路演信息详情
 function showInfoList(data){
     $('.loading').hide();
     $('#alert-form').show();
-    $('#con-close-modal').modal('show');
+    $('#myModal').modal('show');
     if (data) {
         if (data.ServerNo == 200) {
             $('#alert-form').html(infoHtml(data.ResultData));
@@ -144,4 +165,22 @@ function showInfoList(data){
         $('#alert-form').hide();
         $('#alert-info').html('<p>未知的错误</p>');
     }
-};
+}
+
+function addR(data){
+    $('.loading').hide();
+    $('#alert-form').show();
+    $('MyModal').modal('show');
+    if (data) {
+        if (data.ServerNo == 200) {
+            $('#alert-form').html(infoHtml(data.ResultData));
+        } else {
+            $('#alert-form').hide();
+            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+        }
+    } else {
+        $('#alert-form').hide();
+        $('#alert-info').html('<p>未知的错误</p>');
+    }
+}
+
