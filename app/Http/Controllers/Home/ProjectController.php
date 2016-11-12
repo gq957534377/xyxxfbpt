@@ -67,6 +67,7 @@ class ProjectController extends Controller
     public function show($id)
     {
         if ($id = 'publish') return view('Home.project.project_publish');
+        return false;
     }
 
     /**
@@ -102,7 +103,11 @@ class ProjectController extends Controller
     {
         //
     }
-
+    /**
+     * 获取七牛参数
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
+     */
     public function getuptoken()
     {
         // 需要填写你的 Access Key 和 Secret Key
