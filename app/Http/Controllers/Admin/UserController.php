@@ -129,18 +129,19 @@ class UserController extends Controller
         return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @author wang fei long
-     */
-    public function getUserPage(Request $request){
-        $data = $request->all();
-        $result = self::$userServer->getPage($data);
-        // 如果$result返回错误
-        if(!$result['status'])
-            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
-        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
-    }
+//    /**
+//     * 弃用
+//     * @param Request $request
+//     * @return \Illuminate\Http\JsonResponse
+//     * @author wang fei long
+//     */
+//    public function getUserPage(Request $request){
+//        $data = $request->all();
+//        $result = self::$userServer->getPage($data);
+//        // 如果$result返回错误
+//        if(!$result['status'])
+//            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+//        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
+//    }
 
 }

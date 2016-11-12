@@ -181,7 +181,7 @@ class UserService {
      * @return array|bool
      * @author wang fei long
      */
-    public static function getPage($data)
+    private static function getPage($data)
     {
         if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
         if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];

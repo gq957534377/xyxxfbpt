@@ -37,7 +37,7 @@
     <script src="{{asset('JsService/Model/user/userAjaxBefore.js')}}" type="text/javascript"></script>
     <script src="{{asset('JsService/Model/user/userAjaxSuccess.js')}}" type="text/javascript"></script>
     <script src="{{asset('JsService/Model/user/userAjaxError.js')}}" type="text/javascript"></script>
-    <script src="{{asset('JsService/Model/user/userCreatehtml.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/user/checkingCreatehtml.js')}}" type="text/javascript"></script>
     <!--引用ajax模块-->
     <!--alertInfo end-->
 
