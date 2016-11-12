@@ -1,5 +1,12 @@
 @extends('admin.layouts.master')
-
+@section('styles')
+    <style>
+        .loading{z-index:999;position:absolute;display: none;}
+        #alert-info{padding-left:10px;}
+        table{font-size:14px;}
+        .table button{margin-right:15px;}
+    </style>
+@endsection
 {{--展示内容开始--}}
 @section('content')
     <img src="{{asset('admin/images/load.gif')}}" class="loading">
@@ -72,24 +79,32 @@
 
         function listHtml(data){
             var html = '';
-            html += '<div class="panel-body">' +
-                    '<table class="table table-bordered table-striped">' +
-                    '<thead>' +
-                    '<tr>' +
-                    '<th>item</th>' +
-                    '<th>姓名</th>' +
-                    '<th>手机</th>' +
-                    '<th>操作</th>' +
-                    '</tr>' +
-                    '</thead>';
-            html += '<tbody>';
+                html += '<div class="panel-body">' +
+                        '<table class="table table-bordered table-striped">' +
+                        '<thead>' +
+                        '<tr>' +
+                        '<th>item</th>' +
+                        '<th>昵称</th>' +
+                        '<th>姓名</th>' +
+                        '<th>性别</th>' +
+                        '<th>生日</th>' +
+                        '<th>手机</th>' +
+                        '<th>邮箱</th>' +
+                        '<th>操作</th>' +
+                        '</tr>' +
+                        '</thead>';
+                html += '<tbody>';
             $.each(data.ResultData.data, function (i, e) {
                 html += '<tr class="gradeX">';
                 html += '<td>' + (i + 1) + '</td>';
+                html += '<td>' + e.nickname + '</td>';
                 html += '<td>' + e.realname + '</td>';
+                html += '<td>' + e.sex + '</td>';
+                html += '<td>' + e.birthday + '</td>';
                 html += '<td>' + e.tel + '</td>';
+                html += '<td>' + e.email + '</td>';
                 html += '<td>';
-                html += '<a href="javascript:;" data-name="' + e.guid + '" class="status"><button class="btn btn-success btn-xs">修改</button></a>';
+                html += '<a href="javascript:;" data-name="' + e.guid + '" class="status"><button class="btn btn-info btn-xs">修改</button></a>';
                 html += ' ';
                 html += '<a href="javascript:;" data-name="' + e.guid + '" class="status"><button class="btn btn-danger btn-xs">删除</button></a>';
                 html += '</td>';

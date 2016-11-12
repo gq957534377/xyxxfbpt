@@ -1,14 +1,21 @@
 @extends('admin.layouts.master')
-
+@section('styles')
+    <style>
+        .loading{z-index:999;position:absolute;display: none;}
+        #alert-info{padding-left:10px;}
+        table{font-size:14px;}
+        .table button{margin-right:15px;}
+    </style>
+@endsection
 {{--展示内容开始--}}
 @section('content')
-    <img src="{{asset('admin/images/load.gif')}}" class="loading">
     <div class="page-title">
         <h3 class="title">待审核用户</h3>
     </div>
     {{--表格盒子开始--}}
     <div class="panel" id="data"></div>
     {{--表格盒子结束--}}
+    <img src="{{asset('admin/images/load.gif')}}" class="loading">
 @endsection
 {{--展示内容结束--}}
 
@@ -42,7 +49,16 @@
 
     <script>
 
-        // 显示个人信息详情
+        // 页面加载时触发事件请求分页数据
+        var ajax = new AjaxController('role=0');
+        ajax.ajax({
+            url     : '/users_data',
+            before  : ajaxBeforeModel,
+            success : getInfoList,
+            error   : ajaxErrorModel
+        });
+
+        // 弹出审核触发ajax
         function showInfo() {
             $('.info').click(function () {
                 var ajax = new AjaxController();
@@ -55,12 +71,12 @@
             });
         }
 
-        // 修改个人信息状态
+        // 是否通过审核
         function modifyStatus() {
             $('.status').click(function () {
                 var _this = $(this);
 
-                var ajax = new ajaxController();
+                var ajax = new AjaxController();
                 ajax.ajax({
                     url     : '/update_user_info_status?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
@@ -94,16 +110,7 @@
             });
         }
 
-        // 页面加载时触发事件请求分页数据
-        var ajax = new AjaxController('role=0');
-        ajax.ajax({
-            url     : '/users_data',
-            before  : ajaxBeforeModel,
-            success : getInfoList,
-            error   : ajaxErrorModel
-        });
-
-        // 分页li点击触发获取ajax事件获取分页
+        // 点击触发获取ajax事件获取分页
         function getPage() {
             $('.pagination li').click(function () {
                 var class_name = $(this).prop('class');
@@ -122,6 +129,7 @@
             });
         }
 
+        // 显示用户列表
         function listHtml(data){
             var html = '';
             html += '<div class="panel-body">' +
@@ -130,6 +138,7 @@
                     '<tr>' +
                     '<th>item</th>' +
                     '<th>姓名</th>' +
+                    '<th>性别</th>' +
                     '<th>手机</th>' +
                     '<th>审核</th>' +
                     '<th>操作</th>' +
@@ -140,6 +149,7 @@
                 html += '<tr class="gradeX">';
                 html += '<td>' + (i + 1) + '</td>';
                 html += '<td>' + e.realname + '</td>';
+                html += '<td>' + e.sex + '</td>';
                 html += '<td>' + e.tel + '</td>';
                 html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-info btn-xs">审核</button></a>' + '</td>';
                 html += '<td>';
@@ -158,7 +168,7 @@
             return html;
         }
 
-        // 组装HTML元素
+        // 审核弹出内容
         function infoHtml(data){
             var html = '';
             html += '<div class="row"><div class="col-md-4"><div class="form-group"><label for="field-1" class="control-label">姓：</label>';
