@@ -6,9 +6,18 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Services\UserService as UserServer;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
+
+    protected static $userServer = null;
+
+    public function __construct(UserServer $userServer)
+    {
+        self::$userServer = $userServer;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home.index.index');
+        $userData = self::$userServer->signOn();
+       // 返回数组，携带的用户信息是json
+        if (!$userData['status']) return view('home.index.index');
+        return view('home.index.index',['user' => $userData['msg']]);
     }
 
     /**

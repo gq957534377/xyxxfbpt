@@ -5,18 +5,30 @@
                 <div class="col-sm-6 col-xs-4">
                     <div class="top-number"><p><i class="fa fa-phone-square"></i>  +0123 456 70 90</p></div>
                 </div>
-                <div class="col-sm-6 col-xs-8">
-                    <div class="social">
-                        <ul class="social-share">
+                <div class="col-sm-6 col-xs-8" style="margin: 0;padding: 0;">
+                            @if(!empty($user))
+                                <!-- Right navbar -->
+                                    <ul class="nav navbar-nav navbar-right top-right-menu" style="margin: 0;padding: 0;">
+                                        <!-- user login dropdown start-->
+                                        <li class="dropdown text-center" style="margin: 0;padding: 0;">
+                                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                                <img alt="" src="{{asset('home/images/man3.jpg')}}" class="img-circle profile-img thumb-sm">
+                                                <span class="username">{{$uesr->email}} </span> <span class="caret"></span>
+                                            </a>
+                                            <ul class="dropdown-menu pro-menu fadeInUp animated" tabindex="5003" style="overflow: hidden; outline: none;margin: 0;padding: 0;">
+                                                <li><a href="profile.html"><i class="fa fa-briefcase"></i>Profile</a></li>
+                                                <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
+                                                <li><a href="#"><i class="fa fa-bell"></i> Friends <span class="label label-info pull-right mail-info">5</span></a></li>
+                                                <li><a href="{{url('/logout')}}"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                                            </ul>
+                                        </li>
+                                        <!-- user login dropdown end -->
+                                    </ul>
+                                    <!-- End right navbar -->
+                            @else
                                 <li><a href="{{url('/login')}}" id="login">登录</a><input type="hidden" name="guid"></li>
                                 <li><a href="{{url('/register')}}" id="register">注册</a></li>
-                        </ul>
-                        <div class="search">
-                            <form role="form">
-                                <input type="text" class="search-form" autocomplete="off" placeholder="Search">
-                                <i class="fa fa-search"></i>
-                            </form>
-                        </div>
+                            @endif
                     </div>
                 </div>
             </div>

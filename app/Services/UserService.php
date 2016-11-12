@@ -50,7 +50,7 @@ class UserService {
     {
         $userinfo = Session::get('user');
         if(!$userinfo) return ['status'=>false,'msg'=>'你还没登录'];
-        return $userinfo;
+        return ['status'=>true,'msg'=>$userinfo];
     }
     /**
      * 注册用户

@@ -9,6 +9,7 @@
             type: "GET",
             url: url,
             success: function(msg){
+                console.log(msg);
                 if(msg.StatusCode == 200){
                     guid.val(msg.ResultData.guid);
                     login.attr('href','/user').html(msg.ResultData.email);
