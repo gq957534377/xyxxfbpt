@@ -19,20 +19,21 @@ class CrowdFundingController extends Controller
         self::$request = $request;
     }
     /**
-     * Display a listing of the resource.
-     *
+     *众筹后台管理首页
      * @return \Illuminate\Http\Response
+     * @author 张洵之
      */
     public function index()
     {
         //
-        return view("admin.crowd.approval");
+        return view("admin.crowdfunding.approval");
     }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
+     * @author 张洵之
      */
     public function create()
     {
@@ -41,24 +42,36 @@ class CrowdFundingController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
+     *发布众筹
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @author 张洵之
      */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        $result = self::$crowdFundingServer->startCrowdFuding(self::$request);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
     }
 
     /**
-     * Display the specified resource.
-     *
+     *查询申报众筹项目
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 张洵之
      */
     public function show($id)
     {
         //
+        $result = self::$crowdFundingServer->AdminShow($id);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
     }
 
     /**

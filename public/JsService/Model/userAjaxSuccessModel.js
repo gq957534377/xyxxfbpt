@@ -5,7 +5,6 @@
 
 // 获取分页数据并加载显示在页面
 function getInfoList(data){
-    console.log(data);
     $('.loading').hide();
     if (data) {
         if (data.ServerNo == 200) {

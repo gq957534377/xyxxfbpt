@@ -123,9 +123,6 @@ function infoHtml(data){
     html += '<input type="text" class="form-control" value="' + (data.roadShow_descript || '') + '" id="tel" placeholder="无" disabled="true"></div></div></div>';
     return html;
 }
-
-
-
 // 判断身份证类型
 function cardState(code){
     if(code == 1) {
@@ -183,5 +180,4 @@ function addR(data){
         $('#alert-form').hide();
         $('#alert-info').html('<p>未知的错误</p>');
     }
-}
-
+};

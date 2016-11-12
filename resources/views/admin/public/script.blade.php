@@ -31,6 +31,7 @@
 
 <script type="text/javascript">
 
+
     var ue = UE.getEditor('UE', {
         toolbars: [
             [
@@ -107,7 +108,6 @@
             ]
         ],
         initialFrameWidth : '100%',
-        initialFrameHeight : '30%'
     });
 </script>
 <script type="text/javascript">

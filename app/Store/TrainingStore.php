@@ -77,7 +77,7 @@ class TrainingStore
         if (empty($id)) return false;
         return DB::table(self::$table)->where($id)->delete();
     }
-
+    
     /**
      * 获取分页细信息
      * @param $nowPage

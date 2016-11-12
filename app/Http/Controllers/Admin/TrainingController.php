@@ -49,6 +49,7 @@ class TrainingController extends Controller
      */
     public function store(Request $request)
     {
+
 //        $data = $request->all();
 //        //验证
 //        $this->validate($request, [

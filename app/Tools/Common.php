@@ -70,11 +70,11 @@ class Common {
         //设置文本字体颜色
         $builder->setTextColor(46,105,59);
         // 设置前置干扰线
-        $builder->setMaxFrontLines(2);
+        $builder->setMaxFrontLines(0);
         //设置后置干扰线
-        $builder->setMaxBehindLines(2);
+        $builder->setMaxBehindLines(0);
         //设置倾斜角度
-        $builder->setMaxAngle(20);
+        $builder->setMaxAngle(10);
         //设置图片的宽高及字体
         $builder->build($width = 118 ,$height = 36,$font = null);
         // 获取验证码的内容
@@ -164,5 +164,4 @@ class Common {
         ];
 
     }
-
 }

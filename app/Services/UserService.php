@@ -42,6 +42,7 @@ class UserService {
         //返回数据
         return  ['status'=>true,'msg'=>$result];
     }
+
     /**
      * 注册用户
      * @param $data

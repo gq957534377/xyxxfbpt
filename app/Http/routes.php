@@ -35,7 +35,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         // 创业大赛->发布信息入口
         Route::resource('/match', 'VentureContestController');
         // 路演活动
-
         Route::resource('/road','RoadController');
         Route::resource('/road_info_page','RoadController@getInfoPage');
         Route::resource('/road_one_info','RoadController@getOneRoad');
@@ -49,13 +48,15 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         //发布项目
         Route::resource('/project', 'ProjectController');
         Route::get('/jacklin', 'ProjectController@test');
+            //众筹管理
+        Route::resource('/project_approval', 'CrowdFundingController');
     });
 });
 
 /**
  * 前台入口
  */
-Route::group(['namespace' => 'Home'],function() {
+Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 验证码

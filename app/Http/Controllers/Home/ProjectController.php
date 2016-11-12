@@ -103,7 +103,6 @@ class ProjectController extends Controller
     {
         //
     }
-
     /**
      * 获取七牛参数
      * @return \Illuminate\Http\JsonResponse

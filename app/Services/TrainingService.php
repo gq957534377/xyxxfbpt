@@ -62,25 +62,6 @@ class TrainingService
     }
 
     /**
-     * 获取整张数据表的数据
-     * @return array
-     * @author 王拓
-     */
-    public function getAllTraining()
-    {
-        $data = self::$trainingStore->getAllData();
-        if ($data) {
-            //用户订单为空
-            if ([] == $data) return ['status' => 200, 'msg' => $data];
-            //获取失败
-            Log::error('创业项目培训内容获取失败', $data);
-            return ['status' => '500', 'msg' => $data];
-        }
-        //获取成功
-        return ['status' => 200, 'msg' => $data];
-    }
-
-    /**
      * 获取用培训信息分页后的数据
      * @param $where
      * @return array
