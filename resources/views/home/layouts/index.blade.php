@@ -21,8 +21,6 @@
 
 @include('home.public.script')
 
-@include('home.public.loginCheck')
-
 @yield('script')
 </body>
 </html>

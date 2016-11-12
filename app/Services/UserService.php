@@ -42,17 +42,6 @@ class UserService {
         return  ['status'=>true,'msg'=>$result];
     }
     /**
-     * 检测用户登录状态
-     * @return bool
-     * @author 刘峻廷
-     */
-    public function signOn()
-    {
-        $userinfo = Session::get('user');
-        if(!$userinfo) return ['status'=>false,'msg'=>'你还没登录'];
-        return ['status'=>true,'msg'=>$userinfo];
-    }
-    /**
      * 注册用户
      * @param $data
      * @return string
