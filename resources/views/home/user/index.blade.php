@@ -24,8 +24,6 @@
                                 <i class="fa fa-cog" aria-hidden="true"></i>编辑个人资料</h2>
                             <hr>
                             <form class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                                <input type="hidden" name="guid" value="">
-                                {{ csrf_field() }}
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">昵称</label>
                                     <div class="col-sm-6">

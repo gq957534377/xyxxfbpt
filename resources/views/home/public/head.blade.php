@@ -16,7 +16,7 @@
                                                 <span class="username">{{session('user')->email}} </span> <span class="caret"></span>
                                             </a>
                                             <ul class="dropdown-menu pro-menu fadeInUp animated" tabindex="5003" style="overflow: hidden; outline: none;margin: 0;padding: 0;">
-                                                <li><a href="{{url('/user')}}"><i class="fa fa-briefcase"></i>个人中心</a></li>
+                                                <li><a href="{{url('/user')}}"><i class="fa fa-briefcase"></i>个人中心 <input type="hidden" id="userinfo" value="{{session('user')->guid}}"/></a></li>
                                                 <li><a href="{{url('/logout')}}"><i class="fa fa-sign-out"></i>登出</a></li>
                                             </ul>
                                         </li>
