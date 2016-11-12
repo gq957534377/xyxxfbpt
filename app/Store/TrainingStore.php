@@ -77,4 +77,16 @@ class TrainingStore
         if (empty($id)) return false;
         return DB::table(self::$table)->where($id)->delete();
     }
+
+    /**
+     * 获取分页细信息
+     * @param $nowPage
+     * @return bool
+     * @author 王拓
+     */
+    public function getPageData($nowPage)
+    {
+        if (empty($nowPage)) return false;
+        return DB::table(self::$table)->forPage($nowPage, PAGENUM)->get();
+    }
 }

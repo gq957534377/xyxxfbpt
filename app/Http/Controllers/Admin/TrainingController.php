@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Tools\Common;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,7 +20,7 @@ class TrainingController extends Controller
      */
     public function __construct(TrainingService $trainingService)
     {
-        self::$TrainingService = $trainingService;
+        self::$trainingService = $trainingService;
     }
 
     /**
@@ -28,14 +29,7 @@ class TrainingController extends Controller
      */
     public function index()
     {
-        $result = self::$TrainingService->getAllTraining();
-        switch ($result['status']) {
-            case 500:
-                return view('admin.training.list', ['status' => 500, 'msg' => $result['msg']]);
-                break;
-            case 200:
-                return view('admin.training.list', ['status' => 200, 'msg' => $result['msg']]);
-        }
+        return view('admin.training.list');
     }
 
     /**
@@ -55,21 +49,21 @@ class TrainingController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        //验证
-        $this->validate($request, [
-            'title' => 'required',
-            'groupname' => 'required',
-        ]);
-        $result = self::$TrainingService->addTraining($data);
-        switch ($result) {
-            case 'error';
-                return back()->withErrors("写入失败");
-                break;
-            case 'yes':
-                return redirect('/training');
-                break;
-        }
+//        $data = $request->all();
+//        //验证
+//        $this->validate($request, [
+//            'title' => 'required',
+//            'groupname' => 'required',
+//        ]);
+//        $result = self::$TrainingService->addTraining($data);
+//        switch ($result) {
+//            case 'error';
+//                return back()->withErrors("写入失败");
+//                break;
+//            case 'yes':
+//                return redirect('/training');
+//                break;
+//        }
     }
 
     /**
@@ -117,13 +111,29 @@ class TrainingController extends Controller
         //
     }
 
-    public function getOneTraining(Request $request)
+    /**
+     * 获取分页数据
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 王拓
+     */
+    public function getInfoPage(Request $request)
     {
         $data = $request->all();
-        $guid = isset($data['name']) ? $data['name'] : '';
-        if (empty($guid)) return respose()->josn(['ServerNo' => 400, 'ResultData' => '未找到相应数据']);
-        $result = self::$TrainingService->getOneTraining($guid);
-        return response()->json(['ServerNo' => 400, 'ResultData' => $result]);
+        $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
+        //获取分页URL与合法的当前页
+        $result = Common::getPageUrl($data, 'data_user_info', 'user_info_page');
+        if ($result) {
+            //获取当前页面数据
+            $pageData = self::$trainingService->getTrainingList($result['nowPage']);
+            return response()->json([
+                'ServerNo' => 200,
+                'ResultData' => [
+                    'pages' => $result['pages'],
+                    'data' => $pageData
+                ]
+            ]);
+        }
+        return response()->json(['ServerNo' => 400, 'ResultData' => '获取数据失败']);
     }
-
 }
