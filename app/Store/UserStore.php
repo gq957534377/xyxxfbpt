@@ -54,16 +54,16 @@ class UserStore {
     }
 
     /**
-     * @param $condition
-     * @return bool
+     * @param array $condition
+     * @return mixed
      * @author wang fei long
-     * 需要进一步修改
      */
-    public function getUsers($condition)
+    public function getUsersData($nowPage, $condition = [])
     {
+        if(empty($nowPage)) return false;
         // 检验条件是否存在
-        if(empty($condition)) return false;
+        if(empty($condition)) DB::table(self::$table)->forPage($nowPage, PAGENUM)->get();
         // 获取数据
-        return DB::table(self::$table)->where($condition)->get();
+        return DB::table(self::$table)->where($condition)->forPage($nowPage, PAGENUM)->get();
     }
 }

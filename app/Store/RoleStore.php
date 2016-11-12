@@ -17,15 +17,28 @@ class RoleStore
     protected static $table = 'data_role_info';
 
     /**
-     * @param $condition
-     * @return bool
+     * @param array $condition
+     * @return mixed
      * @author wang fei long
      */
-    function getUsers($condition)
+    function getUsersData($nowPage, $condition =[])
     {
+        if(empty($nowPage)) return false;
         // 检验条件是否存在
-        if(empty($condition)) return false;
+        if(empty($condition)) DB::table(self::$table)->forPage($nowPage, PAGENUM)->get();
         // 获取数据
-        return DB::table(self::$table)->where($condition)->get();
+        return DB::table(self::$table)->where($condition)->forPage($nowPage, PAGENUM)->get();
+    }
+
+    /**
+     * 依条件获取记录条数
+     * @param $condition
+     * @return mixed
+     * @author wang fei long
+     */
+    function getUsersNumber($condition = [])
+    {
+        if(empty($condition)) return DB::table(self::$table)->count();
+        return DB::table(self::$table)->where($condition)->count();
     }
 }

@@ -39,6 +39,8 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/road_one_info', 'RoadController@getOneRoad');
         // 用户管理
         Route::resource('/users', 'UserController');
+        Route::resource('/users_data', 'UserController@getUserData');
+        Route::resource('/users_page', 'UserController@getUserPage');
         //众筹
         Route::resource('/project_approval', 'CrowdFundingController');
     });

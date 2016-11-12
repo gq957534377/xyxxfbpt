@@ -34,9 +34,10 @@
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <!--引用ajax模块-->
     <script src="{{asset('JsService/Controller/ajaxController.js')}}" type="text/javascript"></script>
-    <script src="{{asset('JsService/Model/user/userAjaxBeforeModel.js')}}" type="text/javascript"></script>
-    <script src="{{asset('JsService/Model/user/userAjaxSuccessModel.js')}}" type="text/javascript"></script>
-    <script src="{{asset('JsService/Model/user/userAjaxErrorModel.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/user/userAjaxBefore.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/user/userAjaxSuccess.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/user/userAjaxError.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/user/userCreatehtml.js')}}" type="text/javascript"></script>
     <!--引用ajax模块-->
     <!--alertInfo end-->
 
@@ -95,9 +96,9 @@
         }
 
         // 页面加载时触发事件请求分页数据
-        var aaa = new ajaxController();
-        aaa.ajax({
-            url     : '/user_info_page',
+        var ajax = new ajaxController();
+        ajax.ajax({
+            url     : '/users_data',
             before  : ajaxBeforeModel,
             success : getInfoList,
             error   : ajaxErrorModel

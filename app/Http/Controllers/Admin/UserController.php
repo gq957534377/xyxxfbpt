@@ -6,6 +6,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Services\UserService;
+use App\Tools\Common;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -21,8 +22,7 @@ class UserController extends Controller
     }
 
     /**
-     * 显示 不同类型用户列表
-     *
+     * 为不同用户分配不同页面
      * @return \Illuminate\Http\Response
      * @author 王飞龙
      */
@@ -112,29 +112,35 @@ class UserController extends Controller
         //
     }
 
+    /**
+     * 获取用户数据 包含分页信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @author wang fei long
+     */
     public function getUserData(Request $request)
     {
         $data = $request->all();
-        $role = $data['role'];
-        switch ($role){
-            // 待审核用户
-            case "0":
-                $result = self::$userServer->getUserList($role);
-                // 如果$result返回错误
-                if(!$result['status'])
-                    return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-
-                return response()->json(['StatusCode' => 200, 'ResultData' => $result]);
-
-            // 普通用户
-            case "1":
-
-            // 创业者用户
-            case "2":
-
-            // 其它情形
-            default:
-                return redirect('/');
-        }
+        if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        $result = self::$userServer->getData($data);
+        // 如果$result返回错误
+        if(!$result['status'])
+            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author wang fei long
+     */
+    public function getUserPage(Request $request){
+        $data = $request->all();
+        $result = self::$userServer->getPage($data);
+        // 如果$result返回错误
+        if(!$result['status'])
+            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
+    }
+
 }

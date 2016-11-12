@@ -1,74 +1,41 @@
 /**
- * ajax成功执行函数
- * @author 郭鹏超
+ * Created by wang fei long on 2016/11/12.
  */
-
-// 获取分页数据并加载显示在页面
-function getInfoList(data){
-    $('.loading').hide();
-    if (data) {
-        if (data.ServerNo == 200) {
-            if(data.ResultData.data == '') {
-                $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
-            }else {
-                $('#data').html(listHtml(data));
-                $('#page').html(data.ResultData.pages);
-                getPage();
-                modifyStatus();
-                showInfo();
-                //showCard();
-            }
-        } else {
-            $('#con-close-modal').modal('show');
-            $('#alert-form').hide();
-            $('#alert-info').html('<p>' + data.ResultData + '</p>');
-        }
-    } else {
-        $('#con-close-modal').modal('show');
-        $('#alert-form').hide();
-        $('#alert-info').html('<p>未知的错误</p>');
-    }
-}
 
 function listHtml(data){
     var html = '';
-    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th>item</th><th>用户名</th><th>手机</th><th>证件号码</th><th>操作</th></tr></thead><tbody>';
+    html += '<div class="panel-body">' +
+        '<table class="table table-bordered table-striped">' +
+            '<thead>' +
+                '<tr>' +
+                    '<th>item</th>' +
+                    '<th>姓名</th>' +
+                    '<th>手机</th>' +
+                    '<th>审核</th>' +
+                    '<th>操作</th>' +
+                '</tr>' +
+            '</thead>';
+    html += '<tbody>';
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
         html += '<td>' + (i + 1) + '</td>';
-        html += '<td>' + e.surname + e.name + '</td>';
+        html += '<td>' + e.realname + '</td>';
         html += '<td>' + e.tel + '</td>';
-        html += '<td>' + e.card_number + '</td>';
-        html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-primary btn-xs">用户详情</button></a>';
-        html += '<a class="order" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-primary btn-xs">订单详情</button></a>';
-        html += '<a class="card" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-primary btn-xs">银行卡详情</button></a>';
-        if (e.status == 1) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn btn-danger btn-xs">禁用</button></a>';
-        } else if (e.status == 2) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn btn-primary btn-xs">启用</button></a>';
-        }
+        html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-info btn-xs">审核</button></a>' + '</td>';
+        html += '<td>';
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="status"><button class="btn btn-success btn-xs">通过</button></a>';
+        html += ' ';
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="status"><button class="btn btn-danger btn-xs">不通过</button></a>';
         html += '</td>';
     });
-    html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
+    html += '</tbody>' +
+        '</table>' +
+        '</div>' +
+        '<div class="row">' +
+            '<div class="col-sm-8"></div>' +
+            '<div class="col-sm-4" id="page"></div>' +
+        '</div>';
     return html;
-}
-// 分页li点击触发获取ajax事件获取分页
-function getPage() {
-    $('.pagination li').click(function () {
-        var class_name = $(this).prop('class');
-        if(class_name == 'disabled' || class_name == 'active') {
-            return false;
-        }
-        var url = $(this).children().prop('href');
-        var ajax = new ajaxController();
-        ajax.ajax({
-            url : url,
-            before : ajaxBeforeModel,
-            success: getInfoList,
-            error: ajaxErrorModel
-        });
-        return false;
-    });
 }
 
 // 组装HTML元素
@@ -102,45 +69,3 @@ function infoHtml(data){
     html += '<img src="/images/card_pic_b.png" alt="身份证反面" width="150px"></div></div></div>';
     return html;
 }
-
-// 判断身份证类型
-function cardState(code){
-    if(code == 1) {
-        return '大陆身份证';
-    }else if(code == 2) {
-        return '其它身份证';
-    }else if(code == 3) {
-        return '护照';
-    }else{
-        return '';
-    }
-}
-
-// 判断姓别类型
-function sexMethod(code){
-    if(code == 1) {
-        return '男';
-    }else if(code == 2) {
-        return '女';
-    }else {
-        return '';
-    }
-}
-
-// 显示个人用户详情
-function showInfoList(data){
-    $('.loading').hide();
-    $('#alert-form').show();
-    $('#con-close-modal').modal('show');
-    if (data) {
-        if (data.ServerNo == 200) {
-            $('#alert-form').html(infoHtml(data.ResultData));
-        } else {
-            $('#alert-form').hide();
-            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
-        }
-    } else {
-        $('#alert-form').hide();
-        $('#alert-info').html('<p>未知的错误</p>');
-    }
-};
