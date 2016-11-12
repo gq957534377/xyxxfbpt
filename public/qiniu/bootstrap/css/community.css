@@ -1,0 +1,594 @@
+/*社区*/
+/*社区首页*/
+*{
+	margin:0 auto; 
+}
+body{
+	background: #f7f7f7;
+	font-family: '黑体-简';
+	font-size: 16px;
+	color: #1d1d1d;
+}
+a,a:hover,a:link{
+	font-family: '黑体-简';
+	font-size: 16px;
+	color: #1d1d1d;
+	display: inline;
+	border:none;
+	text-decoration: none;
+}
+input,textarea{
+	border:none !important;
+}
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
+	padding: 0 10px;
+}
+.contain .row .col-xs-12{
+	padding: 0;
+}
+.contain .row .plate_tu{
+	text-align: center;
+}
+.plate_title{
+	padding: 0;
+	margin: 0;
+}
+.col-xs-1{
+	text-align: left;
+}
+.contain .row{
+	/*height: 45px;*/
+	line-height: 45px;
+	border-bottom:1px solid #e1e1e1;
+}
+.contain .ban_1{
+	/*height: 50px;*/
+	line-height: 50px;
+	background: #fff;
+}
+/*发布*/
+.publish{
+	margin-top: 10px;
+}
+.publish .col-xs-2{
+	text-align: right;
+}
+.publish .row{
+	border-bottom:1px solid #e1e1e1;
+}
+.publish .hua{
+	border-top:1px solid #e1e1e1;
+}
+.publish .ban_1{
+	height: 50px;
+	line-height: 50px;
+	background: #fff;
+}
+.publish .col-xs-10{
+	padding-left: 10px;
+}
+/*投票*/
+.vote .ban_2{
+	/*height: 60px;*/
+	line-height: 55px;
+	border-bottom:none;
+	border-bottom:1px solid #e1e1e1;
+	padding: 5px 10px 0 10px;
+	background: #fff;
+}
+.vote .ban_2 p{
+	margin: 0;
+	/*height: 25px;*/
+	color: #464646;
+	line-height: 25px;
+}
+
+.vote .ban_1 .col-xs-10 p {
+    color: #464646;
+    line-height: 25px;
+    margin: 0;
+    padding: 10px 0 15px; 
+}
+
+.vote .ban_2 .addpart{
+	color: #565656;
+	font-size: 13px;
+}
+.vote .col-xs-2{
+	padding: 0px;
+	color: #464646;
+	text-align: right;
+	padding-right: 10px;
+}
+.vote .col-xs-10{
+	color: #464646;
+	padding: 0;
+	padding-left: 10px;
+}
+.vote .subutton{
+	margin-top: 20px;
+	padding: 0;
+	width: 100%
+}
+.vote .subutton .btn-default{
+	background: #ec584e;
+	border:1px solid #ec584e;
+	color: #fff;
+	font-weight: normal;
+	text-shadow: 0 0px 0 #000;
+}
+input[type="checkbox"] {
+    visibility: hidden;
+}
+.vote .checkboxFour {
+    background: #fff none repeat scroll 0 0;
+    /*background: url(http://sc.boetech.cn/dist/scimages/check.png) no-repeat center top;*/
+    height: 20px;
+    position: relative;
+    text-align: right;
+    float: right;
+    width: 40px;
+    height:40px;
+}
+.vote .checkboxFour label {
+    /*background: #fff none repeat scroll 0 0;*/
+    background: url(http://sc.boetech.cn/dist/scimages/nocheck.png) no-repeat center center; 
+    cursor: pointer;
+    background-size: 25px 25px;
+    display: block;
+    width: 100%;
+    height:40px;
+    right: 0px;
+    position: absolute;
+    top: 5px;
+    transition: all 0.5s ease 0s;
+    z-index: 1;
+}
+.vote .checkboxFour input[type="checkbox"]:checked + label {
+    background: url(http://sc.boetech.cn/dist/scimages/check.png) no-repeat center center;
+    background-size: 25px 25px;
+}
+/*已投票*/
+.vote1 .col-xs-2{	
+	color: #cfcfcf;
+}
+.vote1 .red_e{
+	color: #ec584e
+}
+.vote1 .subutton .btn-default{
+	background: #eee;
+	border:1px solid #c9c9c9;
+	color: #2f2f2f;
+	font-weight: normal;
+	text-shadow: 0 0px 0 #000;
+}
+
+/*发起投票*/
+.ticket{
+	margin-top: 10px;
+	font-size: 16px;
+}
+.ticket .input-group{
+	width: 100%;
+	box-shadow: none;
+	margin-bottom: 10px;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+}
+.ticket .input-group .form-control{
+	border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    width: 100%;
+    outline: none;  
+    border: none;
+    font-size: 16px;
+    box-shadow: none;  
+}
+.ticket .input-group .form-control:focus{
+	border-color:#ccc;
+}
+.ticket .form-group{
+	box-shadow: none;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+}
+.ticket .form-group .form-control{
+	box-shadow: none;
+	border: none;
+	font-size: 16px;
+}
+.ticket .form-group .form-control:focus{
+	border-color:#ccc;
+	box-shadow: none;
+}
+.ticket .row{
+	margin-bottom: 10px;
+}
+.ticket .col-xs-10{
+	color: #959494;
+	padding: 0;
+	padding-left: 8px;
+	height: 25px;
+	line-height: 25px;
+	font-size: 13px;
+}
+.ticket .kuan3{
+	margin-bottom: 60px;
+}
+.ticket .kuan3 .form-control{
+	border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+.ticket .btn-default{
+	background: #fff;
+	border-left:none;
+	border: none;
+	/*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset*/
+}
+.ticket .subutton{
+	margin-top: 20px;
+	padding: 0;
+	width: 100%
+}
+.ticket .subutton .btn-default{
+	background: #ec584e;
+	border:1px solid #ec584e;
+	color: #fff;
+	font-weight: normal;
+	text-shadow: 0 0px 0 #000;
+}
+.addPor{
+	text-align: center;
+	height: 50px;
+	line-height: 50px;
+	background: #f3f3f3;
+	position: fixed;
+	bottom: 0;
+	z-index: 1000;
+	width: 100%;
+	margin:0 auto;
+	border-top:1px solid #c0c0c0; 
+}
+.addPor .col-xs-12{
+	color: #939393;
+	font-size: 16px;
+}
+
+/*大家来吐槽*/
+.topic{
+	padding: 0;
+	font-size: 14px;
+}
+.topic .ban_3{
+	margin: 10px 0;
+	border-top:1px solid #eee;
+	border-bottom:1px solid #eee;
+	background: #fcfcfc;
+}
+.topic .ban_3 .topic_tu{
+	margin-top: 5px;
+	/*padding-right: 10px;*/
+	
+}
+.topic .ban_3 .topic_title{
+	margin-top: 5px;
+	padding-right: 0;
+}
+.topic .col-xs-12{
+	padding: 0px 0 0px 0;
+}
+.topic .ban_5{
+	padding: 5px 10px;
+}
+.topic .col-xs-9 p{
+	margin: 0;
+	color: #565656;
+}
+.topic .use_name{
+	color: #ec584e;
+	font-size: 16px;
+	word-wrap: break-word; 
+}
+.topic .use_time{
+	color: #8e8e8e;
+}
+.topic .addpart{
+	font-size: 12px;
+}
+.topic .use_con{
+	padding: 0px 10px;
+	padding-top: 10px;
+	overflow: hidden;
+	color: #464646;
+}
+.topic .use_con{
+	word-wrap: break-word; 
+	width: 100%;
+}
+.topic .use_zhuan{
+	padding: 0;
+	margin: 0 10px;	
+}
+.topic .use_zhuan .col-xs-12{
+	background: #f3f3f3;
+	padding: 10px 0 ;
+}
+.topic .use_zhuan .col-xs-3{
+	padding-right: 0;
+	padding-left: 5px;
+}
+.topic .use_zhuan p{
+	margin: 0;
+}
+.topic .use_zhuan .use_con{
+	padding: 0;
+	color: #464646;
+}
+.topic .ban_4{
+	margin: 10px 0;
+}
+.topic .ban_4 .col-xs-3{
+	font-size: 14px;
+	text-align: center;
+	padding: 0;
+	/*border-right: 1px solid #d4d4d4;*/
+}
+/*.topic .ban_4 :last-child{
+	border-right: none;
+}*/
+.topic .ban_4 .col-xs-3 span{
+	margin-left: 5px;
+}
+.topic .ban_5 .col-xs-4{
+	padding: 5px 5px;
+}
+.topic .use_zhuan .use_wen{
+	padding-left: 10px;
+}
+.topic .use_zhuan .use_can{
+	color: #8e8e8e;
+	font-size: 14px;
+}
+.topic .use_zhuan .use_tou{
+	padding-left: 10px;
+}
+.topic .use_zhuan .use_tou .col-xs-3{
+	background: #d5c2c1;
+	line-height: 100px;
+	text-align:center;
+	padding: 0;
+	vertical-align:middle;
+}
+.topic .use_zhuan .use_tou .col-xs-7{
+	padding-right: 0;
+}
+.topic .use_zhuan .use_tou .col-xs-2{
+	height: 110px;
+	line-height: 110px;
+	text-align:center;
+	padding: 0;
+	vertical-align:middle;
+}
+.topic .ban_3 .col-xs-1{
+	color: #fff;
+	font-size: 14px;
+	text-align: center;
+	height: 20px;
+	line-height: 20px;
+	border-radius: 2px;
+	padding: 0;
+	float: right;
+	margin-right: 7px;
+}
+.topic .ban_3 .top{
+	background: #ff9000;
+}
+.topic .ban_3 .hot{
+	background: #ec584e;
+}
+.top:after{
+	content: "顶";
+}
+.hot:after{
+	content: "热";
+}
+/*话题详情*/
+.topicinfo .ban_3{
+	margin: 0;
+	border-top:1px solid #eee;
+	border-bottom:none;
+	background: #fcfcfc;
+}
+.topicinfo .info_topic{
+	margin-top: 10px;
+	border-bottom:none;
+	border-top:1px solid #e1e1e1;
+}
+.topicinfo .pinglogo{
+	padding: 0 10px;
+}
+.topicinfo .pinginfo{
+	padding-top: 0px;
+}
+.topicinfo .pinginfo .use_con{
+	padding:0;
+}
+.topicinfo .ban_3 .input-group{
+    width: 100%;
+    border: 1px solid #cdcdcd;
+    border-radius: 4px;
+}
+.topicinfo .pingpost .kuan{
+	/*padding-right: 10px;*/
+}
+.topicinfo .ban_3 .form-control{
+	background: #eee;
+	border: none;
+}
+.topicinfo .ban_3 .use_bnt{
+	 text-align: right;
+	 border:none;
+	 margin-top: 10px
+}
+.topicinfo .ban_3 .use_bnt .btn-primary{
+	background: #ec584e;
+	border:1px solid #ec584e;
+	padding: 8px 40px;
+	font-size: 18px;
+}
+.topicinfo .ban_3 .use_name{
+	padding: 0;
+}
+.topicinfo .pingpost .topic_title{
+	padding:0px;
+	padding-left: 10px;
+	margin-top: 0px;
+	width: 80%
+}
+.topicinfo .ban_3 .use_ping{
+	text-align: left;
+    line-height: 30px;
+}
+.topicinfo .ban_3 .use_time1{
+	color: #ec584e;
+	font-size: 14px;
+	padding: 0;
+	text-align: right;
+	height: 25px;
+	line-height: 30px;	
+}
+.topicinfo .ban_3 .use_time1 span{
+	width: 100%;
+}
+.topicinfo .ban_3{
+	padding: 10px 0 ;
+}
+.topicinfo .ban_3 .pinglow{
+	padding: 10px;
+	background: #f3f3f3;
+	border-bottom:1px dotted #ddd8d5;
+}
+.topicinfo .ban_3 .use_time2{
+	color: #464646;
+	padding:0;
+	font-size: 12px;
+	text-align: right;
+}
+.topicinfo .ban_3 .pinglow:last-child{
+	border-bottom:none;
+	background: none;
+}
+.topicinfo .ban_3 .pinglow:last-child .use_name{
+	display: none;
+}
+.topicinfo .ban_3 .pinglow:last-child .use_time2{
+	display: none;
+}
+.modal {
+    border-radius: 6px;
+    padding: 0 !important;
+    outline: medium none;
+    position: fixed;
+    top: 10%;
+    width: 80%;
+    z-index: 1050;
+}
+.modal.fade {
+    top: -25%;
+    transition: opacity 0.3s linear 0s, top 0.3s ease-out 0s;
+}
+.modal.fade.in {
+    top: 10%;
+}
+.modal-body {
+    /*max-height: 400px;*/
+    overflow-y: auto;
+    padding: 3px 10px;
+    background: #eee;
+    border-radius: 4px;
+    position: relative;
+}
+.modal-form {
+    margin-bottom: 0;
+}
+.modal-footer {
+    background-color: #eee;
+    border-radius: 4px;
+    /*box-shadow: 0 1px 0 #ffffff inset;*/
+    margin-bottom: 0;
+    padding: 14px 15px 20px;
+    text-align: center;
+}
+.modal-footer::before, .modal-footer::after {
+    content: "";
+    display: table;
+    line-height: 0;
+}
+.modal-footer::after {
+    clear: both;
+}
+.modal-footer .btn + .btn {
+    margin-bottom: 0;
+    margin-left: 5px;
+}
+.modal-footer .btn-group .btn + .btn {
+    margin-left: -1px;
+}
+.modal-footer .btn-block + .btn-block {
+    margin-left: 0;
+}
+.modal-body .col-xs-4{
+	text-align: center;
+	padding: 0 5px;
+}
+.modal-body .col-xs-4 span{
+	margin-left: 5px;
+}
+.modal-body .kuan .input-group .form-control{
+	border-radius: 4px;
+}
+.modal-body .input-group,.modal-footer .input-group{
+	width:100%;
+	padding: 0;
+	margin-bottom: 10px;
+	border:1px solid #d1d1d1;
+	border-radius: 4px;
+}
+.modal-footer{
+	padding-top: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+.modal-footer .subutton{
+	padding: 0;
+	width: 100%;
+	padding:0 5px;
+	border-radius: 0;
+}
+button.close{
+
+}
+.modal-body .subutton .input-group{
+	border:none;
+}
+.modal-body .subutton .btn-default{
+	width: 100%;
+	background: #ec584e;
+	border:1px solid #ec584e;
+	color: #fff;
+	font-weight: normal;
+}
+
+.topic_tu img{
+	border-radius:45px;
+}
+.pinglogo img{
+	border-radius:45px;
+}
+/*.loading{
+	width: 20px;
+	text-align: center;
+}*/
+/*return view('sc.sheqv.topicInfo',compact('info','info1'));*/

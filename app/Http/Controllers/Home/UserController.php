@@ -7,8 +7,16 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\Services\UserService as UserServer;
+
 class UserController extends Controller
 {
+    protected static $userServer = null;
+
+    public function __construct(UserServer $userServer)
+    {
+        self::$userServer = $userServer;
+    }
     /**
      * 显示个人中心页
      *
@@ -42,25 +50,30 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 提取个人信息
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        if(empty($id)) return response()->json(['StatusCode'=>500,'ResultData'=>'服务器数据异常']);
+      // 获取到用户的id，返回数据
+        $info = self::$userServer->userInfo($id);
+
+        if(!$info['status']) return response()->json(['StatusCode'=>404,'ResultData'=>'未查询到数据']);
+        return response()->json(['StatusCode'=>200,'ResultData'=>$info]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 编辑个人中心
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -72,7 +85,8 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        return response()->josn($data);
     }
 
     /**
@@ -85,4 +99,13 @@ class UserController extends Controller
     {
         //
     }
+
+    public function getUserInfo()
+    {
+        //检验用户是否登录
+        $userinfo = self::$userServer->signOn();
+        if(!$userinfo['status']) return response()->json(['Status'=>404,'ResultData'=>'没有登录']);
+        return response()->json(['StatusCode'=> 200,'ResultData'=> $userinfo]);
+    }
+
 }

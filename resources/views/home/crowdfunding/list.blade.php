@@ -205,6 +205,7 @@
     <script src="{{asset('home/js/jquery.isotope.min.js')}}"></script>
     <script src="{{asset('home/js/main.js')}}"></script>
     <script src="{{asset('home/js/wow.min.js')}}"></script>
+
     @include("home.crowdfunding.publicClass")
     @include("home.crowdfunding.listScript")
 </body>

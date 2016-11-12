@@ -26,6 +26,7 @@ class CrowdFundingController extends Controller
         self::$request = $request;
     }
     /**
+     * 显示众筹首页
      * Display a listing of the resource.
      * @return \Illuminate\Http\Response
      * @author 张洵之
@@ -58,9 +59,7 @@ class CrowdFundingController extends Controller
     }
 
     /**
-     * Display the specified resource
      * 显示列表页
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author 张洵之
@@ -71,8 +70,7 @@ class CrowdFundingController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
+     * 显示详情页
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author 张洵之
@@ -83,7 +81,6 @@ class CrowdFundingController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -113,7 +110,12 @@ class CrowdFundingController extends Controller
     public function indexAjax()
     {
         $result = self::$crowdFundingServer->dynamicDataIndex();
-        return response()->json($result);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
+
     }
 
     /**
@@ -124,7 +126,11 @@ class CrowdFundingController extends Controller
     public function endPage($id)
     {
         $result = self::$crowdFundingServer->endPage($id);
-        return response()->json($result);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
     }
 
     /**
@@ -135,16 +141,10 @@ class CrowdFundingController extends Controller
     {
         $request = self::$request;
         $result = self::$crowdFundingServer->dynamicDataList($request);
-        return response()->json($result);
-    }
-    /**
-     * 404页面.
-     *
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function zxz()
-    {
-        return "<div style='text-align:center;font-size: 60px;color: red'>404</div><div style='text-align:center;font-size: 50px;padding: auto 0;'>好像出错了！O(∩_∩)O哈哈哈~</div>";
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
     }
 }

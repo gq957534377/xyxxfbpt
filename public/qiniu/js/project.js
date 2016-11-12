@@ -1,0 +1,17 @@
+$(function(){
+  $("#submit").click(function(){
+      $.ajax({
+          url:'/project',
+          type:'post',
+          data:{
+              title:'1',
+              content:'2',
+              image:'3',
+              _token:$("#_token").val()
+          },
+          success:function(data){
+              alert(data);
+          }
+      })
+  })
+});
