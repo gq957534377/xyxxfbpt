@@ -30,26 +30,6 @@ function getInfoList(data){
     }
 }
 
-// 分页li点击触发获取ajax事件获取分页
-function getPage() {
-    $('.pagination li').click(function () {
-        var class_name = $(this).prop('class');
-        if(class_name == 'disabled' || class_name == 'active') {
-            return false;
-        }
-        var url = $(this).children().prop('href');
-        var ajax = new ajaxController();
-        ajax.ajax({
-            url : url,
-            before : ajaxBeforeModel,
-            data   : 'role=0',
-            success: getInfoList,
-            error: ajaxErrorModel
-        });
-        return false;
-    });
-}
-
 
 // 判断身份证类型
 function cardState(code){
