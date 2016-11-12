@@ -58,7 +58,7 @@ class RoadController extends Controller
             "brief" => "required|max:100",
         ]);
         if ($validator->fails()) {
-            return response()->json(['ServerNo' => 400,'ResultData' => $validator->errors()->all()]);
+            return response()->json(['ServerNo' => 400,'ResultData' => $validator->errors()->first()]);
         }
         // 校验是否注册成功
         $result = self::$roadServer->CheckAddRoad($request);
@@ -122,7 +122,7 @@ class RoadController extends Controller
         $data    = $request->all();
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
         // 获取分页URL与合法的当前页
-        $result  = Common::getPageUrl($data, 'data_roadShow_info', 'get_Road_page');
+        $result  = Common::getPageUrl($data, 'data_roadShow_info', '/road_info_page',5);
         if($result) {
             // 获取当前页对应的数据
             $pageData = self::$roadServer->getRoadList($result['nowPage']);
@@ -159,7 +159,8 @@ class RoadController extends Controller
         $data = $request->all();
         $guid = isset($data['name']) ? $data['name'] : '';
         if(empty($guid)) return response()->json(['ServerNo' => 400, 'ResultData' => '未找到相应数据']);
-        $result = self::$roadServer->getOneRoad($guid);
+        $where = ['roadShow_id'=>$guid];
+        $result = self::$roadServer->getOneRoad($where);
         return response()->json(['ServerNo' => 200, 'ResultData' => $result['msg']]);
     }
 }

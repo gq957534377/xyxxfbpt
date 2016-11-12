@@ -5,6 +5,7 @@
 
 // 获取分页数据并加载显示在页面
 function getInfoList(data){
+    console.log(data);
     $('.loading').hide();
     if (data) {
         if (data.ServerNo == 200) {
@@ -21,7 +22,7 @@ function getInfoList(data){
         } else {
             $('#con-close-modal').modal('show');
             $('#alert-form').hide();
-            $('#alert-info').html('<p>' + data.ResultData + '</p>');
+            $('#alert-info').html('<p>' + data.ResultData.pages + '</p>');
         }
     } else {
         $('#con-close-modal').modal('show');
@@ -44,7 +45,7 @@ function listHtml(data){
         html += '<a class="card" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-primary btn-xs">银行卡详情</button></a>';
         if (e.status == 1) {
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn btn-danger btn-xs">禁用</button></a>';
-        } else if (e.status == 2) {
+        } else if (e.status == 3) {
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn btn-primary btn-xs">启用</button></a>';
         }
         html += '</td>';
