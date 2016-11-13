@@ -105,11 +105,107 @@
     </div>
 </div><!-- /.modal -->
 
-
+<div id="tabs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content p-0">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="">
+                    <a href="#home-2" data-toggle="tab" aria-expanded="false">
+                        <span class="visible-xs"><i class="fa fa-home"></i></span>
+                        <span class="hidden-xs">Home</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="#profile-2" data-toggle="tab" aria-expanded="false">
+                        <span class="visible-xs"><i class="fa fa-user"></i></span>
+                        <span class="hidden-xs">Many</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#messages-2" data-toggle="tab" aria-expanded="true">
+                        <span class="visible-xs"><i class="fa fa-envelope-o"></i></span>
+                        <span class="hidden-xs">Brief</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="#settings-2" data-toggle="tab" aria-expanded="false">
+                        <span class="visible-xs"><i class="fa fa-cog"></i></span>
+                        <span class="hidden-xs">Describe</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="home-2">
+                    <div>
+                        <img src="{{asset('/admin/images/banner.png')}}" style="width: 100%">
+                    </div>
+                </div>
+                <div class="tab-pane" id="profile-2">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">路演主题</label>
+                                <input type="text" id="roadShow_title" class="form-control" disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">主讲人</label>
+                                <input type="text" class="form-control" id="speaker" placeholder="Doe" disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-3" class="control-label">路演开始时间</label>
+                                <input type="text" class="form-control" id="roadShow_time" placeholder="Address" disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">所属机构</label>
+                                <input type="text" class="form-control" id="group" placeholder="Boston" disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-5" class="control-label">目前参与人数</label>
+                                <input type="text" class="form-control" id="population" placeholder="United States" disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-5" class="control-label">发布时间</label>
+                                <input type="text" class="form-control" id="time" placeholder="United States" disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane active" id="messages-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p id="brief" disabled="true"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="settings-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p id="roadShow_describe" disabled="true"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">路演发布</button>
-
+<button class="btn btn-primary" data-toggle="modal" data-target="#tabs-modal">Tabs in Modal</button>
 
 
 <img src="/admin/images/load.gif" class="loading">
@@ -134,6 +230,9 @@
     <!--引用ajax模块-->
     <!--alertInfo end-->
     <script>
+//        var chartChange = function (btn,div) {
+//            $(this).addClass()
+//        }
         /**
          * 发布路演
          * @author 郭庆
@@ -194,7 +293,7 @@
                     roadShow_describe:ue.getContent()
                 };
                 console.log(data);
-                ajax.ajax({
+                $.ajax({
                     url     : '/road/' + $(this).data('name'),
                     type:'put',
                     data:data,
@@ -245,6 +344,18 @@
 
 
         // 显示路演信息详情
+//        function showInfo() {
+//            $('.info').click(function () {
+//                $('.modal-title').html('路演信息详情');
+//                var ajax = new ajaxController();
+//                ajax.ajax({
+//                    url     : '/road_one_info?name=' + $(this).data('name'),
+//                    before  : ajaxBeforeNoHiddenModel,
+//                    success : showInfoList,
+//                    error   : ajaxErrorModel
+//                });
+//            });
+//        }
         function showInfo() {
             $('.info').click(function () {
                 $('.modal-title').html('路演信息详情');

@@ -100,7 +100,7 @@ class RoadController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return $data = $request->all();
+        $data = $request->all();
         $where = ['roaldShow_id'=>$id];
         $re   = self::$roadServer->updateRoad($data,$where);
         if($re) return response()->json(['ServerNo' => 200, 'ResultData' => $re]);
@@ -165,6 +165,8 @@ class RoadController extends Controller
         if(empty($guid)) return response()->json(['ServerNo' => 400, 'ResultData' => '未找到相应数据']);
         $where = ['roadShow_id'=>$guid];
         $result = self::$roadServer->getOneRoad($where);
+        $result['msg']['roadShow_time']=date('Y-m-d\TH:i:s', $result['msg']['roadShow_time']);
+        $result['msg']['time']=date('Y-m-d\TH:i:s', $result['msg']['time']);
         return response()->json(['ServerNo' => 200, 'ResultData' => $result['msg']]);
     }
 }
