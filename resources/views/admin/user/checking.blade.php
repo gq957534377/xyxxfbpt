@@ -20,7 +20,7 @@
 {{--展示内容结束--}}
 
 {{--弹出页面 开始--}}
-@section('form-id', 'con-close-modal')
+@section('form-id', 'con-modal')
 @section('form-title', '审核信息：')
 @section('form-body')
     <div class="row" id="alert-form"></div>
@@ -97,7 +97,7 @@
 
                 function checkStatus(data){
                     $('.loading').hide();
-                    $('#con-close-modal').modal('show');
+                    $('#con-modal').modal('show');
                     if (data) {
                         if (data.StatusCode == 200) {
                             var code = data.ResultData;
@@ -141,7 +141,7 @@
 
                 function checkStatus(data){
                     $('.loading').hide();
-                    $('#con-close-modal').modal('show');
+                    $('#con-modal').modal('show');
                     if (data) {
                         if (data.StatusCode == 200) {
                             var code = data.ResultData;

@@ -66,7 +66,7 @@ function sexMethod(code){
 function showInfoList(data){
     $('.loading').hide();
     $('#alert-form').show();
-    $('#con-close-modal').modal('show');
+    $('#con-modal').modal('show');
     if (data) {
         if (data.StatusCode == 200) {
             $('#alert-form').html(infoHtml(data.ResultData));

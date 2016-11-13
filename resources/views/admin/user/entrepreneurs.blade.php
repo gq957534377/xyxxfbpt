@@ -20,14 +20,15 @@
 {{--展示内容结束--}}
 
 {{--弹出页面 开始--}}
-@section('form-id', 'con-close-modal')
+@section('form-id', 'con-modal')
 @section('form-title', '提示信息：')
 @section('form-body')
     <div class="row" id="alert-form"></div>
     <div id="alert-info"></div>
 @endsection
 @section('form-footer')
-    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary">提交</button>
+    <button type="button" class="btn btn-info" data-dismiss="modal">放弃</button>
 @endsection
 {{--弹出页面结束--}}
 
@@ -102,20 +103,26 @@
 
                 function checkStatus(data){
                     $('.loading').hide();
-                    $('#con-close-modal').modal('show');
+                    $('#con-modal').modal('show');
                     if (data) {
                         if (data.StatusCode == 200) {
                             var code = data.ResultData;
                             $('#alert-form').hide();
                             _this.data('status', code);
                             $('#alert-info').html('<p>数据删除成功!</p>');
+                            $('.btn-primary').hide();
+                            $('.btn-info').html('<p>Close</p>');
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                            $('.btn-primary').hide();
+                            $('.btn-info').html('<p>Close</p>');
                         }
                     } else {
                         $('#alert-form').hide();
                         $('#alert-info').html('<p>未知的错误</p>');
+                        $('.btn-primary').hide();
+                        $('.btn-info').html('<p>Close</p>');
                     }
                 }
             });
@@ -125,36 +132,37 @@
             $('.modify').click(function () {
                 var _this = $(this);
 
-                var ajax = new AjaxController('role=0');
+                var ajax = new AjaxController('role=2');
                 ajax.ajax({
-                    url     : '/users_data/'+ $(this).data('name'),
-                    type    : 'delete',
+                    url     : '/users_one_data'+ '?name=' + $(this).data('name'),
+                    type    : 'get',
                     before  : ajaxBeforeNoHiddenModel,
-                    success : checkStatus,
+                    success : showInfoList,
                     error   : ajaxErrorModel
                 });
 
                 function checkStatus(data){
                     $('.loading').hide();
-                    $('#con-close-modal').modal('show');
+                    $('#con-modal').modal('show');
                     if (data) {
                         if (data.ServerNo == 200) {
                             var code = data.ResultData;
                             $('#alert-form').hide();
                             _this.data('status', code);
-                            if (_this.children().hasClass("btn-danger")) {
-                                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
-                            } else if (_this.children().hasClass("btn-primary")) {
-                                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
-                            }
                             $('#alert-info').html('<p>数据修改成功!</p>');
+                            $('.btn-primary').hide();
+                            $('.btn-info').html('<p>Close</p>');
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                            $('.btn-primary').hide();
+                            $('.btn-info').html('<p>Close</p>');
                         }
                     } else {
                         $('#alert-form').hide();
                         $('#alert-info').html('<p>未知的错误</p>');
+                        $('.btn-primary').hide();
+                        $('.btn-info').html('<p>Close</p>');
                     }
                 }
             });
@@ -199,6 +207,35 @@
                     '<div class="col-sm-8"></div>' +
                     '<div class="col-sm-4" id="page"></div>' +
                     '</div>';
+            return html;
+        }
+
+        // 修改时弹出
+        function infoHtml(data) {
+            var html = '';
+            html += '<div class="row">';
+            html += '<div class="col-md-4">' +
+                    '<div class="form-group">' +
+                    '<label for="field-2" class="control-label">真实姓名：</label>';
+            html += '<input type="text" class="form-control" value="' + (data.realname || '') + '" id="name" placeholder="无">' +
+                    '</div>' +
+                    '</div>';
+            html += '<div class="col-md-4">' +
+                    '<div class="form-group">' +
+                    '<label for="field-2" class="control-label">昵称：</label>';
+            html += '<input type="text" class="form-control" value="' + (data.nickname || '') + '" id="name" placeholder="无">' +
+                    '</div>' +
+                    '</div>';
+            html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">性别：</label>';
+            html += '<input type="text" class="form-control" value="' + (data.sex || '') + '" id="english_name" placeholder="无"></div></div></div>';
+
+            html += '<div class="row">' +
+                    '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">生日：</label>';
+            html += '<input type="text" class="form-control" value="' + data.birthday + '" id="card_type" placeholder="无"></div></div>';
+            html += '<div class="col-md-4"><div class="form-group no-margin"><label for="field-7" class="control-label">手机：</label>';
+            html += '<input type="text" class="form-control" value="' + (data.tel || '') + '" id="tel" placeholder="无"></div></div>';
+            html += '<div class="col-md-4"><div class="form-group no-margin"><label for="field-7" class="control-label">邮箱：</label>';
+            html += '<input type="text" class="form-control" value="' + (data.email || '') + '" id="tel" placeholder="无"></div></div></div>';
             return html;
         }
 

@@ -20,14 +20,17 @@
 {{--展示内容结束--}}
 
 {{--弹出页面 开始--}}
-@section('form-id', 'con-close-modal')
-@section('form-title', '提示信息：')
+@section('form-id', 'con-modal')
+@section('form-title', '修改信息：')
 @section('form-body')
     <div class="row" id="alert-form"></div>
+
     <div id="alert-info"></div>
+
 @endsection
 @section('form-footer')
-    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary">提交</button>
+    <button type="button" class="btn btn-info" data-dismiss="modal">放弃</button>
 @endsection
 {{--弹出页面结束--}}
 
@@ -102,20 +105,26 @@
 
                 function checkStatus(data){
                     $('.loading').hide();
-                    $('#con-close-modal').modal('show');
+                    $('#con-modal').modal('show');
                     if (data) {
                         if (data.StatusCode == 200) {
                             var code = data.ResultData;
                             $('#alert-form').hide();
                             _this.data('status', code);
                             $('#alert-info').html('<p>数据删除成功!</p>');
+                            $('.btn-primary').hide();
+                            $('.btn-info').html('<p>Close</p>');
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                            $('.btn-primary').hide();
+                            $('.btn-info').html('<p>Close</p>');
                         }
                     } else {
                         $('#alert-form').hide();
                         $('#alert-info').html('<p>未知的错误</p>');
+                        $('.btn-primary').hide();
+                        $('.btn-info').html('<p>Close</p>');
                     }
                 }
             });
@@ -136,20 +145,26 @@
 
                 function checkStatus(data){
                     $('.loading').hide();
-                    $('#con-close-modal').modal('show');
+                    $('#con-modal').modal('show');
                     if (data) {
                         if (data.ServerNo == 200) {
                             var code = data.ResultData;
                             $('#alert-form').hide();
                             _this.data('status', code);
                             $('#alert-info').html('<p>数据修改成功!</p>');
+                            $('.btn-primary').hide();
+                            $('.btn-info').html('<p>Close</p>');
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                            $('.btn-primary').hide();
+                            $('.btn-info').html('<p>Close</p>');
                         }
                     } else {
                         $('#alert-form').hide();
                         $('#alert-info').html('<p>未知的错误</p>');
+                        $('.btn-primary').hide();
+                        $('.btn-info').html('<p>Close</p>');
                     }
                 }
             });
@@ -198,43 +213,31 @@
         }
 
         // 修改时弹出
-        function infoHtml(data){
+        function infoHtml(data) {
             var html = '';
             html += '<div class="row">';
-            html += '<div class="col-md-8">' +
+            html += '<div class="col-md-4">' +
                     '<div class="form-group">' +
                     '<label for="field-2" class="control-label">真实姓名：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.realname || '') + '" id="name" placeholder="无" disabled="true">' +
+            html += '<input type="text" class="form-control" value="' + (data.realname || '') + '" id="name" placeholder="无">' +
+                    '</div>' +
+                    '</div>';
+            html += '<div class="col-md-4">' +
+                    '<div class="form-group">' +
+                    '<label for="field-2" class="control-label">昵称：</label>';
+            html += '<input type="text" class="form-control" value="' + (data.nickname || '') + '" id="name" placeholder="无">' +
                     '</div>' +
                     '</div>';
             html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">性别：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.sex || '') + '" id="english_name" placeholder="无" disabled="true"></div></div></div>';
+            html += '<input type="text" class="form-control" value="' + (data.sex || '') + '" id="english_name" placeholder="无"></div></div></div>';
 
-            html += '<div class="row"><div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">生日：</label>';
-            html += '<input type="text" class="form-control" value="' + data.birthday  + '" id="card_type" placeholder="无" disabled="true"></div></div>';
-            html += '<div class="col-md-8"><div class="form-group no-margin"><label for="field-7" class="control-label">手机：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.tel || '') + '" id="tel" placeholder="无" disabled="true"></div></div></div>';
-
-            html += '<div class="col-md-3"><div class="form-group no-margin"><label for="field-7" class="control-label">证件类型：</label>';
-            html += '<input type="text" class="form-control" value="' + '' + '" id="sex" placeholder="身份证" disabled="true"></div></div>';
-            html += '<div class="col-md-9"><div class="form-group"><label for="field-4" class="control-label">证件号码：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.card_number|| '') + '" id="card_number" placeholder="无" disabled="true"></div></div></div>';
-
-            html += '<div class="col-md-12"><div class="form-group no-margin"><label for="field-7" class="control-label">家庭详细地址：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.hometown || '') + '" id="address" placeholder="无" disabled="true"></div></div></div>';
             html += '<div class="row">' +
-                    '<div class="col-md-6"><div class="form-group no-margin">' +
-                    '<label for="field-7" class="control-label">身份证正面：</label>' +
-                    '<img src="admin/images/card_pic_z.png" alt="身份证正面" width="150px">' +
-                    '</div>' +
-                    '</div>';
-            html += '<div class="col-md-6">' +
-                    '<div class="form-group no-margin">' +
-                    '<label for="field-7" class="control-label">身份证反面：</label>' +
-                    '<img src="admin/images/card_pic_b.png" alt="身份证反面" width="150px">' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';
+                    '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">生日：</label>';
+            html += '<input type="text" class="form-control" value="' + data.birthday + '" id="card_type" placeholder="无"></div></div>';
+            html += '<div class="col-md-4"><div class="form-group no-margin"><label for="field-7" class="control-label">手机：</label>';
+            html += '<input type="text" class="form-control" value="' + (data.tel || '') + '" id="tel" placeholder="无"></div></div>';
+            html += '<div class="col-md-4"><div class="form-group no-margin"><label for="field-7" class="control-label">邮箱：</label>';
+            html += '<input type="text" class="form-control" value="' + (data.email || '') + '" id="tel" placeholder="无"></div></div></div>';
             return html;
         }
 
