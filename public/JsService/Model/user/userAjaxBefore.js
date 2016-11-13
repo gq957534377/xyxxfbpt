@@ -5,8 +5,6 @@
 var width  = $(window).width() / 2;
 var height = $(window).height() / 2 - 35;
 
-console.log(width + '----' + height);
-
 function ajaxBeforeModel() {
     $('#data').html('');
     $('.loading').show().css({

@@ -78,4 +78,16 @@ class UserStore {
         if(empty($condition)) return DB::table(self::$table)->count();
         return DB::table(self::$table)->where($condition)->count();
     }
+
+    /**
+     * @param array $condition
+     * @return bool
+     * @author wang fei long
+     */
+    function deleteData($condition = [])
+    {
+        if(empty($condition)) return false;
+        return DB::table(self::$table)->where($condition)->delete();
+    }
+
 }

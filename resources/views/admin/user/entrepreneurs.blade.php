@@ -20,13 +20,14 @@
 {{--展示内容结束--}}
 
 {{--弹出页面 开始--}}
-@section('form-id', 'xxxxxxx')
-@section('form-title', 'yyyyyyy')
+@section('form-id', 'con-close-modal')
+@section('form-title', '提示信息：')
 @section('form-body')
-
+    <div class="row" id="alert-form"></div>
+    <div id="alert-info"></div>
 @endsection
 @section('form-footer')
-
+    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 @endsection
 {{--弹出页面结束--}}
 
@@ -53,6 +54,7 @@
         var ajax = new AjaxController('role=2');
         ajax.ajax({
             url     : '/users_data',
+            data    : 'role=1',
             before  : ajaxBeforeModel,
             success : getInfoList,
             error   : ajaxErrorModel
@@ -73,6 +75,88 @@
                     error: ajaxErrorModel
                 });
                 return false;
+            });
+        }
+
+        function deleteData() {
+            $('.delete').click(function () {
+                var _this = $(this);
+                var data = {id:$(this).data('name'), role:'2'};
+                var ajax = new AjaxController();
+                $.ajax({
+                    url     : '/users_data',
+                    type    : 'delete',
+                    data    : data,
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : checkStatus,
+                    error   : ajaxErrorModel
+                });
+
+                // 重新加载
+                ajax.ajax({
+                    url     : '/users_data?role=2',
+                    before  : ajaxBeforeModel,
+                    success : getInfoList,
+                    error   : ajaxErrorModel
+                });
+
+                function checkStatus(data){
+                    $('.loading').hide();
+                    $('#con-close-modal').modal('show');
+                    if (data) {
+                        if (data.StatusCode == 200) {
+                            var code = data.ResultData;
+                            $('#alert-form').hide();
+                            _this.data('status', code);
+                            $('#alert-info').html('<p>数据删除成功!</p>');
+                        } else {
+                            $('#alert-form').hide();
+                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                        }
+                    } else {
+                        $('#alert-form').hide();
+                        $('#alert-info').html('<p>未知的错误</p>');
+                    }
+                }
+            });
+        }
+
+        function updateData() {
+            $('.modify').click(function () {
+                var _this = $(this);
+
+                var ajax = new AjaxController('role=0');
+                ajax.ajax({
+                    url     : '/users_data/'+ $(this).data('name'),
+                    type    : 'delete',
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : checkStatus,
+                    error   : ajaxErrorModel
+                });
+
+                function checkStatus(data){
+                    $('.loading').hide();
+                    $('#con-close-modal').modal('show');
+                    if (data) {
+                        if (data.ServerNo == 200) {
+                            var code = data.ResultData;
+                            $('#alert-form').hide();
+                            _this.data('status', code);
+                            if (_this.children().hasClass("btn-danger")) {
+                                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
+                            } else if (_this.children().hasClass("btn-primary")) {
+                                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
+                            }
+                            $('#alert-info').html('<p>数据修改成功!</p>');
+                        } else {
+                            $('#alert-form').hide();
+                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                        }
+                    } else {
+                        $('#alert-form').hide();
+                        $('#alert-info').html('<p>未知的错误</p>');
+                    }
+                }
             });
         }
 
@@ -103,9 +187,9 @@
                 html += '<td>' + e.tel + '</td>';
                 html += '<td>' + e.email + '</td>';
                 html += '<td>';
-                html += '<a href="javascript:;" data-name="' + e.guid + '" class="status"><button class="btn btn-info btn-xs">修改</button></a>';
+                html += '<a href="javascript:;" data-name="' + e.guid + '" class="modify"><button class="btn btn-info btn-xs">修改</button></a>';
                 html += ' ';
-                html += '<a href="javascript:;" data-name="' + e.guid + '" class="status"><button class="btn btn-danger btn-xs">删除</button></a>';
+                html += '<a href="javascript:;" data-name="' + e.guid + '" class="delete"><button class="btn btn-danger btn-xs">删除</button></a>';
                 html += '</td>';
             });
             html += '</tbody>' +

@@ -72,16 +72,26 @@
             });
         }
 
-        // 是否通过审核
-        function modifyStatus() {
-            $('.status').click(function () {
+        // 通过审核
+        function modifyPass() {
+            $('.pass').click(function () {
                 var _this = $(this);
-
+                var data = {status:"2",role:"0",id:$(this).data('name')};
                 var ajax = new AjaxController();
-                ajax.ajax({
-                    url     : '/users_data?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
+                $.ajax({
+                    url     : '/users_data',
+                    type    : 'put',
+                    data    : data,
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
+                    error   : ajaxErrorModel
+                });
+
+                // 重新加载
+                ajax.ajax({
+                    url     : '/users_data?role=0',
+                    before  : ajaxBeforeModel,
+                    success : getInfoList,
                     error   : ajaxErrorModel
                 });
 
@@ -89,15 +99,54 @@
                     $('.loading').hide();
                     $('#con-close-modal').modal('show');
                     if (data) {
-                        if (data.ServerNo == 200) {
+                        if (data.StatusCode == 200) {
                             var code = data.ResultData;
                             $('#alert-form').hide();
                             _this.data('status', code);
-                            if (_this.children().hasClass("btn-danger")) {
-                                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
-                            } else if (_this.children().hasClass("btn-primary")) {
-                                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
-                            }
+                            $('#alert-info').html('<p>数据修改成功!</p>');
+                        } else {
+                            $('#alert-form').hide();
+                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                        }
+                    } else {
+                        $('#alert-form').hide();
+                        $('#alert-info').html('<p>未知的错误</p>');
+                    }
+                }
+            });
+        }
+
+        // 不通过审核
+        function modifyFail() {
+            $('.fail').click(function () {
+                var _this = $(this);
+                var data = {status:"3",role:"0",id:$(this).data('name')};
+                var ajax = new AjaxController();
+                $.ajax({
+                    url     : '/users_data',
+                    type    : 'put',
+                    data    : data,
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : checkStatus,
+                    error   : ajaxErrorModel
+                });
+
+                // 重新加载
+                ajax.ajax({
+                    url     : '/users_data?role=0',
+                    before  : ajaxBeforeModel,
+                    success : getInfoList,
+                    error   : ajaxErrorModel
+                });
+
+                function checkStatus(data){
+                    $('.loading').hide();
+                    $('#con-close-modal').modal('show');
+                    if (data) {
+                        if (data.StatusCode == 200) {
+                            var code = data.ResultData;
+                            $('#alert-form').hide();
+                            _this.data('status', code);
                             $('#alert-info').html('<p>数据修改成功!</p>');
                         } else {
                             $('#alert-form').hide();
@@ -154,9 +203,9 @@
                 html += '<td>' + e.tel + '</td>';
                 html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-info btn-xs">审核</button></a>' + '</td>';
                 html += '<td>';
-                html += '<a href="javascript:;" data-name="' + e.guid + '" class="status"><button class="btn btn-success btn-xs">通过</button></a>';
+                html += '<a href="javascript:;" data-name="' + e.guid + '" class="pass"><button class="btn btn-success btn-xs">通过</button></a>';
                 html += ' ';
-                html += '<a href="javascript:;" data-name="' + e.guid + '" class="status"><button class="btn btn-danger btn-xs">不通过</button></a>';
+                html += '<a href="javascript:;" data-name="' + e.guid + '" class="fail"><button class="btn btn-danger btn-xs">不通过</button></a>';
                 html += '</td>';
             });
             html += '</tbody>' +

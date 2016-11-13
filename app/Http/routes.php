@@ -41,9 +41,11 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/road_chage_status','RoadController@updateStatus');
         // 用户管理
         Route::resource('/users', 'UserController');
-        Route::resource('/users_data', 'UserController@getUserData');
-        Route::resource('/users_page', 'UserController@getUserData');
-        Route::resource('/users_one_data', 'UserController@getOneData');
+        Route::get('/users_data', 'UserController@getUserData');
+        Route::get('/users_page', 'UserController@getUserData');
+        Route::put('/users_data', 'UserController@updateData');
+        Route::delete('/users_data', 'UserController@deleteData');
+        Route::get('/users_one_data', 'UserController@getOneData');
         //众筹
         Route::resource('/project_approval', 'CrowdFundingController');
         //发布项目

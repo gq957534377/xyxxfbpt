@@ -13,10 +13,17 @@ function getInfoList(data){
             }else {
                 $('#data').html(listHtml(data));
                 $('#page').html(data.ResultData.pages);
-                getPage();
-                modifyStatus();
-                showInfo();
-                //showCard();
+                if( typeof deleteData === 'function' )
+                    deleteData();
+                if( typeof modifyPass === 'function' )
+                    modifyPass();
+                if( typeof modifyFail === 'function' )
+                    modifyFail();
+                if( typeof updateData === 'function' )
+                    updateData();
+                if( typeof showInfo === 'function' )
+                    showInfo();
+                    getPage();
             }
         } else {
             $('#con-close-modal').modal('show');
