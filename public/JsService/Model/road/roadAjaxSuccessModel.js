@@ -16,7 +16,7 @@ function getInfoList(data){
                 getPage();
                 modifyStatus();
                 showInfo();
-                //showCard();
+                updateRoad();
             }
         } else {
             $('#myModal').modal('show');
@@ -68,7 +68,7 @@ function listHtml(data){
         html += '<td>' + e.group + '</td>';
         html += '<td>' + e.roadShow_time + '</td>';
         html += '<td><a class="info" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn-primary">详情</button></a>';
-        html += '<a class="charge" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn-primary">修改路演</button></a>';
+        html += '<a class="charge-road" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn-primary">修改路演</button></a>';
         if (e.status == 1) {
             html += '<a href="javascript:;" data-name="' + e.roadShow_id + '" data-status="' + e.status + '" class="status"><button class="btn-danger">禁用</button></a>';
         } else if (e.status == 3) {
@@ -147,6 +147,32 @@ function sexMethod(code){
     }
 }
 
+// 修改路演信息详情
+function showUpdate(data){
+    console.log(data);
+    $('.loading').hide();
+    $('#con-close-modal').modal('show');
+    // $('#myModal').modal('show');
+    if (data) {
+        if (data.ServerNo == 200) {
+            var test = document.getElementById('xiugai');
+            test.dataset.name = data.ResultData.roadShow_id;
+            $('#title').html(data.ResultData.title);
+            $('#speaker').html(data.ResultData.speaker);
+            // $('#group option:selected').html(data.ResultData.group);
+            $('#roadShow_time').html(data.ResultData.roadShow_time);
+            $('#banner').html(data.ResultData.banner);
+            $('#brief').html(data.ResultData.brief);
+            ue.setContent(data.ResultData.roadShow_describe);
+        } else {
+            $('#alert-form').hide();
+            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+        }
+    } else {
+        $('#alert-form').hide();
+        $('#alert-info').html('<p>未知的错误</p>');
+    }
+}
 // 显示路演信息详情
 function showInfoList(data){
     $('.loading').hide();

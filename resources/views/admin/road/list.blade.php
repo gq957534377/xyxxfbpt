@@ -32,7 +32,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Modal Content is Responsive</h4>
+                <h4 class="road_title">发布路演活动</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -97,9 +97,9 @@
                 </div>
                 <meta name="csrf-token" content="{{ csrf_token() }}">
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="caozuo">
                 <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-info" id="add_road">发布路演</button>
+                <button type="button" data-name="" class="road_update btn btn-info" id="add_road">发布路演</button>
             </div>
         </div>
     </div>
@@ -135,10 +135,10 @@
     <!--alertInfo end-->
     <script>
         /**
-         * 添加用户
+         * 发布路演
          * @author 郭庆
          */
-                $('#add_road').click(function () {
+         $('#add_road').click(function () {
                 $('.modal-title').html('路演信息详情');
                 var data = {
                     title:$('#title').val(),
@@ -176,6 +176,73 @@
                     }
                 });
             });
+        /**
+         * 路演信息修改请求后台
+         * @author 郭庆
+         *
+         * */
+        function chage() {
+            $('.road_update').click(function () {
+                var ajax = new ajaxController();
+                var data = {
+                    title:$('#title').val(),
+                    speaker:$('#speaker').val(),
+                    group:$('#group option:selected').val(),
+                    roadShow_time:$('#roadShow_time').val(),
+                    banner:$('#banner').val(),
+                    brief:$('#brief').val(),
+                    roadShow_describe:ue.getContent()
+                };
+                console.log(data);
+                ajax.ajax({
+                    url     : '/road/' + $(this).data('name'),
+                    type:'put',
+                    data:data,
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : check,
+                    error   : ajaxErrorModel
+                });
+
+                function check(data){
+                    console.log(data);
+                    $('.loading').hide();
+                    $('#myModal').modal('show');
+                    $('.modal-title').html('提示');
+                    if (data) {
+                        if (data.ServerNo == 200) {
+                            $('#alert-info').html('<p>路演活动修改成功!</p>');
+                        } else {
+                            $('#alert-form').hide();
+                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                        }
+                    } else {
+                        $('#alert-form').hide();
+                        $('#alert-info').html('<p>未知的错误</p>');
+                    }
+                }
+            });
+        }
+         /**
+         *修改路演信息展示旧的信息
+         * @author 郭庆
+         */
+        function updateRoad() {
+            $('#fabu').show();
+            $('.charge-road').click(function () {
+                $('.road_title').html('路演信息修改');
+                $('#add_road').remove();
+                $('#caozuo').append('<button type="button" data-name="" class="road_update" id="xiugai">修改</button>');
+                chage();
+                var ajax = new ajaxController();
+                ajax.ajax({
+                    url     : '/road_one_info?name=' + $(this).data('name'),
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : showUpdate,
+                    error   : ajaxErrorModel
+                });
+            });
+        }
+
 
         // 显示路演信息详情
         function showInfo() {

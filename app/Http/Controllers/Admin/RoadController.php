@@ -100,7 +100,11 @@ class RoadController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return $data = $request->all();
+        $where = ['roaldShow_id'=>$id];
+        $re   = self::$roadServer->updateRoad($data,$where);
+        if($re) return response()->json(['ServerNo' => 200, 'ResultData' => $re]);
+        return response()->json(['ServerNo' => 500, 'ResultData' => '路演活动修改失败']);
     }
 
     /**
