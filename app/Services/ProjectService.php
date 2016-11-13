@@ -32,14 +32,20 @@ class ProjectService {
         $data = $request->all();
         unset($data['_token']);
         $data['status']='1';
-        session(['guid'=>'testguid']);
-        $data['guid']=session('guid');
+        $data['guid']=session('user');
+
         //插入数据
         $res = self::$projectStore->addData($data);
         if($res==0) return ['status'=> true,'msg'=>'插入失败'];
         return ['status'=> false,'msg'=>'插入成功'];
     }
 
+    /**
+     * 获取指定条件的数据
+     * @param $data
+     * @return array
+     * @author 贾济林
+     */
     public function getData($data)
     {
         $data = self::$projectStore->getData($data);
@@ -47,18 +53,36 @@ class ProjectService {
         return ['status'=>true,'data'=>$data];
     }
 
+    /**
+     * 修改项目状态
+     * @param $data
+     * @return array
+     * @author 贾济林
+     */
     public function changeStatus($data)
     {
+        //整理参数
         $param = ['project_id'=>$data['id']];
         $updateData = [];
+
+        //根据传入参数指定状态值
         if ($data['status']=='yes') $updateData['status']='3';
         if ($data['status']=='no') $updateData['status']='2';
 
+        //更新状态值
         $res = self::$projectStore->update($param,$updateData);
+
         if ($res =0) return ['status'=>false,'msg'=>'修改失败'];
         return ['status'=>true,'msg'=>'修改成功'];
     }
 
+    /**
+     * 获取首页数据
+     * @param $num
+     * @param $status
+     * @return array
+     * @author 贾济林
+     */
     public function getFrstPage($num, $status)
     {
         $res = self::$projectStore->getPage('1',$num,$status);
@@ -66,6 +90,14 @@ class ProjectService {
         return ['status'=>true,'data'=>$res];
     }
 
+    /**
+     * 指定当前页、单页数据量、和项目状态获取数据
+     * @param $nowpage
+     * @param $num
+     * @param $status
+     * @return array
+     * @author 贾济林
+     */
     public function getPage($nowpage, $num, $status)
     {
         $res = self::$projectStore->getPage($nowpage,$num,$status);

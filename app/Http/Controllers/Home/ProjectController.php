@@ -14,10 +14,9 @@ use Qiniu\Storage\UploadManager;
 class ProjectController extends Controller
 {
     protected static $projectServer = null;
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+    /**单例引入projectService
+     * ProjectController constructor.
+     * @param ProjectService $projectService
      */
     public function __construct(ProjectService $projectService)
     {
@@ -26,7 +25,7 @@ class ProjectController extends Controller
 
     public function index()
     {
-        echo 'index';
+        //
     }
 
     /**
@@ -40,18 +39,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * 项目发布信息存入数据库
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
      */
     public function store(Request $request)
     {
-
-    }
-    public function test(Request $request)
-    {
-
+        $data = $request->all();
         $res = self::$projectServer->addProject($request);
 
         if(!$res) return response()->json(['status'=>'400','msg'=>'插入失败']);
@@ -59,10 +54,10 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 返回发布项目视图
+     * @param $id
+     * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @author 贾济林
      */
     public function show($id)
     {
@@ -103,12 +98,13 @@ class ProjectController extends Controller
     {
         //
     }
+
     /**
-     * 获取七牛参数
+     * 返回七牛upToken
      * @return \Illuminate\Http\JsonResponse
      * @author 贾济林
      */
-    public function getuptoken()
+    public function getUptoken()
     {
         // 需要填写你的 Access Key 和 Secret Key
         $accessKey = 'VsAP-hK_hVPKiq5CQcoxWNhBT9ZpZ1Ii4z3O_W51';

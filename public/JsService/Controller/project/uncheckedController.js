@@ -1,5 +1,6 @@
 //project_info创建待审核列表
 var creatTable = function(data){
+    if (!data) return false;
     for(i in data.data){
         var tr = $('<tr></tr>');
 
@@ -92,8 +93,9 @@ $(function(){
         },
         beforeSend:ajaxBeforeNoHiddenModel,
         success:function(res){
-            var data = res.data;
             $('.loading').hide();
+            var data = res.data;
+            if (!data) return '暂时没有数据哦';
             creatTable(data);
             statusCheck($(".changr_btn"));
             $("#unchecked_table").parent().append(data.pages);

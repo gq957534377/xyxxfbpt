@@ -8,32 +8,50 @@ class ProjectStore {
     protected static $table = 'project_info_data';
 
     /**
-     * 给project_info表增加数据
+     * 增加数据
      * @param $data
      * @return bool
      * @author 贾济林
      */
     public function addData($data)
     {
-        // 检验参数是否为空
         if(empty($data)) return false;
-        // 添加数据，返回添加状态
         return DB::table(self::$table)->insert($data);
     }
 
-
+    /**
+     * 获取制定条件的数据
+     * @param $data
+     * @return bool
+     * @author 贾济林
+     */
     public function getData($data)
     {
         if(empty($data)) return false;
         return DB::table(self::$table)->where($data)->get();
     }
 
+    /**
+     * 更新指定条件的数据
+     * @param $param
+     * @param $data
+     * @return bool
+     * author 贾济林
+     */
     public function update($param, $data)
     {
         if(empty($data)) return false;
         return DB::table(self::$table)->where($param)->update($data);
     }
 
+    /**
+     * 获取指定页码、单页数据量、状态值的项目数据(根据项目id倒序排列)
+     * @param $nowPage
+     * @param $pageNum
+     * @param $status
+     * @return mixed
+     * author 贾济林
+     */
     public function getPage($nowPage, $pageNum, $status)
     {
         return DB::table(self::$table)->where(['status'=>$status])->forPage($nowPage, $pageNum)->orderBy('project_id','desc')->get();

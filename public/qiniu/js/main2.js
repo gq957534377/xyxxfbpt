@@ -7,9 +7,9 @@
 $(function() {
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
-        browse_button: 'pickfiles',
+        browse_button: 'pickfiles2',
         container: 'container',
-        drop_element: 'container',
+        drop_element: 'container2',
         max_file_size: '1000mb',
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
         dragdrop: true,
@@ -35,50 +35,49 @@ $(function() {
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function(file) {
-                    var progress = new FileProgress(file, 'fsUploadProgress');
-                    progress.setStatus("等待中...");
-                    progress.bindUploadCancel(up);
+                    var progress2 = new FileProgress(file, 'fsUploadProgress');
+                    progress2.setStatus("等待中...");
+                    progress2.bindUploadCancel(up);
                 });
             },
             'BeforeUpload': function(up, file) {
-                $("._imgtr").html('');
-                var progress = new FileProgress(file, 'fsUploadProgress');
+                $("._filetr").html('');
+                var progress2 = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 if (up.runtime === 'html5' && chunk_size) {
-                    progress.setChunkProgess(chunk_size);
+                    progress2.setChunkProgess(chunk_size);
                 }
             },
 
             // 上传过程这个函数会不断的执行,直到上传完成
             'UploadProgress': function(up, file) {
                 $('._block').hide();
-                var progress = new FileProgress(file, 'fsUploadProgress');
+                var progress2 = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
-                progress.setProgress(file.percent + "%", file.speed, chunk_size);
+                progress2.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function() {
                 var newtr = $('.progressContainer');
                 var newhtml = newtr.html();
                 newtr.remove();
-                $("._imgtr").html(newhtml);
-
+                $("._filetr").html(newhtml);
             },
             'FileUploaded': function(up, file, info) {
-                var progress = new FileProgress(file, 'fsUploadProgress');
-                progress.setComplete(up, info);
+                var progress2 = new FileProgress(file, 'fsUploadProgress');
+                progress2.setComplete(up, info);
 
                 //获取url
                 var res = $.parseJSON(info);
                 var domain = up.getOption('domain');
                 url = domain + encodeURI(res.key);
 
-                $("input[name='image']").val(url);
+                $("input[name='file']").val(url);
             },
             'Error': function(up, err, errTip) {
                 $('table').show();
-                var progress = new FileProgress(err.file, 'fsUploadProgress');
-                progress.setError();
-                progress.setStatus(errTip);
+                var progress2 = new FileProgress(err.file, 'fsUploadProgress');
+                progress2.setError();
+                progress2.setStatus(errTip);
             }
                  ,
                  'Key': function(up, file) {
@@ -110,6 +109,8 @@ $(function() {
     uploader.bind('FileUploaded', function() {
         console.log('hello man,a file is uploaded');
     });
+
+    //拖拽上传
     $('#container').on(
         'dragenter',
         function(e) {
