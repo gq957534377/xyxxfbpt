@@ -9,8 +9,10 @@
 namespace App\Services;
 
 use App\Tools\Common;
-use Illuminate\Support\Facades\Log;
 use App\Store\TrainingStore;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class TrainingService
 {
@@ -63,13 +65,44 @@ class TrainingService
 
     /**
      * 获取用培训信息分页后的数据
-     * @param $where
+     * @param $nowPage
      * @return array
      * @author 王拓
      */
-    public function getTrainingList($where)
+    public function getTrainingList($nowPage)
     {
-        if (empty($where)) return false;
-        return self::$trainingStore->getPageData(['guid' => $where]);
+        if (empty($nowPage)) return ['status' => false, 'msg' => '没有此页'];
+        $info = self::$roadStore->getPageData($nowPage);
+        if (!$info) return ['status' => false, 'msg' => '数据获取失败'];
+        return ['status' => true, 'msg' => $info];
+    }
+
+    /**
+     * 修改活动状态
+     * @param $data
+     * @return array
+     * @author 王拓
+     */
+    public static function updateTrainingStatus($data)
+    {
+        $status = isset($data['status']) ? $data['status'] : 0;
+        $guid = isset($data['name']) ? $data['name'] : '';
+        if (empty($guid) && !in_array($status, [1, 3])) return ['status' => false, 'msg' => '数据异常'];
+        switch ($status) {
+            case 1:
+                $status = 3;
+                break;
+            case 2:
+                $status = 3;
+                break;
+            case 3:
+                $status = 1;
+                break;
+            default:
+                break;
+        }
+        $result = self::$trainingStore->updateData(['training_guid' => training_guid], ['status' => $status]);
+        if (empty($result)) return ['status' => false, 'msg' => '数据修改失败'];
+        return ['status' => true, 'msg' => $result];
     }
 }
