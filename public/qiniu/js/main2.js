@@ -51,6 +51,7 @@ $(function() {
 
             // 上传过程这个函数会不断的执行,直到上传完成
             'UploadProgress': function(up, file) {
+                $('._block').hide();
                 var progress2 = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 progress2.setProgress(file.percent + "%", file.speed, chunk_size);
@@ -64,6 +65,13 @@ $(function() {
             'FileUploaded': function(up, file, info) {
                 var progress2 = new FileProgress(file, 'fsUploadProgress');
                 progress2.setComplete(up, info);
+
+                //获取url
+                var res = $.parseJSON(info);
+                var domain = up.getOption('domain');
+                url = domain + encodeURI(res.key);
+
+                $("input[name='file']").val(url);
             },
             'Error': function(up, err, errTip) {
                 $('table').show();
@@ -101,6 +109,8 @@ $(function() {
     uploader.bind('FileUploaded', function() {
         console.log('hello man,a file is uploaded');
     });
+
+    //拖拽上传
     $('#container').on(
         'dragenter',
         function(e) {

@@ -220,24 +220,6 @@ FileProgress.prototype.setComplete = function(up, info) {
         str = "<div><strong>链接地址:</strong><a href=" + url + " target='_blank' > " + link + "</a></div>" +
          // "<div class=key><strong>上传后文件名:</strong>" + res.key + "</div>" +
             "<div class=hash><strong>Hash:</strong>" + res.hash + "</div>";
-        var _token = $("#_token").val();
-        var _url = 'http://www.jacklin1992.cn/qiniustore';
-
-        $("input[name='pic']").val(url);
-        $("input[name='pic']").html(url);
-        //ajax将数据传入后台进行储存
-        $.ajax({
-            url:url,
-            type:'get',
-            data:{
-                '_token':_token,
-                'url':_url,
-                'hash':res.hash
-            },
-            success:function(data){
-                // alert(data);
-            }
-        })
     }
 
     tdProgress.html(str).removeClass().next().next('.status').hide();
@@ -274,7 +256,7 @@ FileProgress.prototype.setComplete = function(up, info) {
     progressNameTd.append(Wrapper);
 
     if (!isImg) {
-        showImg.attr('src', 'qiniu/js/default.png');//修改显示图片为默认图片
+        showImg.attr('src', 'http://www.hero.app/qiniu/js/default.png');//修改显示图片为默认图片
         Wrapper.addClass('default');
 
         imgWrapper.append(showImg);
@@ -304,7 +286,7 @@ FileProgress.prototype.setComplete = function(up, info) {
                     $('#myModal-img').find('.text-warning').show();
                 }
                 var newImg = new Image();
-                modalBody.find('img').attr('src', 'images/loading.gif');
+                modalBody.find('img').attr('src', 'http://www.hero.app/qiniu/js/loading.gif');
                 newImg.onload = function() {
                     modalBody.find('img').attr('src', url).data('key', key).data('h', height);
                     modalBody.find('.modal-body-wrapper').find('a').attr('href', url);

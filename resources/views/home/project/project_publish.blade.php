@@ -28,16 +28,18 @@
                     {{--上传完成--}}
                 {{--</div>--}}
             {{--</div>--}}
-    <input name = "title"/>
-    <input name = "content"/>
-    <input type = "hidden" name = "image"/>
-    <input type = "hidden" name = "file"/>
+        <form id = "projectForm">
+            <input name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
+            <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介"></textarea>
+            <input  type ='hidden' name = "image"/>
+            <input  type ='hidden' name = "file"/>
+
             <div class="col-md-12 upload_btn_box">
                 <div id="container">
-                    <button class="btn btn-primary " type="button" id="pickfiles">选择图片</button>
+                    <button class="btn btn-primary btn-sm" type="button" id="pickfiles">选择图片</button>
                 </div>
                 <div id="container2">
-                    <button class="btn btn-primary " type="button" id="pickfiles2">选择资料</button>
+                    <button class="btn btn-primary btn-sm" type="button" id="pickfiles2">选择资料</button>
                 </div>
             </div>
 
@@ -56,12 +58,14 @@
                     </tbody>
                 </table>
             </div>
-            <a href = "javascript:;" id = "submit">提交</a>
 
-    </div>
+            <button class="btn btn-primary " type="submit" id="submit">提交</button>
+        </form>
+        </div>
 
 
 </div>
+@include('home.validator.publishValidator')
 
 
 </body>
@@ -72,6 +76,7 @@
 <script type="text/javascript" src="{{url('/qiniu/js/ui.js')}}"></script>
 <script type="text/javascript" src="{{url('/qiniu/js/main.js')}}"></script>
 <script type="text/javascript" src="{{url('/qiniu/js/main2.js')}}"></script>
+<script src="{{asset('admin/js/jquery.validate.min.js')}}"></script>
 <script type="text/javascript" src="{{url('/qiniu/js/project.js')}}"></script>
 
 </html>
