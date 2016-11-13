@@ -17,7 +17,7 @@ $(function(){
               alert('添加成功');
           },
           error:function(){
-              alert('3');
+              alert('添加失败');
           }
       })
   })

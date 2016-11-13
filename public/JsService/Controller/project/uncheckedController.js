@@ -8,10 +8,18 @@ var creatTable = function(data){
         title_td.html(data.data[i].title);
 
         var image_td = $('<td></td>');
-        image_td.html(data.data[i].image);
+        var image_a = $('<a></a>');
+        image_a.attr('href',data.data[i].image);
+        image_a.attr('target','_blank');
+        image_a.html(data.data[i].image);
+        image_td.html(image_a);
 
         var file_td = $('<td></td>');
-        file_td.html(data.data[i].file);
+        var file_a = $('<a></a>');
+        file_a.attr('href',data.data[i].image);
+        file_a.attr('target','_blank');
+        file_a.html(data.data[i].image);
+        file_td.html(file_a);
 
         var status_td = $('<td>待审核</td>');
         var btn_td = $('<td></td>');

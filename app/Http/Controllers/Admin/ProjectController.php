@@ -99,7 +99,7 @@ class ProjectController extends Controller
         $table = 'project_info_data';
         $totalPage = DB::table($table)->where(['status'=>$status])->count();
         $nowPage = 1;
-        $num = 1;
+        $num = 4;
 
         //获取首页数据
         $res = self::$projectServer->getFrstPage($num, $status);
@@ -123,7 +123,7 @@ class ProjectController extends Controller
         $data = $request->all();
         $status = $data['status'];
         $nowPage = $data['nowPage'];
-        $num = 1;
+        $num = 4;
 
         //获取分页数据
         $res = self::$projectServer->getPage($nowPage,$num,$status);

@@ -32,7 +32,8 @@ class ProjectService {
         $data = $request->all();
         unset($data['_token']);
         $data['status']='1';
-        $data['guid']=session('user');
+        $guid =session('user')->guid;
+        $data['guid']=$guid;
 
         //插入数据
         $res = self::$projectStore->addData($data);

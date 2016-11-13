@@ -6,6 +6,8 @@
         .unchecked_table {text-align: center;}
         .unchecked_table thead td:last-child{width:18%;}
         .unchecked_table thead td:nth-child(4){width:6%;}
+        .unchecked_table thead td:nth-child(2){width:20%;}
+        .unchecked_table td{max-width:200px;overflow: hidden;}
         .unchecked_table button{font-size: 10px;}
         .loading{z-index:999;position:absolute;display: none;}
     </style>
