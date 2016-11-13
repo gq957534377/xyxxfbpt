@@ -66,7 +66,8 @@ function FileProgress(file, targetID) {
         Wrappeer.append(progressText);
         Wrappeer.append(progressSize);
         Wrappeer.append(progressBarTd);
-        $('#' + targetID).append(Wrappeer);//将新增的内容替换到大的wrapper框里
+
+        $('#' + targetID).html(Wrappeer);//将新增的内容替换到大的wrapper框里
     } else {
         this.reset();
     }

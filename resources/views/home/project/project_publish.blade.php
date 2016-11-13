@@ -34,7 +34,10 @@
     <input type = "hidden" name = "file"/>
             <div class="col-md-12 upload_btn_box">
                 <div id="container">
-                    <button class="btn btn-primary " type="button" id="pickfiles">选择文件</button>
+                    <button class="btn btn-primary " type="button" id="pickfiles">选择图片</button>
+                </div>
+                <div id="container2">
+                    <button class="btn btn-primary " type="button" id="pickfiles2">选择资料</button>
                 </div>
             </div>
 
@@ -48,6 +51,8 @@
                       </tr>
                     </thead>
                     <tbody id="fsUploadProgress">
+                    <tr class = "_imgtr"></tr>
+                    <tr class = "_filetr"></tr>
                     </tbody>
                 </table>
             </div>
@@ -66,6 +71,7 @@
 <script type="text/javascript" src="{{url('/qiniu/js/qiniu.js')}}"></script>
 <script type="text/javascript" src="{{url('/qiniu/js/ui.js')}}"></script>
 <script type="text/javascript" src="{{url('/qiniu/js/main.js')}}"></script>
+<script type="text/javascript" src="{{url('/qiniu/js/main2.js')}}"></script>
 <script type="text/javascript" src="{{url('/qiniu/js/project.js')}}"></script>
 
 </html>
