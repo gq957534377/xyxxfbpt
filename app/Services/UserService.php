@@ -190,8 +190,38 @@ class UserService {
             ]
         ];
     }
-    public function updataUserInfo($data)
-    {
 
+    /**
+     * 修改用户信息
+     * @param array $where
+     * @param array $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function updataUserInfo($where,$data)
+    {
+        // 检验条件
+       if (empty($where) || empty($data)) return ['status'=>400,'msg'=>'缺少数据'];
+        // 提交数据给store层
+        $info = self::$userStore->updateUserInfo($where,$data);
+        if(!$info) return ['status'=>400,'msg'=>'修改失败！'];
+        return ['status'=>200,'msg'=>'修改成功！'];
+    }
+
+    public function applyRole($data)
+    {
+        // 检验数据
+        if(empty($data)) return ['status'=>'400','msg'=>'请填写完整信息！'];
+        // 查看该用户是否已申请
+        $info= self::$roleStore->getRole(['guid'=>$data['guid']]);
+        if(!empty($info)) return ['status'=>'404','msg'=>'已申请'];
+        //提存数据
+        unset($data['_mehtod']);
+        unset($data['email']);
+        //提交数据
+        $result = self::$roleStore->addRole($data);
+        // 返回信息处理
+        if(!$result) return ['status'=>'400','msg'=>'申请失败'];
+        return ['status'=>'400','msg'=>'申请成功'];
     }
 }

@@ -21,7 +21,7 @@ class RoleStore
      * @return mixed
      * @author wang fei long
      */
-    function getUsersData($nowPage, $condition =[])
+    public function getUsersData($nowPage, $condition =[])
     {
         if(empty($nowPage)) return false;
         // 检验条件是否存在
@@ -36,9 +36,35 @@ class RoleStore
      * @return mixed
      * @author wang fei long
      */
-    function getUsersNumber($condition = [])
+    public function getUsersNumber($condition = [])
     {
         if(empty($condition)) return DB::table(self::$table)->count();
         return DB::table(self::$table)->where($condition)->count();
+    }
+
+    /**
+     * 添加申请创业者信息
+     * @param array $data
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function addRole($data)
+    {
+        // 检验数据是否存在
+       if(empty($data)) return false;
+        return DB::table(self::$table)->insert($data);
+    }
+
+    /**
+     * 获取指定申请者信息
+     * @param $where
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function getRole($where)
+    {
+        // 条件检测
+        if(empty($where)) return false;
+        return DB::table(self::$table)->where($where)->first();
     }
 }
