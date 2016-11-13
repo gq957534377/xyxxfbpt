@@ -71,4 +71,4 @@ function showInfoList(data){
         $('#alert-form').hide();
         $('#alert-info').html('<p>未知的错误</p>');
     }
-};
+}

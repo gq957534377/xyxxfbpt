@@ -20,13 +20,14 @@
 {{--展示内容结束--}}
 
 {{--弹出页面 开始--}}
-@section('form-id', 'xxxxxxx')
-@section('form-title', 'yyyyyyy')
+@section('form-id', 'con-close-modal')
+@section('form-title', '审核信息：')
 @section('form-body')
-
+    <div class="row" id="alert-form"></div>
+    <div id="alert-info"></div>
 @endsection
 @section('form-footer')
-
+    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 @endsection
 {{--弹出页面结束--}}
 
@@ -58,12 +59,12 @@
             error   : ajaxErrorModel
         });
 
-        // 弹出审核触发ajax
+        //审核触发ajax
         function showInfo() {
             $('.info').click(function () {
-                var ajax = new AjaxController();
+                var ajax = new AjaxController('role=0');
                 ajax.ajax({
-                    url     : '/user_one_info?name=' + $(this).data('name'),
+                    url     : '/users_one_data?name=' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : showInfoList,
                     error   : ajaxErrorModel
@@ -78,7 +79,7 @@
 
                 var ajax = new AjaxController();
                 ajax.ajax({
-                    url     : '/update_user_info_status?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
+                    url     : '/users_data?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
                     error   : ajaxErrorModel
@@ -129,7 +130,7 @@
             });
         }
 
-        // 显示用户列表
+        // 用户列表
         function listHtml(data){
             var html = '';
             html += '<div class="panel-body">' +
@@ -171,32 +172,41 @@
         // 审核弹出内容
         function infoHtml(data){
             var html = '';
-            html += '<div class="row"><div class="col-md-4"><div class="form-group"><label for="field-1" class="control-label">姓：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.surname || '') + '" id="surname" placeholder="无" disabled="true"></div></div>';
-            html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">名：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.name || '') + '" id="name" placeholder="无" disabled="true"></div></div>';
-            html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">英文名：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.english_name || '') + '" id="english_name" placeholder="无" disabled="true"></div></div></div>';
-            html += '<div class="row"><div class="col-md-3"><div class="form-group"><label for="field-2" class="control-label">证件类型：</label>';
-            html += '<input type="text" class="form-control" value="' + cardState(data.card_type)  + '" id="card_type" placeholder="无" disabled="true"></div></div>';
-            html += '<div class="col-md-3"><div class="form-group"><label for="field-5" class="control-label">签证国家：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.card_state || '') + '" id="card_state" placeholder="无" disabled="true"></div></div>';
-            html += '<div class="col-md-6"><div class="form-group"><label for="field-4" class="control-label">证件号码：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.card_number|| '') + '" id="card_number" placeholder="无" disabled="true"></div></div></div>';
-            html += '<div class="row"><div class="col-md-4"><div class="form-group"><label for="field-6" class="control-label">生日：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.birthday || '') + '" id="birthday" placeholder="无" disabled="true"></div></div>';
-            html += '<div class="col-md-2"><div class="form-group no-margin"><label for="field-7" class="control-label">姓别：</label>';
-            html += '<input type="text" class="form-control" value="' + sexMethod(data.sex) + '" id="sex" placeholder="无" disabled="true"></div></div>';
-            html += '<div class="col-md-6"><div class="form-group no-margin"><label for="field-7" class="control-label">手机：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.tel || '') + '" id="tel" placeholder="无" disabled="true"></div></div></div>';
-            html += '<div class="row"><div class="col-md-2"><div class="form-group no-margin"><label for="field-7" class="control-label">国籍：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.address_state || '') + '" id="address_state" placeholder="无" disabled="true"></div></div>';
-            html += '<div class="col-md-10"><div class="form-group no-margin"><label for="field-7" class="control-label">家庭详细地址：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.address || '') + '" id="address" placeholder="无" disabled="true"></div></div></div>';
-            html += '<div class="row"><div class="col-md-6"><div class="form-group no-margin"><label for="field-7" class="control-label">身份证正面：</label>';
-            html += '<img src="/images/card_pic_z.png" alt="身份证正面" width="150px"></div></div>';
-            html += '<div class="col-md-6"><div class="form-group no-margin"><label for="field-7" class="control-label">身份证反面：</label>';
-            html += '<img src="/images/card_pic_b.png" alt="身份证反面" width="150px"></div></div></div>';
+                html += '<div class="row">';
+                html += '<div class="col-md-8">' +
+                        '<div class="form-group">' +
+                        '<label for="field-2" class="control-label">真实姓名：</label>';
+                html += '<input type="text" class="form-control" value="' + (data.realname || '') + '" id="name" placeholder="无" disabled="true">' +
+                        '</div>' +
+                        '</div>';
+                html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">性别：</label>';
+                html += '<input type="text" class="form-control" value="' + (data.sex || '') + '" id="english_name" placeholder="无" disabled="true"></div></div></div>';
+
+                html += '<div class="row"><div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">生日：</label>';
+                html += '<input type="text" class="form-control" value="' + data.birthday  + '" id="card_type" placeholder="无" disabled="true"></div></div>';
+                html += '<div class="col-md-8"><div class="form-group no-margin"><label for="field-7" class="control-label">手机：</label>';
+                html += '<input type="text" class="form-control" value="' + (data.tel || '') + '" id="tel" placeholder="无" disabled="true"></div></div></div>';
+
+                html += '<div class="col-md-3"><div class="form-group no-margin"><label for="field-7" class="control-label">证件类型：</label>';
+                html += '<input type="text" class="form-control" value="' + '' + '" id="sex" placeholder="身份证" disabled="true"></div></div>';
+                html += '<div class="col-md-9"><div class="form-group"><label for="field-4" class="control-label">证件号码：</label>';
+                html += '<input type="text" class="form-control" value="' + (data.card_number|| '') + '" id="card_number" placeholder="无" disabled="true"></div></div></div>';
+
+                html += '<div class="col-md-12"><div class="form-group no-margin"><label for="field-7" class="control-label">家庭详细地址：</label>';
+                html += '<input type="text" class="form-control" value="' + (data.hometown || '') + '" id="address" placeholder="无" disabled="true"></div></div></div>';
+                html += '<div class="row">' +
+                            '<div class="col-md-6"><div class="form-group no-margin">' +
+                                '<label for="field-7" class="control-label">身份证正面：</label>' +
+                                '<img src="admin/images/card_pic_z.png" alt="身份证正面" width="150px">' +
+                            '</div>' +
+                        '</div>';
+                html += '<div class="col-md-6">' +
+                            '<div class="form-group no-margin">' +
+                                '<label for="field-7" class="control-label">身份证反面：</label>' +
+                                '<img src="admin/images/card_pic_b.png" alt="身份证反面" width="150px">' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
             return html;
         }
 

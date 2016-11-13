@@ -41,4 +41,16 @@ class RoleStore
         if(empty($condition)) return DB::table(self::$table)->count();
         return DB::table(self::$table)->where($condition)->count();
     }
+
+    /**
+     * 获取一条数据
+     * @param $condition
+     * @return bool
+     * @author wang fei long
+     */
+    public function getOneData($condition)
+    {
+        if (empty($condition)) return false;
+        return DB::table(self::$table)->where($condition)->first();
+    }
 }

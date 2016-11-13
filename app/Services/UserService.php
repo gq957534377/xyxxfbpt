@@ -195,4 +195,19 @@ class UserService {
     {
 
     }
+
+    public function getOneData($data)
+    {
+        if(!isset($data['role']) || !isset($data['name'])) return ['status' => false, 'data' => '请求参数错误'];
+        if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
+        // 转向RoleStore层
+        if ($data['role'] == '0'){
+            $result = self::$roleStore->getOneData(['guid' => $data['name']]);
+            if (!$result) return ['status' => false, 'data' => '系统错误'];
+            return ['status' => true, 'data' => $result];
+        }
+        $result = self::$userStore->getOneData(['guid' => $data['name']]);
+        if (!$result) return ['status' => false, 'data' => '系统错误'];
+        return ['status' => true, 'data' => $result];
+    }
 }
