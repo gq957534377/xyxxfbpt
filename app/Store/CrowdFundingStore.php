@@ -66,7 +66,7 @@ class CrowdFundingStore
      * 分页获得指定条件内容
      * @param string $filed array $where int $page  int $pages
      * @return array
-     * author 张洵之
+     * @author 张洵之
      */
     public function getList($where,$field,$page,$pages)
     {
@@ -75,10 +75,43 @@ class CrowdFundingStore
         return $result;
     }
 
+    /**
+     * 更新数据
+     * @param $where
+     * @param $update
+     * @author 张洵之
+     */
     public function uplodData($where,$update)
     {
         if(!is_array($where)||!is_array($update))return null;
         $result = DB::table(self::$table)->where($where)->update($update);
+        return $result;
+    }
+
+    /**
+     * 分页返回数据
+     * @param $page
+     * @param $tolPage
+     * @return null
+     * @author 张洵之
+     */
+    public function forPage($page,$tolPage)
+    {
+        if(!is_int($page)||!is_int($tolPage))return null;
+        $result = DB::table(self::$table)->forPage($page,$tolPage)->get();
+        return $result;
+    }
+
+    /**
+     * 基本条件查询
+     * @param $where
+     * @return null
+     * @author 张洵之
+     */
+    public function getWhere($where)
+    {
+        if(!is_array($where))return null;
+        $result = DB::table(self::$table)->where($where)->get();
         return $result;
     }
 }

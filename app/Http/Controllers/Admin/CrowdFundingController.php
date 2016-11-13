@@ -107,4 +107,29 @@ class CrowdFundingController extends Controller
     {
         //
     }
+
+    /**
+     * 分页接口
+     * @return \Illuminate\Http\JsonResponse
+     * @author 张洵之
+     */
+    public function forPage()
+    {
+        $result = self::$crowdFundingServer->forPage(self::$request);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
+    }
+
+    public function revise()
+    {
+        $result = self::$crowdFundingServer->reviseCrowdFunding(self::$request);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
+    }
 }

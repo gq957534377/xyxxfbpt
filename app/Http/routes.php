@@ -48,8 +48,12 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         //发布项目
         Route::resource('/project', 'ProjectController');
         Route::get('/jacklin', 'ProjectController@test');
-            //众筹管理
+        //众筹管理
         Route::resource('/project_approval', 'CrowdFundingController');
+        //分页
+        Route::get("/crowd_forpage",'CrowdFundingController@forPage');
+        //众筹修改内容
+        Route::post("/crowdfunding_revise",'CrowdFundingController@revise');
     });
 });
 
