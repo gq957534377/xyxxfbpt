@@ -68,7 +68,7 @@ function listHtml(data){
         html += '<td>' + e.group + '</td>';
         html += '<td>' + e.roadShow_time + '</td>';
         html += '<td><a class="info" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn-primary">详情</button></a>';
-        html += '<a class="charge-road" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn-primary">修改路演</button></a>';
+        html += '<button data-name="' + e.roadShow_id + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改路演</button>';
         if (e.status == 1) {
             html += '<a href="javascript:;" data-name="' + e.roadShow_id + '" data-status="' + e.status + '" class="status"><button class="btn-danger">禁用</button></a>';
         } else if (e.status == 3) {
@@ -139,6 +139,16 @@ function group(type) {
     return res;
 }
 
+function date(data) {
+    data = data.ResultData;
+    console.log(data);
+    $('#yz_xg').find('input[name=title]').val(data.title);
+    $('#yz_xg').find('input[name=speaker]').val(data.speaker);
+    $('#yz_xg').find('select[name=group]').val(data.group);
+    $('#yz_xg').find('input[name=roadShow_time]').val(data.roadShow_time);
+    $('#yz_xg').find('textarea[name=brief]').val(data.brief);
+    $('#yz_xg').find('textarea[name=roadShow_describe]').val(data.roadShow_describe);
+}
 
 
 // 修改路演信息详情

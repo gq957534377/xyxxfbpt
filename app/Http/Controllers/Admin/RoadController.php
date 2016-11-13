@@ -25,13 +25,13 @@ class RoadController extends Controller
         self::$uploadServer = $uploadServer;
     }
     /**
-     * Display a listing of the resource.
+     * 展示路演管理页面
      *
-     * @return \Illuminate\Http\Response
+     * @return list视图
      */
     public function index()
     {
-        return view('admin.road.list');
+        return view('admin.road.road_list');
     }
 
     /**
