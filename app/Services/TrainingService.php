@@ -29,6 +29,48 @@ class TrainingService
     }
 
     /**
+     * 查询一条培训信息
+     * @param $where
+     * @return array
+     * @author 王拓
+     */
+    public function getOneTraining($where)
+    {
+        $info = self::$trainingStore->getOneData($where);
+        if ($info) return ['status' => true, 'msg' => $info];
+        Log::error('技术培训内容获取失败', $info);
+        return ['status' => false, 'msg' => '技术培训内容活动失败'];
+    }
+
+    /**
+     * 获取用培训信息分页后的数据
+     * @param $nowPage
+     * @return array
+     * @author 王拓
+     */
+    public function getTrainingList($nowPage)
+    {
+        if (empty($nowPage)) return ['status' => false, 'msg' => '没有此页'];
+        $info = self::$roadStore->getPageData($nowPage);
+        if (!$info) return ['status' => false, 'msg' => '数据获取失败'];
+        return ['status' => true, 'msg' => $info];
+    }
+
+    public function getAllData()
+    {
+        $info = self::$trainingStore->getAllData();
+        if(!$info) {
+            // 用户订单为空
+            if ([] == $info) return ['status' => true, 'msg' => $info];
+            // 获取失败
+            Log::error('技术培训内容获取失败', $info);
+            return ['status' => false, 'msg' => '技术培训内容活动失败'];
+        }
+        // 获取成功且用户订单不为空
+        return ['status' => true, 'msg' => $info];
+    }
+
+    /**
      * 添加培训
      * @param $data
      * @return string
@@ -63,19 +105,7 @@ class TrainingService
         return self::$trainingStore->updateData($where, $data);
     }
 
-    /**
-     * 获取用培训信息分页后的数据
-     * @param $nowPage
-     * @return array
-     * @author 王拓
-     */
-    public function getTrainingList($nowPage)
-    {
-        if (empty($nowPage)) return ['status' => false, 'msg' => '没有此页'];
-        $info = self::$roadStore->getPageData($nowPage);
-        if (!$info) return ['status' => false, 'msg' => '数据获取失败'];
-        return ['status' => true, 'msg' => $info];
-    }
+
 
     /**
      * 修改活动状态

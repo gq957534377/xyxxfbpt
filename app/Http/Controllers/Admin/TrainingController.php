@@ -150,4 +150,19 @@ class TrainingController extends Controller
         if ($result['status']) return response()->json([ServerNo => 200, 'ResultData' => $result['msg']]);
         return response()->json(['serverNo' => 400, 'ResuleData' => $result['msg']]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 王拓
+     */
+    public function getOneTraining(Request $request)
+    {
+        $data = $request->all();
+        $guid = isset($data['name']) ? $data['name'] : '';
+        if(empty($guid)) return response()->json(['ServerNo' => 400, 'ResultData' => '未找到相应数据']);
+        $where = ['training_guid'=>$guid];
+        $result = self::$trainingService->getOneTraining($where);
+        return response()->json(['ServerNo' => 200, 'ResultData' => $result['msg']]);
+    }
 }

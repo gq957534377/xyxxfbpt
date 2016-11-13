@@ -31,6 +31,35 @@ function getInfoList(data) {
     }
 }
 
+function add(data){
+    $('.loading').hide();
+    $('#myModal').modal('show');
+    $('.modal-title').html('提示');
+    console.log(data);
+    if (data) {
+        console.log(data);
+        if (data.ServerNo == 200) {
+            var code = data.ResultData;
+            $('#alert-form').hide();
+            _this.data('status', code);
+            if (_this.children().hasClass("btn-danger")) {
+                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
+            } else if (_this.children().hasClass("btn-primary")) {
+                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
+            }
+            $('#fabu').hide();
+            $('#alert-info').html('<p>技术培训发布成功!</p>');
+        } else {
+            $('#alert-info').html('<p>' + data.ResultData + '</p>');
+        }
+    } else {
+        $('#alert-form').hide();
+        $('#alert-info').html('<p>未知的错误</p>');
+    }
+}
+
+
+
 function listHtml(data) {
     var html = '';
     html += '<div class="row"><div class="col-sm-12"><div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">创业项目培训列表</h3></div><table class="table table-bordered table-striped" id="datatable-editable"><thead><tr><th>创业项目培训主题</th><th>组织</th><th>培训开始时间</th><th>培训结束时间</th><th>报名截止时间</th><th>参与人数</th><th>状态</th><th>操作</th></tr></thead><tbody>';
@@ -125,6 +154,23 @@ function showInfoList(data) {
     $('.loading').hide();
     $('#alert-form').show();
     $('#con-close-modal').modal('show');
+    if (data) {
+        if (data.ServerNo == 200) {
+            $('#alert-form').html(infoHtml(data.ResultData));
+        } else {
+            $('#alert-form').hide();
+            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+        }
+    } else {
+        $('#alert-form').hide();
+        $('#alert-info').html('<p>未知的错误</p>');
+    }
+};
+
+function addR(data){
+    $('.loading').hide();
+    $('#alert-form').show();
+    $('MyModal').modal('show');
     if (data) {
         if (data.ServerNo == 200) {
             $('#alert-form').html(infoHtml(data.ResultData));
