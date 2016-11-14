@@ -235,8 +235,11 @@ class CrowdFundingService
                 $status = $dbDatearr[$i]->status;
                 if($status == "1"){
                     $dbDatearr[$i]->btn ="<div class='btn-group' zxz-id='".$dbDatearr[$i]->project_id."'><button zxz-type='revise' class='btn btn-sm btn-success '> <i class='fa fa-wrench'></i> </button><button zxz-type='close' class='btn btn-sm btn-danger '> <i class='fa fa-remove'></i></button></div>";
+                }elseif($status == "0")
+                {
+                    $dbDatearr[$i]->btn ="<div class='btn-group' zxz-id='".$dbDatearr[$i]->project_id."'><button zxz-type='publish' class='btn btn-sm btn-primary '><i class='fa fa-keyboard-o'></i></div>";
                 }else{
-                    $dbDatearr[$i]->btn ="<div class='btn-group' zxz-id='".$dbDatearr[$i]->project_id."'><button zxz-type='publish' class='btn btn-sm btn-primary '><i class='fa fa-keyboard-o'></i> </button><button zxz-type='revise' class='btn btn-sm btn-success '> <i class='fa fa-wrench'></i> </button></div>";
+                    unset($dbDatearr[$i]);
                 }
             }
         }else{

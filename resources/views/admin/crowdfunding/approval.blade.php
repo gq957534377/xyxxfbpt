@@ -401,7 +401,7 @@ var successPublishi = function (data) {
     }
 }
 var successRevise = function (data) {
-    $("#imgLoad").css({"display":"nene"});
+    $("#imgLoad").css({"display":"none"});
     if(data.StatusCode == "200"){
         alert("修改成功!");
         formHide();
