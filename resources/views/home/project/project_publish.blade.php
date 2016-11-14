@@ -48,10 +48,12 @@
                           <button class="btn btn-primary btn-sm" type="button" id="pickfiles">选择图片</button>
                       </div>
 
-                      <div id="container2">
-                           <button class="btn btn-primary btn-sm" type="button" id="pickfiles2">选择资料</button>
-                      </div>
+                      {{--<div id="container2">--}}
+                           {{--<button class="btn btn-primary btn-sm" type="button" id="pickfiles2">选择资料</button>--}}
+                      {{--</div>--}}
                 </div>
+                {{--<button class="btn btn-primary " type="submit" id="submit">提交</button>--}}
+            </form>
 
             <div class="col-md-12 table_box">
                 <table class="table table-striped table-hover"   style="margin-top:40px;display:none">
@@ -66,11 +68,10 @@
                     <tr class = "_imgtr"></tr>
                     <tr class = "_filetr"></tr>
                     </tbody>
+                    <tbody id="fsUploadProgress2">
+                    </tbody>
                 </table>
             </div>
-
-            <button class="btn btn-primary " type="submit" id="submit">提交</button>
-        </form>
         </div>
 
 

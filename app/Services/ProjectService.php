@@ -88,7 +88,7 @@ class ProjectService {
         //$data_crowd = array(['project_id'=>$data['id'],'title'=>'',''=>'',''=>'']);
 
         //事务控制
-        DB::transaction(function () use ($param){
+        DB::transaction(function () use ($param,$updateData){
             //更新状态值
             $res = self::$projectStore->update($param,$updateData);
             //插入crowd_funding_data

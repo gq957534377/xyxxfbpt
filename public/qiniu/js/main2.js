@@ -8,7 +8,7 @@ $(function() {
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
         browse_button: 'pickfiles2',
-        container: 'container',
+        container: 'container2',
         drop_element: 'container2',
         max_file_size: '1000mb',
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
@@ -17,17 +17,6 @@ $(function() {
         uptoken_url: $('#uptoken_url').val(),
         domain: $('#domain').val(),
         get_new_uptoken: false,
-        // downtoken_url: '/downtoken',
-        // unique_names: true,
-        // save_key: true,
-        // x_vars: {
-        //     'id': '1234',
-        //     'time': function(up, file) {
-        //         var time = (new Date()).getTime();
-        //         // do something with 'time'
-        //         return time;
-        //     },
-        // },
         auto_start: true,
         log_level: 5,
         init: {
@@ -35,82 +24,65 @@ $(function() {
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function(file) {
-                    var progress2 = new FileProgress(file, 'fsUploadProgress');
-                    progress2.setStatus("等待中...");
-                    progress2.bindUploadCancel(up);
+                    var progress = new FileProgress(file, 'fsUploadProgress2');
+                    progress.setStatus("等待中...");
+                    progress.bindUploadCancel(up);
                 });
             },
             'BeforeUpload': function(up, file) {
-                $("._filetr").html('');
-                var progress2 = new FileProgress(file, 'fsUploadProgress');
+                var progress = new FileProgress(file, 'fsUploadProgress2');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 if (up.runtime === 'html5' && chunk_size) {
-                    progress2.setChunkProgess(chunk_size);
+                    progress.setChunkProgess(chunk_size);
                 }
             },
 
             // 上传过程这个函数会不断的执行,直到上传完成
             'UploadProgress': function(up, file) {
-                $('._block').hide();
-                var progress2 = new FileProgress(file, 'fsUploadProgress');
+                var progress = new FileProgress(file, 'fsUploadProgress2');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
-                progress2.setProgress(file.percent + "%", file.speed, chunk_size);
+                progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function() {
-                var newtr = $('.progressContainer');
-                var newhtml = newtr.html();
-                newtr.remove();
-                $("._filetr").html(newhtml);
+                $('#success').show();
             },
             'FileUploaded': function(up, file, info) {
-                var progress2 = new FileProgress(file, 'fsUploadProgress');
-                progress2.setComplete(up, info);
-
-                //获取url
-                var res = $.parseJSON(info);
-                var domain = up.getOption('domain');
-                url = domain + encodeURI(res.key);
-
-                $("input[name='file']").val(url);
+                var progress = new FileProgress(file, 'fsUploadProgress2');
+                progress.setComplete(up, info);
             },
             'Error': function(up, err, errTip) {
                 $('table').show();
-                var progress2 = new FileProgress(err.file, 'fsUploadProgress');
-                progress2.setError();
-                progress2.setStatus(errTip);
+                var progress = new FileProgress(err.file, 'fsUploadProgress2');
+                progress.setError();
+                progress.setStatus(errTip);
             }
-                 ,
-                 'Key': function(up, file) {
-                     var extarr = file['name'].split('.');
-                     if(extarr.length===1){
-                         var arr=file['type'].split('/');
-                         var prename = extarr[0];
-                         var ext = (arr[arr.length-1]=='undefined')?'':arr[arr.length-1];
-                     }else{
-                         var ext = '.'+ extarr[extarr.length-1]; //得到后缀
-                         var index = file['name'].lastIndexOf('.');//得到最后一个点的坐标
-                         var prename = file['name'].substring(0,index);//得到最后一个点之前的字符串
-                     }
+            ,
+            'Key': function(up, file) {
+                var extarr = file['name'].split('.');
+                if(extarr.length===1){
+                    var arr=file['type'].split('/');
+                    var prename = extarr[0];
+                    var ext = (arr[arr.length-1]=='undefined')?'':arr[arr.length-1];
+                }else{
+                    var ext = '.'+ extarr[extarr.length-1]; //得到后缀
+                    var index = file['name'].lastIndexOf('.');//得到最后一个点的坐标
+                    var prename = file['name'].substring(0,index);//得到最后一个点之前的字符串
+                }
 
 
-                     var time = Date.parse(new Date())/1000;
-                     // alert(prename);
-                     // alert(time);
-                     // alert(ext);
-                     $("input[name='ftype']").val(prename);
-                     var key = prename+'/'+time+ ext;
-                     return key;
-                 }
+                var time = Date.parse(new Date())/1000;
+                $("input[name='ftype']").val(prename);
+                var key = prename+'/'+time+ ext;
+                return key;
+            }
         }
     });
-     
+
 
 
     uploader.bind('FileUploaded', function() {
         console.log('hello man,a file is uploaded');
     });
-
-    //拖拽上传
     $('#container').on(
         'dragenter',
         function(e) {

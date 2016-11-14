@@ -51,16 +51,11 @@ $(function() {
 
             // 上传过程这个函数会不断的执行,直到上传完成
             'UploadProgress': function(up, file) {
-                $('._block').hide();
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function() {
-                var newtr = $('.progressContainer');
-                var newhtml = newtr.html();
-                newtr.remove();
-                $("._imgtr").html(newhtml);
 
             },
             'FileUploaded': function(up, file, info) {
