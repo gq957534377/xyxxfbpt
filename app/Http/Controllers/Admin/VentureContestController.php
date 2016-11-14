@@ -109,12 +109,13 @@ class VentureContestController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // 删除数据
+        $result = self::$matchServer->deleteOne($id);
+        return $result;
     }
     public function paging(Request $request)
     {
         // 跟去前台传过来的数据显示数据
-//        $request->all();
         $result=self::$matchServer->getPageData("1");
         return $result;
     }
