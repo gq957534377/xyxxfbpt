@@ -72,7 +72,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="field-5" class="control-label">缩略图</label>
-                            <input type="hidden" class="form-control" id="banner" placeholder="United States">
+                            <img id="clickObj" src="/admin/images/upload.png" style="cursor: pointer;margin-left: 20px;">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -106,105 +106,74 @@
     </div>
 </div><!-- /.modal -->
 
-{{--<div id="tabs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">--}}
-    {{--<div class="modal-dialog">--}}
-        {{--<div class="modal-content p-0">--}}
-            {{--<ul class="nav nav-tabs nav-justified">--}}
-                {{--<li class="">--}}
-                    {{--<a href="#home-2" data-toggle="tab" aria-expanded="false">--}}
-                        {{--<span class="visible-xs"><i class="fa fa-home"></i></span>--}}
-                        {{--<span class="hidden-xs">Home</span>--}}
-                    {{--</a>--}}
-                {{--</li>--}}
-                {{--<li class="">--}}
-                    {{--<a href="#profile-2" data-toggle="tab" aria-expanded="false">--}}
-                        {{--<span class="visible-xs"><i class="fa fa-user"></i></span>--}}
-                        {{--<span class="hidden-xs">Many</span>--}}
-                    {{--</a>--}}
-                {{--</li>--}}
-                {{--<li class="active">--}}
-                    {{--<a href="#messages-2" data-toggle="tab" aria-expanded="true">--}}
-                        {{--<span class="visible-xs"><i class="fa fa-envelope-o"></i></span>--}}
-                        {{--<span class="hidden-xs">Brief</span>--}}
-                    {{--</a>--}}
-                {{--</li>--}}
-                {{--<li class="">--}}
-                    {{--<a href="#settings-2" data-toggle="tab" aria-expanded="false">--}}
-                        {{--<span class="visible-xs"><i class="fa fa-cog"></i></span>--}}
-                        {{--<span class="hidden-xs">Describe</span>--}}
-                    {{--</a>--}}
-                {{--</li>--}}
-            {{--</ul>--}}
-            {{--<div class="tab-content">--}}
-                {{--<div class="tab-pane" id="home-2">--}}
-                    {{--<div>--}}
-                        {{--<img src="{{asset('/admin/images/banner.png')}}" style="width: 100%">--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="tab-pane" id="profile-2">--}}
-                    {{--<div class="row">--}}
-                        {{--<div class="col-md-6">--}}
-                            {{--<div class="form-group">--}}
-                                {{--<label for="field-1" class="control-label">路演主题</label>--}}
-                                {{--<input type="text" id="roadShow_title" class="form-control" disabled="true">--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="col-md-6">--}}
-                            {{--<div class="form-group">--}}
-                                {{--<label for="field-2" class="control-label">主讲人</label>--}}
-                                {{--<input type="text" class="form-control" id="speaker" placeholder="Doe" disabled="true">--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="row">--}}
-                        {{--<div class="col-md-12">--}}
-                            {{--<div class="form-group">--}}
-                                {{--<label for="field-3" class="control-label">路演开始时间</label>--}}
-                                {{--<input type="text" class="form-control" id="roadShow_time" placeholder="Address" disabled="true">--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="row">--}}
-                        {{--<div class="col-md-4">--}}
-                            {{--<div class="form-group">--}}
-                                {{--<label for="field-4" class="control-label">所属机构</label>--}}
-                                {{--<input type="text" class="form-control" id="group" placeholder="Boston" disabled="true">--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="col-md-4">--}}
-                            {{--<div class="form-group">--}}
-                                {{--<label for="field-5" class="control-label">目前参与人数</label>--}}
-                                {{--<input type="text" class="form-control" id="population" placeholder="United States" disabled="true">--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div class="col-md-4">--}}
-                            {{--<div class="form-group">--}}
-                                {{--<label for="field-5" class="control-label">发布时间</label>--}}
-                                {{--<input type="text" class="form-control" id="time" placeholder="United States" disabled="true">--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="tab-pane active" id="messages-2">--}}
-                    {{--<div class="row">--}}
-                        {{--<div class="col-md-12">--}}
-                            {{--<p id="brief" disabled="true"></p>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="tab-pane" id="settings-2">--}}
-                    {{--<div class="row">--}}
-                        {{--<div class="col-md-12">--}}
-                            {{--<p id="roadShow_describe" disabled="true"></p>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-        {{--</div><!-- /.modal-content -->--}}
-    {{--</div><!-- /.modal-dialog -->--}}
-{{--</div><!-- /.modal -->--}}
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myLargeModalLabel">修改路演</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg"  onsubmit="return false">
+                    <input type="hidden" name="id">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">路演主题：</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="title" placeholder="roaldShow title...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label" for="example-email">主讲人：</label>
+                        <div class="col-md-10">
+                            <input type="text" id="example-email" name="speaker" class="form-control" placeholder="Speaker">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">所属机构：</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="group">
+                                <option value="1">英雄会</option>
+                                <option value="2">兄弟会</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">路演开始时间：</label>
+                        <div class="col-md-10">
+                            <input type="datetime-local" class="form-control" name="roadShow_time">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">缩略图</label>
+                        <div class="col-md-10">
+                            <input type="file" class="form-control" name="banner">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">路演简述</label>
+                        <div class="col-md-10">
+                            <textarea class="col-md-12" name="brief"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">路演详情</label>
+                        <div class="col-md-10">
+                            <textarea id="UE" name="roadShow_describe"></textarea>
+                        </div>
+                    </div>
+                    <meta name="csrf-token" content="{{ csrf_token() }}">
+                    <center><button type="submit" class="btn btn-success m-l-10">修改</button></center>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-
+<div style="display: none;">
+    <form enctype="multipart/form-data" id="postForm">
+        <input type="file" id="rongqi">
+    </form>
+</div>
 <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">路演发布</button>
 {{--<button class="btn btn-primary" data-toggle="modal" data-target="#tabs-modal">详情demo</button>--}}
 
@@ -218,7 +187,6 @@
     <div class="panel" id="data"></div>
 </div>
 @endsection
-
 @section('script')
     <!--alertInfo JS-->
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
@@ -235,6 +203,158 @@
     <!--引用ajax模块-->
     <!--alertInfo end-->
     <script>
+        $("#clickObj").click(function () {
+            $("#rongqi").trigger("click");
+        })
+        $("#rongqi").change(function () {
+            var formData = new FormData($( "#postForm" )[0]);
+            $.ajax({
+                url: '/' ,
+                type: 'post',
+                data: formData,
+                async: false,
+                cache: false,
+                processData: false,
+                success: function (returndata) {
+                    alert(returndata);
+                },
+                error: function (returndata) {
+                }
+            });
+        })
+        {{--修改--}}
+        !function($) {
+            "use strict";
+            var FormValidator = function() {
+                //this.$commentForm = $("#commentForm"),
+                this.$signupForm = $("#yz_xg");
+            };
+
+            //初始化
+            FormValidator.prototype.init = function() {
+                //插件验证完成执行操作 可以不写
+                $.validator.setDefaults({
+                    submitHandler: function() {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                            }
+                        });
+                        var data = new FormData();
+                        var resul={
+                            title:$('input[name=title]').val(),
+                            speaker:$('input[name=speaker]').val(),
+                            group:$('select[name=group]').val(),
+                            roadShow_time:$('input[name=roadShow_time]').val(),
+                            brief:$('textarea[name=brief]').val(),
+                            roadShow_describe:$('textarea[name=roadShow_describe]').val(),
+                        };
+                        data.append( "title"      , resul.title);
+                        data.append( "speaker"     , resul.speaker);
+                        data.append( "group"       ,resul.group);
+                        data.append( "roadShow_time"     , resul.roadShow_time);
+//                        data.append( "banner"   ,$('#banner').val());
+                        data.append( "brief"   , resul.brief);
+                        data.append( "describe", resul.roadShow_describe);
+                        // add data for ajax
+//                        var sendajax = new Sendajax('match','post',data);
+//                        sendajax.send();
+                        $('#alert-info').html();
+                        console.log(resul);
+                        $.ajax({
+                            url     : '/road/' + $('input[name=id]').val(),
+                            type:'put',
+                            data:resul,
+                            before  : ajaxBeforeNoHiddenModel,
+                            success : check,
+                            error   : ajaxErrorModel
+                        });
+                        function check(data){
+                            $('.loading').hide();
+                            $('#myModal').modal('show');
+                            $('.modal-title').html('提示');
+                            if (data) {
+                                if (data.ServerNo == 200) {
+                                    $('.bs-example-modal-lg').hide();
+                                    $('#myModal').show();
+                                    $('#alert-info').html('<p>路演活动修改成功!</p>');
+                                    list();
+                                    $('.modal-backdrop').remove();
+                                } else {
+                                    $('#alert-form').hide();
+                                    $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                                    $('#alert-info').html();
+                                }
+                            } else {
+                                $('#alert-form').hide();
+                                $('#alert-info').html('<p>未知的错误</p>');
+                                $('#alert-info').html();
+                            }
+                        }
+                    }
+                });
+                // validate signup form on keyup and submit
+                this.$signupForm.validate({
+                    rules: {
+                        title: {
+                            required: true
+                        },
+                        speaker:{
+                            required: true,
+                        },
+                        group:{
+                            required: true
+                        },
+                        roadShow_time:{
+                            required: true
+                        },
+                        brief:{
+                            required: true
+                        },
+                        describe:{
+                            required: true,
+                        },
+                        // start_time:{date:true},
+                        // end_time:{date:true},
+                        // deadline:{date:true}
+                    },
+                    //提示信息
+                    messages: {
+                        title: {
+                            required: '请输入路演主题'
+                        },
+                        speaker:{
+                            required: '请输入主讲人'
+                        },
+                        group:{
+                            required: '组织机构必选'
+                        },
+                        roadShow_time:{
+                            required:'请输入路演时间'
+                        },
+                        brief:{
+                            required: '请输入路演简述'
+                        },
+                        describe:{
+                            required: '请输入路演详情'
+                        },
+                        // start_time:{date:""},
+                        // end_time:{date:""},
+                        // deadline:{date:""}
+                    }
+                });
+
+            },
+                    //init
+                    $.FormValidator = new FormValidator,
+                    $.FormValidator.Constructor = FormValidator
+        }(window.jQuery),
+
+                function($) {
+                    "use strict";
+                    $.FormValidator.init()
+                }(window.jQuery);
+
         /**
          * 发布路演
          * @author 郭庆
@@ -261,12 +381,10 @@
                         if (data) {
                             if (data.ServerNo == 200) {
                                 $('#con-close-modal').hide();
-                                $('#alert-form').hide();
                                 $('#myModal').show();
                                 $('#alert-info').html('<p>路演发布成功!</p>');
-                                $('#alert-info').html('');
+                                list();
                                 $('.modal-backdrop').remove();
-                                $('#alert-info').html();
                             } else {
                                 $('#alert-form').hide();
                                 $('#alert-info').html('<p>' + data.ResultData + '</p>');
@@ -281,105 +399,27 @@
                     }
                 });
             });
-        /**
-         * 路演信息修改请求后台
-         * @author 郭庆
-         *
-         * */
-        function chage() {
-            $('.road_update').click(function () {
-                var ajax = new ajaxController();
-                var data = {
-                    title:$('#title').val(),
-                    speaker:$('#speaker').val(),
-                    group:$('#group option:selected').val(),
-                    roadShow_time:$('#roadShow_time').val(),
-                    banner:$('#banner').val(),
-                    brief:$('#brief').val(),
-                    roadShow_describe:ue.getContent()
-                };
-                $('#alert-info').html();
-                console.log(data);
-                $.ajax({
-                    url     : '/road/' + $(this).data('name'),
-                    type:'put',
-                    data:data,
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : check,
-                    error   : ajaxErrorModel
-                });
-                function check(data){
-                    $('.loading').hide();
-                    $('#myModal').modal('show');
-                    $('.modal-title').html('提示');
-                    if (data) {
-                        if (data.ServerNo == 200) {
-                            $('#con-close-modal').hide();
-                            $('#myModal').show();
-                            $('#alert-info').html('<p>路演活动修改成功!</p>');
-                            $('#alert-info').html('');
-                            $('.modal-backdrop').remove();
-                            $('.road_title').html('发布路演活动');
-                            $('.road_update').remove();
-                            $('#caozuo').append('<button type="button" data-name="" class="road_update btn btn-info" id="add_road">发布路演</button>');
-                            $('#title').html();
-                            $('#speaker').html();
-                            $('#group option:selected').html();
-                            $('#roadShow_time').html();
-                            $('#banner').html();
-                            $('#brief').html();
-                            ue.setContent('');
-                        } else {
-                            $('#alert-form').hide();
-                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
-                            $('#alert-info').html();
-                        }
-                    } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>未知的错误</p>');
-                        $('#alert-info').html();
-                    }
-                }
-            });
-        }
          /**
          *修改路演信息展示旧的信息
          * @author 郭庆
          */
         function updateRoad() {
-            $('#fabu').show();
             $('.charge-road').click(function () {
-                $('.road_title').html('路演信息修改');
-                $('#add_road').remove();
-                $('.road_update').remove();
-                $('#caozuo').append('<button type="button" data-name="" class="road_update" id="xiugai">修改</button>');
-                chage();
+                $('.loading').hide();
                 var ajax = new ajaxController();
                 ajax.ajax({
                     url     : '/road_one_info?name=' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
-                    success : showUpdate,
+                    success : date,
                     error   : ajaxErrorModel
                 });
             });
         }
 
-
-        // 显示路演信息详情
-//        function showInfo() {
-//            $('.info').click(function () {
-//                $('.modal-title').html('路演信息详情');
-//                var ajax = new ajaxController();
-//                ajax.ajax({
-//                    url     : '/road_one_info?name=' + $(this).data('name'),
-//                    before  : ajaxBeforeNoHiddenModel,
-//                    success : showInfoList,
-//                    error   : ajaxErrorModel
-//                });
-//            });
-//        }
+        //展示路演信息详情
         function showInfo() {
             $('.info').click(function () {
+                $('#alert-info').html('');
                 $('.modal-title').html('路演信息详情');
                 var ajax = new ajaxController();
                 ajax.ajax({
@@ -433,12 +473,15 @@
         }
 
         // 页面加载时触发事件请求分页数据
-        var ajax = new ajaxController();
-        ajax.ajax({
-            url     : '/road_info_page',
-            before  : ajaxBeforeModel,
-            success : getInfoList,
-            error   : ajaxErrorModel,
-        });
+        function list() {
+            var ajax = new ajaxController();
+            ajax.ajax({
+                url     : '/road_info_page',
+                before  : ajaxBeforeModel,
+                success : getInfoList,
+                error   : ajaxErrorModel,
+            });
+        }
+        list();
     </script>
 @endsection
