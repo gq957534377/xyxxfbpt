@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Default Example</h3>
+                    <button class="btn">发布众筹</button>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -271,6 +271,8 @@ function startVerification() {
         if(isNaN(temp)) {
             $(this).val("");
             alert("请输入数字！")
+        }else{
+            $(this).val(temp)
         }
     })
 }
@@ -427,7 +429,11 @@ function startCrowdfunding() {
     var tokens = "{{csrf_token()}}";
     var Typeclass =$("#selects").val();
     var ajaxFunction = new AjaxWork("/project_approval","post");
-    ajaxFunction.upload({_token:tokens,project_id:ID,fundraising:targetFund,project_type:Typeclass,days:days},successPublishi,errFunction,beforeFunction);
+    if(targetFund&&days&&ID&&Typeclass){
+        ajaxFunction.upload({_token:tokens,project_id:ID,fundraising:targetFund,project_type:Typeclass,days:days},successPublishi,errFunction,beforeFunction);
+    }else{
+        alert("以上内容不得为空！");
+    }
 }
 function revise() {
     var targetFund = $("#field-4").val();
@@ -437,7 +443,11 @@ function revise() {
     var tokens = "{{csrf_token()}}";
     var Typeclass =$("#selects").val();
     var ajaxFunction = new AjaxWork("/crowdfunding_revise","post");
-    ajaxFunction.upload({_token:tokens,project_id:ID,fundraising:targetFund,project_type:Typeclass,days:days,hour:hour},successRevise,errFunction,beforeFunction);
+    if(targetFund&&days&&hour&&ID&&Typeclass){
+        ajaxFunction.upload({_token:tokens,project_id:ID,fundraising:targetFund,project_type:Typeclass,days:days,hour:hour},successRevise,errFunction,beforeFunction);
+    }else{
+        alert("以上内容不得为空！");
+    }
 }
 function closeCrowdfunding(id) {
     ajaxRequest(id,"close");
