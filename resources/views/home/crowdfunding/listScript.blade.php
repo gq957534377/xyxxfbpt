@@ -151,7 +151,6 @@
     }
     //生成该页相关内容html
     function creatPageHtml(data) {
-        console.log(data)
         var strFather ="";
         var strSon = "";
         var forNum = 0;
