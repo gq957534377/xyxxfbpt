@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <button class="btn">发布众筹</button>
+                    <button class="btn  btn-info">发布众筹</button>
                 </div>
                 <div class="panel-body">
                     <div class="row">
