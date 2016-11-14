@@ -19,14 +19,15 @@
                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <h4 class="modal-title" id="myModalLabel">更换头像</h4>
                                         </div>
-                                        <form method="POST" enctype="muitipart/form-data">
+                                        <form method="POST" id="headPicForm" enctype="muitipart/form-data" >
+                                            <input type="hidden" mame="_method" value="put">
                                             <div class="modal-body">
                                                 <img src="{{asset('home/images/man1.jpg')}}" alt=""><br>
-                                                <input type="file" name="myfile" />
+                                                <input type="file" name="headpic" />
                                             </div>
                                         </form>
                                         <div class="modal-footer">
-                                            <button id="headpic" type="button" class="btn btn-info">更换</button>
+                                            <button id="changeHead" type="button" class="btn btn-info">更换</button>
                                         </div>
                                     </div>
                                 </div>
@@ -122,7 +123,7 @@
                             <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="position: absolute;z-index: 9999;" >
                             <hr>
                             <form id="userform" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                                <input type="hidden" name="_mehtod" value="put">
+                                <input type="hidden" name="_method" value="put">
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">昵称</label>
                                     <div class="col-sm-6">
@@ -156,8 +157,8 @@
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">性别</label>
                                     <div class="col-sm-6">
-                                        <input class="sex1" name="sex" value="1" type="radio">男
-                                        <input class="sex0" name="sex" value="0" type="radio">女</div></div>
+                                        <input class="sex1" name="user_sex" value="1" type="radio">男
+                                        <input class="sex0" name="user_sex" value="0" type="radio">女</div></div>
 
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">手机号</label>
@@ -283,8 +284,8 @@
         });
 
         // 异步上传头像
-        $("#headpic").click(function(){
-            var data = $("input[type='file']");
+        $("#changeHead").click(function(){
+            var headPicForm = new FormData($("#headPicForm"));
             var url = '/headpic';
             $.ajaxSetup({
                 headers: {
@@ -294,7 +295,7 @@
             $.ajax({
                 type:'POST',
                 url:url,
-                data:data,
+                data:headPicForm,
                 success:function(msg){
                     console.log(msg);
                 }
@@ -303,35 +304,6 @@
 
         // 申请成为创业者
         $("#applySubmit").click(function(){
-//            var url= '/apply';
-//            var card_pic_a = $("input[name='card_pic_a']");
-//            var card_pic_b = $("input[name='card_pic_b']");
-//            var data = {
-//                'guid':guid,
-//                'realname':realname.val(),
-//                'card_number':card_number.val(),
-//                'email':email.val(),
-//                'hometown':hometown.val(),
-//                'birthday':birthday.val(),
-//                'sex':sex.val(),
-//                'tel':phone.val(),
-//                'card_pic_a':card_pic_a.val(),
-//                'card_pic_b':card_pic_b.val()
-//            };
-//            $.ajaxSetup({
-//                headers: {
-//                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//                }
-//            });
-//            $.ajax({
-//                type:'POST',
-//                url:url,
-//                data:data,
-//                success:function(msg){
-//                    console.log(msg);
-//                }
-//            });
-
             var formData = new FormData(document.getElementById("entrepreneur"));
             formData.append('guid',guid);
             $.ajaxSetup({

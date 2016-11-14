@@ -208,6 +208,12 @@ class UserService {
         return ['status'=>200,'msg'=>'修改成功！'];
     }
 
+    /**
+     * 申请成为创业者
+     * @param $data
+     * @return array
+     * @author 刘峻廷
+     */
     public function applyRole($data)
     {
         // 检验数据
@@ -215,8 +221,8 @@ class UserService {
         // 查看该用户是否已申请
         $info= self::$roleStore->getRole(['guid'=>$data['guid']]);
         if(!empty($info)) return ['status'=>'404','msg'=>'已申请'];
-        //提存数据
-        unset($data['_mehtod']);
+        //提纯数据
+        unset($data['_method']);
         unset($data['email']);
         //提交数据
         $result = self::$roleStore->addRole($data);
