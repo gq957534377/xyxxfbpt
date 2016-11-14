@@ -22,7 +22,7 @@
                                         <form method="POST" id="headPicForm" enctype="muitipart/form-data" >
                                             <input type="hidden" mame="_method" value="put">
                                             <div class="modal-body">
-                                                <img src="{{asset('home/images/man1.jpg')}}" alt=""><br>
+                                                <img id="headpic" src="{{asset('home/images/man1.jpg')}}" class="img-circle"><br>
                                                 <input type="file" name="headpic" />
                                             </div>
                                         </form>
@@ -175,6 +175,21 @@
                     </div>
                 </div>
             </div>
+            {{--<!--隐藏消息弹出框 Start-->--}}
+            {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">小模态框</button>--}}
+            {{--<div class="modal-dialog modal-sm">--}}
+                {{--<div class="modal-content">--}}
+
+                    {{--<div class="modal-header">--}}
+                        {{--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>--}}
+                        {{--<h4 class="modal-title" id="mySmallModalLabel">Small modal</h4>--}}
+                    {{--</div>--}}
+                    {{--<div class="modal-body">--}}
+                        {{--...--}}
+                    {{--</div>--}}
+                {{--</div><!-- /.modal-content -->--}}
+            {{--</div>--}}
+            {{--<!--隐藏消息弹出框 End-->--}}
         </div><!--/.container-->
     </section><!--/#contact-page-->
 @endsection
@@ -285,7 +300,8 @@
 
         // 异步上传头像
         $("#changeHead").click(function(){
-            var headPicForm = new FormData($("#headPicForm"));
+            var headPicForm = new FormData(document.getElementById("headPicForm"));
+            headPicForm.append('guid',guid);
             var url = '/headpic';
             $.ajaxSetup({
                 headers: {
@@ -296,8 +312,11 @@
                 type:'POST',
                 url:url,
                 data:headPicForm,
+                processData: false,  // 告诉jQuery不要去处理发送的数据
+                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
                 success:function(msg){
-                    console.log(msg);
+                    alert(msg.ResultData);
+                    $('#headpic').attr('src','uploads/image/'+msg.headpic);
                 }
             });
         });

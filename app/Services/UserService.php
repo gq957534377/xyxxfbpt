@@ -6,6 +6,7 @@ use App\Http\Requests\Request;
 use App\Store\HomeStore;
 use App\Store\UserStore;
 use App\Store\RoleStore;
+use App\Services\UploadService as UploadServer;
 use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\Session;
@@ -14,6 +15,7 @@ class UserService {
     protected static $homeStore = null;
     protected static $userStore = null;
     protected static $roleStore = null;
+    protected static $uploadServer = null;
 
     /**
      * UserService constructor.
@@ -21,11 +23,12 @@ class UserService {
      * @param UserStore $userStore
      * @param RoleStore $roleStore
      */
-    public function __construct(HomeStore $homeStore ,UserStore $userStore,  RoleStore $roleStore)
+    public function __construct(HomeStore $homeStore ,UserStore $userStore,  RoleStore $roleStore,UploadServer $uploadServer)
     {
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$roleStore = $roleStore;
+        self::$uploadServer = $uploadServer;
     }
 
     /**
@@ -207,6 +210,33 @@ class UserService {
         if(!$info) return ['status'=>400,'msg'=>'修改失败！'];
         return ['status'=>200,'msg'=>'修改成功！'];
     }
+
+    /**
+     * 头像上传
+     * 跟身份证上传要进行整合
+     * @param $where
+     * @param $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function updataUserInfo2($data)
+    {
+        // 检验条件
+        if (empty($data)) return ['status'=>400,'msg'=>'缺少数据'];
+        // 对上传的头像文件进行处理
+        $uploadInfo = self::$uploadServer->uploadFile($data->file('headpic'));
+        // 检验图上上传成与否
+        if($uploadInfo['status']=='400' || $uploadInfo['status'] == false) return ['status'=>'400','msg'=>$uploadInfo['msg']];
+        //拿到图片名
+        $headpic = $uploadInfo['msg'];
+        // 提取数据,获取指定数据
+        $guid = $data->all()['guid'];
+        // 提交数据给store层
+        $info = self::$userStore->updateUserInfo(['guid'=>$guid],['headpic'=>$headpic]);
+        if(!$info) return ['status'=>400,'msg'=>'修改失败！'];
+        return ['status'=>200,'msg'=>'修改成功！','data'=>$headpic];
+    }
+
 
     /**
      * 申请成为创业者

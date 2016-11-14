@@ -108,10 +108,29 @@ class UserController extends Controller
         //
     }
 
+    /**
+     * @param Request $request
+     * @author 刘峻廷
+     */
     public function headpic(Request $request)
     {
         $data = $request->all();
-        dd($data);
+        // 验证数据
+        $this->validate($request,[
+            'guid' => 'required',
+            'headpic' => 'required'
+        ]);
+       // 转发业务服务层
+       $info = self::$userServer->updataUserInfo2($request);
+        // 返回状态信息
+        switch ($info['status']){
+            case '400':
+                return response()->json(['StatusCode'=>'400','ResultData'=>$info['msg']]);
+                break;
+            case '200':
+                return response()->json(['StatusCode'=>'200','ResultData'=>$info['msg'],'headpic'=>$info['data']]);
+                break;
+        }
     }
 
     /**
@@ -137,8 +156,7 @@ class UserController extends Controller
             'card_pic_a' => 'required',
             'card_pic_b' => 'required',
         ]);
-        if ($validator->fails()) {
-            return response()->json(['StatusCode' => 400,'ResultData' => $validator->errors()->all()]);         }
+        if ($validator->fails()) return response()->json(['StatusCode' => 400,'ResultData' => $validator->errors()->all()]);
         //将申请者的提交数据转发到service层
         // 提取想要的数据
         $picInfo_a = self::$uploadServer->uploadFile($request->file('card_pic_a'));
