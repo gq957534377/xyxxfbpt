@@ -26,6 +26,7 @@
 
 <!-- Dashboard -->
 <script src="http://cdn.rooyun.com/js/jquery.dashboard.js"></script>
+<<<<<<< HEAD
 <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
 <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
 
@@ -137,3 +138,5 @@
         icons.play();
     };
 </script>
+=======
+>>>>>>> origin/maolin

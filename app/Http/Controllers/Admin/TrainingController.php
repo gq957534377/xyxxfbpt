@@ -11,7 +11,7 @@ use App\Services\TrainingService as TrainingService;
 
 class TrainingController extends Controller
 {
-    protected static $TrainingService = null;
+    protected static $trainingService = null;
 
     /**
      * TrainingController constructor.
