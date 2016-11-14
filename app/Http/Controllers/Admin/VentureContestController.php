@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\MatchService;
 use App\Tools\Common;
+use Illuminate\Support\Facades\Validator;
 
 class VentureContestController extends Controller
 {
@@ -46,10 +46,25 @@ class VentureContestController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $result=$request->all();
-        $ret = self::$matchServer->insert($result);
-        return $ret;
+        // Data validation
+        // return $request->all();
+        $validator = Validator::make($request->all(), [
+            "name" =>'required',
+            "order"=>'required|digits_between:1,3',
+            "org"  =>'required',
+            "title"=>'required',
+            "content"=>'required',
+            "peoples"=>'required|digits_between:1,50',
+            "start_time"=>'required',
+            "end_time"  =>'required',
+            "deadline"  =>'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['ServerNo' => 400,'ResultData' => $validator->errors()->all()]);
+        }
+        $result = self::$matchServer->insert($request->all());
+        if(!$result) return response()->json(['status'=>'400','msg'=>'插入失败']);
+        return response()->json(['status'=>'200','msg'=>'插入成功']);
     }
 
     /**
@@ -96,4 +111,12 @@ class VentureContestController extends Controller
     {
         //
     }
+    public function paging(Request $request)
+    {
+        // 跟去前台传过来的数据显示数据
+//        $request->all();
+        $result=self::$matchServer->getPageData("1");
+        return $result;
+    }
+
 }
