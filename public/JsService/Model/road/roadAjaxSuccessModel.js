@@ -142,12 +142,14 @@ function group(type) {
 function date(data) {
     data = data.ResultData;
     console.log(data);
+    $('#yz_xg').find('input[name=id]').val(data.roadShow_id);
     $('#yz_xg').find('input[name=title]').val(data.title);
     $('#yz_xg').find('input[name=speaker]').val(data.speaker);
     $('#yz_xg').find('select[name=group]').val(data.group);
     $('#yz_xg').find('input[name=roadShow_time]').val(data.roadShow_time);
     $('#yz_xg').find('textarea[name=brief]').val(data.brief);
     $('#yz_xg').find('textarea[name=roadShow_describe]').val(data.roadShow_describe);
+    $('.loading').hide();
 }
 
 

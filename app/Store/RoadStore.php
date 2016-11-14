@@ -39,7 +39,7 @@ class RoadStore{
     public function getPageData($nowPage)
     {
         if(empty($nowPage)) return false;
-        return DB::table(self::$table)->forPage($nowPage, PAGENUM)->get();
+        return DB::table(self::$table)->forPage($nowPage, PAGENUM)->orderBy('time','desc')->get();
     }
 
     /**

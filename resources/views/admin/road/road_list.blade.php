@@ -114,7 +114,8 @@
                 <h4 class="modal-title" id="myLargeModalLabel">修改路演</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg" action="" method="">
+                <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg"  onsubmit="return false">
+                    <input type="hidden" name="id">
                     <div class="form-group">
                         <label class="col-md-2 control-label">路演主题：</label>
                         <div class="col-md-10">
@@ -218,23 +219,30 @@
                             }
                         });
                         var data = new FormData();
-                        data.append( "title"      , $('input[name=title]').val());
-                        data.append( "speaker"     , $('input[name=speaker]').val());
-                        data.append( "group"       ,$('select[name=group]').val());
-                        data.append( "roadShow_time"     , $('input[name=roaldShow_time]').val());
+                        var resul={
+                            title:$('input[name=title]').val(),
+                            speaker:$('input[name=speaker]').val(),
+                            group:$('select[name=group]').val(),
+                            roadShow_time:$('input[name=roadShow_time]').val(),
+                            brief:$('textarea[name=brief]').val(),
+                            roadShow_describe:$('textarea[name=roadShow_describe]').val(),
+                        };
+                        data.append( "title"      , resul.title);
+                        data.append( "speaker"     , resul.speaker);
+                        data.append( "group"       ,resul.group);
+                        data.append( "roadShow_time"     , resul.roadShow_time);
 //                        data.append( "banner"   ,$('#banner').val());
-                        data.append( "brief"   , $('textarea[name=brief]').val());
-                        data.append( "describe", $('textarea[name=roadShow_describe]').val());
+                        data.append( "brief"   , resul.brief);
+                        data.append( "describe", resul.roadShow_describe);
                         // add data for ajax
 //                        var sendajax = new Sendajax('match','post',data);
 //                        sendajax.send();
                         $('#alert-info').html();
-                        console.log(data);
-                        console.log(data);
+                        console.log(resul);
                         $.ajax({
-                            url     : '/road/' + $(this).data('name'),
+                            url     : '/road/' + $('input[name=id]').val(),
                             type:'put',
-                            data:data,
+                            data:resul,
                             before  : ajaxBeforeNoHiddenModel,
                             success : check,
                             error   : ajaxErrorModel
@@ -245,9 +253,11 @@
                             $('.modal-title').html('提示');
                             if (data) {
                                 if (data.ServerNo == 200) {
-                                    $('#con-close-modal').hide();
+                                    $('.bs-example-modal-lg').hide();
                                     $('#myModal').show();
                                     $('#alert-info').html('<p>路演活动修改成功!</p>');
+                                    list();
+                                    $('.modal-backdrop').remove();
                                 } else {
                                     $('#alert-form').hide();
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
@@ -349,12 +359,10 @@
                         if (data) {
                             if (data.ServerNo == 200) {
                                 $('#con-close-modal').hide();
-                                $('#alert-form').hide();
                                 $('#myModal').show();
                                 $('#alert-info').html('<p>路演发布成功!</p>');
-                                $('#alert-info').html('');
+                                list();
                                 $('.modal-backdrop').remove();
-                                $('#alert-info').html();
                             } else {
                                 $('#alert-form').hide();
                                 $('#alert-info').html('<p>' + data.ResultData + '</p>');
@@ -369,73 +377,13 @@
                     }
                 });
             });
-        /**
-         * 路演信息修改请求后台
-         * @author 郭庆
-         *
-         * */
-//        function chage() {
-//            $('.road_update').click(function () {
-//                var ajax = new ajaxController();
-//                var data = {
-//                    title:$('#title').val(),
-//                    speaker:$('#speaker').val(),
-//                    group:$('#group option:selected').val(),
-//                    roadShow_time:$('#roadShow_time').val(),
-//                    banner:$('#banner').val(),
-//                    brief:$('#brief').val(),
-//                    roadShow_describe:ue.getContent()
-//                };
-//                $('#alert-info').html();
-//                console.log(data);
-//                $.ajax({
-//                    url     : '/road/' + $(this).data('name'),
-//                    type:'put',
-//                    data:data,
-//                    before  : ajaxBeforeNoHiddenModel,
-//                    success : check,
-//                    error   : ajaxErrorModel
-//                });
-//                function check(data){
-//                    $('.loading').hide();
-//                    $('#myModal').modal('show');
-//                    $('.modal-title').html('提示');
-//                    if (data) {
-//                        if (data.ServerNo == 200) {
-//                            $('#con-close-modal').hide();
-//                            $('#myModal').show();
-//                            $('#alert-info').html('<p>路演活动修改成功!</p>');
-//                            $('#alert-info').html('');
-//                            $('.modal-backdrop').remove();
-//                            $('.road_title').html('发布路演活动');
-//                            $('.road_update').remove();
-//                            $('#caozuo').append('<button type="button" data-name="" class="road_update btn btn-info" id="add_road">发布路演</button>');
-//                            $('#title').html();
-//                            $('#speaker').html();
-//                            $('#group option:selected').html();
-//                            $('#roadShow_time').html();
-//                            $('#banner').html();
-//                            $('#brief').html();
-//                            ue.setContent('');
-//                        } else {
-//                            $('#alert-form').hide();
-//                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
-//                            $('#alert-info').html();
-//                        }
-//                    } else {
-//                        $('#alert-form').hide();
-//                        $('#alert-info').html('<p>未知的错误</p>');
-//                        $('#alert-info').html();
-//                    }
-//                }
-//            });
-//        }
          /**
          *修改路演信息展示旧的信息
          * @author 郭庆
          */
         function updateRoad() {
             $('.charge-road').click(function () {
+                $('.loading').hide();
                 var ajax = new ajaxController();
                 ajax.ajax({
                     url     : '/road_one_info?name=' + $(this).data('name'),
@@ -446,22 +394,10 @@
             });
         }
 
-
-        // 显示路演信息详情
-//        function showInfo() {
-//            $('.info').click(function () {
-//                $('.modal-title').html('路演信息详情');
-//                var ajax = new ajaxController();
-//                ajax.ajax({
-//                    url     : '/road_one_info?name=' + $(this).data('name'),
-//                    before  : ajaxBeforeNoHiddenModel,
-//                    success : showInfoList,
-//                    error   : ajaxErrorModel
-//                });
-//            });
-//        }
+        //展示路演信息详情
         function showInfo() {
             $('.info').click(function () {
+                $('#alert-info').html('');
                 $('.modal-title').html('路演信息详情');
                 var ajax = new ajaxController();
                 ajax.ajax({
@@ -515,12 +451,15 @@
         }
 
         // 页面加载时触发事件请求分页数据
-        var ajax = new ajaxController();
-        ajax.ajax({
-            url     : '/road_info_page',
-            before  : ajaxBeforeModel,
-            success : getInfoList,
-            error   : ajaxErrorModel,
-        });
+        function list() {
+            var ajax = new ajaxController();
+            ajax.ajax({
+                url     : '/road_info_page',
+                before  : ajaxBeforeModel,
+                success : getInfoList,
+                error   : ajaxErrorModel,
+            });
+        }
+        list();
     </script>
 @endsection
