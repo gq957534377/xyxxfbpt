@@ -38,26 +38,22 @@ class MatchService
      public function insert($array)
      {
         //
-        $start_time = $array['start_time'];
-        $end_time   = $array['end_time'];
-        $deadline   = $array['deadline'];
-        $array['start_time'] = strtotime($start_time);
-        $array['end_time']   = strtotime($end_time);
-        $array['deadline']   = strtotime($deadline);
-        // 插入时间
-        $array['ist_time']   = time();
-        // 更新时间
-        $array['up_time']   = time();
-        $array['guid'] = Common::getUuid();
-        $state = self::$matchStore->addData($array);
-        // 返回bool
-        switch ($state) {
-            case !0:
-                return 1;
-            default:
-                return 0;
-        }
-        return $state;
+         $start_time = $array['start_time'];
+         $end_time   = $array['end_time'];
+         $deadline   = $array['deadline'];
+         $array['start_time'] = strtotime($start_time);
+         $array['end_time']   = strtotime($end_time);
+         $array['deadline']   = strtotime($deadline);
+         // Insert the time
+         $array['ist_time']   = time();
+         // Update time
+         $array['up_time']   = time();
+         $array['guid'] = Common::getUuid();
+
+         $state = self::$matchStore->addData($array);
+         // Return status
+         if($state==0) return ['status'=> true,'msg'=>'插入失败'];
+         return ['status'=> false,'msg'=>'插入成功'];
      }
     /**
      * @param string
@@ -66,13 +62,10 @@ class MatchService
      */
      public function deleteOne($id)
      {
+         return $id;
          $state = self::$matchStore->deleteOne($id);
-         switch ($state) {
-             case !0:
-                 return 1;
-             default:
-                 return 0;
-         }
+         if($state==0) return ['status'=> true,'msg'=>'删除失败'];
+         return ['status'=> false,'msg'=>'删除成功'];
      }
 
     /**
@@ -83,9 +76,22 @@ class MatchService
      public function getOntData($id)
      {
          $result = self::$matchStore->getOntData($id);
-         $result->start_time = date("Y-m-d\TH:i:s", $result->start_time);
+         $result->start_time = date('Y-m-d\TH:i:s', $result->start_time);
          $result->end_time = date('Y-m-d\TH:i:s', $result->end_time);
          $result->deadline = date('Y-m-d\TH:i:s', $result->deadline);
          return $result;
      }
+
+    /**
+     * @param $where
+     * @return mixed
+     * @author maolin
+     *
+     */
+    public function getPageData($where)
+    {
+        //
+        $result = self::$matchStore->getPageData($where);
+        return $result;
+    }
 }

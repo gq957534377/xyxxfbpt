@@ -36,6 +36,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/training_change_status', 'TrainingController@updateStatus');
         // 创业大赛->发布信息入口
         Route::resource('/match', 'VentureContestController');
+        Route::get('paging','VentureContestController@paging');
         // 路演活动
         Route::resource('/road','RoadController');
         Route::resource('/road_info_page','RoadController@getInfoPage');
