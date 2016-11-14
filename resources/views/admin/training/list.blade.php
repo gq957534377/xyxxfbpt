@@ -9,6 +9,10 @@
     .modal-content {
         width: 690px;
     }
+    #UE{
+        width: 648px;
+        height: 200px;
+    }
 </style>
 @section('content')
 @section('title', '技术培训管理')
@@ -240,8 +244,9 @@
             var ajax = new ajaxController();
             ajax.ajax({
                 url: '/training',
-                before: ajaxBeforeModel(),
+//                before: ajaxBeforeModel(),
                 success: function (data) {
+//                    $('.loading').hide();
                 }
             });
         });
