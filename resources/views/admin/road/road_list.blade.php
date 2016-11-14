@@ -72,7 +72,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="field-5" class="control-label">缩略图</label>
-                            <input type="hidden" class="form-control" id="banner" placeholder="United States">
+                            <img id="clickObj" src="/admin/images/upload.png" style="cursor: pointer;margin-left: 20px;">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -169,7 +169,11 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-
+<div style="display: none;">
+    <form enctype="multipart/form-data" id="postForm">
+        <input type="file" id="rongqi">
+    </form>
+</div>
 <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">路演发布</button>
 {{--<button class="btn btn-primary" data-toggle="modal" data-target="#tabs-modal">详情demo</button>--}}
 
@@ -183,7 +187,6 @@
     <div class="panel" id="data"></div>
 </div>
 @endsection
-
 @section('script')
     <!--alertInfo JS-->
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
@@ -200,6 +203,25 @@
     <!--引用ajax模块-->
     <!--alertInfo end-->
     <script>
+        $("#clickObj").click(function () {
+            $("#rongqi").trigger("click");
+        })
+        $("#rongqi").change(function () {
+            var formData = new FormData($( "#postForm" )[0]);
+            $.ajax({
+                url: '/' ,
+                type: 'post',
+                data: formData,
+                async: false,
+                cache: false,
+                processData: false,
+                success: function (returndata) {
+                    alert(returndata);
+                },
+                error: function (returndata) {
+                }
+            });
+        })
         {{--修改--}}
         !function($) {
             "use strict";
