@@ -9,6 +9,9 @@ var fpageClick = function(){
     $.ajax({
         url:url,
         type:'delete',
+        data:{
+            status:'2'
+        },
         beforeSend:ajaxBeforeNoHiddenModel,
         success:function (res) {
             var data = res.data;
@@ -54,10 +57,10 @@ $(function(){
 //        var nowPage = if($('.pagination'))?$('.pagination'):'1';
 //        请求待审核数据
     $.ajax({
-        url:'status1',
+        url:'status2',
         type:'put',
         data:{
-            status:'1'
+            status:'2'
         },
         beforeSend:ajaxBeforeNoHiddenModel,
         success:function(res){

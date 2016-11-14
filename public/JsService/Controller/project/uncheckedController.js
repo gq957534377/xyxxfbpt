@@ -1,5 +1,6 @@
 //project_info创建待审核列表
 var creatTable = function(data){
+    if (!data) return false;
     for(i in data.data){
         var tr = $('<tr></tr>');
 
@@ -7,10 +8,18 @@ var creatTable = function(data){
         title_td.html(data.data[i].title);
 
         var image_td = $('<td></td>');
-        image_td.html(data.data[i].image);
+        var image_a = $('<a></a>');
+        image_a.attr('href',data.data[i].image);
+        image_a.attr('target','_blank');
+        image_a.html(data.data[i].image);
+        image_td.html(image_a);
 
         var file_td = $('<td></td>');
-        file_td.html(data.data[i].file);
+        var file_a = $('<a></a>');
+        file_a.attr('href',data.data[i].image);
+        file_a.attr('target','_blank');
+        file_a.html(data.data[i].image);
+        file_td.html(file_a);
 
         var status_td = $('<td>待审核</td>');
         var btn_td = $('<td></td>');
@@ -37,6 +46,9 @@ var fpageClick = function(){
     $.ajax({
         url:url,
         type:'delete',
+        data:{
+            status:'1'
+        },
         beforeSend:ajaxBeforeNoHiddenModel,
         success:function (res) {
             var data = res.data;
@@ -89,8 +101,9 @@ $(function(){
         },
         beforeSend:ajaxBeforeNoHiddenModel,
         success:function(res){
-            var data = res.data;
             $('.loading').hide();
+            var data = res.data;
+            if (!data) return '暂时没有数据哦';
             creatTable(data);
             statusCheck($(".changr_btn"));
             $("#unchecked_table").parent().append(data.pages);
