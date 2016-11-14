@@ -127,7 +127,7 @@ FileProgress.prototype.setChunkProgess = function(chunk_size) {
     }
 
     if(!this.fileProgressWrapper.find('td:eq(2) .btn-default _block').length){
-        this.fileProgressWrapper.find('td>div').append(viewProgess);
+    this.fileProgressWrapper.find('td>div').append(viewProgess);
     }
     progressBarChunkTr.hide().find('td').append(progressBarChunk);
     progressBarChunkTr.insertAfter(this.fileProgressWrapper);
@@ -198,7 +198,7 @@ FileProgress.prototype.setProgress = function(percentage, speed, chunk_size) {
 };
 
 FileProgress.prototype.setComplete = function(up, info) {
-    $('._block').hide();
+    // $('._block').hide();
     $('.chunk-status-tr').hide();
     var td = this.fileProgressWrapper.find('td:eq(2)'),
         tdProgress = td.find('.progress');
@@ -221,6 +221,22 @@ FileProgress.prototype.setComplete = function(up, info) {
         str = "<div><strong>链接地址:</strong><a href=" + url + " target='_blank' > " + link + "</a></div>" +
             // "<div class=key><strong>上传后文件名:</strong>" + res.key + "</div>" +
             "<div class=hash><strong>Hash:</strong>" + res.hash + "</div>";
+        var _token = $("#_token").val();
+        var _url = 'http://www.jacklin1992.cn/qiniustore';
+
+        //ajax将数据传入后台进行储存
+        $.ajax({
+            url:url,
+            type:'get',
+            data:{
+                '_token':_token,
+                'url':_url,
+                'hash':res.hash
+            },
+            success:function(data){
+                // alert(data);
+            }
+        })
     }
 
     tdProgress.html(str).removeClass().next().next('.status').hide();
@@ -252,12 +268,12 @@ FileProgress.prototype.setComplete = function(up, info) {
     var Wrapper = $('<div class="Wrapper"/>');
     var imgWrapper = $('<div class="imgWrapper col-md-3"/>');
     var linkWrapper = $('<a class="linkWrapper" target="_blank"/>');
-    var showImg = $('<img src="qiniu/js/loading.gif"/>');//获取加载图片的dom
+    var showImg = $('<img src="http://www.hero.app/qiniu/js/loading.gif"/>');//获取加载图片的dom
 
     progressNameTd.append(Wrapper);
 
     if (!isImg) {
-        showImg.attr('src', 'qiniu/js/default.png');//修改显示图片为默认图片
+        showImg.attr('src', 'http://www.hero.app/qiniu/js/default.png');//修改显示图片为默认图片
         Wrapper.addClass('default');
 
         imgWrapper.append(showImg);
@@ -287,7 +303,7 @@ FileProgress.prototype.setComplete = function(up, info) {
                     $('#myModal-img').find('.text-warning').show();
                 }
                 var newImg = new Image();
-                modalBody.find('img').attr('src', 'images/loading.gif');
+                modalBody.find('img').attr('src', 'http://www.hero.app/qiniu/js/loading.gif');
                 newImg.onload = function() {
                     modalBody.find('img').attr('src', url).data('key', key).data('h', height);
                     modalBody.find('.modal-body-wrapper').find('a').attr('href', url);
@@ -362,7 +378,7 @@ FileProgress.prototype.setComplete = function(up, info) {
             Wrapper.append(infoWrapper);
 
         }).on('error', function() {
-            showImg.attr('src', 'default.png');
+            showImg.attr('src', 'http://www.hero.app/qiniu/js/default.png');
             Wrapper.addClass('default');
         });
     }

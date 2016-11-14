@@ -39,16 +39,23 @@ $(function() {
 
             // 上传过程这个函数会不断的执行,直到上传完成
             'UploadProgress': function(up, file) {
+                $('._block').hide();
                 var progress = new FileProgress(file, 'fsUploadProgress2');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function() {
-                $('#success').show();
+
             },
             'FileUploaded': function(up, file, info) {
                 var progress = new FileProgress(file, 'fsUploadProgress2');
                 progress.setComplete(up, info);
+
+                //上传完成时将url放入隐藏的input[name=file]
+                var res = $.parseJSON(info);
+                var domain = up.getOption('domain');
+                url = domain + encodeURI(res.key);
+                $('input[name=file]').val(url);
             },
             'Error': function(up, err, errTip) {
                 $('table').show();
