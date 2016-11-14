@@ -1,8 +1,13 @@
 ﻿@extends('admin.layouts.master')
 <style>
-    .loading{z-index:999;position:absolute;display: none;}
-    .modal-content{
-        width:690px;
+    .loading {
+        z-index: 999;
+        position: absolute;
+        display: none;
+    }
+
+    .modal-content {
+        width: 690px;
     }
 </style>
 @section('content')
@@ -23,7 +28,8 @@
     <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 @endsection
 {{-- 弹出表单结束 --}}
-<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="display: none;">
     <div class="modal-dialog" id="fabu">
         <div class="modal-content">
             <div class="modal-header">
@@ -41,7 +47,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="field-2" class="control-label">组织机构名称：</label>
-                            <input type="text" id="groupname" name="groupname" class="form-control" placeholder="请填写组织机构名称">
+                            <input type="text" id="groupname" name="groupname" class="form-control"
+                                   placeholder="请填写组织机构名称">
                         </div>
                     </div>
                 </div>
@@ -83,7 +90,8 @@
                     <div class="col-md-12">
                         <div class="form-group no-margin">
                             <label for="field-7" class="control-label">创业项目培训详情</label>
-                            <textarea class="" placeholder="请详细描述创业项目培训内容" id="UE" name="describe">请详细描述创业项目培训内容</textarea>
+                            <textarea class="" placeholder="请详细描述创业项目培训内容" id="UE"
+                                      name="describe">请详细描述创业项目培训内容</textarea>
                         </div>
                     </div>
                 </div>
@@ -98,15 +106,13 @@
 </div><!-- /.modal -->
 
 
-
-
-<button style="float: right" class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">添加技术培训 </button>
-
+<button style="float: right" id="add_training" class="btn btn-primary" data-toggle="modal"
+        data-target="#con-close-modal">添加技术培训 &nbsp;<i class="fa fa-plus" aria-hidden="true"></i></button>
 
 
 <img src="/admin/images/load.gif" class="loading">
 
-    <div class="panel" id="data"></div>
+<div class="panel" id="data"></div>
 @endsection
 
 @section('script')
@@ -127,20 +133,20 @@
         $('#add_road').click(function () {
             $('.modal-title').html('技术培训信息详情');
             var data = {
-                title:$('#title').val(),
-                groupname:$('#groupname').val(),
-                start_time:$('#start_time').val(),
-                stop_time:$('#stop_time').val(),
-                deadline:$('#deadline').val(),
-                banner:$('#banner').val(),
-                describe:ue.getContent()
+                title: $('#title').val(),
+                groupname: $('#groupname').val(),
+                start_time: $('#start_time').val(),
+                stop_time: $('#stop_time').val(),
+                deadline: $('#deadline').val(),
+                banner: $('#banner').val(),
+                describe: ue.getContent()
             };
             $.ajax({
                 url: '/training',
-                type:'post',
-                dataType:'json',
-                data:data,
-                success : function (data) {
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                success: function (data) {
                     $('.loading').hide();
                     $('#myModal').modal('show');
                     $('.modal-title').html('提示');
@@ -169,10 +175,10 @@
                 $('.modal-title').html('培训信息详情');
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/training_show_one?name=' + $(this).data('name'),
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : showInfoList,
-                    error   : ajaxErrorModel
+                    url: '/training_show_one?name=' + $(this).data('name'),
+                    before: ajaxBeforeNoHiddenModel,
+                    success: showInfoList,
+                    error: ajaxErrorModel
                 });
             });
         }
@@ -184,13 +190,13 @@
                 var _this = $(this);
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/training_change_status?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : checkStatus,
-                    error   : ajaxErrorModel
+                    url: '/training_change_status?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
+                    before: ajaxBeforeNoHiddenModel,
+                    success: checkStatus,
+                    error: ajaxErrorModel
                 });
 
-                function checkStatus(data){
+                function checkStatus(data) {
                     console.log(data);
                     $('.loading').hide();
                     $('#myModal').modal('show');
@@ -221,10 +227,23 @@
         // 页面加载时触发事件请求分页数据
         var ajax = new ajaxController();
         ajax.ajax({
-            url     : 'training_info_page',
-            before  : ajaxBeforeModel,
-            success : getInfoList,
-            error   : ajaxErrorModel,
+            url: 'training_info_page',
+            before: ajaxBeforeModel,
+            success: getInfoList,
+            error: ajaxErrorModel,
+        });
+    </script>
+
+    {{--添加培训--}}
+    <script>
+        $('#add_training').click(function () {
+            var ajax = new ajaxController();
+            ajax.ajax({
+                url: '/training',
+                before: ajaxBeforeModel(),
+                success: function (data) {
+                }
+            });
         });
     </script>
 @endsection
