@@ -354,7 +354,7 @@ function reviseFrom(type,data)
             formShow();
 }
 function closeFrom(type,data) {
-    var html ="<h1>确认要下架改项目么？</h1><div id='Type' style='display: none'>"+
+    var html ="<h1>确认要下架该项目么？</h1><div id='Type' style='display: none'>"+
             type+
             "</div><div id='ProjectId' style='display: none'>"+
             data+
