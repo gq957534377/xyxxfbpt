@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/highlight/highlight.css')}}">
 <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/uploadbox.css')}}">
 <!-- <link href="//vjs.zencdn.net/5.0/video-js.min.css" rel="stylesheet"> -->
-
+<meta >
 </head>
 <body>
     <div class="container">
