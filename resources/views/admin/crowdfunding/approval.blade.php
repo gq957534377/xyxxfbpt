@@ -156,7 +156,7 @@ function plotForm(type,data){
     switch (type){
         case "publish":publishFrom(type,data);break;
         case "revise":reviseFrom(type,data);break;
-        case "selectPub":selectPub(type,data);break;
+        case "selectPub":selectPub("publish",data);break;
         default :closeFrom(type,data);
     }
 }
@@ -353,6 +353,8 @@ function reviseFrom(type,data)
             startVerification();
             formShow();
 }
+
+//
 function closeFrom(type,data) {
     var html ="<h1>确认要下架该项目么？</h1><div id='Type' style='display: none'>"+
             type+
@@ -372,6 +374,7 @@ function formHide() {
     $("#closeButton").trigger("click")
 }
 
+//发布成功后的回调方法
 var successPublishi = function (data) {
     $("#imgLoad").css({"display":"none"});
     if(data.StatusCode == "200"){
@@ -383,6 +386,7 @@ var successPublishi = function (data) {
         alert(data.ResultData)
     }
 }
+//修改成功后的回调方法
 var successRevise = function (data) {
     $("#imgLoad").css({"display":"none"});
     if(data.StatusCode == "200"){
@@ -393,6 +397,7 @@ var successRevise = function (data) {
         alert(data.ResultData)
     }
 }
+//确认按钮点击事件
 $("#supperButton").click(function () {
     var type = $("#Type").html();
     if(type == "close"){
@@ -405,7 +410,7 @@ $("#supperButton").click(function () {
         default:closeCrowdfunding(projectId);
     }
 })
-
+    //重新上架
 function startCrowdfunding() {
     var targetFund = $("#field-4").val();
     var days = $("#field-3").val();
@@ -420,6 +425,7 @@ function startCrowdfunding() {
     }
 }
 
+//修改内容方法
 function revise() {
     var targetFund = $("#field-4").val();
     var days = $("#addDay").val();
@@ -487,6 +493,7 @@ function closeCrowdfunding(id) {
             createPub(Id);
         })
     }
+    //创建发布模板
     function createPub(Id) {
         var data = dataStore;
         console.log(data);
