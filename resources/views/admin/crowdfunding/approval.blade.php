@@ -253,7 +253,7 @@ function publishFrom(types,data) {
 }
 //开启验证
 function startVerification() {
-    $("#field-3,#field-4,#addDay,#addHour").keyup(function () {
+    $("#field-3,#field-4,#addDay,#addHour,#field-5").keyup(function () {
         var temp = parseInt($(this).val());
         if(isNaN(temp)) {
             $(this).val("");
@@ -500,8 +500,6 @@ function closeCrowdfunding(id) {
     //创建发布模板
     function createPub(Id) {
         var data = dataStore;
-        console.log(data);
-        console.log(Id);
         var html = "<div class='row'>" +
                 "<div class='col-md-6'>" +
                 "<div class='form-group'>" +
@@ -513,9 +511,9 @@ function closeCrowdfunding(id) {
                 "<div class='col-md-6'>" +
                 "<div class='form-group'>" +
                 "<label for='field-2' class='control-label'>" +
-                "项目名称" +
+                "项目介绍" +
                 "</label>" +
-                "<input type='text' readonly class='form-control' id='field-2' value='"+data[Id]['title']+"'>" +
+                "<input type='text' readonly class='form-control' id='field-2' value='"+data[Id]['content']+"'>" +
                 "</div>" +
                 "</div>" +
                 "</div>" +
@@ -557,14 +555,47 @@ function closeCrowdfunding(id) {
                 "</label>" +
                 "<input type='number' class='form-control' id='field-3' >" +
                 "</div>" +
+                "<div class='col-md-4'>" +
+                "<label for='field-3' class='control-label'>" +
+                "预热天数(天)" +
+                "</label>" +
+                "<input type='number' class='form-control' id='field-4' >" +
+                "</div>" +
                 "</div>"+
                 "<div class='row'>" +
-                "<div class='col-md-12'>" +
+                "<div class='col-md-4'>" +
                 "<div class='form-group'>" +
                 "<label for='field-4' class='control-label'>" +
                 "预筹资金(￥)" +
                 "</label>" +
-                "<input type='number' class='form-control' id='field-4' >" +
+                "<input type='number' class='form-control' id='field-5' >" +
+                "</div>" +
+                "</div>" +
+                "<div class='col-md-4'>" +
+                "<div class='form-group'>" +
+                "<label for='field-4' class='control-label'>" +
+                "众筹简介" +
+                "</label>" +
+                "<input type='text' class='form-control' id='field-6' >" +
+                "</div>" +
+                "</div>" +
+                "<div class='col-md-4'>" +
+                "<div class='form-group'>" +
+                "<label for='field-4' class='control-label'>" +
+                "奖励信息" +
+                "</label>" +
+                "<input type='text' class='form-control' id='field-7' >" +
+                "</div>" +
+                "</div>" +
+                "</div>"+
+                "<div class='row'>" +
+                "<div class='col-md-12'>" +
+                "<div class='form-group no-margin'>" +
+                "<label for='field-5' class='control-label'>" +
+                "众筹详情" +
+                "</label>" +
+                "<textarea class='form-control autogrow' id='field-8' style='overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;'  style='resize: none'>"+
+                "</textarea>" +
                 "</div>" +
                 "</div>" +
                 "</div>"

@@ -261,8 +261,8 @@ class CrowdFundingService
      */
     public function selectPublish()
     {
-        $where = ["status"=>"2"];
-        $result = self::$crowdFundingStore->getWhere($where);
+        $where = ["status"=>"3"];
+        $result = self::$projectInfoStore->getRecord($where);
         if(isset($result)){
             return ['status'=>true,'msg'=>$result];
         }else{
