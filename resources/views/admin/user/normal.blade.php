@@ -21,21 +21,20 @@
 
 {{--弹出页面 开始--}}
 @section('form-id', 'con-modal')
-@section('form-title', '修改信息：')
+@section('form-title', '提示信息：')
 @section('form-body')
     <div class="row" id="alert-form"></div>
-
     <div id="alert-info"></div>
-
 @endsection
 @section('form-footer')
-    <button type="button" class="btn btn-primary">提交</button>
-    <button type="button" class="btn btn-info" data-dismiss="modal">放弃</button>
+    <button type="button" id="close" class="btn btn-info hidden" data-dismiss="modal">Close</button>
+    <button type="button" id="post" class="btn btn-info hidden" data-dismiss="modal">提交</button>
+    <button type="button" id="cancel" class="btn btn-info hidden" data-dismiss="modal">取消</button>
 @endsection
 {{--弹出页面结束--}}
 
 {{--警告信息弹层开始--}}
-@section('alertInfo-title', 'xxxxxxxxxx')
+@section('alertInfo-title', 'xxxxxxx')
 @section('alertInfo-body', 'yyyyyyyy')
 {{--警告信息弹层结束--}}
 
@@ -64,7 +63,8 @@
         });
 
         function getPage() {
-            $('.pagination li').click(function () {
+            $('.pagination li').off("click").click(function (event) {
+                event.stopPropagation();
                 var class_name = $(this).prop('class');
                 if(class_name == 'disabled' || class_name == 'active') {
                     return false;
@@ -82,111 +82,88 @@
         }
 
         function deleteData() {
-            $('.delete').click(function () {
-                var _this = $(this);
+            $('.delete').off("click").click(function (event) {
+                event.stopPropagation();
                 var data = {id:$(this).data('name'), role:'1'};
                 var ajax = new AjaxController();
                 $.ajax({
                     url     : '/users_data',
                     type    : 'delete',
                     data    : data,
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : checkStatus,
-                    error   : ajaxErrorModel
-                });
-
-                // 重新加载
-                ajax.ajax({
-                    url     : '/users_data?role=1',
-                    before  : ajaxBeforeModel,
-                    success : getInfoList,
-                    error   : ajaxErrorModel
-                });
-
-                function checkStatus(data){
-                    $('.loading').hide();
-                    $('#con-modal').modal('show');
-                    if (data) {
-                        if (data.StatusCode == 200) {
-                            var code = data.ResultData;
-                            $('#alert-form').hide();
-                            _this.data('status', code);
-                            $('#alert-info').html('<p>数据删除成功!</p>');
-                            $('.btn-primary').hide();
-                            $('.btn-info').html('<p>Close</p>');
+                    success : function checkStatus(data){
+                        $('.loading').hide();
+                        $('#con-modal').modal('show');
+                        $('#close').removeClass("hidden");
+                        if (data) {
+                            if (data.StatusCode == 200) {
+                                $('#alert-form').hide();
+                                $('#alert-info').show().html('<p>数据删除成功!</p>');
+                            } else {
+                                $('#alert-form').hide();
+                                $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
+                            }
                         } else {
                             $('#alert-form').hide();
-                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
-                            $('.btn-primary').hide();
-                            $('.btn-info').html('<p>Close</p>');
+                            $('#alert-info').show().html('<p>未知的错误</p>');
                         }
-                    } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>未知的错误</p>');
-                        $('.btn-primary').hide();
-                        $('.btn-info').html('<p>Close</p>');
                     }
-                }
+                });
+                reload();
             });
         }
 
         function updateData() {
-            $('.modify').click(function () {
-                var _this = $(this);
-
-                var ajax = new AjaxController('role=1');
-                ajax.ajax({
-                    url     : '/users_one_data'+ '?name=' + $(this).data('name'),
+            $('.modify').off("click").click(function (event) {
+                event.stopPropagation();
+                var data = {
+                    role : '1',
+                    name : $(this).data('name')
+                };
+                $.ajax({
+                    url     : '/users_one_data',
                     type    : 'get',
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : showInfoList,
-                    error   : ajaxErrorModel
-                });
-
-                function checkStatus(data){
-                    $('.loading').hide();
-                    $('#con-modal').modal('show');
-                    if (data) {
-                        if (data.ServerNo == 200) {
-                            var code = data.ResultData;
-                            $('#alert-form').hide();
-                            _this.data('status', code);
-                            $('#alert-info').html('<p>数据修改成功!</p>');
-                            $('.btn-primary').hide();
-                            $('.btn-info').html('<p>Close</p>');
+                    data    : data,
+                    success : function showInfoList(data){
+                        $('.loading').hide();
+                        $('#con-modal').modal('show');
+                        $('#cancel').removeClass("hidden");
+                        $('#post').removeClass("hidden");
+                        $('#close').addClass("hidden");
+                        if (data) {
+                            if (data.StatusCode == 200) {
+                                $('#alert-info').hide();
+                                $('#alert-form').show().html(infoHtml(data.ResultData));
+                            } else {
+                                $('#alert-form').hide();
+                                $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+                            }
                         } else {
                             $('#alert-form').hide();
-                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
-                            $('.btn-primary').hide();
-                            $('.btn-info').html('<p>Close</p>');
+                            $('#alert-info').html('<p>未知的错误</p>');
                         }
-                    } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>未知的错误</p>');
-                        $('.btn-primary').hide();
-                        $('.btn-info').html('<p>Close</p>');
                     }
-                }
+                });
             });
+            submitData();
         }
 
         function listHtml(data){
             var html = '';
-                html += '<div class="panel-body">' +
-                        '<table class="table table-bordered table-striped">' +
-                        '<thead>' +
-                        '<tr>' +
-                        '<th>item</th>' +
-                        '<th>昵称</th>' +
-                        '<th>姓名</th>' +
-                        '<th>性别</th>' +
-                        '<th>生日</th>' +
-                        '<th>手机</th>' +
-                        '<th>邮箱</th>' +
-                        '<th>操作</th>' +
-                        '</tr>' +
-                        '</thead>';
-                html += '<tbody>';
+            html += '<div class="panel-body">' +
+                    '<table class="table table-bordered table-striped">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>item</th>' +
+                    '<th>昵称</th>' +
+                    '<th>姓名</th>' +
+                    '<th>性别</th>' +
+                    '<th>生日</th>' +
+                    '<th>手机</th>' +
+                    '<th>邮箱</th>' +
+                    '<th>操作</th>' +
+                    '</tr>' +
+                    '</thead>';
+            html += '<tbody>';
             $.each(data.ResultData.data, function (i, e) {
                 html += '<tr class="gradeX">';
                 html += '<td>' + (i + 1) + '</td>';
@@ -219,26 +196,82 @@
             html += '<div class="col-md-4">' +
                     '<div class="form-group">' +
                     '<label for="field-2" class="control-label">真实姓名：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.realname || '') + '" id="name" placeholder="无">' +
+            html += '<input type="text" class="form-control" value="' + (data.realname || '') + '" id="realname" placeholder="无">' +
                     '</div>' +
                     '</div>';
             html += '<div class="col-md-4">' +
                     '<div class="form-group">' +
                     '<label for="field-2" class="control-label">昵称：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.nickname || '') + '" id="name" placeholder="无">' +
+            html += '<input type="text" class="form-control" value="' + (data.nickname || '') + '" id="nickname" placeholder="无">' +
                     '</div>' +
                     '</div>';
             html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">性别：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.sex || '') + '" id="english_name" placeholder="无"></div></div></div>';
+            html += '<input type="text" class="form-control" value="' + (data.sex || '') + '" id="sex" placeholder="无"></div></div></div>';
 
             html += '<div class="row">' +
                     '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">生日：</label>';
-            html += '<input type="text" class="form-control" value="' + data.birthday + '" id="card_type" placeholder="无"></div></div>';
+            html += '<input type="text" class="form-control" value="' + data.birthday + '" id="birthday" placeholder="无"></div></div>';
             html += '<div class="col-md-4"><div class="form-group no-margin"><label for="field-7" class="control-label">手机：</label>';
             html += '<input type="text" class="form-control" value="' + (data.tel || '') + '" id="tel" placeholder="无"></div></div>';
             html += '<div class="col-md-4"><div class="form-group no-margin"><label for="field-7" class="control-label">邮箱：</label>';
-            html += '<input type="text" class="form-control" value="' + (data.email || '') + '" id="tel" placeholder="无"></div></div></div>';
+            html += '<span class="form-control hidden" id="guid">' + data.guid + '</span>';
+            html += '<input type="text" class="form-control" value="' + (data.email || '') + '" id="email" placeholder="无"></div></div></div>';
             return html;
+        }
+
+        function submitData() {
+            $('#post').off("click").click(function (event) {
+                event.stopPropagation();
+                var data = {
+                    realname : $('#realname').val(),
+                    nickname : $('#nickname').val(),
+                    sex       : $('#sex').val(),
+                    birthday : $('#birthday').val(),
+                    tel       : $('#tel').val(),
+                    email     : $('#email').val(),
+                    role      : '1',
+                    id        : $('#guid').text()
+                };
+
+                $.ajax({
+                    url : '/users_data',
+                    type : 'put',
+                    data : data,
+                    success: function checkStatus(data){
+                        $('.loading').hide();
+                        $('#con-modal').modal('show');
+                        $('#cancel').addClass("hidden");
+                        $('#post').addClass("hidden");
+                        $('#close').removeClass("hidden");
+                        if (data) {
+                            if (data.StatusCode == 200) {
+                                $('#alert-form').hide();
+                                $('#alert-info').show().html('<p>数据修改成功!</p>');
+                            } else {
+                                $('#alert-form').hide();
+                                $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
+                            }
+                        } else {
+                            $('#alert-form').hide();
+                            $('#alert-info').show().html('<p>未知的错误</p>');
+                        }
+                        reload();
+                    }
+                });
+//                return false;
+            });
+        }
+
+        function reload() {
+                // 重新加载
+                var ajax = new AjaxController();
+                ajax.ajax({
+                    url     : '/users_data?role=1',
+                    before  : ajaxBeforeModel,
+                    success : getInfoList,
+                    error   : ajaxErrorModel
+            });
+
         }
 
     </script>

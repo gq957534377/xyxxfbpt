@@ -65,11 +65,16 @@ function sexMethod(code){
 // 显示个人用户详情
 function showInfoList(data){
     $('.loading').hide();
-    $('#alert-form').show();
     $('#con-modal').modal('show');
+    $('#cancel').removeClass("hidden");
+    $('#submit').removeClass("hidden");
+    $('#close').addClass("hidden");
     if (data) {
         if (data.StatusCode == 200) {
-            $('#alert-form').html(infoHtml(data.ResultData));
+            $('#alert-info').hide();
+            $('#alert-form').show().html(infoHtml(data.ResultData));
+            if( typeof submitData === 'function' )
+                submitData();
         } else {
             $('#alert-form').hide();
             $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
