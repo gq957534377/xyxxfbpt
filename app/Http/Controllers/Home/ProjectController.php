@@ -46,6 +46,9 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        //验证请求数据
+        $this->addDataValidator($request);
+
         $data = $request->all();
         $res = self::$projectServer->addProject($request);
 
@@ -97,6 +100,22 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    //!!!!!!!!没有起到验证效果，需要改正
+    public function addDataValidator($request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'title'   => 'required|max:10',
+            'content' => 'required',
+            'image'   => 'required',
+            'file'    => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['ServerNo' => 400, 'ResultData' => $validator->errors()->first()]);
+        }
+
     }
 
     /**
