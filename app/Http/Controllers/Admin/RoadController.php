@@ -41,7 +41,7 @@ class RoadController extends Controller
      */
     public function create()
     {
-        return view('admin.road.add');
+
     }
 
     /**

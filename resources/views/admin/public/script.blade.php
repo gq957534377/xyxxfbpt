@@ -31,8 +31,7 @@
 
 <script type="text/javascript">
 
-
-    var ue = UE.getEditor('UE', {
+    var toolbra = {
         toolbars: [
             [
 //                'anchor', //锚点
@@ -108,7 +107,9 @@
             ]
         ],
         initialFrameWidth : '100%',
-    });
+    };
+    var ue = UE.getEditor('UE', toolbra);
+    var ue1 = UE.getEditor('UE1', toolbra);
 </script>
 <script type="text/javascript">
     jQuery(document).ready(function($) {

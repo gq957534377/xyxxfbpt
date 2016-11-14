@@ -125,7 +125,8 @@ function date(data) {
     $('#yz_xg').find('select[name=group]').val(data.group);
     $('#yz_xg').find('input[name=roadShow_time]').val(data.roadShow_time);
     $('#yz_xg').find('textarea[name=brief]').val(data.brief);
-    $('#yz_xg').find('textarea[name=roadShow_describe]').val(data.roadShow_describe);
+    // $('#yz_xg').find('textarea[name=roadShow_describe]').val(data.roadShow_describe);
+    ue1.setContent(data.roadShow_describe);
     $('.loading').hide();
 }
 

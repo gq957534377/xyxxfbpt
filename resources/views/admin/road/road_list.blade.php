@@ -158,7 +158,7 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">路演详情</label>
                         <div class="col-md-10">
-                            <textarea id="UE" name="roadShow_describe"></textarea>
+                            <textarea id="UE1" name="roadShow_describe"></textarea>
                         </div>
                     </div>
                     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -256,9 +256,6 @@
 //                        data.append( "banner"   ,$('#banner').val());
                         data.append( "brief"   , resul.brief);
                         data.append( "describe", resul.roadShow_describe);
-                        // add data for ajax
-//                        var sendajax = new Sendajax('match','post',data);
-//                        sendajax.send();
                         $('#alert-info').html();
                         console.log(resul);
                         $.ajax({
@@ -349,7 +346,6 @@
                     $.FormValidator = new FormValidator,
                     $.FormValidator.Constructor = FormValidator
         }(window.jQuery),
-
                 function($) {
                     "use strict";
                     $.FormValidator.init()
@@ -432,7 +428,7 @@
         }
 
 
-        // 修改个人信息状态
+        // 修改路演信息状态
         function modifyStatus() {
             $('.status').click(function () {
                 var _this = $(this);
