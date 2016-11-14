@@ -31,9 +31,12 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/', 'AdminController');
         //创业技术培训
         Route::resource('/training', 'TrainingController');
+        Route::resource('/training_info_page', 'TrainingController@getInfoPage');
         Route::resource('/training_show_one', 'TrainingController@getOneTraining');
+        Route::resource('/training_change_status', 'TrainingController@updateStatus');
         // 创业大赛->发布信息入口
         Route::resource('/match', 'VentureContestController');
+        Route::get('paging','VentureContestController@paging');
         // 路演活动
         Route::resource('/road','RoadController');
         Route::resource('/road_info_page','RoadController@getInfoPage');
@@ -41,8 +44,11 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/road_chage_status','RoadController@updateStatus');
         // 用户管理
         Route::resource('/users', 'UserController');
-        Route::resource('/users_data', 'UserController@getUserData');
-        Route::resource('/users_page', 'UserController@getUserData');
+        Route::get('/users_data', 'UserController@getUserData');
+        Route::get('/users_page', 'UserController@getUserData');
+        Route::put('/users_data', 'UserController@updateData');
+        Route::delete('/users_data', 'UserController@deleteData');
+        Route::get('/users_one_data', 'UserController@getOneData');
         //众筹
         Route::resource('/project_approval', 'CrowdFundingController');
         //发布项目
@@ -83,15 +89,17 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::post("crow_funding_page","CrowdFundingController@pageContent");
     //发布项目
     Route::resource('/project', 'ProjectController');
-    Route::get('/test', 'ProjectController@test');
-    Route::get('/getuptoken', 'ProjectController@getuptoken');
+    Route::get('/getuptoken', 'ProjectController@getUptoken');
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
+        // 修改头像
+        Route::post('/headpic','UserController@headpic');
+        // 申请成为创业者
+        Route::post('/apply','UserController@applyRole');
         // 个人中心页
-        Route::get('/userinfo','UserController@getUserInfo');
         Route::resource('/user','UserController');
         // 前台登出
         Route::get('/logout','LoginController@logout');
+
     });
 });
-

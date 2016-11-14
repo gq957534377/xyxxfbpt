@@ -6,6 +6,7 @@ use App\Http\Requests\Request;
 use App\Store\HomeStore;
 use App\Store\UserStore;
 use App\Store\RoleStore;
+use App\Services\UploadService as UploadServer;
 use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\Session;
@@ -14,6 +15,7 @@ class UserService {
     protected static $homeStore = null;
     protected static $userStore = null;
     protected static $roleStore = null;
+    protected static $uploadServer = null;
 
     /**
      * UserService constructor.
@@ -21,11 +23,12 @@ class UserService {
      * @param UserStore $userStore
      * @param RoleStore $roleStore
      */
-    public function __construct(HomeStore $homeStore ,UserStore $userStore,  RoleStore $roleStore)
+    public function __construct(HomeStore $homeStore ,UserStore $userStore,  RoleStore $roleStore,UploadServer $uploadServer)
     {
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$roleStore = $roleStore;
+        self::$uploadServer = $uploadServer;
     }
 
     /**
@@ -176,7 +179,8 @@ class UserService {
         if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
         if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        $count = self::$roleStore->getUsersNumber();
+
+        $count = ($data['role'] == 0) ? (self::$roleStore->getUsersNumber(['status' => '1'])) : (self::$userStore->getUsersNumber(['role' => $data['role']]));
         $totalPage = ceil($count / PAGENUM);
         $baseUrl   = url('users_page');
         if($nowPage <= 0) $nowPage = 1;
@@ -190,8 +194,130 @@ class UserService {
             ]
         ];
     }
-    public function updataUserInfo($data)
-    {
 
+    /**
+     * 获取一条用户信息，后台
+     * @param $data
+     * @return array
+     * @Author wang fei long
+     */
+    public function getOneData($data)
+    {
+        if(!isset($data['role']) || !isset($data['name'])) return ['status' => false, 'data' => '请求参数错误'];
+        if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
+        // 转向RoleStore层
+        if ($data['role'] == '0'){
+            $result = self::$roleStore->getOneData(['guid' => $data['name']]);
+            if (!$result) return ['status' => false, 'data' => '系统错误'];
+            return ['status' => true, 'data' => $result];
+        }
+        $result = self::$userStore->getOneData(['guid' => $data['name']]);
+        if (!$result) return ['status' => false, 'data' => '系统错误'];
+        return ['status' => true, 'data' => $result];
     }
+
+    /**
+     * 修改用户信息
+     * @param $where
+     * @param $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function updataUserInfo($where,$data)
+    {
+        // 检验条件
+       if (empty($where) || empty($data)) return ['status'=>400,'msg'=>'缺少数据'];
+        // 提交数据给store层
+        $info = self::$userStore->updateUserInfo($where,$data);
+        if(!$info) return ['status'=>400,'msg'=>'修改失败！'];
+        return ['status'=>200,'msg'=>'修改成功！'];
+    }
+
+    /**
+     * 头像上传
+     * 跟身份证上传要进行整合
+     * @param $where
+     * @param $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function updataUserInfo2($data)
+    {
+        // 检验条件
+        if (empty($data)) return ['status'=>400,'msg'=>'缺少数据'];
+        // 对上传的头像文件进行处理
+        $uploadInfo = self::$uploadServer->uploadFile($data->file('headpic'));
+        // 检验图上上传成与否
+        if($uploadInfo['status']=='400' || $uploadInfo['status'] == false) return ['status'=>'400','msg'=>$uploadInfo['msg']];
+        //拿到图片名
+        $headpic = $uploadInfo['msg'];
+        // 提取数据,获取指定数据
+        $guid = $data->all()['guid'];
+        // 提交数据给store层
+        $info = self::$userStore->updateUserInfo(['guid'=>$guid],['headpic'=>$headpic]);
+        if(!$info) return ['status'=>400,'msg'=>'修改失败！'];
+        return ['status'=>200,'msg'=>'修改成功！','data'=>$headpic];
+    }
+
+
+    /**
+     * 申请成为创业者
+     * @param $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function applyRole($data)
+    {
+        // 检验数据
+        if(empty($data)) return ['status'=>'400','msg'=>'请填写完整信息！'];
+        // 查看该用户是否已申请
+        $info= self::$roleStore->getRole(['guid'=>$data['guid']]);
+        if(!empty($info)) return ['status'=>'404','msg'=>'已申请'];
+        //提纯数据
+        unset($data['_method']);
+        unset($data['email']);
+        //提交数据
+        $result = self::$roleStore->addRole($data);
+        // 返回信息处理
+        if(!$result) return ['status'=>'400','msg'=>'申请失败'];
+        return ['status'=>'400','msg'=>'申请成功'];
+        }
+
+    /**
+     * @param $where
+     * @param $data
+     * @return array
+     * @author wang fei long
+     */
+    public function updataUserRoleInfo($where,$data)
+    {
+        // 检验条件
+        if (empty($where) || empty($data)) return ['status' => false, 'data' => '请求参数错误'];
+        // 提交数据给store层
+        $info = self::$roleStore->updateUserInfo($where,$data);
+        if(!$info) return ['status'=>false,'data'=>'修改失败！'];
+        return ['status'=>true,'data'=>'修改成功！'];
+    }
+
+    /**
+     * @param $data
+     * @return array
+     * @author 王飞龙
+     */
+    public function deleteUserData($data)
+    {
+        $p = empty($data) || !isset($data['id']) || !isset($data['role']) || !in_array($data['role'], ['0', '1', '2']);
+        if ($p) return ['status' => 400, 'data' => '请求参数错误'];
+        if ($data['role'] == 0){
+            $result = self::$roleStore->deleteData(['guid' => $data['id']]);
+            if(!$result)
+                return ['status' => 400, 'data' => '删除失败'];
+        } else {
+            $result = self::$userStore->deleteData(['guid' => $data['id']]);
+            if(!$result)
+                return ['status' => 400, 'data' => '删除失败'];
+        }
+        return ['status' => 200, 'data' => '删除成功'];
+    }
+
 }

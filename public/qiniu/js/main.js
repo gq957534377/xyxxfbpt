@@ -41,6 +41,7 @@ $(function() {
                 });
             },
             'BeforeUpload': function(up, file) {
+                $("._imgtr").html('');
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 if (up.runtime === 'html5' && chunk_size) {
@@ -50,16 +51,28 @@ $(function() {
 
             // 上传过程这个函数会不断的执行,直到上传完成
             'UploadProgress': function(up, file) {
+                $('._block').hide();
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function() {
-                $('#success').show();
+                var newtr = $('.progressContainer');
+                var newhtml = newtr.html();
+                newtr.remove();
+                $("._imgtr").html(newhtml);
+
             },
             'FileUploaded': function(up, file, info) {
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 progress.setComplete(up, info);
+
+                //获取url
+                var res = $.parseJSON(info);
+                var domain = up.getOption('domain');
+                url = domain + encodeURI(res.key);
+
+                $("input[name='image']").val(url);
             },
             'Error': function(up, err, errTip) {
                 $('table').show();

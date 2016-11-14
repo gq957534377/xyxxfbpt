@@ -32,9 +32,11 @@ class UploadService
         $fileName = $this->reName($file->getClientOriginalExtension());
         // 移动
         if(!$file->move($path,$fileName)){
-            return response()->json(['ServerNo' => '400','ResultData' => '文件保存失败']);
+//            return response()->json(['ServerNo' => '400','ResultData' => '文件保存失败']);
+            return ['status'=>'400','msg'=>$fileName];
         }
-        return response()->json(['ServerNo' => '200','ResultData' => $fileName]);
+//        return response()->json(['ServerNo' => '200','ResultData' => $fileName]);
+         return ['status'=>'200','msg'=>$fileName];
     }
 
     /**

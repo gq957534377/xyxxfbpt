@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
     <meta name="author" content="Coderthemes">
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <title>@section('title')hero-后台管理系统@show</title>
     @include('admin.public.style')
     @yield('styles')
@@ -28,4 +29,3 @@
 @yield('script')
 
 </html>
-

@@ -65,4 +65,16 @@
        {
            return DB::table(self::$table)->where('guid', '=', $id)->delete();
        }
+
+     /**
+      * @param $where
+      * @return mixed
+      * @author maolin
+      */
+       public function getPageData($where)
+       {
+          //
+           return DB::table(self::$table)->forPage(1, PAGENUM)->get();
+
+       }
  }

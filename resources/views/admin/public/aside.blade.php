@@ -18,9 +18,10 @@
             <li class="has-submenu">
                 <a href="#"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="{{url('users?role=1')}}">普通用户<span class="badge badge-info pull-right">50</span></a></li>
-                    <li><a href="{{url('users?role=2')}}">创业者用户<span class="badge badge-info pull-right">50</span></a></li>
-                    <li><a href="{{url('users?role=0')}}">待审核用户<span class="badge badge-danger pull-right">50</span></a></li>
+                    <li><a href="{{url('users?role=1')}}">普通用户</a></li>
+                    <li><a href="{{url('users?role=2')}}">创业者用户</a></li>
+                    <li><a href="{{url('users?role=0')}}">待审核用户</a></li>
+                    {{--<li><a href="{{url('users?role=0')}}">待审核用户<span class="badge badge-danger pull-right">50</span></a></li>--}}
                     {{--<li><a href="#">数据备份还原</a></li>--}}
                     {{--<li><a href="#">Excel导入/导出</a></li>--}}
                 </ul>
@@ -55,8 +56,8 @@
             <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">项目发布管理</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
                     <li><a href="{{url('project/unchecked')}}">待审核项目管理</a></li>
-                    <li><a href="{{url('project/pass')}}">已发布项目管理</a></li>
-                    <li><a href="{{url('project/nopass')}}">未通过项目</a></li>
+                    <li><a href="{{url('project/pass')}}">已通过项目管理</a></li>
+                    <li><a href="{{url('project/nopass')}}">未通过项目管理</a></li>
                 </ul>
             </li>
         </ul>

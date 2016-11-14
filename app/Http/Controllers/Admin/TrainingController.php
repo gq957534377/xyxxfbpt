@@ -8,19 +8,22 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\TrainingService as TrainingService;
+use App\Services\UploadService as UploadServer;
 
 class TrainingController extends Controller
 {
-    protected static $TrainingService = null;
+    protected static $trainingService = null;
+    protected static $uploadserver = null;
 
     /**
      * TrainingController constructor.
      * @param TrainingService $trainingService
      * @author 王拓
      */
-    public function __construct(TrainingService $trainingService)
+    public function __construct(TrainingService $trainingService, UploadServer $uploadService)
     {
         self::$trainingService = $trainingService;
+        self::$uploadserver = $uploadService;
     }
 
     /**
@@ -43,28 +46,25 @@ class TrainingController extends Controller
     }
 
     /**
-     * 发布
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 王拓
      */
     public function store(Request $request)
     {
-
-//        $data = $request->all();
-//        //验证
-//        $this->validate($request, [
-//            'title' => 'required',
-//            'groupname' => 'required',
-//        ]);
-//        $result = self::$TrainingService->addTraining($data);
-//        switch ($result) {
-//            case 'error';
-//                return back()->withErrors("写入失败");
-//                break;
-//            case 'yes':
-//                return redirect('/training');
-//                break;
-//        }
+        $validator = \Validator::make($request->all(), [
+            "title" => "required",
+            'groupname' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['ServerNo' => 400, 'ResultData' => $validator->errors()->first()]);
+        }
+        //校验是否成功
+        $result = self::$TrainingService->addTraining($request);
+        if (!$result['status']) {
+            return response()->json(['ServerNo' => 400, 'ResultData' => $result['msg']]);
+        }
+        return response()->json(['ServerNo' => 200, 'ResultData' => $request['msg']]);
     }
 
     /**
@@ -123,7 +123,7 @@ class TrainingController extends Controller
         $data = $request->all();
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
         //获取分页URL与合法的当前页
-        $result = Common::getPageUrl($data, 'data_user_info', 'user_info_page');
+        $result = Common::getPageUrl($data, 'data_training_info', '/training_info_page', 5);
         if ($result) {
             //获取当前页面数据
             $pageData = self::$trainingService->getTrainingList($result['nowPage']);
@@ -131,10 +131,38 @@ class TrainingController extends Controller
                 'ServerNo' => 200,
                 'ResultData' => [
                     'pages' => $result['pages'],
-                    'data' => $pageData
+                    'data' => $pageData['msg']
                 ]
             ]);
         }
         return response()->json(['ServerNo' => 400, 'ResultData' => '获取数据失败']);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 王拓
+     */
+    public function updateStatus(Request $request)
+    {
+        $data = $request->all();
+        $result = self::$trainingService->updateTrainingStatus($data);
+        if ($result['status']) return response()->json([ServerNo => 200, 'ResultData' => $result['msg']]);
+        return response()->json(['serverNo' => 400, 'ResuleData' => $result['msg']]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 王拓
+     */
+    public function getOneTraining(Request $request)
+    {
+        $data = $request->all();
+        $guid = isset($data['name']) ? $data['name'] : '';
+        if(empty($guid)) return response()->json(['ServerNo' => 400, 'ResultData' => '未找到相应数据']);
+        $where = ['training_guid'=>$guid];
+        $result = self::$trainingService->getOneTraining($where);
+        return response()->json(['ServerNo' => 200, 'ResultData' => $result['msg']]);
     }
 }
