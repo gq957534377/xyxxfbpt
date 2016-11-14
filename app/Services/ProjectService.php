@@ -5,7 +5,9 @@ namespace App\Services;
 use App\Http\Requests\Request;
 use App\Store\ProjectStore;
 use App\Tools\Common;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectService {
     protected static $projectStore = null;
@@ -30,12 +32,21 @@ class ProjectService {
     {
         //拼装需要插入project_info的数据
         $data = $request->all();
-        unset($data['_token']);
         $data['status']='1';
         $guid =session('user')->guid;
         $data['guid']=$guid;
 
-        //插入数据
+        $data['addtime'] = date("Y-m-d H:i:s", time());
+        $data['changetime'] = date("Y-m-d H:i:s", time());
+
+
+        //事务控制
+        DB::transaction(function () use ($data){
+
+            //project_info数据插入
+            $res = self::$projectStore->addData($data);
+        });
+
         $res = self::$projectStore->addData($data);
         if($res==0) return ['status'=> true,'msg'=>'插入失败'];
         return ['status'=> false,'msg'=>'插入成功'];
@@ -70,8 +81,19 @@ class ProjectService {
         if ($data['status']=='yes') $updateData['status']='3';
         if ($data['status']=='no') $updateData['status']='2';
 
-        //更新状态值
-        $res = self::$projectStore->update($param,$updateData);
+        $updateData['changetime'] = date("Y-m-d H:i:s", time());
+
+        //拼装需要插入crowd_funding_data的数据
+        //project_id,title,status=2,user_id,addtime  需要从数据库查找指定id的一条信息
+        //$data_crowd = array(['project_id'=>$data['id'],'title'=>'',''=>'',''=>'']);
+
+        //事务控制
+        DB::transaction(function () use ($param,$updateData){
+            //更新状态值
+            $res = self::$projectStore->update($param,$updateData);
+            //插入crowd_funding_data
+        });
+
 
         if ($res =0) return ['status'=>false,'msg'=>'修改失败'];
         return ['status'=>true,'msg'=>'修改成功'];
@@ -105,5 +127,5 @@ class ProjectService {
         if (!$res) return ['status'=>false,'msg'=>'获取失败'];
         return ['status'=>true,'data'=>$res];
     }
-    
+
 }

@@ -66,7 +66,8 @@ function FileProgress(file, targetID) {
         Wrappeer.append(progressText);
         Wrappeer.append(progressSize);
         Wrappeer.append(progressBarTd);
-        $('#' + targetID).append(Wrappeer);//将新增的内容替换到大的wrapper框里
+
+        $('#' + targetID).html(Wrappeer);
     } else {
         this.reset();
     }
@@ -205,20 +206,20 @@ FileProgress.prototype.setComplete = function(up, info) {
     var res = $.parseJSON(info);
     var url;
     $("input[name='fname']").val(res.key);
-	$("input[name='fhash']").val(res.hash);
+    $("input[name='fhash']").val(res.hash);
 
     if (res.url) {
         url = res.url;
         var yname = res.key;
         str = "<div><strong>Link:</strong><a href=" + res.url + " target='_blank' > " + res.url + "</a></div>" +
-         "<div class=key><strong>上传后文件名:</strong>" + res.key + "</div>" +
+            "<div class=key><strong>上传后文件名:</strong>" + res.key + "</div>" +
             "<div class=hash><strong>Hash:</strong>" + res.hash + "</div>";
     } else {
         var domain = up.getOption('domain');
         url = domain + encodeURI(res.key);
         var link = domain + res.key;
         str = "<div><strong>链接地址:</strong><a href=" + url + " target='_blank' > " + link + "</a></div>" +
-         // "<div class=key><strong>上传后文件名:</strong>" + res.key + "</div>" +
+            // "<div class=key><strong>上传后文件名:</strong>" + res.key + "</div>" +
             "<div class=hash><strong>Hash:</strong>" + res.hash + "</div>";
     }
 
@@ -256,7 +257,7 @@ FileProgress.prototype.setComplete = function(up, info) {
     progressNameTd.append(Wrapper);
 
     if (!isImg) {
-        showImg.attr('src', 'http://www.hero.app/qiniu/js/default.png');//修改显示图片为默认图片
+        showImg.attr('src', 'qiniu/js/default.png');//修改显示图片为默认图片
         Wrapper.addClass('default');
 
         imgWrapper.append(showImg);
@@ -265,12 +266,12 @@ FileProgress.prototype.setComplete = function(up, info) {
         linkWrapper.append(showImg);
         imgWrapper.append(linkWrapper);
         Wrapper.append(imgWrapper);
-        
+
         var img = new Image();
         if (!/imageView/.test(url)) {
             url += imageView
         }
-		// url = 'http://'+url;
+        // url = 'http://'+url;
         $(img).attr('src', url);
         var height_space = 340;
 
@@ -286,14 +287,14 @@ FileProgress.prototype.setComplete = function(up, info) {
                     $('#myModal-img').find('.text-warning').show();
                 }
                 var newImg = new Image();
-                modalBody.find('img').attr('src', 'http://www.hero.app/qiniu/js/loading.gif');
+                modalBody.find('img').attr('src', 'images/loading.gif');
                 newImg.onload = function() {
                     modalBody.find('img').attr('src', url).data('key', key).data('h', height);
                     modalBody.find('.modal-body-wrapper').find('a').attr('href', url);
                 };
                 newImg.src = url;
             }
-			
+
             var infoWrapper = $('<div class="infoWrapper col-md-6"></div>');
             var fopLink = $('<a class="fopLink"/>');
             // fopLink.attr('data-key', res.key).text('查看处理效果');
@@ -340,25 +341,25 @@ FileProgress.prototype.setComplete = function(up, info) {
             });
 
             var ie = Qiniu.detectIEVersion();
-            // if (!(ie && ie <= 9)) {
-                // var exif = Qiniu.exif(res.key);
-                // if (exif) {
-                //     var exifLink = $('<a href="" target="_blank">查看exif</a>');
-                //     exifLink.attr('href', url + '?exif');
-                //     // infoWrapper.append(exifLink);
-                // }
+            if (!(ie && ie <= 9)) {
+                var exif = Qiniu.exif(res.key);
+                if (exif) {
+                    var exifLink = $('<a href="" target="_blank">查看exif</a>');
+                    exifLink.attr('href', url + '?exif');
+                    infoWrapper.append(exifLink);
+                }
 
-                // var imageInfo = Qiniu.imageInfo(res.key);
-                // var infoArea = $('<div/>');
-                // var infoInner = '<div>格式：<span class="origin-format">' + imageInfo.format + '</span></div>' +
-                //     '<div>宽度：<span class="orgin-width">' + imageInfo.width + 'px</span></div>' +
-                //     '<div>高度：<span class="origin-height">' + imageInfo.height + 'px</span></div>';
+                var imageInfo = Qiniu.imageInfo(res.key);
+                var infoArea = $('<div/>');
+                var infoInner = '<div>格式：<span class="origin-format">' + imageInfo.format + '</span></div>' +
+                    '<div>宽度：<span class="orgin-width">' + imageInfo.width + 'px</span></div>' +
+                    '<div>高度：<span class="origin-height">' + imageInfo.height + 'px</span></div>';
                 // infoArea.html(infoInner);
 
-                // infoWrapper.append(infoArea);
-            // }
+                infoWrapper.append(infoArea);
+            }
 
-            // Wrapper.append(infoWrapper);
+            Wrapper.append(infoWrapper);
 
         }).on('error', function() {
             showImg.attr('src', 'default.png');

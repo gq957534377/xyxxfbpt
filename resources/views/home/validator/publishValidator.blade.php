@@ -8,15 +8,51 @@
      * Form Validator
      */
     // 文档地址 http://www.runoob.com/jquery/jquery-plugin-validate.html
-    !(function ($) {
-        "use strict";//使用严格标准
-        // 获取表单元素
-        var FormValidator = function(){
-            this.projectForm = $("#projectForm");
+
+    !function($) {
+        "use strict";
+        var FormValidator = function() {
+            this.$projectForm = $("#projectForm");
         };
-        // 初始化
         FormValidator.prototype.init = function() {
-            this.projectForm.validate({
+            $.validator.setDefaults({
+                submitHandler: function() {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        }
+                    });
+                    var data = new FormData();
+                    data.append( "title"      , $('input[name=title]').val());
+                    data.append( "content"     , $('input[name=content]').val());
+                    data.append( "image"       , $('input[name=image]').val());
+                    data.append( "file"     , $('input[name=file]').val());
+                    // add data for ajax
+                    $('.alert-danger ul').hide();
+                    $.ajax({
+                        url:'/project',
+                        type:'post',
+                        data:{
+                            title:$("input[name='title']").val(),
+                            content:$("textarea[name='content']").val(),
+                            image:$("input[name='image']").val(),
+                            file:$("input[name='file']").val()
+                        },
+                        beforeSend:function(){
+                          $('.loading').show();
+                        },
+                        success:function(data){
+                            $('.loading').hide();
+                            alert('添加成功');
+                        },
+                        error:function(data){
+                            alert('添加失败');
+                        }
+                    })
+                }
+            });
+            // validate signup form on keyup and submit
+            this.$projectForm.validate({
                 // 验证规则
                 rules: {
                     title: {
@@ -48,14 +84,18 @@
                     }
                 }
             });
-        };
-        $.FormValidator = new FormValidator;
-        $.FormValidator.Constructor = FormValidator;
-    })(window.jQuery),
-            function($){
+
+        },
+                //init
+                $.FormValidator = new FormValidator,
+                $.FormValidator.Constructor = FormValidator
+    }(window.jQuery),
+
+            function($) {
                 "use strict";
-                $.FormValidator.init();
+                $.FormValidator.init()
             }(window.jQuery);
+
 
 </script>
 <!-- 验证机制 End -->
