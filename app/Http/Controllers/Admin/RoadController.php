@@ -130,6 +130,11 @@ class RoadController extends Controller
         if($result) {
             // 获取当前页对应的数据
             $pageData = self::$roadServer->getRoadList($result['nowPage']);
+            foreach ($pageData['msg'] as $v)
+            {
+                $v->roadShow_time=date('Y-m-d\TH:i:s', $v->roadShow_time);
+                $v->time=date('Y-m-d\TH:i:s', $v->time);
+            }
             return response()->json([
                 'ServerNo'   => 200,
                 'ResultData' => [
