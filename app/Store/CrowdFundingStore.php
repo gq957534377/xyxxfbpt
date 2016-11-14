@@ -115,6 +115,12 @@ class CrowdFundingStore
         return $result;
     }
 
+    /**
+     * 添加数据
+     * @param $data
+     * @return int|null
+     * @author 张洵之
+     */
     public function insertData($data)
     {
         if(!is_array($data))return null;

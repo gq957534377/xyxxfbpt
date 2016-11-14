@@ -65,6 +65,7 @@
     var objStore = null;
     var nowPage = 1;//当前页码；
     forPage("crowd_forpage?nowPage=1");
+    /* 异步获取分页内容及样式 */
     function forPage(url) {
         var forpageAjax = new AjaxWork(url,"get");
         forpageAjax.upload({},function (data) {
@@ -79,6 +80,7 @@
             }
         })
     }
+    // 创建DOM元素
     function createHtml(data) {
         var html ="";
         for(var i =0;i<data.length;i++){
@@ -94,6 +96,7 @@
         }
         $("#case").html(html);
     }
+    // 初始化分页按钮，绑定点击事件
     function pageAddClick() {
         $(".pagination li a").click(function () {
             var pageUrl = $(this).attr("href");
@@ -101,6 +104,7 @@
             return false;
         })
     }
+    // 初始化工具按钮，绑定点击事件
     function buttonOnClick() {
         $(".btn-group button").click(function () {
             buttonClick($(this));
