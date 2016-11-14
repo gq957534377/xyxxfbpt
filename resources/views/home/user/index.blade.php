@@ -8,10 +8,109 @@
                         <div class="list-group text-center">
                             <a href="#" class="list-group-item active">
                                 <i class="text-md fa fa-list-alt" aria-hidden="true"></i>&nbsp;个人信息</a>
-                            <a href="#" class="list-group-item ">
+                            <a href="#" class="list-group-item " data-toggle="modal" data-target="#myModal">
                                 <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;修改头像</a>
-                            <a href="#" class="list-group-item ">
-                                <i class="text-md fa fa-bell" aria-hidden="true" style="margin-left: 40px;"></i>&nbsp;申请成为创业者</a>
+                            <!--修改头像弹出层 start-->
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">更换头像</h4>
+                                        </div>
+                                        <form method="POST" id="headPicForm" enctype="muitipart/form-data" >
+                                            <input type="hidden" mame="_method" value="put">
+                                            <div class="modal-body">
+                                                <img id="headpic" src="{{asset('home/images/man1.jpg')}}" class="img-circle"><br>
+                                                <input type="file" name="headpic" />
+                                            </div>
+                                        </form>
+                                        <div class="modal-footer">
+                                            <button id="changeHead" type="button" class="btn btn-info">更换</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--修改头像弹出层 end-->
+                            <a href="#" class="list-group-item " data-toggle="modal" data-target="#myModal_1">
+                                <i class="text-md fa fa-bell" aria-hidden="true" style="margin-left: 40px;"></i>&nbsp;申请成为创业者
+                            </a>
+                            <!--申请成为创业者 start-->
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModal_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">创业者申请</h4>
+                                        </div>
+                                        <form id="entrepreneur" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
+                                            <input type="hidden" name="_mehtod" value="put">
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-2 control-label">真实姓名</label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" name="realname" type="text"></div>
+                                                <div class="col-sm-4 help-block">如：李小明</div></div>
+
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-2 control-label">
+                                                    身份证号码
+                                                </label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" name="card_number" type="text"></div>
+                                                <div class="col-sm-4 help-block">如：363636201611110012</div></div>
+
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-2 control-label">邮 箱</label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" name="email" value="" type="text"></div>
+                                                <div class="col-sm-4 help-block">如：name@website.com</div></div>
+
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-2 control-label">籍贯</label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" name="hometown" value="" type="text"></div>
+                                                <div class="col-sm-4 help-block">如：湖北省武汉市光谷大道</div></div>
+
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-2 control-label">生日</label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" name="birthday" value="" type="text"></div>
+                                                <div class="col-sm-4 help-block">如：19931127</div></div>
+
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-2 control-label">性别</label>
+                                                <div class="col-sm-6">
+                                                    <input class="sex1" name="sex" value="1" type="radio">男
+                                                    <input class="sex0" name="sex" value="0" type="radio">女</div></div>
+
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-2 control-label">手机号</label>
+                                                <div class="col-sm-6">
+                                                    <input class="form-control" name="tel" type="text"></div>
+                                                <div class="col-sm-4 help-block">如：18870913609</div></div>
+
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-2 control-label">身份证正面</label>
+                                                <div class="col-sm-6">
+                                                    <input type="file" class="form-control" name="card_pic_a" type="text"></div>
+                                                <div class="col-sm-4 help-block">如：</div></div>
+
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-2 control-label">身份证反面</label>
+                                                <div class="col-sm-6">
+                                                    <input type="file" class="form-control" name="card_pic_b" type="text"></div>
+                                                <div class="col-sm-4 help-block">如：</div></div>
+
+                                            <div class="modal-footer">
+                                                <input class="btn btn-info" id="applySubmit" value="提交申请" type="button">
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--申请成为创业者 end-->
                             <a href="#" class="list-group-item ">
                                 <i class="text-md fa fa-flask" aria-hidden="true"></i>&nbsp;账号绑定</a>
                         </div>
@@ -24,47 +123,47 @@
                             <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="position: absolute;z-index: 9999;" >
                             <hr>
                             <form id="userform" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                                <input type="hidden" name="_mehtod" value="put">
+                                <input type="hidden" name="_method" value="put">
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">昵称</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" name="nickname" type="text"></div>
+                                        <input class="form-control" name="user_nickname" type="text"></div>
                                     <div class="col-sm-4 help-block">创意只要一点点！</div></div>
 
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">邮 箱</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" name="email" value="" type="text"></div>
+                                        <input class="form-control" name="user_email" value="" type="text"></div>
                                     <div class="col-sm-4 help-block">如：name@website.com</div></div>
 
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">真实姓名</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" name="realname" type="text"></div>
+                                        <input class="form-control" name="user_realname" type="text"></div>
                                     <div class="col-sm-4 help-block">如：李小明</div></div>
 
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">籍贯</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" name="hometown" value="" type="text"></div>
+                                        <input class="form-control" name="user_hometown" value="" type="text"></div>
                                     <div class="col-sm-4 help-block">如：湖北省武汉市光谷大道</div></div>
 
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">生日</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" name="birthday" value="" type="text"></div>
+                                        <input class="form-control" name="user_birthday" value="" type="text"></div>
                                     <div class="col-sm-4 help-block">如：19931127</div></div>
 
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">性别</label>
                                     <div class="col-sm-6">
-                                        <input class="" name="sex" value="" type="radio" checked>男
-                                        <input class="" name="sex" value="" type="radio">女</div></div>
+                                        <input class="sex1" name="user_sex" value="1" type="radio">男
+                                        <input class="sex0" name="user_sex" value="0" type="radio">女</div></div>
 
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">手机号</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" name="phone" type="text"></div>
+                                        <input class="form-control" name="user_phone" type="text"></div>
                                     <div class="col-sm-4 help-block">如：18870913609</div></div>
 
                                 <div class="form-group">
@@ -76,6 +175,21 @@
                     </div>
                 </div>
             </div>
+            {{--<!--隐藏消息弹出框 Start-->--}}
+            {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">小模态框</button>--}}
+            {{--<div class="modal-dialog modal-sm">--}}
+                {{--<div class="modal-content">--}}
+
+                    {{--<div class="modal-header">--}}
+                        {{--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>--}}
+                        {{--<h4 class="modal-title" id="mySmallModalLabel">Small modal</h4>--}}
+                    {{--</div>--}}
+                    {{--<div class="modal-body">--}}
+                        {{--...--}}
+                    {{--</div>--}}
+                {{--</div><!-- /.modal-content -->--}}
+            {{--</div>--}}
+            {{--<!--隐藏消息弹出框 End-->--}}
         </div><!--/.container-->
     </section><!--/#contact-page-->
 @endsection
@@ -91,12 +205,21 @@
         var hometown = $("input[name='hometown']");
         var birthday = $("input[name='birthday']");
         var sex = $("input[name='sex']");
-        var phone = $("input[name='phone']");
+        var sex0 = $(".sex0");
+        var sex1 = $(".sex1");
+        var tel = $("input[name='tel']");
         var guid = $("#userinfo").val();
         var url = '/user';
         var width = $("#userBox").width()/2 -40;
         var height = $("#userBox").height()/2 -50;
-
+        var user_nickname = $("input[name='user_nickname']");
+        var user_email = $("input[name='user_email']");
+        var user_realname = $("input[name='user_realname']");
+        var user_hometown = $("input[name='user_hometown']");
+        var user_birthday = $("input[name='user_birthday']");
+        var user_phone = $("input[name='user_phone']");
+        var user_sex = $("input[name='user_sex']");
+        var card_number = $('input[name="card_number"]');
         $.ajax({
             type: "get",
             url: url+'/'+guid,
@@ -107,31 +230,32 @@
                 // 将传过json格式转换为json对象
                 switch(msg.StatusCode){
                     case 200:
+                        user_nickname.empty().val(msg.ResultData.msg.nickname);
+                        user_email.empty().val(msg.ResultData.msg.email);
+                        user_realname.empty().val(msg.ResultData.msg.realname);
+                        user_hometown.empty().val(msg.ResultData.msg.hometown);
+                        user_birthday.empty().val(msg.ResultData.msg.birthday);
+                        msg.ResultData.msg.sex == 1?sex1.attr('checked','true'):sex0.attr('checked','true');
+                        tel.empty().val(msg.ResultData.msg.tel);
+
+                        // 给创业提交信息也附上值
                         nickname.empty().val(msg.ResultData.msg.nickname);
                         email.empty().val(msg.ResultData.msg.email);
                         realname.empty().val(msg.ResultData.msg.realname);
                         hometown.empty().val(msg.ResultData.msg.hometown);
                         birthday.empty().val(msg.ResultData.msg.birthday);
-                        phone.empty().val(msg.ResultData.msg.tel);
+                        msg.ResultData.msg.sex == 1?sex1.attr('checked','true'):sex0.attr('checked','true');
+                        user_phone.empty().val(msg.ResultData.msg.tel);
+
                         $(".loading").hide();
                         break;
                     case 404:
                         alert(msg.ResultData);
-//                    nickname.val('');
-//                    email.val('');
-//                    realname.val('');
-//                    hometown.val('');
-//                    birthday.val('');
-//                    phone.val('');
+                        $(".loading").hide();
                         break;
                     case 500:
                         alert(msg.ResultData);
-//                    nickname.val('');
-//                    email.val('');
-//                    realname.val('');
-//                    hometown.val('');
-//                    birthday.val('');
-//                    phone.val('');
+                        $(".loading").hide();
                         break;
                 }
 
@@ -142,12 +266,13 @@
         // 个人中心修改
         $("#editSubmit").click(function(){
             var data = {
-                'nickname' : nickname.val(),
-                'email' : email.val(),
-                'realname' : realname.val(),
-                'hometown' : hometown.val(),
-                'birthday' : birthday.val(),
-                'phone' : phone.val()
+                'nickname' : user_nickname.val(),
+                'email' : user_email.val(),
+                'realname' : user_realname.val(),
+                'hometown' : user_hometown.val(),
+                'birthday' : user_birthday.val(),
+                'sex': user_sex.val(),
+                'tel' : user_phone.val()
             };
             $.ajaxSetup({
                 headers: {
@@ -162,16 +287,62 @@
                     $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
                 },
                 success:function(msg){
-                    console.log(msg);
-                },
-                error:function(msg){
-
+                    if(msg.StatusCode==400){
+                        alert(msg.ResultData);
+                        $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
+                    }else{
+                        alert(msg.ResultData);
+                        $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
+                    }
                 }
-
-
             });
         });
 
+        // 异步上传头像
+        $("#changeHead").click(function(){
+            var headPicForm = new FormData(document.getElementById("headPicForm"));
+            headPicForm.append('guid',guid);
+            var url = '/headpic';
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:'POST',
+                url:url,
+                data:headPicForm,
+                processData: false,  // 告诉jQuery不要去处理发送的数据
+                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+                success:function(msg){
+                    alert(msg.ResultData);
+                    $('#headpic').attr('src','uploads/image/'+msg.headpic);
+                }
+            });
+        });
+
+        // 申请成为创业者
+        $("#applySubmit").click(function(){
+            var formData = new FormData(document.getElementById("entrepreneur"));
+            formData.append('guid',guid);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/apply',
+                type: "POST",
+                data: formData,
+                processData: false,  // 告诉jQuery不要去处理发送的数据
+                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+                success:function(msg){
+                   alert(msg.ResultData);
+                }
+            });
+
+        });
     });
 </script>
+@include('home.validator.UpdateValidator')
 @endsection

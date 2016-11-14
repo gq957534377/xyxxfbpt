@@ -1,16 +1,16 @@
 @extends('admin.layouts.master')
 @section('content')
-@section('title', '功能测试')
+    @section('title', '功能测试')
         {{-- 弹出表单开始 --}}
         <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">add</button>
         <!--继承组件-->
         <!--替换按钮ID-->
         @section('form-id', 'con-close-modal')
         <!--定义弹出表单ID-->
-        @section('form-title', '表单标题')
+        @section('form-title', '发布大赛')
         <!--定义弹出内容-->
         @section('form-body')
-                <form id="formpatk" class="form-horizontal p-1" role="form" action="" method="">
+                <form id="signupForm" class="form-horizontal p-1" role="form" action="" method="">
                           <div class="form-group">
                               <label class="col-md-2 control-label">大赛名称：</label>
                               <div class="col-md-10">
@@ -73,22 +73,22 @@
                           </div>
                       </form>
         @endsection
+
        <!--定义底部按钮-->
         @section('form-footer')
-
         @endsection
         {{-- 弹出表单结束 --}}
 
+<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Standard Modal</button>
         {{-- AlertInfo --}}
-        <a href="javascript:;" class="md-trigger btn btn-primary btn-sm" data-modal="modal-1">Show Me</a>
+        <a href="javascript:;" id="error" class="md-trigger btn btn-primary btn-sm" data-modal="modal-1">Show Me</a>
         @section('alertInfo-title', '弹出标题')
-        @section('alertInfo-body')
-            <p>This is a modal window. You can do the following things with it:</p>
-            <ul>
-                <li><strong>Read:</strong> modal windows will probably tell you something important so don't forget to read what they say.</li>
-                <li><strong>Look:</strong> a modal window enjoys a certain kind of attention; just look at it and appreciate its presence.</li>
-                <li><strong>Close:</strong> click on the button below to close the modal.</li>
-            </ul>
+
+            @section('alertInfo-body')
+                <p></p>
+                <ul>
+                    <li></li>
+                </ul>
             @endsection
         {{-- AlertInfoEnd --}}
 {{-- AlertInfo --}}
@@ -96,7 +96,6 @@
 {{-- 大赛详细信息 --}}
 
 <div class="page-title">
-      </div>
       <div class="panel">
         <div class="panel-body">
             <div class="row">
@@ -121,81 +120,251 @@
                         <th>信息修改</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                    <tr class="gradeX">
-                        <td>大赛名称</td>
-                        <td>大赛期数</td>
-                        <td>组织机构</td>
-                        <td>活动描述</td>
-                        <td>活动内容</td>
-                        <td>参与人数</td>
-                        <td>开始时间</td>
-                        <td>结束时间</td>
-                        <td>报名截止</td>
-                        <td class="actions">
-                            <a href="{{asset('/match/4ec9331aa72411e6a073080027bac1bb/edit')}}" id="left" class="on-default edit-row"><i class="fa fa-pencil" id='0' title="修改"></i></a>
-                            <a href="#" id="right" class="on-default remove-row"><i class="fa fa-trash-o" id='' title="删除"></i></a>
-                        </td>
-                    </tr>
-
-
+                <tbody class="span">
                     <!-- <tr>
                         <td>对不起还没有比赛信息，点击上面的添加按钮添</td>
                     </tr> -->
                 </tbody>
             </table>
+            {{--paging--}}
+            <div class="col-sm-12">
+                <ul class="pagination pull-right">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    </li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li class="disabled"><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            {{--end-paging--}}
+            </div>
         </div>
+    </div>
         <!-- end: page -->
-
-
+<div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" style="width:55%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="custom-width-modalLabel">Modal Heading</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Text in a modal</h4>
+                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+                <hr>
+                <h4>Overflowing text to show scroll behavior</h4>
+                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 <!-- script -->
 @section('script')
     <!--alertInfo JS-->
-    <script src="http://cdn.rooyun.com/js/classie.js"></script>
-    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
-    <!--alertInfo end-->
-    <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
-    <!-- 表单验证 -->
-    <script>
-        $(function() {
-            $('#submit').click(function() {
-                //获取数据已经弃用，改用form-data
-                var data = {
-                    name      : $('input[name="name"]').val(),
-                    order     : $('input[name="order"]').val(),
-                    org       : $('input[name="org"]').val(),
-                    title     : $('input[name="title"]').val(),
-                    content   : $('input[name="content"]').val(),
-                    peoples   : $('input[name="peoples"]').val(),
-                    start_time: $('input[name="start_time"]').val(),
-                    end_time  : $('input[name="end_time"]').val(),
-                    deadline  : $('input[name="deadline"]').val(),
-                };
-                // ajax参
+        <script src="http://cdn.rooyun.com/js/classie.js"></script>
+        <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+        <!--alertInfo end-->
+        <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
+        <script src="{{asset('/JsService/Controller/sendAjax.js')}}"></script>
+        <script src="{{asset('/JsService/Controller/ajaxController.js')}}"></script>
+        {{--获取分页数据半成品--}}
+        <script>
+            var againRequest;
+            $(document).ready(function(){
+                againRequest = function(){
+                var data = {data:'2'};
+                    $.ajax({
+                        type:"get",
+                        url:'paging',
+                        // dataType:'json',
+                        data:data,
+                        processData:true,
+                        beforeSend:function(){
+                            console.log("数据正在发送");
+                        },
+                        success : function(data,textStatus){
+                            console.log(textStatus);
+                            for (var i=0;i<data.length;i++){
+                                $(".span").append(
+                                    '<tr class="gradeX">'+
+                                    '<td>'+data[i].name+'</td>'+
+                                    '<td>'+data[i].order+'</td>'+
+                                    '<td>'+data[i].org+'</td>'+
+                                    '<td>'+data[i].title+'</td>'+
+                                    '<td>'+data[i].content+'</td>'+
+                                    '<td>'+data[i].peoples+'</td>'+
+                                    '<td>'+data[i].start_time+'</td>'+
+                                    '<td>'+data[i].end_time+'</td>'+
+                                    '<td>'+data[i].deadline+'</td>'+
+                                    '<td class="actions">'+
+                                        '<a href="javascript:;" id="left" data-name='+data[i].guid+' class="on-default edit-row"><i class="fa fa-pencil" title="修改"></i></a>'+
+                                        '<a href="javascript:;" id="right"  data-name='+data[i].guid+' class="on-default remove-row"><i class="fa fa-trash-o" title="删除"></i></a>'+
+                                    '</td>'
+                                );
+                            }
+                        },
+                        error : function(XMLHttpRequest, textStatus, errorThrown){
+                            console.log(XMLHttpRequest.status);
+                            console.log(XMLHttpRequest.readyState);
+                            console.log(textStatus);
+                            console.log(errorThrown);
+                        }
+                    });
+                }
+                againRequest();
+            });
+        </script>
+        {{--事件操作--}}
+        <script>
+            {{--删除事件,成功之后页面重载--}}
+            $(document).on('click','#right',function(){
+                var data = this.getAttribute ('data-name');
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
                 $.ajax({
-                    type:"post",
-                    url:'/match',
-                    dataType:'json',
-                    data:data,
-                    success : function(data){
+                    url:'match/'+data,
+                    type:'delete',
+                    beforeSend:function(){
+                        console.log("正在请求中");
+                    },
+                    success: function(data,textStatus) {
                         console.log(data);
-                   },
+                        console.log(textStatus);
+                        // 重新载入页面
+                        againRequest();
+                    },
                     error : function(XMLHttpRequest, textStatus, errorThrown){
                         console.log(XMLHttpRequest.status);
                         console.log(XMLHttpRequest.readyState);
                         console.log(textStatus);
-                   }
+                        console.log(errorThrown);
+                    }
                 });
-                return false;
             });
-        });
-        // 头验证
-    </script>
+            // 数据修改.还有弹窗
+            $(document).on('click','#left',function(){
+                var data = this.getAttribute ('data-name');
+
+            });
+        </script>
+        {{--验证提交表单--}}
+        <script>
+                    !function($) {
+                "use strict";
+                var FormValidator = function() {
+                    this.$signupForm = $("#signupForm");
+                };
+                FormValidator.prototype.init = function() {
+                    $.validator.setDefaults({
+                        submitHandler: function() {
+                            $.ajaxSetup({
+                                headers: {
+<<<<<<< HEAD
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+=======
+                                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+>>>>>>> origin/wangtuo
+                                }
+                            });
+                            var data = new FormData();
+                            data.append( "name"      , $('input[name=name]').val());
+                            data.append( "order"     , $('input[name=order]').val());
+                            data.append( "org"       , $('input[name=org]').val());
+                            data.append( "title"     , $('input[name=title]').val());
+                            data.append( "content"   , $('input[name=content]').val());
+                            data.append( "peoples"   , $('input[name=peoples]').val());
+                            data.append( "start_time", $('input[name=start_time]').val());
+                            data.append( "end_time"  , $('input[name=end_time]').val());
+                            data.append( "deadline"  , $('input[name=deadline]').val());
+                            // add data for ajax
+                            var sendajax = new Sendajax('match','post',data);
+                                sendajax.send();
+                        }
+                    });
+                    // validate signup form on keyup and submit
+                    this.$signupForm.validate({
+                        rules: {
+                            name: {
+                                required: true
+                            },
+                            order:{
+                                required: true,
+                                digits:true
+                            },
+                            org:{
+                                required: true
+                            },
+                            title:{
+                                required: true
+                            },
+                            content:{
+                                required: true
+                            },
+                            peoples:{
+                                required: true,
+                                digits:true,
+                                min:5
+                            },
+                            // start_time:{date:true},
+                            // end_time:{date:true},
+                            // deadline:{date:true}
+                        },
+                        //提示信息
+                        messages: {
+                            name: {
+                                required: "请输入比赛名称"
+                            },
+                            order:{
+                                required:"注意不能为空",
+                                digits:"注意必须要为整数"
+                            },
+                            org:{
+                                required:"注意不能为空"
+                            },
+                            title:{
+                                required:"注意不能为空"
+                            },
+                            content:{
+                                required:"注意不能为空"
+                            },
+                            peoples:{
+                                required:"同志这个不能为空",
+                                digits:"同志这个必须是数字",
+                                min:"这个活动至少5个人吧"
+                            },
+                            // start_time:{date:""},
+                            // end_time:{date:""},
+                            // deadline:{date:""}
+                        }
+                    });
+
+                },
+                        //init
+                        $.FormValidator = new FormValidator,
+                        $.FormValidator.Constructor = FormValidator
+            }(window.jQuery),
+
+                    function($) {
+                        "use strict";
+                        $.FormValidator.init()
+                    }(window.jQuery);
+        </script>
 @endsection

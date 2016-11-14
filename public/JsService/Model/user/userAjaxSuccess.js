@@ -13,10 +13,17 @@ function getInfoList(data){
             }else {
                 $('#data').html(listHtml(data));
                 $('#page').html(data.ResultData.pages);
-                getPage();
-                modifyStatus();
-                showInfo();
-                //showCard();
+                if( typeof deleteData === 'function' )
+                    deleteData();
+                if( typeof modifyPass === 'function' )
+                    modifyPass();
+                if( typeof modifyFail === 'function' )
+                    modifyFail();
+                if( typeof updateData === 'function' )
+                    updateData();
+                if( typeof showInfo === 'function' )
+                    showInfo();
+                    getPage();
             }
         } else {
             $('#con-close-modal').modal('show');
@@ -28,25 +35,6 @@ function getInfoList(data){
         $('#alert-form').hide();
         $('#alert-info').html('<p>未知的错误</p>');
     }
-}
-
-// 分页li点击触发获取ajax事件获取分页
-function getPage() {
-    $('.pagination li').click(function () {
-        var class_name = $(this).prop('class');
-        if(class_name == 'disabled' || class_name == 'active') {
-            return false;
-        }
-        var url = $(this).children().prop('href');
-        var ajax = new ajaxController();
-        ajax.ajax({
-            url : url,
-            before : ajaxBeforeModel,
-            success: getInfoList,
-            error: ajaxErrorModel
-        });
-        return false;
-    });
 }
 
 
@@ -77,11 +65,16 @@ function sexMethod(code){
 // 显示个人用户详情
 function showInfoList(data){
     $('.loading').hide();
-    $('#alert-form').show();
-    $('#con-close-modal').modal('show');
+    $('#con-modal').modal('show');
+    $('#cancel').removeClass("hidden");
+    $('#submit').removeClass("hidden");
+    $('#close').addClass("hidden");
     if (data) {
         if (data.StatusCode == 200) {
-            $('#alert-form').html(infoHtml(data.ResultData));
+            $('#alert-info').hide();
+            $('#alert-form').show().html(infoHtml(data.ResultData));
+            if( typeof submitData === 'function' )
+                submitData();
         } else {
             $('#alert-form').hide();
             $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
@@ -90,4 +83,4 @@ function showInfoList(data){
         $('#alert-form').hide();
         $('#alert-info').html('<p>未知的错误</p>');
     }
-};
+}

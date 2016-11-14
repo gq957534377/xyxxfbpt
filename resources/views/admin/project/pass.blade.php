@@ -20,7 +20,7 @@
 @endsection
 
 @section('script')
-    <script src="{{url('JsService/Controller/ajaxController.js')}}" type="text/javascript"></script>
+    <script src="{{url('JsService/Controller/AjaxController.js')}}" type="text/javascript"></script>
     <script src="{{url('JsService/Model/road/roadAjaxBeforeModel.js')}}" type="text/javascript"></script>
     <script src="{{url('JsService/Model/road/roadAjaxSuccessModel.js')}}" type="text/javascript"></script>
     <script src="{{url('JsService/Model/road/roadAjaxErrorModel.js')}}" type="text/javascript"></script>

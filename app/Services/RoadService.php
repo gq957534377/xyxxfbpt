@@ -22,9 +22,7 @@ class RoadService {
     }
     /**
      * 查询一条路演信息
-     *
      * @return array    路演管理信息
-     *
      * @author 郭庆
      */
     public function getOneRoad($where)
@@ -47,7 +45,8 @@ class RoadService {
         return ['status'=>true,'msg'=>$info];
     }
 
-    /**获取最新的路演活动信息
+    /**
+     * 获取最新的路演活动信息
      * @return roadStore|null
      * author 郭庆
      */
@@ -60,7 +59,9 @@ class RoadService {
     }
 
     /**
-     * @return roadStore|null
+     * 获取过期/禁用的路演活动
+     * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public static function getHistoryroad()
     {
@@ -70,22 +71,20 @@ class RoadService {
 
     /**
      * 查询路演信息进行显示, 当用户登陆后, 请求路演管理页面时
-     *
      * @return array    路演管理信息
-     *
      * @author 郭庆
      */
     public function getAllroad()
     {
         $info = self::$roadStore->getAllData();
         if(!$info) {
-            // 用户订单为空
+            // 路演活动为空
             if ([] == $info) return ['status' => true, 'msg' => $info];
             // 获取失败
             Log::error('路演活动获取失败', $info);
             return ['status' => false, 'msg' => '获取路演活动失败'];
         }
-        // 获取成功且用户订单不为空
+        // 获取成功且路演活动不为空
         return ['status' => true, 'msg' => $info];
     }
     /**修改路演信息+后端验证

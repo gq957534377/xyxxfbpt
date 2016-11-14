@@ -95,6 +95,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author wang fei long
      */
     public function update(Request $request, $id)
     {
@@ -129,19 +130,62 @@ class UserController extends Controller
         return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 
-//    /**
-//     * 弃用
-//     * @param Request $request
-//     * @return \Illuminate\Http\JsonResponse
-//     * @author wang fei long
-//     */
-//    public function getUserPage(Request $request){
-//        $data = $request->all();
-//        $result = self::$userServer->getPage($data);
-//        // 如果$result返回错误
-//        if(!$result['status'])
-//            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
-//        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
-//    }
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author wang fei long
+     */
+    public function getOneData(Request $request)
+    {
+        $data = $request->all();
+        if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        $result = self::$userServer->getOneData($data);
+        // 如果$result返回错误
+        if(!$result['status'])
+            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author wang fei long
+     */
+    public function updateData(Request $request)
+    {
+        $all = $request->all();
+        $p = empty($all) || !isset($all['id']) || !isset($all['role']) || !in_array($all['role'], ['0', '1', '2']);
+        if ($p) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        $data = $all;
+        unset($data['id']);
+        unset($data['role']);
+        if ($all['role'] == 0){
+            $result = self::$userServer->updataUserRoleInfo(['guid' => $all['id']], $data);
+            if(!$result['status'])
+                return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        } else {
+            $result = self::$userServer->updataUserInfo(['guid' => $all['id']], $data);
+            $result['data'] = $result['msg'];
+            if($result['status'] == 400)
+                return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        }
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author wang fei long
+     */
+    public function deleteData(Request $request)
+    {
+        $data = $request->all();
+        if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        $result = self::$userServer->deleteUserData($data);
+        // 如果$result返回错误
+        if(!$result['status'])
+            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
+    }
 
 }

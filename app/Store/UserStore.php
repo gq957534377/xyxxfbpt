@@ -66,4 +66,28 @@ class UserStore {
         // 获取数据
         return DB::table(self::$table)->where($condition)->forPage($nowPage, PAGENUM)->get();
     }
+
+    /**
+     * 依条件获取记录条数
+     * @param $condition
+     * @return mixed
+     * @author wang fei long
+     */
+    function getUsersNumber($condition = [])
+    {
+        if(empty($condition)) return DB::table(self::$table)->count();
+        return DB::table(self::$table)->where($condition)->count();
+    }
+
+    /**
+     * @param array $condition
+     * @return bool
+     * @author wang fei long
+     */
+    function deleteData($condition = [])
+    {
+        if(empty($condition)) return false;
+        return DB::table(self::$table)->where($condition)->delete();
+    }
+
 }

@@ -6,8 +6,8 @@
 // 执行ajax方法--构造方法
 function ajaxController() {
     this.type = 'get';
-    // this.data = new FormData();
-    this.data = 'role=0';
+    this.data = new FormData();
+    // this.data = 'role=0';
 }
 
 ajaxController.prototype.ajaxHead = function(){
@@ -23,7 +23,7 @@ ajaxController.prototype.ajax = function(param){
     $.ajax({
         url: param.url,
         type: param.type || this.type,
-        data: param.data || this.data,
+        data: param.data,
         processData: false,
         contentType: false,
         beforeSend: function () {
