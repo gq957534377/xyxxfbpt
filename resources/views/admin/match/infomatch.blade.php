@@ -10,7 +10,7 @@
         @section('form-title', '表单标题')
         <!--定义弹出内容-->
         @section('form-body')
-                <form id="formpatk" class="form-horizontal p-1" role="form" action="" method="">
+                <form id="signupForm" class="form-horizontal p-1" role="form" action="" method="">
                           <div class="form-group">
                               <label class="col-md-2 control-label">大赛名称：</label>
                               <div class="col-md-10">
@@ -72,6 +72,8 @@
                               <button id="submit" type="submit" class="btn btn-info">提交</button>
                           </div>
                       </form>
+
+
         @endsection
        <!--定义底部按钮-->
         @section('form-footer')
@@ -80,14 +82,12 @@
         {{-- 弹出表单结束 --}}
 
         {{-- AlertInfo --}}
-        <a href="javascript:;" class="md-trigger btn btn-primary btn-sm" data-modal="modal-1">Show Me</a>
+        <a href="javascript:;" id="error" class="md-trigger btn btn-primary btn-sm" data-modal="modal-1">Show Me</a>
         @section('alertInfo-title', '弹出标题')
         @section('alertInfo-body')
-            <p>This is a modal window. You can do the following things with it:</p>
+            <p></p>
             <ul>
-                <li><strong>Read:</strong> modal windows will probably tell you something important so don't forget to read what they say.</li>
-                <li><strong>Look:</strong> a modal window enjoys a certain kind of attention; just look at it and appreciate its presence.</li>
-                <li><strong>Close:</strong> click on the button below to close the modal.</li>
+                <li></li>
             </ul>
             @endsection
         {{-- AlertInfoEnd --}}
@@ -121,81 +121,220 @@
                         <th>信息修改</th>
                     </tr>
                 </thead>
-                <tbody>
-
-                    <tr class="gradeX">
-                        <td>大赛名称</td>
-                        <td>大赛期数</td>
-                        <td>组织机构</td>
-                        <td>活动描述</td>
-                        <td>活动内容</td>
-                        <td>参与人数</td>
-                        <td>开始时间</td>
-                        <td>结束时间</td>
-                        <td>报名截止</td>
-                        <td class="actions">
-                            <a href="{{asset('/match/4ec9331aa72411e6a073080027bac1bb/edit')}}" id="left" class="on-default edit-row"><i class="fa fa-pencil" id='0' title="修改"></i></a>
-                            <a href="#" id="right" class="on-default remove-row"><i class="fa fa-trash-o" id='' title="删除"></i></a>
-                        </td>
-                    </tr>
-
+                <tbody class="span">
+                    {{--<tr class="gradeX">--}}
+                        {{--<td>大赛名称</td>--}}
+                        {{--<td>大赛期数</td>--}}
+                        {{--<td>组织机构</td>--}}
+                        {{--<td>活动描述</td>--}}
+                        {{--<td>活动内容</td>--}}
+                        {{--<td>参与人数</td>--}}
+                        {{--<td>开始时间</td>--}}
+                        {{--<td>结束时间</td>--}}
+                        {{--<td>报名截止</td>--}}
+                        {{--<td class="actions">--}}
+                            {{--<a href="javascript:;" id="left" class="on-default edit-row"><i class="fa fa-pencil" id='0' title="修改"></i></a>--}}
+                            {{--<a href="javascript:;" id="right" class="on-default remove-row"><i class="fa fa-trash-o" id='' title="删除"></i></a>--}}
+                        {{--</td>--}}
+                    {{--</tr>--}}
 
                     <!-- <tr>
                         <td>对不起还没有比赛信息，点击上面的添加按钮添</td>
                     </tr> -->
                 </tbody>
             </table>
+            {{--paging--}}
+            <div class="col-sm-12">
+                <ul class="pagination pull-right">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <i class="fa fa-angle-left"></i>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li class="active"><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li class="disabled"><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            {{--end-paging--}}
         </div>
         <!-- end: page -->
+          {{--<div class="row">--}}
+
+          {{--</div>--}}
 
 
 @endsection
 <!-- script -->
 @section('script')
     <!--alertInfo JS-->
-    <script src="http://cdn.rooyun.com/js/classie.js"></script>
-    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
-    <!--alertInfo end-->
-    <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
-    <!-- 表单验证 -->
-    <script>
-        $(function() {
-            $('#submit').click(function() {
-                //获取数据已经弃用，改用form-data
-                var data = {
-                    name      : $('input[name="name"]').val(),
-                    order     : $('input[name="order"]').val(),
-                    org       : $('input[name="org"]').val(),
-                    title     : $('input[name="title"]').val(),
-                    content   : $('input[name="content"]').val(),
-                    peoples   : $('input[name="peoples"]').val(),
-                    start_time: $('input[name="start_time"]').val(),
-                    end_time  : $('input[name="end_time"]').val(),
-                    deadline  : $('input[name="deadline"]').val(),
-                };
-                // ajax参
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+        <script src="http://cdn.rooyun.com/js/classie.js"></script>
+        <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+        <!--alertInfo end-->
+        <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
+        <script src="{{asset('/JsService/Controller/sendAjax.js')}}"></script>
+        <script src="{{asset('/JsService/Controller/ajaxController.js')}}"></script>
+        {{--获取分页数据半成品--}}
+        <script>
+            var lll= 222;
+            $(document).ready(function(){
+                var data = {data:'2'};
                 $.ajax({
-                    type:"post",
-                    url:'/match',
-                    dataType:'json',
+                    type:"get",
+                    url:'paging',
+                    // dataType:'json',
                     data:data,
-                    success : function(data){
+                    processData:true,
+                    beforeSend:function(){
+                        console.log("数据正在发送");
+                    },
+                    success : function(data,textStatus){
                         console.log(data);
-                   },
+                        console.log(data[0]);
+                        console.log(data[0].guid);
+                        // 好蹩脚的东西,后面再封装
+                        for (var i=0;i<data.length;i++){
+                            $(".span").append(
+                                '<tr class="gradeX">'+
+                                '<td>'+data[i].name+'</td>'+
+                                '<td>'+data[i].order+'</td>'+
+                                '<td>'+data[i].org+'</td>'+
+                                '<td>'+data[i].title+'</td>'+
+                                '<td>'+data[i].content+'</td>'+
+                                '<td>'+data[i].peoples+'</td>'+
+                                '<td>'+data[i].start_time+'</td>'+
+                                '<td>'+data[i].end_time+'</td>'+
+                                '<td>'+data[i].deadline+'</td>'+
+                                '<td class="actions">'+
+                                    '<a href="javascript:;" id="left" class="on-default edit-row"><i class="fa fa-pencil" id='+data[i].guid+' title="修改"></i></a>'+
+                                    '<a href="javascript:;" id="right" class="on-default remove-row"><i class="fa fa-trash-o" id='+data[i].guid+' title="删除"></i></a>'+
+                                '</td>'+
+                                    '<p>fdsafsdafsdafsdfsdaf</p>'
+                            );
+                        }
+//                        $("#left").click(function(){
+//                            alert(lll);
+//                        });
+                    },
                     error : function(XMLHttpRequest, textStatus, errorThrown){
                         console.log(XMLHttpRequest.status);
                         console.log(XMLHttpRequest.readyState);
                         console.log(textStatus);
-                   }
+                        console.log(errorThrown);
+                    }
                 });
-                return false;
             });
-        });
-        // 头验证
-    </script>
+        </script>
+        <script>
+            $(".span").change(function(){
+                $("#left").click(function(){
+                    alert(lll);
+                });
+            });
+        </script>
+        {{--验证提交表单--}}
+        <script>
+                    !function($) {
+                "use strict";
+                var FormValidator = function() {
+                    this.$signupForm = $("#signupForm");
+                };
+                FormValidator.prototype.init = function() {
+                    $.validator.setDefaults({
+                        submitHandler: function() {
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            var data = new FormData();
+                            data.append( "name"      , $('input[name=name]').val());
+                            data.append( "order"     , $('input[name=order]').val());
+                            data.append( "org"       , $('input[name=org]').val());
+                            data.append( "title"     , $('input[name=title]').val());
+                            data.append( "content"   , $('input[name=content]').val());
+                            data.append( "peoples"   , $('input[name=peoples]').val());
+                            data.append( "start_time", $('input[name=start_time]').val());
+                            data.append( "end_time"  , $('input[name=end_time]').val());
+                            data.append( "deadline"  , $('input[name=deadline]').val());
+                            // add data for ajax
+                            var sendajax = new Sendajax('match','post',data);
+                                sendajax.send();
+                        }
+                    });
+                    // validate signup form on keyup and submit
+                    this.$signupForm.validate({
+                        rules: {
+                            name: {
+                                required: true
+                            },
+                            order:{
+                                required: true,
+                                digits:true
+                            },
+                            org:{
+                                required: true
+                            },
+                            title:{
+                                required: true
+                            },
+                            content:{
+                                required: true
+                            },
+                            peoples:{
+                                required: true,
+                                digits:true,
+                                min:5
+                            },
+                            // start_time:{date:true},
+                            // end_time:{date:true},
+                            // deadline:{date:true}
+                        },
+                        //提示信息
+                        messages: {
+                            name: {
+                                required: "请输入比赛名称"
+                            },
+                            order:{
+                                required:"注意不能为空",
+                                digits:"注意必须要为整数"
+                            },
+                            org:{
+                                required:"注意不能为空"
+                            },
+                            title:{
+                                required:"注意不能为空"
+                            },
+                            content:{
+                                required:"注意不能为空"
+                            },
+                            peoples:{
+                                required:"同志这个不能为空",
+                                digits:"同志这个必须是数字",
+                                min:"这个活动至少5个人吧"
+                            },
+                            // start_time:{date:""},
+                            // end_time:{date:""},
+                            // deadline:{date:""}
+                        }
+                    });
+
+                },
+                        //init
+                        $.FormValidator = new FormValidator,
+                        $.FormValidator.Constructor = FormValidator
+            }(window.jQuery),
+
+                    function($) {
+                        "use strict";
+                        $.FormValidator.init()
+                    }(window.jQuery);
+        </script>
 @endsection

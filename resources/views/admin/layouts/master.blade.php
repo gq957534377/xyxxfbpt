@@ -29,4 +29,3 @@
 @yield('script')
 
 </html>
-
