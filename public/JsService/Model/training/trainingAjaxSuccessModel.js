@@ -74,7 +74,7 @@ function listHtml(data) {
         html += '<td>' + e.status + '</td>';
 
         html += '<td class="actions"><a href="javascipt:;" data-name="' + e.training_guid + '"  class="on-default edit-row"><i class="fa fa-pencil"></i>编辑</a>';
-        html += '<a href="javascipt:;" data-name="' + e.training_guid + '"  class="on-default edit-row"><i class="fa fa-trash"></i>删除</a></td></tr>';
+        html += '<a href="javascipt:;" data-name="' + e.training_guid + '"  class="btn on-default edit-row"><i class="fa fa-trash"></i>删除</a></td></tr>';
     });
     html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
     return html;

@@ -221,7 +221,7 @@
         // 页面加载时触发事件请求分页数据
         var ajax = new ajaxController();
         ajax.ajax({
-            url     : 'road_info_page',
+            url     : 'training_info_page',
             before  : ajaxBeforeModel,
             success : getInfoList,
             error   : ajaxErrorModel,

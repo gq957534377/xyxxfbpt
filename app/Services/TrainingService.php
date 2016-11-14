@@ -51,7 +51,7 @@ class TrainingService
     public function getTrainingList($nowPage)
     {
         if (empty($nowPage)) return ['status' => false, 'msg' => '没有此页'];
-        $info = self::$roadStore->getPageData($nowPage);
+        $info = self::$trainingStore->getPageData($nowPage);
         if (!$info) return ['status' => false, 'msg' => '数据获取失败'];
         return ['status' => true, 'msg' => $info];
     }
