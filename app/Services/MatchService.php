@@ -62,13 +62,10 @@ class MatchService
      */
      public function deleteOne($id)
      {
+         return $id;
          $state = self::$matchStore->deleteOne($id);
-         switch ($state) {
-             case !0:
-                 return 1;
-             default:
-                 return 0;
-         }
+         if($state==0) return ['status'=> true,'msg'=>'删除失败'];
+         return ['status'=> false,'msg'=>'删除成功'];
      }
 
     /**
@@ -85,9 +82,16 @@ class MatchService
          return $result;
      }
 
+    /**
+     * @param $where
+     * @return mixed
+     * @author maolin
+     *
+     */
     public function getPageData($where)
     {
         //
-        return self::$matchStore->getPageData($where);
+        $result = self::$matchStore->getPageData($where);
+        return $result;
     }
 }

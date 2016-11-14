@@ -1,6 +1,6 @@
 /**
  * ajax成功执行函数
- * @author 郭鹏超
+ * @author 郭庆
  */
 
 // 获取分页数据并加载显示在页面
@@ -25,33 +25,6 @@ function getInfoList(data){
         }
     } else {
         $('#myModal').modal('show');
-        $('#alert-form').hide();
-        $('#alert-info').html('<p>未知的错误</p>');
-    }
-}
-
-function add(data){
-    $('.loading').hide();
-    $('#myModal').modal('show');
-    $('.modal-title').html('提示');
-    console.log(data);
-    if (data) {
-        console.log(data);
-        if (data.ServerNo == 200) {
-            var code = data.ResultData;
-            $('#alert-form').hide();
-            _this.data('status', code);
-            if (_this.children().hasClass("btn-danger")) {
-                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
-            } else if (_this.children().hasClass("btn-primary")) {
-                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
-            }
-            $('#fabu').hide();
-            $('#alert-info').html('<p>路演发布成功!</p>');
-        } else {
-            $('#alert-info').html('<p>' + data.ResultData + '</p>');
-        }
-    } else {
         $('#alert-form').hide();
         $('#alert-info').html('<p>未知的错误</p>');
     }
@@ -125,7 +98,8 @@ function date(data) {
     $('#yz_xg').find('select[name=group]').val(data.group);
     $('#yz_xg').find('input[name=roadShow_time]').val(data.roadShow_time);
     $('#yz_xg').find('textarea[name=brief]').val(data.brief);
-    $('#yz_xg').find('textarea[name=roadShow_describe]').val(data.roadShow_describe);
+    // $('#yz_xg').find('textarea[name=roadShow_describe]').val(data.roadShow_describe);
+    ue1.setContent(data.roadShow_describe);
     $('.loading').hide();
 }
 
