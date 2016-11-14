@@ -123,9 +123,29 @@ class CrowdFundingController extends Controller
         }
     }
 
+    /**
+     * 修改发布的中筹项目
+     * @return \Illuminate\Http\JsonResponse
+     * @author 张洵之
+     */
     public function revise()
     {
         $result = self::$crowdFundingServer->reviseCrowdFunding(self::$request);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
+    }
+
+    /**
+     * 查看可发布的项目
+     * @return \Illuminate\Http\JsonResponse
+     * @author 张洵之
+     */
+    public function selectPublish()
+    {
+        $result = self::$crowdFundingServer->selectPublish();
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
         }else{

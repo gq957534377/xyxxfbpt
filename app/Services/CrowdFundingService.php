@@ -252,4 +252,20 @@ class CrowdFundingService
             return ['status'=>false,'msg'=>'发生错误'];
         }
     }
+
+    /**
+     * 查看可发布项目的标题
+     * @return array
+     * @author 张洵之
+     */
+    public function selectPublish()
+    {
+        $where = ["status"=>"2"];
+        $result = self::$crowdFundingStore->getWhere($where);
+        if(isset($result)){
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>'发生错误'];
+        }
+    }
 }

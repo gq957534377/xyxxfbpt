@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <button class="btn  btn-info">发布众筹</button>
+                    <button id="publishBtn" class="btn  btn-info">发布众筹</button>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -51,26 +51,6 @@
                     <h4 class="modal-title">琦立英雄众筹管理系统</h4>
                 </div>
                 <div class="modal-body" id="plotDiv">
-                    <div class='row'>
-                        <div class='col-md-4'>
-                            <div class='form-group'>
-                                <label for='field-4' class='control-label'>City</label>
-                                <input type='text' class='form-control' id='field-4' placeholder='Boston'>
-                            </div>
-                        </div>
-                        <div class='col-md-4'>
-                            <div class='form-group'>
-                                <label for='field-5' class='control-label'>Country</label>
-                                <input type='text' class='form-control' id='field-5' placeholder='United States'>
-                            </div>
-                        </div>
-                        <div class='col-md-4'>
-                            <div class='form-group'>
-                                <label for='field-6' class='control-label'>Zip</label>
-                                <input type='text' class='form-control' id='field-6' placeholder='123456'>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="closeButton"  class="btn btn-white" data-dismiss="modal">Close</button>
@@ -81,6 +61,7 @@
     </div>
 @include("Tool.Ajax")
 <script>
+    var dataStore = null;
     var objStore = null;
     var nowPage = 1;//当前页码；
     forPage("crowd_forpage?nowPage=1");
@@ -175,6 +156,7 @@ function plotForm(type,data){
     switch (type){
         case "publish":publishFrom(type,data);break;
         case "revise":reviseFrom(type,data);break;
+        case "selectPub":selectPub(type,data);break;
         default :closeFrom(type,data);
     }
 }
@@ -418,6 +400,7 @@ $("#supperButton").click(function () {
     switch (type){
         case "publish":startCrowdfunding();break;
         case "revise" :revise();break;
+        case "selectPub":newPub();break;
         default:closeCrowdfunding(projectId);
     }
 })
@@ -435,6 +418,7 @@ function startCrowdfunding() {
         alert("以上内容不得为空！");
     }
 }
+
 function revise() {
     var targetFund = $("#field-4").val();
     var days = $("#addDay").val();
@@ -452,6 +436,57 @@ function revise() {
 function closeCrowdfunding(id) {
     ajaxRequest(id,"close");
 }
+    /**
+     * 11.14新增修改内容
+     *
+     */
+    //发布众筹按钮点击事件
+    $("#publishBtn").click(function () {
+    var ajaxFunction = new AjaxWork("/select_publish","get");
+    ajaxFunction.upload({},function (data) {
+        if(data.StatusCode == "200"){
+            $("#imgLoad").css({"display":"none"});
+            plotForm("selectPub",data.ResultData);
+        }else {
+            alert(data.ResultData)
+        }
+
+    },errFunction,beforeFunction)
+})
+    //生成发布表单
+    function selectPub(type,data) {
+        var html = "<div class='row'>"
+            html += "<div class='col-md-4'>"
+            html += "<div class='form-group'>"
+            html += "<label for='field-4' class='control-label'>可选发布内容</label>"
+            html += "<select id='selectPubs' class='form-control'>"
+        dataStore = data;
+        for(var i =0 ;i<=data.length;i++){
+            if(i == 0){
+                html+= "<option>===请切换内容===</option>"
+            }else {
+                html+="<option value='"+data[i-1]["project_id"]+"'>"+data[i-1]["title"]+"</option>";
+            }
+        }
+        html += "</select>"
+        html += "</div>"
+        html += "</div>"
+        html += "</div>";
+        html +="<div id='Type' style='display: none'>"+type+"</div>"
+        html+="<div id='creatPub'></div>";
+        $("#plotDiv").html(html);
+        stratSelect();
+        formShow();
+    }
+    //发布表单下拉框改变事件
+    function stratSelect() {
+        $("#selectPubs").change(function () {
+            var projectId = $(this).val();
+
+//        createPub(projectId);
+        })
+    }
+
 </script>
 
 @endsection

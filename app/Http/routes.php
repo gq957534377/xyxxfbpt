@@ -54,6 +54,8 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::get("/crowd_forpage",'CrowdFundingController@forPage');
         //众筹修改内容
         Route::post("/crowdfunding_revise",'CrowdFundingController@revise');
+        //查看可发布的中筹项目
+        Route::get("//select_publish",'CrowdFundingController@selectPublish');
     });
 });
 
