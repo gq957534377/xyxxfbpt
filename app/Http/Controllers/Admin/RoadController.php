@@ -1,6 +1,6 @@
 <?php
 /**
- * Road 后台业务服务层
+ * Road 后台
  * User: 郭庆
  * Date: 2016/11/08
  * Time: 16：34
@@ -26,8 +26,8 @@ class RoadController extends Controller
     }
     /**
      * 展示路演管理页面
-     *
      * @return list视图
+     * @author 郭庆
      */
     public function index()
     {
@@ -35,20 +35,24 @@ class RoadController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
+     * 修改路演信息状态
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
-    public function create()
+    public function create(Request $request)
     {
-
+        $data   = $request->all();
+        $result = self::$roadServer->updateRoadStatus($data);
+        if($result['status']) return response()->json(['ServerNo' => 200, 'ResultData' => $result['msg']]);
+        return response()->json(['ServerNo' => 400, 'ResultData' => $result['msg']]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 路演发布
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function store(Request $request)
     {
@@ -70,21 +74,26 @@ class RoadController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
+     * 查询一条路演详情
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
-    public function show($id)
+    public function show(Request $request,$id)
     {
-        //
+        if(empty($id)) return response()->json(['ServerNo' => 400, 'ResultData' => '未找到相应数据']);
+        $where = ['roadShow_id'=>$id];
+        $result = self::$roadServer->getOneRoad($where);
+        $result['msg']->roadShow_time=date('Y-m-d\TH:i:s', $result['msg']->roadShow_time);
+        $result['msg']->time=date('Y-m-d\TH:i:s', $result['msg']->time);
+        return response()->json(['ServerNo' => 200, 'ResultData' => $result['msg']]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display a listing of the resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function edit($id)
     {
@@ -92,11 +101,10 @@ class RoadController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 修改路演信息详情
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function update(Request $request, $id)
     {
@@ -108,18 +116,19 @@ class RoadController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Display a listing of the resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function destroy($id)
     {
-        //
+
     }
 
     /**
-     * @return string
+     * 分页请求并返回相应数据和分页视图
+     * @author 郭庆
      */
     public function getInfoPage(Request $request)
     {
@@ -144,34 +153,5 @@ class RoadController extends Controller
             ]);
         }
         return response()->json(['ServerNo' => 400, 'ResultData' => '获取数据失败']);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @author 
-     */
-    public function updateStatus(Request $request)
-    {
-        $data   = $request->all();
-        $result = self::$roadServer->updateRoadStatus($data);
-        if($result['status']) return response()->json(['ServerNo' => 200, 'ResultData' => $result['msg']]);
-        return response()->json(['ServerNo' => 400, 'ResultData' => $result['msg']]);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getOneRoad(Request $request)
-    {
-        $data = $request->all();
-        $guid = isset($data['name']) ? $data['name'] : '';
-        if(empty($guid)) return response()->json(['ServerNo' => 400, 'ResultData' => '未找到相应数据']);
-        $where = ['roadShow_id'=>$guid];
-        $result = self::$roadServer->getOneRoad($where);
-        $result['msg']->roadShow_time=date('Y-m-d\TH:i:s', $result['msg']->roadShow_time);
-        $result['msg']->time=date('Y-m-d\TH:i:s', $result['msg']->time);
-        return response()->json(['ServerNo' => 200, 'ResultData' => $result['msg']]);
     }
 }

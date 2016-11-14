@@ -27,6 +27,7 @@
     <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 @endsection
 {{-- 弹出表单结束 --}}
+{{--发布路演表单--}}
 <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" id="fabu">
         <div class="modal-content">
@@ -105,7 +106,7 @@
         </div>
     </div>
 </div><!-- /.modal -->
-
+{{--修改路演表单--}}
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -175,8 +176,6 @@
     </form>
 </div>
 <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">路演发布</button>
-{{--<button class="btn btn-primary" data-toggle="modal" data-target="#tabs-modal">详情demo</button>--}}
-
 
 <img src="/admin/images/load.gif" class="loading">
 
@@ -404,7 +403,7 @@
                 $('.loading').hide();
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/road_one_info?name=' + $(this).data('name'),
+                    url     : '/road/' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : date,
                     error   : ajaxErrorModel
@@ -419,7 +418,7 @@
                 $('.modal-title').html('路演信息详情');
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/road_one_info?name=' + $(this).data('name'),
+                    url     : '/road/' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : showInfoList,
                     error   : ajaxErrorModel
@@ -434,7 +433,7 @@
                 var _this = $(this);
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/road_chage_status?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
+                    url     : '/road/create?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
                     error   : ajaxErrorModel

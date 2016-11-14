@@ -37,8 +37,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         // 路演活动
         Route::resource('/road','RoadController');
         Route::resource('/road_info_page','RoadController@getInfoPage');
-        Route::resource('/road_one_info','RoadController@getOneRoad');
-        Route::resource('/road_chage_status','RoadController@updateStatus');
         // 用户管理
         Route::resource('/users', 'UserController');
         Route::resource('/users_data', 'UserController@getUserData');
