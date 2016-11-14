@@ -125,6 +125,7 @@
          * 添加用户
          */
         $('#add_road').click(function () {
+
             $('.modal-title').html('技术培训信息详情');
             var data = {
                 title:$('#title').val(),
@@ -135,12 +136,14 @@
                 banner:$('#banner').val(),
                 describe:ue.getContent()
             };
+
             $.ajax({
                 url: '/training',
                 type:'post',
                 dataType:'json',
                 data:data,
                 success : function (data) {
+                    alert(11);
                     $('.loading').hide();
                     $('#myModal').modal('show');
                     $('.modal-title').html('提示');

@@ -102,4 +102,8 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::get('/logout','LoginController@logout');
 
     });
+
+
 });
+//测试使用
+Route::resource('/test','TestController');
