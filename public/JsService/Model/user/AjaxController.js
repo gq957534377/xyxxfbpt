@@ -4,24 +4,25 @@
  */
 
 // 执行ajax方法--构造方法
-function ajaxController() {
+function AjaxController(data) {
     this.type = 'get';
+    this.data = data;
 }
 
-ajaxController.prototype.ajaxHead = function(){
+AjaxController.prototype.ajaxHead = function(){
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-}
+};
 
-ajaxController.prototype.ajax = function(param){
+AjaxController.prototype.ajax = function(param){
     this.ajaxHead();
     $.ajax({
         url: param.url,
         type: param.type || this.type,
-        data: param.data,
+        data: this.data,
         processData: false,
         contentType: false,
         beforeSend: function () {
@@ -37,4 +38,4 @@ ajaxController.prototype.ajax = function(param){
         },
         async: true
     });
-}
+};
