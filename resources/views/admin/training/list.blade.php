@@ -242,7 +242,6 @@
                 url: '/training',
                 before: ajaxBeforeModel(),
                 success: function (data) {
-                    
                 }
             });
         });
