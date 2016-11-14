@@ -164,4 +164,28 @@ class Common {
         ];
 
     }
+    /**
+     * new获取分页URL
+     * @param  object $data 把$request传进来
+     * @param  string $table 把表名传进来
+     * @param  string $url 把主URL传进来
+     * @return mixed(array | false)
+     * @author 张洵之
+     */
+    public static function getPageUrls($data, $table, $url, $n,$filed,$where)
+    {
+        if(empty($table) || empty($url)) return false;
+        $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
+        $count     = DB::table($table)->whereIn($filed,$where)->count();
+        $totalPage = ceil($count / $n);
+        $baseUrl   = url($url);
+        if($nowPage <= 0) $nowPage = 1;
+        if($nowPage > $totalPage) $nowPage = $totalPage;
+
+        return [
+            'nowPage' => $nowPage,
+            'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl,null),
+        ];
+
+    }
 }
