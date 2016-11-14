@@ -247,6 +247,7 @@ function publishFrom(types,data) {
     startVerification();
     formShow();
 }
+//开启验证
 function startVerification() {
     $("#field-3,#field-4,#addDay,#addHour").keyup(function () {
         var temp = parseInt($(this).val());
@@ -455,17 +456,18 @@ function closeCrowdfunding(id) {
 })
     //生成发布表单
     function selectPub(type,data) {
+        dataStore = data;
         var html = "<div class='row'>"
             html += "<div class='col-md-4'>"
             html += "<div class='form-group'>"
             html += "<label for='field-4' class='control-label'>可选发布内容</label>"
             html += "<select id='selectPubs' class='form-control'>"
-        dataStore = data;
         for(var i =0 ;i<=data.length;i++){
+            var num = i-1;
             if(i == 0){
                 html+= "<option>===请切换内容===</option>"
             }else {
-                html+="<option value='"+data[i-1]["project_id"]+"'>"+data[i-1]["title"]+"</option>";
+                html+="<option value='"+num+"'>"+data[i-1]["title"]+"</option>";
             }
         }
         html += "</select>"
@@ -481,12 +483,86 @@ function closeCrowdfunding(id) {
     //发布表单下拉框改变事件
     function stratSelect() {
         $("#selectPubs").change(function () {
-            var projectId = $(this).val();
-
-//        createPub(projectId);
+            var Id = $(this).val();
+            createPub(Id);
         })
     }
-
+    function createPub(Id) {
+        var data = dataStore;
+        console.log(data);
+        console.log(Id);
+        var html = "<div class='row'>" +
+                "<div class='col-md-6'>" +
+                "<div class='form-group'>" +
+                "<label for='field-1' class='control-label'>                                                     项目ID" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' id='field-1' value='"+data[Id]['project_id']+"'>" +
+                "</div>" +
+                "</div>" +
+                "<div class='col-md-6'>" +
+                "<div class='form-group'>" +
+                "<label for='field-2' class='control-label'>" +
+                "项目名称" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' id='field-2' value='"+data[Id]['title']+"'>" +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "<div class='row'>" +
+                "<div class='col-md-4'>" +
+                "<label for='field-3' class='control-label'>" +
+                "项目分类" +
+                "</label>" +
+                "<select id='selects' class='form-control'>" +
+                "<option value='0'>" +
+                "热门推荐" +
+                "</option>" +
+                "<option value='1'>" +
+                "最新发布" +
+                "</option>" +
+                "<option value='2'>" +
+                "未来科技" +
+                "</option>" +
+                "<option value='3'>" +
+                "健康出行" +
+                "</option>" +
+                "<option value='4'>" +
+                "生活美学" +
+                "</option>" +
+                "<option value='5'>" +
+                "美食生活" +
+                "</option>" +
+                "<option value='6'>" +
+                "流行文化" +
+                "</option>" +
+                "<option value='7'>" +
+                "爱心公益" +
+                "</option>" +
+                "</select>" +
+                "</div>" +
+                "<div class='col-md-4'>" +
+                "<label for='field-3' class='control-label'>" +
+                "预筹天数(天)" +
+                "</label>" +
+                "<input type='number' class='form-control' id='field-3' >" +
+                "</div>" +
+                "</div>"+
+                "<div class='row'>" +
+                "<div class='col-md-12'>" +
+                "<div class='form-group'>" +
+                "<label for='field-4' class='control-label'>" +
+                "预筹资金(￥)" +
+                "</label>" +
+                "<input type='number' class='form-control' id='field-4' >" +
+                "</div>" +
+                "</div>" +
+                "</div>"
+        $("#creatPub").html(html);
+        startVerification();
+    }
+    function newPub() {
+        startCrowdfunding();
+    }
 </script>
 
 @endsection
