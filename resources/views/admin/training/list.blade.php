@@ -152,7 +152,7 @@
                 dataType: 'json',
                 data: data,
                 beforeSend:function () {
-                    console.log('测试运行ajax');
+//                    console.log('测试运行ajax');
                 },
                 success: function (data) {
                     $('.loading').hide();
@@ -167,14 +167,31 @@
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');
                         }
                     } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>未知的错误</p>');
+//                        $('#alert-form').hide();
+//                        $('#alert-info').html('<p>未知的错误</p>');
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
 
                 }
             });
+        });
+        /**
+         * 修改
+         */
+        $(document).on('click','editor',function () {
+            var data = this.getAttribute('data-name');
+            $.ajax({
+                url:'/training/' + data + '/edit',
+                type:'get',
+                proccessData:true,
+                beforeSend:function () {
+                    console.log('获取数据中');
+                },
+                success:function () {
+                    $('#altersend input[name=title]').val(data[0].title);
+                }
+            })
         });
 
 

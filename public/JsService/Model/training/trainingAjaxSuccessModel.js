@@ -64,6 +64,7 @@ function listHtml(data) {
     var html = '';
     html += '<div class="row"><div class="col-sm-12"><div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">创业项目培训列表</h3></div><table class="table table-bordered table-striped" id="datatable-editable"><thead><tr><th>创业项目培训主题</th><th>组织</th><th>培训开始时间</th><th>培训结束时间</th><th>报名截止时间</th><th>参与人数</th><th>状态</th><th>操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
+        // 加字段
         html += '<tr class="gradeU">';
         html += '<td>' + e.title + '</td>';
         html += '<td>' + e.groupname + '</td>';
@@ -99,6 +100,7 @@ function getPage() {
 }
 
 // 组装HTML元素
+// 修改
 function infoHtml(data) {
     var html = '';
     //创业技术培训名称
@@ -124,8 +126,20 @@ function infoHtml(data) {
     html += '<textarea class="" placeholder="请详细描述创业项目培训内容" id="UE" name="describe">' + (data.describe || '') + '</textarea></div></div></div>';
     return html;
 }
+// 修改
 
-
+// 判断身份证类型
+function cardState(code) {
+    if (code == 1) {
+        return '大陆身份证';
+    } else if (code == 2) {
+        return '其它身份证';
+    } else if (code == 3) {
+        return '护照';
+    } else {
+        return '';
+    }
+}
 
 // 判断姓别类型
 function sexMethod(code) {
