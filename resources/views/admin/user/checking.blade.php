@@ -75,9 +75,7 @@
         // 通过审核
         function modifyPass() {
             $('.pass').click(function () {
-                var _this = $(this);
                 var data = {status:"2",role:"0",id:$(this).data('name')};
-                var ajax = new AjaxController();
                 $.ajax({
                     url     : '/users_data',
                     type    : 'put',
@@ -88,8 +86,10 @@
                 });
 
                 // 重新加载
+                var ajax = new AjaxController();
                 ajax.ajax({
                     url     : '/users_data?role=0',
+                    data    : data,
                     before  : ajaxBeforeModel,
                     success : getInfoList,
                     error   : ajaxErrorModel
@@ -102,7 +102,7 @@
                         if (data.StatusCode == 200) {
                             var code = data.ResultData;
                             $('#alert-form').hide();
-                            _this.data('status', code);
+
                             $('#alert-info').html('<p>数据修改成功!</p>');
                         } else {
                             $('#alert-form').hide();
