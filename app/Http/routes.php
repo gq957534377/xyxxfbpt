@@ -32,8 +32,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         //创业技术培训
         Route::resource('/training', 'TrainingController');
         Route::resource('/training_info_page', 'TrainingController@getInfoPage');
-        Route::resource('/training_show_one', 'TrainingController@getOneTraining');
-        Route::resource('/training_change_status', 'TrainingController@updateStatus');
         // 创业大赛->发布信息入口
         Route::resource('/match', 'VentureContestController');
         Route::get('paging','VentureContestController@paging');
