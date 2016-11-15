@@ -152,7 +152,9 @@
                     <div class="form-group">
                         <label class="col-md-2 control-label">缩略图</label>
                         <div class="col-md-10">
-                            <input type="file" class="form-control" name="banner">
+                            <input type="text" size="50" style="width: 150px;" class="lg" name="banner" id="charge_banner" disabled="true">
+                            <input id="file_charge" name="file_upload" type="file" multiple="true">
+                            <img src="" id="charge_thumb_img" style="max-width: 350px;max-height: 110px;">
                         </div>
                     </div>
                     <div class="form-group">
@@ -228,7 +230,25 @@
                     alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
                 }
             });
+            $('#file_charge').uploadify({
+                'buttonText':'修改图片',
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    '_token'     : "{{csrf_token()}}",
+                },
+                'swf'      : '{{url('uploadify/uploadify.swf')}}',
+                'uploader' : '{{url('/upload')}}',
+                'onUploadSuccess':function (file,data,response) {
+                    var data = JSON.parse(data);
+                    $('#charge_banner').val(data.res);
+                    $('#charge_thumb_img').attr('src',data.res);
+                },
+                'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+                    alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+                }
+            });
         });
+
     </script>
     <script>
         $("#clickObj").click(function () {
@@ -297,23 +317,18 @@
                         function check(data){
                             $('.loading').hide();
                             $('#myModal').modal('show');
+                            $('#alert-form').html('');
                             $('.modal-title').html('提示');
                             if (data) {
                                 if (data.ServerNo == 200) {
-                                    $('.bs-example-modal-lg').hide();
-                                    $('#myModal').show();
+                                    $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>路演活动修改成功!</p>');
                                     list();
-                                    $('.modal-backdrop').remove();
                                 } else {
-                                    $('#alert-form').hide();
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
-                                    $('#alert-info').html();
                                 }
                             } else {
-                                $('#alert-form').hide();
                                 $('#alert-info').html('<p>未知的错误</p>');
-                                $('#alert-info').html();
                             }
                         }
                     }
@@ -402,24 +417,22 @@
                     success : function (data) {
                         $('.loading').hide();
                         $('#myModal').modal('show');
+                        $('#alert-form').html('');
                         $('.modal-title').html('提示');
                         if (data) {
                             if (data.ServerNo == 200) {
                                 $('#con-close-modal').modal('hide');
-                                $('#myModal').modal('show');
                                 $('#alert-info').html('<p>路演发布成功!</p>');
                                 list();
                             } else {
-                                $('#alert-form').hide();
                                 $('#alert-info').html('<p>' + data.ResultData + '</p>');
                             }
                         } else {
-                            $('#alert-form').hide();
                             $('#alert-info').html('<p>未知的错误</p>');
                         }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-
+                        $('#alert-info').html('<p>未知的错误</p>');
                     }
                 });
             });
