@@ -13,16 +13,16 @@
  {
      // 表名
      protected static $table = 'data_match';
+
      /**
-      * 获取一条数据
-      * @param array $where
-      * @return {bool|array}
-      * @author maolin
+      * @param $where
+      * @return array|bool
+      * author maolin
       */
      public function getOntData($where)
      {
         if(empty($where)) return false;
-        return DB::table(self::$table)->where('guid',$where)->first();
+        return DB::table(self::$table)->where('guid',$where)->get();
      }
      /**
       * 添加一条数据
@@ -74,7 +74,6 @@
        public function getPageData($where)
        {
           //
-           return DB::table(self::$table)->forPage(1, PAGENUM)->get();
-
+           return DB::table(self::$table)->forPage($where, PAGENUM)->get();
        }
  }
