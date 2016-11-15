@@ -260,7 +260,7 @@ class UserService {
         // 提交数据给store层
         $info = self::$userStore->updateUserInfo(['guid'=>$guid],['headpic'=>$headpic]);
         if(!$info) return ['status'=>'400','msg'=>'修改失败！'];
-        return ['status'=>'200','msg'=>'修改成功！','data'=>$headpic];
+        return ['status'=>'200','msg'=>'修改成功！'];
     }
 
 
