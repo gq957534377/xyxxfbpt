@@ -59,7 +59,7 @@ class TrainingService
     public function getAllData()
     {
         $info = self::$trainingStore->getAllData();
-        if(!$info) {
+        if (!$info) {
             // 用户订单为空
             if ([] == $info) return ['status' => true, 'msg' => $info];
             // 获取失败
@@ -79,20 +79,43 @@ class TrainingService
     public function addTraining($request)
     {
         $data = $request->all();
-//        $date=strtotime($data['start_time']);
-//        if($date < time()) return ['status' => false,'msg' => '培训发布时间不合法'];
-//        $date=strtotime($data['stop_time']);
-//        if($date < time()) return ['status' => false,'msg' => '培训结束时间不合法'];
-//        $date=strtotime($data['deadline']);
-//        if($date < time()) return ['status' => false,'msg' => '报名截止时间不合法'];
+        $current_time = time();//当前时间戳
+        $start_time = strtotime($data['start_time']);
+        $stop_time = strtotime($data['stop_time']);
+        $deadline = strtotime($data['deadline']);
+
+        if ($deadline > $start_time || $deadline > $stop_time) {
+            return ['status' => false,'msg' => '报名截止时间不合法(报名截止时间不能先于培训开始时间或培训结束时间！)'];
+        }elseif ($start_time > $stop_time){
+            return ['status' => false,'msg' => '培训开始时间不合法(培训开始时间不能先于培训结束时间！)'];
+        }
+
+        switch ($current_time) {
+            case $current_time < $deadline:
+//                0 表示培训正在报名中
+                $data['status'] = 0;
+                break;
+            case $current_time >= $deadline && $current_time < $start_time:
+//                1 表示培训报名截止，处于活动准备阶段
+                $data['status'] = 1;
+                break;
+            case $current_time >= $start_time && $current_time < $stop_time:
+//                2 表示培训开始
+                $data['status'] = 2;
+                break;
+            case $current_time >= $current_time:
+//                3 表示活动结束，已过期
+                $data['status'] = 3;
+                break;
+        }
         // 服务器端数据设置
-        $data['training_guid']   = Common::getUuid();
+        $data['training_guid'] = Common::getUuid();
         $data['start_time'] = strtotime($data['start_time']);
         $data['stop_time'] = strtotime($data['stop_time']);
         $data['deadline'] = strtotime($data['deadline']);
         $result = self::$trainingStore->addData($data);
         if (!$result) return ['status' => false, 'msg' => '发布培训失败'];
-        return ['status'=>true,'msg'=>"发布成功"];
+        return ['status' => true, 'msg' => "发布成功"];
     }
 
     /**
@@ -107,8 +130,6 @@ class TrainingService
         $data = ['status' => 1];
         return self::$trainingStore->updateData($where, $data);
     }
-
-
 
     /**
      * 修改活动状态
