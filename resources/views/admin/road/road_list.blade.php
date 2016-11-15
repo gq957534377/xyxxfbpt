@@ -34,7 +34,7 @@
 <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" id="fabu">
         <div class="modal-content">
-            <form class="form-horizontal p-20" data-name="" role="form" id="yz_fb"  onsubmit="return false">
+            <form data-name="" role="form" id="yz_fb"  onsubmit="return false">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="road_title">发布路演活动</h4>
@@ -376,7 +376,7 @@
                     "use strict";
                     $.FormValidator.init()
                 }(window.jQuery);
-//发布
+        //发布
         !function($) {
             "use strict";
             var FormValidator = function() {
@@ -500,52 +500,8 @@
                     "use strict";
                     $.FormValidator.init()
                 }(window.jQuery);
-        /**
-         * 发布路演
-         * @author 郭庆
-         */
-//         $('#add_road').click(function () {
-//                var data = {
-//                    title:$('#title').val(),
-//                    speaker:$('#speaker').val(),
-//                    group:$('#group option:selected').val(),
-//                    roadShow_time:$('#roadShow_time').val(),
-//                    banner:$('#banner').val(),
-//                    brief:$('#brief').val(),
-//                    roadShow_describe:ue.getContent()
-//                };
-//                console.log(data);
-//                $.ajax({
-//                    url: '/road',
-//                    type:'post',
-//                    dataType:'json',
-//                    data:data,
-//                    success : function (data) {
-//                        $('.loading').hide();
-//                        $('#myModal').modal('show');
-//                        $('#alert-form').html('');
-//                        $('.modal-title').html('提示');
-//                        if (data) {
-//                            if (data.ServerNo == 200) {
-//                                $('#con-close-modal').modal('hide');
-//                                $('#alert-info').html('<p>路演发布成功!</p>');
-//                                list();
-//                            } else {
-//                                $('#alert-info').html('<p>' + data.ResultData + '</p>');
-//                            }
-//                        } else {
-//                            $('#alert-info').html('<p>未知的错误</p>');
-//                        }
-//                    },
-//                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-//                        $('#alert-info').html('<p>未知的错误</p>');
-//                    }
-//                });
-//            });
-         /**
-         *修改路演信息展示旧的信息
-         * @author 郭庆
-         */
+
+         //修改路演信息展示旧的信息
         function updateRoad() {
             $('.charge-road').click(function () {
                 $('.loading').hide();
