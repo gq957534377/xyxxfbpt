@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Services\MatchService;
-use App\Tools\Common;
 use Illuminate\Support\Facades\Validator;
 
 class VentureContestController extends Controller
@@ -47,7 +46,10 @@ class VentureContestController extends Controller
     public function store(Request $request)
     {
         // Data validation
-        // return $request->all();
+         return $result=$request->all();
+        if($result) return 1;
+        if(!$result) return 2;
+        return 3;
         $validator = Validator::make($request->all(), [
             "name" =>'required',
             "order"=>'required|digits_between:1,3',
@@ -62,6 +64,7 @@ class VentureContestController extends Controller
         if ($validator->fails()) {
             return response()->json(['ServerNo' => 400,'ResultData' => $validator->errors()->all()]);
         }
+        return $request->all();
         $result = self::$matchServer->insert($request->all());
         if(!$result) return response()->json(['status'=>'400','msg'=>'插入失败']);
         return response()->json(['status'=>'200','msg'=>'插入成功']);
