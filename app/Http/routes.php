@@ -41,12 +41,13 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/road','RoadController');
         Route::resource('/road_info_page','RoadController@getInfoPage');
         // 用户管理
-        Route::resource('/users', 'UserController');
-        Route::get('/users_data', 'UserController@getUserData');
-        Route::get('/users_page', 'UserController@getUserData');
-        Route::put('/users_data', 'UserController@updateData');
-        Route::delete('/users_data', 'UserController@deleteData');
-        Route::get('/users_one_data', 'UserController@getOneData');
+        Route::resource('/user', 'UserController');
+        Route::get('/user_ajax_get_data', 'UserController@getUserData');
+        Route::resource('/user_role', 'UserRoleController');
+//        Route::get('/users_page', 'UserController@getUserData');
+//        Route::put('/users_data', 'UserController@updateData');
+//        Route::delete('/users_data', 'UserController@deleteData');
+//        Route::get('/users_one_data', 'UserController@getOneData');
         //众筹
         Route::resource('/project_approval', 'CrowdFundingController');
         //发布项目
