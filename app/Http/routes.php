@@ -51,7 +51,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/project_approval', 'CrowdFundingController');
         //发布项目
         Route::resource('/project', 'ProjectController');
-        Route::get('/jacklin', 'ProjectController@test');
         //众筹管理
         Route::resource('/project_approval', 'CrowdFundingController');
         //分页
@@ -87,7 +86,6 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::post("crow_funding_page","CrowdFundingController@pageContent");
     //发布项目
     Route::resource('/project', 'ProjectController');
-    Route::get('/getuptoken', 'ProjectController@getUptoken');
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         // 修改头像

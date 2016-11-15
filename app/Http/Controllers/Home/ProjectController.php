@@ -69,14 +69,26 @@ class ProjectController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 返回七牛upToken
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
      */
     public function edit($id)
     {
-        //
+        // 需要填写你的 Access Key 和 Secret Key
+        $accessKey = 'VsAP-hK_hVPKiq5CQcoxWNhBT9ZpZ1Ii4z3O_W51';
+        $secretKey = '5dqfmvL15DFoAK1QzaVF2TwVzwJllOF8K4Puf1Po';
+
+        // 构建鉴权对象
+        $auth = new Auth($accessKey, $secretKey);
+
+        // 要上传的空间
+        $bucket = 'jacklin';
+
+        // 生成上传 Token
+        $token = $auth->uploadToken($bucket);
+        $a = array('uptoken'=>$token);
+        return response()->json($a);
     }
 
     /**

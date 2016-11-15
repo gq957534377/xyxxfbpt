@@ -20,7 +20,7 @@
         {{--七牛token以domain--}}
         <div class="text-left col-md-12 ">
             <input type="hidden" id="domain" value="http://ogd29n56i.bkt.clouddn.com/">
-            <input type="hidden" id="uptoken_url" value="{{url('getuptoken')}}">
+            <input type="hidden" id="uptoken_url" value="{{url('project/getuptoken/edit')}}">
         </div>
 
         <div class="body uploadbox col-md-8 col-md-offset-2">
