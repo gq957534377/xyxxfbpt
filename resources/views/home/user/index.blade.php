@@ -251,9 +251,10 @@
                 'realname' : user_realname.val(),
                 'hometown' : user_hometown.val(),
                 'birthday' : user_birthday.val(),
-                'sex': user_sex.val(),
+                'sex':  $('input:radio[name="user_sex"]:checked').val(),
                 'tel' : user_phone.val()
             };
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
