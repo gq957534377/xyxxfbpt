@@ -233,8 +233,8 @@ class UserService {
        if (empty($where) || empty($data)) return ['status'=>400,'msg'=>'缺少数据'];
         // 提交数据给store层
         $info = self::$userStore->updateUserInfo($where,$data);
-        if(!$info) return ['status'=>400,'msg'=>'修改失败！'];
-        return ['status'=>200,'msg'=>'修改成功！'];
+        if(!$info) return ['status'=>'400','msg'=>'修改失败！'];
+        return ['status'=>'200','msg'=>'修改成功！'];
     }
 
     /**
@@ -248,7 +248,7 @@ class UserService {
     public function updataUserInfo2($data)
     {
         // 检验条件
-        if (empty($data)) return ['status'=>400,'msg'=>'缺少数据'];
+        if (empty($data)) return ['status'=>'400','msg'=>'缺少数据'];
         // 对上传的头像文件进行处理
         $uploadInfo = self::$uploadServer->uploadFile($data->file('headpic'));
         // 检验图上上传成与否
@@ -259,8 +259,8 @@ class UserService {
         $guid = $data->all()['guid'];
         // 提交数据给store层
         $info = self::$userStore->updateUserInfo(['guid'=>$guid],['headpic'=>$headpic]);
-        if(!$info) return ['status'=>400,'msg'=>'修改失败！'];
-        return ['status'=>200,'msg'=>'修改成功！','data'=>$headpic];
+        if(!$info) return ['status'=>'400','msg'=>'修改失败！'];
+        return ['status'=>'200','msg'=>'修改成功！','data'=>$headpic];
     }
 
 
@@ -276,16 +276,14 @@ class UserService {
         if(empty($data)) return ['status'=>'400','msg'=>'请填写完整信息！'];
         // 查看该用户是否已申请
         $info= self::$roleStore->getRole(['guid'=>$data['guid']]);
-        if(!empty($info)) return ['status'=>'404','msg'=>'已申请'];
-        //提纯数据
-        unset($data['_method']);
-        unset($data['email']);
+        // 查询不为空
+        if(!empty($info)) return ['status'=>'400','msg'=>'已申请'];
         //提交数据
         $result = self::$roleStore->addRole($data);
         // 返回信息处理
         if(!$result) return ['status'=>'400','msg'=>'申请失败'];
-        return ['status'=>'400','msg'=>'申请成功'];
-        }
+        return ['status'=>'200','msg'=>'申请成功'];
+    }
 
     /**
      * @param $where

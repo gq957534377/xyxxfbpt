@@ -12,7 +12,7 @@
                                         <!-- user login dropdown start-->
                                         <li class="dropdown text-center" style="margin: 0;padding: 0;">
                                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                                <img alt="" src="{{asset('home/images/man3.jpg')}}" class="img-circle profile-img thumb-sm">
+                                                <img alt="" src="{{asset('home/images/avatar1.png')}}" class="img-circle profile-img thumb-sm">
                                                 <span class="username">{{session('user')->email}} </span> <span class="caret"></span>
                                             </a>
                                             <ul class="dropdown-menu pro-menu fadeInUp animated" tabindex="5003" style="overflow: hidden; outline: none;margin: 0;padding: 0;">

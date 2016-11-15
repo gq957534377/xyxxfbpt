@@ -43,14 +43,64 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * 申请成为创业者
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
      */
     public function store(Request $request)
     {
-        //
+        // 获取数据
+        $data = $request->all();
+        //验证数据
+        $validator = Validator::make($request->all(),[
+            'guid' => 'required',
+            'realname' => 'required|min:2',
+            'card_number' => 'required|min:16|max:18',
+            'hometown' => 'required|min:2',
+            'birthday' => 'required|min:4|max:6',
+            'sex' => 'required',
+            'tel' => 'required|min:11',
+            'card_pic_a' => 'required',
+            'card_pic_b' => 'required',
+        ],[
+            'guid.required' => '非法操作!<br>',
+            'realname.required' => '请填写您的真实姓名<br>',
+            'realname.min' => '真实姓名最少两位<br>',
+            'card_number.required' => '请填写您的真实身份证件号<br>',
+            'card_number.min' => '身份证件号16-18位<br>',
+            'card_number.max' => '身份证件号16-18位<br>',
+            'hometown.required' => '请填写您的籍贯<br>',
+            'hometown.min' => '籍贯最少两位<br>',
+            'birthday.required' => '请填写您的出身年月<br>',
+            'birthday.min' => '出生年月4-6位<br>',
+            'birthday.max' => '出生年月4-6位<br>',
+            'sex.required' => '请选择您的性别<br>',
+            'tel.required' => '请填写您的手机号码<br>',
+            'tel.min' => '手机号码标准11位<br>',
+            'card_pic_a.required' => '请上传您的出身份证正面照<br>',
+            'card_pic_b.required' => '请上传您的出身份证反面照',
+        ]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '404','ResultData' => $validator->errors()->all()]);
+        //将申请者的提交数据转发到service层
+        // 提取想要的数据
+        $picInfo_a = self::$uploadServer->uploadFile($request->file('card_pic_a'));
+        if($picInfo_a['status'] =='400') return response()->json(['StatusCode'=>'400','ResultData'=>'图片上传失败']);
+        $picInfo_b = self::$uploadServer->uploadFile($request->file('card_pic_b'));
+        if($picInfo_b['status'] =='400') return response()->json(['StatusCode'=>'400','ResultData'=>'图片上传失败']);
+        $data['card_pic_a'] = $picInfo_a['msg'];
+        $data['card_pic_b'] = $picInfo_b['msg'];
+        // 提交数据到业务服务层
+        $info = self::$userServer->applyRole($data);
+        // 返回状态信息
+        switch ($info['status']){
+            case '400':
+                return response()->json(['StatusCode'=>'400','ResultData'=>$info['msg']]);
+                break;
+            case '200':
+                return response()->json(['StatusCode'=>'200','ResultData'=>$info['msg']]);
+                break;
+        }
     }
 
     /**
@@ -69,8 +119,6 @@ class UserController extends Controller
     }
 
     /**
-     * 编辑个人中心
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -93,8 +141,8 @@ class UserController extends Controller
         // 将验证后的数据交给Server层
         $info = self::$userServer->updataUserInfo(['guid'=>$id],$data);
         // 返回信息做处理
-        if($info['status'] == '400') return response()->json(['StatusCode'=>400,'ResultData'=>'修改失败']);
-        return response()->json(['Status'=>200,'ResultData'=>'修改成功']);
+        if($info['status'] == '400') return response()->json(['StatusCode'=>'400','ResultData'=>'修改失败']);
+        return response()->json(['StatusCode'=>'200','ResultData'=>'修改成功']);
     }
 
     /**
@@ -109,6 +157,7 @@ class UserController extends Controller
     }
 
     /**
+     * 修改个人头像
      * @param Request $request
      * @author 刘峻廷
      */
@@ -128,57 +177,8 @@ class UserController extends Controller
                 return response()->json(['StatusCode'=>'400','ResultData'=>$info['msg']]);
                 break;
             case '200':
-                return response()->json(['StatusCode'=>'200','ResultData'=>$info['msg'],'headpic'=>$info['data']]);
+                return response()->json(['StatusCode'=>'200','ResultData'=>$info['msg']]);
                 break;
         }
-    }
-
-    /**
-     * 申请成为创业者
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
-     */
-    public function applyRole(Request $request)
-    {
-        // 获取数据
-        $data = $request->all();
-        //验证数据
-        $validator = Validator::make($request->all(),[
-            'guid' => 'required',
-            'realname' => 'required|min:2',
-            'card_number' => 'required|min:16|max:18',
-            'email' => 'required|email',
-            'hometown' => 'required|min:2',
-            'birthday' => 'required|min:4',
-            'sex' => 'required',
-            'tel' => 'required|min:11',
-            'card_pic_a' => 'required',
-            'card_pic_b' => 'required',
-        ]);
-        if ($validator->fails()) return response()->json(['StatusCode' => 400,'ResultData' => $validator->errors()->all()]);
-        //将申请者的提交数据转发到service层
-        // 提取想要的数据
-        $picInfo_a = self::$uploadServer->uploadFile($request->file('card_pic_a'));
-        if($picInfo_a['status'] =='400') return response()->json(['StatusCode'=>'400','ResultData'=>'图片上传失败']);
-        $picInfo_b = self::$uploadServer->uploadFile($request->file('card_pic_b'));
-        if($picInfo_b['status'] =='400') return response()->json(['StatusCode'=>'400','ResultData'=>'图片上传失败']);
-        $data['card_pic_a'] = $picInfo_a['msg'];
-        $data['card_pic_b'] = $picInfo_b['msg'];
-        // 提交数据到业务服务层
-        $info = self::$userServer->applyRole($data);
-        // 返回状态信息
-        switch ($info['status']){
-            case '404':
-                return response()->json(['StatusCode'=>'404','ResultData'=>$info['msg']]);
-            break;
-            case '400':
-                return response()->json(['StatusCode'=>'400','ResultData'=>$info['msg']]);
-            break;
-            case '200':
-                return response()->json(['StatusCode'=>'200','ResultData'=>$info['msg']]);
-            break;
-        }
-
     }
 }
