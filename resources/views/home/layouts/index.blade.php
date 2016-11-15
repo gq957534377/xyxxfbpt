@@ -22,6 +22,8 @@
 
 @include('home.public.script')
 
+@include('home.layouts.promptModal')
+
 @yield('script')
 </body>
 </html>

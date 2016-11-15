@@ -9,6 +9,10 @@
     .modal-content {
         width: 690px;
     }
+    #UE{
+        width: 648px;
+        height: 200px;
+    }
 </style>
 @section('content')
 @section('title', '技术培训管理')
@@ -90,7 +94,7 @@
                     <div class="col-md-12">
                         <div class="form-group no-margin">
                             <label for="field-7" class="control-label">创业项目培训详情</label>
-                            <textarea class="" placeholder="请详细描述创业项目培训内容" id="UE"
+                            <textarea class="" placeholder="请详细描述创业项目培训内容" id="UE1"
                                       name="describe">请详细描述创业项目培训内容</textarea>
                         </div>
                     </div>
@@ -99,18 +103,19 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-info" id="add_road">发布技术培训</button>
+                <button type="button" class="btn btn-info" id="add_training">发布技术培训</button>
             </div>
         </div>
     </div>
 </div><!-- /.modal -->
 
 
-<button style="float: right" id="add_training" class="btn btn-primary" data-toggle="modal"
+<button style="float: right" id="training" class="btn btn-primary" data-toggle="modal"
         data-target="#con-close-modal">添加技术培训 &nbsp;<i class="fa fa-plus" aria-hidden="true"></i></button>
 
 
 <img src="/admin/images/load.gif" class="loading">
+
 
 <div class="panel" id="data"></div>
 @endsection
@@ -130,8 +135,12 @@
         /**
          * 添加用户
          */
+<<<<<<< HEAD
         $('#add_road').click(function () {
 
+=======
+        $('#add_training').click(function () {
+>>>>>>> origin/dev
             $('.modal-title').html('技术培训信息详情');
             var data = {
                 title: $('#title').val(),
@@ -140,7 +149,7 @@
                 stop_time: $('#stop_time').val(),
                 deadline: $('#deadline').val(),
                 banner: $('#banner').val(),
-                describe: ue.getContent()
+                describe: ue1.getContent()
             };
 
             $.ajax({
@@ -155,6 +164,9 @@
                 type: 'post',
                 dataType: 'json',
                 data: data,
+                beforeSend:function () {
+//                    console.log('测试运行ajax');
+                },
                 success: function (data) {
 >>>>>>> 01202d3764bee5f602f579d44236d8a0808b6c06
                     $('.loading').hide();
@@ -169,8 +181,8 @@
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');
                         }
                     } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>未知的错误</p>');
+//                        $('#alert-form').hide();
+//                        $('#alert-info').html('<p>未知的错误</p>');
                     }
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -178,61 +190,25 @@
                 }
             });
         });
-
-        // 显示培训信息详情
-        function showInfo() {
-            $('.info').click(function () {
-                $('.modal-title').html('培训信息详情');
-                var ajax = new ajaxController();
-                ajax.ajax({
-                    url: '/training_show_one?name=' + $(this).data('name'),
-                    before: ajaxBeforeNoHiddenModel,
-                    success: showInfoList,
-                    error: ajaxErrorModel
-                });
-            });
-        }
-
-
-        // 修改个人信息状态
-        function modifyStatus() {
-            $('.status').click(function () {
-                var _this = $(this);
-                var ajax = new ajaxController();
-                ajax.ajax({
-                    url: '/training_change_status?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
-                    before: ajaxBeforeNoHiddenModel,
-                    success: checkStatus,
-                    error: ajaxErrorModel
-                });
-
-                function checkStatus(data) {
-                    console.log(data);
-                    $('.loading').hide();
-                    $('#myModal').modal('show');
-                    $('.modal-title').html('提示');
-                    if (data) {
-                        if (data.ServerNo == 200) {
-                            var code = data.ResultData;
-                            $('#alert-form').hide();
-                            _this.data('status', code);
-                            if (_this.children().hasClass("btn-danger")) {
-                                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
-                            } else if (_this.children().hasClass("btn-primary")) {
-                                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
-                            }
-                            $('#alert-info').html('<p>数据修改成功!</p>');
-                        } else {
-                            $('#alert-form').hide();
-                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
-                        }
-                    } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>未知的错误</p>');
-                    }
+        /**
+         * 修改
+         */
+        $(document).on('click','editor',function () {
+            var data = this.getAttribute('data-name');
+            $.ajax({
+                url:'/training/' + data + '/edit',
+                type:'get',
+                proccessData:true,
+                beforeSend:function () {
+                    console.log('获取数据中');
+                },
+                success:function () {
+                    $('#altersend input[name=title]').val(data[0].title);
                 }
-            });
-        }
+            })
+        });
+
+
 
         // 页面加载时触发事件请求分页数据
         var ajax = new ajaxController();
@@ -245,15 +221,4 @@
     </script>
 
     {{--添加培训--}}
-    <script>
-        $('#add_training').click(function () {
-            var ajax = new ajaxController();
-            ajax.ajax({
-                url: '/training',
-                before: ajaxBeforeModel(),
-                success: function (data) {
-                }
-            });
-        });
-    </script>
 @endsection

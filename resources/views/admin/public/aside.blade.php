@@ -18,12 +18,11 @@
             <li class="has-submenu">
                 <a href="#"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="{{url('users?role=1')}}">普通用户</a></li>
-                    <li><a href="{{url('users?role=2')}}">创业者用户</a></li>
-                    <li><a href="{{url('users?role=0')}}">待审核用户</a></li>
-                    {{--<li><a href="{{url('users?role=0')}}">待审核用户<span class="badge badge-danger pull-right">50</span></a></li>--}}
-                    {{--<li><a href="#">数据备份还原</a></li>--}}
-                    {{--<li><a href="#">Excel导入/导出</a></li>--}}
+                    <li><a id="aside_normal" href="{{url('user?role=1')}}">普通用户</a></li>
+                    <li><a id="aside_entrepreneurs" href="{{url('user?role=2')}}">创业者用户</a></li>
+                    <li><a id="aside_investor" href="{{url('user?role=3')}}">投资者用户</a></li>
+                    <li><a id="aside_check_entrepreneurs" href="{{url('user_role')}}">创业者待审核用户</a></li>
+                    <li><a id="aside_check_investor" href="{{url('user_role')}}">投资者待审核用户</a></li>
                 </ul>
             </li>
 

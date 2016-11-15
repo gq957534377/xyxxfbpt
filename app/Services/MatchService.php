@@ -49,9 +49,8 @@ class MatchService
          // Update time
          $array['up_time']   = time();
          $array['guid'] = Common::getUuid();
-
          $state = self::$matchStore->addData($array);
-         // Return status
+         // return status
          if($state==0) return ['status'=> true,'msg'=>'插入失败'];
          return ['status'=> false,'msg'=>'插入成功'];
      }
@@ -63,22 +62,26 @@ class MatchService
      public function deleteOne($id)
      {
          return $id;
-         $state = self::$matchStore->deleteOne($id);
-         if($state==0) return ['status'=> true,'msg'=>'删除失败'];
+         $result = self::$matchStore->deleteOne($id);
+         if($result==0) return ['status'=> true,'msg'=>'删除失败'];
          return ['status'=> false,'msg'=>'删除成功'];
      }
 
     /**
+     * 获取修改数据
      * @param $id
-     * @return bool
-     * 放弃使用
+     * @return array|bool
+     * @author maolin
      */
      public function getOntData($id)
      {
          $result = self::$matchStore->getOntData($id);
-         $result->start_time = date('Y-m-d\TH:i:s', $result->start_time);
-         $result->end_time = date('Y-m-d\TH:i:s', $result->end_time);
-         $result->deadline = date('Y-m-d\TH:i:s', $result->deadline);
+         if($result==0) return ['status'=> true,'msg'=>'删除失败'];
+         // return $result;
+         $result[0]->start_time = date('Y-m-d\TH:i:s', $result[0]->start_time);
+         $result[0]->end_time = date('Y-m-d\TH:i:s', $result[0]->end_time);
+         $result[0]->deadline = date('Y-m-d\TH:i:s', $result[0]->deadline);
+         $result[0]->up_time = date('Y-m-d\TH:i:s', $result[0]->up_time);
          return $result;
      }
 
