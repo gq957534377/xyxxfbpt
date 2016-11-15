@@ -333,7 +333,7 @@
                             data:data,
                             dataType:'json',
                             // 直接使用FormData发送表单设置选项
-//                             contentType: false,
+                             contentType: false,
                              processData: false,
                             beforeSend:function () {
                                 $('#postSend button').eq(0).click();
