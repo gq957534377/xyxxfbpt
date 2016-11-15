@@ -40,6 +40,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         // 路演活动
         Route::resource('/road','RoadController');
         Route::resource('/road_info_page','RoadController@getInfoPage');
+        Route::any('/upload','RoadController@upload');
         // 用户管理
         Route::resource('/users', 'UserController');
         Route::get('/users_data', 'UserController@getUserData');

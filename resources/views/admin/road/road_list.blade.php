@@ -8,6 +8,9 @@
         width: 80%;
         height:80%;
     }
+     .uploadify{display:inline-block;}
+    .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
+    table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
 </style>
 @section('content')
 @section('title', '路演管理')
@@ -73,7 +76,9 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="field-5" class="control-label">缩略图</label>
-                            <img id="clickObj" src="/admin/images/upload.png" style="cursor: pointer;margin-left: 20px;">
+                            <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" disabled="true">
+                            <input id="file_upload" name="file_upload" type="file" multiple="true">
+                            <img src="" id="road_thumb_img" style="max-width: 350px;max-height: 110px;">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -101,7 +106,7 @@
             </div>
             <div class="modal-footer" id="caozuo">
                 <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                <button type="submit" data-name="" class="road_update btn btn-info" id="add_road">发布路演</button>
+                <button type="submit" data-name="" class="road_update btn btn-primary" id="add_road">发布路演</button>
             </div>
         </div>
     </div>
@@ -201,6 +206,30 @@
     <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
     <!--引用ajax模块-->
     <!--alertInfo end-->
+    <script src="{{url('uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
+    <script type="text/javascript">
+        <?php $timestamp = time();?>
+        $(function() {
+            $('#file_upload').uploadify({
+                'buttonText':'选择图片',
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    '_token'     : "{{csrf_token()}}",
+                },
+                'swf'      : '{{url('uploadify/uploadify.swf')}}',
+                'uploader' : '{{url('/upload')}}',
+                'onUploadSuccess':function (file,data,response) {
+                    var data = JSON.parse(data);
+                    $('#banner').val(data.res);
+                    $('#road_thumb_img').attr('src',data.res);
+                },
+                'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+                    alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+                }
+            });
+        });
+    </script>
     <script>
         $("#clickObj").click(function () {
             $("#rongqi").trigger("click");
@@ -364,6 +393,7 @@
                     brief:$('#brief').val(),
                     roadShow_describe:ue.getContent()
                 };
+                console.log(data);
                 $.ajax({
                     url: '/road',
                     type:'post',
@@ -375,11 +405,10 @@
                         $('.modal-title').html('提示');
                         if (data) {
                             if (data.ServerNo == 200) {
-                                $('#con-close-modal').hide();
-                                $('#myModal').show();
+                                $('#con-close-modal').modal('hide');
+                                $('#myModal').modal('show');
                                 $('#alert-info').html('<p>路演发布成功!</p>');
                                 list();
-                                $('.modal-backdrop').remove();
                             } else {
                                 $('#alert-form').hide();
                                 $('#alert-info').html('<p>' + data.ResultData + '</p>');
