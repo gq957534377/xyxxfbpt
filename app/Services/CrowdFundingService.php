@@ -221,7 +221,8 @@ class CrowdFundingService
     public function forPage($request)
     {
         $tolPages = 5;//一页的数据条数
-        $creatPage = Common::getPageUrl($request,"crowd_funding_data","crowd_forpage",$tolPages);
+        $where = [0,1];
+        $creatPage = Common::getPageUrls($request,"crowd_funding_data","crowd_forpage",$tolPages,"status",$where);
         if(isset($creatPage)){
             $result["page"]=$creatPage;
         }else{
@@ -262,6 +263,23 @@ class CrowdFundingService
     {
         $where = ["status"=>"2"];
         $result = self::$crowdFundingStore->getWhere($where);
+        if(isset($result)){
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>'发生错误'];
+        }
+    }
+
+    /**
+     * 创建待发布中筹项目；
+     * @param array $data
+     * @return array
+     * @author 张洵之
+     */
+    public function insertCrowdFunding($data)
+    {
+        if(!is_array($data))return['status'=>false,'msg'=>'数据应该为一个数组'];
+        $result = self::$crowdFundingStore->insertData($data);
         if(isset($result)){
             return ['status'=>true,'msg'=>$result];
         }else{

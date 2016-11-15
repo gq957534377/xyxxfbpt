@@ -154,7 +154,7 @@ class UserController extends Controller
     public function updateData(Request $request)
     {
         $all = $request->all();
-        $p = empty($all) || !isset($all['id']) || !isset($all['status']) || !isset($all['role']) || !in_array($all['role'], ['0', '1', '2']);
+        $p = empty($all) || !isset($all['id']) || !isset($all['role']) || !in_array($all['role'], ['0', '1', '2']);
         if ($p) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
         $data = $all;
         unset($data['id']);
@@ -165,7 +165,8 @@ class UserController extends Controller
                 return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
         } else {
             $result = self::$userServer->updataUserInfo(['guid' => $all['id']], $data);
-            if(!$result['status'])
+            $result['data'] = $result['msg'];
+            if($result['status'] == 400)
                 return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
         }
         return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);

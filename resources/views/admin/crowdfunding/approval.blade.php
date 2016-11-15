@@ -65,6 +65,7 @@
     var objStore = null;
     var nowPage = 1;//当前页码；
     forPage("crowd_forpage?nowPage=1");
+    /* 异步获取分页内容及样式 */
     function forPage(url) {
         var forpageAjax = new AjaxWork(url,"get");
         forpageAjax.upload({},function (data) {
@@ -79,6 +80,7 @@
             }
         })
     }
+    // 创建DOM元素
     function createHtml(data) {
         var html ="";
         for(var i =0;i<data.length;i++){
@@ -94,6 +96,7 @@
         }
         $("#case").html(html);
     }
+    // 初始化分页按钮，绑定点击事件
     function pageAddClick() {
         $(".pagination li a").click(function () {
             var pageUrl = $(this).attr("href");
@@ -101,6 +104,7 @@
             return false;
         })
     }
+    // 初始化工具按钮，绑定点击事件
     function buttonOnClick() {
         $(".btn-group button").click(function () {
             buttonClick($(this));
@@ -156,7 +160,7 @@ function plotForm(type,data){
     switch (type){
         case "publish":publishFrom(type,data);break;
         case "revise":reviseFrom(type,data);break;
-        case "selectPub":selectPub(type,data);break;
+        case "selectPub":selectPub("publish",data);break;
         default :closeFrom(type,data);
     }
 }
@@ -353,8 +357,10 @@ function reviseFrom(type,data)
             startVerification();
             formShow();
 }
+
+//
 function closeFrom(type,data) {
-    var html ="<h1>确认要下架改项目么？</h1><div id='Type' style='display: none'>"+
+    var html ="<h1>确认要下架该项目么？</h1><div id='Type' style='display: none'>"+
             type+
             "</div><div id='ProjectId' style='display: none'>"+
             data+
@@ -372,6 +378,7 @@ function formHide() {
     $("#closeButton").trigger("click")
 }
 
+//发布成功后的回调方法
 var successPublishi = function (data) {
     $("#imgLoad").css({"display":"none"});
     if(data.StatusCode == "200"){
@@ -383,6 +390,7 @@ var successPublishi = function (data) {
         alert(data.ResultData)
     }
 }
+//修改成功后的回调方法
 var successRevise = function (data) {
     $("#imgLoad").css({"display":"none"});
     if(data.StatusCode == "200"){
@@ -393,6 +401,7 @@ var successRevise = function (data) {
         alert(data.ResultData)
     }
 }
+//确认按钮点击事件
 $("#supperButton").click(function () {
     var type = $("#Type").html();
     if(type == "close"){
@@ -405,7 +414,7 @@ $("#supperButton").click(function () {
         default:closeCrowdfunding(projectId);
     }
 })
-
+    //重新上架
 function startCrowdfunding() {
     var targetFund = $("#field-4").val();
     var days = $("#field-3").val();
@@ -420,6 +429,7 @@ function startCrowdfunding() {
     }
 }
 
+//修改内容方法
 function revise() {
     var targetFund = $("#field-4").val();
     var days = $("#addDay").val();
@@ -487,6 +497,7 @@ function closeCrowdfunding(id) {
             createPub(Id);
         })
     }
+    //创建发布模板
     function createPub(Id) {
         var data = dataStore;
         console.log(data);

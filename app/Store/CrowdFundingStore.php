@@ -98,7 +98,7 @@ class CrowdFundingStore
     public function forPage($page,$tolPage)
     {
         if(!is_int($page)||!is_int($tolPage))return null;
-        $result = DB::table(self::$table)->forPage($page,$tolPage)->get();
+        $result = DB::table(self::$table)->orderBy("project_id","desc")->forPage($page,$tolPage)->get();
         return $result;
     }
 
@@ -112,6 +112,19 @@ class CrowdFundingStore
     {
         if(!is_array($where))return null;
         $result = DB::table(self::$table)->where($where)->get();
+        return $result;
+    }
+
+    /**
+     * 添加数据
+     * @param $data
+     * @return int|null
+     * @author 张洵之
+     */
+    public function insertData($data)
+    {
+        if(!is_array($data))return null;
+        $result = DB::table(self::$table)->insertGetId($data,"project_id");
         return $result;
     }
 }

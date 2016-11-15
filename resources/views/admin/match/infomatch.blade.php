@@ -1,13 +1,13 @@
 @extends('admin.layouts.master')
 @section('content')
-@section('title', '功能测试')
+    @section('title', '功能测试')
         {{-- 弹出表单开始 --}}
         <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">add</button>
         <!--继承组件-->
         <!--替换按钮ID-->
         @section('form-id', 'con-close-modal')
         <!--定义弹出表单ID-->
-        @section('form-title', '表单标题')
+        @section('form-title', '发布大赛')
         <!--定义弹出内容-->
         @section('form-body')
                 <form id="signupForm" class="form-horizontal p-1" role="form" action="" method="">
@@ -72,23 +72,23 @@
                               <button id="submit" type="submit" class="btn btn-info">提交</button>
                           </div>
                       </form>
-
-
         @endsection
+
        <!--定义底部按钮-->
         @section('form-footer')
-
         @endsection
         {{-- 弹出表单结束 --}}
 
+<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Standard Modal</button>
         {{-- AlertInfo --}}
         <a href="javascript:;" id="error" class="md-trigger btn btn-primary btn-sm" data-modal="modal-1">Show Me</a>
         @section('alertInfo-title', '弹出标题')
-        @section('alertInfo-body')
-            <p></p>
-            <ul>
-                <li></li>
-            </ul>
+
+            @section('alertInfo-body')
+                <p></p>
+                <ul>
+                    <li></li>
+                </ul>
             @endsection
         {{-- AlertInfoEnd --}}
 {{-- AlertInfo --}}
@@ -96,7 +96,6 @@
 {{-- 大赛详细信息 --}}
 
 <div class="page-title">
-      </div>
       <div class="panel">
         <div class="panel-body">
             <div class="row">
@@ -122,22 +121,6 @@
                     </tr>
                 </thead>
                 <tbody class="span">
-                    {{--<tr class="gradeX">--}}
-                        {{--<td>大赛名称</td>--}}
-                        {{--<td>大赛期数</td>--}}
-                        {{--<td>组织机构</td>--}}
-                        {{--<td>活动描述</td>--}}
-                        {{--<td>活动内容</td>--}}
-                        {{--<td>参与人数</td>--}}
-                        {{--<td>开始时间</td>--}}
-                        {{--<td>结束时间</td>--}}
-                        {{--<td>报名截止</td>--}}
-                        {{--<td class="actions">--}}
-                            {{--<a href="javascript:;" id="left" class="on-default edit-row"><i class="fa fa-pencil" id='0' title="修改"></i></a>--}}
-                            {{--<a href="javascript:;" id="right" class="on-default remove-row"><i class="fa fa-trash-o" id='' title="删除"></i></a>--}}
-                        {{--</td>--}}
-                    {{--</tr>--}}
-
                     <!-- <tr>
                         <td>对不起还没有比赛信息，点击上面的添加按钮添</td>
                     </tr> -->
@@ -151,8 +134,8 @@
                             <i class="fa fa-angle-left"></i>
                         </a>
                     </li>
-                    <li><a href="#">1</a></li>
-                    <li class="active"><a href="#">2</a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
                     <li><a href="#">3</a></li>
                     <li class="disabled"><a href="#">4</a></li>
                     <li><a href="#">5</a></li>
@@ -164,13 +147,31 @@
                 </ul>
             </div>
             {{--end-paging--}}
+            </div>
         </div>
+    </div>
         <!-- end: page -->
-          {{--<div class="row">--}}
-
-          {{--</div>--}}
-
-
+<div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" style="width:55%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="custom-width-modalLabel">Modal Heading</h4>
+            </div>
+            <div class="modal-body">
+                <h4>Text in a modal</h4>
+                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+                <hr>
+                <h4>Overflowing text to show scroll behavior</h4>
+                <p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 @endsection
 <!-- script -->
 @section('script')
@@ -183,45 +184,72 @@
         <script src="{{asset('/JsService/Controller/ajaxController.js')}}"></script>
         {{--获取分页数据半成品--}}
         <script>
-            var lll= 222;
+            var againRequest;
             $(document).ready(function(){
+                againRequest = function(){
                 var data = {data:'2'};
-                $.ajax({
-                    type:"get",
-                    url:'paging',
-                    // dataType:'json',
-                    data:data,
-                    processData:true,
-                    beforeSend:function(){
-                        console.log("数据正在发送");
-                    },
-                    success : function(data,textStatus){
-                        console.log(data);
-                        console.log(data[0]);
-                        console.log(data[0].guid);
-                        // 好蹩脚的东西,后面再封装
-                        for (var i=0;i<data.length;i++){
-                            $(".span").append(
-                                '<tr class="gradeX">'+
-                                '<td>'+data[i].name+'</td>'+
-                                '<td>'+data[i].order+'</td>'+
-                                '<td>'+data[i].org+'</td>'+
-                                '<td>'+data[i].title+'</td>'+
-                                '<td>'+data[i].content+'</td>'+
-                                '<td>'+data[i].peoples+'</td>'+
-                                '<td>'+data[i].start_time+'</td>'+
-                                '<td>'+data[i].end_time+'</td>'+
-                                '<td>'+data[i].deadline+'</td>'+
-                                '<td class="actions">'+
-                                    '<a href="javascript:;" id="left" class="on-default edit-row"><i class="fa fa-pencil" id='+data[i].guid+' title="修改"></i></a>'+
-                                    '<a href="javascript:;" id="right" class="on-default remove-row"><i class="fa fa-trash-o" id='+data[i].guid+' title="删除"></i></a>'+
-                                '</td>'+
-                                    '<p>fdsafsdafsdafsdfsdaf</p>'
-                            );
+                    $.ajax({
+                        type:"get",
+                        url:'paging',
+                        // dataType:'json',
+                        data:data,
+                        processData:true,
+                        beforeSend:function(){
+                            console.log("数据正在发送");
+                        },
+                        success : function(data,textStatus){
+                            console.log(textStatus);
+                            for (var i=0;i<data.length;i++){
+                                $(".span").append(
+                                    '<tr class="gradeX">'+
+                                    '<td>'+data[i].name+'</td>'+
+                                    '<td>'+data[i].order+'</td>'+
+                                    '<td>'+data[i].org+'</td>'+
+                                    '<td>'+data[i].title+'</td>'+
+                                    '<td>'+data[i].content+'</td>'+
+                                    '<td>'+data[i].peoples+'</td>'+
+                                    '<td>'+data[i].start_time+'</td>'+
+                                    '<td>'+data[i].end_time+'</td>'+
+                                    '<td>'+data[i].deadline+'</td>'+
+                                    '<td class="actions">'+
+                                        '<a href="javascript:;" id="left" data-name='+data[i].guid+' class="on-default edit-row"><i class="fa fa-pencil" title="修改"></i></a>'+
+                                        '<a href="javascript:;" id="right"  data-name='+data[i].guid+' class="on-default remove-row"><i class="fa fa-trash-o" title="删除"></i></a>'+
+                                    '</td>'
+                                );
+                            }
+                        },
+                        error : function(XMLHttpRequest, textStatus, errorThrown){
+                            console.log(XMLHttpRequest.status);
+                            console.log(XMLHttpRequest.readyState);
+                            console.log(textStatus);
+                            console.log(errorThrown);
                         }
-//                        $("#left").click(function(){
-//                            alert(lll);
-//                        });
+                    });
+                }
+                againRequest();
+            });
+        </script>
+        {{--事件操作--}}
+        <script>
+            {{--删除事件,成功之后页面重载--}}
+            $(document).on('click','#right',function(){
+                var data = this.getAttribute ('data-name');
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url:'match/'+data,
+                    type:'delete',
+                    beforeSend:function(){
+                        console.log("正在请求中");
+                    },
+                    success: function(data,textStatus) {
+                        console.log(data);
+                        console.log(textStatus);
+                        // 重新载入页面
+                        againRequest();
                     },
                     error : function(XMLHttpRequest, textStatus, errorThrown){
                         console.log(XMLHttpRequest.status);
@@ -231,12 +259,10 @@
                     }
                 });
             });
-        </script>
-        <script>
-            $(".span").change(function(){
-                $("#left").click(function(){
-                    alert(lll);
-                });
+            // 数据修改.还有弹窗
+            $(document).on('click','#left',function(){
+                var data = this.getAttribute ('data-name');
+
             });
         </script>
         {{--验证提交表单--}}
@@ -251,7 +277,11 @@
                         submitHandler: function() {
                             $.ajaxSetup({
                                 headers: {
+<<<<<<< HEAD
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+=======
+                                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+>>>>>>> origin/wangtuo
                                 }
                             });
                             var data = new FormData();
