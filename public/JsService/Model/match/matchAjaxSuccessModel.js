@@ -61,20 +61,23 @@ function add(data){
 
 
 function listHtml(data) {
+    console.log(data[0]);
     var html = '';
-    html += '<div class="row"><div class="col-sm-12"><div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">创业项目培训列表</h3></div><table class="table table-bordered table-striped" id="datatable-editable"><thead><tr><th>创业项目培训主题</th><th>组织</th><th>培训开始时间</th><th>培训结束时间</th><th>报名截止时间</th><th>参与人数</th><th>状态</th><th>操作</th></tr></thead><tbody>';
+    html += '<div class="row"><div class="col-sm-12"><div class="panel panel-default"><div class="panel-heading"><h3 class="panel-title">大赛列表</h3></div><table class="table table-bordered table-striped" id="datatable-editable"><thead><tr><th>大赛名称</th><th>排序</th><th>组织机构</th><th>参与人数</th><th>开始时间</th><th>结束时间</th><th>报名截止</th><th>内容</th><th>操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
-        // 加字段
         html += '<tr class="gradeU">';
-        html += '<td>' + e.title + '</td>';
-        html += '<td>' + e.groupname + '</td>';
+        html += '<td>' + e.name + '</td>';
+        html += '<td>' + e.order + '</td>';
+        html += '<td>' + e.org + '</td>';
+        html += '<td>' + e.peoples + '</td>';
         html += '<td>' + e.start_time + '</td>';
-        html += '<td>' + e.stop_time + '</td>';
+        html += '<td>' + e.end_time + '</td>';
         html += '<td>' + e.deadline + '</td>';
-        html += '<td>' + e.population + '</td>';
-        html += '<td>' + e.status + '</td>';
+        html += '<td>' + e.up_time + '</td>';
+        html += '<td>' + e.content + '</td>';
 
-        html += '<td class="actions"><a href="javascipt:;" data-name="' + e.training_guid + '"  class="on-default edit-row"><i class="fa fa-pencil"></i>编辑</a>';
+
+        html += '<td class="actions"><a href="javascipt:;" data-name="' + e.guid + '"  class="on-default edit-row"><i class="fa fa-pencil"></i>编辑</a>';
         html += '<a href="javascipt:;" data-name="' + e.training_guid + '"  class="btn on-default edit-row"><i class="fa fa-trash"></i>删除</a></td></tr>';
     });
     html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
@@ -100,7 +103,6 @@ function getPage() {
 }
 
 // 组装HTML元素
-// 修改
 function infoHtml(data) {
     var html = '';
     //创业技术培训名称
@@ -126,7 +128,6 @@ function infoHtml(data) {
     html += '<textarea class="" placeholder="请详细描述创业项目培训内容" id="UE" name="describe">' + (data.describe || '') + '</textarea></div></div></div>';
     return html;
 }
-// 修改
 
 // 判断身份证类型
 function cardState(code) {

@@ -92,9 +92,15 @@ class CrowdFundingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
         //
+        $result = self::$crowdFundingServer->serverRoute(self::$request,$id);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
     }
 
     /**

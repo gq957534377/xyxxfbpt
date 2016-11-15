@@ -60,7 +60,7 @@ class TrainingController extends Controller
             return response()->json(['ServerNo' => 400, 'ResultData' => $validator->errors()->first()]);
         }
         //校验是否成功
-        $result = self::$TrainingService->addTraining($request);
+        $result = self::$trainingService->addTraining($request);
         if (!$result['status']) {
             return response()->json(['ServerNo' => 400, 'ResultData' => $result['msg']]);
         }
