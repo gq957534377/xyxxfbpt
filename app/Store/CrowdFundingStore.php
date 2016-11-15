@@ -22,8 +22,13 @@ class CrowdFundingStore
      */
     public function selectMaxOne($field)
     {
+        if(!is_string($field))return null;
         $result = DB::table(self::$table)->max($field);
-        return $result;
+        if($result){
+            return $result;
+        }else{
+            return 0;
+        }
     }
     /**
      * 返回某字段的和
@@ -35,7 +40,11 @@ class CrowdFundingStore
     {
         if(!is_string($field))return null;
         $result= DB::table(self::$table)->sum($field);
-        return $result;
+        if($result){
+            return $result;
+        }else{
+            return 0;
+        }
     }
     /**
      * 返回条件查询某列结果
@@ -95,10 +104,10 @@ class CrowdFundingStore
      * @return null
      * @author 张洵之
      */
-    public function forPage($page,$tolPage)
+    public function forPage($page,$tolPage,$where)
     {
-        if(!is_int($page)||!is_int($tolPage))return null;
-        $result = DB::table(self::$table)->orderBy("project_id","desc")->forPage($page,$tolPage)->get();
+        if(!is_int($page)||!is_int($tolPage) ||!is_array($where))return null;
+        $result = DB::table(self::$table)->where($where)->orderBy("project_id","desc")->forPage($page,$tolPage)->get();
         return $result;
     }
 

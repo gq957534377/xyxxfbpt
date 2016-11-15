@@ -9,18 +9,19 @@
 namespace App\Services;
 
 use App\Store\CrowdFundingStore;
-use App\Store\ProjectInfoStore;
+use App\Store\ProjectStore;
 use App\Tools\Common;
+use DB;
 
 class CrowdFundingService
 {
     protected static $crowdFundingStore = null;
-    protected static $projectInfoStore = null;
+    protected static $projectStore = null;
 
-    public function __construct(CrowdFundingStore $crowdFundingStore,ProjectInfoStore $projectInfoStore)
+    public function __construct(CrowdFundingStore $crowdFundingStore,ProjectStore $ProjectStore)
     {
         self::$crowdFundingStore = $crowdFundingStore;
-        self::$projectInfoStore = $projectInfoStore;
+        self::$projectStore = $ProjectStore;
     }
     /**
      * 返回众筹首页所需动态数据
@@ -32,26 +33,26 @@ class CrowdFundingService
     {
         //单项最高筹集金额(万)
         $maxGold = self::$crowdFundingStore->selectMaxOne("fundraising_now");
-        if($maxGold){
+        if(isset($maxGold)){
             $maxGold = $maxGold/10000 >1?intval($maxGold/10000)."万":$maxGold;
         }else{
-            return ['status'=>false,'msg'=>'发生错误'];
+            return ['status'=>false,'msg'=>'发生错误1'];
         }
         //累计支持金额(万)
         $totalAmount = self::$crowdFundingStore->fieldSum("fundraising_now");
-        if($totalAmount){
+        if(isset($totalAmount)){
             $totalAmount = $totalAmount/10000 > 1?intval($totalAmount/10000)."万":$totalAmount;
         }else{
-            return ['status'=>false,'msg'=>'发生错误'];
+            return ['status'=>false,'msg'=>'发生错误2'];
         }
         //单项最高支持人数(万)
         $maxPeoples = self::$crowdFundingStore->selectMaxOne("Number_of_participants");
-        if($maxPeoples){
+        if(isset($maxPeoples)){
             $maxPeoples = $maxPeoples/10000 > 1?intval($maxPeoples/10000)."万":$maxPeoples;
         }else{
-            return ['status'=>false,'msg'=>'发生错误'];
+            return ['status'=>false,'msg'=>'发生错误3'];
         }
-        if($maxGold||$totalAmount||$maxPeoples){
+        if(isset($maxGold)||isset($totalAmount)||isset($maxPeoples)){
             $result = ['status'=>true,'msg'=>["maxGold" => $maxGold,"totalAmount" => $totalAmount,"maxPeoples" => $maxPeoples]];
         }else{
             $result = ['status'=>false,'msg'=>'发生错误'];
@@ -72,7 +73,7 @@ class CrowdFundingService
         $field = "project_id";
         $projectIdArr = self::$crowdFundingStore->getList($where,$field,$page,16);
         $projectIdArr = isset($projectIdArr)?$projectIdArr:[];
-        $projectArr = self::$projectInfoStore->getList("project_id",$projectIdArr);
+        $projectArr = self::$projectStore->getList("project_id",$projectIdArr);
         $projectArr = isset($projectArr)?['status'=>true,'msg'=>$projectArr]:['status'=>false,'msg'=>'发生错误'];
         return $projectArr;
     }
@@ -122,7 +123,7 @@ class CrowdFundingService
     public function publish($projectId)
     {
         $where = ["project_id"=>$projectId];
-        $result = self::$projectInfoStore->getRecord($where);
+        $result = self::$crowdFundingStore->getWhere($where);
         if(isset($result)){
             $result["type"] = "publish";
             return ['status'=>true,'msg'=>$result];
@@ -220,8 +221,9 @@ class CrowdFundingService
      */
     public function forPage($request)
     {
+        $status = $request->input("status");
         $tolPages = 5;//一页的数据条数
-        $where = [0,1];
+        $where = [$status];
         $creatPage = Common::getPageUrls($request,"crowd_funding_data","crowd_forpage",$tolPages,"status",$where);
         if(isset($creatPage)){
             $result["page"]=$creatPage;
@@ -229,29 +231,28 @@ class CrowdFundingService
            return ['status'=>false,'msg'=>'生成分页样式发生错误'];
         }
         $nowPage =(int)$request->input("nowPage");
-        $dbDatearr = self::$crowdFundingStore->forPage($nowPage,$tolPages);
-        if(isset($dbDatearr)){
-            $arrNum =count($dbDatearr);
-            for ($i=0;$i<$arrNum;$i++){
-                $status = $dbDatearr[$i]->status;
-                if($status == "1"){
-                    $dbDatearr[$i]->btn ="<div class='btn-group' zxz-id='".$dbDatearr[$i]->project_id."'><button zxz-type='revise' class='btn btn-sm btn-success '> <i class='fa fa-wrench'></i> </button><button zxz-type='close' class='btn btn-sm btn-danger '> <i class='fa fa-remove'></i></button></div>";
-                }elseif($status == "0")
-                {
-                    $dbDatearr[$i]->btn ="<div class='btn-group' zxz-id='".$dbDatearr[$i]->project_id."'><button zxz-type='publish' class='btn btn-sm btn-primary '><i class='fa fa-keyboard-o'></i></div>";
-                }else{
-                    unset($dbDatearr[$i]);
-                }
-            }
-        }else{
-            return ['status'=>false,'msg'=>'读取数据发生错误'];
-        }
-        $result["data"] = $dbDatearr;
+        $dbDatearr = self::$crowdFundingStore->forPage($nowPage,$tolPages,["status"=>$status]);
+        $result["data"] = $this->forPageHtml($dbDatearr,$status);
         if(isset($result)){
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>'发生错误'];
         }
+    }
+
+    public function forPageHtml($data,$myStatus)
+    {
+        if(!is_array($data)||!isset($myStatus)) return null;
+            $arrNum =count($data);
+            for ($i=0;$i<$arrNum;$i++){
+                $status = $data[$i]->status;
+                if($status == 1){
+                        $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='revise' class='btn btn-sm btn-success '> <i class='fa fa-wrench'></i> </button><button zxz-type='close' class='btn btn-sm btn-danger '> <i class='fa fa-remove'></i></button></div>";
+                }else{
+                    $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='publish' class='btn btn-sm btn-primary '><i class='fa fa-keyboard-o'></i></div>";
+                }
+            }
+            return $data;
     }
 
     /**
@@ -261,8 +262,8 @@ class CrowdFundingService
      */
     public function selectPublish()
     {
-        $where = ["status"=>"3"];
-        $result = self::$projectInfoStore->getRecord($where);
+        $where = ["status"=>"3","crowd_status"=>0];
+        $result = self::$projectStore->getData($where);
         if(isset($result)){
             return ['status'=>true,'msg'=>$result];
         }else{
@@ -271,19 +272,89 @@ class CrowdFundingService
     }
 
     /**
-     * 创建待发布中筹项目；
+     * 创建发布众筹项目；
      * @param array $data
      * @return array
      * @author 张洵之
      */
-    public function insertCrowdFunding($data)
+    public function insertCrowdFunding($data,$project_status)
     {
-        if(!is_array($data))return['status'=>false,'msg'=>'数据应该为一个数组'];
-        $result = self::$crowdFundingStore->insertData($data);
+        if(!is_array($data)||!is_array($project_status))return['status'=>false,'msg'=>'数据应该为一个数组'];
+        $result = DB::transaction(function() use($data,$project_status)
+        {
+            self::$projectStore->update(["project_id"=>$data["project_id"]],$project_status);
+            self::$crowdFundingStore->insertData($data);
+            return true;
+        });
         if(isset($result)){
             return ['status'=>true,'msg'=>$result];
         }else{
-            return ['status'=>false,'msg'=>'发生错误'];
+            return ['status'=>false,'msg'=>'存储数据发生错误'];
+        }
+    }
+
+    /**
+     * put方法Server层路由
+     * @param $request
+     * @param $id
+     * @return array
+     * @author 张洵之
+     */
+    public function serverRoute($request,$id)
+    {
+        switch ($id){
+            case "publish":return $this->insertCrowd($request);break;
+            case "updata":return $this->updataCrowd($request);break;
+        }
+    }
+
+    /**
+     * 创建存储数据
+     * @param $request
+     * @return array
+     * @author 张洵之
+     */
+    public function createUplodData($request)
+    {
+        $data = $request->all();
+        unset($data["_token"]);
+        unset($data["_method"]);
+        $time = 24*3600*$data["days"];
+        $endtime = 24*3600*$data["enddays"];
+        $data["starttime"] = date("Y-m-d H:i:s",time()+$time);
+        $data["endtime"] = date("Y-m-d H:i:s",time()+$endtime);
+        unset($data["days"]);
+        unset($data["enddays"]);
+        $data["status"] = 1;
+        return $data;
+    }
+
+    /**
+     * 创建众筹项目
+     * @param $request
+     * @return array
+     * @author 张洵之
+     */
+    public function insertCrowd($request)
+    {
+        $data = $this->createUplodData($request);
+        $project_status["crowd_status"] = 1;
+        $result = $this ->insertCrowdFunding($data,$project_status);
+        if($result["status"]){
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>$result['msg']];
+        }
+    }
+
+    public function updataCrowd($request)
+    {
+        $data = $this->createUplodData($request);
+        $result = self::$crowdFundingStore->uplodData(["project_id"=>$data["project_id"]],$data);
+        if($result){
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>$result];
         }
     }
 }

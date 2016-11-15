@@ -27,6 +27,13 @@ class ProjectInfoStore
         $result = DB::table(self::$table)->whereIn($filed,$where)->get();
         return $result;
     }
+
+    /**
+     * 简单基本查询
+     * @param $where
+     * @return null
+     * author
+     */
     public function getRecord($where)
     {
         if(!is_array($where))return null;

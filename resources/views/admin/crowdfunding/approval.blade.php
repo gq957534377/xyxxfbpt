@@ -11,6 +11,10 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <button id="publishBtn" class="btn  btn-info">发布众筹</button>
+                    <div id="lookStatus" style="float: right;">
+                        <button zxz-status="1"  class="btn btn-success">查看发布项目</button>
+                        <button zxz-status="0" class="btn">查看下架项目</button>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -64,11 +68,12 @@
     var dataStore = null;
     var objStore = null;
     var nowPage = 1;//当前页码；
+    var lookStatus = 1;//查看的状态
     forPage("crowd_forpage?nowPage=1");
     /* 异步获取分页内容及样式 */
     function forPage(url) {
         var forpageAjax = new AjaxWork(url,"get");
-        forpageAjax.upload({},function (data) {
+        forpageAjax.upload({status:lookStatus},function (data) {
             if(data.StatusCode == "200"){
                 $("#pageCenter").html(data.ResultData.page.pages);
                 nowPage = data.ResultData.page.nowPage;
@@ -82,16 +87,17 @@
     }
     // 创建DOM元素
     function createHtml(data) {
+
         var html ="";
-        for(var i =0;i<data.length;i++){
+        for(var key in data){
             html+="<tr>"
-            html+="<td>"+data[i]['project_id']+"</td>";
-            html+="<td>"+data[i]['title']+"</td>";
-            html+="<td>"+data[i]['fundraising_now']+"</td>";
-            html+="<td>"+data[i]['fundraising']+"</td>";
-            html+="<td>"+data[i]['project_type']+"</td>";
-            html+="<td>"+data[i]['endtime']+"</td>";
-            html+="<td>"+data[i]['btn']+"</td>";
+            html+="<td>"+data[key].project_id+"</td>";
+            html+="<td>"+data[key].title+"</td>";
+            html+="<td>"+data[key].fundraising_now+"</td>";
+            html+="<td>"+data[key].fundraising+"</td>";
+            html+="<td>"+data[key].project_type+"</td>";
+            html+="<td>"+data[key].endtime+"</td>";
+            html+="<td>"+data[key].btn+"</td>";
             html+="</tr>"
         }
         $("#case").html(html);
@@ -160,11 +166,11 @@ function plotForm(type,data){
     switch (type){
         case "publish":publishFrom(type,data);break;
         case "revise":reviseFrom(type,data);break;
-        case "selectPub":selectPub("publish",data);break;
+        case "selectPub":selectPub("selectPub",data);break;
         default :closeFrom(type,data);
     }
 }
-//制造发布模态框内容
+//制造重新发布模态框内容
 function publishFrom(types,data) {
     var html = "<div class='row'>" +
                     "<div class='col-md-6'>" +
@@ -219,16 +225,38 @@ function publishFrom(types,data) {
                         "<label for='field-3' class='control-label'>" +
                             "预筹天数(天)" +
                         "</label>" +
-                        "<input type='number' class='form-control' id='field-3' >" +
+                        "<input  class='form-control' id='field-3' >" +
+                    "</div>" +
+                    "<div class='col-md-4'>" +
+                        "<label for='field-3' class='control-label'>" +
+                            "预热天数(天)" +
+                        "</label>" +
+                        "<input type='text' class='form-control' id='field-5' >" +
                     "</div>" +
                 "</div>"+
                 "<div class='row'>" +
-                    "<div class='col-md-12'>" +
+                    "<div class='col-md-4'>" +
                         "<div class='form-group'>" +
                             "<label for='field-4' class='control-label'>" +
                                 "预筹资金(￥)" +
                             "</label>" +
-                            "<input type='number' class='form-control' id='field-4' >" +
+                            "<input type='text' class='form-control' id='field-4' >" +
+                        "</div>" +
+                    "</div>" +
+                    "<div class='col-md-4'>" +
+                        "<div class='form-group'>" +
+                            "<label for='field-4' class='control-label'>" +
+                                "众筹简介" +
+                            "</label>" +
+                            "<input type='text' class='form-control' id='field-6' value="+data.simple_info+" >" +
+                        "</div>" +
+                    "</div>" +
+                    "<div class='col-md-4'>" +
+                        "<div class='form-group'>" +
+                            "<label for='field-4' class='control-label'>" +
+                                "奖励信息" +
+                            "</label>" +
+                            "<input type='text' class='form-control' id='field-7' value="+data.donors_info+" >" +
                         "</div>" +
                     "</div>" +
                 "</div>" +
@@ -238,8 +266,8 @@ function publishFrom(types,data) {
                             "<label for='field-5' class='control-label'>" +
                                 "项目简介" +
                             "</label>" +
-                            "<textarea class='form-control autogrow' id='field-7' placeholder='Write something about yourself' style='overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;' readonly style='resize: none'>"+
-                                data.content+
+                            "<textarea class='form-control autogrow' id='field-8' style='overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;'  style='resize: none'>"+
+                                data.info+
                             "</textarea>" +
                         "</div>" +
                     "</div>" +
@@ -416,16 +444,20 @@ $("#supperButton").click(function () {
 })
     //重新上架
 function startCrowdfunding() {
-    var targetFund = $("#field-4").val();
-    var days = $("#field-3").val();
-    var ID = $("#field-1").val();
+    var project_id = $("#field-1").val();
+    var project_type = $("#selects").val();
+    var days = $("#field-5").val();
+    var enddays = parseInt($("#field-3").val())+parseInt(days);
+    var donors_info = $("#field-7").val();
+    var info = $("#field-8").val();
+    var simple_info = $("#field-6").val();
+    var fundraising = $("#field-4").val();
     var tokens = "{{csrf_token()}}";
-    var Typeclass =$("#selects").val();
-    var ajaxFunction = new AjaxWork("/project_approval","post");
-    if(targetFund&&days&&ID&&Typeclass){
-        ajaxFunction.upload({_token:tokens,project_id:ID,fundraising:targetFund,project_type:Typeclass,days:days},successPublishi,errFunction,beforeFunction);
+    if(fundraising&&project_id&&project_type&&days&&enddays&&donors_info&&info&&simple_info){
+        var ajaxFunction = new AjaxWork("/project_approval/updata","PATCH");
+        ajaxFunction.upload({_token:tokens,project_id:project_id,fundraising:fundraising,project_type:project_type,enddays:enddays,days:days,simple_info:simple_info,donors_info:donors_info,info:info,simple_info:simple_info,_method:"put"},successPublishi,errFunction,beforeFunction);
     }else{
-        alert("以上内容不得为空！");
+        alert("以上内容不可为空！")
     }
 }
 
@@ -475,7 +507,7 @@ function closeCrowdfunding(id) {
         for(var i =0 ;i<=data.length;i++){
             var num = i-1;
             if(i == 0){
-                html+= "<option>===请切换内容===</option>"
+                html+= "<option value='hehe'>===请切换内容===</option>"
             }else {
                 html+="<option value='"+num+"'>"+data[i-1]["title"]+"</option>";
             }
@@ -494,7 +526,11 @@ function closeCrowdfunding(id) {
     function stratSelect() {
         $("#selectPubs").change(function () {
             var Id = $(this).val();
-            createPub(Id);
+            if(Id == "hehe"){
+                $("#creatPub").html("");
+            }else {
+                createPub(Id);
+            }
         })
     }
     //创建发布模板
@@ -553,13 +589,13 @@ function closeCrowdfunding(id) {
                 "<label for='field-3' class='control-label'>" +
                 "预筹天数(天)" +
                 "</label>" +
-                "<input type='number' class='form-control' id='field-3' >" +
+                "<input type='text' class='form-control' id='field-3' >" +
                 "</div>" +
                 "<div class='col-md-4'>" +
                 "<label for='field-3' class='control-label'>" +
                 "预热天数(天)" +
                 "</label>" +
-                "<input type='number' class='form-control' id='field-4' >" +
+                "<input type='text' class='form-control' id='field-4' >" +
                 "</div>" +
                 "</div>"+
                 "<div class='row'>" +
@@ -568,7 +604,7 @@ function closeCrowdfunding(id) {
                 "<label for='field-4' class='control-label'>" +
                 "预筹资金(￥)" +
                 "</label>" +
-                "<input type='number' class='form-control' id='field-5' >" +
+                "<input type='text' class='form-control' id='field-5' >" +
                 "</div>" +
                 "</div>" +
                 "<div class='col-md-4'>" +
@@ -598,13 +634,36 @@ function closeCrowdfunding(id) {
                 "</textarea>" +
                 "</div>" +
                 "</div>" +
-                "</div>"
+                "</div>"+"<input type='hidden' value='"+data[Id]['guid']+"'id='guid'>"
         $("#creatPub").html(html);
         startVerification();
     }
     function newPub() {
-        startCrowdfunding();
+        var project_id = $("#field-1").val();
+        var guid = $("#guid").val();
+        var selectIndex = document.getElementById("selectPubs").selectedIndex;
+        var title = document.getElementById("selectPubs").options[selectIndex].text
+        var project_type = $("#selects").val();
+        var days = parseInt($("#field-4").val());
+        var enddays = parseInt($("#field-3").val())+days;
+        var donors_info = $("#field-7").val();
+        var info = $("#field-8").val();
+        var simple_info = $("#field-6").val();
+        var fundraising = $("#field-5").val();
+        var tokens = "{{csrf_token()}}";
+        if(fundraising&&project_id&&guid&&title&&project_type&&days&&enddays&&donors_info&&info&&simple_info){
+            var ajaxFunction = new AjaxWork("/project_approval/publish","PATCH");
+            ajaxFunction.upload({_token:tokens,project_id:project_id,fundraising:fundraising,project_type:project_type,enddays:enddays,days:days,simple_info:simple_info,guid:guid,donors_info:donors_info,info:info,simple_info:simple_info,_method:"put",title:title},successPublishi,errFunction,beforeFunction);
+        }else{
+            alert("以上内容不可为空！")
+        }
     }
+    $("#lookStatus button").click(function () {
+        lookStatus = $(this).attr("zxz-status");
+        $("#lookStatus button").removeClass("btn-success");
+        $(this).addClass("btn-success");
+        forPage("crowd_forpage?nowPage="+nowPage);
+    })
 </script>
 
 @endsection
