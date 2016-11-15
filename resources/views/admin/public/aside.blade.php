@@ -18,11 +18,11 @@
             <li class="has-submenu">
                 <a href="#"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a id="aside_normal" href="{{url('user?role=1')}}">普通用户</a></li>
-                    <li><a id="aside_entrepreneurs" href="{{url('user?role=2')}}">创业者用户</a></li>
-                    <li><a id="aside_investor" href="{{url('user?role=3')}}">投资者用户</a></li>
-                    <li><a id="aside_check_entrepreneurs" href="{{url('user_role')}}">创业者待审核用户</a></li>
-                    <li><a id="aside_check_investor" href="{{url('user_role')}}">投资者待审核用户</a></li>
+                    <li><a id="aside_normal" data-name="normal" href="{{url('user?role=1')}}">普通用户</a></li>
+                    <li><a id="aside_entrepreneurs" data-name="entrepreneurs" href="{{url('user?role=2')}}">创业者用户</a></li>
+                    <li><a id="aside_investor" data-name="investor" href="{{url('user?role=3')}}">投资者用户</a></li>
+                    <li><a id="aside_check_entrepreneurs" data-name="check_entrepreneurs" href="{{url('user_role?role=2')}}">创业者待审核用户</a></li>
+                    <li><a id="aside_check_investor" data-name="check_investor" href="{{url('user_role?role=3')}}">投资者待审核用户</a></li>
                 </ul>
             </li>
 

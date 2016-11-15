@@ -13,13 +13,13 @@
 
     <div class="btn-toolbar" role="toolbar">
         <div class="btn-group">
-            <button id="normal" type="button" class="btn btn-default btn-success">普通用户</button>
+            <button id="normal" data-name="normal" type="button" class="btn btn-default btn-success addevent">普通用户</button>
         </div>
         <div class="btn-group">
-            <button id="entrepreneurs" type="button" class="btn btn-default">创业者</button>
+            <button id="entrepreneurs" data-name="entrepreneurs" type="button" class="btn btn-default addevent">创业者</button>
         </div>
         <div class="btn-group">
-            <button id="investor" type="button" class="btn btn-default">投资者</button>
+            <button id="investor" data-name="investor" type="button" class="btn btn-default addevent">投资者</button>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">待审核
@@ -27,10 +27,10 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a id="check_entrepreneurs" href="#">创业者</a>
+                    <a id="check_entrepreneurs" data-name="check_entrepreneurs" class="addevent" href="#">创业者</a>
                 </li>
                 <li>
-                    <a id="check_investor" href="#">投资者</a>
+                    <a id="check_investor" data-name="check_investor" class="addevent" href="#">投资者</a>
                 </li>
             </ul>
         </div>
@@ -88,25 +88,52 @@
         //页面加载时触发事件
         //请求数据 与 分页
         $(function () {
-            load();
-            function load() {
-                var data = {
-                    role : '1'
+            //获取初始化请求参数
+            var init = {
+                role : getQueryVariable('role')
+            };
+            //页面初始化
+            load('/user_ajax_get_data', init, 'GET', showNormal);
+
+            $('.addevent').off('click').on('click', function () {
+
+                //设置请求参数
+                var data = {};
+                var tmp = $(this).data('name');
+                if(tmp == 'normal') role = '1';
+                if(tmp == 'entrepreneurs') role = '2';
+                if(tmp == 'investor') role = '3';
+                if(tmp == 'check_entrepreneurs') role = '2';
+                if(tmp == 'check_investor') role = '3';
+                data = {
+                    role : role
                 };
-                var role = data.role;
+                load('/user_ajax_get_data', data, 'GET', showNormal);
+            });
+
+            function load(url, data, type, success) {
                 $.ajax({
-//            headers: {
-//                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//            },
-                    url     : '/user_ajax_get_data',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                    url     : url,
                     data    : data,
-                    type    : 'get',
+                    type    : type,
                     async: true,
-                    success : function turn(data){
-                        if(role == '1')
-                            showNormal(data);
-                    }
+                    success : success
                 });
+            }
+
+            //获取url中的参数
+            function getQueryVariable(variable)
+            {
+                var query = window.location.search.substring(1);
+                var vars = query.split("&");
+                for (var i=0;i<vars.length;i++) {
+                    var pair = vars[i].split("=");
+                    if(pair[0] == variable){return pair[1];}
+                }
+                return(false);
             }
         });
 
