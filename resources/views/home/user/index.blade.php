@@ -22,7 +22,7 @@
                                         <form method="POST" id="headPicForm" enctype="muitipart/form-data" >
                                             <input type="hidden" mame="_method" value="put">
                                             <div class="modal-body">
-                                                <img id="headpic" src="{{asset('home/images/man1.jpg')}}" class="img-circle"><br>
+                                                <img id="headpic" src="{{asset('home/images/man1.jpg')}}" class="img-circle" style="width: 147px;height: 138.88px;"><br>
                                                 <input type="file" name="headpic" />
                                             </div>
                                         </form>
@@ -46,7 +46,6 @@
                                             <h4 class="modal-title" id="myModalLabel">创业者申请</h4>
                                         </div>
                                         <form id="entrepreneur" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                                            <input type="hidden" name="_mehtod" value="put">
                                             <div class="form-group">
                                                 <label for="" class="col-sm-2 control-label">真实姓名</label>
                                                 <div class="col-sm-6">
@@ -60,12 +59,6 @@
                                                 <div class="col-sm-6">
                                                     <input class="form-control" name="card_number" type="text"></div>
                                                 <div class="col-sm-4 help-block">如：363636201611110012</div></div>
-
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">邮 箱</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" name="email" value="" type="text"></div>
-                                                <div class="col-sm-4 help-block">如：name@website.com</div></div>
 
                                             <div class="form-group">
                                                 <label for="" class="col-sm-2 control-label">籍贯</label>
@@ -120,7 +113,7 @@
                     <div id="userBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
                         <div class="panel-body ">
                             <h2><i class="fa fa-cog" aria-hidden="true"></i>编辑个人资料  </h2>
-                            <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="position: absolute;z-index: 9999;" >
+                            <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
                             <hr>
                             <form id="userform" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
                                 <input type="hidden" name="_method" value="put">
@@ -158,7 +151,7 @@
                                     <label for="" class="col-sm-2 control-label">性别</label>
                                     <div class="col-sm-6">
                                         <input class="sex1" name="user_sex" value="1" type="radio">男
-                                        <input class="sex0" name="user_sex" value="0" type="radio">女</div></div>
+                                        <input class="sex0" name="user_sex" value="2" type="radio">女</div></div>
 
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">手机号</label>
@@ -175,23 +168,9 @@
                     </div>
                 </div>
             </div>
-            {{--<!--隐藏消息弹出框 Start-->--}}
-            {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">小模态框</button>--}}
-            {{--<div class="modal-dialog modal-sm">--}}
-                {{--<div class="modal-content">--}}
-
-                    {{--<div class="modal-header">--}}
-                        {{--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>--}}
-                        {{--<h4 class="modal-title" id="mySmallModalLabel">Small modal</h4>--}}
-                    {{--</div>--}}
-                    {{--<div class="modal-body">--}}
-                        {{--...--}}
-                    {{--</div>--}}
-                {{--</div><!-- /.modal-content -->--}}
-            {{--</div>--}}
-            {{--<!--隐藏消息弹出框 End-->--}}
         </div><!--/.container-->
     </section><!--/#contact-page-->
+
 @endsection
 
 @section('script')
@@ -200,10 +179,11 @@
     $(function(){
         // 用户信息获取
         var nickname = $("input[name='nickname']");
-        var email = $("input[name='email']");
         var realname = $("input[name='realname']");
         var hometown = $("input[name='hometown']");
         var birthday = $("input[name='birthday']");
+        var card_number = $('input[name="card_number"]');
+        var headpic = $('#headpic');
         var sex = $("input[name='sex']");
         var sex0 = $(".sex0");
         var sex1 = $(".sex1");
@@ -218,8 +198,8 @@
         var user_hometown = $("input[name='user_hometown']");
         var user_birthday = $("input[name='user_birthday']");
         var user_phone = $("input[name='user_phone']");
-        var user_sex = $("input[name='user_sex']");
-        var card_number = $('input[name="card_number"]');
+        var user_sex = $('input:radio[name="user_sex"]:checked');
+
         $.ajax({
             type: "get",
             url: url+'/'+guid,
@@ -237,10 +217,10 @@
                         user_birthday.empty().val(msg.ResultData.msg.birthday);
                         msg.ResultData.msg.sex == 1?sex1.attr('checked','true'):sex0.attr('checked','true');
                         tel.empty().val(msg.ResultData.msg.tel);
+                        headpic.attr('src','uploads/image/'+msg.ResultData.msg.headpic);
 
                         // 给创业提交信息也附上值
                         nickname.empty().val(msg.ResultData.msg.nickname);
-                        email.empty().val(msg.ResultData.msg.email);
                         realname.empty().val(msg.ResultData.msg.realname);
                         hometown.empty().val(msg.ResultData.msg.hometown);
                         birthday.empty().val(msg.ResultData.msg.birthday);
@@ -287,12 +267,15 @@
                     $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
                 },
                 success:function(msg){
-                    if(msg.StatusCode==400){
-                        alert(msg.ResultData);
-                        $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
-                    }else{
-                        alert(msg.ResultData);
-                        $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
+                    switch (msg.StatusCode){
+                        case '400':
+                            promptBoxHandle('警告',msg.ResultData);
+                            $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
+                            break;
+                        case '200':
+                            promptBoxHandle('提示',msg.ResultData);
+                            $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
+                            break;
                     }
                 }
             });
@@ -315,8 +298,14 @@
                 processData: false,  // 告诉jQuery不要去处理发送的数据
                 contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
                 success:function(msg){
-                    alert(msg.ResultData);
-                    $('#headpic').attr('src','uploads/image/'+msg.headpic);
+                    switch (msg.StatusCode){
+                        case '400':
+                            promptBoxHandle('警告',msg.ResultData);
+                            break;
+                        case '200':
+                            promptBoxHandle('提示',msg.ResultData);
+                            break;
+                    }
                 }
             });
         });
@@ -331,16 +320,26 @@
                 }
             });
             $.ajax({
-                url: '/apply',
+                url: '/user',
                 type: "POST",
                 data: formData,
                 processData: false,  // 告诉jQuery不要去处理发送的数据
                 contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
                 success:function(msg){
-                   alert(msg.ResultData);
+                   switch(msg.StatusCode){
+                       case '404':
+                           promptBoxHandle('警告',msg.ResultData);
+                           break;
+                       case '400':
+                           promptBoxHandle('警告',msg.ResultData);
+                           break;
+                       case '200':
+                           promptBoxHandle('提示',msg.ResultData);
+                           break;
+                   }
                 }
             });
-
+            $('#promptModal').click();
         });
     });
 </script>

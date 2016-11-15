@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Services\MatchService;
-use App\Tools\Common;
 use Illuminate\Support\Facades\Validator;
 
 class VentureContestController extends Controller
@@ -39,21 +38,18 @@ class VentureContestController extends Controller
     }
 
     /**
-     * 发布创业大赛
      * @param Request $request
-     * @return bool
-     * @author 茂林
+     * @return \Illuminate\Http\JsonResponse
+     * @author maolin
      */
     public function store(Request $request)
     {
         // Data validation
-        // return $request->all();
         $validator = Validator::make($request->all(), [
             "name" =>'required',
             "order"=>'required|digits_between:1,3',
             "org"  =>'required',
-            "title"=>'required',
-            "content"=>'required',
+            //"content"=>'required',
             "peoples"=>'required|digits_between:1,50',
             "start_time"=>'required',
             "end_time"  =>'required',
@@ -62,9 +58,10 @@ class VentureContestController extends Controller
         if ($validator->fails()) {
             return response()->json(['ServerNo' => 400,'ResultData' => $validator->errors()->all()]);
         }
+        // 开始进行数据插入
         $result = self::$matchServer->insert($request->all());
-        if(!$result) return response()->json(['status'=>'400','msg'=>'插入失败']);
-        return response()->json(['status'=>'200','msg'=>'插入成功']);
+        if(!$result) return response()->json(['status'=>'400','msg'=>'发布失败']);
+        return response()->json(['status'=>'200','msg'=>'发布成功']);
     }
 
     /**
@@ -76,6 +73,8 @@ class VentureContestController extends Controller
     public function show($id)
     {
         //
+        $result=self::$matchServer->getPageData($id);
+        return $result;
     }
 
     /**
@@ -86,7 +85,9 @@ class VentureContestController extends Controller
      */
     public function edit($id)
     {
-        //
+        // 从后台获取一条数据
+        $result = self::$matchServer->getOntData($id);
+        return $result;
     }
 
     /**
@@ -99,6 +100,7 @@ class VentureContestController extends Controller
     public function update(Request $request, $id)
     {
         //
+        return $request->all();
     }
 
     /**
@@ -116,8 +118,6 @@ class VentureContestController extends Controller
     public function paging(Request $request)
     {
         // 跟去前台传过来的数据显示数据
-        $result=self::$matchServer->getPageData("1");
-        return $result;
     }
 
 }

@@ -29,23 +29,22 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return view('admin.user.user');
-//        $data = $request->all();
-//        $role = $data['role'];
-//        switch ($role){
-//            // 待审核用户
-//            case "0":
-//                return view('admin.user.checking');
-//            // 普通用户
-//            case "1":
-//                return view('admin.user.normal');
-//            // 创业者用户
-//            case "2":
-//                return view('admin.user.entrepreneurs');
-//            // 其它情形
-//            default:
-//                return redirect('/');
-//        }
+        $data = $request->all();
+        $role = $data['role'];
+        switch ($role){
+            // 待审核用户
+            case "0":
+                return view('admin.user.checking');
+            // 普通用户
+            case "1":
+                return view('admin.user.normal');
+            // 创业者用户
+            case "2":
+                return view('admin.user.entrepreneurs');
+            // 其它情形
+            default:
+                return redirect('/');
+        }
     }
 
     /**
