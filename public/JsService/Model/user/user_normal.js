@@ -9,19 +9,8 @@ function showNormal(data) {
             if(data.ResultData.data == '') {
                 $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
             }else {
-                $('#data').html(listHtml(data));
+                $('#data').html(listNormalHtml(data));
                 $('#page').html(data.ResultData.pages);
-//                                if( typeof deleteData === 'function' )
-//                                    deleteData();
-//                                if( typeof modifyPass === 'function' )
-//                                    modifyPass();
-//                                if( typeof modifyFail === 'function' )
-//                                    modifyFail();
-//                                if( typeof updateData === 'function' )
-//                                    updateData();
-//                                if( typeof showInfo === 'function' )
-//                                    showInfo();
-//                                getPage();
             }
         } else {
             $('#con-close-modal').modal('show');
@@ -36,7 +25,7 @@ function showNormal(data) {
 }
 
 
-function listHtml(data){
+function listNormalHtml(data){
     var html = '';
     html += '<div class="panel-body">' +
         '<table class="table table-bordered table-striped">' +

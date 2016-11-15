@@ -41,7 +41,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::any('/upload','RoadController@upload');
         // 用户管理
         Route::resource('/user', 'UserController');
-        Route::get('/user_ajax_get_data', 'UserController@getUserData');
         Route::resource('/user_role', 'UserRoleController');
 //        Route::get('/users_page', 'UserController@getUserData');
 //        Route::put('/users_data', 'UserController@updateData');

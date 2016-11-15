@@ -153,19 +153,15 @@ class UserService {
      */
     public function getData($data)
     {
+
         if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
-        if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
+        // 1 普通用户 ；2 创业者 ；3 投资者
+        if(!in_array($data['role'], ['1', '2', '3'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        $userPage = self::getPage($data);
-        // 转向RoleStore层
-        if ($data['role'] == '0'){
-            $userData = self::$roleStore->getUsersData($nowPage, ['status' => '1']);
-            //拼装数据,返回所需格式
-            $result = array_merge(['data'=> $userData], $userPage['data']);
-            if (!$result) return ['status' => false, 'data' => '系统错误'];
-            return ['status' => true, 'data' => $result];
-        }
         $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role']]);
+        if (!$userData) return ['status' => false, 'data' => '数据获取失败'];
+        $userPage = self::getPage($data, 'user');
+        if (!$userPage) return ['status' => false, 'data' => '分页获取失败'];
         //拼装数据，返回所需格式
         $result = array_merge(['data'=> $userData], $userPage['data']);
         if (!$result) return ['status' => false, 'data' => '系统错误'];
@@ -173,20 +169,20 @@ class UserService {
     }
 
     /**
-     * 获取分页
      * @param $data
-     * @return array|bool
+     * @param $url
+     * @return array
      * @author wang fei long
      */
-    private static function getPage($data)
+    private static function getPage($data, $url)
     {
         if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
-        if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
+        if(!in_array($data['role'], ['1', '2', '3'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
 
-        $count = ($data['role'] == 0) ? (self::$roleStore->getUsersNumber(['status' => '1'])) : (self::$userStore->getUsersNumber(['role' => $data['role']]));
+        $count = self::$userStore->getUsersNumber(['role' => $data['role']]);
         $totalPage = ceil($count / PAGENUM);
-        $baseUrl   = url('users_page');
+        $baseUrl   = url($url);
         if($nowPage <= 0) $nowPage = 1;
         if($nowPage > $totalPage) $nowPage = $totalPage;
 
@@ -208,13 +204,7 @@ class UserService {
     public function getOneData($data)
     {
         if(!isset($data['role']) || !isset($data['name'])) return ['status' => false, 'data' => '请求参数错误'];
-        if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
-        // 转向RoleStore层
-        if ($data['role'] == '0'){
-            $result = self::$roleStore->getOneData(['guid' => $data['name']]);
-            if (!$result) return ['status' => false, 'data' => '系统错误'];
-            return ['status' => true, 'data' => $result];
-        }
+        if(!in_array($data['role'], ['1', '2', '3'])) return ['status' => false, 'data' => '请求参数错误'];
         $result = self::$userStore->getOneData(['guid' => $data['name']]);
         if (!$result) return ['status' => false, 'data' => '系统错误'];
         return ['status' => true, 'data' => $result];

@@ -13,7 +13,7 @@
 
     <div class="btn-toolbar" role="toolbar">
         <div class="btn-group">
-            <button id="normal" data-name="normal" type="button" class="btn btn-default btn-success addevent">普通用户</button>
+            <button id="normal" data-name="normal" type="button" class="btn btn-default btn-default addevent">普通用户</button>
         </div>
         <div class="btn-group">
             <button id="entrepreneurs" data-name="entrepreneurs" type="button" class="btn btn-default addevent">创业者</button>
@@ -22,7 +22,7 @@
             <button id="investor" data-name="investor" type="button" class="btn btn-default addevent">投资者</button>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">待审核
+            <button type="button" id="checking" class="btn btn-default dropdown-toggle" data-toggle="dropdown">待审核
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
@@ -39,11 +39,7 @@
     {{--<img src="{{asset('admin/images/load.gif')}}" class="loading">--}}
 
     <div class="page-title">
-        <h5 id="title_one" class="title text-center hidden">普通用户</h5>
-        <h5 id="title_two" class="title text-center hidden">创业者用户</h5>
-        <h5 id="title_three" class="title text-center hidden">投资者用户</h5>
-        <h5 id="title_four" class="title text-center hidden">创业者待审核用户</h5>
-        <h5 id="title_five" class="title text-center hidden">投资者待审核用户</h5>
+        <h5 id="user_title" class="title text-center">普通用户</h5>
     </div>
 
     {{--表格盒子开始--}}
@@ -81,91 +77,137 @@
     {{--<script src="{{asset('JsService/Model/user/userAjaxSuccess.js')}}" type="text/javascript"></script>--}}
     {{--<script src="{{asset('JsService/Model/user/userAjaxError.js')}}" type="text/javascript"></script>--}}
     <script src="{{asset('JsService/Model/user/user_normal.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/user/user_check_investor.js')}}" type="text/javascript"></script>
 
 
     <script>
 
-        //页面加载时触发事件
-        //请求数据 与 分页
+        //请求数据 分页包含在数据中 添加事件
         $(function () {
             //获取初始化请求参数
-            var init = {
+            var user_init = {
                 role : getQueryVariable('role')
             };
-            //页面初始化
-            load('/user_ajax_get_data', init, 'GET', showNormal);
+            //初始化按钮颜色
+            if(user_init.role == '1'){
+                $('#normal').addClass('btn-success');
+            }
+            if(user_init.role == '2'){
+                $('#entrepreneurs').addClass('btn-success');
+                $('#user_title').text('创业者用户');
+            }
+            if(user_init.role == '3'){
+                $('#investor').addClass('btn-success');
+                $('#user_title').text('投资者用户');
+            }
+            if(user_init.role == '4'){
+                $('#checking, #check_entrepreneurs').addClass('btn-success');
+                $('#user_title').text('待审核创业者用户');
+            }
+            if(user_init.role == '5'){
+                $('#checking, #check_investor').addClass('btn-success');
+                $('#user_title').text('待审核投资者用户');
+            }
+            if(user_init.role == '1' || user_init.role == '2' || user_init.role == '3')
+                load('/user/create', user_init, 'GET', showNormal);
+            if(user_init.role == '4' || user_init.role == '5')
+                load('/user_role/create', user_init, 'GET', showCheckInvestor);
+
+            getPage();
 
             $('.addevent').off('click').on('click', function () {
-
-                //设置请求参数
-                var data = {};
+                //重设按钮颜色
+                $('.btn-success').removeClass('btn-success').addClass('btn-default');
+                $(this).addClass('btn-success');
+                //设置请求参数，更改标题
+                var data = null;
+                var user_role = null;
                 var tmp = $(this).data('name');
-                if(tmp == 'normal') role = '1';
-                if(tmp == 'entrepreneurs') role = '2';
-                if(tmp == 'investor') role = '3';
-                if(tmp == 'check_entrepreneurs') role = '2';
-                if(tmp == 'check_investor') role = '3';
+                if(tmp == 'normal') {
+                    user_role = '1';
+                    $('#user_title').text('普通用户');
+                }
+                if(tmp == 'entrepreneurs') {
+                    user_role = '2';
+                    $('#user_title').text('创业者用户');
+                }
+                if(tmp == 'investor') {
+                    user_role = '3';
+                    $('#user_title').text('投资者用户');
+                }
+                if(tmp == 'check_entrepreneurs') {
+                    user_role = '4';
+                    $('#user_title').text('待审核创业者用户');
+                    $('#checking').addClass('btn-success');
+                }
+                if(tmp == 'check_investor') {
+                    user_role = '5';
+                    $('#user_title').text('待审核投资者用户');
+                    $('#checking').addClass('btn-success');
+                }
                 data = {
-                    role : role
+                    role : user_role
                 };
-                load('/user_ajax_get_data', data, 'GET', showNormal);
-            });
+                if(data.role == '1' || data.role == '2' || data.role == '3')
+                    load('/user/create', data, 'GET', showNormal);
+                if(data.role == '4' || data.role == '5')
+                    load('/user_role/create', data, 'GET', showCheckInvestor);
 
-            function load(url, data, type, success) {
-                $.ajax({
+                getPage();
+
+            });
+        });
+
+        function load(url, data, type, success) {
+            $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                    url     : url,
-                    data    : data,
-                    type    : type,
-                    async: true,
-                    success : success
-                });
-            }
+                url     : url,
+                data    : data,
+                type    : type,
+                async: true,
+                success : success
+            });
+        }
 
-            //获取url中的参数
-            function getQueryVariable(variable)
-            {
-                var query = window.location.search.substring(1);
-                var vars = query.split("&");
-                for (var i=0;i<vars.length;i++) {
-                    var pair = vars[i].split("=");
-                    if(pair[0] == variable){return pair[1];}
+        //获取url中的参数
+        function getQueryVariable(variable) {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+            }
+            return(false);
+        }
+
+
+        function getPage() {
+            alert(1);
+            alert(2);
+//                            $('.pagination li').children('a').html(123);
+            $('.pagination li').click(function () {
+                alert(1);
+                var class_name = $(this).prop('class');
+                if(class_name == 'disabled' || class_name == 'active') {
+                    return false;
                 }
-                return(false);
-            }
-        });
 
-
-
-
-
-
-
-
-
-
-
-//
-//        function getPage() {
-//            $('.pagination li').off("click").click(function (event) {
-//                event.stopPropagation();
-//                var class_name = $(this).prop('class');
-//                if(class_name == 'disabled' || class_name == 'active') {
-//                    return false;
-//                }
 //                var url = $(this).children().prop('href');
-//                var ajax = new AjaxController('role=1');
-//                ajax.ajax({
-//                    url : url,
-//                    before : ajaxBeforeModel,
-//                    success: getInfoList,
-//                    error: ajaxErrorModel
-//                });
-//                return false;
-//            });
-//        }
+                pageData = {
+                    role: user_init,
+                    nowPage: getQueryVariable('nowPage'),
+                    totalPage : getQueryVariable('totalPage')
+                };
+//                $('.pagination li a').removeAttr('href');
+
+                if(user_init.role == '1' || user_init.role == '2' || user_init.role == '3')
+                    load('user/create', pageData, 'GET', showNormal);
+                if(user_init.role == '4' || user_init.role == '5')
+                    load('user_role/create', pageData, 'GET', showCheckInvestor);
+            });
+        }
 //
 //        function deleteData() {
 //            $('.delete').off("click").click(function (event) {

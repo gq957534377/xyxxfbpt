@@ -22,44 +22,29 @@ class UserController extends Controller
     }
 
     /**
-     * 为不同用户分配不同页面
-     * @return \Illuminate\Http\Response
-     * @author 王飞龙
-     * 经测试，index方法可以带Request $request参数
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index(Request $request)
     {
         return view('admin.user.user');
-//        $data = $request->all();
-//        $role = $data['role'];
-//        switch ($role){
-//            // 待审核用户
-//            case "0":
-//                return view('admin.user.checking');
-//            // 普通用户
-//            case "1":
-//                return view('admin.user.normal');
-//            // 创业者用户
-//            case "2":
-//                return view('admin.user.entrepreneurs');
-//            // 其它情形
-//            default:
-//                return redirect('/');
-//        }
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     * @author wangfeilong
-     * 经测试，create方法可以带Request $request参数
+     * 返回用户JSON数据 包含分页信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @author wang fei long
      */
     public function create(Request $request)
     {
-//        $data = $request->all();
-//        dd($data);
-//        echo '1111111';
+        $data = $request->all();
+        if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        $result = self::$userServer->getData($data);
+        // 如果$result返回错误
+        if(!$result['status'])
+            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 
     /**
@@ -68,7 +53,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * @author wangfeilong
-     * 经测试，create方法可以带Request $request参数
+     * 经测试，store方法可以带Request $request参数
      */
     public function store(Request $request)
     {
@@ -83,7 +68,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author wangfeilong
-     * 经测试，create方法可以带Request $request参数
+     * 经测试，show方法可以带Request $request参数
      */
     public function show(Request $request, $id)
     {
@@ -98,7 +83,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author wangfeilong
-     * 经测试，create方法可以带Request $request参数
+     * 经测试，edit方法可以带Request $request参数
      */
     public function edit(Request $request, $id)
     {
@@ -114,7 +99,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author wangfeilong
-     * 经测试，create方法可以带Request $request参数
+     * 经测试，update方法可以带Request $request参数
      */
     public function update(Request $request, $id)
     {
@@ -129,7 +114,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author wangfeilong
-     * 经测试，create方法可以带Request $request参数
+     * 经测试，destroy方法可以带Request $request参数
      */
     public function destroy(Request $request, $id)
     {
@@ -138,22 +123,6 @@ class UserController extends Controller
 //        dd($data);
     }
 
-    /**
-     * 获取用户数据 包含分页信息
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @author wang fei long
-     */
-    public function getUserData(Request $request)
-    {
-        $data = $request->all();
-        if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
-        $result = self::$userServer->getData($data);
-        // 如果$result返回错误
-        if(!$result['status'])
-            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
-        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
-    }
 
     /**
      * @param Request $request
