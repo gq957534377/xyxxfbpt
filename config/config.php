@@ -1,3 +1,3 @@
 <?php
 
-define('PAGENUM', 3);
+define('PAGENUM', 6);

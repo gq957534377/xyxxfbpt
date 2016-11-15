@@ -125,18 +125,7 @@ function infoHtml(data) {
     return html;
 }
 
-// 判断身份证类型
-function cardState(code) {
-    if (code == 1) {
-        return '大陆身份证';
-    } else if (code == 2) {
-        return '其它身份证';
-    } else if (code == 3) {
-        return '护照';
-    } else {
-        return '';
-    }
-}
+
 
 // 判断姓别类型
 function sexMethod(code) {

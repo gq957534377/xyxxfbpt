@@ -71,25 +71,28 @@ class TrainingService
     }
 
     /**
-     * 添加培训
-     * @param $data
-     * @return string
+     * 添加技术培训
+     * @param $request
+     * @return array
+     * @author 王拓
      */
-    public function addTraining($data)
+    public function addTraining($request)
     {
-        //纯净数据
-        unset($data['_token']);
-        //写入数据
-        $data['training_guid'] = Common::getUuid();
+        $data = $request->all();
+//        $date=strtotime($data['start_time']);
+//        if($date < time()) return ['status' => false,'msg' => '培训发布时间不合法'];
+//        $date=strtotime($data['stop_time']);
+//        if($date < time()) return ['status' => false,'msg' => '培训结束时间不合法'];
+//        $date=strtotime($data['deadline']);
+//        if($date < time()) return ['status' => false,'msg' => '报名截止时间不合法'];
+        // 服务器端数据设置
+        $data['training_guid']   = Common::getUuid();
         $data['start_time'] = strtotime($data['start_time']);
         $data['stop_time'] = strtotime($data['stop_time']);
         $data['deadline'] = strtotime($data['deadline']);
-//        dd($data);
-        $info = self::$trainingStore->addData($data);
-        //写入失败
-        if (!$info) return 'error';
-        //写入成功
-        return 'yes';
+        $result = self::$trainingStore->addData($data);
+        if (!$result) return ['status' => false, 'msg' => '发布培训失败'];
+        return ['status'=>true,'msg'=>"发布成功"];
     }
 
     /**
