@@ -316,7 +316,6 @@
             FormValidator.prototype.init = function() {
                 $.validator.setDefaults({
                     submitHandler: function() {
-
                         var data = new FormData($("#postSend"));
                         data.append('name',$('#postSend input[name=name]').val());
                         data.append('order',$('#postSend input[name=order]').val());
@@ -326,7 +325,6 @@
                         data.append('end_time',$('#postSend input[name=end_time]').val());
                         data.append('deadline',$('#postSend input[name=deadline]').val());
                         data.append('content',ue1.getContent());
-
                         $.ajax({
                             url:'/match',
                             type:'post',
@@ -337,11 +335,12 @@
                              processData: false,
                             beforeSend:function () {
                                 $('#postSend button').eq(0).click();
+                                console.log(data);
                                 console.log("正在发送请求");
                                 // 发送请求时添加弹窗
                             },
                             success:function (data) {
-                                // console.log(data);
+                                 console.log(data);
                                 if(data.status==200){
                                     $("#hint").click();
                                     $("#hint_form h4").html(data.msg);

@@ -14,6 +14,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\RoadService as RoadServer;
 use App\Services\UploadService as UploadServer;
+use Illuminate\Support\Facades\Input;
 
 class RoadController extends Controller
 {
@@ -153,5 +154,26 @@ class RoadController extends Controller
             ]);
         }
         return response()->json(['ServerNo' => 400, 'ResultData' => '获取数据失败']);
+    }
+
+    /**
+     * 上传图片
+     * @return \Illuminate\Http\JsonResponse
+     * @author 郭庆
+     */
+    public function upload()
+    {
+        $file=Input::file('Filedata');
+        if($file->isValid()){
+            $realPath=$file->getRealPath();//临时文件的绝对路径
+            $extension=$file->getClientOriginalName();//上传文件的后缀
+            $hz = explode('.',$extension)[1];
+            $newName=date('YmdHis').mt_rand(100,999).'.'.$hz;
+            $path=$file->move(public_path('uploads/image/admin/road'),$newName);
+            $result = 'uploads/image/admin/road/'.$newName;
+            return response()->json(['res'=>$result]);
+        }else{
+        }
+
     }
 }

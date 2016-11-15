@@ -60,7 +60,6 @@ class VentureContestController extends Controller
         }
         // 开始进行数据插入
         $result = self::$matchServer->insert($request->all());
-//        return $result;
         if(!$result) return response()->json(['status'=>'400','msg'=>'发布失败']);
         return response()->json(['status'=>'200','msg'=>'发布成功']);
     }
