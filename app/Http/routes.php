@@ -73,8 +73,6 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::get('/code/captcha/{tmp}', 'LoginController@captcha');
     // 前台登录页
     Route::resource('/login', 'LoginController');
-    // 发送验证码
-    Route::post('/sms','RegisterController@sendSms');
     // 前台注册页
     Route::resource('/register', 'RegisterController');
     //众筹首页

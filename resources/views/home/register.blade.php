@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="img/favicon_1.ico">
         <title>英雄会 - 大学生创业项目平台</title>
         @include('home.login.style')
@@ -20,7 +21,6 @@
                 <div class="panel-body">
                     @include('admin.public.errors')
                     <form id="signUpForm" class="form-horizontal m-t-10 p-20 p-b-0" action="{{url('/register')}}" method="post">
-                        {{csrf_field()}}
                         <div class="form-group">
                             <div class="col-xs-12">
                                 <input class="form-control" name="email" type="email" required="" placeholder="邮箱">
@@ -35,7 +35,7 @@
 
                         <div class="form-group">
                             <div class="col-xs-12">
-                                <input class="form-control " name="password" type="password" required="" placeholder="密码">
+                                <input class="form-control " id="password" name="password" type="password" required="" placeholder="密码">
                             </div>
                         </div>
 
@@ -72,7 +72,7 @@
                         
                         <div class="form-group text-right">
                             <div class="col-xs-12">
-                                <a class="btn btn-success w-md" id="register">注册</a>
+                                <button class="btn btn-success w-md" type="submit" id="register">注册</button>
                             </div>
                         </div>
 

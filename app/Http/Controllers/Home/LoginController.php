@@ -63,18 +63,12 @@ class LoginController extends Controller
         $data['ip'] = $request->getClientIp();
         // 校验邮箱和账号,拿到状态码
         $info = self::$userServer->loginCheck($data);
-        switch ($info){
-            case 'error':
-                return json_encode(['msg' => '账号不存在或密码错误！']);
+        switch ($info['status']){
+            case '400':
+                return response()->json(['StatusCode'=>'400','ResultData'=>$info['msg']]);
                 break;
-            case 'status':
-                return json_encode(['msg' => '账号存在异常，已被锁定，请联系客服！']);
-                break;
-            case 'noUpdate':
-                return json_encode(['msg' => '服务器数据异常！']);
-                break;
-            case 'yes':
-                return json_encode(['msg' => 'yes']);
+            case '200':
+                return response()->json(['StatusCode'=>'200','ResultData'=>$info['msg']]);
                 break;
         }
     }
