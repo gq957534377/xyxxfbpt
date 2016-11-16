@@ -11,6 +11,7 @@ function showCheckInvestor(data) {
             }else {
                 $('#data').html(listInvestorHtml(data));
                 $('#page').html(data.ResultData.pages);
+                getPage();
             }
         } else {
             $('#con-close-modal').modal('show');
@@ -35,23 +36,46 @@ function listInvestorHtml(data){
         '<th>姓名</th>' +
         '<th>性别</th>' +
         '<th>手机</th>' +
-        '<th>审核</th>' +
+        '<th>身份证号码</th>' +
+        '<th>状态</th>' +
         '<th>操作</th>' +
         '</tr>' +
         '</thead>';
     html += '<tbody>';
     $.each(data.ResultData.data, function (i, e) {
+        var status = null;
+        var p1, p2, p3, p4= '';
+        if(e.status == 1){
+            status = '<p class="text-success">待审核</p>';
+            p1 = 'disabled';
+        }
+        if(e.status == 2){
+            status = '<p class="text-warning">审核成功</p>';
+            p2 = 'disabled';
+        }
+        if(e.status == 3){
+            status = '<p class="text-danger">审核失败</p>';
+            p3 = 'disabled';
+        }
+        if(e.status == 4){
+            status = '<p class="text-danger">删除</p>';
+            p4 = 'disabled';
+        }
+
         html += '<tr class="gradeX">';
         html += '<td>' + (i + 1) + '</td>';
         html += '<td>' + e.realname + '</td>';
         html += '<td>' + e.sex + '</td>';
         html += '<td>' + e.tel + '</td>';
-        html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-info btn-xs">审核</button></a>' + '</td>';
+        html += '<td>' + e.card_number + '</td>';
+        html += '<td>' + status + '</td>';
         html += '<td>';
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="pass"><button class="btn btn-success btn-xs">通过</button></a>';
-        html += ' ';
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="fail"><button class="btn btn-danger btn-xs">不通过</button></a>';
+        html += '<a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-info btn-xs">审核</button></a>';
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="pass"><button class="btn btn-success ' + p2 + ' btn-xs">通过</button></a>';
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="fail"><button class="btn btn-warning ' + p3 + ' btn-xs">不通过</button></a>';
+        html += '<a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-danger ' + p4 + ' btn-xs">删除</button></a>';
         html += '</td>';
+
     });
     html += '</tbody>' +
         '</table>' +

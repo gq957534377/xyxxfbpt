@@ -27,10 +27,10 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a id="check_entrepreneurs" data-name="check_entrepreneurs" class="addevent" href="#">创业者</a>
+                    <a id="check_entrepreneurs" data-name="check_entrepreneurs" class="addevent" href="javascript:void(0)">创业者</a>
                 </li>
                 <li>
-                    <a id="check_investor" data-name="check_investor" class="addevent" href="#">投资者</a>
+                    <a id="check_investor" data-name="check_investor" class="addevent" href="javascript:void(0)">投资者</a>
                 </li>
             </ul>
         </div>
@@ -81,39 +81,16 @@
 
 
     <script>
+        //全局标识
+        var user_role = 1;
 
         //请求数据 分页包含在数据中 添加事件
         $(function () {
-            //获取初始化请求参数
+            $('#normal').addClass('btn-success');
             var user_init = {
-                role : getQueryVariable('role')
+                role : user_role
             };
-            //初始化按钮颜色
-            if(user_init.role == '1'){
-                $('#normal').addClass('btn-success');
-            }
-            if(user_init.role == '2'){
-                $('#entrepreneurs').addClass('btn-success');
-                $('#user_title').text('创业者用户');
-            }
-            if(user_init.role == '3'){
-                $('#investor').addClass('btn-success');
-                $('#user_title').text('投资者用户');
-            }
-            if(user_init.role == '4'){
-                $('#checking, #check_entrepreneurs').addClass('btn-success');
-                $('#user_title').text('待审核创业者用户');
-            }
-            if(user_init.role == '5'){
-                $('#checking, #check_investor').addClass('btn-success');
-                $('#user_title').text('待审核投资者用户');
-            }
-            if(user_init.role == '1' || user_init.role == '2' || user_init.role == '3')
-                load('/user/create', user_init, 'GET', showNormal);
-            if(user_init.role == '4' || user_init.role == '5')
-                load('/user_role/create', user_init, 'GET', showCheckInvestor);
-
-            getPage();
+            load('/user/create', user_init, 'GET', showNormal);
 
             $('.addevent').off('click').on('click', function () {
                 //重设按钮颜色
@@ -121,7 +98,6 @@
                 $(this).addClass('btn-success');
                 //设置请求参数，更改标题
                 var data = null;
-                var user_role = null;
                 var tmp = $(this).data('name');
                 if(tmp == 'normal') {
                     user_role = '1';
@@ -153,8 +129,6 @@
                 if(data.role == '4' || data.role == '5')
                     load('/user_role/create', data, 'GET', showCheckInvestor);
 
-                getPage();
-
             });
         });
 
@@ -171,41 +145,25 @@
             });
         }
 
-        //获取url中的参数
-        function getQueryVariable(variable) {
-            var query = window.location.search.substring(1);
-            var vars = query.split("&");
-            for (var i=0;i<vars.length;i++) {
-                var pair = vars[i].split("=");
-                if(pair[0] == variable){return pair[1];}
-            }
-            return(false);
-        }
-
-
         function getPage() {
-            alert(1);
-            alert(2);
-//                            $('.pagination li').children('a').html(123);
-            $('.pagination li').click(function () {
-                alert(1);
+            $('.pagination li a').removeAttr('href');
+            $('.pagination li').off('click').click(function () {
+
                 var class_name = $(this).prop('class');
                 if(class_name == 'disabled' || class_name == 'active') {
                     return false;
                 }
+                var nowPage = $(this).children('a').text();
 
-//                var url = $(this).children().prop('href');
-                pageData = {
-                    role: user_init,
-                    nowPage: getQueryVariable('nowPage'),
-                    totalPage : getQueryVariable('totalPage')
+                var data = {
+                    role : user_role,
+                    nowPage : nowPage
                 };
-//                $('.pagination li a').removeAttr('href');
 
-                if(user_init.role == '1' || user_init.role == '2' || user_init.role == '3')
-                    load('user/create', pageData, 'GET', showNormal);
-                if(user_init.role == '4' || user_init.role == '5')
-                    load('user_role/create', pageData, 'GET', showCheckInvestor);
+                if(user_role == '1' || user_role == '2' || user_role == '3')
+                    load('user/create', data, 'GET', showNormal);
+                if(user_role == '4' || user_role == '5')
+                    load('user_role/create', data, 'GET', showCheckInvestor);
             });
         }
 //

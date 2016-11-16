@@ -11,7 +11,7 @@ use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\Session;
 
-class UserService {
+class UserRoleService {
     protected static $homeStore = null;
     protected static $userStore = null;
     protected static $roleStore = null;
@@ -150,18 +150,10 @@ class UserService {
     public function getData($data)
     {
         if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
-        if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
+        if(!in_array($data['role'], ['4', '5'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        $userPage = self::getPage($data);
-        // 转向RoleStore层
-        if ($data['role'] == '0'){
-            $userData = self::$roleStore->getUsersData($nowPage, ['status' => '1']);
-            //拼装数据,返回所需格式
-            $result = array_merge(['data'=> $userData], $userPage['data']);
-            if (!$result) return ['status' => false, 'data' => '系统错误'];
-            return ['status' => true, 'data' => $result];
-        }
-        $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role']]);
+        $userPage = self::getPage($data, 'user_role/create');
+        $userData = self::$roleStore->getUsersData($nowPage, ['role' => ($data['role'] - 2)]);
         //拼装数据，返回所需格式
         $result = array_merge(['data'=> $userData], $userPage['data']);
         if (!$result) return ['status' => false, 'data' => '系统错误'];
@@ -174,15 +166,13 @@ class UserService {
      * @return array|bool
      * @author wang fei long
      */
-    private static function getPage($data)
+    private static function getPage($data, $url)
     {
-        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
-        if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
 
-        $count = ($data['role'] == 0) ? (self::$roleStore->getUsersNumber(['status' => '1'])) : (self::$userStore->getUsersNumber(['role' => $data['role']]));
+        $count = self::$roleStore->getUsersNumber(['role' => ($data['role'] - 2)]);
         $totalPage = ceil($count / PAGENUM);
-        $baseUrl   = url('users_page');
+        $baseUrl   = url($url);
         if($nowPage <= 0) $nowPage = 1;
         if($nowPage > $totalPage) $nowPage = $totalPage;
 

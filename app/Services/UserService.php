@@ -160,7 +160,7 @@ class UserService {
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
         $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role']]);
         if (!$userData) return ['status' => false, 'data' => '数据获取失败'];
-        $userPage = self::getPage($data, 'user');
+        $userPage = self::getPage($data, 'user/create');
         if (!$userPage) return ['status' => false, 'data' => '分页获取失败'];
         //拼装数据，返回所需格式
         $result = array_merge(['data'=> $userData], $userPage['data']);
@@ -176,8 +176,6 @@ class UserService {
      */
     private static function getPage($data, $url)
     {
-        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
-        if(!in_array($data['role'], ['1', '2', '3'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
 
         $count = self::$userStore->getUsersNumber(['role' => $data['role']]);
