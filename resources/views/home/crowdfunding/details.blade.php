@@ -40,7 +40,7 @@
                             <ul class="social-share">
                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                 <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li> 
+                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
                                 <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
                                 <li><a href="#"><i class="fa fa-skype"></i></a></li>
                             </ul>
@@ -89,7 +89,7 @@
                 </div>
             </div><!--/.container-->
         </nav><!--/nav--><!--/nav-->
-        
+
     </header><!--/header-->
 
     <section id="blog" class="container">
@@ -108,9 +108,9 @@
                             </div>
                                 
                             <div class="col-xs-12 col-sm-10 blog-content">
-                                <a href="#"><img class="img-responsive img-blog" src="{{asset('home/images/blog/blog1.jpg')}}" width="100%" alt="" /></a>
-                                <h2>Consequat bibendum quam liquam viverra</h2>
-                                <h3>Curabitur quis libero leo, pharetra mattis eros. Praesent consequat libero eget dolor convallis vel rhoncus magna scelerisque. Donec nisl ante, elementum eget posuere a, consectetur a metus. Proin a adipiscing sapien. Suspendisse vehicula porta lectus vel semper. Nullam sapien elit, lacinia eu tristique non.posuere at mi. Morbi at turpis id urna ullamcorper ullamcorper.</h3>
+                                <a href="#"><img class="img-responsive img-blog" src="{{$data["pojectInfo"][0]->image}}" width="100%" alt="" /></a>
+                                <h2>{{$data["pojectInfo"][0]->title}}</h2>
+                                <h3>{{$data["pojectInfo"][0]->content}}</h3>
                                 <a class="btn btn-primary readmore" href="blog-item.html">支持(￥)</a>
                             </div>
                             <div class="col-xs-12 col-sm-10" style="height: auto;float: right">
@@ -126,7 +126,7 @@
             </div><!--/.row-->
         </div>
     </section><!--/#blog-->
-
+        {{dd($data)}}
     <section id="bottom">
         <div class="container wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
             <div class="row">

@@ -73,14 +73,8 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/login', 'LoginController');
     // 前台注册页
     Route::resource('/register', 'RegisterController');
-    //众筹首页
+    //众筹
     Route::resource('/crowd_funding', 'CrowdFundingController');
-    //众筹首页ajax请求
-    Route::get('index_ajax',"CrowdFundingController@indexAjax");
-    //查询某类项目可分页数
-    Route::get("crow_funding_page/{id}","CrowdFundingController@endPage");
-    //查询某类项目某页内容
-    Route::post("crow_funding_page","CrowdFundingController@pageContent");
     //发布项目
     Route::resource('/project', 'ProjectController');
     Route::get('/getuptoken', 'ProjectController@getUptoken');
