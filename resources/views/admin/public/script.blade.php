@@ -107,11 +107,10 @@
             ]
         ],
         initialFrameWidth : '100%',
-        autoHeightEnabled: true,
     };
     var ue = UE.getEditor('UE', toolbra);
     var ue1 = UE.getEditor('UE1', toolbra);
-    var ue2 = UE.getEditor('UE2', toolbra);
+//    var ue2 = UE.getEditor('UE2', toolbra);
 </script>
 <script type="text/javascript">
     jQuery(document).ready(function($) {

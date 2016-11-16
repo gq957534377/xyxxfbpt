@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="/dateTime/jquery.datetimepicker.css"/>
 <style type="text/css">
     .custom-date-style {
         background-color: red !important;
