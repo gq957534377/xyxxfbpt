@@ -15,6 +15,45 @@
         };
         // 初始化
         FormValidator.prototype.init = function() {
+            // ajax 异步
+            $.validator.setDefaults({
+                // 提交触发事件
+                submitHandler: function() {
+                    $.ajaxSetup({
+                        //将laravel的csrftoken加入请求头，所以页面中应该有meta标签，详细写法在上面的form表单部分
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    //与正常form不同，通过下面这样来获取需要验证的字段
+                    var data = new FormData();
+                    data.append( "email"      , $("input[name= 'email']").val());
+                    data.append( "password"       , $("input[name= 'password']").val());
+                    data.append( "homeCaptcha"       , $("input[name= 'homeCaptcha']").val());
+                    //开始正常的ajax
+                    // 异步登录
+                    $.ajax({
+                        type: "POST",
+                        url: '/login',
+                        data: {
+                            'email': $("input[name= 'email']").val(),
+                            'password': $("input[name= 'password']").val(),
+                            'homeCaptcha': $("input[name= 'homeCaptcha']").val(),
+                        },
+                        success:function(data){
+                            switch (data.StatusCode){
+                                case '400':
+                                    promptBoxHandle('警告',data.ResultData);
+                                    break;
+                                case '200':
+                                    window.location = '/';
+                                    break;
+                            }
+                        }
+                    });
+                }
+            });
+            // 验证规则和提示信息
             this.$signOnForm.validate({
                 // 验证规则
                 rules: {
@@ -26,7 +65,7 @@
                         required: true,
                         minlength:6
                     },
-                    captcha: {
+                    homeCaptcha: {
                         required: true,
                         minlength: 4,
                         maxlength: 4
@@ -42,7 +81,7 @@
                         required: "请输入密码",
                         minlength: "密码长度不能小于 6 个字母"
                     },
-                    captcha: {
+                    homeCaptcha: {
                         required: "请输入验证码",
                         minlength: "请填写4位验证码"
                     }
@@ -64,33 +103,6 @@
         $url = $url + "/" + Math.random();
         this.src = $url;
     }
-    // 异步登录
-    $("#login").click(function(){
-        var email = $("input[name= 'email']").val();
-        var password = $("input[name= 'password']").val();
-        var homeCaptcha = $("input[name= 'homeCaptcha']").val();
-        var _token = $("input[name= '_token']").val();
-        var data = {
-            'email': email,
-            'password': password,
-            'homeCaptcha': homeCaptcha,
-            '_token' : _token
-        };
-        var url = '/login';
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            success: function(msg){
-                // 将传过json格式转换为json对象
-                Obj = JSON.parse(msg);
-                if(Obj.msg != 'yes'){
-                    alert(Obj.msg);
-                }else{
-                    location.href = '/';
-                }
-            }
-        });
-    });
+
 </script>
 <!-- 验证机制 End -->

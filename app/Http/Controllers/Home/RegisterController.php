@@ -53,9 +53,9 @@ class RegisterController extends Controller
     {
         $data = $request->all();
         // 校验两次密码
-        if ($data['password'] != $data['confirm_password']) return json_encode(['msg' => '两次密码不一致']);
+        if ($data['password'] != $data['confirm_password'])  return response()->json(['StatusCode'=>'400','ResultData' =>'两次密码不一致！']);
         // 校验短信验证码
-        if($data['code']!= Session::get('sms')['smsCode']) return json_encode(['msg' => '短信验证码错误']);
+        if($data['code']!= Session::get('sms')['smsCode'])  return response()->json(['StatusCode'=>'400','ResultData' => '短信验证码错误！']);
         // 对数据再次校验
         $this->validate($request, [
             'email' => 'required|email',
@@ -70,28 +70,43 @@ class RegisterController extends Controller
         // 提交数据到业务层，检验用户是否存在
         $info = self::$userServer->addUser($data);
         //返回视图成状态码
-        switch ($info) {
-            case 'exist':
-                return json_encode(['msg' => '用户已存在！']);
+        switch ($info['status']) {
+            case '400':
+                return response()->json(['StatusCode'=>'400','ResultData' => $info['msg']]);
                 break;
-            case 'error':
-                return json_encode(['msg' => '数据异常！']);
-                break;
-            case 'yes':
-                return json_encode(['msg' => '注册成功！']);
+            case '200':
+                return response()->json(['StatusCode'=>'200','ResultData' => $info['msg']]);
                 break;
         }
     }
 
     /**
-     * Display the specified resource.
-     *
+     * 发送短信验证码短信
      * @param  int $id
      * @return \Illuminate\Http\Response
+     * @author 刘峻廷
      */
     public function show($id)
     {
-        //
+        // 判断存在
+        if (empty($id)) return false;
+        // 手机号校验
+        $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
+        if(!preg_match($preg,$id)) return response()->json(['StatusCode'=>'200','ResultData' =>'请输入正确的手机号！']);
+        // 查询该手机是否已注册
+        $info = self::$userServer->userInfo(['tel'=>$id]);
+        if($info['status']) return response()->json(['StatusCode'=>'400','ResultData' => '此手机号已被注册！']);
+        // 真，发送短信
+        $info = self::$userServer->sendSmsCode($id);
+
+        switch ($info['status']){
+            case '400':
+                return response()->json(['StatusCode'=>'400','ResultData' => $info['msg']]);
+                break;
+            case '200':
+                return response()->json(['StatusCode'=>'200','ResultData' => $info['msg']]);
+                break;
+        }
     }
 
     /**
@@ -127,30 +142,4 @@ class RegisterController extends Controller
     {
         //
     }
-
-    public function sendSms(Request $request)
-    {
-        $data = $request->all();
-        $phone = $data['phone'];
-        // 判断存在
-        if (empty($phone)) return false;
-        // 手机号校验
-        $preg = '/^(1(([35][0-9])|(47)|[8][0126789]))\d{8}$/';
-        if(!preg_match($preg,$phone)) return json_encode(['msg'=>'请输入正确的手机号！']);
-        // 真，发送短信
-        $info = self::$userServer->sendSmsCode($phone);
-
-        switch ($info){
-            case 'false':
-                return json_encode(['msg'=>'短信已发送，请等待两分钟！']);
-                break;
-            case 'error':
-                return json_encode(['msg'=>'发送失败！']);
-                break;
-            case 'yes':
-                return json_encode(['msg'=>'发送成功！']);
-                break;
-        }
-    }
-
 }

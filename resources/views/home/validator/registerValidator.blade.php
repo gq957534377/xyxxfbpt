@@ -15,6 +15,52 @@
         };
         // 初始化
         FormValidator.prototype.init = function() {
+            // ajax 异步
+            $.validator.setDefaults({
+                // 提交触发事件
+                submitHandler: function() {
+                    $.ajaxSetup({
+                        //将laravel的csrftoken加入请求头，所以页面中应该有meta标签，详细写法在上面的form表单部分
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    //与正常form不同，通过下面这样来获取需要验证的字段
+                    var data = new FormData();
+                    data.append( "email"      , $("input[name= 'email']").val());
+                    data.append( "nickname"     , $("input[name= 'nickname']").val());
+                    data.append( "password"       , $("input[name= 'password']").val());
+                    data.append( "confirm_password"     ,$("input[name= 'confirm_password']").val());
+                    data.append( "phone"     , $("input[name= 'phone']").val());
+                    data.append( "code"     , $("input[name= 'code']").val());
+                    //开始正常的ajax
+                    // 异步登录
+                        $.ajax({
+                            type: "POST",
+                            url: '/register',
+                            data: {
+                                'email': $("input[name= 'email']").val(),
+                                'nickname': $("input[name= 'nickname']").val(),
+                                'password': $("input[name= 'password']").val(),
+                                'confirm_password': $("input[name= 'confirm_password']").val(),
+                                'phone': $("input[name= 'phone']").val(),
+                                'code': $("input[name= 'code']").val(),
+                            },
+                            success:function(data){
+                                switch (data.StatusCode){
+                                    case '400':
+                                        promptBoxHandle('警告',data.ResultData);
+                                        break;
+                                    case '200':
+                                        promptBoxHandle('提示',data.ResultData);
+                                        window.location = '/login';
+                                        break;
+                                }
+                            }
+                        });
+                }
+            });
+            // 验证数据规则和提示
             this.$signUpForm.validate({
                 // 验证规则
                 rules: {
@@ -32,7 +78,8 @@
                     },
                     confirm_password: {
                         required: true,
-                        minlength: 6
+                        minlength: 6,
+                        equalTo: "#password"
                     },
                     phone: {
                         required: true,
@@ -49,7 +96,7 @@
                         required: "请输入邮箱！",
                         email: "Email 格式不对！"
                     },
-                    nikename: {
+                    nickname: {
                         required: "请输入昵称",
                         minlength: "昵称长度不能小于2个字符",
                     },
@@ -59,7 +106,8 @@
                     },
                     confirm_password: {
                         required: "请输入确认密码",
-                        minlength: "密码长度不能小于 6 个字母"
+                        minlength: "密码长度不能小于 6 个字母",
+                        equalTo: "两次输入密码不一致"
                     },
                     phone: {
                         required: "请输入手机号",
@@ -80,39 +128,6 @@
                 $.FormValidator.init();
             }(window.jQuery);
 
-    // 异步登录
-    $('#register').click(function(){
-        var email = $("input[name= 'email']").val();
-        var nickname = $("input[name= 'nickname']").val();
-        var password = $("input[name= 'password']").val();
-        var confirm_password = $("input[name= 'confirm_password']").val();
-        var phone = $("input[name= 'phone']").val();
-        var code = $("input[name= 'code']").val();
-        var _token = $("input[name= '_token']").val();
-        if(password != confirm_password){
-            alert('两次密码输入的不一致！');
-        }
-        var data = {
-            'email': email,
-            'nickname': nickname,
-            'password': password,
-            'confirm_password': confirm_password,
-            'phone': phone,
-            'code': code,
-            '_token' : _token
-        };
-        var url = '/register';
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: data,
-            success:function(data){
-              obj=eval("("+data+")");
-                alert(obj.msg);
-            }
-        });
-    });
-
     // 手机号验证规则
     function isPhoneNo(phone) {
         var pattern = /^1[34578]\d{9}$/;
@@ -123,15 +138,12 @@
     function formValidate(phone) {
         // 返回信息
         var str = '';
-
         // 判断手机号
         if($.trim(phone).length == 0){
-            alert('请输入手机号');
-            phone.focus();
+            promptBoxHandle('警告','请输入手机号');
         } else {
             if(isPhoneNo($.trim(phone))== false) {
-                alert('手机号不正确');
-                phone.fcous();
+                promptBoxHandle('警告','手机号不正确');
             }
         }
     }
@@ -139,22 +151,23 @@
     // 异步发送短信
     $("#sendCode").click(function(){
         var phone =$("input[name='phone']").val();
-        var _token = $("input[name= '_token']").val();
         // 校验手机号
         formValidate(phone);
         // 传输
-        var url = '/sms';
-        var data = {
-            'phone':phone ,
-            '_token': _token
-        };
+        var url = '/register/'+phone;
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: url,
-            data: data,
             success:function(data){
-                obj=eval("("+data+")");
-                alert(obj.msg);
+                switch (data.StatusCode){
+                    case '400':
+                        promptBoxHandle('警告',data.ResultData);
+//                        alert(data.ResultData);
+                        break;
+                    case '200':
+                        promptBoxHandle('提示',data.ResultData);
+                        break;
+                }
             }
         });
 

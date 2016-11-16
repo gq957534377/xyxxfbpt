@@ -1,4 +1,15 @@
 @extends('home.layouts.index')
+@section('style')
+    <script type="text/javascript" src="{{url('/qiniu/js/jquery.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/uploadbox.css')}}">
+    <script type="text/javascript" src="{{url('/qiniu/js/plupload/plupload.full.min.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/plupload/i18n/zh_CN.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/qiniu.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/ui.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/main.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/ui2.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/main2.js')}}"></script>
+@endsection
 @section('content')
     <section id="contact-page">
         <div class="container main-container">
@@ -22,7 +33,7 @@
                                         <form method="POST" id="headPicForm" enctype="muitipart/form-data" >
                                             <input type="hidden" mame="_method" value="put">
                                             <div class="modal-body">
-                                                <img id="headpic" src="{{asset('home/images/man1.jpg')}}" class="img-circle"><br>
+                                                <img id="headpic" src="{{asset('home/images/man1.jpg')}}" class="img-circle" style="width: 147px;height: 138.88px;"><br>
                                                 <input type="file" name="headpic" />
                                             </div>
                                         </form>
@@ -45,8 +56,8 @@
                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <h4 class="modal-title" id="myModalLabel">创业者申请</h4>
                                         </div>
+                                        <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
                                         <form id="entrepreneur" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                                            <input type="hidden" name="_mehtod" value="put">
                                             <div class="form-group">
                                                 <label for="" class="col-sm-2 control-label">真实姓名</label>
                                                 <div class="col-sm-6">
@@ -60,12 +71,6 @@
                                                 <div class="col-sm-6">
                                                     <input class="form-control" name="card_number" type="text"></div>
                                                 <div class="col-sm-4 help-block">如：363636201611110012</div></div>
-
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">邮 箱</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" name="email" value="" type="text"></div>
-                                                <div class="col-sm-4 help-block">如：name@website.com</div></div>
 
                                             <div class="form-group">
                                                 <label for="" class="col-sm-2 control-label">籍贯</label>
@@ -111,8 +116,60 @@
                                 </div>
                             </div>
                             <!--申请成为创业者 end-->
-                            <a href="#" class="list-group-item ">
-                                <i class="text-md fa fa-flask" aria-hidden="true"></i>&nbsp;账号绑定</a>
+
+                            <!--项目发布 start-->
+                            <a href="#" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
+                                <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
+                            </a>
+                            <!--项目发布弹出层 start-->
+                            <div class="modal fade" id="_projectPunlish" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">项目发布</h4>
+                                        </div>
+                                        <!--引入项目发布表单元素-->
+                                        <form id = "projectForm" class="form-horizontal" style="padding-bottom: 20px;">
+                                            <div class = "col-sm-10 col-sm-offset-1">
+                                                <input name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
+                                                <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介"></textarea>
+                                            </div>
+                                            <div class = "col-sm-6">
+                                                <div id="img_container" style="margin-top: 30px;">
+                                                    <button class="btn btn-info btn-sm" type="button" id="img_pick">选择图片</button>
+                                                    <button class="btn btn-info btn-sm" type="button" id="file_pick">选择资料</button>
+                                                </div>
+                                            </div>
+                                            <!--隐藏表单区-->
+                                            <input  type ='hidden' name = "image"/>
+                                            <input  type ='hidden' name = "file"/>
+                                            <input type="hidden" id="domain" value="http://ogd29n56i.bkt.clouddn.com/">
+                                            <input type="hidden" id="uptoken_url" value="{{url('project/getuptoken/edit')}}">
+
+                                            <div class = "col-sm-10 col-sm-offset-1">
+                                                <table class="table table-striped table-hover"   style="margin-top:40px;display:none">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="col-md-4">文件名</th>
+                                                        <th class="col-md-2">大小</th>
+                                                        <th class="col-md-6">详情</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="fsUploadProgress">
+                                                    </tbody>
+                                                    <tbody id="fsUploadProgress2">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                                <button class="btn btn-info" type="submit" style="margin-left: 70%;margin-top: 40px;">提交</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--项目发布弹出层 end-->
+                            <!--项目发布 end-->
                         </div>
                     </div>
                 </div>
@@ -120,7 +177,7 @@
                     <div id="userBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
                         <div class="panel-body ">
                             <h2><i class="fa fa-cog" aria-hidden="true"></i>编辑个人资料  </h2>
-                            <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="position: absolute;z-index: 9999;" >
+                            <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
                             <hr>
                             <form id="userform" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
                                 <input type="hidden" name="_method" value="put">
@@ -158,7 +215,7 @@
                                     <label for="" class="col-sm-2 control-label">性别</label>
                                     <div class="col-sm-6">
                                         <input class="sex1" name="user_sex" value="1" type="radio">男
-                                        <input class="sex0" name="user_sex" value="0" type="radio">女</div></div>
+                                        <input class="sex0" name="user_sex" value="2" type="radio">女</div></div>
 
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">手机号</label>
@@ -175,35 +232,22 @@
                     </div>
                 </div>
             </div>
-            {{--<!--隐藏消息弹出框 Start-->--}}
-            {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">小模态框</button>--}}
-            {{--<div class="modal-dialog modal-sm">--}}
-                {{--<div class="modal-content">--}}
-
-                    {{--<div class="modal-header">--}}
-                        {{--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>--}}
-                        {{--<h4 class="modal-title" id="mySmallModalLabel">Small modal</h4>--}}
-                    {{--</div>--}}
-                    {{--<div class="modal-body">--}}
-                        {{--...--}}
-                    {{--</div>--}}
-                {{--</div><!-- /.modal-content -->--}}
-            {{--</div>--}}
-            {{--<!--隐藏消息弹出框 End-->--}}
         </div><!--/.container-->
     </section><!--/#contact-page-->
+    @include('home.validator.publishValidator')
 @endsection
 
 @section('script')
-{{--@include('home.ajax.userinfo')--}}
+@include('home.user.ajax.ajaxRequire')
 <script>
     $(function(){
         // 用户信息获取
         var nickname = $("input[name='nickname']");
-        var email = $("input[name='email']");
         var realname = $("input[name='realname']");
         var hometown = $("input[name='hometown']");
         var birthday = $("input[name='birthday']");
+        var card_number = $('input[name="card_number"]');
+        var headpic = $('#headpic');
         var sex = $("input[name='sex']");
         var sex0 = $(".sex0");
         var sex1 = $(".sex1");
@@ -218,8 +262,8 @@
         var user_hometown = $("input[name='user_hometown']");
         var user_birthday = $("input[name='user_birthday']");
         var user_phone = $("input[name='user_phone']");
-        var user_sex = $("input[name='user_sex']");
-        var card_number = $('input[name="card_number"]');
+        var user_sex = $('input:radio[name="user_sex"]:checked');
+
         $.ajax({
             type: "get",
             url: url+'/'+guid,
@@ -237,10 +281,10 @@
                         user_birthday.empty().val(msg.ResultData.msg.birthday);
                         msg.ResultData.msg.sex == 1?sex1.attr('checked','true'):sex0.attr('checked','true');
                         tel.empty().val(msg.ResultData.msg.tel);
+                        headpic.attr('src','uploads/image/'+msg.ResultData.msg.headpic);
 
                         // 给创业提交信息也附上值
                         nickname.empty().val(msg.ResultData.msg.nickname);
-                        email.empty().val(msg.ResultData.msg.email);
                         realname.empty().val(msg.ResultData.msg.realname);
                         hometown.empty().val(msg.ResultData.msg.hometown);
                         birthday.empty().val(msg.ResultData.msg.birthday);
@@ -258,8 +302,6 @@
                         $(".loading").hide();
                         break;
                 }
-
-
             }
         });
 
@@ -271,31 +313,10 @@
                 'realname' : user_realname.val(),
                 'hometown' : user_hometown.val(),
                 'birthday' : user_birthday.val(),
-                'sex': user_sex.val(),
+                'sex':  $('input:radio[name="user_sex"]:checked').val(),
                 'tel' : user_phone.val()
             };
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type:'PUT',
-                data:data,
-                url:url+'/'+guid,
-                beforeSend:function(){
-                    $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
-                },
-                success:function(msg){
-                    if(msg.StatusCode==400){
-                        alert(msg.ResultData);
-                        $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
-                    }else{
-                        alert(msg.ResultData);
-                        $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
-                    }
-                }
-            });
+            ajaxRequire(url+'/'+guid,'PUT',data,$("#userBox"),2);
         });
 
         // 异步上传头像
@@ -303,46 +324,18 @@
             var headPicForm = new FormData(document.getElementById("headPicForm"));
             headPicForm.append('guid',guid);
             var url = '/headpic';
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type:'POST',
-                url:url,
-                data:headPicForm,
-                processData: false,  // 告诉jQuery不要去处理发送的数据
-                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-                success:function(msg){
-                    alert(msg.ResultData);
-                    $('#headpic').attr('src','uploads/image/'+msg.headpic);
-                }
-            });
+            ajaxRequire('/headpic','POST',headPicForm,$("#userBox"),1);
         });
 
         // 申请成为创业者
         $("#applySubmit").click(function(){
             var formData = new FormData(document.getElementById("entrepreneur"));
             formData.append('guid',guid);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: '/apply',
-                type: "POST",
-                data: formData,
-                processData: false,  // 告诉jQuery不要去处理发送的数据
-                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-                success:function(msg){
-                   alert(msg.ResultData);
-                }
-            });
-
+            ajaxRequire('/user','POST',formData,$('#entrepreneur'),1);
         });
     });
 </script>
+@include('home.user.ajax.ajaxRequire')
 @include('home.validator.UpdateValidator')
+
 @endsection

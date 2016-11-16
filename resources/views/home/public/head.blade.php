@@ -12,7 +12,7 @@
                                         <!-- user login dropdown start-->
                                         <li class="dropdown text-center" style="margin: 0;padding: 0;">
                                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                                <img alt="" src="{{asset('home/images/man3.jpg')}}" class="img-circle profile-img thumb-sm">
+                                                <img alt="" src="{{asset('home/images/avatar1.png')}}" class="img-circle profile-img thumb-sm">
                                                 <span class="username">{{session('user')->email}} </span> <span class="caret"></span>
                                             </a>
                                             <ul class="dropdown-menu pro-menu fadeInUp animated" tabindex="5003" style="overflow: hidden; outline: none;margin: 0;padding: 0;">
@@ -70,7 +70,7 @@
                         </ul>
                     </li>
                     <li><a href="{{url('/training')}}">创业技术培训</a></li>
-                    <li><a href="{{"./project/publish"}}">项目发布</a></li>
+                    <li><a href="{{url('/project')}}">创业项目</a></li>
                     <li><a href="blog.html">Blog</a></li>
                     <li><a href="contact-us.html">Contact</a></li>
                 </ul>

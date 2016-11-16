@@ -15,16 +15,8 @@
         <ul class="list-unstyled">
             <li class="active"><a href="{{url('/')}}"><i class="zmdi zmdi-view-dashboard"></i> <span class="nav-label">控制台</span></a></li>
 
-            <li class="has-submenu">
-                <a href="#"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span><span class="menu-arrow"></span></a>
-                <ul class="list-unstyled">
-                    <li><a href="{{url('users?role=1')}}">普通用户</a></li>
-                    <li><a href="{{url('users?role=2')}}">创业者用户</a></li>
-                    <li><a href="{{url('users?role=0')}}">待审核用户</a></li>
-                    {{--<li><a href="{{url('users?role=0')}}">待审核用户<span class="badge badge-danger pull-right">50</span></a></li>--}}
-                    {{--<li><a href="#">数据备份还原</a></li>--}}
-                    {{--<li><a href="#">Excel导入/导出</a></li>--}}
-                </ul>
+            <li>
+                <a href="{{url('user')}}"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span></a>
             </li>
 
             <li class="has-submenu">

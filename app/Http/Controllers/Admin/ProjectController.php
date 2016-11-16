@@ -85,7 +85,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * 返回对应状态值的首页分页数据对应列表分页
+     * 返回对应状态值的首页分页数据以及分页
      * @param Request $request
      * @param $id
      * @return \Illuminate\Http\JsonResponse

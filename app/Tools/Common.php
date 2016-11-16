@@ -174,7 +174,11 @@ class Common {
     {
         if(empty($table) || empty($url)) return false;
         $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        $count     = DB::table($table)->whereIn($filed,$where)->count();
+        if($filed){
+            $count = DB::table($table)->whereIn($filed,$where)->count();
+        }else{
+            $count = DB::table($table)->where($where)->count();
+        }
         $totalPage = ceil($count / $n);
         $baseUrl   = url($url);
         if($nowPage <= 0) $nowPage = 1;

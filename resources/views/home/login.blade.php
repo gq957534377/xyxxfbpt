@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <link rel="shortcut icon" href="{{asset('img/favicon_1.ico')}}">
         <title>英雄会 - 大学生创业项目平台 </title>
         @include('home.login.style')
@@ -53,7 +54,7 @@
                         
                         <div class="form-group text-right">
                             <div class="col-xs-12">
-                                <button class="btn btn-success w-md" type="button" id="login">登录</button>
+                                <button class="btn btn-success w-md" type="submit" id="login">登录</button>
                             </div>
                         </div>
                         <div class="form-group m-t-30">
@@ -71,5 +72,6 @@
         </div>
     @include('home.login.script')
     @include('home.validator.loginValidator')
+    @include('home.layouts.promptModal')
     </body>
 </html>

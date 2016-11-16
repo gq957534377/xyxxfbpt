@@ -57,4 +57,18 @@ class ProjectStore {
         return DB::table(self::$table)->where(['status'=>$status])->forPage($nowPage, $pageNum)->orderBy('project_id','desc')->get();
     }
 
+    /**
+     * 获得指定集合内容
+     * @param string $filed array $where
+     * @return array
+     * author 张洵之
+     */
+    public function getWhereIn($filed,$where)
+    {
+        if(!is_string($filed)||!is_array($where))return false;
+        $result = DB::table(self::$table)->whereIn($filed,$where)->get();
+        return $result;
+    }
+
+
 }

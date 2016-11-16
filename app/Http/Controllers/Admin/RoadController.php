@@ -166,6 +166,11 @@ class RoadController extends Controller
         return response()->json(['ServerNo' => 400, 'ResultData' => '获取数据失败']);
     }
 
+    /**
+     * 上传图片
+     * @return \Illuminate\Http\JsonResponse
+     * @author 郭庆
+     */
     public function upload()
     {
         $file=Input::file('Filedata');
