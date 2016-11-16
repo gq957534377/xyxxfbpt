@@ -371,6 +371,10 @@
 <div class="wraper container-fluid">
     <div class="page-title">
         <h3 class="title">路演管理</h3>
+        <br>
+        <button class="btn-primary">报名中</button>
+        <button class="btn-danger">活动进行中...</button>
+        <button class="btn-primary">往期回顾</button>
     </div>
     <div class="panel" id="data"></div>
 </div>

@@ -59,9 +59,8 @@ function listHtml(data){
 // 分页li点击触发获取ajax事件获取分页
 function getPage() {
     $('.pagination li').click(function () {
-        alert(12121212);
         var class_name = $(this).prop('class');
-        if(class_name == disabled || class_name == 'active') {
+        if(class_name == 'disabled' || class_name == 'active') {
             return false;
         }
         var url = $(this).children().prop('href');
