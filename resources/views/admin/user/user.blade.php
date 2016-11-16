@@ -84,7 +84,7 @@
         //全局标识
         var user_role = 1;
 
-        //请求数据 分页包含在数据中 添加事件
+        //初始化 请求数据 分页包含在数据中 添加事件
         $(function () {
             $('#normal').addClass('btn-success');
             var user_init = {
@@ -166,75 +166,87 @@
                     load('user_role/create', data, 'GET', showCheckInvestor);
             });
         }
-//
-//        function deleteData() {
-//            $('.delete').off("click").click(function (event) {
-//                event.stopPropagation();
-//                var data = {id:$(this).data('name'), role:'1'};
-//                var ajax = new AjaxController();
-//                $.ajax({
-//                    url     : '/users_data',
-//                    type    : 'delete',
-//                    data    : data,
-//                    success : function checkStatus(data){
-//                        $('.loading').hide();
-//                        $('#con-modal').modal('show');
-//                        $('#close').removeClass("hidden");
-//                        if (data) {
-//                            if (data.StatusCode == 200) {
-//                                $('#alert-form').hide();
-//                                $('#alert-info').show().html('<p>数据删除成功!</p>');
-//                            } else {
-//                                $('#alert-form').hide();
-//                                $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
-//                            }
-//                        } else {
-//                            $('#alert-form').hide();
-//                            $('#alert-info').show().html('<p>未知的错误</p>');
-//                        }
-//                    }
-//                });
-//                reload();
-//            });
-//        }
-//
-//        function updateData() {
-//            $('.modify').off("click").click(function (event) {
-//                event.stopPropagation();
-//                var data = {
-//                    role : '1',
-//                    name : $(this).data('name')
-//                };
-//                $.ajax({
-//                    url     : '/users_one_data',
-//                    type    : 'get',
-//                    data    : data,
-//                    success : function showInfoList(data){
-//                        $('.loading').hide();
-//                        $('#con-modal').modal('show');
-//                        $('#cancel').removeClass("hidden");
-//                        $('#post').removeClass("hidden");
-//                        $('#close').addClass("hidden");
-//                        if (data) {
-//                            if (data.StatusCode == 200) {
-//                                $('#alert-info').hide();
-//                                $('#alert-form').show().html(infoHtml(data.ResultData));
-//                            } else {
-//                                $('#alert-form').hide();
-//                                $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
-//                            }
-//                        } else {
-//                            $('#alert-form').hide();
-//                            $('#alert-info').html('<p>未知的错误</p>');
-//                        }
-//                    }
-//                });
-//            });
-//            submitData();
-//        }
-//
 
-//
+        function updateData() {
+            $('.modify').off("click").click(function (event) {
+                event.stopPropagation();
+                var data = {
+                    role : '1',
+                    name : $(this).data('name')
+                };
+                $.ajax({
+                    url     : '/users_one_data',
+                    type    : 'get',
+                    data    : data,
+                    success : function showInfoList(data){
+                        $('.loading').hide();
+                        $('#con-modal').modal('show');
+                        $('#cancel').removeClass("hidden");
+                        $('#post').removeClass("hidden");
+                        $('#close').addClass("hidden");
+                        if (data) {
+                            if (data.StatusCode == 200) {
+                                $('#alert-info').hide();
+                                $('#alert-form').show().html(infoHtml(data.ResultData));
+                            } else {
+                                $('#alert-form').hide();
+                                $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+                            }
+                        } else {
+                            $('#alert-form').hide();
+                            $('#alert-info').html('<p>未知的错误</p>');
+                        }
+                    }
+                });
+            });
+            submitData();
+        }
+
+        function changeAllStatus(){
+            $('.unlock, .lock, .pass, .fail, .delete').off('click').on('click', function () {
+                window.user_guid = $(this).data('name');
+                window.item = $(this).parent().siblings("td").first().text();
+                $pointer1 = (user_role == '1' || user_role == '2' || user_role == '3');
+                $pointer2 = (user_role == '4' || user_role == '5');
+                var data = null;
+                var status = null;
+                var url =null;
+                if($(this).hasClass('delete')){
+                    if($pointer1) {
+                        status = '3';
+                        url = '/user/' + $(this).data('name');
+                    }
+                    if($pointer2) {
+                        status = '4';
+                        url = '/user_role/' + $(this).data('name');
+                    }
+                }
+                if($(this).hasClass('unlock')){
+                    status = '1';
+                    url = '/user/' + $(this).data('name');
+                }
+                if($(this).hasClass('lock')){
+                    status = '2';
+                    url = '/user/' + $(this).data('name');
+                }
+                if($(this).hasClass('fail')){
+                    status = '3';
+                    url = '/user_role/' + $(this).data('name');
+                }
+                if($(this).hasClass('pass')){
+                    status = '2';
+                    url = '/user_role/' + $(this).data('name');
+                }
+
+                data = {
+                    status : status,
+                    role : user_role
+                };
+
+                load(url, data, 'put', checkStatus);
+            })
+        }
+
 //        // 修改时弹出
 //        function infoHtml(data) {
 //            var html = '';
@@ -301,24 +313,120 @@
 //                            $('#alert-form').hide();
 //                            $('#alert-info').show().html('<p>未知的错误</p>');
 //                        }
-//                        reload();
 //                    }
 //                });
 ////                return false;
 //            });
 //        }
-//
-//        function reload() {
-//                // 重新加载
-//                var ajax = new AjaxController();
-//                ajax.ajax({
-//                    url     : '/users_data?role=1',
-//                    before  : ajaxBeforeModel,
-//                    success : getInfoList,
-//                    error   : ajaxErrorModel
-//            });
-//
-//        }
+
+        function checkStatus(data){
+            $('.loading').hide();
+            $('#con-modal').modal('show');
+            $('#close').removeClass("hidden");
+            if (data) {
+                if (data.StatusCode == 200) {
+                    $('#alert-form').hide();
+                    $('#alert-info').show().html('<p>数据修改成功!</p>');
+                    changeContent();
+                } else {
+                    $('#alert-form').hide();
+                    $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
+                }
+            } else {
+                $('#alert-form').hide();
+                $('#alert-info').show().html('<p>未知的错误</p>');
+            }
+        }
+
+        //成功时动态修改内容
+        function changeContent(){
+            var data = {
+                name : window.user_guid,
+                role : user_role
+            };
+            if(user_role == '1' || user_role == '2' || user_role == '3'){
+                load('/user/create', data, 'GET', function (data) {
+                    var e = data.ResultData;
+                    var html = '';
+                    var status = null;
+                    var p1, p2, p3 = '';
+                    if(e.status == 1){
+                        status = '<p class="text-success">激活</p>';
+                        p1 = 'disabled';
+                    }
+                    if(e.status == 2){
+                        status = '<p class="text-warning">禁用</p>';
+                        p2 = 'disabled';
+                    }
+                    if(e.status == 3){
+                        status = '<p class="text-danger">删除</p>';
+                        p3 = 'disabled';
+                    }
+                    html += '<td>' + item + '</td>';
+                    html += '<td>' + e.nickname + '</td>';
+                    html += '<td>' + e.realname + '</td>';
+                    html += '<td>' + e.sex + '</td>';
+                    html += '<td>' + e.birthday + '</td>';
+                    html += '<td>' + e.tel + '</td>';
+                    html += '<td>' + e.email + '</td>';
+                    html += '<td>' + status + '</td>';
+                    html += '<td>';
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="modify"><button class="btn btn-info btn-xs">修改</button></a>';
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="unlock"><button class="btn btn-success ' + p1 + '  btn-xs">激活</button></a>';
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="lock"><button class="btn btn-warning ' + p2 + ' btn-xs">禁用</button></a>';
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="delete"><button class="btn btn-danger ' + p3 + '  btn-xs">删除</button></a>';
+                    html += '</td>';
+                    $(".gradeX").eq(item - 1).html(html);
+
+                    //DOM树替换后再次分配事件
+                    changeAllStatus();
+                });
+            }
+
+            if(user_role == '4' || user_role == '5'){
+                load('/user_role/create', data, 'GET', function (data) {
+                    var e = data.ResultData;
+                    var html = '';
+                    var status = null;
+                    var p1, p2, p3, p4= '';
+                    if(e.status == 1){
+                        status = '<p class="text-success">待审核</p>';
+                        p1 = 'disabled';
+                    }
+                    if(e.status == 2){
+                        status = '<p class="text-warning">审核成功</p>';
+                        p2 = 'disabled';
+                    }
+                    if(e.status == 3){
+                        status = '<p class="text-danger">审核失败</p>';
+                        p3 = 'disabled';
+                    }
+                    if(e.status == 4){
+                        status = '<p class="text-danger">删除</p>';
+                        p4 = 'disabled';
+                    }
+
+                    html += '<td>' + item + '</td>';
+                    html += '<td>' + e.realname + '</td>';
+                    html += '<td>' + e.sex + '</td>';
+                    html += '<td>' + e.tel + '</td>';
+                    html += '<td>' + e.card_number + '</td>';
+                    html += '<td>' + status + '</td>';
+                    html += '<td>';
+                    html += '<a href="javascript:;" class="info check" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">审核</button></a>';
+                    html += '<a href="javascript:;" class="info pass" data-name="' + e.guid + '"><button class="btn btn-success ' + p2 + ' btn-xs">通过</button></a>';
+                    html += '<a href="javascript:;" class="info fail" data-name="' + e.guid + '"><button class="btn btn-warning ' + p3 + ' btn-xs">不通过</button></a>';
+                    html += '<a href="javascript:;" class="info delete" data-name="' + e.guid + '"><button class="btn btn-danger ' + p4 + ' btn-xs">删除</button></a>';
+                    html += '</td>';
+
+                    $(".gradeX").eq(item - 1).html(html);
+
+                    //DOM树替换后再次分配事件
+                    changeAllStatus();
+                });
+            }
+        }
+
 
 
     </script>

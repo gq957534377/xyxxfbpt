@@ -2,6 +2,7 @@
  * Created by wang fei long on 2016/11/15.
  */
 
+// 普通 用户
 function showNormal(data) {
     $('#title_one').removeClass('hidden');
     if (data) {
@@ -12,6 +13,7 @@ function showNormal(data) {
                 $('#data').html(listNormalHtml(data));
                 $('#page').html(data.ResultData.pages);
                 getPage();
+                changeAllStatus();
             }
         } else {
             $('#con-close-modal').modal('show');
@@ -25,7 +27,7 @@ function showNormal(data) {
     }
 }
 
-
+// 普通 用户列表
 function listNormalHtml(data){
     var html = '';
     html += '<div class="panel-body">' +
@@ -71,8 +73,8 @@ function listNormalHtml(data){
         html += '<td>' + status + '</td>';
         html += '<td>';
         html += '<a href="javascript:;" data-name="' + e.guid + '" class="modify"><button class="btn btn-info btn-xs">修改</button></a>';
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="modify"><button class="btn btn-success ' + p1 + '  btn-xs">激活</button></a>';
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="modify"><button class="btn btn-warning ' + p2 + ' btn-xs">禁用</button></a>';
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="unlock"><button class="btn btn-success ' + p1 + '  btn-xs">激活</button></a>';
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="lock"><button class="btn btn-warning ' + p2 + ' btn-xs">禁用</button></a>';
         html += '<a href="javascript:;" data-name="' + e.guid + '" class="delete"><button class="btn btn-danger ' + p3 + '  btn-xs">删除</button></a>';
         html += '</td>';
     });
@@ -85,3 +87,7 @@ function listNormalHtml(data){
         '</div>';
     return html;
 }
+
+// 普通 弹出修改页面
+
+// 普通 弹出详情页面

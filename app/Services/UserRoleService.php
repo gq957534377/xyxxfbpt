@@ -149,6 +149,7 @@ class UserRoleService {
      */
     public function getData($data)
     {
+        if (isset($data['name'])) return self::getOneData($data);
         if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
         if(!in_array($data['role'], ['4', '5'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
@@ -193,15 +194,9 @@ class UserRoleService {
      */
     public function getOneData($data)
     {
-        if(!isset($data['role']) || !isset($data['name'])) return ['status' => false, 'data' => '请求参数错误'];
-        if(!in_array($data['role'], ['0', '1', '2'])) return ['status' => false, 'data' => '请求参数错误'];
-        // 转向RoleStore层
-        if ($data['role'] == '0'){
-            $result = self::$roleStore->getOneData(['guid' => $data['name']]);
-            if (!$result) return ['status' => false, 'data' => '系统错误'];
-            return ['status' => true, 'data' => $result];
-        }
-        $result = self::$userStore->getOneData(['guid' => $data['name']]);
+        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
+        if(!in_array($data['role'], ['4', '5'])) return ['status' => false, 'data' => '请求参数错误'];
+        $result = self::$roleStore->getOneData(['guid' => $data['name']]);
         if (!$result) return ['status' => false, 'data' => '系统错误'];
         return ['status' => true, 'data' => $result];
     }
@@ -218,7 +213,7 @@ class UserRoleService {
         // 检验条件
        if (empty($where) || empty($data)) return ['status'=>400,'msg'=>'缺少数据'];
         // 提交数据给store层
-        $info = self::$userStore->updateUserInfo($where,$data);
+        $info = self::$roleStore->updateUserInfo($where,$data);
         if(!$info) return ['status'=>400,'msg'=>'修改失败！'];
         return ['status'=>200,'msg'=>'修改成功！'];
     }
@@ -290,23 +285,16 @@ class UserRoleService {
     }
 
     /**
+     * 软删除
      * @param $data
+     * @param $id
      * @return array
      * @author 王飞龙
      */
-    public function deleteUserData($data)
+    public function deleteUserData($data, $id)
     {
-        $p = empty($data) || !isset($data['id']) || !isset($data['role']) || !in_array($data['role'], ['0', '1', '2']);
-        if ($p) return ['status' => 400, 'data' => '请求参数错误'];
-        if ($data['role'] == 0){
-            $result = self::$roleStore->deleteData(['guid' => $data['id']]);
-            if(!$result)
-                return ['status' => 400, 'data' => '删除失败'];
-        } else {
-            $result = self::$userStore->deleteData(['guid' => $data['id']]);
-            if(!$result)
-                return ['status' => 400, 'data' => '删除失败'];
-        }
+        $result = self::$roleStore->updateUserInfo(['guid' => $id], $data);
+        if(!$result) return ['status' => 400, 'data' => '删除失败'];
         return ['status' => 200, 'data' => '删除成功'];
     }
 

@@ -2,6 +2,7 @@
  * Created by wang fei long on 2016/11/15.
  */
 
+// 待审核 投资者
 function showCheckInvestor(data) {
     $('#title_one').removeClass('hidden');
     if (data) {
@@ -12,6 +13,7 @@ function showCheckInvestor(data) {
                 $('#data').html(listInvestorHtml(data));
                 $('#page').html(data.ResultData.pages);
                 getPage();
+                changeAllStatus();
             }
         } else {
             $('#con-close-modal').modal('show');
@@ -25,7 +27,7 @@ function showCheckInvestor(data) {
     }
 }
 
-// 用户列表
+// 待审核 投资者 用户列表
 function listInvestorHtml(data){
     var html = '';
     html += '<div class="panel-body">' +
@@ -70,10 +72,10 @@ function listInvestorHtml(data){
         html += '<td>' + e.card_number + '</td>';
         html += '<td>' + status + '</td>';
         html += '<td>';
-        html += '<a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-info btn-xs">审核</button></a>';
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="pass"><button class="btn btn-success ' + p2 + ' btn-xs">通过</button></a>';
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="fail"><button class="btn btn-warning ' + p3 + ' btn-xs">不通过</button></a>';
-        html += '<a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn btn-danger ' + p4 + ' btn-xs">删除</button></a>';
+        html += '<a href="javascript:;" class="info check" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">审核</button></a>';
+        html += '<a href="javascript:;" class="info pass" data-name="' + e.guid + '"><button class="btn btn-success ' + p2 + ' btn-xs">通过</button></a>';
+        html += '<a href="javascript:;" class="info fail" data-name="' + e.guid + '"><button class="btn btn-warning ' + p3 + ' btn-xs">不通过</button></a>';
+        html += '<a href="javascript:;" class="info delete" data-name="' + e.guid + '"><button class="btn btn-danger ' + p4 + ' btn-xs">删除</button></a>';
         html += '</td>';
 
     });
@@ -87,7 +89,7 @@ function listInvestorHtml(data){
     return html;
 }
 
-// 审核弹出内容
+// 待审核 投资者 弹出审核内容
 function infoInvestorHtml(data){
     var html = '';
     html += '<div class="row">';
