@@ -15,15 +15,8 @@
         <ul class="list-unstyled">
             <li class="active"><a href="{{url('/')}}"><i class="zmdi zmdi-view-dashboard"></i> <span class="nav-label">控制台</span></a></li>
 
-            <li class="has-submenu">
-                <a href="#"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span><span class="menu-arrow"></span></a>
-                <ul class="list-unstyled">
-                    <li><a id="aside_normal" href="{{url('user?role=1')}}">普通用户</a></li>
-                    <li><a id="aside_entrepreneurs" href="{{url('user?role=2')}}">创业者用户</a></li>
-                    <li><a id="aside_investor" href="{{url('user?role=3')}}">投资者用户</a></li>
-                    <li><a id="aside_check_entrepreneurs" href="{{url('user_role')}}">创业者待审核用户</a></li>
-                    <li><a id="aside_check_investor" href="{{url('user_role')}}">投资者待审核用户</a></li>
-                </ul>
+            <li>
+                <a href="{{url('user')}}"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span></a>
             </li>
 
             <li class="has-submenu">
