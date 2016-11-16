@@ -132,7 +132,21 @@
                                         <form id = "projectForm" class="form-horizontal" style="padding-bottom: 20px;">
                                             <div class = "col-sm-10 col-sm-offset-1">
                                                 <input name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
-                                                <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介"></textarea>
+                                                <input name='habitude' type="text" class="form-control _input" placeholder="请输入项目性质">
+                                                <input name='less_funding' type="text" class="form-control _input" placeholder="请输入起步资金">
+                                                <input name='cycle' type="text" class="form-control _input" placeholder="请输入项目周期">
+                                                <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介（50字以内）"></textarea>
+                                                <select name = 'project_type' style="float: left;">
+                                                    <option>请选择项目分类</option>
+                                                    <option value = '1'>新品上架</option>
+                                                    <option value = '2'>健康生活</option>
+                                                    <option value = '3'>热门推荐</option>
+                                                    <option value = '4'>新品上架</option>
+                                                    <option value = '5'>健康生活</option>
+                                                    <option value = '6'>健康生活</option>
+                                                    <option value = '7'>健康生活</option>
+                                                    <option value = '8'>健康生活</option>
+                                                </select>
                                             </div>
                                             <div class = "col-sm-6">
                                                 <div id="img_container" style="margin-top: 30px;">
@@ -163,6 +177,8 @@
                                             </div>
                                                 <button class="btn btn-info" type="submit" style="margin-left: 70%;margin-top: 40px;">提交</button>
                                         </form>
+                                        <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
+
 
                                     </div>
                                 </div>
