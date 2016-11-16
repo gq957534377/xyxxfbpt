@@ -148,21 +148,19 @@ class Common {
      * @author 郭庆
      */
 
-    public static function getPageUrl($data, $table, $url, $n)
+    public static function getPageUrl($data, $table, $url, $n,$where)
     {
         if(empty($table) || empty($url)) return false;
         $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        $count     = DB::table($table)->count();
+        $count     = DB::table($table)->where($where)->count();
         $totalPage = ceil($count / $n);
         $baseUrl   = url($url);
         if($nowPage <= 0) $nowPage = 1;
         if($nowPage > $totalPage) $nowPage = $totalPage;
-
         return [
             'nowPage' => $nowPage,
             'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl,null),
         ];
-
     }
     /**
      * new获取分页URL
@@ -185,7 +183,6 @@ class Common {
         $baseUrl   = url($url);
         if($nowPage <= 0) $nowPage = 1;
         if($nowPage > $totalPage) $nowPage = $totalPage;
-
         return [
             'nowPage' => $nowPage,
             'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl,null),
