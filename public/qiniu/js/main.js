@@ -7,9 +7,9 @@
 $(function() {
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
-        browse_button: 'pickfiles',
-        container: 'container',
-        drop_element: 'container',
+        browse_button: 'img_pick',
+        container: 'img_container',
+        drop_element: 'img_container',
         max_file_size: '1000mb',
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
         dragdrop: true,
@@ -41,7 +41,6 @@ $(function() {
                 });
             },
             'BeforeUpload': function(up, file) {
-                $("._imgtr").html('');
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 if (up.runtime === 'html5' && chunk_size) {
@@ -51,23 +50,25 @@ $(function() {
 
             // 上传过程这个函数会不断的执行,直到上传完成
             'UploadProgress': function(up, file) {
+                $('._block').hide();
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function() {
-
+                var res = $.parseJSON(info);
+                var domain = up.getOption('domain');
+                url = domain + encodeURI(res.key);
             },
             'FileUploaded': function(up, file, info) {
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 progress.setComplete(up, info);
 
-                //获取url
+                //上传完成时将url放入隐藏的input[name=image]
                 var res = $.parseJSON(info);
                 var domain = up.getOption('domain');
                 url = domain + encodeURI(res.key);
-
-                $("input[name='image']").val(url);
+                $('input[name=image]').val(url);
             },
             'Error': function(up, err, errTip) {
                 $('table').show();
@@ -75,31 +76,28 @@ $(function() {
                 progress.setError();
                 progress.setStatus(errTip);
             }
-                 ,
-                 'Key': function(up, file) {
-                     var extarr = file['name'].split('.');
-                     if(extarr.length===1){
-                         var arr=file['type'].split('/');
-                         var prename = extarr[0];
-                         var ext = (arr[arr.length-1]=='undefined')?'':arr[arr.length-1];
-                     }else{
-                         var ext = '.'+ extarr[extarr.length-1]; //得到后缀
-                         var index = file['name'].lastIndexOf('.');//得到最后一个点的坐标
-                         var prename = file['name'].substring(0,index);//得到最后一个点之前的字符串
-                     }
+            ,
+            'Key': function(up, file) {
+                var extarr = file['name'].split('.');
+                if(extarr.length===1){
+                    var arr=file['type'].split('/');
+                    var prename = extarr[0];
+                    var ext = (arr[arr.length-1]=='undefined')?'':arr[arr.length-1];
+                }else{
+                    var ext = '.'+ extarr[extarr.length-1]; //得到后缀
+                    var index = file['name'].lastIndexOf('.');//得到最后一个点的坐标
+                    var prename = file['name'].substring(0,index);//得到最后一个点之前的字符串
+                }
 
 
-                     var time = Date.parse(new Date())/1000;
-                     // alert(prename);
-                     // alert(time);
-                     // alert(ext);
-                     $("input[name='ftype']").val(prename);
-                     var key = prename+'/'+time+ ext;
-                     return key;
-                 }
+                var time = Date.parse(new Date())/1000;
+                $("input[name='ftype']").val(prename);
+                var key = prename+'/'+time+ ext;
+                return key;
+            }
         }
     });
-     
+
 
 
     uploader.bind('FileUploaded', function() {
