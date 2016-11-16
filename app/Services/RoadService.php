@@ -94,11 +94,11 @@ class RoadService {
      */
     public static function updateRoad($data,$where)
     {
-        $date=strtotime($data['roadShow_time']);
+        $date=strtotime($data['start_time']);
         if($date < time()) return ['status' => false,'msg' => '路演开始时间不能为当前时间之前'];
         // 服务器端数据设置
-        $data['roadShow_time'] = $date;
-        $data['time']          = time();
+        $data['start_time'] = $date;
+        $data['time']       = time();
         return self::$roadStore->updateData($where,$data);
     }
 
@@ -139,10 +139,10 @@ class RoadService {
     public function CheckAddRoad($request)
     {
         $data = $request->all();
-        $date=strtotime($data['roadShow_time']);
+        $date=strtotime($data['start_time']);
         if($date < time()) return ['status' => false,'msg' => '路演开始时间不能为当前时间之前'];
         // 服务器端数据设置
-        $data['roadShow_time'] = $date;
+        $data['start_time'] = $date;
         $data['roadShow_id']   = Common::getUuid();
         $data['time']          = time();
         $result = self::$roadStore->addData($data);

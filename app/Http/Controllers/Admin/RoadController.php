@@ -85,7 +85,9 @@ class RoadController extends Controller
         if(empty($id)) return response()->json(['ServerNo' => 400, 'ResultData' => '未找到相应数据']);
         $where = ['roadShow_id'=>$id];
         $result = self::$roadServer->getOneRoad($where);
-        $result['msg']->roadShow_time=date('Y-m-d\TH:i:s', $result['msg']->roadShow_time);
+        $result['msg']->start_time=date('Y-m-d\TH:i:s',$result['msg']->start_time);
+        $result['msg']->end_time=date('Y-m-d\TH:i:s', $result['msg']->end_time);
+        $result['msg']->deadline=date('Y-m-d\TH:i:s', $result['msg']->deadline);
         $result['msg']->time=date('Y-m-d\TH:i:s', $result['msg']->time);
         return response()->json(['ServerNo' => 200, 'ResultData' => $result['msg']]);
     }
@@ -142,7 +144,9 @@ class RoadController extends Controller
             $pageData = self::$roadServer->getRoadList($result['nowPage']);
             foreach ($pageData['msg'] as $v)
             {
-                $v->roadShow_time=date('Y-m-d\TH:i:s', $v->roadShow_time);
+                $v->start_time=date('Y-m-d\TH:i:s', $v->start_time);
+                $v->end_time=date('Y-m-d\TH:i:s', $v->end_time);
+                $v->deadline=date('Y-m-d\TH:i:s', $v->deadline);
                 $v->time=date('Y-m-d\TH:i:s', $v->time);
             }
             return response()->json([

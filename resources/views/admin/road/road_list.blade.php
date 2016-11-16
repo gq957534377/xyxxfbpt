@@ -11,6 +11,12 @@
      .uploadify{display:inline-block;}
     .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
     table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
+    /*.form-control{*/
+        /*display: block;*/
+        /*width: 104% !important;*/
+        /*padding-left: 0 !important;*/
+    /*}*/
+    input[type='datetime-local']{width: 106% !important;padding-left: 0 !important;}
 </style>
 @section('content')
 @section('title', '路演管理')
@@ -47,15 +53,13 @@
                             <input type="text" class="form-control" id="title" name="title" placeholder="roadShow title...">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-2" class="control-label">主讲人</label>
                             <input type="text" class="form-control" id="speaker" name="speaker" placeholder="Doe">
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-3">所属机构</label>
                             <div for="field-3">
@@ -66,10 +70,30 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-4" class="control-label">路演开始时间：</label>
-                            <input type="datetime-local" class="form-control" id="roadShow_time" name="roadShow_time">
+                            <input type="datetime-local" class="form-control" id="start_time" name="start_time">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="field-4" class="control-label">路演结束时间：</label>
+                            <input type="datetime-local" class="form-control" id="end_time" name="end_time">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="field-4" class="control-label">截止报名时间：</label>
+                            <input type="datetime-local" class="form-control" id="deadline" name="deadline">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="field-4" class="control-label">限报人数：</label>
+                            <input type="text" class="form-control" id="limit" name="limit">
                         </div>
                     </div>
                 </div>
@@ -82,9 +106,10 @@
                             <img src="" id="road_thumb_img" style="max-width: 350px;max-height: 110px;">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-8">
                         <div class="form-group">
-                            <img for="field-6" class="control-label" src="">
+                            <label for="field-4" class="control-label">路演地址：</label>
+                            <input type="text" class="form-control" id="address" name="address">
                         </div>
                     </div>
                 </div>
@@ -99,7 +124,7 @@
                 <div class="row">
                     <label class="col-md-12 control-label">路演详情</label>
                     <div class="col-md-12">
-                        <textarea id="UE" name="roadShow_describe" class="roadShow_describe"></textarea>
+                        <textarea id="UE" name="describe" class="describe"></textarea>
                     </div>
                 </div>
                 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -123,67 +148,222 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg"  onsubmit="return false">
-                    <input type="hidden" name="id">
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">路演主题：</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" name="title" placeholder="roaldShow title...">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="field-1" class="control-label">路演主题</label>
+                            <input type="text" class="form-control" id="xg_title" name="title" placeholder="roadShow title...">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label" for="example-email">主讲人：</label>
-                        <div class="col-md-10">
-                            <input type="text" id="example-email" name="speaker" class="form-control" placeholder="Speaker">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="field-2" class="control-label">主讲人</label>
+                            <input type="text" class="form-control" id="xg_speaker" name="speaker" placeholder="Doe">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">所属机构：</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" name="group">
-                                <option value="1">英雄会</option>
-                                <option value="2">兄弟会</option>
-                            </select>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="field-3">所属机构</label>
+                            <div for="field-3">
+                                <select class="form-control" id="xg_group" name="group">
+                                    <option value="1">英雄会</option>
+                                    <option value="2">兄弟会</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">路演开始时间：</label>
-                        <div class="col-md-10">
-                            <input type="datetime-local" class="form-control" name="roadShow_time">
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="field-4" class="control-label">路演开始时间：</label>
+                            <input type="datetime-local" class="form-control" id="xg_start_time" name="start_time">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">缩略图</label>
-                        <div class="col-md-10">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="field-4" class="control-label">路演结束时间：</label>
+                            <input type="datetime-local" class="form-control" id="xg_end_time" name="end_time">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="field-4" class="control-label">截止报名时间：</label>
+                            <input type="datetime-local" class="form-control" id="xg_deadline" name="deadline">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="field-4" class="control-label">限报人数：</label>
+                            <input type="text" class="form-control" id="xg_limit" name="limit">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="field-5" class="control-label">缩略图</label>
                             <input type="text" size="50" style="width: 150px;" class="lg" name="banner" id="charge_banner" disabled="true">
                             <input id="file_charge" name="file_upload" type="file" multiple="true">
                             <img src="" id="charge_thumb_img" style="max-width: 350px;max-height: 110px;">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">路演简述</label>
-                        <div class="col-md-10">
-                            <textarea class="col-md-12" name="brief"></textarea>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <label for="field-4" class="control-label">路演地址：</label>
+                            <input type="text" class="form-control" id="xg_address" name="address">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">路演详情</label>
-                        <div class="col-md-10">
-                            <textarea id="UE1" name="roadShow_describe"></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group no-margin">
+                            <label for="field-7" class="control-label">路演简述</label>
+                            <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
                         </div>
                     </div>
-                    <meta name="csrf-token" content="{{ csrf_token() }}">
-                    <center><button type="submit" class="btn btn-success m-l-10">修改</button></center>
+                </div>
+                <div class="row">
+                    <label class="col-md-12 control-label">路演详情</label>
+                    <div class="col-md-12">
+                        <textarea id="UE1" name="describe" class="describe"></textarea>
+                    </div>
+                </div>
+                <meta name="csrf-token" content="{{ csrf_token() }}">
+                <center><button type="submit" class="btn btn-success m-l-10">修改</button></center>
                 </form>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-<div style="display: none;">
-    <form enctype="multipart/form-data" id="postForm">
-        <input type="file" id="rongqi">
-    </form>
-</div>
+{{--路演详情--}}
+<div id="tabs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content p-0">
+            <ul class="nav nav-tabs nav-justified">
+                <li class="">
+                    <a href="#home-2" data-toggle="tab" aria-expanded="false">
+                        <span class="visible-xs"><i class="fa fa-home"></i></span>
+                        <span class="hidden-xs">Home</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="#profile-2" data-toggle="tab" aria-expanded="false">
+                        <span class="visible-xs"><i class="fa fa-user"></i></span>
+                        <span class="hidden-xs">Many</span>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#messages-2" data-toggle="tab" aria-expanded="true">
+                        <span class="visible-xs"><i class="fa fa-envelope-o"></i></span>
+                        <span class="hidden-xs">Brief</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="#settings-2" data-toggle="tab" aria-expanded="false">
+                        <span class="visible-xs"><i class="fa fa-cog"></i></span>
+                        <span class="hidden-xs">Describe</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="home-2">
+                    <div>
+                        <img src="/admin/images/banner.png" id="xq_banner" style="max-width: 100%;max-height: 20%;">
+                    </div>
+                </div>
+                <div class="tab-pane" id="profile-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">路演主题</label>
+                                <input type="text" id="xq_title" class="form-control" disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">主讲人</label>
+                                <input type="text" class="form-control" id="xq_speaker" placeholder="Doe" disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">所属机构</label>
+                                <input type="text" class="form-control" id="xq_group" placeholder="Doe" disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">活动状态</label>
+                                <input type="text" class="form-control" id="xq_status" placeholder="Doe" disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="field-3" class="control-label">路演开始时间</label>
+                                    <input type="datetime-local" class="form-control" id="xq_start_time" placeholder="start time..." disabled="true">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="field-3" class="control-label">路演结束时间</label>
+                                    <input type="datetime-local" class="form-control" id="xq_end_time" placeholder="end time..." disabled="true">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="field-3" class="control-label">报名截止</label>
+                                    <input type="datetime-local" class="form-control" id="xq_deadline" placeholder="end time..." disabled="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-5" class="control-label">路演地址</label>
+                                <input type="text" class="form-control" id="xq_adress" placeholder="United States" disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-5" class="control-label">目前参与人数</label>
+                                <input type="text" class="form-control" id="xq_population" placeholder="United States" disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-5" class="control-label">限报人数</label>
+                                <input type="text" class="form-control" id="xq_limit" placeholder="United States" disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-5" class="control-label">路演信息发布时间</label>
+                                <input type="datetime-local" class="form-control" id="xq_time" placeholder="United States" disabled="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane active" id="messages-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p id="xq_brief" disabled="true"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="settings-2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p id="xq_describe" disabled="true"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">路演发布</button>
 
 <img src="/admin/images/load.gif" class="loading">
@@ -276,19 +456,27 @@
                             title:$('input[name=title]').val(),
                             speaker:$('input[name=speaker]').val(),
                             group:$('select[name=group]').val(),
-                            roadShow_time:$('input[name=roadShow_time]').val(),
+                            banner:$('input[name=banner]').val(),
+                            end_time:$('input[name=end_time]').val(),
+                            deadline:$('input[name=deadline]').val(),
+                            address:$('input[name=address]').val(),
+                            limit:$('input[name=limit]').val(),
+                            start_time:$('input[name=start_time]').val(),
                             brief:$('textarea[name=brief]').val(),
-                            roadShow_describe:$('textarea[name=roadShow_describe]').val(),
+                            describe:$('textarea[name=describe]').val(),
                         };
+                        console.log(resul);
                         data.append( "title"      , resul.title);
                         data.append( "speaker"     , resul.speaker);
                         data.append( "group"       ,resul.group);
-                        data.append( "roadShow_time"     , resul.roadShow_time);
-//                        data.append( "banner"   ,$('#banner').val());
+                        data.append( "start_time"     , resul.start_time);
                         data.append( "brief"   , resul.brief);
-                        data.append( "describe", resul.roadShow_describe);
-                        $('#alert-info').html();
-                        console.log(resul);
+                        data.append( "describe", resul.describe);
+                        data.append( "banner", resul.banner);
+                        data.append( "end_time", resul.end_time);
+                        data.append( "start_time", resul.start_time);
+                        data.append( "address", resul.address);
+                        data.append( "limit", resul.limit);
                         $.ajax({
                             url     : '/road/' + $('input[name=id]').val(),
                             type:'put',
@@ -320,6 +508,18 @@
                 this.$signupForm.validate({
                     rules: {
                         title: {
+                            required: true,
+                        },
+                        end_time: {
+                            required: true
+                        },
+                        deadline: {
+                            required: true
+                        },
+                        address: {
+                            required: true
+                        },
+                        limit: {
                             required: true
                         },
                         speaker:{
@@ -328,7 +528,7 @@
                         group:{
                             required: true
                         },
-                        roadShow_time:{
+                        start_time:{
                             required: true
                         },
                         brief:{
@@ -337,9 +537,9 @@
                         describe:{
                             required: true,
                         },
-                        // start_time:{date:true},
-                        // end_time:{date:true},
-                        // deadline:{date:true}
+                        banner:{
+                            required: true,
+                        }
                     },
                     //提示信息
                     messages: {
@@ -352,18 +552,30 @@
                         group:{
                             required: '组织机构必选'
                         },
-                        roadShow_time:{
+                        start_time:{
                             required:'请输入路演时间'
                         },
                         brief:{
                             required: '请输入路演简述'
                         },
+                        end_time:{
+                            required: '请输入路演结束时间'
+                        },
+                        deadline:{
+                            required: '请输入报名截止日期'
+                        },
+                        address:{
+                            required: '请输入路演地址'
+                        },
+                        limit:{
+                            required: '请输入报名限制人数'
+                        },
                         describe:{
                             required: '请输入路演详情'
                         },
-                        // start_time:{date:""},
-                        // end_time:{date:""},
-                        // deadline:{date:""}
+                        banner:{
+                            required: '缩略图不能为空'
+                        }
                     }
                 });
 
@@ -400,21 +612,30 @@
                             speaker:$('input[name=speaker]').val(),
                             group:$('select[name=group]').val(),
                             banner:$('input[name=banner]').val(),
-                            roadShow_time:$('input[name=roadShow_time]').val(),
+                            end_time:$('input[name=end_time]').val(),
+                            deadline:$('input[name=deadline]').val(),
+                            address:$('input[name=address]').val(),
+                            limit:$('input[name=limit]').val(),
+                            start_time:$('input[name=start_time]').val(),
                             brief:$('textarea[name=brief]').val(),
-                            roadShow_describe:$('textarea[name=roadShow_describe]').val(),
+                            describe:$('textarea[name=describe]').val(),
                         };
+                        console.log(resul);
                         data.append( "title"      , resul.title);
                         data.append( "speaker"     , resul.speaker);
                         data.append( "group"       ,resul.group);
-                        data.append( "roadShow_time"     , resul.roadShow_time);
-//                        data.append( "banner"   ,$('#banner').val());
+                        data.append( "start_time"     , resul.start_time);
                         data.append( "brief"   , resul.brief);
-                        data.append( "describe", resul.roadShow_describe);
+                        data.append( "describe", resul.describe);
+                        data.append( "banner", resul.banner);
+                        data.append( "end_time", resul.end_time);
+                        data.append( "start_time", resul.start_time);
+                        data.append( "address", resul.address);
+                        data.append( "limit", resul.limit);
                         $('#alert-info').html();
                         console.log(resul);
                         $.ajax({
-                            url     : '/road/' + $('input[name=id]').val(),
+                            url     : '/road',
                             type:'post',
                             data:resul,
                             before  : ajaxBeforeNoHiddenModel,
@@ -444,6 +665,19 @@
                 this.$signupForm.validate({
                     rules: {
                         title: {
+                            required: true,
+                            max:255
+                        },
+                        end_time: {
+                            required: true
+                        },
+                        deadline: {
+                            required: true
+                        },
+                        address: {
+                            required: true
+                        },
+                        limit: {
                             required: true
                         },
                         speaker:{
@@ -452,7 +686,7 @@
                         group:{
                             required: true
                         },
-                        roadShow_time:{
+                        start_time:{
                             required: true
                         },
                         brief:{
@@ -461,9 +695,9 @@
                         describe:{
                             required: true,
                         },
-                        // start_time:{date:true},
-                        // end_time:{date:true},
-                        // deadline:{date:true}
+                        banner:{
+                            required: true,
+                        }
                     },
                     //提示信息
                     messages: {
@@ -476,23 +710,34 @@
                         group:{
                             required: '组织机构必选'
                         },
-                        roadShow_time:{
+                        start_time:{
                             required:'请输入路演时间'
                         },
                         brief:{
                             required: '请输入路演简述'
                         },
+                        end_time:{
+                            required: '请输入路演结束时间'
+                        },
+                        deadline:{
+                            required: '请输入报名截止日期'
+                        },
+                        address:{
+                            required: '请输入路演地址'
+                        },
+                        limit:{
+                            required: '请输入报名限制人数'
+                        },
                         describe:{
                             required: '请输入路演详情'
                         },
-                        // start_time:{date:""},
-                        // end_time:{date:""},
-                        // deadline:{date:""}
+                        banner:{
+                            required: '缩略图不能为空'
+                        }
                     }
                 });
 
             },
-                    //init
                     $.FormValidator = new FormValidator,
                     $.FormValidator.Constructor = FormValidator
         }(window.jQuery),
@@ -518,8 +763,6 @@
         //展示路演信息详情
         function showInfo() {
             $('.info').click(function () {
-                $('#alert-info').html('');
-                $('.modal-title').html('路演信息详情');
                 var ajax = new ajaxController();
                 ajax.ajax({
                     url     : '/road/' + $(this).data('name'),
