@@ -23,9 +23,14 @@ class ProjectController extends Controller
         self::$projectServer = $projectService;
     }
 
+    /**返回创业项目列表页
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @author 贾济林
+     */
     public function index()
     {
-        //
+
+        return view('home.project.project_list')->with('','');
     }
 
     /**
@@ -64,8 +69,7 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        if ($id = 'publish') return view('Home.project.project_publish');
-        return false;
+        echo $id;
     }
 
     /**
@@ -114,7 +118,11 @@ class ProjectController extends Controller
         //
     }
 
-    //!!!!!!!!没有起到验证效果，需要改正
+    /**对前台加载的数据进行验证
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
+     */
     public function addDataValidator($request)
     {
         $validator = \Validator::make($request->all(), [
@@ -130,26 +138,4 @@ class ProjectController extends Controller
 
     }
 
-    /**
-     * 返回七牛upToken
-     * @return \Illuminate\Http\JsonResponse
-     * @author 贾济林
-     */
-    public function getUptoken()
-    {
-        // 需要填写你的 Access Key 和 Secret Key
-        $accessKey = 'VsAP-hK_hVPKiq5CQcoxWNhBT9ZpZ1Ii4z3O_W51';
-        $secretKey = '5dqfmvL15DFoAK1QzaVF2TwVzwJllOF8K4Puf1Po';
-
-        // 构建鉴权对象
-        $auth = new Auth($accessKey, $secretKey);
-
-        // 要上传的空间
-        $bucket = 'jacklin';
-
-        // 生成上传 Token
-        $token = $auth->uploadToken($bucket);
-        $a = array('uptoken'=>$token);
-        return response()->json($a);
-    }
 }

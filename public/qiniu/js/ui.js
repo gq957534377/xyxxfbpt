@@ -218,7 +218,7 @@ FileProgress.prototype.setComplete = function(up, info) {
         var domain = up.getOption('domain');
         url = domain + encodeURI(res.key);
         var link = domain + res.key;
-        str = "<div><strong>链接地址:</strong><a href=" + url + " target='_blank' > " + link + "</a></div>" +
+        str = "<div><strong>链接地址:</strong><a class = '' href=" + url + " target='_blank' > " + link + "</a></div>" +
             // "<div class=key><strong>上传后文件名:</strong>" + res.key + "</div>" +
             "<div class=hash><strong>Hash:</strong>" + res.hash + "</div>";
         var _token = $("#_token").val();

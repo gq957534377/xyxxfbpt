@@ -7,9 +7,9 @@
 $(function() {
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
-        browse_button: 'pickfiles',
-        container: 'container',
-        drop_element: 'container',
+        browse_button: 'img_pick',
+        container: 'img_container',
+        drop_element: 'img_container',
         max_file_size: '1000mb',
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
         dragdrop: true,
