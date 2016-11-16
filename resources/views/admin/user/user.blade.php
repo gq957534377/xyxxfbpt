@@ -18,13 +18,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a data-name="user_normal" class="addevent" href="javascript:void(0)">正常</a>
+                    <a data-name="user_normal" class="add_event" href="javascript:void(0)">正常</a>
                 </li>
                 <li>
-                    <a data-name="user_normal_disabled" class="addevent" href="javascript:void(0)">禁用</a>
+                    <a data-name="user_normal_disabled" class="add_event" href="javascript:void(0)">禁用</a>
                 </li>
                 <li>
-                    <a data-name="user_normal_deleted" class="addevent" href="javascript:void(0)">已停用</a>
+                    <a data-name="user_normal_deleted" class="add_event" href="javascript:void(0)">已停用</a>
                 </li>
             </ul>
         </div>
@@ -34,13 +34,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a data-name="user_entrepreneurs" class="addevent" href="javascript:void(0)">正常</a>
+                    <a data-name="user_entrepreneurs" class="add_event" href="javascript:void(0)">正常</a>
                 </li>
                 <li>
-                    <a data-name="user_entrepreneurs_disabled" class="addevent" href="javascript:void(0)">禁用</a>
+                    <a data-name="user_entrepreneurs_disabled" class="add_event" href="javascript:void(0)">禁用</a>
                 </li>
                 <li>
-                    <a data-name="user_entrepreneurs_deleted" class="addevent" href="javascript:void(0)">已停用</a>
+                    <a data-name="user_entrepreneurs_deleted" class="add_event" href="javascript:void(0)">已停用</a>
                 </li>
             </ul>
         </div>
@@ -50,13 +50,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a data-name="user_investor" class="addevent" href="javascript:void(0)">正常</a>
+                    <a data-name="user_investor" class="add_event" href="javascript:void(0)">正常</a>
                 </li>
                 <li>
-                    <a data-name="user_investor_disabled" class="addevent" href="javascript:void(0)">禁用</a>
+                    <a data-name="user_investor_disabled" class="add_event" href="javascript:void(0)">禁用</a>
                 </li>
                 <li>
-                    <a data-name="user_investor_deleted" class="addevent" href="javascript:void(0)">已停用</a>
+                    <a data-name="user_investor_deleted" class="add_event" href="javascript:void(0)">已停用</a>
                 </li>
             </ul>
         </div>
@@ -66,10 +66,10 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a data-name="check_entrepreneurs" class="addevent" href="javascript:void(0)">创业者</a>
+                    <a data-name="check_entrepreneurs" class="add_event" href="javascript:void(0)">创业者</a>
                 </li>
                 <li>
-                    <a data-name="check_investor" class="addevent" href="javascript:void(0)">投资者</a>
+                    <a data-name="check_investor" class="add_event" href="javascript:void(0)">投资者</a>
                 </li>
             </ul>
         </div>
@@ -79,10 +79,10 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a data-name="check_entrepreneurs_fail" class="addevent" href="javascript:void(0)">创业者</a>
+                    <a data-name="check_entrepreneurs_fail" class="add_event" href="javascript:void(0)">创业者</a>
                 </li>
                 <li>
-                    <a data-name="check_investor_fail" class="addevent" href="javascript:void(0)">投资者</a>
+                    <a data-name="check_investor_fail" class="add_event" href="javascript:void(0)">投资者</a>
                 </li>
             </ul>
         </div>
@@ -135,8 +135,8 @@
 
     <script>
 //      全局变量声明开始
-//        user全局变量，标识当前在哪个页面，不同标识加载不同的页面，请求不同的数据
-        var user = 1;
+//        user全局变量，标识当前在哪个页面，不同标识加载不同的页面，请求不同的数据 0~12
+        var user = 0;
 //        guid全局变量，标识当前数据身份
         var guid = null;
 //        item全局变量，标识当前数据item
@@ -148,16 +148,25 @@
 //        type全局变量，标识不同情况下ajax请求type
         var type = null;
 //        success全局变量，标识不同情况下ajax请求success
-        var success = null;
+        var handle= null;
 //      全局变量声明结束
 
         //初始化 请求数据 包含分页数据 添加事件
         $(function () {
-            $('#normal').addClass('btn-success');
-            var user_init = {
-                role : user_role
+            $('.btn-group').eq(user).addClass('btn-success');
+            $('.add_event').eq(user).addClass('btn-success');
+            url = '/user/create';
+            data = {
+                role : user + 1
             };
-            load('/user/create', user_init, 'GET', showNormal);
+            type = 'GET';
+            handle = {
+                one : getPage
+            };
+
+            load(url, data, type, function (data,handle) {
+                checkResponse(data,handle);
+            });
             initial();
         });
 

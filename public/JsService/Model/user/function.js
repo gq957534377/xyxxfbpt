@@ -18,7 +18,7 @@ function load(url, data, type, success) {
 
 //事件 初始化
 function initial() {
-    $('.addevent').off('click').on('click', function () {
+    $('.add_event').off('click').on('click', function () {
         //重设按钮颜色
         $('.btn-success').removeClass('btn-success').addClass('btn-default');
         $(this).addClass('btn-success');
