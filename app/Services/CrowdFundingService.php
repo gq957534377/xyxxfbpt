@@ -65,36 +65,23 @@ class CrowdFundingService
      * @return array
      * @author 张洵之
      */
-    public function dynamicDataList($request)
+    public function dynamicDataList($id,$request)
     {
-        $class = $request->input("type");
-        $page = (int)$request->input("page");
-        $where = ["project_type"=>$class,"status"=>1];
+        $page = (int)$request->input("nowPage");
+        $page = isset($page)?$page:1;
+        $where = ["project_type"=>$id,"status"=>1];
         $field = "project_id";
-        $projectIdArr = self::$crowdFundingStore->getList($where,$field,$page,16);
+        $creatPage = Common::getPageUrls($request->all(),"crowd_funding_data","crowd_funding/".$id,4,null,$where);
+        $projectIdArr = self::$crowdFundingStore->getList($where,$field,$page,4);
         $projectIdArr = isset($projectIdArr)?$projectIdArr:[];
-        $projectArr = self::$projectStore->getList("project_id",$projectIdArr);
-        $projectArr = isset($projectArr)?['status'=>true,'msg'=>$projectArr]:['status'=>false,'msg'=>'发生错误'];
-        return $projectArr;
+        $projectArr = self::$projectStore->getWhereIn("project_id",$projectIdArr);//项目信息
+        $crowdinfoArr =self::$crowdFundingStore->getWhereIn("project_id",$projectIdArr);//众筹信息
+        if(isset($crowdinfoArr)&&isset($projectArr)){
+            return ['status'=>true,'msg'=>["projectInfo"=>$projectArr,"crowdInfo"=>$crowdinfoArr,"forPage"=>$creatPage]];
+        }
+            return ['status'=>false,'msg'=>'数据为空'];
     }
 
-    /**
-     * 返回总页数
-     * @param $id
-     * @return array
-     * @author 张洵之
-     */
-    public function endPage($id)
-    {
-        $where = ["project_type"=>$id];
-        $result = self::$crowdFundingStore->selectListNum($where);
-        if(isset($result)){
-            $result = ceil($result/16);
-            return ['status'=>true,'msg'=>["endPage"=>$result]];
-        }else{
-            return ['status'=>false,'msg'=>'发生错误'];
-        }
-    }
 
     /**
      * 判断请求信息类型
@@ -240,6 +227,13 @@ class CrowdFundingService
         }
     }
 
+    /**
+     * 分页方法附属方法
+     * @param $data
+     * @param $myStatus
+     * @return null
+     * author 张洵之
+     */
     public function forPageHtml($data,$myStatus)
     {
         if(!is_array($data)||!isset($myStatus)) return null;
@@ -347,10 +341,30 @@ class CrowdFundingService
         }
     }
 
+    /**
+     * 更新众筹数据
+     * @param $request
+     * @return array
+     * author 张洵之
+     */
     public function updataCrowd($request)
     {
         $data = $this->createUplodData($request);
         $result = self::$crowdFundingStore->uplodData(["project_id"=>$data["project_id"]],$data);
+        if($result){
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>$result];
+        }
+    }
+
+
+    public function crowdContent($project_id)
+    {
+        $where = ["project_id"=>$project_id];
+        $pojectInfo = self::$projectStore->getData($where);
+        $crowdInfo = self::$crowdFundingStore->getWhere($where);
+        $result = ["pojectInfo"=>$pojectInfo,"crowdInfo"=>$crowdInfo];
         if($result){
             return ['status'=>true,'msg'=>$result];
         }else{
