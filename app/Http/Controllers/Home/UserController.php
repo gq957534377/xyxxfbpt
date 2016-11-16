@@ -141,8 +141,8 @@ class UserController extends Controller
         // 将验证后的数据交给Server层
         $info = self::$userServer->updataUserInfo(['guid'=>$id],$data);
         // 返回信息做处理
-        if($info['status'] == '400') return response()->json(['StatusCode'=>'400','ResultData'=>'修改失败']);
-        return response()->json(['StatusCode'=>'200','ResultData'=>'修改成功']);
+        if($info['status'] == '400') return response()->json(['StatusCode'=>'400','ResultData'=>$info['msg']]);
+        return response()->json(['StatusCode'=>'200','ResultData'=>$info['msg']]);
     }
 
     /**

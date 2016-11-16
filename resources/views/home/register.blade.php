@@ -87,5 +87,6 @@
         </div>
     @include('home.login.script')
     @include('home.validator.registerValidator')
+    @include('home.layouts.promptModal')
     </body>
 </html>

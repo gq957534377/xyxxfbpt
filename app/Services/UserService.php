@@ -233,7 +233,7 @@ class UserService {
        if (empty($where) || empty($data)) return ['status'=>400,'msg'=>'缺少数据'];
         // 提交数据给store层
         $info = self::$userStore->updateUserInfo($where,$data);
-        if(!$info) return ['status'=>'400','msg'=>'修改失败！'];
+        if(!$info) return ['status'=>'400','msg'=>'修改失败，您并没有做什么修改！'];
         return ['status'=>'200','msg'=>'修改成功！'];
     }
 
