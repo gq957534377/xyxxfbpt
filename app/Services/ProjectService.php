@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Request;
 use App\Store\ProjectStore;
+use App\Store\UserStore;
 use App\Tools\Common;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -11,15 +12,17 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectService {
     protected static $projectStore = null;
+    protected static $userStore = null;
 
     /**
      * 构造函数注入
      * ProjectService constructor.
      *
      */
-    public function __construct(ProjectStore $projectStore)
+    public function __construct(ProjectStore $projectStore, UserStore $userStore)
     {
         self::$projectStore = $projectStore;
+        self::$userStore    = $userStore;
     }
 
     /**
@@ -126,6 +129,16 @@ class ProjectService {
         $res = self::$projectStore->getPage($nowpage,$num,$status);
         if (!$res) return ['status'=>false,'msg'=>'获取失败'];
         return ['status'=>true,'data'=>$res];
+    }
+
+
+    public function getRole($guid)
+    {
+        $param = ['guid'=>$guid];
+        $data = self::$userStore->getOneData($param);
+        $role = $data->role;
+        if (!$data) return ['status'=>false,'msg'=>'查询失败'];
+        return ['status'=>true,'data'=>$role];
     }
 
 }

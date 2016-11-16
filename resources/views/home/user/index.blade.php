@@ -118,7 +118,10 @@
                             <!--申请成为创业者 end-->
 
                             <!--项目发布 start-->
-                            <a href="#" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
+                            <a id = 'publish_trigger' href="#" class="list-group-item " data-toggle="modal">
+                                <i class="text-md fa fa-bell" aria-hidden="true"></i> 项目发布
+                            </a>
+                            <a id = 'publish_trigger2' href="#" style="display: none;" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
                                 <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
                             </a>
                             <!--项目发布弹出层 start-->
@@ -349,6 +352,24 @@
             formData.append('guid',guid);
             ajaxRequire('/user','POST',formData,$('#entrepreneur'),1);
         });
+
+        //添加项目发布控制
+        $('#publish_trigger').click(function(){
+            $.ajax({
+                url:'/project/create',
+                type:'get',
+                async:false,
+                beforeSend:function(){$('.loading').show()},
+                success:function(data){
+                    $('.loading').hide();
+                    if(data.data!=2){
+                        promptBoxHandle('提示','请先申请成为创业者哦！');
+                    }else{
+                        $('#publish_trigger2').click();
+                    }
+                }
+            });
+        })
     });
 </script>
 @include('home.user.ajax.ajaxRequire')

@@ -40,7 +40,10 @@ class ProjectController extends Controller
      */
     public function create()
     {
-
+        $guid = session('user')->guid;
+        $res = self::$projectServer->getRole($guid);
+        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        return response()->json(['status'=>'200','data'=>$res['data']]);
     }
 
     /**
