@@ -51,10 +51,10 @@
        * @return bool
        * @author maolin
        */
-      public function updateData($where,$data)
+      public function updateData($id,$data)
       {
-          if(empty($where) || empty($data)) return false;
-          return DB::table(self::$table)->where($where)->update($data);
+          if(empty($id) || empty($data)) return false;
+          return DB::table(self::$table)->where('guid',$id)->update($data);
       }
       /**
        * @param string

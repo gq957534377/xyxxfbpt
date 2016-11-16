@@ -231,7 +231,7 @@
 {{--提示信息按钮结束--}}
 {{--修改表单按钮--}}
 <button id="alter" class="btn btn-primary" data-toggle="modal"
-        data-target="#con-close-modald">下面的 &nbsp;<i class="fa fa-plus" aria-hidden="true"></i></button>
+        data-target="#con-close-modald" style="display: none;">下面的 &nbsp;<i class="fa fa-plus" aria-hidden="true"></i></button>
 {{--修改表单按钮结束--}}
 {{--发布弹窗按钮--}}
 <button id="add_training" class="btn btn-primary" data-toggle="modal"
@@ -269,19 +269,22 @@
             {{--paging--}}
             <div class="col-sm-12" id="data-page">
                 <ul class="pagination pull-right">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <i class="fa fa-angle-left"></i>
+                    <li class="disabled">
+                        <a href="javascript:;" aria-label="Previous">
+                            {{--<i class="fa fa-angle-left"></i>--}}
+                            <
                         </a>
                     </li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li class="disabled"><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <i class="fa fa-angle-right"></i>
+                    <li class="active"><a href="javascript:;">1</a></li>
+                    <li><a href="javascript:;">2</a></li>
+                    <li><a href="javascript:;">3</a></li>
+                    {{--class="disabled" 禁止选中属性--}}
+                    <li><a href="javascript:;">4</a></li>
+                    <li><a href="javascript:;">5</a></li>
+                    <li class="disabled">
+                        <a href="javascript:;" aria-label="Next">
+                            {{--<i class="fa fa-angle-right"></i>--}}
+                            >
                         </a>
                     </li>
                 </ul>
@@ -340,7 +343,7 @@
                                 // 发送请求时添加弹窗
                             },
                             success:function (data) {
-                                 console.log(data);
+                                 // console.log(data);
                                 if(data.status==200){
                                     $("#hint").click();
                                     $("#hint_form h4").html(data.msg);
@@ -436,7 +439,8 @@
                     console.log("数据获取成功");
                     for (var i=0;i<data.length;i++){
                         $(".span").append(
-                            '<tr class="gradeX">'+
+                            // 给父级元素添加一个ID方便后面修改的时候方便替换
+                            '<tr class="gradeX" id='+data[i].guid+'>'+
                             '<td>'+data[i].name+'</td>'+
                             '<td>'+data[i].order+'</td>'+
                             '<td>'+data[i].org+'</td>'+
@@ -475,10 +479,9 @@
                     console.log("正在获取数据");
                 },
                 success:function(data){
-                    console.log(data);
-                    console.log(data[0].name);
+                    // console.log(data);
+                    // console.log(data[0].name);
                     $('#alter').click();
-                     // $("#altersend input[name=name]").val(data.name);
                     $('#altersend input[name=name]').attr('placeholder',data[0].name);
                     $('#altersend input[name=order]').attr('placeholder',data[0].order);
                     $('#altersend input[name=org]').attr('placeholder',data[0].org);
@@ -493,45 +496,100 @@
                 }
             });
         });
-        // 提交编辑
+        // 提交编辑并且替换当前行的数据
         $("#alter_road").click(function(){
+            var result={
+                name:$('#altersend input[name=name]').val(),
+                order:$('#altersend input[name=order]').val(),
+                org:$('#altersend input[name=org]').val(),
+                peoples:$('#altersend input[name=peoples]').val(),
+                start_time:$('#altersend input[name=start_time]').val(),
+                end_time:$('#altersend input[name=end_time]').val(),
+                deadline:$('#altersend input[name=deadline]').val(),
+                content:ue2.getContent()
+            }
+            // 使用FormData验证表单
             var data = new FormData($("#altersend"));
-//            var result = {
-//
-//            };
-            data.append('name',$('#altersend input[name=name]').val());
-            data.append('order',$('#altersend input[name=order]').val());
-            data.append('org',$('#altersend input[name=org]').val());
-            data.append('peoples',$('#altersend input[name=peoples]').val());
-            data.append('start_time',$('#altersend input[name=start_time]').val());
-            data.append('end_time',$('#altersend input[name=end_time]').val());
-            data.append('deadline',$('#altersend input[name=deadline]').val());
-            data.append('content',ue2.getContent());
+            data.append('name',result.name);
+            data.append('order',result.order);
+            data.append('org',result.org);
+            data.append('peoples',result.peoples);
+            data.append('start_time',result.start_time);
+            data.append('end_time',result.end_time);
+            data.append('deadline',result.deadline);
+            data.append('content',result.content);
             var guid = $("#alter_road").attr("data-guid");
             $.ajax({
                 url:'/match/'+guid,
                 type:'put',
-                data:data,
+                data:result,
                 dataType:'json',
-                // 直接使用FormData发送表单设置选项
-                contentType: false,
-                processData: false,
                 beforeSend:function () {
-//                                    $('#postSend button').eq(0).click();
+                    $('#altersend button').eq(0).click();
                     console.log("正在发送请求");
                     // 发送请求时添加弹窗
                 },
                 success:function (data) {
-                    console.log(data);
+                    // 成功之后判断状态
+                    // 然后获取数据替换着一行的数据
+                    if(data){
+                        if(data.status==200){
+                            $("#hint").click();
+                            $("#hint_form h4").html(data.msg);
+                            $("#hint_form p").html("修改成功");
+                            // 判断成功修改|替换数据之后再次请求数据替换当前的数据
+                            $.ajax({
+                                url:'/match/'+guid+'/edit',
+                                type:'get',
+                                processData:true,
+                                beforeSend:function(){
+                                    console.log("正在获取数据");
+                                },
+                                success:function(data){
+                                     console.log(data);
+                                    $('#'+guid+' '+'td').eq(0).html(data[0].name);
+                                    $('#'+guid+' '+'td').eq(1).html(data[0].order);
+                                    $('#'+guid+' '+'td').eq(2).html(data[0].org);
+                                    $('#'+guid+' '+'td').eq(3).html(data[0].peoples);
+                                    $('#'+guid+' '+'td').eq(4).html(data[0].start_time);
+                                    $('#'+guid+' '+'td').eq(5).html(data[0].end_time);
+                                    $('#'+guid+' '+'td').eq(6).html(data[0].deadline);
+                                    $('#'+guid+' '+'td').eq(7).html(data[0].updeadline);
+                                    $('#'+guid+' '+'td').eq(8).html(data[0].content);
+                                },
+                                error : function(XMLHttpRequest, textStatus, errorThrown){
+                                     console.log(XMLHttpRequest.status);
+                                     console.log(XMLHttpRequest.readyState);
+                                     console.log(textStatus);
+                                     console.log(errorThrown);
+                                }
+                            });
+                        }else if(data.status==400){
+                            $("#hint").click();
+                            $("#hint_form h4").html(data.msg);
+                            $("#hint_form p").html("抱歉！修改未成功");
+                        }else if(data.ServerNo==400){
+                            $("#hint").click();
+                            $("#hint_form h4").html("验证未通过");
+                            $("#hint_form p").html(data.ResultData[1]);
+                        }else{
+                            $("#hint").click();
+                            $("#hint_form h4").html("未知错误");
+                            $("#hint_form p").html("抱歉出现位置错，请刷新页面进行修改");
+                        }
+                    }
                 },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 error : function(XMLHttpRequest, textStatus, errorThrown){
-                    console.log(XMLHttpRequest.status);
-                    console.log(XMLHttpRequest.readyState);
-                    console.log(textStatus);
-                    console.log(errorThrown);
+                    $("#hint").click();
+                    $("#hint_form h4").html("未知错误");
+                    $("#hint_form p").html("抱歉出现位置错，请刷新页面进行修改");
+                    // console.log(XMLHttpRequest.status);
+                    // console.log(XMLHttpRequest.readyState);
+                    // console.log(textStatus);
+                    // console.log(errorThrown);
                 }
             })
             return false;
@@ -540,9 +598,12 @@
         $(document).on('click','#right',function(){
             var data = this.getAttribute ('data-name');
             alert(data);
-
         });
         // 换页面
+        $("#data-page li:not(':first,:last')").click(function(){
+            $("#data-page li").removeClass("active");
+            $(this).addClass("active");
+        });
     </script>
     {{--添加培训--}}
 @endsection

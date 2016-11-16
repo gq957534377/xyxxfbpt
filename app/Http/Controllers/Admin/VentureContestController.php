@@ -91,16 +91,32 @@ class VentureContestController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * $author maolin
      */
     public function update(Request $request, $id)
     {
-        //
-        return $request->all();
+        // 获取验证
+        $validator = Validator::make($request->all(), [
+            "name" =>'required',
+            "order"=>'required|digits_between:1,3',
+            "org"  =>'required',
+            "content"=>'required',
+            "peoples"=>'required|digits_between:1,50',
+            "start_time"=>'required',
+            "end_time"  =>'required',
+            "deadline"  =>'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['ServerNo' => 400,'ResultData' => $validator->errors()->all()]);
+        }
+        // 验证通过修改数据
+        $result = $request->all();
+        $result=self::$matchServer->updateData($id,$result);
+        if(!$result) return response()->json(['status'=>'400','msg'=>'修改失败失败']);
+        return response()->json(['status'=>'200','msg'=>'修改成功']);
     }
 
     /**
