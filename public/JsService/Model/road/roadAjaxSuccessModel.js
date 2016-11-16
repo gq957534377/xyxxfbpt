@@ -63,7 +63,7 @@ function getPage() {
         if(class_name == 'disabled' || class_name == 'active') {
             return false;
         }
-        var url = $(this).children().prop('href');
+        var url = $(this).children().prop('href')+'&type='+list_type;
         var ajax = new ajaxController();
         ajax.ajax({
             url : url,
@@ -74,7 +74,6 @@ function getPage() {
         return false;
     });
 }
-
 
 function group(type) {
     var res;

@@ -148,7 +148,8 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg"  onsubmit="return false">
-                <div class="row">
+                    <input type="hidden" name="id">
+                    <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="field-1" class="control-label">路演主题</label>
@@ -372,9 +373,9 @@
     <div class="page-title">
         <h3 class="title">路演管理</h3>
         <br>
-        <button class="btn-primary">报名中</button>
-        <button class="btn-danger">活动进行中...</button>
-        <button class="btn-primary">往期回顾</button>
+        <button class="btn-primary" onclick="listType(1)">报名中</button>
+        <button class="btn-danger" onclick="listType(2)">活动进行中...</button>
+        <button class="btn-primary" onclick="listType(3)">往期回顾</button>
     </div>
     <div class="panel" id="data"></div>
 </div>
@@ -437,11 +438,15 @@
 
     </script>
     <script>
+        var list_type = 1;
+        function listType(type) {
+            list_type = type;
+            list(type);
+        }
         {{--修改--}}
         !function($) {
             "use strict";
             var FormValidator = function() {
-                //this.$commentForm = $("#commentForm"),
                 this.$signupForm = $("#yz_xg");
             };
 
@@ -457,17 +462,17 @@
                         });
                         var data = new FormData();
                         var resul={
-                            title:$('input[name=title]').val(),
-                            speaker:$('input[name=speaker]').val(),
-                            group:$('select[name=group]').val(),
-                            banner:$('input[name=banner]').val(),
-                            end_time:$('input[name=end_time]').val(),
-                            deadline:$('input[name=deadline]').val(),
-                            address:$('input[name=address]').val(),
-                            limit:$('input[name=limit]').val(),
-                            start_time:$('input[name=start_time]').val(),
-                            brief:$('textarea[name=brief]').val(),
-                            describe:$('textarea[name=describe]').val(),
+                            title:$('#yz_xg').find('input[name=title]').val(),
+                            speaker:$('#yz_xg').find('input[name=speaker]').val(),
+                            group:$('#yz_xg').find('select[name=group]').val(),
+                            banner:$('#yz_xg').find('input[name=banner]').val(),
+                            end_time:$('#yz_xg').find('input[name=end_time]').val(),
+                            deadline:$('#yz_xg').find('input[name=deadline]').val(),
+                            address:$('#yz_xg').find('input[name=address]').val(),
+                            limit:$('#yz_xg').find('input[name=limit]').val(),
+                            start_time:$('#yz_xg').find('input[name=start_time]').val(),
+                            brief:$('#yz_xg').find('textarea[name=brief]').val(),
+                            describe:ue1.getContent(),
                         };
                         console.log(resul);
                         data.append( "title"      , resul.title);
@@ -498,7 +503,7 @@
                                 if (data.ServerNo == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>路演活动修改成功!</p>');
-                                    list();
+                                    list(list_type);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -508,7 +513,6 @@
                         }
                     }
                 });
-                // validate signup form on keyup and submit
                 this.$signupForm.validate({
                     rules: {
                         title: {
@@ -596,7 +600,6 @@
         !function($) {
             "use strict";
             var FormValidator = function() {
-                //this.$commentForm = $("#commentForm"),
                 this.$signupForm = $("#yz_fb");
             };
 
@@ -655,7 +658,8 @@
                                 if (data.ServerNo == 200) {
                                     $('#con-close-modal').modal('hide');
                                     $('#alert-info').html('<p>路演发布成功!</p>');
-                                    list();
+                                    list(list_type);
+
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -663,14 +667,24 @@
                                 $('#alert-info').html('<p>未知的错误</p>');
                             }
                         }
+                        $('#yz_fb').find('input[name=title]').val('');
+                        $('#yz_fb').find('input[name=end_time]').val('');
+                        $('#yz_fb').find('input[name=deadline]').val('');
+                        $('#yz_fb').find('input[name=address]').val('');
+                        $('#yz_fb').find('input[name=limit]').val('');
+                        $('#yz_fb').find('input[name=speaker]').val('');
+                        $('#yz_fb').find('input[name=banner]').val('');
+                        $('#road_thumb_img').attr('src','');
+                        $('#yz_fb').find('select[name=group]').val('');
+                        $('#yz_fb').find('input[name=start_time]').val('');
+                        $('#yz_fb').find('textarea[name=brief]').val('');
+                        ue.setContent('');
                     }
                 });
-                // validate signup form on keyup and submit
                 this.$signupForm.validate({
                     rules: {
                         title: {
                             required: true,
-                            max:255
                         },
                         end_time: {
                             required: true
@@ -819,15 +833,15 @@
         }
 
         // 页面加载时触发事件请求分页数据
-        function list() {
+        function list(type) {
             var ajax = new ajaxController();
             ajax.ajax({
-                url     : '/road_info_page',
+                url     : '/road_info_page?type='+type,
                 before  : ajaxBeforeModel,
                 success : getInfoList,
                 error   : ajaxErrorModel,
             });
         }
-        list();
+        list(list_type);
     </script>
 @endsection
