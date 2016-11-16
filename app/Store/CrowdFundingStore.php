@@ -125,6 +125,20 @@ class CrowdFundingStore
     }
 
     /**
+     * 查询指定集合内的内容
+     * @param $field
+     * @param $where
+     * @return null
+     * author 张洵之
+     */
+    public function getWhereIn($field,$where)
+    {
+        if(!is_array($where)||!is_string($field))return null;
+        $result = DB::table(self::$table)->whereIn($field,$where)->orderBy("project_id","asc")->get();
+        return $result;
+    }
+
+    /**
      * 添加数据
      * @param $data
      * @return int|null

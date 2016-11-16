@@ -41,12 +41,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::any('/upload','RoadController@upload');
         // 用户管理
         Route::resource('/user', 'UserController');
-        Route::get('/user_ajax_get_data', 'UserController@getUserData');
         Route::resource('/user_role', 'UserRoleController');
-//        Route::get('/users_page', 'UserController@getUserData');
-//        Route::put('/users_data', 'UserController@updateData');
-//        Route::delete('/users_data', 'UserController@deleteData');
-//        Route::get('/users_one_data', 'UserController@getOneData');
         //众筹
         Route::resource('/project_approval', 'CrowdFundingController');
         //众筹修改内容
@@ -74,14 +69,8 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/login', 'LoginController');
     // 前台注册页
     Route::resource('/register', 'RegisterController');
-    //众筹首页
+    //众筹
     Route::resource('/crowd_funding', 'CrowdFundingController');
-    //众筹首页ajax请求
-    Route::get('index_ajax',"CrowdFundingController@indexAjax");
-    //查询某类项目可分页数
-    Route::get("crow_funding_page/{id}","CrowdFundingController@endPage");
-    //查询某类项目某页内容
-    Route::post("crow_funding_page","CrowdFundingController@pageContent");
     //发布项目
     Route::resource('/project', 'ProjectController');
     //中间件，检验是否登录

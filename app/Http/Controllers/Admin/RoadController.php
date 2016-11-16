@@ -85,7 +85,9 @@ class RoadController extends Controller
         if(empty($id)) return response()->json(['ServerNo' => 400, 'ResultData' => '未找到相应数据']);
         $where = ['roadShow_id'=>$id];
         $result = self::$roadServer->getOneRoad($where);
-        $result['msg']->roadShow_time=date('Y-m-d\TH:i:s', $result['msg']->roadShow_time);
+        $result['msg']->start_time=date('Y-m-d\TH:i:s',$result['msg']->start_time);
+        $result['msg']->end_time=date('Y-m-d\TH:i:s', $result['msg']->end_time);
+        $result['msg']->deadline=date('Y-m-d\TH:i:s', $result['msg']->deadline);
         $result['msg']->time=date('Y-m-d\TH:i:s', $result['msg']->time);
         return response()->json(['ServerNo' => 200, 'ResultData' => $result['msg']]);
     }
@@ -136,13 +138,21 @@ class RoadController extends Controller
         $data    = $request->all();
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
         // 获取分页URL与合法的当前页
-        $result  = Common::getPageUrl($data, 'data_roadShow_info', '/road_info_page',5);
+
+        $result  = Common::getPageUrl($data, 'data_roadShow_info', '/road_info_page',3,['status'=>$data['type']]);
         if($result) {
             // 获取当前页对应的数据
-            $pageData = self::$roadServer->getRoadList($result['nowPage']);
+            $pageData = self::$roadServer->getRoadList($result['nowPage'],$data['type']);
+            if(!$pageData['status'])
+                return response()->json([
+                    'ServerNo'   => 400,
+                    'ResultData' => "没有数据",
+                ]);
             foreach ($pageData['msg'] as $v)
             {
-                $v->roadShow_time=date('Y-m-d\TH:i:s', $v->roadShow_time);
+                $v->start_time=date('Y-m-d\TH:i:s', $v->start_time);
+                $v->end_time=date('Y-m-d\TH:i:s', $v->end_time);
+                $v->deadline=date('Y-m-d\TH:i:s', $v->deadline);
                 $v->time=date('Y-m-d\TH:i:s', $v->time);
             }
             return response()->json([

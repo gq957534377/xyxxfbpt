@@ -72,5 +72,6 @@
         </div>
     @include('home.login.script')
     @include('home.validator.loginValidator')
+    @include('home.layouts.promptModal')
     </body>
 </html>

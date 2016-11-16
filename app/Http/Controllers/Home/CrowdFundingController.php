@@ -34,7 +34,7 @@ class CrowdFundingController extends Controller
     public function index()
     {
         //
-        return response()->view("home.crowdfunding.index");
+        return view("home.crowdfunding.index");
     }
 
     /**
@@ -45,6 +45,12 @@ class CrowdFundingController extends Controller
     public function create()
     {
         //
+        $result = self::$crowdFundingServer->dynamicDataIndex();
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
     }
 
     /**
@@ -66,7 +72,10 @@ class CrowdFundingController extends Controller
      */
     public function show($id)
     {
-        return response()->view("home.crowdfunding.list");
+        $id = (int)$id;
+        if($id>7||$id<0) return view("errors.503");
+        $data = self::$crowdFundingServer->dynamicDataList($id,self::$request);
+        return view("home.crowdfunding.list",["data"=>$data["msg"]]);
     }
 
     /**
@@ -77,7 +86,10 @@ class CrowdFundingController extends Controller
      */
     public function edit($id)
     {
-        return response()->view('home.crowdfunding.details');
+        $id = (int)$id;
+        $data = self::$crowdFundingServer->crowdContent($id);
+        if(!$data["status"]) return view("errors.503");
+        return view('home.crowdfunding.details',["data"=>$data["msg"]]);
     }
 
     /**
@@ -100,51 +112,7 @@ class CrowdFundingController extends Controller
     public function destroy($id)
     {
         //
-    }
-
-    /**
-     * 首页ajax请求内容
-     * @return \Illuminate\Http\JsonResponse
-     * @author 张洵之
-     */
-    public function indexAjax()
-    {
-        $result = self::$crowdFundingServer->dynamicDataIndex();
-        if($result["status"]){
-            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
-        }else{
-            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
-        }
 
     }
 
-    /**
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     * @author 张洵之
-     */
-    public function endPage($id)
-    {
-        $result = self::$crowdFundingServer->endPage($id);
-        if($result["status"]){
-            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
-        }else{
-            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
-        }
-    }
-
-    /**
-     * @return \Illuminate\Http\JsonResponse
-     * @author 张洵之
-     */
-    public function pageContent()
-    {
-        $request = self::$request;
-        $result = self::$crowdFundingServer->dynamicDataList($request);
-        if($result["status"]){
-            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
-        }else{
-            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
-        }
-    }
 }

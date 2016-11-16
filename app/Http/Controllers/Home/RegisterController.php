@@ -91,7 +91,7 @@ class RegisterController extends Controller
         // 判断存在
         if (empty($id)) return false;
         // 手机号校验
-        $preg = '/^(1(([35][0-9])|(47)|[8][0126789]))\d{8}$/';
+        $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
         if(!preg_match($preg,$id)) return response()->json(['StatusCode'=>'200','ResultData' =>'请输入正确的手机号！']);
         // 查询该手机是否已注册
         $info = self::$userServer->userInfo(['tel'=>$id]);

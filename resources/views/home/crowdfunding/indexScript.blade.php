@@ -6,6 +6,6 @@
                 $("#"+key).html(json[key]);
             }
         }
-        ajaxRequestGet("index_ajax",fun1)
+        ajaxRequestGet("/crowd_funding/create",fun1)
     })
 </script>

@@ -56,6 +56,7 @@
                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <h4 class="modal-title" id="myModalLabel">创业者申请</h4>
                                         </div>
+                                        <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
                                         <form id="entrepreneur" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label for="" class="col-sm-2 control-label">真实姓名</label>
@@ -253,7 +254,7 @@
 @endsection
 
 @section('script')
-{{--@include('home.ajax.userinfo')--}}
+@include('home.user.ajax.ajaxRequire')
 <script>
     $(function(){
         // 用户信息获取
@@ -317,8 +318,6 @@
                         $(".loading").hide();
                         break;
                 }
-
-
             }
         });
 
@@ -330,34 +329,10 @@
                 'realname' : user_realname.val(),
                 'hometown' : user_hometown.val(),
                 'birthday' : user_birthday.val(),
-                'sex': user_sex.val(),
+                'sex':  $('input:radio[name="user_sex"]:checked').val(),
                 'tel' : user_phone.val()
             };
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type:'PUT',
-                data:data,
-                url:url+'/'+guid,
-                beforeSend:function(){
-                    $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
-                },
-                success:function(msg){
-                    switch (msg.StatusCode){
-                        case '400':
-                            promptBoxHandle('警告',msg.ResultData);
-                            $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
-                            break;
-                        case '200':
-                            promptBoxHandle('提示',msg.ResultData);
-                            $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
-                            break;
-                    }
-                }
-            });
+            ajaxRequire(url+'/'+guid,'PUT',data,$("#userBox"),2);
         });
 
         // 异步上传头像
@@ -365,62 +340,18 @@
             var headPicForm = new FormData(document.getElementById("headPicForm"));
             headPicForm.append('guid',guid);
             var url = '/headpic';
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type:'POST',
-                url:url,
-                data:headPicForm,
-                processData: false,  // 告诉jQuery不要去处理发送的数据
-                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-                success:function(msg){
-                    switch (msg.StatusCode){
-                        case '400':
-                            promptBoxHandle('警告',msg.ResultData);
-                            break;
-                        case '200':
-                            promptBoxHandle('提示',msg.ResultData);
-                            break;
-                    }
-                }
-            });
+            ajaxRequire('/headpic','POST',headPicForm,$("#userBox"),1);
         });
 
         // 申请成为创业者
         $("#applySubmit").click(function(){
             var formData = new FormData(document.getElementById("entrepreneur"));
             formData.append('guid',guid);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: '/user',
-                type: "POST",
-                data: formData,
-                processData: false,  // 告诉jQuery不要去处理发送的数据
-                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-                success:function(msg){
-                   switch(msg.StatusCode){
-                       case '404':
-                           promptBoxHandle('警告',msg.ResultData);
-                           break;
-                       case '400':
-                           promptBoxHandle('警告',msg.ResultData);
-                           break;
-                       case '200':
-                           promptBoxHandle('提示',msg.ResultData);
-                           break;
-                   }
-                }
-            });
-            $('#promptModal').click();
+            ajaxRequire('/user','POST',formData,$('#entrepreneur'),1);
         });
     });
 </script>
+@include('home.user.ajax.ajaxRequire')
 @include('home.validator.UpdateValidator')
+
 @endsection

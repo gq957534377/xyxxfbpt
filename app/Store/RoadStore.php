@@ -36,10 +36,10 @@ class RoadStore{
      * @return object|false
      * @author 郭庆
      */
-    public function getPageData($nowPage)
+    public function getPageData($nowPage,$where)
     {
         if(empty($nowPage)) return false;
-        return DB::table(self::$table)->forPage($nowPage, PAGENUM)->orderBy('time','desc')->get();
+        return DB::table(self::$table)->where($where)->forPage($nowPage, PAGENUM)->orderBy('time','desc')->get();
     }
 
     /**
