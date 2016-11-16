@@ -50,7 +50,16 @@
                         },
                         success:function(data){
                             $('.loading').hide();
+                            $("input[name='title']").val('');
+                            $("textarea[name='content']").val('');
+                            $("input[name='image']").val('');
+                            $("input[name='file']").val('');
+                            $("input[name='habitude']").val('');
+                            $("input[name='less_funding']").val('');
+                            $("input[name='cycle']").val('');
+                            $("select[name='project_type']").val('');
                             promptBoxHandle('操作提示','提交成功');
+                            $('#_projectPunlish').modal('hide');
                         },
                         error:function(data){
                             promptBoxHandle('操作提示','提交失败');
@@ -63,8 +72,7 @@
                 // 验证规则
                 rules: {
                     title: {
-                        required: true,
-                        max:50
+                        required: true
                     },
                     content: {
                         required: true
@@ -93,7 +101,6 @@
                 messages: {
                     title: {
                         required: '必须要填写标题哦',
-                        max:'请将标题控制在10字以内哦'
                     },
                     content: {
                         required: '必须要填写项目简介哦'
