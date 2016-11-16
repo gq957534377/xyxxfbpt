@@ -49,10 +49,10 @@
                             success:function(data){
                                 switch (data.StatusCode){
                                     case '400':
-                                        alert(data.ResultData);
+                                        promptBoxHandle('警告',data.ResultData);
                                         break;
                                     case '200':
-                                        alert(data.ResultData);
+                                        promptBoxHandle('提示',data.ResultData);
                                         window.location = '/login';
                                         break;
                                 }
@@ -140,10 +140,10 @@
         var str = '';
         // 判断手机号
         if($.trim(phone).length == 0){
-            alert('请输入手机号');
+            promptBoxHandle('警告','请输入手机号');
         } else {
             if(isPhoneNo($.trim(phone))== false) {
-                alert('手机号不正确');
+                promptBoxHandle('警告','手机号不正确');
             }
         }
     }
@@ -161,10 +161,11 @@
             success:function(data){
                 switch (data.StatusCode){
                     case '400':
-                        alert(data.ResultData);
+                        promptBoxHandle('警告',data.ResultData);
+//                        alert(data.ResultData);
                         break;
                     case '200':
-                        alert(data.ResultData);
+                        promptBoxHandle('提示',data.ResultData);
                         break;
                 }
             }

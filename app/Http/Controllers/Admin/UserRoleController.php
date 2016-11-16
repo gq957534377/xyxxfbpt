@@ -9,9 +9,16 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Services\UserRoleService;
 
 class UserRoleController extends Controller
 {
+    protected static $userRoleServer = null;
+    // 构造函数注入服务
+    public function __construct(UserRoleService $userRoleService)
+    {
+        self::$userRoleServer = $userRoleService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +26,7 @@ class UserRoleController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.user.user');
     }
 
     /**
@@ -27,9 +34,15 @@ class UserRoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $data = $request->all();
+        if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        $result = self::$userRoleServer->getData($data);
+        // 如果$result返回错误
+        if(!$result['status'])
+            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 
     /**
@@ -74,17 +87,30 @@ class UserRoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        if (!isset($id) || empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        $result = self::$userRoleServer->updataUserInfo(['guid' => $id], $data);
+        $result['data'] = $result['msg'];
+        if($result['status'] == 400)
+            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @author wang fei long
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $p = (isset($id) || !empty($data) || isset($data['status']));
+        if (!$p) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        $result = self::$userRoleServer->deleteUserData($data, $id);
+        // 如果$result返回错误
+        if($result['status'] == 400)
+            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 }

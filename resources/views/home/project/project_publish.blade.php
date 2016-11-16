@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="{{url('/qiniu/bootstrap/css/bootstrap.css')}}">
 <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/highlight/highlight.css')}}">
 <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/uploadbox.css')}}">
+<script type="text/javascript" src="{{url('/qiniu/js/jquery.js')}}"></script>
 <!-- <link href="//vjs.zencdn.net/5.0/video-js.min.css" rel="stylesheet"> -->
     <meta name="_token" content="{{csrf_token()}}">
     <style>
@@ -17,10 +18,10 @@
 <img src="{{asset('/admin/images/load.gif')}}" class="loading">
 
     <div class="container">
-        {{--七牛token以domain--}}
+        <!--七牛token及domain-->
         <div class="text-left col-md-12 ">
             <input type="hidden" id="domain" value="http://ogd29n56i.bkt.clouddn.com/">
-            <input type="hidden" id="uptoken_url" value="{{url('getuptoken')}}">
+            <input type="hidden" id="uptoken_url" value="{{url('project/getuptoken/edit')}}">
         </div>
 
         <div class="body uploadbox col-md-8 col-md-offset-2">
@@ -43,39 +44,34 @@
                 <input  type ='hidden' name = "image"/>
                 <input  type ='hidden' name = "file"/>
 
-                <div class="col-md-12 upload_btn_box">
-                      <div id="container">
-                          <button class="btn btn-primary btn-sm" type="button" id="pickfiles">选择图片</button>
+                      <div id="img_container">
+                          <button class="btn btn-primary btn-sm" type="button" id="img_pick">选择图片</button>
+                          <button class="btn btn-primary btn-sm" type="button" id="file_pick">选择资料</button>
                       </div>
 
-                      {{--<div id="container2">--}}
-                           {{--<button class="btn btn-primary btn-sm" type="button" id="pickfiles2">选择资料</button>--}}
+                      {{--<div id="file_container">--}}
+                           {{--<button class="btn btn-primary btn-sm" type="button" id="file_pick">选择资料</button>--}}
                       {{--</div>--}}
+
+                <div class="col-md-12 table_box">
+                    <table class="table table-striped table-hover"   style="margin-top:40px;display:none">
+                        <thead>
+                          <tr>
+                            <th class="col-md-4">文件名</th>
+                            <th class="col-md-2">文件大小</th>
+                            <th class="col-md-6">详情</th>
+                          </tr>
+                        </thead>
+                        <tbody id="fsUploadProgress">
+                        </tbody>
+                        <tbody id="fsUploadProgress2">
+                        </tbody>
+                    </table>
                 </div>
-                {{--<button class="btn btn-primary " type="submit" id="submit">提交</button>--}}
+                <button class="btn btn-primary " type="submit" id="submit">提交</button>
             </form>
-
-            <div class="col-md-12 table_box">
-                <table class="table table-striped table-hover"   style="margin-top:40px;display:none">
-                    <thead>
-                      <tr>
-                        <th class="col-md-4">文件名</th>
-                        <th class="col-md-2">文件大小</th>
-                        <th class="col-md-6">详情</th>
-                      </tr>
-                    </thead>
-                    <tbody id="fsUploadProgress">
-                    <tr class = "_imgtr"></tr>
-                    <tr class = "_filetr"></tr>
-                    </tbody>
-                    <tbody id="fsUploadProgress2">
-                    </tbody>
-                </table>
-            </div>
         </div>
-
-
-</div>
+    </div>
 
 @include('home.validator.publishValidator')
 
@@ -86,6 +82,7 @@
 <script type="text/javascript" src="{{url('/qiniu/js/qiniu.js')}}"></script>
 <script type="text/javascript" src="{{url('/qiniu/js/ui.js')}}"></script>
 <script type="text/javascript" src="{{url('/qiniu/js/main.js')}}"></script>
+<script type="text/javascript" src="{{url('/qiniu/js/ui2.js')}}"></script>
 <script type="text/javascript" src="{{url('/qiniu/js/main2.js')}}"></script>
 
 </html>

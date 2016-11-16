@@ -1,4 +1,15 @@
 @extends('home.layouts.index')
+@section('style')
+    <script type="text/javascript" src="{{url('/qiniu/js/jquery.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/uploadbox.css')}}">
+    <script type="text/javascript" src="{{url('/qiniu/js/plupload/plupload.full.min.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/plupload/i18n/zh_CN.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/qiniu.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/ui.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/main.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/ui2.js')}}"></script>
+    <script type="text/javascript" src="{{url('/qiniu/js/main2.js')}}"></script>
+@endsection
 @section('content')
     <section id="contact-page">
         <div class="container main-container">
@@ -45,6 +56,7 @@
                                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                             <h4 class="modal-title" id="myModalLabel">创业者申请</h4>
                                         </div>
+                                        <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
                                         <form id="entrepreneur" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label for="" class="col-sm-2 control-label">真实姓名</label>
@@ -104,8 +116,60 @@
                                 </div>
                             </div>
                             <!--申请成为创业者 end-->
-                            <a href="#" class="list-group-item ">
-                                <i class="text-md fa fa-flask" aria-hidden="true"></i>&nbsp;账号绑定</a>
+
+                            <!--项目发布 start-->
+                            <a href="#" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
+                                <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
+                            </a>
+                            <!--项目发布弹出层 start-->
+                            <div class="modal fade" id="_projectPunlish" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                            <h4 class="modal-title" id="myModalLabel">项目发布</h4>
+                                        </div>
+                                        <!--引入项目发布表单元素-->
+                                        <form id = "projectForm" class="form-horizontal" style="padding-bottom: 20px;">
+                                            <div class = "col-sm-10 col-sm-offset-1">
+                                                <input name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
+                                                <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介"></textarea>
+                                            </div>
+                                            <div class = "col-sm-6">
+                                                <div id="img_container" style="margin-top: 30px;">
+                                                    <button class="btn btn-info btn-sm" type="button" id="img_pick">选择图片</button>
+                                                    <button class="btn btn-info btn-sm" type="button" id="file_pick">选择资料</button>
+                                                </div>
+                                            </div>
+                                            <!--隐藏表单区-->
+                                            <input  type ='hidden' name = "image"/>
+                                            <input  type ='hidden' name = "file"/>
+                                            <input type="hidden" id="domain" value="http://ogd29n56i.bkt.clouddn.com/">
+                                            <input type="hidden" id="uptoken_url" value="{{url('project/getuptoken/edit')}}">
+
+                                            <div class = "col-sm-10 col-sm-offset-1">
+                                                <table class="table table-striped table-hover"   style="margin-top:40px;display:none">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="col-md-4">文件名</th>
+                                                        <th class="col-md-2">大小</th>
+                                                        <th class="col-md-6">详情</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody id="fsUploadProgress">
+                                                    </tbody>
+                                                    <tbody id="fsUploadProgress2">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                                <button class="btn btn-info" type="submit" style="margin-left: 70%;margin-top: 40px;">提交</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--项目发布弹出层 end-->
+                            <!--项目发布 end-->
                         </div>
                     </div>
                 </div>
@@ -170,11 +234,11 @@
             </div>
         </div><!--/.container-->
     </section><!--/#contact-page-->
-
+    @include('home.validator.publishValidator')
 @endsection
 
 @section('script')
-{{--@include('home.ajax.userinfo')--}}
+@include('home.user.ajax.ajaxRequire')
 <script>
     $(function(){
         // 用户信息获取
@@ -238,8 +302,6 @@
                         $(".loading").hide();
                         break;
                 }
-
-
             }
         });
 
@@ -251,34 +313,10 @@
                 'realname' : user_realname.val(),
                 'hometown' : user_hometown.val(),
                 'birthday' : user_birthday.val(),
-                'sex': user_sex.val(),
+                'sex':  $('input:radio[name="user_sex"]:checked').val(),
                 'tel' : user_phone.val()
             };
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type:'PUT',
-                data:data,
-                url:url+'/'+guid,
-                beforeSend:function(){
-                    $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
-                },
-                success:function(msg){
-                    switch (msg.StatusCode){
-                        case '400':
-                            promptBoxHandle('警告',msg.ResultData);
-                            $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
-                            break;
-                        case '200':
-                            promptBoxHandle('提示',msg.ResultData);
-                            $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).hide();
-                            break;
-                    }
-                }
-            });
+            ajaxRequire(url+'/'+guid,'PUT',data,$("#userBox"),2);
         });
 
         // 异步上传头像
@@ -286,62 +324,18 @@
             var headPicForm = new FormData(document.getElementById("headPicForm"));
             headPicForm.append('guid',guid);
             var url = '/headpic';
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type:'POST',
-                url:url,
-                data:headPicForm,
-                processData: false,  // 告诉jQuery不要去处理发送的数据
-                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-                success:function(msg){
-                    switch (msg.StatusCode){
-                        case '400':
-                            promptBoxHandle('警告',msg.ResultData);
-                            break;
-                        case '200':
-                            promptBoxHandle('提示',msg.ResultData);
-                            break;
-                    }
-                }
-            });
+            ajaxRequire('/headpic','POST',headPicForm,$("#userBox"),1);
         });
 
         // 申请成为创业者
         $("#applySubmit").click(function(){
             var formData = new FormData(document.getElementById("entrepreneur"));
             formData.append('guid',guid);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: '/user',
-                type: "POST",
-                data: formData,
-                processData: false,  // 告诉jQuery不要去处理发送的数据
-                contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
-                success:function(msg){
-                   switch(msg.StatusCode){
-                       case '404':
-                           promptBoxHandle('警告',msg.ResultData);
-                           break;
-                       case '400':
-                           promptBoxHandle('警告',msg.ResultData);
-                           break;
-                       case '200':
-                           promptBoxHandle('提示',msg.ResultData);
-                           break;
-                   }
-                }
-            });
-            $('#promptModal').click();
+            ajaxRequire('/user','POST',formData,$('#entrepreneur'),1);
         });
     });
 </script>
+@include('home.user.ajax.ajaxRequire')
 @include('home.validator.UpdateValidator')
+
 @endsection

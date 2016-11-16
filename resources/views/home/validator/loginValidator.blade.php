@@ -43,10 +43,9 @@
                         success:function(data){
                             switch (data.StatusCode){
                                 case '400':
-                                    alert(data.ResultData);
+                                    promptBoxHandle('警告',data.ResultData);
                                     break;
                                 case '200':
-                                    alert(data.ResultData);
                                     window.location = '/';
                                     break;
                             }
