@@ -42,10 +42,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         // 用户管理
         Route::resource('/user', 'UserController');
         Route::resource('/user_role', 'UserRoleController');
-//        Route::get('/users_page', 'UserController@getUserData');
-//        Route::put('/users_data', 'UserController@updateData');
-//        Route::delete('/users_data', 'UserController@deleteData');
-//        Route::get('/users_one_data', 'UserController@getOneData');
         //众筹
         Route::resource('/project_approval', 'CrowdFundingController');
         //众筹修改内容
