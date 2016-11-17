@@ -58,14 +58,16 @@ class ActionService
         $endtime = strtotime($data["end_time"]);
         $deadline = strtotime($data["deadline"]);
         $starttime = strtotime($data["start_time"]);
-        if($endtime>$starttime&&$starttime>$deadline){
+        if($endtime>$starttime&&$starttime>$deadline&&$deadline>time()){
             return ['status'=>true];
         }elseif($endtime<$starttime){
-            return ['status'=>true,"msg"=>"结束日期不可早于开始日期"];
+            return ['status'=>false,"msg"=>"结束日期不可早于开始日期"];
         }elseif($endtime<$deadline){
-            return ['status'=>true,"msg"=>"结束日期不可早于报名截止日期"];
+            return ['status'=>false,"msg"=>"结束日期不可早于报名截止日期"];
+        }elseif($deadline<time()){
+            return ['status'=>false,"msg"=>"报名截止日期不可早于当前日期"];
         }else{
-            return ['status'=>true,"msg"=>"开始日期不可早于报名截止日期"];
+            return ['status'=>false,"msg"=>"开始日期不可早于报名截止日期"];
         }
     }
 

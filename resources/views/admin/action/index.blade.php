@@ -315,7 +315,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-2" class="control-label">主讲人</label>
-                                <input type="text" class="form-control" id="xq_speaker" placeholder="Doe" disabled="true">
+                                <input type="text" class="form-control" id="xq_author" placeholder="Doe" disabled="true">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -511,8 +511,9 @@
                         });
                         var data = new FormData();
                         var resul={
+                            type:$('#yz_xg').find('input[name=action]').val(),
                             title:$('#yz_xg').find('input[name=title]').val(),
-                            speaker:$('#yz_xg').find('input[name=speaker]').val(),
+                            author:$('#yz_xg').find('input[name=author]').val(),
                             group:$('#yz_xg').find('select[name=group]').val(),
                             banner:$('#yz_xg').find('input[name=banner]').val(),
                             end_time:$('#yz_xg').find('input[name=end_time]').val(),
@@ -524,15 +525,15 @@
                             describe:ue1.getContent(),
                         };
                         console.log(resul);
+                        data.append( "action"      , resul.action);
                         data.append( "title"      , resul.title);
-                        data.append( "speaker"     , resul.speaker);
+                        data.append( "author"     , resul.author);
                         data.append( "group"       ,resul.group);
                         data.append( "start_time"     , resul.start_time);
                         data.append( "brief"   , resul.brief);
                         data.append( "describe", resul.describe);
                         data.append( "banner", resul.banner);
                         data.append( "end_time", resul.end_time);
-                        data.append( "start_time", resul.start_time);
                         data.append( "address", resul.address);
                         data.append( "limit", resul.limit);
                         $.ajax({
@@ -580,7 +581,7 @@
                         limit: {
                             required: true
                         },
-                        speaker:{
+                        author:{
                             required: true,
                         },
                         group:{
@@ -604,7 +605,7 @@
                         title: {
                             required: '请输入路演主题'
                         },
-                        speaker:{
+                        author:{
                             required: '请输入主讲人'
                         },
                         group:{
