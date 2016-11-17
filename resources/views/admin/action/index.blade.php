@@ -394,11 +394,27 @@
 
 <div class="wraper container-fluid">
     <div class="page-title">
-        <h3 class="title">活动管理</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="title">活动管理</h3>
+            </div>
+            <div class="col-md-4">
+                <select class="form-control" id="xz_type" name="xz_type">
+                    <option value="1">路演</option>
+                    <option value="2">比赛</option>
+                    <option value="3">学习</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button class="btn-primary" onclick="listType(list_type,1)">查看</button>
+            </div>
+        </div>
+
+
         <br>
-        <button class="btn-primary" onclick="listType(1)">报名中</button>
-        <button class="btn-danger" onclick="listType(2)">活动进行中...</button>
-        <button class="btn-primary" onclick="listType(3)">往期回顾</button>
+        <button class="btn-primary" onclick="listType(list_type,1)">报名中</button>
+        <button class="btn-danger" onclick="listType(list_type,2)">活动进行中...</button>
+        <button class="btn-primary" onclick="listType(list_type,3)">往期回顾</button>
     </div>
     <div class="panel" id="data"></div>
 </div>
@@ -458,13 +474,14 @@
                 }
             });
         });
-
     </script>
     <script>
-        var list_type = 1;
-        function listType(type) {
+        var list_type = null;
+        var list_status = 1;
+        function listType(type,status) {
             list_type = type;
-            list(type);
+            list_status = status;
+            list(type,status);
         }
         {{--修改--}}
                 !function($) {
@@ -526,8 +543,8 @@
                             if (data) {
                                 if (data.ServerNo == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
-                                    $('#alert-info').html('<p>路演活动修改成功!</p>');
-                                    list(list_type);
+                                    $('#alert-info').html('<p>活动修改成功!</p>');
+                                    list(resul.type,1);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -697,7 +714,7 @@
                                     $('#yz_fb').find('input[name=start_time]').val('');
                                     $('#yz_fb').find('textarea[name=brief]').val('');
                                     ue.setContent('');
-                                    list(list_type);
+                                    list(resul.type,1);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -865,8 +882,8 @@
                             } else if (_this.children().hasClass("btn-primary")) {
                                 _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
                             }
-                            $('#alert-info').html('<p>数据修改成功!</p>');
-                            list(list_type);
+                            $('#alert-info').html('<p>状态修改成功!</p>');
+                            list(list_type,list_status);
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');
@@ -880,15 +897,15 @@
         }
 
         // 页面加载时触发事件请求分页数据
-        function list(type) {
+        function list(type,status) {
             var ajax = new ajaxController();
             ajax.ajax({
-                url     : '/road_info_page?type='+type+'?',
+                url     : '/action/create?type='+type+'&status='+status,
                 before  : ajaxBeforeModel,
                 success : getInfoList,
                 error   : ajaxErrorModel,
             });
         }
-        list(list_type);
+        list(list_type,list_status);
     </script>
 @endsection
