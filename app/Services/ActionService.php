@@ -78,24 +78,24 @@ class ActionService
     public function selectData($request)
     {
         $data = $request->all();
-        $forPages = 10;//一页的数据
-        $nowPages = isset($data["nowPages"])?(int)$data["nowPages"]:1;
+        $forPages = 1;//一页的数据
+        $nowPage = isset($data["nowPage"])?(int)$data["nowPage"]:1;
         $status = $data["status"];
         $type = $data["type"];
         $where =[];
         if($status){
             $where["status"] = $status;
         }
-        if($type){
+        if($type!="null"){
             $where["type"] = $type;
         }
-        $creatPage = Common::getPageUrls($request,"data_action_info","action/create",$forPages,null,$where);
+        $creatPage = Common::getPageUrls($data,"data_action_info","/action/create",$forPages,null,$where);
         if(isset($creatPage)){
-            $result["page"]=$creatPage;
+            $result["pages"]=$creatPage['pages'];
         }else{
             return ['status'=>false,'msg'=>'生成分页样式发生错误'];
         }
-        $Data = self::$actionStore->forPage($nowPages,$forPages,$where);
+        $Data = self::$actionStore->forPage($nowPage,$forPages,$where);
         if($Data["status"]){
             $result["data"] = $Data["data"];
             return ['status'=>true,'msg'=>$result];

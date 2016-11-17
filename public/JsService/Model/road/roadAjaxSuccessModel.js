@@ -7,6 +7,7 @@
 function getInfoList(data){
     $('.loading').hide();
     if (data) {
+        console.log(data);
         if (data.StatusCode == 200) {
             if(data.ResultData.data == '') {
                 $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
