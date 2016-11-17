@@ -50,7 +50,7 @@ class RoadService {
      * @return roadStore|null
      * author 郭庆
      */
-    public static function getNewroad()
+    public static function getNewRoad()
     {
         $where = ['status'=>1];
         $info  =  self::$roadStore->getSomeData($where);
@@ -63,7 +63,7 @@ class RoadService {
      * @return \Illuminate\Http\Response
      * @author 郭庆
      */
-    public static function getHistoryroad()
+    public static function getHistoryRoad()
     {
         $where = ['status'=>3];
         return self::$roadStore->getSomeData($where);

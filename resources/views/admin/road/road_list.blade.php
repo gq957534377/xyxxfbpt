@@ -11,12 +11,6 @@
      .uploadify{display:inline-block;}
     .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
     table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
-    /*.form-control{*/
-        /*display: block;*/
-        /*width: 104% !important;*/
-        /*padding-left: 0 !important;*/
-    /*}*/
-    input[type='datetime-local']{width: 106% !important;padding-left: 0 !important;}
 </style>
 @section('content')
 @section('title', '路演管理')
@@ -75,19 +69,23 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-4" class="control-label">路演开始时间：</label>
-                            <input type="datetime-local" class="form-control" id="start_time" name="start_time">
+                            {{--<input type="datetime-local" class="form-control" id="start_time" name="start_time">--}}
+                            <input type="text" class="some_class form-control" value="" id="start_time" name="start_time"/>
+
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-4" class="control-label">路演结束时间：</label>
-                            <input type="datetime-local" class="form-control" id="end_time" name="end_time">
+                            {{--<input type="datetime-local" class="form-control" id="end_time" name="end_time">--}}
+                            <input type="text" class="some_class form-control" value="" id="end_time" name="end_time"/>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-4" class="control-label">截止报名时间：</label>
-                            <input type="datetime-local" class="form-control" id="deadline" name="deadline">
+                            {{--<input type="datetime-local" class="form-control" id="deadline" name="deadline">--}}
+                            <input type="text" class="some_class form-control" value="" id="deadline"/>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -139,7 +137,7 @@
     </div>
 </div><!-- /.modal -->
 {{--修改路演表单--}}
-<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal fade bs-example-modal-lg" id="xg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -178,19 +176,19 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-4" class="control-label">路演开始时间：</label>
-                            <input type="datetime-local" class="form-control" id="xg_start_time" name="start_time">
+                            <input type="text" class="some_class form-control" id="xg_start_time" name="start_time">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-4" class="control-label">路演结束时间：</label>
-                            <input type="datetime-local" class="form-control" id="xg_end_time" name="end_time">
+                            <input type="text" class="some_class form-control" id="xg_end_time" name="end_time">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-4" class="control-label">截止报名时间：</label>
-                            <input type="datetime-local" class="form-control" id="xg_deadline" name="deadline">
+                            <input type="text" class="some_class form-control" id="xg_deadline" name="deadline">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -245,32 +243,32 @@
                 <li class="">
                     <a href="#home-2" data-toggle="tab" aria-expanded="false">
                         <span class="visible-xs"><i class="fa fa-home"></i></span>
-                        <span class="hidden-xs">Home</span>
+                        <span class="hidden-xs">宣传图</span>
                     </a>
                 </li>
                 <li class="">
                     <a href="#profile-2" data-toggle="tab" aria-expanded="false">
                         <span class="visible-xs"><i class="fa fa-user"></i></span>
-                        <span class="hidden-xs">Many</span>
+                        <span class="hidden-xs">主信息</span>
                     </a>
                 </li>
                 <li class="active">
                     <a href="#messages-2" data-toggle="tab" aria-expanded="true">
                         <span class="visible-xs"><i class="fa fa-envelope-o"></i></span>
-                        <span class="hidden-xs">Brief</span>
+                        <span class="hidden-xs">简述</span>
                     </a>
                 </li>
                 <li class="">
                     <a href="#settings-2" data-toggle="tab" aria-expanded="false">
                         <span class="visible-xs"><i class="fa fa-cog"></i></span>
-                        <span class="hidden-xs">Describe</span>
+                        <span class="hidden-xs">详情</span>
                     </a>
                 </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane" id="home-2">
                     <div>
-                        <img src="/admin/images/banner.png" id="xq_banner" style="max-width: 100%;max-height: 20%;">
+                        <img src="/admin/images/banner.png" id="xq_banner" style="max-width: 100%;max-height: 500px;">
                     </div>
                 </div>
                 <div class="tab-pane" id="profile-2">
@@ -305,15 +303,15 @@
                             <div class="row">
                                 <div class="col-md-4">
                                     <label for="field-3" class="control-label">路演开始时间</label>
-                                    <input type="datetime-local" class="form-control" id="xq_start_time" placeholder="start time..." disabled="true">
+                                    <input type="text" class="some_class form-control " id="xq_start_time" placeholder="start time..." disabled="true">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="field-3" class="control-label">路演结束时间</label>
-                                    <input type="datetime-local" class="form-control" id="xq_end_time" placeholder="end time..." disabled="true">
+                                    <input type="text" class="some_class form-control" id="xq_end_time" placeholder="end time..." disabled="true">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="field-3" class="control-label">报名截止</label>
-                                    <input type="datetime-local" class="form-control" id="xq_deadline" placeholder="end time..." disabled="true">
+                                    <input type="text" class="some_class form-control" id="xq_deadline" placeholder="end time..." disabled="true">
                                 </div>
                             </div>
                         </div>
@@ -342,7 +340,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">路演信息发布时间</label>
-                                <input type="datetime-local" class="form-control" id="xq_time" placeholder="United States" disabled="true">
+                                <input type="text" class="some_class form-control" id="xq_time" placeholder="United States" disabled="true">
                             </div>
                         </div>
                     </div>
@@ -495,6 +493,7 @@
                             error   : ajaxErrorModel
                         });
                         function check(data){
+                            console.log(data);
                             $('.loading').hide();
                             $('#myModal').modal('show');
                             $('#alert-form').html('');
@@ -654,6 +653,7 @@
                             $('#myModal').modal('show');
                             $('#alert-form').html('');
                             $('.modal-title').html('提示');
+                            console.log(data);
                             if (data) {
                                 if (data.ServerNo == 200) {
                                     $('#con-close-modal').modal('hide');
@@ -820,6 +820,7 @@
                                 _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
                             }
                             $('#alert-info').html('<p>数据修改成功!</p>');
+                            list(list_type);
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');
