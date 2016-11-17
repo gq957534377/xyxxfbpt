@@ -128,11 +128,11 @@ class ActionService
 
     public function changeStatus($guid,$status)
     {
-        if(is_string($guid)||!is_string($status)){
-            return ['status'=>false,'msg'=>"缺少参数！"];
+        if(!(isset($guid)&&isset($status))){
+            return ['status'=>false,'msg'=>"参数有误 ！"];
         }
-        if($status == "1"){
-            $status = 2;
+        if($status == 1){
+            $status = 3;
         }else{
             $status = 1;
         }

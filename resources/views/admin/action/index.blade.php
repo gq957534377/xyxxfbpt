@@ -843,7 +843,7 @@
                 $('.loading').hide();
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/road/' + $(this).data('name'),
+                    url     : '/action/' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : date,
                     error   : ajaxErrorModel
@@ -871,19 +871,18 @@
                 var _this = $(this);
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/road/create?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
+                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
                     error   : ajaxErrorModel
                 });
 
                 function checkStatus(data){
-                    console.log(data);
                     $('.loading').hide();
                     $('#myModal').modal('show');
                     $('.modal-title').html('提示');
                     if (data) {
-                        if (data.ServerNo == 200) {
+                        if (data.StatusCode == 200) {
                             var code = data.ResultData;
                             $('#alert-form').hide();
                             _this.data('status', code);
@@ -896,7 +895,7 @@
                             list(list_type,list_status);
                         } else {
                             $('#alert-form').hide();
-                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                            $('#alert-info').html('<p>状态修改失败！</p>');
                         }
                     } else {
                         $('#alert-form').hide();

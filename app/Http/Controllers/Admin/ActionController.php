@@ -88,8 +88,8 @@ class ActionController extends Controller
     public function edit($id)
     {
         //
-        $guid = self::$request->input("id");
-        $result = self::$actionServer->changeStatus($guid,$id);
+        $status = self::$request->input("status");
+        $result = self::$actionServer->changeStatus($id,$status);
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
         }else{
