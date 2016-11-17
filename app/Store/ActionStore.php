@@ -42,4 +42,12 @@ class ActionStore
         $result["status"] = true;
         return $result;
     }
+
+    public function getData($where)
+    {
+        if(!is_array($where)) return null;
+        $result["data"] = DB::table(self::$table)->where($where)->get();
+        $result["status"] = true;
+        return $result;
+    }
 }

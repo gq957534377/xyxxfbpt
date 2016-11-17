@@ -103,4 +103,24 @@ class ActionService
             return ['status'=>false,'msg'=>"数据参数有误！"];
         }
     }
+
+    /**
+     * 查询相关数据
+     * @param $guid
+     * @return array
+     * author 张洵之
+     */
+    public function getData($guid)
+    {
+        if(is_string($guid)){
+            return ['status'=>false,'msg'=>"缺少参数！"];
+        }
+        $Data = self::$actionStore->getData(["guid"=>$guid]);
+        if($Data["status"]){
+            $result["data"] = $Data["data"];
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>"数据参数有误！"];
+        }
+    }
 }

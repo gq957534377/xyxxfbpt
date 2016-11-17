@@ -71,7 +71,12 @@ class ActionController extends Controller
      */
     public function show($id)
     {
-        
+        $result = self::$actionServer->getData($id);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
     }
 
     /**
