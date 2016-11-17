@@ -13,7 +13,7 @@ class ActionController extends Controller
 {
     protected static $request;
     protected  static $actionServer;
-    public function __construct(Requests $request,ActionServer $actionServer)
+    public function __construct(Request $request,ActionServer $actionServer)
     {
         self::$actionServer = $actionServer;
         self::$request = $request;
@@ -25,7 +25,7 @@ class ActionController extends Controller
      */
     public function index()
     {
-        return view();
+        return view('admin.action.index');
     }
 
     /**
@@ -47,22 +47,9 @@ class ActionController extends Controller
      */
     public function store()
     {
+
         //
         $data = self::$request->all();
-        $validator = Validator::make($data, [
-            'title' => 'required|max:64',
-            'type' => 'required|max:1',
-            'address'=>'required|max:64',
-            'author'=>'required|max:32',
-            'brief'=>'required',
-            'describe'=>'required',
-            'start_time'=>'required',
-            'deadline'=>'required',
-            'end_time'=>'required',
-            'group'=>'required|max:64',
-            'banner'=>'required|max:255',
-            'limit'=>'required|max:11'
-        ]);
         $result = self::$actionServer->insertData($data);
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
