@@ -685,6 +685,18 @@
                                 if (data.StatusCode == 200) {
                                     $('#con-close-modal').modal('hide');
                                     $('#alert-info').html('<p>活动发布成功!</p>');
+                                    $('#yz_fb').find('input[name=title]').val('');
+                                    $('#yz_fb').find('input[name=end_time]').val('');
+                                    $('#yz_fb').find('input[name=deadline]').val('');
+                                    $('#yz_fb').find('input[name=address]').val('');
+                                    $('#yz_fb').find('input[name=limit]').val('');
+                                    $('#yz_fb').find('input[name=author]').val('');
+                                    $('#yz_fb').find('input[name=banner]').val('');
+                                    $('#action_thumb_img').attr('src','');
+                                    $('#yz_fb').find('select[name=group]').val('');
+                                    $('#yz_fb').find('input[name=start_time]').val('');
+                                    $('#yz_fb').find('textarea[name=brief]').val('');
+                                    ue.setContent('');
                                     list(list_type);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
@@ -693,18 +705,7 @@
                                 $('#alert-info').html('<p>未知的错误</p>');
                             }
                         }
-                        $('#yz_fb').find('input[name=title]').val('');
-                        $('#yz_fb').find('input[name=end_time]').val('');
-                        $('#yz_fb').find('input[name=deadline]').val('');
-                        $('#yz_fb').find('input[name=address]').val('');
-                        $('#yz_fb').find('input[name=limit]').val('');
-                        $('#yz_fb').find('input[name=author]').val('');
-                        $('#yz_fb').find('input[name=banner]').val('');
-                        $('#action_thumb_img').attr('src','');
-                        $('#yz_fb').find('select[name=group]').val('');
-                        $('#yz_fb').find('input[name=start_time]').val('');
-                        $('#yz_fb').find('textarea[name=brief]').val('');
-                        ue.setContent('');
+
                     }
                 });
                 this.$signupForm.validate({
@@ -882,7 +883,7 @@
         function list(type) {
             var ajax = new ajaxController();
             ajax.ajax({
-                url     : '/road_info_page?type='+type,
+                url     : '/road_info_page?type='+type+'?',
                 before  : ajaxBeforeModel,
                 success : getInfoList,
                 error   : ajaxErrorModel,
