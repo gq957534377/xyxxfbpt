@@ -34,9 +34,10 @@ function getInfoList(data){
 function listHtml(data){
     var html = '';
     console.log(data);
-    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th>活动主题</th><th>负责人</th><th>活动时间</th><th>截止报名</th><th>报名人数限定</th><th>报名人数</th><th>操作</th></tr></thead><tbody>';
+    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th>活动类型</th><th>活动主题</th><th>负责人</th><th>活动时间</th><th>截止报名</th><th>报名人数限定</th><th>报名人数</th><th>操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
+        html += '<td>' + type(e.type)+ '</td>';
         html += '<td>' + e.title+ '</td>';
         html += '<td>' + e.author + '</td>';
         html += '<td>' + e.start_time + '--'+e.end_time+'</td>';
@@ -74,17 +75,17 @@ function getPage() {
     });
 }
 
-function group(type) {
+function type(type) {
     var res;
     switch (type){
         case 1:
-            res = '英雄会';
+            res = '路演活动';
             break;
         case 2:
-            res = '兄弟会';
+            res = '大赛';
             break;
         default:
-            res = '无名组织';
+            res = '学习';
             break;
     }
     return res;

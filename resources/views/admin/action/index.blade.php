@@ -298,10 +298,16 @@
                 </div>
                 <div class="tab-pane" id="profile-2">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label for="field-1" class="control-label">路演主题</label>
                                 <input type="text" id="xq_title" class="form-control" disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">活动类型</label>
+                                <input type="text" id="xq_type" class="form-control" disabled="true">
                             </div>
                         </div>
                     </div>
@@ -406,7 +412,7 @@
                 </select>
             </div>
             <div class="col-md-4">
-                <button class="btn-primary" onclick="listType(list_type,1)">查看</button>
+                <button class="btn-primary" id="chakan">查看</button>
             </div>
         </div>
 
@@ -483,6 +489,9 @@
             list_status = status;
             list(type,status);
         }
+        $('#chakan').click(function(){
+            listType($('#xz_type').val(),1);
+        });
         {{--修改--}}
                 !function($) {
             "use strict";
@@ -846,7 +855,7 @@
             $('.info').click(function () {
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/road/' + $(this).data('name'),
+                    url     : '/action/' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : showInfoList,
                     error   : ajaxErrorModel

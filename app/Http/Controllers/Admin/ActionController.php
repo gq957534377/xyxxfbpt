@@ -71,7 +71,7 @@ class ActionController extends Controller
      */
     public function show($id)
     {
-        
+
     }
 
     /**
