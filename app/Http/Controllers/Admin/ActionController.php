@@ -59,7 +59,6 @@ class ActionController extends Controller
             'start_time'=>'required',
             'deadline'=>'required',
             'end_time'=>'required',
-            'people'=>'required|max:11',
             'group'=>'required|max:64',
             'banner'=>'required|max:255',
             'limit'=>'required|max:11'
