@@ -22,40 +22,210 @@ function initial() {
         //重设按钮颜色
         $('.btn-success').removeClass('btn-success').addClass('btn-default');
         $(this).addClass('btn-success');
+        $(this).parent().parent().siblings('button').addClass('btn-success');
         //设置请求参数，更改标题
         var data = null;
         var tmp = $(this).data('name');
-        if(tmp == 'normal') {
-            user_role = '1';
+        // 普通用户 0-2
+        if(tmp == 'user_normal') {
+            user = 0;
             $('#user_title').text('普通用户');
         }
-        if(tmp == 'entrepreneurs') {
-            user_role = '2';
+        if(tmp == 'user_normal_disabled') {
+            user = 1;
+            $('#user_title').text('禁用普通用户');
+        }
+        if(tmp == 'user_normal_deleted') {
+            user = 2;
+            $('#user_title').text('已停用普通用户');
+        }
+        // 创业者 3-5
+        if(tmp == 'user_entrepreneurs') {
+            user = 3;
             $('#user_title').text('创业者用户');
+            $('#checking').addClass('btn-success');
         }
-        if(tmp == 'investor') {
-            user_role = '3';
+        if(tmp == 'user_entrepreneurs_disabled') {
+            user = 4;
+            $('#user_title').text('已禁用创业者用户');
+            $('#checking').addClass('btn-success');
+        }
+        if(tmp == 'user_entrepreneurs_deleted') {
+            user = 5;
+            $('#user_title').text('已停用创业者用户');
+            $('#checking').addClass('btn-success');
+        }
+        // 投资者 6-8
+        if(tmp == 'user_investor') {
+            user = 6;
             $('#user_title').text('投资者用户');
+            $('#checking').addClass('btn-success');
         }
+        if(tmp == 'user_investor_disabled') {
+            user = 7;
+            $('#user_title').text('已禁用投资者用户');
+            $('#checking').addClass('btn-success');
+        }
+        if(tmp == 'user_investor_deleted') {
+            user = 8;
+            $('#user_title').text('已停用投资者用户');
+            $('#checking').addClass('btn-success');
+        }
+        // 待审核 9-10
         if(tmp == 'check_entrepreneurs') {
-            user_role = '4';
+            user = 9;
             $('#user_title').text('待审核创业者用户');
             $('#checking').addClass('btn-success');
         }
         if(tmp == 'check_investor') {
-            user_role = '5';
+            user = 10;
             $('#user_title').text('待审核投资者用户');
             $('#checking').addClass('btn-success');
         }
-        data = {
-            role : user_role
-        };
-        if(data.role == '1' || data.role == '2' || data.role == '3')
-            load('/user/create', data, 'GET', showNormal);
-        if(data.role == '4' || data.role == '5')
-            load('/user_role/create', data, 'GET', showCheckInvestor);
+        // 审核失败 11-12
+        if(tmp == 'check_entrepreneurs_fail') {
+            user = 11;
+            $('#user_title').text('审核失败创业者用户');
+            $('#checking').addClass('btn-success');
+        }
+        if(tmp == 'check_investor_fail') {
+            user = 12;
+            $('#user_title').text('审核失败投资者用户');
+            $('#checking').addClass('btn-success');
+        }
 
+        data = roleData(user);
+
+        console.log(handle);
+
+        if(data.role == 1 || data.role == 2 || data.role == 3)
+            load('/user/create', data, 'GET', function (data) {
+                checkResponse(data, window.handle, listUserShow);
+            });
+        if(data.role == 4 || data.role == 5)
+            load('/user_role/create', data, 'GET', function (data) {
+                checkResponse(data, window.handle, listRoleShow);
+            });
     });
+}
+
+// 根据user返回data
+function roleData(user) {
+    //////////////////////普通用户
+    if(user == 0)
+        data = {
+            role : 1,
+            status : 1
+        };
+    if(user == 1)
+        data = {
+            role : 1,
+            status : 2
+        };
+    if(user == 2)
+        data = {
+            role : 1,
+            status : 3
+        };
+        ////////////////////创业者用户
+    if(user == 3)
+        data = {
+            role : 2,
+            status : 1
+        };
+    if(user == 4)
+        data = {
+            role : 2,
+            status : 2
+        };
+    if(user == 5)
+        data = {
+            role : 2,
+            status : 3
+        };
+        //////////////////////投资者用户
+    if(user == 6)
+        data = {
+            role : 3,
+            status : 1
+        };
+    if(user == 7)
+        data = {
+            role : 3,
+            status : 2
+        };
+    if(user == 8)
+        data = {
+            role : 3,
+            status : 3
+        };
+        //////////////////////待审核
+    if(user == 9)
+        data = {
+            role : 4,
+            status : 1
+        };
+    if(user == 10)
+        data = {
+            role : 5,
+            status : 1
+        };
+    /////////////////////////审核失败
+    if(user == 11)
+        data = {
+            role : 4,
+            status : 3
+        };
+    if(user == 12)
+        data = {
+            role : 5,
+            status : 3
+        };
+
+    return data;
+}
+
+// 根据user返回data
+function numberData(number) {
+       // user_unlock
+    if(number == 0)
+        return data = {
+            status : 1
+        };
+        // user_lock
+    if(number == 1)
+        return data = {
+            status : 2
+        };
+        // user_delete
+    if(number == 2)
+        return data = {
+            status : 3
+        };
+        // user_un_delete
+    if(number == 3)
+        return data = {
+            status : 1
+        };
+
+        ////////////////////////
+        // check_pass
+        // 审核成功分为 投资者 和 创业者 所以必须结合页面全局变量传递数据
+    if(number == 4)
+        return data = {
+            status : 2
+        };
+        // check_fail
+    if(number == 5)
+        return data = {
+            status : 3
+        };
+        // check_delete
+    if(number == 6)
+        return data = {
+            status : 4
+        };
+    return false;
 }
 
 //事件 分页 重新请求数据并加载
@@ -67,17 +237,19 @@ function getPage() {
         if(class_name == 'disabled' || class_name == 'active') {
             return false;
         }
-        var nowPage = $(this).children('a').text();
+        window.nowpage = $(this).children('a').text();
 
-        var data = {
-            role : user_role,
-            nowPage : nowPage
-        };
+        data = roleData(user);
+        data.nowPage = window.nowpage;
 
-        if(user_role == '1' || user_role == '2' || user_role == '3')
-            load('user/create', data, 'GET', showNormal);
-        if(user_role == '4' || user_role == '5')
-            load('user_role/create', data, 'GET', showCheckInvestor);
+        if(data.role == 1 || data.role == 2 || data.role == 3)
+            load('/user/create', data, 'GET', function (data) {
+                checkResponse(data, handle, listUserShow);
+            });
+        if(data.role == 4 || data.role == 5)
+            load('/user_role/create', data, 'GET', function (data) {
+                checkResponse(data, handle, listRoleShow);
+            });
     });
 }
 
@@ -160,64 +332,65 @@ function submitData() {
     });
 }
 
+function getNumber(this_obj) {
+    var object =this_obj;
+    if(object.hasClass('user_unlock')) return number = 0;
+    if(object.hasClass('user_lock')) return number = 1;
+    if(object.hasClass('user_delete')) return number = 2;
+    if(object.hasClass('user_un_delete')) return number = 3;
+    if(object.hasClass('check_pass')) return number = 4;
+    if(object.hasClass('check_fail')) return number = 5;
+    if(object.hasClass('check_delete')) return number = 6;
+    return false;
+}
+
 //事件 更改 禁用|激活 通过|不通过 删除
-function changeAllStatus(){
-    $('.unlock, .lock, .pass, .fail, .delete').off('click').on('click', function () {
-        window.user_guid = $(this).data('name');
+function changeSomeStatus(){
+    $('.user_unlock, .user_lock, .user_delete, .user_un_delete, .check_pass, .check_fail, .check_delete').off('click').on('click', function () {
         window.item = $(this).parent().siblings("td").first().text();
-        $pointer1 = (user_role == '1' || user_role == '2' || user_role == '3');
-        $pointer2 = (user_role == '4' || user_role == '5');
-        var data = null;
-        var status = null;
-        var url =null;
-        if($(this).hasClass('delete')){
-            if($pointer1) {
-                status = '3';
-                url = '/user/' + $(this).data('name');
-            }
-            if($pointer2) {
-                status = '4';
-                url = '/user_role/' + $(this).data('name');
-            }
+
+        guid = $(this).data('name');
+        $pointer1 = (number == 0 || number == 1 || number == 2 || number == 3);
+        $pointer2 = (number == 4);
+        $pointer3 = (number == 5 || number == 6);
+        var url_1 = '/user/' + $(this).data('name');
+        var url_2 = '/user_role/' + $(this).data('name');
+
+        if($pointer1){
+            load(url_1, numberData(getNumber($(this))), 'put', checkResponseStatus);
         }
-        if($(this).hasClass('unlock')){
-            status = '1';
-            url = '/user/' + $(this).data('name');
-        }
-        if($(this).hasClass('lock')){
-            status = '2';
-            url = '/user/' + $(this).data('name');
-        }
-        if($(this).hasClass('fail')){
-            status = '3';
-            url = '/user_role/' + $(this).data('name');
-        }
-        if($(this).hasClass('pass')){
-            status = '2';
-            url = '/user_role/' + $(this).data('name');
+        // if($pointer2){
+        //     if(user == 9){
+        //
+        //     }
+        //
+        //     if(user == 10){
+        //
+        //     }
+        //
+        // }
+        if($pointer3){
+            load(url_2, numberData(getNumber($(this))), 'put', checkResponseStatus);
         }
 
-        data = {
-            status : status,
-            role : user_role
-        };
-
-        load(url, data, 'put', checkStatus);
     })
 }
 
 //处理 针对ajax返回的数据做处理
 //data 必选 表示ajax返回的数据
 //func 可选 表示数据成功时需要加载的函数
-function checkResponse(data, func) {
+//show 必选 表示要显示的html页面
+function checkResponse(data, func, show) {
     var funct = func || null;
     $('#title_one').removeClass('hidden');
     if (data) {
+        if (data.StatusCode == 400)
+            $('#data').html('<p style="padding:20px;" class="text-center"> 获取数据失败！</p>');
         if (data.StatusCode == 200) {
             if(data.ResultData.data == '') {
                 $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
             }else {
-                $('#data').html(listNormalHtml(data));
+                $('#data').html(show(data));
                 $('#page').html(data.ResultData.pages);
                 if(!(funct == null)){
                     $.each(funct, function (i , e) {
@@ -240,8 +413,7 @@ function checkResponse(data, func) {
 //处理 针对ajax修改操作返回的数据做处理
 //data 必选 表示ajax返回的数据
 //func 可选 表示数据成功时需要加载的函数
-function checkResponseStatus(data, func){
-    var funct = func || null;
+function checkResponseStatus(data){
     $('.loading').hide();
     $('#con-modal').modal('show');
     $('#close').removeClass("hidden");
@@ -249,18 +421,35 @@ function checkResponseStatus(data, func){
         if (data.StatusCode == 200) {
             $('#alert-form').hide();
             $('#alert-info').show().html('<p>数据修改成功!</p>');
-            if(!(funct == null)){
-                $.each(funct, function (i , e) {
-                    e();
-                });
+            $(".gradeX").eq(window.item - 1).empty();
+
+            // 页面数据条数为零则刷新
+            window.pagenum += 1;
+            var num = $('.gradeX').length;
+            if(num == window.pagenum){
+                data = roleData(user);
+                data.nowPage = nowpage ? nowpage : 1;
+
+                if(data.role == 1 || data.role == 2 || data.role == 3)
+                    load('/user/create', data, 'GET', function (data) {
+                        checkResponse(data, handle, listUserShow);
+                    });
+                if(data.role == 4 || data.role == 5)
+                    load('/user_role/create', data, 'GET', function (data) {
+                        checkResponse(data, handle, listRoleShow);
+                    });
+                window.pagenum = 0;
             }
+            // changeSomeStatus();
         } else {
             $('#alert-form').hide();
             $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
+            return false;
         }
     } else {
         $('#alert-form').hide();
         $('#alert-info').show().html('<p>未知的错误</p>');
+        return false;
     }
 }
 
@@ -268,9 +457,9 @@ function checkResponseStatus(data, func){
 function changeContent(){
     var data = {
         name : window.user_guid,
-        role : user_role
+        role : user
     };
-    if(user_role == '1' || user_role == '2' || user_role == '3'){
+    if(user == '1' || user == '2' || user == '3'){
         load('/user/create', data, 'GET', function (data) {
             var e = data.ResultData;
             var html = '';
@@ -309,8 +498,8 @@ function changeContent(){
         });
     }
 
-    if(user_role == '4' || user_role == '5'){
-        load('/user_role/create', data, 'GET', function (data) {
+    if(user == '4' || user == '5'){
+        load('/user/create', data, 'GET', function (data) {
             var e = data.ResultData;
             var html = '';
             var status = null;

@@ -154,11 +154,11 @@ class UserService {
     public function getData($data)
     {
         if (isset($data['name'])) return self::getOneData($data);
-        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
+        if(!isset($data['role']) || !isset($data['status'])) return ['status' => false, 'data' => '请求参数错误'];
         // 1 普通用户 ；2 创业者 ；3 投资者
         if(!in_array($data['role'], ['1', '2', '3'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role']]);
+        $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
         if (!$userData) return ['status' => false, 'data' => '数据获取失败'];
         $userPage = self::getPage($data, 'user/create');
         if (!$userPage) return ['status' => false, 'data' => '分页获取失败'];
@@ -178,7 +178,7 @@ class UserService {
     {
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
 
-        $count = self::$userStore->getUsersNumber(['role' => $data['role']]);
+        $count = self::$userStore->getUsersNumber(['role' => $data['role'], 'status' => $data['status']]);
         $totalPage = ceil($count / PAGENUM);
         $baseUrl   = url($url);
         if($nowPage <= 0) $nowPage = 1;
@@ -201,8 +201,8 @@ class UserService {
      */
     public static function getOneData($data)
     {
-        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
-        if(!in_array($data['role'], ['1', '2', '3'])) return ['status' => false, 'data' => '请求参数错误'];
+//        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
+//        if(!in_array($data['role'], ['1', '2', '3'])) return ['status' => false, 'data' => '请求参数错误'];
         $result = self::$userStore->getOneData(['guid' => $data['name']]);
         if (!$result) return ['status' => false, 'data' => '系统错误'];
         return ['status' => true, 'data' => $result];

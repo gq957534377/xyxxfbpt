@@ -13,52 +13,13 @@
 
     <div class="btn-toolbar" role="toolbar">
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">普通用户
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a data-name="user_normal" class="add_event" href="javascript:void(0)">正常</a>
-                </li>
-                <li>
-                    <a data-name="user_normal_disabled" class="add_event" href="javascript:void(0)">禁用</a>
-                </li>
-                <li>
-                    <a data-name="user_normal_deleted" class="add_event" href="javascript:void(0)">已停用</a>
-                </li>
-            </ul>
+            <button type="button" data-name="user_normal"  class="add_event btn btn-default">普通用户</button>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">创业者用户
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a data-name="user_entrepreneurs" class="add_event" href="javascript:void(0)">正常</a>
-                </li>
-                <li>
-                    <a data-name="user_entrepreneurs_disabled" class="add_event" href="javascript:void(0)">禁用</a>
-                </li>
-                <li>
-                    <a data-name="user_entrepreneurs_deleted" class="add_event" href="javascript:void(0)">已停用</a>
-                </li>
-            </ul>
+            <button type="button" data-name="user_entrepreneurs" class="add_event btn btn-default">创业者用户</button>
         </div>
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">投资者用户
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a data-name="user_investor" class="add_event" href="javascript:void(0)">正常</a>
-                </li>
-                <li>
-                    <a data-name="user_investor_disabled" class="add_event" href="javascript:void(0)">禁用</a>
-                </li>
-                <li>
-                    <a data-name="user_investor_deleted" class="add_event" href="javascript:void(0)">已停用</a>
-                </li>
-            </ul>
+            <button type="button" data-name="user_investor" class="add_event btn btn-default">投资者用户</button>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">待审核
@@ -86,12 +47,44 @@
                 </li>
             </ul>
         </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">已禁用
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a data-name="user_normal_disabled" class="add_event" href="javascript:void(0)">普通用户</a>
+                </li>
+                <li>
+                    <a data-name="user_entrepreneurs_disabled" class="add_event" href="javascript:void(0)">创业者</a>
+                </li>
+                <li>
+                    <a data-name="user_investor_disabled" class="add_event" href="javascript:void(0)">投资者</a>
+                </li>
+            </ul>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">已停用
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li>
+                    <a data-name="user_normal_deleted" class="add_event" href="javascript:void(0)">普通用户</a>
+                </li>
+                <li>
+                    <a data-name="user_entrepreneurs_deleted" class="add_event" href="javascript:void(0)">创业者</a>
+                </li>
+                <li>
+                    <a data-name="user_investor_deleted" class="add_event" href="javascript:void(0)">投资者</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     {{--<img src="{{asset('admin/images/load.gif')}}" class="loading">--}}
 
     <div class="page-title">
-        <h5 class="title text-center">普通用户</h5>
+        <h5 id="user_title" class="title text-center">普通用户</h5>
     </div>
 
     {{--表格盒子开始--}}
@@ -137,6 +130,8 @@
 //      全局变量声明开始
 //        user全局变量，标识当前在哪个页面，不同标识加载不同的页面，请求不同的数据 0~12
         var user = 0;
+//        number全局变量，标识动作，不同标识，执行不同的动作 0~6
+        var number = 0;
 //        guid全局变量，标识当前数据身份
         var guid = null;
 //        item全局变量，标识当前数据item
@@ -149,25 +144,31 @@
         var type = null;
 //        success全局变量，标识不同情况下ajax请求success
         var handle= null;
+//        nowPage全局变量，标识不同情况下ajax请求success
+        var nowpage= 0;
+//      全局变量声明结束
+        var pagenum= 0;
 //      全局变量声明结束
 
         //初始化 请求数据 包含分页数据 添加事件
         $(function () {
-            $('.btn-group').eq(user).addClass('btn-success');
+//            $('.btn-group').eq(user).children('button').addClass('btn-success');
             $('.add_event').eq(user).addClass('btn-success');
             url = '/user/create';
             data = {
-                role : user + 1
+                role : user + 1,
+                status : 1
             };
             type = 'GET';
             handle = {
-                one : getPage
+                one : getPage,
+                two : changeSomeStatus,
+                three : initial
             };
 
-            load(url, data, type, function (data,handle) {
-                checkResponse(data,handle);
+            load(url, data, type, function (data) {
+                checkResponse(data, handle, listUserShow);
             });
-            initial();
         });
 
     </script>

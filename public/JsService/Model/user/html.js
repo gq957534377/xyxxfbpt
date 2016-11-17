@@ -23,18 +23,18 @@ function listUserShow(data){
     html += '<tbody>';
     $.each(data.ResultData.data, function (i, e) {
         var status = null;
-        var p1, p2, p3 = '';
+        var p = '';
         if(e.status == 1){
             status = '<p class="text-success">正常</p>';
-            p1 = 'disabled';
+            p = 1;
         }
         if(e.status == 2){
             status = '<p class="text-warning">禁用</p>';
-            p2 = 'disabled';
+            p = 2;
         }
         if(e.status == 3){
             status = '<p class="text-danger">已停用</p>';
-            p3 = 'disabled';
+            p = 3;
         }
 
         html += '<tr class="gradeX">';
@@ -47,10 +47,17 @@ function listUserShow(data){
         html += '<td>' + e.email + '</td>';
         html += '<td>' + status + '</td>';
         html += '<td>';
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="modify"><button class="btn btn-info btn-xs">修改</button></a>';
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="unlock"><button class="btn btn-success ' + p1 + '  btn-xs">激活</button></a>';
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="lock"><button class="btn btn-warning ' + p2 + ' btn-xs">禁用</button></a>';
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="delete"><button class="btn btn-danger ' + p3 + '  btn-xs">删除</button></a>';
+
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
+        if (p != 1)
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_unlock"><button class="btn btn-success btn-xs">激活</button></a>';
+        if (p != 2 && p != 3)
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_lock"><button class="btn btn-warning btn-xs">禁用</button></a>';
+        if (p != 3)
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_delete"><button class="btn btn-danger btn-xs">停用</button></a>';
+        if (p == 3)
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_un_delete"><button class="btn btn-danger btn-xs">启用</button></a>';
+
         html += '</td>';
     });
     html += '</tbody>' +
@@ -124,23 +131,22 @@ function listRoleShow(data){
     html += '<tbody>';
     $.each(data.ResultData.data, function (i, e) {
         var status = null;
-        var p1, p2, p3, p4= '';
+        var p= '';
         if(e.status == 1){
             status = '<p class="text-success">待审核</p>';
-            p1 = 'disabled';
+            p = 1;
         }
         if(e.status == 2){
             status = '<p class="text-warning">审核成功</p>';
-            p2 = 'disabled';
+            p = 2;
         }
         if(e.status == 3){
             status = '<p class="text-danger">审核失败</p>';
-            p3 = 'disabled';
+            p = 3;
         }
-        if(e.status == 4){
-            status = '<p class="text-danger">删除</p>';
-            p4 = 'disabled';
-        }
+        // if(e.status == 4){
+        //     status = '<p class="text-danger">删除</p>';
+        // }
 
         html += '<tr class="gradeX">';
         html += '<td>' + (i + 1) + '</td>';
@@ -150,10 +156,11 @@ function listRoleShow(data){
         html += '<td>' + e.card_number + '</td>';
         html += '<td>' + status + '</td>';
         html += '<td>';
-        html += '<a href="javascript:;" class="info check" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">审核</button></a>';
-        html += '<a href="javascript:;" class="info pass" data-name="' + e.guid + '"><button class="btn btn-success ' + p2 + ' btn-xs">通过</button></a>';
-        html += '<a href="javascript:;" class="info fail" data-name="' + e.guid + '"><button class="btn btn-warning ' + p3 + ' btn-xs">不通过</button></a>';
-        html += '<a href="javascript:;" class="info delete" data-name="' + e.guid + '"><button class="btn btn-danger ' + p4 + ' btn-xs">删除</button></a>';
+        html += '<a href="javascript:;" class="info check_check" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">审核</button></a>';
+        html += '<a href="javascript:;" class="info check_pass" data-name="' + e.guid + '"><button class="btn btn-success btn-xs">通过</button></a>';
+        html += '<a href="javascript:;" class="info check_fail" data-name="' + e.guid + '"><button class="btn btn-warning btn-xs">不通过</button></a>';
+        if(p == 3)
+        html += '<a href="javascript:;" class="info check_delete" data-name="' + e.guid + '"><button class="btn btn-danger btn-xs">删除</button></a>';
         html += '</td>';
 
     });
