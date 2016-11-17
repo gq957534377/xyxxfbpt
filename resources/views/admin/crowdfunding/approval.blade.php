@@ -81,7 +81,9 @@
     }
     // 创建DOM元素
     function createHtml(data) {
-        if(data.length!=0){
+        if(data.length==0){
+            $("#datatable").html("<thead><tr>亲，暂无数据哦O(∩_∩)O~</tr></thead>")
+        }else{
             var html ="";
             html+="<thead>";
             html+="<tr>"
