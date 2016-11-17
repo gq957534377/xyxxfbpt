@@ -107,6 +107,14 @@ class ActionController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = self::$request->all();
+        $where = ["guid" => $id];
+        $result = self::$actionServer->upDta($where,$data);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
     }
 
     /**
