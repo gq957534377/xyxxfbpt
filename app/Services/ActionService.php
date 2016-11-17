@@ -35,10 +35,10 @@ class ActionService
         $data["time"] = date("Y-m-d H:i:s",time());
         $data["change_time"] = date("Y-m-d H:i:s",time());
         $temp = $this->checkTime($data);
-        if($temp){
+        if($temp["status"]){
             $result = self::$actionStore->insertData($data);
         }else{
-            return ['status'=>false,'msg'=>'日期前后错误，请认真填写！'];
+            return ['status'=>false,'msg'=>$temp["msg"]];
         }
         if(isset($result)){
             return ['status'=>true,'msg'=>$result];
@@ -59,10 +59,48 @@ class ActionService
         $deadline = strtotime($data["deadline"]);
         $starttime = strtotime($data["start_time"]);
         if($endtime>$starttime&&$starttime>$deadline){
-            return true;
+            return ['status'=>true];
+        }elseif($endtime<$starttime){
+            return ['status'=>true,"msg"=>"结束日期不可早于开始日期"];
+        }elseif($endtime<$deadline){
+            return ['status'=>true,"msg"=>"结束日期不可早于报名截止日期"];
         }else{
-            return false;
+            return ['status'=>true,"msg"=>"开始日期不可早于报名截止日期"];
         }
     }
 
+    /**
+     * 分页查询
+     * @param $request
+     * @return array
+     * author 张洵之
+     */
+    public function selectData($request)
+    {
+        $data = $request->all();
+        $forPages = 10;//一页的数据
+        $nowPages = isset($data["nowPages"])?(int)$data["nowPages"]:1;
+        $status = $data["status"];
+        $type = $data["type"];
+        $where =[];
+        if($status){
+            $where["status"] = $status;
+        }
+        if($type){
+            $where["type"] = $type;
+        }
+        $creatPage = Common::getPageUrls($request,"data_action_info","action/create",$forPages,null,$where);
+        if(isset($creatPage)){
+            $result["page"]=$creatPage;
+        }else{
+            return ['status'=>false,'msg'=>'生成分页样式发生错误'];
+        }
+        $Data = self::$actionStore->forPage($nowPages,$forPages,$where);
+        if($Data["status"]){
+            $result["data"] = $Data["data"];
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>"数据参数有误！"];
+        }
+    }
 }
