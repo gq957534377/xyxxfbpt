@@ -1,7 +1,7 @@
 @extends('home.layouts.index')
 @section('style')
-    <script type="text/javascript" src="{{url('/qiniu/js/jquery.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/uploadbox.css')}}">
+    <script type="text/javascript" src="{{url('qiniu/js/jquery.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/plupload/plupload.full.min.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/plupload/i18n/zh_CN.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/qiniu.js')}}"></script>
@@ -48,7 +48,6 @@
                                 <i class="text-md fa fa-bell" aria-hidden="true" style="margin-left: 40px;"></i>&nbsp;申请成为创业者
                             </a>
                             <!--申请成为创业者 start-->
-                            <!-- Modal -->
                             <div class="modal fade" id="myModal_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -118,7 +117,10 @@
                             <!--申请成为创业者 end-->
 
                             <!--项目发布 start-->
-                            <a href="#" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
+                            <a id = 'publish_trigger' href="#" class="list-group-item " data-toggle="modal">
+                                <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
+                            </a>
+                            <a id = 'publish_trigger2' href="#" style="display: none;" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
                                 <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
                             </a>
                             <!--项目发布弹出层 start-->
@@ -133,7 +135,21 @@
                                         <form id = "projectForm" class="form-horizontal" style="padding-bottom: 20px;">
                                             <div class = "col-sm-10 col-sm-offset-1">
                                                 <input name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
-                                                <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介"></textarea>
+                                                <input name='habitude' type="text" class="form-control _input" placeholder="请输入项目性质">
+                                                <input name='less_funding' type="text" class="form-control _input" placeholder="请输入起步资金">
+                                                <input name='cycle' type="text" class="form-control _input" placeholder="请输入项目周期">
+                                                <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介（50字以内）"></textarea>
+                                                <select name = 'project_type' style="float: left;">
+                                                    <option>请选择项目分类</option>
+                                                    <option value = '1'>新品上架</option>
+                                                    <option value = '2'>健康生活</option>
+                                                    <option value = '3'>热门推荐</option>
+                                                    <option value = '4'>新品上架</option>
+                                                    <option value = '5'>健康生活</option>
+                                                    <option value = '6'>健康生活</option>
+                                                    <option value = '7'>健康生活</option>
+                                                    <option value = '8'>健康生活</option>
+                                                </select>
                                             </div>
                                             <div class = "col-sm-6">
                                                 <div id="img_container" style="margin-top: 30px;">
@@ -164,19 +180,41 @@
                                             </div>
                                                 <button class="btn btn-info" type="submit" style="margin-left: 70%;margin-top: 40px;">提交</button>
                                         </form>
+                                        <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
+
 
                                     </div>
                                 </div>
                             </div>
                             <!--项目发布弹出层 end-->
                             <!--项目发布 end-->
+
+                            <!--已发布项目管理 start-->
+                            <a id='all_pro_list' href="#" class="list-group-item " data-toggle="modal">
+                                <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;项目管理</a>
+                            <!--已发布项目管理 end-->
                         </div>
                     </div>
                 </div>
+
+                <!--编辑个人资料 Start-->
                 <div class="main-col col-md-9 left-col" style="margin-top: 15px;">
+                    <!--个人信息部分 start-->
                     <div id="userBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
                         <div class="panel-body ">
-                            <h2><i class="fa fa-cog" aria-hidden="true"></i>编辑个人资料  </h2>
+                            <div style="height: 60px;">
+                                <h2><i class="fa fa-cog" aria-hidden="true"></i>编辑个人资料</h2>
+                                <div class="ibox-content pull-right" style="margin-top: -50px;">
+                                    <div class="row">
+                                        <div id="crop-avatar">
+                                            <div class="avatar-view col-md-3" title="Change Logo Picture">
+                                                <img style="width: 100%;" src="{{asset('home/images/load.gif')}}" alt="Logo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
                             <hr>
                             <form id="userform" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -202,7 +240,15 @@
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">籍贯</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" name="user_hometown" value="" type="text"></div>
+                                        <div id="demo" class="citys">
+                                            <p>
+                                                <select  name="province"></select>
+                                                <select  name="city"></select>
+                                                <select  name="area"></select>
+                                            </p>
+                                            <input id="place" class="form-control" name="user_hometown" value="" type="text" readonly>
+                                        </div>
+                                    </div>
                                     <div class="col-sm-4 help-block">如：湖北省武汉市光谷大道</div></div>
 
                                 <div class="form-group">
@@ -230,11 +276,112 @@
                             </form>
                         </div>
                     </div>
+                    <!--个人信息部分 end-->
+
+                    <!--项目列表部分 start-->
+                    <table class="table table-striped" id='pro_list_table' style="display: none">
+                        <caption>项目列表</caption>
+                        <thead>
+                        <tr>
+                            <th>项目标题</th>
+                            <th>项目状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!--项目列表部分 end-->
                 </div>
+                <!--编辑个人资料 End-->
+
+                <!--申请成为投资人 Start-->
+                <div class="main-col col-md-9 left-col" style="margin-top: 15px;">
+                    <div id="userBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
+                        <div class="panel-body ">
+                            <div style="height: 60px;">
+                                <h2><i class="fa fa-cog" aria-hidden="true"></i>申请成为创业者</h2>
+                            </div>
+                            <hr>
+                            <form id="userform" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">真实姓名</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="investor_name" type="text"></div>
+                                    <div class="col-sm-4 help-block">请填写真实信息哦！</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">性别</label>
+                                    <div class="col-sm-6">
+                                        <label class="radio-inline">
+                                            <input class="sex1" name="investor_sex" value="1" type="radio">男
+                                        </label>
+                                        <label class="radio-inline">
+                                        <input class="sex0" name="investor_sex" value="2" type="radio">女
+                                        </label></div></div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-6">
+                                        <input class="btn btn-info" id="editSubmit" value="应用修改" type="button"></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--申请成为投资人 End-->
+
+                <!--更换头像弹出层 Start-->
+                <div class="modal fade modal-md" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <form class="avatar-form" action="{{url('/headpic')}}" enctype="multipart/form-data" method="post">
+                                <div class="modal-header">
+                                    <button class="close" data-dismiss="modal" type="button">&times;</button>
+                                    <h4 class="modal-title" id="avatar-modal-label">Change Logo Picture</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="avatar-body">
+                                        <div class="avatar-upload">
+                                            <input class="avatar-src" name="avatar_src" type="hidden">
+                                            <input class="avatar-data" name="avatar_data" type="hidden">
+                                            <label for="avatarInput">图片上传</label>
+                                            <input class="avatar-input" id="avatarInput" name="avatar_file" type="file"></div>
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <div class="avatar-wrapper"></div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="avatar-preview preview-lg"></div>
+                                                <div class="avatar-preview preview-md"></div>
+                                                <div class="avatar-preview preview-sm"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row avatar-btns">
+                                            <div class="col-md-9">
+                                                <div class="btn-group">
+                                                    <button class="btn" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees"><i class="fa fa-undo"></i> 向左旋转</button>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <button class="btn" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees"><i class="fa fa-repeat"></i> 向右旋转</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button id="changeHead" class="btn btn-success btn-block avatar-save" type="submit"><i class="fa fa-save"></i> 保存修改</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+                <!--更换头像弹出层 End-->
+
             </div>
         </div><!--/.container-->
     </section><!--/#contact-page-->
-    @include('home.validator.publishValidator')
 @endsection
 
 @section('script')
@@ -333,9 +480,20 @@
             formData.append('guid',guid);
             ajaxRequire('/user','POST',formData,$('#entrepreneur'),1);
         });
+        
+        $('#demo').citys({
+            required:false,
+            nodata:'disabled',
+            onChange:function(data){
+                var text = data['direct']?'(直辖市)':'';
+                $('#place').val('当前选中地区：'+data['province']+text+' '+data['city']+' '+data['area']);
+            }
+        });
     });
 </script>
 @include('home.user.ajax.ajaxRequire')
 @include('home.validator.UpdateValidator')
+@include('home.validator.publishValidator')
+@include('home.project.all_pro_list')
 
 @endsection

@@ -1,7 +1,7 @@
 function Project(){
 
-}
-Project.prototype.creatTable=function(dom, data,status,hasBtn){
+    //绘制后台表格分页表格
+ Project.prototype.creatTable=function(dom, data,status,hasBtn){
     for(i in data.data){
         var tr = $('<tr></tr>');
 
@@ -33,4 +33,53 @@ Project.prototype.creatTable=function(dom, data,status,hasBtn){
         $(dom).find('tbody').append(tr);
     }
     $(dom).find("thead").append(thead_tr);
+ };
+
+    // 个人项目列表
+    Project.prototype.creatProList = function(data){
+        for (i in data){
+            //标题
+            var title_td = $('<td></td>');
+            title_td.html(data[i].title);
+            //状态
+            if (data[i].status==1) var status = '待审核';
+            if (data[i].status==2) var status = '未通过';
+            if (data[i].status==3) var status = '已通过';
+            var status_td = $('<td></td>');
+            status_td.html(status);
+            //操作
+            var operating_td = $('<td><button type="button" class="btn btn-info pro_edit">修改</button></td>');
+            operating_td.find('button').prop('id',data[i].project_id);
+            var tr = $('<tr></tr>');
+            tr.append(title_td);
+            tr.append(status_td);
+            tr.append(operating_td);
+            $('#pro_list_table tbody').append(tr);
+            $('#pro_list_table').show();
+        }
+    }
+
+
+
+    Project.prototype.proEdit = function(){
+        $.ajax({
+            url:'project/'+$(this).attr('id'),
+            type:'delete',
+            beforeSend:function(){
+                $('.loading').show();
+            },
+            success:function(data){
+                creatListModal(data);
+            }
+        })
+    }
+
+    //绘制编辑信息模态框
+    var creatListModal = function(data){
+        alert('这里是编辑区，还没做好');
+       var modal = $('<div class="modal fade" id="pro_edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">1</div>');
+        $('.list-group .text-center').append(modal);
+       $('#pro_edit_modal').modal('show');
+        alert(0);
+    }
 }

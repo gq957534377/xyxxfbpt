@@ -7,7 +7,8 @@
 function getInfoList(data){
     $('.loading').hide();
     if (data) {
-        if (data.ServerNo == 200) {
+        console.log(data);
+        if (data.StatusCode == 200) {
             if(data.ResultData.data == '') {
                 $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
             }else {
@@ -33,19 +34,18 @@ function getInfoList(data){
 function listHtml(data){
     var html = '';
     console.log(data);
-    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th>路演主题</th><th>主讲人</th><th>所属机构</th><th>路演时间</th><th>截止报名</th><th>报名人数限定</th><th>报名人数</th><th>发布时间</th><th>操作</th></tr></thead><tbody>';
+    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th>活动类型</th><th>活动主题</th><th>负责人</th><th>活动时间</th><th>截止报名</th><th>报名人数限定</th><th>报名人数</th><th>操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
+        html += '<td>' + type(e.type)+ '</td>';
         html += '<td>' + e.title+ '</td>';
-        html += '<td>' + e.speaker + '</td>';
-        html += '<td>' + group(e.group) + '</td>';
+        html += '<td>' + e.author + '</td>';
         html += '<td>' + e.start_time + '--'+e.end_time+'</td>';
         html += '<td>' + e.deadline+'</td>';
         html += '<td>' + e.limit+'</td>';
-        html += '<td>' + e.population+'</td>';
-        html += '<td>' + e.time + '</td>';
-        html += '<td><a class="info" data-name="' + e.roadShow_id + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#tabs-modal">详情</button></a>';
-        html += '<button data-name="' + e.roadShow_id + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改路演</button>';
+        html += '<td>' + e.people+'</td>';
+        html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#tabs-modal">详情</button></a>';
+        html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改活动</button>';
         if (e.status == 1) {
             html += '<a href="javascript:;" data-name="' + e.roadShow_id + '" data-status="' + e.status + '" class="status"><button class="btn-danger">禁用</button></a>';
         } else if (e.status == 3) {
@@ -63,7 +63,7 @@ function getPage() {
         if(class_name == 'disabled' || class_name == 'active') {
             return false;
         }
-        var url = $(this).children().prop('href')+'&type='+list_type;
+        var url = $(this).children().prop('href')+'&type='+list_type+'&status='+list_status;
         var ajax = new ajaxController();
         ajax.ajax({
             url : url,
@@ -73,6 +73,22 @@ function getPage() {
         });
         return false;
     });
+}
+
+function type(type) {
+    var res;
+    switch (type){
+        case 1:
+            res = '路演活动';
+            break;
+        case 2:
+            res = '大赛';
+            break;
+        default:
+            res = '学习';
+            break;
+    }
+    return res;
 }
 
 function group(type) {
@@ -85,7 +101,7 @@ function group(type) {
             res = '兄弟会';
             break;
         default:
-            res = '无名组织';
+            res = '个人';
             break;
     }
     return res;
@@ -114,19 +130,19 @@ function date(data) {
 function showInfoList(data){
     $('.loading').hide();
     if (data) {
-        if (data.ServerNo == 200) {
-            data = data.ResultData;
+        if (data.StatusCode == 200) {
+            data = data.ResultData.data[0];
             console.log(data);
             $('#xq_title').val(data.title);
-            $('#xq_speaker').val(data.speaker);
-            $('#xq_type').val(data.type);
+            $('#xq_speaker').val(data.author);
+            $('#xq_type').val(type(data.type));
             $('#xq_group').val(group(data.group));
             $('#xq_start_time').val(data.start_time);
             $('#xq_end_time').val(data.end_time);
             $('#xq_deadline').val(data.deadline);
             $('#xq_time').val(data.time);
             $('#xq_banner').attr('src',data.banner);
-            $('#xq_population').val(data.population);
+            $('#xq_population').val(data.people);
             $('#xq_limit').val(data.limit);
             $('#xq_address').val(data.address);
             $('#xq_status').val(data.status);

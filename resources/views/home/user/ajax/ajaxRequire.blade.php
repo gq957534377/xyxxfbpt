@@ -13,10 +13,10 @@
     function ajaxRequire(url,type,data,obj,model)
     {
         $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
         switch(model){
             case 1:
@@ -33,14 +33,19 @@
                             case '404':
                                 $(".loading").hide();
                                 promptBoxHandle('警告',msg.ResultData);
+
                                 break;
                             case '400':
                                 $(".loading").hide();
                                 promptBoxHandle('警告',msg.ResultData);
+                                $('#myModal_1').modal('hide');
+
                                 break;
                             case '200':
                                 $(".loading").hide();
                                 promptBoxHandle('提示',msg.ResultData);
+                                $('#myModal_1').modal('hide');
+
                                 break;
                         }
                     },

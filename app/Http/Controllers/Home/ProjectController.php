@@ -40,7 +40,10 @@ class ProjectController extends Controller
      */
     public function create()
     {
-
+        $guid = session('user')->guid;
+        $res = self::$projectServer->getRole($guid);
+        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        return response()->json(['status'=>'200','data'=>$res['data']]);
     }
 
     /**
@@ -104,7 +107,9 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $res = self::$projectServer->getProject();
+        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        return response()->json(['status'=>'200','data'=>$res['data']]);
     }
 
     /**
@@ -113,9 +118,13 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    //获得指定id用户的项目数据
     public function destroy($id)
     {
-        //
+        $where = ['project_id'=>$id];
+        $res = self::$projectServer->getData($where);
+        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        return response()->json(['status'=>'200','data'=>$res['data']]);
     }
 
     /**对前台加载的数据进行验证

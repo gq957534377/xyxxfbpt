@@ -54,6 +54,8 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::get("/crowd_forpage",'CrowdFundingController@forPage');
         //查看可发布的中筹项目
         Route::get("//select_publish",'CrowdFundingController@selectPublish');
+        //活动管理
+        Route::resource('/action', 'ActionController');
     });
 });
 
@@ -81,7 +83,8 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/user','UserController');
         // 前台登出
         Route::get('/logout','LoginController@logout');
-
+        //路演活动
+        Route::resource('/road','RoadController');
     });
 
 

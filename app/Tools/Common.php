@@ -141,7 +141,7 @@ class Common {
     }
     /**
      * 获取分页URL
-     * @param  object $data 把$request传进来
+     * @param  object $data 把传进来
      * @param  string $table 把表名传进来
      * @param  string $url 把主URL传进来
      * @return mixed(array | false)

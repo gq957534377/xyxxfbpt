@@ -6,6 +6,9 @@
 <link href="{{asset('home/css/main.css')}}" rel="stylesheet">
 <link href="{{asset('home/css/responsive.css')}}" rel="stylesheet">
 <link href="{{asset('home/css/helper.css')}}" rel="stylesheet">
+<link href="{{asset('home/css/cropper.min.css')}}" rel="stylesheet">
+<link href="{{asset('home/css/sitelogo.css')}}" rel="stylesheet">
+
 <!--[if lt IE 9]>
 <script src="{{asset('home/js/html5shiv.js')}}"></script>
 <script src="{{asset('home/js/respond.min.js')}}"></script>

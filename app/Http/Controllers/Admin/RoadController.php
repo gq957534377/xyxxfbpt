@@ -138,8 +138,7 @@ class RoadController extends Controller
         $data    = $request->all();
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
         // 获取分页URL与合法的当前页
-
-        $result  = Common::getPageUrl($data, 'data_roadShow_info', '/road_info_page',3,['status'=>$data['type']]);
+        $result  = Common::getPageUrl($data, 'data_roadShow_info', '/road_info_page',5,['status'=>$data['type']]);
         if($result) {
             // 获取当前页对应的数据
             $pageData = self::$roadServer->getRoadList($result['nowPage'],$data['type']);
