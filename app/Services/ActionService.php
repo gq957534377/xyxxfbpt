@@ -112,7 +112,7 @@ class ActionService
      */
     public function getData($guid)
     {
-        if(is_string($guid)){
+        if(!is_string($guid)){
             return ['status'=>false,'msg'=>"缺少参数！"];
         }
         $Data = self::$actionStore->getData(["guid"=>$guid]);
@@ -122,5 +122,13 @@ class ActionService
         }else{
             return ['status'=>false,'msg'=>"数据参数有误！"];
         }
+    }
+
+    public function changeStatus($guid,$status)
+    {
+        if(is_string($guid)||!is_string($status)){
+            return ['status'=>false,'msg'=>"缺少参数！"];
+        }
+        $result = self::$actionStore;
     }
 }
