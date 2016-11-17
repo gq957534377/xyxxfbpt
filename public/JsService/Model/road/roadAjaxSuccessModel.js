@@ -91,6 +91,22 @@ function type(type) {
     return res;
 }
 
+function group(type) {
+    var res;
+    switch (type){
+        case 1:
+            res = '英雄会';
+            break;
+        case 2:
+            res = '兄弟会';
+            break;
+        default:
+            res = '个人';
+            break;
+    }
+    return res;
+}
+
 function date(data) {
     data = data.ResultData;
     console.log(data);
@@ -114,19 +130,19 @@ function date(data) {
 function showInfoList(data){
     $('.loading').hide();
     if (data) {
-        if (data.ServerNo == 200) {
-            data = data.ResultData;
+        if (data.StatusCode == 200) {
+            data = data.ResultData.data[0];
             console.log(data);
             $('#xq_title').val(data.title);
-            $('#xq_speaker').val(data.speaker);
-            $('#xq_type').val(data.type);
+            $('#xq_speaker').val(data.author);
+            $('#xq_type').val(type(data.type));
             $('#xq_group').val(group(data.group));
             $('#xq_start_time').val(data.start_time);
             $('#xq_end_time').val(data.end_time);
             $('#xq_deadline').val(data.deadline);
             $('#xq_time').val(data.time);
             $('#xq_banner').attr('src',data.banner);
-            $('#xq_population').val(data.population);
+            $('#xq_population').val(data.people);
             $('#xq_limit').val(data.limit);
             $('#xq_address').val(data.address);
             $('#xq_status').val(data.status);

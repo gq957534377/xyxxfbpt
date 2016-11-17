@@ -351,7 +351,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">路演地址</label>
-                                <input type="text" class="form-control" id="xq_adress" placeholder="United States" disabled="true">
+                                <input type="text" class="form-control" id="xq_address" placeholder="United States" disabled="true">
                             </div>
                         </div>
                     </div>

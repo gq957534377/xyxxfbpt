@@ -42,4 +42,18 @@ class ActionStore
         $result["status"] = true;
         return $result;
     }
+
+    /**
+     * 基本条件查询
+     * @param $where
+     * @return null
+     * author 张洵之
+     */
+    public function getData($where)
+    {
+        if(!is_array($where)) return null;
+        $result["data"] = DB::table(self::$table)->where($where)->get();
+        $result["status"] = true;
+        return $result;
+    }
 }
