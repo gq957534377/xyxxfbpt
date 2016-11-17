@@ -145,7 +145,7 @@
 //        success全局变量，标识不同情况下ajax请求success
         var handle= null;
 //        nowPage全局变量，标识不同情况下ajax请求success
-        var nowpage= 0;
+        var nowpage= 1;
 //      全局变量声明结束
         var pagenum= 0;
 //      全局变量声明结束
@@ -161,11 +161,10 @@
             };
             type = 'GET';
             handle = {
-                one : getPage,
-                two : changeSomeStatus,
-                three : initial
+                one : initial,
+                two : getPage,
+                three : changeSomeStatus
             };
-
             load(url, data, type, function (data) {
                 checkResponse(data, handle, listUserShow);
             });

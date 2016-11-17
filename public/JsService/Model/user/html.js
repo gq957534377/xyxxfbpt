@@ -4,6 +4,7 @@
 
 // 普通用户 创业者 投资者 共用主列表页面样式
 function listUserShow(data){
+    debugger;
     var html = '';
     html += '<div class="panel-body">' +
         '<table class="table table-bordered table-striped">' +
@@ -114,6 +115,7 @@ function listProjectShow(data){
 
 // 待审核创业者 投资者 共用主列表页面样式
 function listRoleShow(data){
+    debugger;
     var html = '';
     html += '<div class="panel-body">' +
         '<table class="table table-bordered table-striped">' +

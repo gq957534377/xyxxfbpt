@@ -96,7 +96,7 @@ function initial() {
 
         data = roleData(user);
 
-        console.log(handle);
+        // console.log(handle);
 
         if(data.role == 1 || data.role == 2 || data.role == 3)
             load('/user/create', data, 'GET', function (data) {
@@ -238,7 +238,6 @@ function getPage() {
             return false;
         }
         window.nowpage = $(this).children('a').text();
-
         data = roleData(user);
         data.nowPage = window.nowpage;
 
@@ -428,7 +427,7 @@ function checkResponseStatus(data){
             var num = $('.gradeX').length;
             if(num == window.pagenum){
                 data = roleData(user);
-                data.nowPage = nowpage ? nowpage : 1;
+                data.nowPage = (nowpage ? nowpage : 1) + 1;
 
                 if(data.role == 1 || data.role == 2 || data.role == 3)
                     load('/user/create', data, 'GET', function (data) {
