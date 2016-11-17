@@ -131,6 +131,17 @@ class ActionService
         if(is_string($guid)||!is_string($status)){
             return ['status'=>false,'msg'=>"缺少参数！"];
         }
-        $result = self::$actionStore;
+        if($status == "1"){
+            $status = 2;
+        }else{
+            $status = 1;
+        }
+        $Data = self::$actionStore->upload(["guid"=>$guid],["status"=>$status]);
+        if($Data["status"]){
+            $result["data"] = $Data["data"];
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>"数据参数有误！"];
+        }
     }
 }

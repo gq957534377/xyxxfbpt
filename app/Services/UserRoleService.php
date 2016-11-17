@@ -150,11 +150,13 @@ class UserRoleService {
     public function getData($data)
     {
         if (isset($data['name'])) return self::getOneData($data);
-        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
+        if(!isset($data['role']) || !isset($data['status'])) return ['status' => false, 'data' => '请求参数错误'];
         if(!in_array($data['role'], ['4', '5'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
+        $userData = self::$roleStore->getUsersData($nowPage, ['role' => ($data['role'] - 2), 'status' => $data['status']]);
+        if (!$userData) return ['status' => false, 'data' => '数据获取失败'];
         $userPage = self::getPage($data, 'user_role/create');
-        $userData = self::$roleStore->getUsersData($nowPage, ['role' => ($data['role'] - 2)]);
+        if (!$userPage) return ['status' => false, 'data' => '分页获取失败'];
         //拼装数据，返回所需格式
         $result = array_merge(['data'=> $userData], $userPage['data']);
         if (!$result) return ['status' => false, 'data' => '系统错误'];
@@ -171,7 +173,7 @@ class UserRoleService {
     {
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
 
-        $count = self::$roleStore->getUsersNumber(['role' => ($data['role'] - 2)]);
+        $count = self::$roleStore->getUsersNumber(['role' => ($data['role'] - 2), 'status' => $data['status']]);
         $totalPage = ceil($count / PAGENUM);
         $baseUrl   = url($url);
         if($nowPage <= 0) $nowPage = 1;
@@ -194,8 +196,8 @@ class UserRoleService {
      */
     public function getOneData($data)
     {
-        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
-        if(!in_array($data['role'], ['4', '5'])) return ['status' => false, 'data' => '请求参数错误'];
+//        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
+//        if(!in_array($data['role'], ['4', '5'])) return ['status' => false, 'data' => '请求参数错误'];
         $result = self::$roleStore->getOneData(['guid' => $data['name']]);
         if (!$result) return ['status' => false, 'data' => '系统错误'];
         return ['status' => true, 'data' => $result];

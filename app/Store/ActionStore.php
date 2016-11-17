@@ -56,4 +56,12 @@ class ActionStore
         $result["status"] = true;
         return $result;
     }
+
+    public function upload($where,$data)
+    {
+        if(!is_array($where)||!is_array($data)) return null;
+        $result["data"] =DB::table(self::$table)->where($where)->updata($data);
+        $result["status"] = true;
+        return $result;
+    }
 }
