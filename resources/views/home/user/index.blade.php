@@ -1,7 +1,7 @@
 @extends('home.layouts.index')
 @section('style')
-    <script type="text/javascript" src="{{url('/qiniu/js/jquery.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/uploadbox.css')}}">
+    <script type="text/javascript" src="{{url('qiniu/js/jquery.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/plupload/plupload.full.min.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/plupload/i18n/zh_CN.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/qiniu.js')}}"></script>
@@ -117,7 +117,10 @@
                             <!--申请成为创业者 end-->
 
                             <!--项目发布 start-->
-                            <a href="#" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
+                            <a id = 'publish_trigger' href="#" class="list-group-item " data-toggle="modal">
+                                <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
+                            </a>
+                            <a id = 'publish_trigger2' href="#" style="display: none;" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
                                 <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
                             </a>
                             <!--项目发布弹出层 start-->
@@ -132,7 +135,21 @@
                                         <form id = "projectForm" class="form-horizontal" style="padding-bottom: 20px;">
                                             <div class = "col-sm-10 col-sm-offset-1">
                                                 <input name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
-                                                <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介"></textarea>
+                                                <input name='habitude' type="text" class="form-control _input" placeholder="请输入项目性质">
+                                                <input name='less_funding' type="text" class="form-control _input" placeholder="请输入起步资金">
+                                                <input name='cycle' type="text" class="form-control _input" placeholder="请输入项目周期">
+                                                <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介（50字以内）"></textarea>
+                                                <select name = 'project_type' style="float: left;">
+                                                    <option>请选择项目分类</option>
+                                                    <option value = '1'>新品上架</option>
+                                                    <option value = '2'>健康生活</option>
+                                                    <option value = '3'>热门推荐</option>
+                                                    <option value = '4'>新品上架</option>
+                                                    <option value = '5'>健康生活</option>
+                                                    <option value = '6'>健康生活</option>
+                                                    <option value = '7'>健康生活</option>
+                                                    <option value = '8'>健康生活</option>
+                                                </select>
                                             </div>
                                             <div class = "col-sm-6">
                                                 <div id="img_container" style="margin-top: 30px;">
@@ -163,17 +180,26 @@
                                             </div>
                                                 <button class="btn btn-info" type="submit" style="margin-left: 70%;margin-top: 40px;">提交</button>
                                         </form>
+                                        <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
+
 
                                     </div>
                                 </div>
                             </div>
                             <!--项目发布弹出层 end-->
                             <!--项目发布 end-->
+
+                            <!--已发布项目管理 start-->
+                            <a id='all_pro_list' href="#" class="list-group-item " data-toggle="modal">
+                                <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;项目管理</a>
+                            <!--已发布项目管理 end-->
                         </div>
                     </div>
                 </div>
+
                 <!--编辑个人资料 Start-->
                 <div class="main-col col-md-9 left-col" style="margin-top: 15px;">
+                    <!--个人信息部分 start-->
                     <div id="userBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
                         <div class="panel-body ">
                             <div style="height: 60px;">
@@ -250,6 +276,22 @@
                             </form>
                         </div>
                     </div>
+                    <!--个人信息部分 end-->
+
+                    <!--项目列表部分 start-->
+                    <table class="table table-striped" id='pro_list_table' style="display: none">
+                        <caption>项目列表</caption>
+                        <thead>
+                        <tr>
+                            <th>项目标题</th>
+                            <th>项目状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!--项目列表部分 end-->
                 </div>
                 <!--编辑个人资料 End-->
 
@@ -287,6 +329,7 @@
                     </div>
                 </div>
                 <!--申请成为投资人 End-->
+
                 <!--更换头像弹出层 Start-->
                 <div class="modal fade modal-md" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
                     <div class="modal-dialog modal-lg">
@@ -335,10 +378,10 @@
 
                 <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
                 <!--更换头像弹出层 End-->
+
             </div>
         </div><!--/.container-->
     </section><!--/#contact-page-->
-    @include('home.validator.publishValidator')
 @endsection
 
 @section('script')
@@ -437,7 +480,7 @@
             formData.append('guid',guid);
             ajaxRequire('/user','POST',formData,$('#entrepreneur'),1);
         });
-
+        
         $('#demo').citys({
             required:false,
             nodata:'disabled',
@@ -450,5 +493,7 @@
 </script>
 @include('home.user.ajax.ajaxRequire')
 @include('home.validator.UpdateValidator')
+@include('home.validator.publishValidator')
+@include('home.project.all_pro_list')
 
 @endsection

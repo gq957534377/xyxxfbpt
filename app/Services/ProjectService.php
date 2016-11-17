@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Request;
 use App\Store\ProjectStore;
+use App\Store\UserStore;
 use App\Tools\Common;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -11,15 +12,17 @@ use Illuminate\Support\Facades\Validator;
 
 class ProjectService {
     protected static $projectStore = null;
+    protected static $userStore = null;
 
     /**
      * 构造函数注入
      * ProjectService constructor.
      *
      */
-    public function __construct(ProjectStore $projectStore)
+    public function __construct(ProjectStore $projectStore, UserStore $userStore)
     {
         self::$projectStore = $projectStore;
+        self::$userStore    = $userStore;
     }
 
     /**
@@ -83,10 +86,6 @@ class ProjectService {
 
         $updateData['changetime'] = date("Y-m-d H:i:s", time());
 
-        //拼装需要插入crowd_funding_data的数据
-        //project_id,title,status=2,user_id,addtime  需要从数据库查找指定id的一条信息
-        //$data_crowd = array(['project_id'=>$data['id'],'title'=>'',''=>'',''=>'']);
-
         //事务控制
         DB::transaction(function () use ($param,$updateData){
             //更新状态值
@@ -125,6 +124,36 @@ class ProjectService {
     {
         $res = self::$projectStore->getPage($nowpage,$num,$status);
         if (!$res) return ['status'=>false,'msg'=>'获取失败'];
+        return ['status'=>true,'data'=>$res];
+    }
+
+
+    /**
+     * 获得某个用户的角色值
+     * @param $guid
+     * @return array
+     * @anthor 贾济林
+     */
+    public function getRole($guid)
+    {
+        $param = ['guid'=>$guid];
+        $data = self::$userStore->getOneData($param);
+        $role = $data->role;
+        if (!$data) return ['status'=>false,'msg'=>'查询失败'];
+        return ['status'=>true,'data'=>$role];
+    }
+
+    /**
+     * 得到单个用户的所有发布项目
+     * @return array
+     * @author 贾济林
+     */
+    public function getProject()
+    {
+        $guid = session('user')->guid;
+        $where = ['guid'=>$guid];
+        $res = self::$projectStore->getData($where);
+        if (!$res) return ['status'=>false,'msg'=>'查询失败'];
         return ['status'=>true,'data'=>$res];
     }
 

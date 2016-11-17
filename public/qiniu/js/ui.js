@@ -362,7 +362,7 @@ FileProgress.prototype.setComplete = function(up, info) {
                 if (exif) {
                     var exifLink = $('<a href="" target="_blank">查看exif</a>');
                     exifLink.attr('href', url + '?exif');
-                    infoWrapper.append(exifLink);
+                    // infoWrapper.append(exifLink);
                 }
 
                 var imageInfo = Qiniu.imageInfo(res.key);

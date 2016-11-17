@@ -25,10 +25,10 @@ class ProjectStore {
      * @return bool
      * @author 贾济林
      */
-    public function getData($data)
+    public function getData($where)
     {
-        if(empty($data)) return false;
-        return DB::table(self::$table)->where($data)->get();
+        if(empty($where)) return false;
+        return DB::table(self::$table)->where($where)->get();
     }
 
     /**
