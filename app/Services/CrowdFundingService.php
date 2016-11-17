@@ -94,25 +94,26 @@ class CrowdFundingService
         $type = explode("_",$id)[1];//请求类型判断
         $projectId = explode("_",$id)[0];
         switch ($type){
-            case "publish":return $this->publish($projectId);break;
+            case "publish":return $this->publish($projectId,$type);break;
             case "revise":return $this->revise($projectId);break;
             case "close":return $this->close($projectId);break;
+            case "see":return $this->publish($projectId,$type);break;
             default:return ['status'=>false,'msg'=>'发生错误'];
         }
     }
 
     /**
-     * 查询申报众筹项目资料
+     * 查询众筹项目资料
      * @param $projectId
      * @return array
      * @author 张洵之
      */
-    public function publish($projectId)
+    public function publish($projectId,$status)
     {
         $where = ["project_id"=>$projectId];
         $result = self::$crowdFundingStore->getWhere($where);
         if(isset($result)){
-            $result["type"] = "publish";
+            $result["type"] = $status;
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>'发生错误'];
@@ -123,6 +124,7 @@ class CrowdFundingService
      * 查询某条记录详细信息
      * @param $projectId
      * @return array
+     * author 张洵之
      */
     public function revise($projectId)
     {
@@ -140,6 +142,12 @@ class CrowdFundingService
         }
     }
 
+    /**
+     * 下架方法
+     * @param $projectId
+     * @return array
+     * author 张洵之
+     */
     function close($projectId){
         $where = ["project_id"=>$projectId];
         $requestArr = ["status"=>"0"];
@@ -241,9 +249,9 @@ class CrowdFundingService
             for ($i=0;$i<$arrNum;$i++){
                 $status = $data[$i]->status;
                 if($status == 1){
-                        $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='revise' class='btn btn-sm btn-success '> <i class='fa fa-wrench'></i> </button><button zxz-type='close' class='btn btn-sm btn-danger '> <i class='fa fa-remove'></i></button></div>";
+                        $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='revise' class='btn btn-sm btn-success '> <i class='fa fa-wrench'></i> </button><button zxz-type='close' class='btn btn-sm btn-danger '> <i class='fa fa-remove'></i></button><button zxz-type='see' class='btn btn-sm btn-info '> <i class='fa fa-bars'></i></button></div>";
                 }else{
-                    $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='publish' class='btn btn-sm btn-primary '><i class='fa fa-keyboard-o'></i></div>";
+                    $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='publish' class='btn btn-sm btn-primary '><i class='fa fa-keyboard-o'></i></button><button zxz-type='see' class='btn btn-sm btn-info '> <i class='fa fa-bars'></i></button></div>";
                 }
             }
             return $data;
@@ -315,6 +323,7 @@ class CrowdFundingService
         unset($data["_method"]);
         $time = 24*3600*$data["days"];
         $endtime = 24*3600*$data["enddays"];
+        $data["changetime"] = date("Y-m-d H:i:s",time());
         $data["starttime"] = date("Y-m-d H:i:s",time()+$time);
         $data["endtime"] = date("Y-m-d H:i:s",time()+$endtime);
         unset($data["days"]);
@@ -332,6 +341,7 @@ class CrowdFundingService
     public function insertCrowd($request)
     {
         $data = $this->createUplodData($request);
+        $data["addtime"] = date("Y-m-d H:i:s",time());
         $project_status["crowd_status"] = 1;
         $result = $this ->insertCrowdFunding($data,$project_status);
         if($result["status"]){
@@ -358,7 +368,12 @@ class CrowdFundingService
         }
     }
 
-
+    /**
+     * 获取详情页数据
+     * @param $project_id
+     * @return array
+     * author 张洵之
+     */
     public function crowdContent($project_id)
     {
         $where = ["project_id"=>$project_id];

@@ -20,19 +20,7 @@
                     <div class="row">
                         <div class="col-md-12 col-sm-12 col-xs-12 table-responsive">
                             <table id="datatable" class="table table-condensed table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th>项目ID</th>
-                                    <th>项目名称</th>
-                                    <th>已筹资金</th>
-                                    <th>目标资金</th>
-                                    <th>项目属性</th>
-                                    <th>到期日期</th>
-                                    <th>管理</th>
-                                </tr>
-                                </thead>
-                                <tbody id="case">
-                                </tbody>
+
                             </table>
                         </div>
                     </div>
@@ -58,7 +46,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="closeButton"  class="btn btn-white" data-dismiss="modal">Close</button>
-                    <button type="button" id="supperButton" class="btn btn-info">发布</button>
+                    <button type="button" id="supperButton" class="btn btn-danger">确认</button>
                 </div>
             </div>
         </div>
@@ -75,9 +63,15 @@
         var forpageAjax = new AjaxWork(url,"get");
         forpageAjax.upload({status:lookStatus},function (data) {
             if(data.StatusCode == "200"){
-                $("#pageCenter").html(data.ResultData.page.pages);
-                nowPage = data.ResultData.page.nowPage;
-                createHtml(data.ResultData.data);
+
+                if(data.ResultData.data.length!=0){
+                    $("#pageCenter").html(data.ResultData.page.pages);
+                    nowPage = data.ResultData.page.nowPage;
+                    createHtml(data.ResultData.data);
+                }else{
+                    $("#pageCenter").html("");
+                    createHtml(data.ResultData.data);
+                }
                 pageAddClick();
                 buttonOnClick();
             }else {
@@ -87,20 +81,36 @@
     }
     // 创建DOM元素
     function createHtml(data) {
-
-        var html ="";
-        for(var key in data){
+        if(data.length!=0){
+            var html ="";
+            html+="<thead>";
             html+="<tr>"
-            html+="<td>"+data[key].project_id+"</td>";
-            html+="<td>"+data[key].title+"</td>";
-            html+="<td>"+data[key].fundraising_now+"</td>";
-            html+="<td>"+data[key].fundraising+"</td>";
-            html+="<td>"+data[key].project_type+"</td>";
-            html+="<td>"+data[key].endtime+"</td>";
-            html+="<td>"+data[key].btn+"</td>";
+            html+="<th>项目ID</th>"
+            html+="<th>项目名称</th>"
+            html+="<th>已筹资金</th>"
+            html+="<th>目标资金</th>"
+            html+="<th>项目属性</th>"
+            html+="<th>到期日期</th>"
+            html+="<th>管理</th>"
             html+="</tr>"
+            html+="</thead>"
+            html+="<tbody id='case'>"
+            html+="</tbody>"
+            $("#datatable").html(html);
+            var htmls ="";
+            for(var key in data){
+                htmls+="<tr>"
+                htmls+="<td>"+data[key].project_id+"</td>";
+                htmls+="<td>"+data[key].title+"</td>";
+                htmls+="<td>"+data[key].fundraising_now+"</td>";
+                htmls+="<td>"+data[key].fundraising+"</td>";
+                htmls+="<td>"+data[key].project_type+"</td>";
+                htmls+="<td>"+data[key].endtime+"</td>";
+                htmls+="<td>"+data[key].btn+"</td>";
+                htmls+="</tr>"
+            }
+            $("#case").html(htmls);
         }
-        $("#case").html(html);
     }
     // 初始化分页按钮，绑定点击事件
     function pageAddClick() {
@@ -167,6 +177,7 @@ function plotForm(type,data){
         case "publish":publishFrom(type,data);break;
         case "revise":reviseFrom(type,data);break;
         case "selectPub":selectPub("selectPub",data);break;
+        case "see":seeFrom(data);break;
         default :closeFrom(type,data);
     }
 }
@@ -352,13 +363,13 @@ function reviseFrom(type,data)
             "<label for='field-3' class='control-label'>" +
             "追加日期(天)" +
             "</label>" +
-            "<input type='text' class='form-control' id='addDay' value='' >" +
+            "<input type='text' class='form-control' id='addDay' value='0' >" +
             "</div>" +
             "<div class='col-sm-2'>" +
             "<label for='field-3' class='control-label'>" +
             "追加小时(时)" +
             "</label>" +
-            "<input type='text' class='form-control' id='addHour' value='' >" +
+            "<input type='text' class='form-control' id='addHour' value='0' >" +
             "</div>" +
             "</div>"+
             "<div class='row'>" +
@@ -429,7 +440,7 @@ var successRevise = function (data) {
         alert(data.ResultData)
     }
 }
-//确认按钮点击事件
+//模态框确认按钮点击事件
 $("#supperButton").click(function () {
     var type = $("#Type").html();
     if(type == "close"){
@@ -439,6 +450,7 @@ $("#supperButton").click(function () {
         case "publish":startCrowdfunding();break;
         case "revise" :revise();break;
         case "selectPub":newPub();break;
+        case "see":formHide();break;
         default:closeCrowdfunding(projectId);
     }
 })
@@ -657,6 +669,137 @@ function closeCrowdfunding(id) {
         }else{
             alert("以上内容不可为空！")
         }
+    }
+    function seeFrom(data) {
+        var html = "<div class='row'>" +
+                "<div class='col-md-6'>" +
+                "<div class='form-group'>" +
+                "<label for='field-1' class='control-label'>                                                     项目ID" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' id='field-1' value='"+data['project_id']+"'>" +
+                "</div>" +
+                "</div>" +
+                "<div class='col-md-6'>" +
+                "<div class='form-group'>" +
+                "<label for='field-2' class='control-label'>" +
+                "项目标题" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' id='field-2' value='"+data['title']+"'>" +
+                "</div>" +
+                "</div>" +
+                "</div>" +
+                "<div class='row'>" +
+                "<div class='col-md-4'>" +
+                "<label for='field-3' class='control-label'>" +
+                "项目分类" +
+                "</label>" +
+                "<select disabled id='selects' class='form-control'>" +
+                "<option value='0'>" +
+                "热门推荐" +
+                "</option>" +
+                "<option value='1'>" +
+                "最新发布" +
+                "</option>" +
+                "<option value='2'>" +
+                "未来科技" +
+                "</option>" +
+                "<option value='3'>" +
+                "健康出行" +
+                "</option>" +
+                "<option value='4'>" +
+                "生活美学" +
+                "</option>" +
+                "<option value='5'>" +
+                "美食生活" +
+                "</option>" +
+                "<option value='6'>" +
+                "流行文化" +
+                "</option>" +
+                "<option value='7'>" +
+                "爱心公益" +
+                "</option>" +
+                "</select>" +
+                "</div>" +
+                "<div class='col-md-4'>" +
+                "<label for='field-3' class='control-label'>" +
+                "截止日期" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' id='field-3' value='"+data["endtime"]+"' >" +
+                "</div>" +
+                "<div class='col-md-4'>" +
+                "<label for='field-3' class='control-label'>" +
+                "开始日期" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' id='field-4' value='"+data["starttime"]+"'>" +
+                "</div>" +
+                "</div>"+
+                "<div class='row'>" +
+                "<div class='col-md-4'>" +
+                "<div class='form-group'>" +
+                "<label for='field-4' class='control-label'>" +
+                "预筹资金(￥)" +
+                "</label>" +
+                "<input type='text' class='form-control' readonly id='field-5' value='"+data["fundraising"]+"' >" +
+                "</div>" +
+                "</div>" +
+                "<div class='col-md-4'>" +
+                "<div class='form-group'>" +
+                "<label for='field-4' class='control-label'>" +
+                "众筹简介" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' id='field-6' value='"+data["simple_info"]+"' >" +
+                "</div>" +
+                "</div>" +
+                "<div class='col-md-4'>" +
+                "<div class='form-group'>" +
+                "<label for='field-4' class='control-label'>" +
+                "奖励信息" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' id='field-7'value='"+data["donors_info"]+"' >" +
+                "</div>" +
+                "</div>" +
+                "</div>"+
+                "<div class='row'>" +
+                "<div class='col-md-4'>" +
+                "<div class='form-group'>" +
+                "<label for='field-4' class='control-label'>" +
+                "已筹资金(￥)" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' value='"+data["fundraising_now"]+"' >" +
+                "</div>" +
+                "</div>" +
+                "<div class='col-md-4'>" +
+                "<div class='form-group'>" +
+                "<label for='field-4' class='control-label'>" +
+                "参与人数(人)" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' value='"+data["Number_of_participants"]+"' >" +
+                "</div>" +
+                "</div>" +
+                "<div class='col-md-4'>" +
+                "<div class='form-group'>" +
+                "<label for='field-4' class='control-label'>" +
+                "创建日期" +
+                "</label>" +
+                "<input type='text' readonly class='form-control' id='field-7'value='"+data["addtime"]+"' >" +
+                "</div>" +
+                "</div>" +
+                "</div>"+
+                "<div class='row'>" +
+                "<div class='col-md-12'>" +
+                "<div class='form-group no-margin'>" +
+                "<label for='field-5' class='control-label'>" +
+                "众筹详情" +
+                "</label>" +
+                "<textarea class='form-control autogrow' id='field-8' style='overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;' readonly style='resize: none'>"+
+                        data["info"]+
+                "</textarea>" +
+                "</div>" +
+                "</div>" +
+                "</div>"+"<input type='hidden' value='see'id='guid'>"
+        $("#plotDiv").html(html);
+        $("#selects").val(data["project_type"])
+        formShow();
     }
     $("#lookStatus button").click(function () {
         lookStatus = $(this).attr("zxz-status");
