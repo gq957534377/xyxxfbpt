@@ -96,7 +96,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="field-4" class="control-label">截止报名时间：</label>
-                                <input type="text" class="some_class form-control" value="" id="deadline"/>
+                                <input type="text" class="some_class form-control" value="" name="deadline" id="deadline"/>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -112,7 +112,7 @@
                                 <label for="field-5" class="control-label">缩略图</label>
                                 <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" name="banner" disabled="true">
                                 <input id="file_upload" name="file_upload" type="file" multiple="true">
-                                <img src="" id="road_thumb_img" style="max-width: 350px;max-height: 110px;">
+                                <img src="" id="action_thumb_img" style="max-width: 350px;max-height: 110px;">
                             </div>
                         </div>
                         <div class="col-md-8">
@@ -434,7 +434,7 @@
                 'onUploadSuccess':function (file,data,response) {
                     var data = JSON.parse(data);
                     $('#banner').val(data.res);
-                    $('#road_thumb_img').attr('src',data.res);
+                    $('#action_thumb_img').attr('src',data.res);
                 },
                 'onUploadError' : function(file, errorCode, errorMsg, errorString) {
                     alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
@@ -681,18 +681,17 @@
                             $('#alert-form').html('');
                             $('.modal-title').html('提示');
                             console.log(data);
-//                            if (data) {
-//                                if (data.ServerNo == 200) {
-//                                    $('#con-close-modal').modal('hide');
-//                                    $('#alert-info').html('<p>路演发布成功!</p>');
-//                                    list(list_type);
-//
-//                                } else {
-//                                    $('#alert-info').html('<p>' + data.ResultData + '</p>');
-//                                }
-//                            } else {
-//                                $('#alert-info').html('<p>未知的错误</p>');
-//                            }
+                            if (data) {
+                                if (data.StatusCode == 200) {
+                                    $('#con-close-modal').modal('hide');
+                                    $('#alert-info').html('<p>活动发布成功!</p>');
+                                    list(list_type);
+                                } else {
+                                    $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                                }
+                            } else {
+                                $('#alert-info').html('<p>未知的错误</p>');
+                            }
                         }
                         $('#yz_fb').find('input[name=title]').val('');
                         $('#yz_fb').find('input[name=end_time]').val('');
@@ -701,7 +700,7 @@
                         $('#yz_fb').find('input[name=limit]').val('');
                         $('#yz_fb').find('input[name=author]').val('');
                         $('#yz_fb').find('input[name=banner]').val('');
-                        $('#road_thumb_img').attr('src','');
+                        $('#action_thumb_img').attr('src','');
                         $('#yz_fb').find('select[name=group]').val('');
                         $('#yz_fb').find('input[name=start_time]').val('');
                         $('#yz_fb').find('textarea[name=brief]').val('');
@@ -715,6 +714,7 @@
                         },
                         title: {
                             required: true,
+                            maxlength:50
                         },
                         end_time: {
                             required: true
@@ -723,13 +723,16 @@
                             required: true
                         },
                         address: {
-                            required: true
+                            required: true,
+                            maxlength:30
                         },
                         limit: {
+                            digits:true,
                             required: true
                         },
                         author:{
                             required: true,
+                            maxlength:5
                         },
                         group:{
                             required: true
@@ -738,10 +741,12 @@
                             required: true
                         },
                         brief:{
-                            required: true
+                            required: true,
+                            rangelength:[40,100]
                         },
                         describe:{
                             required: true,
+                            minlength:50
                         },
                         banner:{
                             required: true,
@@ -753,10 +758,13 @@
                             required: '请选择活动类型',
                         },
                         title: {
-                            required: '请输入路演主题'
+                            required: '请输入路演主题',
+                            maxlength:'标题最多50个字符'
                         },
                         author:{
-                            required: '请输入主讲人'
+                            required: '请输入主讲人',
+                            maxlength:'主讲人最多5个字符'
+
                         },
                         group:{
                             required: '组织机构必选'
@@ -765,7 +773,8 @@
                             required:'请输入路演时间'
                         },
                         brief:{
-                            required: '请输入路演简述'
+                            required: '请输入路演简述',
+                            rangelength:'请输入40-100个字符作为简述'
                         },
                         end_time:{
                             required: '请输入路演结束时间'
@@ -774,13 +783,16 @@
                             required: '请输入报名截止日期'
                         },
                         address:{
-                            required: '请输入路演地址'
+                            required: '请输入路演地址',
+                            maxlength:'地址最多30个字符'
                         },
                         limit:{
+                            digits:'人数限制必须为整数',
                             required: '请输入报名限制人数'
                         },
                         describe:{
-                            required: '请输入路演详情'
+                            required: '请输入路演详情',
+                            minlength:'详情长度最少50个字符'
                         },
                         banner:{
                             required: '缩略图不能为空'

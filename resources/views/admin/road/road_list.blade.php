@@ -50,7 +50,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-2" class="control-label">主讲人</label>
-                            <input type="text" class="form-control" id="speaker" name="speaker" placeholder="Doe">
+                            <input type="text" class="form-control" id="author" name="author" placeholder="Doe">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -157,7 +157,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="field-2" class="control-label">主讲人</label>
-                            <input type="text" class="form-control" id="xg_speaker" name="speaker" placeholder="Doe">
+                            <input type="text" class="form-control" id="xg_author" name="author" placeholder="Doe">
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -284,7 +284,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-2" class="control-label">主讲人</label>
-                                <input type="text" class="form-control" id="xq_speaker" placeholder="Doe" disabled="true">
+                                <input type="text" class="form-control" id="xq_author" placeholder="Doe" disabled="true">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -461,7 +461,7 @@
                         var data = new FormData();
                         var resul={
                             title:$('#yz_xg').find('input[name=title]').val(),
-                            speaker:$('#yz_xg').find('input[name=speaker]').val(),
+                            author:$('#yz_xg').find('input[name=author]').val(),
                             group:$('#yz_xg').find('select[name=group]').val(),
                             banner:$('#yz_xg').find('input[name=banner]').val(),
                             end_time:$('#yz_xg').find('input[name=end_time]').val(),
@@ -474,7 +474,7 @@
                         };
                         console.log(resul);
                         data.append( "title"      , resul.title);
-                        data.append( "speaker"     , resul.speaker);
+                        data.append( "author"     , resul.author);
                         data.append( "group"       ,resul.group);
                         data.append( "start_time"     , resul.start_time);
                         data.append( "brief"   , resul.brief);
@@ -529,7 +529,7 @@
                         limit: {
                             required: true
                         },
-                        speaker:{
+                        author:{
                             required: true,
                         },
                         group:{
@@ -553,7 +553,7 @@
                         title: {
                             required: '请输入路演主题'
                         },
-                        speaker:{
+                        author:{
                             required: '请输入主讲人'
                         },
                         group:{
@@ -615,7 +615,7 @@
                         var data = new FormData();
                         var resul={
                             title:$('input[name=title]').val(),
-                            speaker:$('input[name=speaker]').val(),
+                            author:$('input[name=author]').val(),
                             group:$('select[name=group]').val(),
                             banner:$('input[name=banner]').val(),
                             end_time:$('input[name=end_time]').val(),
@@ -628,7 +628,7 @@
                         };
                         console.log(resul);
                         data.append( "title"      , resul.title);
-                        data.append( "speaker"     , resul.speaker);
+                        data.append( "author"     , resul.author);
                         data.append( "group"       ,resul.group);
                         data.append( "start_time"     , resul.start_time);
                         data.append( "brief"   , resul.brief);
@@ -672,7 +672,7 @@
                         $('#yz_fb').find('input[name=deadline]').val('');
                         $('#yz_fb').find('input[name=address]').val('');
                         $('#yz_fb').find('input[name=limit]').val('');
-                        $('#yz_fb').find('input[name=speaker]').val('');
+                        $('#yz_fb').find('input[name=author]').val('');
                         $('#yz_fb').find('input[name=banner]').val('');
                         $('#road_thumb_img').attr('src','');
                         $('#yz_fb').find('select[name=group]').val('');
@@ -698,7 +698,7 @@
                         limit: {
                             required: true
                         },
-                        speaker:{
+                        author:{
                             required: true,
                         },
                         group:{
@@ -722,7 +722,7 @@
                         title: {
                             required: '请输入路演主题'
                         },
-                        speaker:{
+                        author:{
                             required: '请输入主讲人'
                         },
                         group:{
