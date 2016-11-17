@@ -1,5 +1,4 @@
 <!-- 验证机制 Start -->
-<script type="text/javascript" src="{{url('/qiniu/js/jquery.js')}}"></script>
 <script src="{{asset('admin/js/jquery.validate.min.js')}}"></script>
 <script>
     /**
@@ -8,6 +7,24 @@
      * Form Validator
      */
     // 文档地址 http://www.runoob.com/jquery/jquery-plugin-validate.html
+
+    $('#publish_trigger').click(function(){
+        $.ajax({
+            url:'/project/create',
+            type:'get',
+            async:false,
+            beforeSend:function(){$('.loading').show()},
+            success:function(data){
+                $('.loading').hide();
+                if(data.data!=2){
+                    promptBoxHandle('提示','请先申请成为创业者哦！');
+                }else{
+                    $('#_projectPunlish').modal('show');
+//                        $('#publish_trigger2').click();
+                }
+            }
+        });
+    })
 
     !function($) {
         "use strict";

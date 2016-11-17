@@ -86,10 +86,6 @@ class ProjectService {
 
         $updateData['changetime'] = date("Y-m-d H:i:s", time());
 
-        //拼装需要插入crowd_funding_data的数据
-        //project_id,title,status=2,user_id,addtime  需要从数据库查找指定id的一条信息
-        //$data_crowd = array(['project_id'=>$data['id'],'title'=>'',''=>'',''=>'']);
-
         //事务控制
         DB::transaction(function () use ($param,$updateData){
             //更新状态值
@@ -132,6 +128,12 @@ class ProjectService {
     }
 
 
+    /**
+     * 获得某个用户的角色值
+     * @param $guid
+     * @return array
+     * @anthor 贾济林
+     */
     public function getRole($guid)
     {
         $param = ['guid'=>$guid];
@@ -139,6 +141,20 @@ class ProjectService {
         $role = $data->role;
         if (!$data) return ['status'=>false,'msg'=>'查询失败'];
         return ['status'=>true,'data'=>$role];
+    }
+
+    /**
+     * 得到单个用户的所有发布项目
+     * @return array
+     * @author 贾济林
+     */
+    public function getProject()
+    {
+        $guid = session('user')->guid;
+        $where = ['guid'=>$guid];
+        $res = self::$projectStore->getData($where);
+        if (!$res) return ['status'=>false,'msg'=>'查询失败'];
+        return ['status'=>true,'data'=>$res];
     }
 
 }

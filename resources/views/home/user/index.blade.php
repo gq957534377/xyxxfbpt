@@ -1,7 +1,7 @@
 @extends('home.layouts.index')
 @section('style')
-    <script type="text/javascript" src="{{url('/qiniu/js/jquery.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/uploadbox.css')}}">
+    <script type="text/javascript" src="{{url('qiniu/js/jquery.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/plupload/plupload.full.min.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/plupload/i18n/zh_CN.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/qiniu.js')}}"></script>
@@ -189,10 +189,17 @@
                             </div>
                             <!--项目发布弹出层 end-->
                             <!--项目发布 end-->
+
+                            <!--已发布项目管理 start-->
+                            <a id='all_pro_list' href="#" class="list-group-item " data-toggle="modal">
+                                <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;项目管理</a>
+                            <!--已发布项目管理 end-->
                         </div>
                     </div>
                 </div>
+
                 <div class="main-col col-md-9 left-col" style="margin-top: 15px;">
+                    <!--个人信息部分 start-->
                     <div id="userBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
                         <div class="panel-body ">
                             <h2><i class="fa fa-cog" aria-hidden="true"></i>编辑个人资料  </h2>
@@ -249,11 +256,28 @@
                             </form>
                         </div>
                     </div>
+                    <!--个人信息部分 end-->
+
+                    <!--项目列表部分 start-->
+                    <table class="table table-striped" id='pro_list_table' style="display: none">
+                        <caption>项目列表</caption>
+                        <thead>
+                        <tr>
+                            <th>项目标题</th>
+                            <th>项目状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!--项目列表部分 end-->
                 </div>
+
+
             </div>
         </div><!--/.container-->
     </section><!--/#contact-page-->
-    @include('home.validator.publishValidator')
 @endsection
 
 @section('script')
@@ -353,26 +377,11 @@
             ajaxRequire('/user','POST',formData,$('#entrepreneur'),1);
         });
 
-        //添加项目发布控制
-        $('#publish_trigger').click(function(){
-            $.ajax({
-                url:'/project/create',
-                type:'get',
-                async:false,
-                beforeSend:function(){$('.loading').show()},
-                success:function(data){
-                    $('.loading').hide();
-                    if(data.data!=2){
-                        promptBoxHandle('提示','请先申请成为创业者哦！');
-                    }else{
-                        $('#publish_trigger2').click();
-                    }
-                }
-            });
-        })
     });
 </script>
 @include('home.user.ajax.ajaxRequire')
 @include('home.validator.UpdateValidator')
+@include('home.validator.publishValidator')
+@include('home.project.all_pro_list')
 
 @endsection
