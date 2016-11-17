@@ -28,10 +28,10 @@
 <script src="http://cdn.rooyun.com/js/jquery.dashboard.js"></script>
 <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
 <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
-/*
-富文本
-@author 郭庆
-*/
+{{--
+@ 富文本
+@ author郭庆
+--}}
 <script type="text/javascript">
     var toolbra = {
         toolbars: [
@@ -142,10 +142,11 @@
     };
 </script>
 
-/*
-时间插件
-@author 郭庆
-*/
+{{--
+@ 时间插件
+@ author郭庆
+--}}
+
 <script src="/dateTime/build/jquery.datetimepicker.full.js"></script>
 <script>
     $.datetimepicker.setLocale('en');
