@@ -144,4 +144,15 @@ class ActionService
             return ['status'=>false,'msg'=>"数据参数有误！"];
         }
     }
+
+    public function upDta($where,$data)
+    {
+        $Data = self::$actionStore->upload($where,$data);
+        if($Data["status"]){
+            $result["data"] = $Data["data"];
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>"数据参数有误！"];
+        }
+    }
 }
