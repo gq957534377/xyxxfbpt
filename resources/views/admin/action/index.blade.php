@@ -8,12 +8,12 @@
         width: 80%;
         height:80%;
     }
-     .uploadify{display:inline-block;}
+    .uploadify{display:inline-block;}
     .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
     table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
 </style>
 @section('content')
-@section('title', '路演管理')
+@section('title', '活动管理')
 {{-- 弹出表单开始 --}}
 <!--继承组件-->
 <!--替换按钮ID-->
@@ -30,108 +30,119 @@
     <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 @endsection
 {{-- 弹出表单结束 --}}
-{{--发布路演表单--}}
+{{--发布活动表单--}}
 <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" id="fabu">
         <div class="modal-content">
             <form data-name="" role="form" id="yz_fb"  onsubmit="return false">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="road_title">发布路演活动</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="field-1" class="control-label">路演主题</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="roadShow title...">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-2" class="control-label">主讲人</label>
-                            <input type="text" class="form-control" id="author" name="author" placeholder="Doe">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-3">所属机构</label>
-                            <div for="field-3">
-                                <select class="form-control" id="group" name="group">
-                                    <option value="1">英雄会</option>
-                                    <option value="2">兄弟会</option>
-                                </select>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="road_title">发布活动</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="field-3">活动类型</label>
+                                <div for="field-3">
+                                    <select class="form-control" id="action" name="action">
+                                        <option value="1">路演</option>
+                                        <option value="2">比赛</option>
+                                        <option value="3">学习</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-4" class="control-label">路演开始时间：</label>
-                            {{--<input type="datetime-local" class="form-control" id="start_time" name="start_time">--}}
-                            <input type="text" class="some_class form-control" value="" id="start_time" name="start_time"/>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">活动主题</label>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="roadShow title...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">负责人</label>
+                                <input type="text" class="form-control" id="author" name="author" placeholder="Doe">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-3">所属机构</label>
+                                <div for="field-3">
+                                    <select class="form-control" id="group" name="group">
+                                        <option value="1">英雄会</option>
+                                        <option value="2">兄弟会</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">活动开始时间：</label>
+                                <input type="text" class="some_class form-control" value="" id="start_time" name="start_time"/>
 
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">活动结束时间：</label>
+                                <input type="text" class="some_class form-control" value="" id="end_time" name="end_time"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">截止报名时间：</label>
+                                <input type="text" class="some_class form-control" value="" name="deadline" id="deadline"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">限报人数：</label>
+                                <input type="text" class="form-control" id="limit" name="limit">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-4" class="control-label">路演结束时间：</label>
-                            {{--<input type="datetime-local" class="form-control" id="end_time" name="end_time">--}}
-                            <input type="text" class="some_class form-control" value="" id="end_time" name="end_time"/>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-5" class="control-label">缩略图</label>
+                                <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" name="banner" disabled="true">
+                                <input id="file_upload" name="file_upload" type="file" multiple="true">
+                                <img src="" id="action_thumb_img" style="max-width: 350px;max-height: 110px;">
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">活动地址：</label>
+                                <input type="text" class="form-control" id="address" name="address">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-4" class="control-label">截止报名时间：</label>
-                            {{--<input type="datetime-local" class="form-control" id="deadline" name="deadline">--}}
-                            <input type="text" class="some_class form-control" value="" id="deadline"/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group no-margin">
+                                <label for="field-7" class="control-label">活动简述</label>
+                                <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-4" class="control-label">限报人数：</label>
-                            <input type="text" class="form-control" id="limit" name="limit">
+                    <div class="row">
+                        <label class="col-md-12 control-label">活动详情</label>
+                        <div class="col-md-12">
+                            <textarea id="UE" name="describe" class="describe"></textarea>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="field-5" class="control-label">缩略图</label>
-                            <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" name="banner" disabled="true">
-                            <input id="file_upload" name="file_upload" type="file" multiple="true">
-                            <img src="" id="road_thumb_img" style="max-width: 350px;max-height: 110px;">
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label for="field-4" class="control-label">路演地址：</label>
-                            <input type="text" class="form-control" id="address" name="address">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group no-margin">
-                            <label for="field-7" class="control-label">路演简述</label>
-                            <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-12 control-label">路演详情</label>
-                    <div class="col-md-12">
-                        <textarea id="UE" name="describe" class="describe"></textarea>
-                    </div>
-                </div>
-                <meta name="csrf-token" content="{{ csrf_token() }}">
+                    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-            </div>
-            <div class="modal-footer" id="caozuo">
-                <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                <button type="submit" data-name="" class="road_update btn btn-primary" id="add_road">发布路演</button>
-            </div>
+                </div>
+                <div class="modal-footer" id="caozuo">
+                    <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                    <button type="submit" data-name="" class="road_update btn btn-primary" id="add_road">发布活动</button>
+                </div>
             </form>
         </div>
     </div>
@@ -142,94 +153,108 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myLargeModalLabel">修改路演</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">修改活动</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg"  onsubmit="return false">
-                    <input type="hidden" name="id">
                     <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="field-1" class="control-label">路演主题</label>
-                            <input type="text" class="form-control" id="xg_title" name="title" placeholder="roadShow title...">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-2" class="control-label">主讲人</label>
-                            <input type="text" class="form-control" id="xg_author" name="author" placeholder="Doe">
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-3">所属机构</label>
-                            <div for="field-3">
-                                <select class="form-control" id="xg_group" name="group">
-                                    <option value="1">英雄会</option>
-                                    <option value="2">兄弟会</option>
-                                </select>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="field-3">活动类型</label>
+                                <div for="field-3">
+                                    <select class="form-control" id="xg_action" name="action" disabled="true">
+                                        <option value="1">路演</option>
+                                        <option value="2">比赛</option>
+                                        <option value="3">学习</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-4" class="control-label">路演开始时间：</label>
-                            <input type="text" class="some_class form-control" id="xg_start_time" name="start_time">
+                    <input type="hidden" name="id">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">活动主题</label>
+                                <input type="text" class="form-control" id="xg_title" name="title" placeholder="roadShow title...">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-2" class="control-label">负责人</label>
+                                <input type="text" class="form-control" id="xg_author" name="author" placeholder="Doe">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-3">所属机构</label>
+                                <div for="field-3">
+                                    <select class="form-control" id="xg_group" name="group">
+                                        <option value="1">英雄会</option>
+                                        <option value="2">兄弟会</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-4" class="control-label">路演结束时间：</label>
-                            <input type="text" class="some_class form-control" id="xg_end_time" name="end_time">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">活动开始时间：</label>
+                                <input type="text" class="some_class form-control" id="xg_start_time" name="start_time">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">活动结束时间：</label>
+                                <input type="text" class="some_class form-control" id="xg_end_time" name="end_time">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">截止报名时间：</label>
+                                <input type="text" class="some_class form-control" id="xg_deadline" name="deadline">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">限报人数：</label>
+                                <input type="text" class="form-control" id="xg_limit" name="limit">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-4" class="control-label">截止报名时间：</label>
-                            <input type="text" class="some_class form-control" id="xg_deadline" name="deadline">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="field-5" class="control-label">缩略图</label>
+                                <input type="text" size="50" style="width: 150px;" class="lg" name="banner" id="charge_banner" disabled="true">
+                                <input id="file_charge" name="file_upload" type="file" multiple="true">
+                                <img src="" id="charge_thumb_img" style="max-width: 350px;max-height: 110px;">
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <label for="field-4" class="control-label">活动地址：</label>
+                                <input type="text" class="form-control" id="xg_address" name="address">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="field-4" class="control-label">限报人数：</label>
-                            <input type="text" class="form-control" id="xg_limit" name="limit">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group no-margin">
+                                <label for="field-7" class="control-label">活动简述</label>
+                                <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label for="field-5" class="control-label">缩略图</label>
-                            <input type="text" size="50" style="width: 150px;" class="lg" name="banner" id="charge_banner" disabled="true">
-                            <input id="file_charge" name="file_upload" type="file" multiple="true">
-                            <img src="" id="charge_thumb_img" style="max-width: 350px;max-height: 110px;">
+                    <div class="row">
+                        <label class="col-md-12 control-label">活动详情</label>
+                        <div class="col-md-12">
+                            <textarea id="UE1" name="describe" class="describe"></textarea>
                         </div>
                     </div>
-                    <div class="col-md-7">
-                        <div class="form-group">
-                            <label for="field-4" class="control-label">路演地址：</label>
-                            <input type="text" class="form-control" id="xg_address" name="address">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group no-margin">
-                            <label for="field-7" class="control-label">路演简述</label>
-                            <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-12 control-label">路演详情</label>
-                    <div class="col-md-12">
-                        <textarea id="UE1" name="describe" class="describe"></textarea>
-                    </div>
-                </div>
-                <meta name="csrf-token" content="{{ csrf_token() }}">
-                <center><button type="submit" class="btn btn-success m-l-10">修改</button></center>
+                    <meta name="csrf-token" content="{{ csrf_token() }}">
+                    <center><button type="submit" class="btn btn-success m-l-10">修改</button></center>
                 </form>
             </div>
         </div><!-- /.modal-content -->
@@ -273,10 +298,16 @@
                 </div>
                 <div class="tab-pane" id="profile-2">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label for="field-1" class="control-label">路演主题</label>
                                 <input type="text" id="xq_title" class="form-control" disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">活动类型</label>
+                                <input type="text" id="xq_type" class="form-control" disabled="true">
                             </div>
                         </div>
                     </div>
@@ -284,7 +315,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-2" class="control-label">主讲人</label>
-                                <input type="text" class="form-control" id="xq_author" placeholder="Doe" disabled="true">
+                                <input type="text" class="form-control" id="xq_speaker" placeholder="Doe" disabled="true">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -320,7 +351,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">路演地址</label>
-                                <input type="text" class="form-control" id="xq_adress" placeholder="United States" disabled="true">
+                                <input type="text" class="form-control" id="xq_address" placeholder="United States" disabled="true">
                             </div>
                         </div>
                     </div>
@@ -363,17 +394,33 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">路演发布</button>
+<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>
 
 <img src="/admin/images/load.gif" class="loading">
 
 <div class="wraper container-fluid">
     <div class="page-title">
-        <h3 class="title">路演管理</h3>
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="title">活动管理</h3>
+            </div>
+            <div class="col-md-4">
+                <select class="form-control" id="xz_type" name="xz_type">
+                    <option value="1">路演</option>
+                    <option value="2">比赛</option>
+                    <option value="3">学习</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button class="btn-primary" id="chakan">查看</button>
+            </div>
+        </div>
+
+
         <br>
-        <button class="btn-primary" onclick="listType(1)">报名中</button>
-        <button class="btn-danger" onclick="listType(2)">活动进行中...</button>
-        <button class="btn-primary" onclick="listType(3)">往期回顾</button>
+        <button class="btn-primary" onclick="listType(list_type,1)">报名中</button>
+        <button class="btn-danger" onclick="listType(list_type,2)">活动进行中...</button>
+        <button class="btn-primary" onclick="listType(list_type,3)">往期回顾</button>
     </div>
     <div class="panel" id="data"></div>
 </div>
@@ -409,7 +456,7 @@
                 'onUploadSuccess':function (file,data,response) {
                     var data = JSON.parse(data);
                     $('#banner').val(data.res);
-                    $('#road_thumb_img').attr('src',data.res);
+                    $('#action_thumb_img').attr('src',data.res);
                 },
                 'onUploadError' : function(file, errorCode, errorMsg, errorString) {
                     alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
@@ -433,16 +480,20 @@
                 }
             });
         });
-
     </script>
     <script>
-        var list_type = 1;
-        function listType(type) {
+        var list_type = null;
+        var list_status = 1;
+        function listType(type,status) {
             list_type = type;
-            list(type);
+            list_status = status;
+            list(type,status);
         }
+        $('#chakan').click(function(){
+            listType($('#xz_type').val(),1);
+        });
         {{--修改--}}
-        !function($) {
+                !function($) {
             "use strict";
             var FormValidator = function() {
                 this.$signupForm = $("#yz_xg");
@@ -461,7 +512,7 @@
                         var data = new FormData();
                         var resul={
                             title:$('#yz_xg').find('input[name=title]').val(),
-                            author:$('#yz_xg').find('input[name=author]').val(),
+                            speaker:$('#yz_xg').find('input[name=speaker]').val(),
                             group:$('#yz_xg').find('select[name=group]').val(),
                             banner:$('#yz_xg').find('input[name=banner]').val(),
                             end_time:$('#yz_xg').find('input[name=end_time]').val(),
@@ -474,7 +525,7 @@
                         };
                         console.log(resul);
                         data.append( "title"      , resul.title);
-                        data.append( "author"     , resul.author);
+                        data.append( "speaker"     , resul.speaker);
                         data.append( "group"       ,resul.group);
                         data.append( "start_time"     , resul.start_time);
                         data.append( "brief"   , resul.brief);
@@ -501,8 +552,8 @@
                             if (data) {
                                 if (data.ServerNo == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
-                                    $('#alert-info').html('<p>路演活动修改成功!</p>');
-                                    list(list_type);
+                                    $('#alert-info').html('<p>活动修改成功!</p>');
+                                    list(resul.type,1);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -529,7 +580,7 @@
                         limit: {
                             required: true
                         },
-                        author:{
+                        speaker:{
                             required: true,
                         },
                         group:{
@@ -553,7 +604,7 @@
                         title: {
                             required: '请输入路演主题'
                         },
-                        author:{
+                        speaker:{
                             required: '请输入主讲人'
                         },
                         group:{
@@ -614,6 +665,7 @@
                         });
                         var data = new FormData();
                         var resul={
+                            type:$('select[name=action]').val(),
                             title:$('input[name=title]').val(),
                             author:$('input[name=author]').val(),
                             group:$('select[name=group]').val(),
@@ -627,6 +679,7 @@
                             describe:$('textarea[name=describe]').val(),
                         };
                         console.log(resul);
+                        data.append( "type"      , resul.type);
                         data.append( "title"      , resul.title);
                         data.append( "author"     , resul.author);
                         data.append( "group"       ,resul.group);
@@ -641,7 +694,7 @@
                         $('#alert-info').html();
                         console.log(resul);
                         $.ajax({
-                            url     : '/road',
+                            url     : '/action',
                             type:'post',
                             data:resul,
                             before  : ajaxBeforeNoHiddenModel,
@@ -655,11 +708,22 @@
                             $('.modal-title').html('提示');
                             console.log(data);
                             if (data) {
-                                if (data.ServerNo == 200) {
+                                if (data.StatusCode == 200) {
                                     $('#con-close-modal').modal('hide');
-                                    $('#alert-info').html('<p>路演发布成功!</p>');
-                                    list(list_type);
-
+                                    $('#alert-info').html('<p>活动发布成功!</p>');
+                                    $('#yz_fb').find('input[name=title]').val('');
+                                    $('#yz_fb').find('input[name=end_time]').val('');
+                                    $('#yz_fb').find('input[name=deadline]').val('');
+                                    $('#yz_fb').find('input[name=address]').val('');
+                                    $('#yz_fb').find('input[name=limit]').val('');
+                                    $('#yz_fb').find('input[name=author]').val('');
+                                    $('#yz_fb').find('input[name=banner]').val('');
+                                    $('#action_thumb_img').attr('src','');
+                                    $('#yz_fb').find('select[name=group]').val('');
+                                    $('#yz_fb').find('input[name=start_time]').val('');
+                                    $('#yz_fb').find('textarea[name=brief]').val('');
+                                    ue.setContent('');
+                                    list(resul.type,1);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -667,24 +731,17 @@
                                 $('#alert-info').html('<p>未知的错误</p>');
                             }
                         }
-                        $('#yz_fb').find('input[name=title]').val('');
-                        $('#yz_fb').find('input[name=end_time]').val('');
-                        $('#yz_fb').find('input[name=deadline]').val('');
-                        $('#yz_fb').find('input[name=address]').val('');
-                        $('#yz_fb').find('input[name=limit]').val('');
-                        $('#yz_fb').find('input[name=author]').val('');
-                        $('#yz_fb').find('input[name=banner]').val('');
-                        $('#road_thumb_img').attr('src','');
-                        $('#yz_fb').find('select[name=group]').val('');
-                        $('#yz_fb').find('input[name=start_time]').val('');
-                        $('#yz_fb').find('textarea[name=brief]').val('');
-                        ue.setContent('');
+
                     }
                 });
                 this.$signupForm.validate({
                     rules: {
+                        type: {
+                            required: true,
+                        },
                         title: {
                             required: true,
+                            maxlength:50
                         },
                         end_time: {
                             required: true
@@ -693,13 +750,16 @@
                             required: true
                         },
                         address: {
-                            required: true
+                            required: true,
+                            maxlength:30
                         },
                         limit: {
+                            digits:true,
                             required: true
                         },
                         author:{
                             required: true,
+                            maxlength:5
                         },
                         group:{
                             required: true
@@ -708,10 +768,12 @@
                             required: true
                         },
                         brief:{
-                            required: true
+                            required: true,
+                            rangelength:[40,100]
                         },
                         describe:{
                             required: true,
+                            minlength:50
                         },
                         banner:{
                             required: true,
@@ -719,11 +781,17 @@
                     },
                     //提示信息
                     messages: {
+                        type: {
+                            required: '请选择活动类型',
+                        },
                         title: {
-                            required: '请输入路演主题'
+                            required: '请输入路演主题',
+                            maxlength:'标题最多50个字符'
                         },
                         author:{
-                            required: '请输入主讲人'
+                            required: '请输入主讲人',
+                            maxlength:'主讲人最多5个字符'
+
                         },
                         group:{
                             required: '组织机构必选'
@@ -732,7 +800,8 @@
                             required:'请输入路演时间'
                         },
                         brief:{
-                            required: '请输入路演简述'
+                            required: '请输入路演简述',
+                            rangelength:'请输入40-100个字符作为简述'
                         },
                         end_time:{
                             required: '请输入路演结束时间'
@@ -741,13 +810,16 @@
                             required: '请输入报名截止日期'
                         },
                         address:{
-                            required: '请输入路演地址'
+                            required: '请输入路演地址',
+                            maxlength:'地址最多30个字符'
                         },
                         limit:{
+                            digits:'人数限制必须为整数',
                             required: '请输入报名限制人数'
                         },
                         describe:{
-                            required: '请输入路演详情'
+                            required: '请输入路演详情',
+                            minlength:'详情长度最少50个字符'
                         },
                         banner:{
                             required: '缩略图不能为空'
@@ -764,7 +836,7 @@
                     $.FormValidator.init()
                 }(window.jQuery);
 
-         //修改路演信息展示旧的信息
+        //修改路演信息展示旧的信息
         function updateRoad() {
             $('.charge-road').click(function () {
                 $('.loading').hide();
@@ -783,7 +855,7 @@
             $('.info').click(function () {
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/road/' + $(this).data('name'),
+                    url     : '/action/' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : showInfoList,
                     error   : ajaxErrorModel
@@ -819,8 +891,8 @@
                             } else if (_this.children().hasClass("btn-primary")) {
                                 _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
                             }
-                            $('#alert-info').html('<p>数据修改成功!</p>');
-                            list(list_type);
+                            $('#alert-info').html('<p>状态修改成功!</p>');
+                            list(list_type,list_status);
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>' + data.ResultData + '</p>');
@@ -834,15 +906,15 @@
         }
 
         // 页面加载时触发事件请求分页数据
-        function list(type) {
+        function list(type,status) {
             var ajax = new ajaxController();
             ajax.ajax({
-                url     : '/road_info_page?type='+type,
+                url     : '/action/create?type='+type+'&status='+status,
                 before  : ajaxBeforeModel,
                 success : getInfoList,
                 error   : ajaxErrorModel,
             });
         }
-        list(list_type);
+        list(list_type,list_status);
     </script>
 @endsection

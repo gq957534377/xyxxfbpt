@@ -76,7 +76,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="field-4" class="control-label">比赛开始时间：</label>
-                            <input type="datetime-local" value="2016-11-11T00:00:00" class="form-control"
+                            <input type="text" class="some_class form-control"
                                    name="start_time" id="start_time">
                         </div>
                     </div>

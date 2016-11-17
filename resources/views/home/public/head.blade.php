@@ -52,10 +52,10 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="index.html">Home</a></li>
                     <li><a href="{{url('crowd_funding')}}">英雄众筹</a></li>
-                    <li class="dropdown"><a href="{{url('/roald')}}">路演活动<i class="fa fa-angle-down"></i></a>
+                    <li class="dropdown"><a href="{{url('/road')}}">路演活动<i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{url('/roald/create')}}">最新路演</a></li>
-                            <li><a href="{{url('/roald/id')}}">我的路演</a></li>
+                            <li><a href="{{url('/road/create')}}">最新路演</a></li>
+                            <li><a href="{{url('/road/id')}}">我的路演</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

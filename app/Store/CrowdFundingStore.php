@@ -107,7 +107,7 @@ class CrowdFundingStore
     public function forPage($page,$tolPage,$where)
     {
         if(!is_int($page)||!is_int($tolPage) ||!is_array($where))return null;
-        $result = DB::table(self::$table)->where($where)->orderBy("project_id","desc")->forPage($page,$tolPage)->get();
+        $result = DB::table(self::$table)->where($where)->orderBy("changetime","desc")->forPage($page,$tolPage)->get();
         return $result;
     }
 
