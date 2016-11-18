@@ -38,22 +38,26 @@ class ActionStore
     public function forPage($page,$tolPage,$where)
     {
         if(!is_int($page)||!is_int($tolPage) ||!is_array($where))return null;
-        $result["data"] = DB::table(self::$table)->where($where)->orderBy("change_time","desc")->forPage($page,$tolPage)->get();
-        $result["status"] = true;
+        $result = DB::table(self::$table)->where($where)->orderBy("change_time","desc")->forPage($page,$tolPage)->get();
         return $result;
     }
 
     /**
-     * 基本条件查询
-     * @param $where
-     * @return null
-     * author 张洵之
+     * 查询指定条件所有数据
+     * @return mixed
+     * @author 郭庆
      */
-    public function getData($where)
+    public static function getData($where)
     {
-        if(!is_array($where)) return null;
-        $result["data"] = DB::table(self::$table)->where($where)->get();
-        $result["status"] = true;
+        if (empty($where)) return false;
+        return DB::table(self::$table)->where($where)->get();
+    }
+
+
+    public function upload($where,$data)
+    {
+        if(!is_array($where)||!is_array($data)) return null;
+        $result =DB::table(self::$table)->where($where)->update($data);
         return $result;
     }
 }
