@@ -50,7 +50,8 @@ class ActionController extends Controller
      */
     public function store()
     {
-
+        $data = self::$request->all();
+        dd($data);
     }
 
     /**
@@ -61,9 +62,10 @@ class ActionController extends Controller
      */
     public function show($id)
     {
+        $session = self::$request->session()->all();
         $data = self::$actionServer->getData($id);
         if($data["status"]){
-            return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0]]);
+            return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id]);
         }
     }
 
@@ -75,7 +77,7 @@ class ActionController extends Controller
      */
     public function edit($id)
     {
-        //
+
 
     }
 
@@ -88,7 +90,7 @@ class ActionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
 
     }
 

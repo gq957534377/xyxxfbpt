@@ -37,7 +37,7 @@
 
                             <div class="col-xs-12 col-sm-10 blog-content">
                                 <a href="#"><img class="img-responsive img-blog" src="{{asset('home/images/blog/blog1.jpg')}}" width="100%" alt="" /></a>
-                                <h2><a href="blog-item.html">{{$v->title}}</a></h2>
+                                <h2><a href="/action/{{$v->guid}}">{{$v->title}}</a></h2>
                                 <h3>{{$v->brief}}</h3>
                                 <a class="btn btn-primary readmore" href="/action/{{$v->guid}}">Read More <i class="fa fa-angle-right"></i></a>
                             </div>
