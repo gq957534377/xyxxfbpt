@@ -126,6 +126,13 @@ class ActionService
         }
     }
 
+    /**
+     * 修改活动状态
+     * @param $guid
+     * @param $status
+     * @return array
+     * author 张洵之
+     */
     public function changeStatus($guid,$status)
     {
         if(!(isset($guid)&&isset($status))){
@@ -145,6 +152,13 @@ class ActionService
         }
     }
 
+    /**
+     * 修改互动内容
+     * @param $where
+     * @param $data
+     * @return array
+     * author 张洵之
+     */
     public function upDta($where,$data)
     {
         $Data = self::$actionStore->upload($where,$data);
@@ -155,4 +169,5 @@ class ActionService
             return ['status'=>false,'msg'=>"数据参数有误！"];
         }
     }
+
 }

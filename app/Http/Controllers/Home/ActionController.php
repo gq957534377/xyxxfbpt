@@ -58,7 +58,10 @@ class ActionController extends Controller
      */
     public function show($id)
     {
-
+        $data = self::$actionServer->getData($id);
+        if($data["status"]){
+            return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0]]);
+        }
     }
 
     /**
