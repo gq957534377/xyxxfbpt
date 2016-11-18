@@ -297,8 +297,7 @@ function checkInfo() {
         // alert(user);
         // alert(guid);
         var guid = $(this).data('name');
-        if (user == 9) url = '/user/create';
-        if (user == 11) url = 'user_role/create';
+        url = 'user_role/create';
         var data = {
             name : guid
         };
