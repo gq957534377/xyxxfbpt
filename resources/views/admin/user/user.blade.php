@@ -143,12 +143,15 @@
 //        type全局变量，标识不同情况下ajax请求type
         var type = null;
 //        success全局变量，标识不同情况下ajax请求success
-        var handle= null;
+        var handle = null;
 //        nowPage全局变量，标识不同情况下ajax请求success
-        var nowpage= 1;
+        var nowpage = 1;
+//        当前页面数据条数
+        var pagenum = 0;
+//        当前页面总页面数
+        var totalpage = 1;
 //      全局变量声明结束
-        var pagenum= 0;
-//      全局变量声明结束
+        var modify_guid = null;
 
         //初始化 请求数据 包含分页数据 添加事件
         $(function () {
@@ -160,10 +163,13 @@
                 status : 1
             };
             type = 'GET';
+            //加载事件列表
             handle = {
                 one : initial,
                 two : getPage,
-                three : changeSomeStatus
+                three : changeSomeStatus,
+                four : checkInfo,
+                five : modifyData
             };
             load(url, data, type, function (data) {
                 checkResponse(data, handle, listUserShow);

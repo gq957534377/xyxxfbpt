@@ -96,8 +96,6 @@ function initial() {
 
         data = roleData(user);
 
-        // console.log(handle);
-
         if(data.role == 1 || data.role == 2 || data.role == 3)
             load('/user/create', data, 'GET', function (data) {
                 checkResponse(data, window.handle, listUserShow);
@@ -230,6 +228,10 @@ function numberData(number) {
 
 //事件 分页 重新请求数据并加载
 function getPage() {
+    //初始化全局变量
+    var tmp =  $('.pagination li a').length;
+    if(tmp >=2) tmp = tmp -1;
+    window.totalpage = tmp;
     $('.pagination li a').removeAttr('href');
     $('.pagination li').off('click').click(function () {
 
@@ -237,9 +239,12 @@ function getPage() {
         if(class_name == 'disabled' || class_name == 'active') {
             return false;
         }
+
+        //初始化全局变量
         window.nowpage = $(this).children('a').text();
         data = roleData(user);
         data.nowPage = window.nowpage;
+        window.pagenum = $('.gradeX').length;
 
         if(data.role == 1 || data.role == 2 || data.role == 3)
             load('/user/create', data, 'GET', function (data) {
@@ -254,80 +259,106 @@ function getPage() {
 
 //事件 修改
 function modifyData() {
-    $('.modify').off("click").click(function (event) {
-        event.stopPropagation();
-        var data = {
-            role : '1',
-            name : $(this).data('name')
+    $('.user_modify').off("click").click(function () {
+        window.modify_guid = $(this).data('name');
+        url = '/user/create';
+        var req_data = {
+            name : window.modify_guid
         };
-        $.ajax({
-            url     : '/users_one_data',
-            type    : 'get',
-            data    : data,
-            success : function showInfoList(data){
-                $('.loading').hide();
-                $('#con-modal').modal('show');
-                $('#cancel').removeClass("hidden");
-                $('#post').removeClass("hidden");
-                $('#close').addClass("hidden");
-                if (data) {
-                    if (data.StatusCode == 200) {
-                        $('#alert-info').hide();
-                        $('#alert-form').show().html(infoHtml(data.ResultData));
-                    } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
-                    }
+        type = 'GET';
+        load(url, req_data, type, function (data) {
+            // $('.loading').hide();
+            $('#con-modal').modal('show');
+            $('#cancel').removeClass("hidden");
+            $('#post').removeClass("hidden");
+            $('#close').addClass("hidden");
+            if (data) {
+                if (data.StatusCode == 200) {
+                    $('#alert-info').hide();
+                    $('#alert-form').show().html(userInfoUpdateShow(data.ResultData));
+                    submitData();
                 } else {
                     $('#alert-form').hide();
-                    $('#alert-info').html('<p>未知的错误</p>');
+                    $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
                 }
+            } else {
+                $('#alert-form').hide();
+                $('#alert-info').html('<p>未知的错误</p>');
             }
         });
     });
-    submitData();
+}
+
+//事件 修改
+function checkInfo() {
+    $('.check_check').off("click").click(function () {
+        // alert(123);
+        // alert(user);
+        // alert(guid);
+        var guid = $(this).data('name');
+        if (user == 9) url = '/user/create';
+        if (user == 11) url = 'user_role/create';
+        var data = {
+            name : guid
+        };
+        type = 'GET';
+        load(url, data, type, function (data) {
+            // $('.loading').hide();
+            $('#con-modal').modal('show');
+            $('#cancel').addClass("hidden");
+            $('#post').addClass("hidden");
+            $('#close').removeClass("hidden");
+            if (data) {
+                if (data.StatusCode == 200) {
+                    $('#alert-info').hide();
+                    $('#alert-form').show().html(checkDetailShow(data.ResultData));
+                } else {
+                    $('#alert-form').hide();
+                    $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+                }
+            } else {
+                $('#alert-form').hide();
+                $('#alert-info').html('<p>未知的错误</p>');
+            }
+        });
+    });
 }
 
 // 事件 提交修改
 function submitData() {
-    $('#post').off("click").click(function (event) {
-        event.stopPropagation();
+    $('#post').off("click").click(function () {
+
         var data = {
             realname : $('#realname').val(),
             nickname : $('#nickname').val(),
             sex       : $('#sex').val(),
             birthday : $('#birthday').val(),
             tel       : $('#tel').val(),
-            email     : $('#email').val(),
-            role      : '1',
-            id        : $('#guid').text()
+            email     : $('#email').val()
+            // role      : '1'
+            // id        : $('#guid').text()
         };
-
-        $.ajax({
-            url : '/users_data',
-            type : 'put',
-            data : data,
-            success: function checkStatus(data){
-                $('.loading').hide();
-                $('#con-modal').modal('show');
-                $('#cancel').addClass("hidden");
-                $('#post').addClass("hidden");
-                $('#close').removeClass("hidden");
-                if (data) {
-                    if (data.StatusCode == 200) {
-                        $('#alert-form').hide();
-                        $('#alert-info').show().html('<p>数据修改成功!</p>');
-                    } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
-                    }
+        url = '/user/' + window.modify_guid;
+        type = 'PUT';
+        load(url, data, type, function (data) {
+            // $('.loading').hide();
+            $('#con-modal').modal('show');
+            $('#cancel').addClass("hidden");
+            $('#post').addClass("hidden");
+            $('#close').removeClass("hidden");
+            if (data) {
+                if (data.StatusCode == 200) {
+                    $('#alert-form').hide();
+                    $('#alert-info').show().html('<p>数据修改成功!</p>');
                 } else {
                     $('#alert-form').hide();
-                    $('#alert-info').show().html('<p>未知的错误</p>');
+                    $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
                 }
+            } else {
+                $('#alert-form').hide();
+                $('#alert-info').show().html('<p>未知的错误</p>');
             }
         });
-//                return false;
     });
 }
 
@@ -345,10 +376,17 @@ function getNumber(this_obj) {
 
 //事件 更改 禁用|激活 通过|不通过 删除
 function changeSomeStatus(){
+
+    //初始化全局变量
+    var tmp =  $('.pagination li a').length;
+    if(tmp >=2) tmp = tmp -1;
+    window.totalpage = tmp;
+
     $('.user_unlock, .user_lock, .user_delete, .user_un_delete, .check_pass, .check_fail, .check_delete').off('click').on('click', function () {
         //获得number
         getNumber($(this));
 
+        //初始化全局变量
         window.item = $(this).parent().siblings("td").first().text();
         guid = $(this).data('name');
 
@@ -365,11 +403,18 @@ function changeSomeStatus(){
 
         //发送一个信号，让服务器执行一个事务
         if($pointer2){
-            var msg = {
-                msg : "check_pass"
+            var msg_1 = {
+                msg : "check_pass",
+                role : 2,
+                status : 2
             };
-            if(user == 9) load(url_1, msg, 'put', checkResponseStatus);
-            if(user == 10) load(url_1, msg, 'put', checkResponseStatus);
+            var msg_2 = {
+                msg : "check_pass",
+                role : 3,
+                status : 2
+            };
+            if(user == 9 || user == 11) load(url_1, msg_1, 'put', checkResponseStatus);
+            if(user == 10 || user == 12) load(url_1, msg_2, 'put', checkResponseStatus);
         }
         if($pointer3){
             load(url_2, numberData(getNumber($(this))), 'put', checkResponseStatus);
@@ -399,6 +444,7 @@ function checkResponse(data, func, show) {
                         e();
                     });
                 }
+                window.pagenum = $('.gradeX').length;
             }
         } else {
             $('#con-close-modal').modal('show');
@@ -426,11 +472,16 @@ function checkResponseStatus(data){
             $(".gradeX").eq(window.item - 1).empty();
 
             // 页面数据条数为零则刷新
-            window.pagenum += 1;
-            var num = $('.gradeX').length;
-            if(num == window.pagenum){
+            window.pagenum -= 1;
+            if(window.pagenum == 0){
+                //依据当前页面代号获取查询条件
                 data = roleData(user);
-                data.nowPage = (nowpage ? nowpage : 1) + 1;
+                //获取查询分页数
+                if(totalpage - nowpage == 0)
+                    data.nowPage = (nowpage == 1) ? nowpage : (nowpage - 1);
+                else{
+                    data.nowPage = nowpage;
+                }
 
                 if(data.role == 1 || data.role == 2 || data.role == 3)
                     load('/user/create', data, 'GET', function (data) {
@@ -440,9 +491,7 @@ function checkResponseStatus(data){
                     load('/user_role/create', data, 'GET', function (data) {
                         checkResponse(data, handle, listRoleShow);
                     });
-                window.pagenum = 0;
             }
-            // changeSomeStatus();
         } else {
             $('#alert-form').hide();
             $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
