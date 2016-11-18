@@ -46,12 +46,14 @@ class ActionController extends Controller
      *向活动表插入数据
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     * @author 张洵之
+     * @author 郭庆
      */
     public function store()
     {
-        $data = self::$request->all();
-        dd($data);
+        $data = self::$request->except('_token');
+        $result = self::$actionServer->actionOrder($data);
+        if(!$result['status'])return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
     }
 
     /**

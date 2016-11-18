@@ -8,6 +8,7 @@
 
 namespace App\Services;
 use App\Store\ActionStore;
+use App\Store\ActionOrderStore;
 use App\Tools\Common;
 
 class ActionService
@@ -16,10 +17,12 @@ class ActionService
      * 引入活动数据仓储层
      */
     protected static $actionStore;
+    protected static $actionOrderStore;
     protected static $common;
-    public function __construct(ActionStore $actionStore)
+    public function __construct(ActionStore $actionStore,ActionOrderStore $actionOrderStore)
     {
         self::$actionStore = $actionStore;
+        self::$actionOrderStore = $actionOrderStore;
     }
 
     /**
@@ -35,6 +38,19 @@ class ActionService
         return ['status'=>false,'msg'=>'暂时没有本活动信息'];
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @author 郭庆
+     */
+    public static function actionOrder($data)
+    {
+        $action = self::$actionOrderStore->getSomeField(['user_id'=>$data['user_id']],'action_id');
+        $result = self::$actionOrderStore->addData($data);
+        if (!$result) return ['status' => false, 'msg' => '报名失败'];
+        return ['status'=>true,'msg'=>$result];
+    }
     /**
      * 发布活动
      * @param $data

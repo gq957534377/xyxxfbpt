@@ -47,10 +47,8 @@ function listHtml(data){
         html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#tabs-modal">详情</button></a>';
         html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改活动</button>';
         if (e.status == 1) {
-            console.log(e.guid);
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-danger">禁用</button></a>';
         } else if (e.status == 3) {
-            console.log(e.guid);
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-primary">启用</button></a>';
         }
         html += '</td>';
@@ -134,7 +132,7 @@ function showInfoList(data){
     if (data) {
         if (data.StatusCode == 200) {
             data = data.ResultData.data[0];
-            console.log(data.author);
+            // console.log(data);
             $('#xq_title').val(data.title);
             $('#xq_author').val(data.author);
             $('#xq_type').val(type(data.type));
