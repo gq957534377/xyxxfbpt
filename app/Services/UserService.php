@@ -9,6 +9,7 @@ use App\Store\RoleStore;
 use App\Services\UploadService as UploadServer;
 use App\Tools\Common;
 use App\Tools\CustomPage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class UserService {
@@ -308,6 +309,23 @@ class UserService {
         $result = self::$userStore->updateUserInfo(['guid' => $id], $data);
         if(!$result) return ['status' => 400, 'data' => '删除失败'];
         return ['status' => 200, 'data' => '删除成功'];
+    }
+
+    /**
+     * 审核成功时修改多个数据表数据
+     * @param $data
+     * @param $id
+     * @return array
+     * @author wangfeilong
+     */
+    public function checkPass($data, $id){
+        //需要使用事务
+        if (!isset($data['role']) || !isset($data['status'])) return ['status'=>true,'data'=>'请求参数错误！'];
+        $result_1 = self::$roleStore->updateUserInfo(['guid' => $id], ['status' => $data['status']]);
+        if (!$result_1) return ['status'=>false,'data'=>'修改status失败！'];
+        $result_2 = self::$userStore->updateUserInfo(['guid' => $id], ['role' => $data['role']]);
+        if (!$result_2) return ['status'=>false,'data'=>'修改role失败！'];
+        return ['status'=>true,'data'=>'修改成功！'];
     }
 
 }

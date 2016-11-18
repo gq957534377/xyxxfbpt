@@ -104,6 +104,13 @@ class UserController extends Controller
     {
         $data = $request->all();
         if (!isset($id) || empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        //审核通过信号
+        if (isset($data['msg']) && $data['msg'] == "check_pass"){
+            $result = self::$userServer->checkPass($data, $id);
+            if (!$result['status'])
+                return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+            return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
+        }
         $result = self::$userServer->updataUserInfo(['guid' => $id], $data);
         $result['data'] = $result['msg'];
         if($result['status'] == 400)
@@ -120,14 +127,14 @@ class UserController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        $data = $request->all();
-        $p = (isset($id) || !empty($data) || isset($data['status']));
-        if (!$p) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
-        $result = self::$userServer->deleteUserData($data, $id);
-        // 如果$result返回错误
-        if($result['status'] == 400)
-            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
-        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
+//        $data = $request->all();
+//        $p = (isset($id) || !empty($data) || isset($data['status']));
+//        if (!$p) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+//        $result = self::$userServer->deleteUserData($data, $id);
+//        // 如果$result返回错误
+//        if($result['status'] == 400)
+//            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+//        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 
 
@@ -138,13 +145,13 @@ class UserController extends Controller
      */
     public function getOneData(Request $request)
     {
-        $data = $request->all();
-        if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
-        $result = self::$userServer->getOneData($data);
-        // 如果$result返回错误
-        if(!$result['status'])
-            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
-        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
+//        $data = $request->all();
+//        if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+//        $result = self::$userServer->getOneData($data);
+//        // 如果$result返回错误
+//        if(!$result['status'])
+//            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+//        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 
 }
