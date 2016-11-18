@@ -28,7 +28,7 @@ class TestController extends Controller
     public function create(Request $request)
     {
         //
-        dd($request->input('id'));
+        //dd($request->input('id'));
 
        return view('welcome');
     }
