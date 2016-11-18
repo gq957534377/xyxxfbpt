@@ -126,5 +126,6 @@ class ActionController extends Controller
     public function destroy($id)
     {
         //
+        $data = self::$actionServer;
     }
 }
