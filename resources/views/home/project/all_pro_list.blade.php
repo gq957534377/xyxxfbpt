@@ -1,7 +1,9 @@
-<script type="text/javascript" src="{{url("jsService/Model/projectModel.js")}}"></script>
+<script type="text/javascript" src="{{url("JsService/Model/projectModel.js")}}"></script>
+<script type="text/javascript" src="{{url("qiniu/js/main3.js")}}"></script>
+<script type="text/javascript" src="{{url("qiniu/js/main4.js")}}"></script>
 <script>
     var project = new Project();
-    // 项目管理个人列表
+    // 根据session获得项目管理个人列表
     $('#all_pro_list').click(function(){
         $.ajaxSetup({
             headers: {
@@ -11,9 +13,6 @@
         $.ajax({
             url:'project/list',
             type:'put',
-            data:{
-
-            },
             beforeSend:function(){
                 $('.loading').show();
             },
@@ -27,3 +26,4 @@
         })
     })
 </script>
+@include('home.validator.editValidator')

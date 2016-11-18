@@ -35,8 +35,9 @@ function Project(){
     $(dom).find("thead").append(thead_tr);
  };
 
-    // 个人项目列表
+    // 根据数据绘制个人项目列表
     Project.prototype.creatProList = function(data){
+        $('#pro_list_table tbody').html('');
         for (i in data){
             //标题
             var title_td = $('<td></td>');
@@ -62,24 +63,50 @@ function Project(){
 
 
     Project.prototype.proEdit = function(){
+         pro_id = $(this).attr('id');
         $.ajax({
-            url:'project/'+$(this).attr('id'),
+            url:'project/'+pro_id,
             type:'delete',
             beforeSend:function(){
                 $('.loading').show();
             },
             success:function(data){
-                creatListModal(data);
+                creatListModal(data.data[0]);
             }
         })
-    }
+    };
+
+    // ajax
+    Project.prototype.ajax = function(url,type,data,success){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url:url,
+            type:type,
+            data:data,
+            beforeSend:function(){$('.loading').show();},
+            success:function (data) {
+                success(data);
+            },
+            error:function(){
+                $('.loading').hide();
+            }
+        })
+    };
+
 
     //绘制编辑信息模态框
     var creatListModal = function(data){
-        alert('这里是编辑区，还没做好');
-       var modal = $('<div class="modal fade" id="pro_edit_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">1</div>');
-        $('.list-group .text-center').append(modal);
-       $('#pro_edit_modal').modal('show');
-        alert(0);
+        $('.loading').hide();
+        $('#edit_title').val(data.title);
+        $('#edit_habitude').val(data.habitude);
+        $('#edit_less_funding').val(data.less_funding);
+        $('#edit_cycle').val(data.cycle);
+        $('#edit_content').val(data.content);
+        $('#edit_project_type').val(data.project_type);
+        $('#pro_edit').modal('show');
     }
 }

@@ -23,14 +23,16 @@ class ProjectController extends Controller
         self::$projectServer = $projectService;
     }
 
-    /**返回创业项目列表页
+    /**返回审核通过并且状态值启用状态的项目列表页
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 贾济林
      */
     public function index()
     {
-
-        return view('home.project.project_list')->with('','');
+        $where = ['disable'=>'0'];
+        $res = self::$projectServer->getData($where);
+        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        return view('home.project.project_list')->with('data',$res['data']);
     }
 
     /**
