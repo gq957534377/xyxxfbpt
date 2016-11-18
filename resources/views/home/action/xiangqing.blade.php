@@ -153,10 +153,14 @@
                              var data = {
                                 user_id:'{{$session['user']->guid}}',
                                 action_id:'{{$id}}',
-                                 _token:'{{csrf_token()}}'
                              };
+                             $.ajaxSetup({
+                                 headers: {
+                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                 }
+                             });
                              $.ajax({
-                                 url     : '/action',
+                                 url: '/action',
                                  type:'post',
                                  data:data,
                                  success : function (data) {
