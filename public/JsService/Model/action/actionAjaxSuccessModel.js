@@ -134,9 +134,9 @@ function showInfoList(data){
     if (data) {
         if (data.StatusCode == 200) {
             data = data.ResultData.data[0];
-            console.log(data);
+            console.log(data.author);
             $('#xq_title').val(data.title);
-            $('#xq_speaker').val(data.author);
+            $('#xq_author').val(data.author);
             $('#xq_type').val(type(data.type));
             $('#xq_group').val(group(data.group));
             $('#xq_start_time').val(data.start_time);

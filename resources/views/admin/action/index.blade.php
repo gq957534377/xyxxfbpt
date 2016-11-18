@@ -314,8 +314,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="field-2" class="control-label">主讲人</label>
-                                <input type="text" class="form-control" id="xq_author" placeholder="Doe" disabled="true">
+                                <label for="field-2" class="control-label">负责人</label>
+                                <input type="text" class="form-control" id="xq_author" disabled="true">
                             </div>
                         </div>
                         <div class="col-md-4">
