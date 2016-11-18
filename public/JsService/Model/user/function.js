@@ -261,6 +261,7 @@ function getPage() {
 function modifyData() {
     $('.user_modify').off("click").click(function () {
         window.modify_guid = $(this).data('name');
+        window.item = $(this).parent().siblings("td").first().text();
         url = '/user/create';
         var req_data = {
             name : window.modify_guid
@@ -327,7 +328,6 @@ function checkInfo() {
 // 事件 提交修改
 function submitData() {
     $('#post').off("click").click(function () {
-
         var data = {
             realname : $('#realname').val(),
             nickname : $('#nickname').val(),
@@ -350,6 +350,7 @@ function submitData() {
                 if (data.StatusCode == 200) {
                     $('#alert-form').hide();
                     $('#alert-info').show().html('<p>数据修改成功!</p>');
+                    listUserOneShow(data);
                 } else {
                     $('#alert-form').hide();
                     $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
@@ -501,94 +502,5 @@ function checkResponseStatus(data){
         $('#alert-form').hide();
         $('#alert-info').show().html('<p>未知的错误</p>');
         return false;
-    }
-}
-
-//处理 动态修改内容
-function changeContent(){
-    var data = {
-        name : window.user_guid,
-        role : user
-    };
-    if(user == '1' || user == '2' || user == '3'){
-        load('/user/create', data, 'GET', function (data) {
-            var e = data.ResultData;
-            var html = '';
-            var status = null;
-            var p1, p2, p3 = '';
-            if(e.status == 1){
-                status = '<p class="text-success">激活</p>';
-                p1 = 'disabled';
-            }
-            if(e.status == 2){
-                status = '<p class="text-warning">禁用</p>';
-                p2 = 'disabled';
-            }
-            if(e.status == 3){
-                status = '<p class="text-danger">删除</p>';
-                p3 = 'disabled';
-            }
-            html += '<td>' + item + '</td>';
-            html += '<td>' + e.nickname + '</td>';
-            html += '<td>' + e.realname + '</td>';
-            html += '<td>' + e.sex + '</td>';
-            html += '<td>' + e.birthday + '</td>';
-            html += '<td>' + e.tel + '</td>';
-            html += '<td>' + e.email + '</td>';
-            html += '<td>' + status + '</td>';
-            html += '<td>';
-            html += '<a href="javascript:;" data-name="' + e.guid + '" class="modify"><button class="btn btn-info btn-xs">修改</button></a>';
-            html += '<a href="javascript:;" data-name="' + e.guid + '" class="unlock"><button class="btn btn-success ' + p1 + '  btn-xs">激活</button></a>';
-            html += '<a href="javascript:;" data-name="' + e.guid + '" class="lock"><button class="btn btn-warning ' + p2 + ' btn-xs">禁用</button></a>';
-            html += '<a href="javascript:;" data-name="' + e.guid + '" class="delete"><button class="btn btn-danger ' + p3 + '  btn-xs">删除</button></a>';
-            html += '</td>';
-            $(".gradeX").eq(item - 1).html(html);
-
-            //DOM树替换后再次分配事件
-            changeAllStatus();
-        });
-    }
-
-    if(user == '4' || user == '5'){
-        load('/user/create', data, 'GET', function (data) {
-            var e = data.ResultData;
-            var html = '';
-            var status = null;
-            var p1, p2, p3, p4= '';
-            if(e.status == 1){
-                status = '<p class="text-success">待审核</p>';
-                p1 = 'disabled';
-            }
-            if(e.status == 2){
-                status = '<p class="text-warning">审核成功</p>';
-                p2 = 'disabled';
-            }
-            if(e.status == 3){
-                status = '<p class="text-danger">审核失败</p>';
-                p3 = 'disabled';
-            }
-            if(e.status == 4){
-                status = '<p class="text-danger">删除</p>';
-                p4 = 'disabled';
-            }
-
-            html += '<td>' + item + '</td>';
-            html += '<td>' + e.realname + '</td>';
-            html += '<td>' + e.sex + '</td>';
-            html += '<td>' + e.tel + '</td>';
-            html += '<td>' + e.card_number + '</td>';
-            html += '<td>' + status + '</td>';
-            html += '<td>';
-            html += '<a href="javascript:;" class="info check" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">审核</button></a>';
-            html += '<a href="javascript:;" class="info pass" data-name="' + e.guid + '"><button class="btn btn-success ' + p2 + ' btn-xs">通过</button></a>';
-            html += '<a href="javascript:;" class="info fail" data-name="' + e.guid + '"><button class="btn btn-warning ' + p3 + ' btn-xs">不通过</button></a>';
-            html += '<a href="javascript:;" class="info delete" data-name="' + e.guid + '"><button class="btn btn-danger ' + p4 + ' btn-xs">删除</button></a>';
-            html += '</td>';
-
-            $(".gradeX").eq(item - 1).html(html);
-
-            //DOM树替换后再次分配事件
-            changeAllStatus();
-        });
     }
 }

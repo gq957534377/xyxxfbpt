@@ -107,47 +107,62 @@ function userInfoUpdateShow(data) {
 
 // 获得一条数据的html
 function listUserOneShow(data){
-    alert(item);
-    var html = '';
-    var e = data.ResultData;
-    var status = null;
-    var p = '';
-    if(e.status == 1){
-        status = '<p class="text-success">正常</p>';
-        p = 1;
-    }
-    if(e.status == 2){
-        status = '<p class="text-warning">禁用</p>';
-        p = 2;
-    }
-    if(e.status == 3){
-        status = '<p class="text-danger">已停用</p>';
-        p = 3;
-    }
+    url = '/user/create';
+    var req_data = {
+        name : window.modify_guid
+    };
+    type = 'GET';
+    load(url, req_data, type, function (data) {
+        if (data) {
+            if (data.StatusCode == 200) {
 
-    html += '<td>' + (i + 1) + '</td>';
-    html += '<td>' + e.nickname + '</td>';
-    html += '<td>' + e.realname + '</td>';
-    html += '<td>' + e.sex + '</td>';
-    html += '<td>' + e.birthday + '</td>';
-    html += '<td>' + e.tel + '</td>';
-    html += '<td>' + e.email + '</td>';
-    html += '<td>' + status + '</td>';
-    html += '<td>';
+                var html = '';
+                var e = data.ResultData;
+                var status = null;
+                var p = '';
+                if(e.status == 1){
+                    status = '<p class="text-success">正常</p>';
+                    p = 1;
+                }
+                if(e.status == 2){
+                    status = '<p class="text-warning">禁用</p>';
+                    p = 2;
+                }
+                if(e.status == 3){
+                    status = '<p class="text-danger">已停用</p>';
+                    p = 3;
+                }
 
-    html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
-    if (p != 1 && p != 3)
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_unlock"><button class="btn btn-success btn-xs">激活</button></a>';
-    if (p != 2 && p != 3)
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_lock"><button class="btn btn-warning btn-xs">禁用</button></a>';
-    if (p != 2 && p != 3)
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_delete"><button class="btn btn-danger btn-xs">停用</button></a>';
-    if (p == 3)
-        html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_un_delete"><button class="btn btn-danger btn-xs">启用</button></a>';
+                html += '<td>' + item + '</td>';
+                html += '<td>' + e.nickname + '</td>';
+                html += '<td>' + e.realname + '</td>';
+                html += '<td>' + e.sex + '</td>';
+                html += '<td>' + e.birthday + '</td>';
+                html += '<td>' + e.tel + '</td>';
+                html += '<td>' + e.email + '</td>';
+                html += '<td>' + status + '</td>';
+                html += '<td>';
 
-    html += '</td>';
+                html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
+                if (p != 1 && p != 3)
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_unlock"><button class="btn btn-success btn-xs">激活</button></a>';
+                if (p != 2 && p != 3)
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_lock"><button class="btn btn-warning btn-xs">禁用</button></a>';
+                if (p != 2 && p != 3)
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_delete"><button class="btn btn-danger btn-xs">停用</button></a>';
+                if (p == 3)
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_un_delete"><button class="btn btn-danger btn-xs">启用</button></a>';
 
-    return html;
+                html += '</td>';
+
+                $(".gradeX").eq(item - 1).html(html);
+
+            }
+        } else {
+            $('#alert-form').hide();
+            $('#alert-info').html('<p>未知的错误,不能展示修改！</p>');
+        }
+    });
 }
 
 // 创业者项目页面 投资者项目页面 暂用同一个
