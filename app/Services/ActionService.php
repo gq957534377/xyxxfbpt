@@ -23,6 +23,19 @@ class ActionService
     }
 
     /**
+     * 查询对应活动类型的所有活动数据
+     * @param $type
+     * @return array
+     * @author 郭庆
+     */
+    public static function selectByType($type)
+    {
+        $data = self::$actionStore->getData(['type'=>$type]);
+        if($data)return ['status'=>true,'msg'=>$data];
+        return ['status'=>false,'msg'=>'暂时没有本活动信息'];
+    }
+
+    /**
      * 发布活动
      * @param $data
      * @return array
@@ -98,8 +111,8 @@ class ActionService
             return ['status'=>false,'msg'=>'生成分页样式发生错误'];
         }
         $Data = self::$actionStore->forPage($nowPage,$forPages,$where);
-        if($Data["status"]){
-            $result["data"] = $Data["data"];
+        if($Data){
+            $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>"数据参数有误！"];
@@ -118,8 +131,8 @@ class ActionService
             return ['status'=>false,'msg'=>"缺少参数！"];
         }
         $Data = self::$actionStore->getData(["guid"=>$guid]);
-        if($Data["status"]){
-            $result["data"] = $Data["data"];
+        if($Data){
+            $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>"数据参数有误！"];
@@ -137,8 +150,8 @@ class ActionService
             $status = 1;
         }
         $Data = self::$actionStore->upload(["guid"=>$guid],["status"=>$status]);
-        if($Data["status"]){
-            $result["data"] = $Data["data"];
+        if($Data){
+            $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>"数据参数有误！"];
@@ -148,8 +161,8 @@ class ActionService
     public function upDta($where,$data)
     {
         $Data = self::$actionStore->upload($where,$data);
-        if($Data["status"]){
-            $result["data"] = $Data["data"];
+        if($Data){
+            $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>"数据参数有误！"];
