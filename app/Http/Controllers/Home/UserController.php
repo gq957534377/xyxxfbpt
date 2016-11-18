@@ -58,7 +58,7 @@ class UserController extends Controller
             'realname' => 'required|min:2',
             'card_number' => 'required|min:16|max:18',
             'hometown' => 'required|min:2',
-            'birthday' => 'required|min:4|max:6',
+            'birthday' => 'required|min:4|max:8',
             'sex' => 'required',
             'tel' => 'required|min:11',
             'card_pic_a' => 'required',
@@ -73,8 +73,8 @@ class UserController extends Controller
             'hometown.required' => '请填写您的籍贯<br>',
             'hometown.min' => '籍贯最少两位<br>',
             'birthday.required' => '请填写您的出身年月<br>',
-            'birthday.min' => '出生年月4-6位<br>',
-            'birthday.max' => '出生年月4-6位<br>',
+            'birthday.min' => '出生年月4-8位<br>',
+            'birthday.max' => '出生年月4-8位<br>',
             'sex.required' => '请选择您的性别<br>',
             'tel.required' => '请填写您的手机号码<br>',
             'tel.min' => '手机号码标准11位<br>',
@@ -90,6 +90,7 @@ class UserController extends Controller
         if($picInfo_b['status'] =='400') return response()->json(['StatusCode'=>'400','ResultData'=>'图片上传失败']);
         $data['card_pic_a'] = $picInfo_a['msg'];
         $data['card_pic_b'] = $picInfo_b['msg'];
+        $data['status'] = '2';
         // 提交数据到业务服务层
         $info = self::$userServer->applyRole($data);
         // 返回状态信息
@@ -179,5 +180,82 @@ class UserController extends Controller
                 return response()->json(['StatusCode'=>'200','ResultData'=>$info['msg']]);
                 break;
         }
+    }
+
+    public function applyRole(Request $request)
+    {
+        $data = $request->all();
+        //验证数据
+        $validator = Validator::make($request->all(),[
+            'guid' => 'required',
+            'investor_name' => 'required|min:2',
+            'investor_sex' => 'required',
+            'investor_birthday' => 'required|min:4|max:8',
+            'investor_hometown' => 'required',
+            'investor_tel' => 'required|min:11|max:11',
+            'investor_number' => 'required|min:16|max:18',
+            'orgname' => 'required',
+            'orglocation' => 'required',
+            'fundsize' => 'required',
+            'field' => 'required',
+            'orgdesc' => 'required|max:500',
+            'workyear' => 'required|min:2',
+            'scale' => 'required',
+//            'card_pic_a' => 'required',
+//            'card_pic_b' => 'required',
+        ],[
+            'guid.required' => '非法操作!<br>',
+            'investor_name.required' => '请填写您的真实姓名<br>',
+            'realname.min' => '真实姓名最少两位<br>',
+            'investor_number.required' => '请填写您的真实身份证件号<br>',
+            'investor_number.min' => '身份证件号16-18位<br>',
+            'investor_number.max' => '身份证件号16-18位<br>',
+            'investor_hometown.required' => '请填写您的籍贯<br>',
+            'investor_birthday.required' => '请填写您的出身年月<br>',
+            'investor_birthday.min' => '出生年月4-8位<br>',
+            'investor_birthday.max' => '出生年月4-8位<br>',
+            'investor_sex.required' => '请选择您的性别<br>',
+            'investor_tel.required' => '请填写您的手机号码<br>',
+            'investor_tel.min' => '手机号码标准11位<br>',
+            'investor_tel.max' => '手机号码标准11位<br>',
+            'orgname.required' => '请填写机构名称<br>',
+            'orglocation.required' => '请填写机构所在地<br>',
+            'fundsize.required' => '请填写资金规模<br>',
+            'field.required' => '请填写行业领域<br>',
+            'orgdesc.required' => '请填写行业描述<br>',
+            'workyear.required' => '请填写从业年限<br>',
+            'workyear.max' => '2位内<br>',
+            'scale.required' => '请填写投资规模<br>',
+//            'card_pic_a.required' => '请上传您的出身份证正面照<br>',
+//            'card_pic_b.required' => '请上传您的出身份证反面照',
+        ]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '404','ResultData' => $validator->errors()->all()]);
+        // 重新组装数据
+        $newData['guid'] = $data['guid'];
+        $newData['status'] = '3';
+        $newData['realname'] = $data['investor_name'];
+        $newData['sex'] = $data['investor_sex'];
+        $newData['birthday'] = $data['investor_birthday'];
+        $newData['hometown'] = $data['investor_hometown'];
+        $newData['card_number'] = $data['investor_number'];
+        $newData['tel'] = $data['investor_tel'];
+        $newData['orgname'] = $data['orgname'];
+        $newData['orglocation'] = $data['orglocation'];
+        $newData['fundsize'] = $data['fundsize'];
+        $newData['orgdesc'] = $data['orgdesc'];
+        $newData['workyear'] = $data['workyear'];
+        $newData['scale'] = $data['scale'];
+        // 转交
+        $info = self::$userServer->applyRole($newData);
+        // 返回状态信息
+        switch ($info['status']){
+            case '400':
+                return response()->json(['StatusCode'=>'400','ResultData'=>$info['msg']]);
+                break;
+            case '200':
+                return response()->json(['StatusCode'=>'200','ResultData'=>$info['msg']]);
+                break;
+        }
+
     }
 }

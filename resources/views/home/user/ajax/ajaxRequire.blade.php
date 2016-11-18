@@ -88,6 +88,42 @@
 
                 });
                 break;
+            case 3:
+                $.ajax({
+                    type:type,
+                    url:url,
+                    data:data,
+                    processData: false, // 告诉jQuery不要去处理发送的数据
+                    contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                    async: true,
+                    beforeSend : beforeSend(obj),
+                    success: function(msg){
+                        switch (msg.StatusCode){
+                            case '404':
+                                $(".loading").hide();
+                                promptBoxHandle('警告',msg.ResultData);
+                                break;
+                            case '400':
+                                $(".loading").hide();
+                                promptBoxHandle('警告',msg.ResultData);
+                                $('#myModal_1').modal('hide');
+
+                                break;
+                            case '200':
+                                $(".loading").hide();
+                                promptBoxHandle('提示',msg.ResultData);
+                                $('#myModal_1').modal('hide');
+                                break;
+                        }
+                    },
+                    error: function(XMLHttpRequest){
+                        var number = XMLHttpRequest.status;
+                        var msg = "Error: "+number+",数据异常！";
+                        promptBoxHandle('警告',msg);
+                    }
+
+                });
+                break;
         }
 
     }

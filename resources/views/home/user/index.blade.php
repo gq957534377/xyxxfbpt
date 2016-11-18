@@ -115,7 +115,8 @@
                                 </div>
                             </div>
                             <!--申请成为创业者 end-->
-
+                            <a href="#" class="list-group-item" id="investor">
+                                <i class="text-md fa fa-user" aria-hidden="true" style="margin-left: 40px;"></i>&nbsp;申请成为投资者</a>
                             <!--项目发布 start-->
                             <a id = 'publish_trigger' href="#" class="list-group-item " data-toggle="modal">
                                 <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
@@ -208,7 +209,7 @@
                                     <div class="row">
                                         <div id="crop-avatar">
                                             <div class="avatar-view col-md-3" title="Change Logo Picture">
-                                                <img style="width: 100%;" src="{{asset('home/images/load.gif')}}" alt="Logo">
+                                                <img id="userinfo_headpic" class="img-circle" style="width: 100%;" src="{{asset('home/images/load.gif')}}" alt="Logo">
                                             </div>
                                         </div>
                                     </div>
@@ -297,17 +298,17 @@
 
                 <!--申请成为投资人 Start-->
                 <div class="main-col col-md-9 left-col" style="margin-top: 15px;">
-                    <div id="userBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
+                    <div id="investorBox" class="panel panel-default padding-md" style="display: none;position: relative;z-index: 1;">
                         <div class="panel-body ">
                             <div style="height: 60px;">
-                                <h2><i class="fa fa-cog" aria-hidden="true"></i>申请成为创业者</h2>
+                                <h2><i class="fa fa-cog" aria-hidden="true"></i>申请成为投资者</h2>
                             </div>
                             <hr>
-                            <form id="userform" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
+                            <form id="investorForm"  class="form-horizontal" method="POST" accept-charset="UTF-8" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">真实姓名</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" name="investor_name" type="text"></div>
+                                        <input class="form-control" name="investor_name" type="text" placeholder="请输入真实姓名"></div>
                                     <div class="col-sm-4 help-block">请填写真实信息哦！</div></div>
 
                                 <div class="form-group">
@@ -321,8 +322,100 @@
                                         </label></div></div>
 
                                 <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">出生年月</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="investor_birthday" type="text" placeholder="请输入出生年月"></div>
+                                    <div class="col-sm-4 help-block">如:19931127！</div></div>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">籍贯</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="investor_hometown" type="text" placeholder="请输入籍贯"></div>
+                                    <div class="col-sm-4 help-block">如:湖北省武汉市！</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">手机号</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="investor_tel" type="text" maxlength="11" placeholder="请输入手机号"></div>
+                                    <div class="col-sm-4 help-block">如:18866669999！</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">身份证号码</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="investor_number" type="text" maxlength="18" placeholder="请输入真实的身份证证件号"></div>
+                                    <div class="col-sm-4 help-block">如:888888888888888888888！</div></div>
+
+                                {{--<div class="form-group">--}}
+                                    {{--<label for="" class="col-sm-2 control-label">证件照</label>--}}
+                                            {{--<div class = "col-sm-6">--}}
+                                                {{--<div id="card_box" style="margin-top: 30px;">--}}
+                                                    {{--<button class="btn btn-info btn-sm" type="button" id="card_a">身份证正面</button>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                            {{--<!--隐藏表单区-->--}}
+                                            {{--<input  type ='hidden' name = "investor_carda"/>--}}
+                                            {{--<input type="hidden" id="cardmain" value="http://ogd29n56i.bkt.clouddn.com/">--}}
+                                            {{--<input type="hidden" id="card_url" value="{{url('project/getuptoken/edit')}}">--}}
+
+                                            {{--<div class = "col-sm-10 col-sm-offset-1">--}}
+                                                {{--<table class="table table-striped table-hover"   style="margin-top:40px;display:none">--}}
+                                                    {{--<thead>--}}
+                                                    {{--<tr>--}}
+                                                        {{--<th class="col-md-4">文件名</th>--}}
+                                                        {{--<th class="col-md-2">大小</th>--}}
+                                                        {{--<th class="col-md-6">详情</th>--}}
+                                                    {{--</tr>--}}
+                                                    {{--</thead>--}}
+                                                    {{--<tbody id="card_body">--}}
+                                                    {{--</tbody>--}}
+                                                {{--</table>--}}
+                                            {{--</div>--}}
+                                    {{--</div>--}}
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">机构名称</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="orgname" type="text" placeholder="请输入机构名称"></div>
+                                    <div class="col-sm-4 help-block">如:坚固控股有限集团</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">机构所在地</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="orglocation" type="text" placeholder="请输入机构所在地"></div>
+                                    <div class="col-sm-4 help-block">如:湖北武汉市</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">资金规模</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="fundsize" type="text" placeholder="请输入机构资金规模"></div>
+                                    <div class="col-sm-4 help-block"></div>如:1000000美元</div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">投资领域</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="field" type="text" placeholder="请输入投资领域"></div>
+                                    <div class="col-sm-4 help-block">如:互联网行业</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">行业描述</label>
+                                    <div class="col-sm-6">
+                                        <textarea class="form-control" name="orgdesc" maxlength="500" placeholder="请对贵机构所在的行业中的地位描述，总字数不超过800个。"></textarea></div>
+                                    <div class="col-sm-4 help-block">如:互联网</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">从业年限</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="workyear" type="text" maxlength="2" placeholder="请输入从业年限"></div>
+                                    <div class="col-sm-4 help-block"></div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">投资规模</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="scale" type="text" placeholder="规模以万为单位"></div>
+                                    <div class="col-sm-4 help-block"></div></div>
+
+                                <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-6">
-                                        <input class="btn btn-info" id="editSubmit" value="应用修改" type="button"></div>
+                                        <button class="btn btn-info" id="applyInvestor" >提交申请</button></div>
                                 </div>
                             </form>
                         </div>
@@ -428,7 +521,10 @@
                         user_birthday.empty().val(msg.ResultData.msg.birthday);
                         msg.ResultData.msg.sex == 1?sex1.attr('checked','true'):sex0.attr('checked','true');
                         tel.empty().val(msg.ResultData.msg.tel);
+                        $("#head_pic").attr('src','uploads/image/'+msg.ResultData.msg.headpic);
+                        $("#userinfo_headpic").attr('src','uploads/image/'+msg.ResultData.msg.headpic);
                         headpic.attr('src','uploads/image/'+msg.ResultData.msg.headpic);
+
 
                         // 给创业提交信息也附上值
                         nickname.empty().val(msg.ResultData.msg.nickname);
@@ -471,7 +567,7 @@
             var headPicForm = new FormData(document.getElementById("headPicForm"));
             headPicForm.append('guid',guid);
             var url = '/headpic';
-            ajaxRequire('/headpic','POST',headPicForm,$("#userBox"),1);
+            ajaxRequire('/headpic','POST',headPicForm,$("#userBox"),3);
         });
 
         // 申请成为创业者
@@ -480,7 +576,13 @@
             formData.append('guid',guid);
             ajaxRequire('/user','POST',formData,$('#entrepreneur'),1);
         });
-        
+        // 申请成为投资者
+        $("#applyInvestor").click(function(){
+            var formData = new FormData(document.getElementById("investorForm"));
+            formData.append('guid',guid);
+            ajaxRequire('/apply','POST',formData,$('#investorForm'),1);
+        });
+        // 城级联动
         $('#demo').citys({
             required:false,
             nodata:'disabled',
@@ -489,11 +591,20 @@
                 $('#place').val('当前选中地区：'+data['province']+text+' '+data['city']+' '+data['area']);
             }
         });
+
+        // 申请成为投资者
+        $("#investor").click(function(){
+            $('#userBox').hide();
+            $('#investorBox').show();
+
+        });
     });
 </script>
 @include('home.user.ajax.ajaxRequire')
 @include('home.validator.UpdateValidator')
+@include('home.validator.investorValidator')
 @include('home.validator.publishValidator')
+
 @include('home.project.all_pro_list')
 
 @endsection
