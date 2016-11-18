@@ -199,4 +199,12 @@ class ActionService
         }
     }
 
+    /**
+     * @param $guid
+     * author 张洵之
+     */
+    public function getOrderInfo($guid)
+    {
+
+    }
 }
