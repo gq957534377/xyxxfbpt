@@ -75,6 +75,8 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/crowd_funding', 'CrowdFundingController');
     //发布项目
     Route::resource('/project', 'ProjectController');
+    //活动内容页
+    Route::resource('/action', 'ActionController');
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         // 修改头像
