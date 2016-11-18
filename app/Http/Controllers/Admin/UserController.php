@@ -104,6 +104,10 @@ class UserController extends Controller
     {
         $data = $request->all();
         if (!isset($id) || empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        //审核通过信号
+        if (isset($data['msg']) && $data['msg'] == "check_pass"){
+            $result = self::$userServer->updataUserInfo(['guid' => $id], $data);
+        }
         $result = self::$userServer->updataUserInfo(['guid' => $id], $data);
         $result['data'] = $result['msg'];
         if($result['status'] == 400)

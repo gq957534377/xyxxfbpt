@@ -346,28 +346,31 @@ function getNumber(this_obj) {
 //事件 更改 禁用|激活 通过|不通过 删除
 function changeSomeStatus(){
     $('.user_unlock, .user_lock, .user_delete, .user_un_delete, .check_pass, .check_fail, .check_delete').off('click').on('click', function () {
-        window.item = $(this).parent().siblings("td").first().text();
+        //获得number
+        getNumber($(this));
 
+        window.item = $(this).parent().siblings("td").first().text();
         guid = $(this).data('name');
+
         $pointer1 = (number == 0 || number == 1 || number == 2 || number == 3);
         $pointer2 = (number == 4);
         $pointer3 = (number == 5 || number == 6);
+
         var url_1 = '/user/' + $(this).data('name');
         var url_2 = '/user_role/' + $(this).data('name');
 
         if($pointer1){
             load(url_1, numberData(getNumber($(this))), 'put', checkResponseStatus);
         }
-        // if($pointer2){
-        //     if(user == 9){
-        //
-        //     }
-        //
-        //     if(user == 10){
-        //
-        //     }
-        //
-        // }
+
+        //发送一个信号，让服务器执行一个事务
+        if($pointer2){
+            var msg = {
+                msg : "check_pass"
+            };
+            if(user == 9) load(url_1, msg, 'put', checkResponseStatus);
+            if(user == 10) load(url_1, msg, 'put', checkResponseStatus);
+        }
         if($pointer3){
             load(url_2, numberData(getNumber($(this))), 'put', checkResponseStatus);
         }
