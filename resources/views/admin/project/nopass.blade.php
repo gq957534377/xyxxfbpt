@@ -21,9 +21,9 @@
 
 @section('script')
     <script src="{{url('JsService/Controller/ajaxController.js')}}" type="text/javascript"></script>
-    <script src="{{url('JsService/Model/road/roadAjaxBeforeModel.js')}}" type="text/javascript"></script>
-    <script src="{{url('JsService/Model/road/roadAjaxSuccessModel.js')}}" type="text/javascript"></script>
-    <script src="{{url('JsService/Model/road/roadAjaxErrorModel.js')}}" type="text/javascript"></script>
+    <script src="{{url('JsService/Model/road/actionAjaxBeforeModel.js')}}" type="text/javascript"></script>
+    <script src="{{url('JsService/Model/road/actionAjaxSuccessModel.js')}}" type="text/javascript"></script>
+    <script src="{{url('JsService/Model/road/actionAjaxErrorModel.js')}}" type="text/javascript"></script>
     <script src="{{url('JsService/Model/projectModel.js')}}" type="text/javascript"></script>
     <script src="{{url('JsService/Controller/project/nopassController.js')}}" type="text/javascript"></script>
 @endsection

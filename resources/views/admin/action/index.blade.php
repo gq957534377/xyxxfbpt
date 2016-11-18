@@ -147,7 +147,7 @@
         </div>
     </div>
 </div><!-- /.modal -->
-{{--修改路演表单--}}
+{{--修改活动表单--}}
 <div class="modal fade bs-example-modal-lg" id="xg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -260,7 +260,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-{{--路演详情--}}
+{{--活动详情--}}
 <div id="tabs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content p-0">
@@ -431,9 +431,9 @@
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <!--引用ajax模块-->
     <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
-    <script src="JsService/Model/road/roadAjaxBeforeModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/road/roadAjaxSuccessModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/road/roadAjaxErrorModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/action/actionAjaxBeforeModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/action/actionAjaxSuccessModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/action/actionAjaxErrorModel.js" type="text/javascript"></script>
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <!--alertInfo end-->
@@ -511,7 +511,7 @@
                         });
                         var data = new FormData();
                         var resul={
-                            type:$('#yz_xg').find('input[name=action]').val(),
+                            type:$('#yz_xg').find('select[name=action]').val(),
                             title:$('#yz_xg').find('input[name=title]').val(),
                             author:$('#yz_xg').find('input[name=author]').val(),
                             group:$('#yz_xg').find('select[name=group]').val(),
@@ -525,7 +525,6 @@
                             describe:ue1.getContent(),
                         };
                         console.log(resul);
-                        data.append( "action"      , resul.action);
                         data.append( "title"      , resul.title);
                         data.append( "author"     , resul.author);
                         data.append( "group"       ,resul.group);
@@ -537,7 +536,7 @@
                         data.append( "address", resul.address);
                         data.append( "limit", resul.limit);
                         $.ajax({
-                            url     : '/road/' + $('input[name=id]').val(),
+                            url     : '/action/' + $('input[name=id]').val(),
                             type:'put',
                             data:resul,
                             before  : ajaxBeforeNoHiddenModel,
@@ -551,7 +550,7 @@
                             $('#alert-form').html('');
                             $('.modal-title').html('提示');
                             if (data) {
-                                if (data.ServerNo == 200) {
+                                if (data.StatusCode == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>活动修改成功!</p>');
                                     list(resul.type,1);
