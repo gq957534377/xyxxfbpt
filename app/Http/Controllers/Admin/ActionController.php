@@ -67,7 +67,8 @@ class ActionController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @展示活动详情
+     * @author
      */
     public function show($id)
     {
@@ -80,16 +81,21 @@ class ActionController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 修改活动+报名状态
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 活动：张洵之 报名：郭庆
      */
     public function edit($id)
     {
-        //
+
         $status = self::$request->input("status");
-        $result = self::$actionServer->changeStatus($id,$status);
+        if (self::$request->input("type")=='1'){
+            $result = self::$actionServer->orderStatus($id,$status);
+        }else{
+            $result = self::$actionServer->changeStatus($id,$status);
+        }
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
         }else{
@@ -126,6 +132,11 @@ class ActionController extends Controller
     public function destroy($id)
     {
         //
-        $data = self::$actionServer;
+        $result = self::$actionServer->getOrderInfo($id);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
     }
 }

@@ -19,9 +19,10 @@ class ActionController extends Controller
         self::$request = $request;
     }
     /**
-     * Display a listing of the resource.
+     * 根据所选活动类型导航，返回相应的列表页+数据.
      *
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function index()
     {
@@ -50,24 +51,30 @@ class ActionController extends Controller
      */
     public function store()
     {
-        $data = self::$request->except('_token');
+        $data = self::$request->all();
         $result = self::$actionServer->actionOrder($data);
         if(!$result['status'])return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
         return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
     }
 
     /**
-     * Display the specified resource.
+     * 详情页.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @author 郭庆+张洵之
      */
     public function show($id)
     {
         $session = self::$request->session()->all();
         $data = self::$actionServer->getData($id);
         if($data["status"]){
-            return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id]);
+            if (!isset($session['user'])){
+                $isHas = false;
+            }else{
+                $action = self::$actionServer->getAction($session['user']->guid);
+                $isHas = in_array($data["msg"]["data"][0]->guid,$action);
+            }
+            return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id,'isHas'=>$isHas]);
         }
     }
 
