@@ -182,6 +182,12 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * 申请成为投资者
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
     public function applyRole(Request $request)
     {
         $data = $request->all();
