@@ -12,7 +12,6 @@ var fpageClick = function(){
         data:{
             status:'2'
         },
-        beforeSend:ajaxBeforeNoHiddenModel,
         success:function (res) {
             var data = res.data;
             $('.loading').hide();
@@ -39,7 +38,6 @@ var statusCheck = function(dom){
                 id:id,
                 status:$(this).attr('status')
             },
-            beforeSend:ajaxBeforeNoHiddenModel,
             success:function(data){
                 $(".loading").hide();
                 $('.tmp').remove();
@@ -57,12 +55,11 @@ $(function(){
 //        var nowPage = if($('.pagination'))?$('.pagination'):'1';
 //        请求待审核数据
     $.ajax({
-        url:'status2',
+        url:'status3',
         type:'put',
         data:{
-            status:'2'
+            status:'3'
         },
-        beforeSend:ajaxBeforeNoHiddenModel,
         success:function(res){
             var data = res.data;
             $('.loading').hide();
@@ -70,8 +67,7 @@ $(function(){
             statusCheck($(".changr_btn"));
             $("#unchecked_table").parent().append(data.pages);
             $('.pagination li').click(fpageClick);
-        },
-        error:ajaxErrorModel
+        }
     });
 
 })
