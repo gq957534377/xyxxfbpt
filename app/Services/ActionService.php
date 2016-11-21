@@ -251,4 +251,14 @@ class ActionService
             return ['status'=>false,'msg'=>"数据参数有误！"];
         }
     }
+
+    /**
+     * @return ActionOrderStore
+     */
+    public static function addPeople($where)
+    {
+        $result = self::$actionStore->incrementData($where,'people',1);
+        if (!$result)return ['status'=>false,'msg'=>'添加记录失败'];
+        return ['status'=>true,'msg'=>$result];
+    }
 }

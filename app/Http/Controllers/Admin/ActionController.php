@@ -89,7 +89,6 @@ class ActionController extends Controller
      */
     public function edit($id)
     {
-
         $status = self::$request->input("status");
         if (self::$request->input("type")=='1'){
             $result = self::$actionServer->orderStatus($id,$status);
