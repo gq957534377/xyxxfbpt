@@ -18,7 +18,8 @@ function getInfoList(data){
                 modifyStatus();
                 showInfo();
                 updateRoad();
-                peopleAddClick();
+                checkAction();
+
             }
         } else {
             $('#myModal').modal('show');
@@ -52,7 +53,7 @@ function listHtml(data){
         } else if (e.status == 3) {
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-primary">启用</button></a>';
         }
-        html += '<button data-name="' + e.guid + '" class="zxz_content btn-primary">人员详情</button>';
+        html += '<a class="bm" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#baoming">查看报名情况</button></a>';
         html += '</td>';
     });
     html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
@@ -156,6 +157,35 @@ function showInfoList(data){
         }
     } else {
         $('#alert-form').hide();
+        $('#alert-info').html('<p>未知的错误</p>');
+    }
+}
+
+//展示活动报名情况表
+function actionOrder(data) {
+    $('.loading').hide();
+    console.log(data);
+    if (data) {
+        if (data.StatusCode == 200) {
+            data = data.ResultData;
+            data.map(function (item) {
+                var html = '<tr><td>'+item.user_id+'</td><td>'+item.time+'</td><td>';
+                if (item.status == 1) {
+                    html += '<a href="javascript:;" data-name="' + item.id + '" data-status="' + item.status + '" class="action_status"><button class="btn-danger">禁用</button></a>';
+                } else if (item.status == 2) {
+                    html += '<a href="javascript:;" data-name="' + item.id + '" data-status="' + item.status + '" class="action_status"><button class="btn-primary">启用</button></a>';
+                }
+                html+= '</td></tr>';
+                $('#list_baoming').append(html);
+            });
+            actionStatus();
+        } else {
+            $('#baoming').modal('hide');
+            $('#myModal').modal('show');
+            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+        }
+    } else {
+        $('#myModal').modal('show');
         $('#alert-info').html('<p>未知的错误</p>');
     }
 }

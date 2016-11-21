@@ -66,4 +66,13 @@ class ActionStore
         $result =DB::table(self::$table)->where($where)->update($data);
         return $result;
     }
+
+    /**
+     * 给某个字段自增data
+     * @author 郭庆
+     */
+    public static function incrementData($where,$field,$data)
+    {
+        return DB::table(self::$table)->where($where)->increment($field,$data);
+    }
 }

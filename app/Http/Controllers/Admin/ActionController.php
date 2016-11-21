@@ -81,16 +81,20 @@ class ActionController extends Controller
     }
 
     /**
-     * 更改活动状态
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     * author 张洵之
+     * 修改活动+报名状态
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     * @author 活动：张洵之 报名：郭庆
      */
     public function edit($id)
     {
-        //
         $status = self::$request->input("status");
-        $result = self::$actionServer->changeStatus($id,$status);
+        if (self::$request->input("type")=='1'){
+            $result = self::$actionServer->orderStatus($id,$status);
+        }else{
+            $result = self::$actionServer->changeStatus($id,$status);
+        }
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
         }else{
