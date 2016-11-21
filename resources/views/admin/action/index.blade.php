@@ -933,7 +933,7 @@
         //查看报名情况
         function checkAction(){
             $('.bm').click(function () {
-                
+
             });
         }
 
