@@ -474,6 +474,11 @@ function checkResponseStatus(data){
     $('.check_pass').addClass("hidden");
     $('.check_fail').addClass("hidden");
     if (data) {
+        if(data.StatusCode == 300){
+            $('#alert-form').hide();
+            $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
+            // return false;
+        }
         if (data.StatusCode == 200) {
             $('#alert-form').hide();
             $('#alert-info').show().html('<p>数据修改成功!</p>');
@@ -502,7 +507,7 @@ function checkResponseStatus(data){
                         });
                 },1000);
             }
-        } else if(data.StatusCode == 300){
+        } else{
             $('#alert-form').hide();
             $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
             // return false;
