@@ -40,7 +40,7 @@ class ActionService
     }
 
     /**
-     * Display a listing of the resource.
+     * 报名活动.
      *
      * @return \Illuminate\Http\Response
      * @author 郭庆
@@ -57,7 +57,7 @@ class ActionService
     }
 
     /**
-     * Display a listing of the resource.
+     * 获取指定用户所报名参加的所有活动.
      *
      * @return \Illuminate\Http\Response
      * @author 郭庆
@@ -143,7 +143,7 @@ class ActionService
             return ['status'=>false,'msg'=>'生成分页样式发生错误'];
         }
         $Data = self::$actionStore->forPage($nowPage,$forPages,$where);
-        if($Data){
+        if($Data || empty($Data)){
             $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
         }else{
@@ -227,6 +227,28 @@ class ActionService
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>"数据暂无数据！"];
+        }
+    }
+    /**
+     * 修改活动报名状态
+     * @author 郭庆
+     */
+    public function orderStatus($guid,$status)
+    {
+        if(!(isset($guid)&&isset($status))){
+            return ['status'=>false,'msg'=>"参数有误 ！"];
+        }
+        if($status == 1){
+            $status = 2;
+        }else{
+            $status = 1;
+        }
+        $Data = self::$actionOrderStore->updateData(["id"=>$guid],["status"=>$status]);
+        if($Data){
+            $result["data"] = $Data;
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>"数据参数有误！"];
         }
     }
 }

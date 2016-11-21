@@ -19,6 +19,7 @@ function getInfoList(data){
                 showInfo();
                 updateRoad();
                 checkAction();
+
             }
         } else {
             $('#myModal').modal('show');
@@ -169,20 +170,22 @@ function actionOrder(data) {
             data = data.ResultData;
             data.map(function (item) {
                 var html = '<tr><td>'+item.user_id+'</td><td>'+item.time+'</td><td>';
-                if (data.status == 1) {
-                    html += '<a href="javascript:;" data-name="' + data.id + '" data-status="' + data.status + '" class="status"><button class="btn-danger">禁用</button></a>';
-                } else if (data.status == 2) {
-                    html += '<a href="javascript:;" data-name="' + data.id + '" data-status="' + data.status + '" class="status"><button class="btn-primary">启用</button></a>';
+                if (item.status == 1) {
+                    html += '<a href="javascript:;" data-name="' + item.id + '" data-status="' + item.status + '" class="action_status"><button class="btn-danger">禁用</button></a>';
+                } else if (item.status == 2) {
+                    html += '<a href="javascript:;" data-name="' + item.id + '" data-status="' + item.status + '" class="action_status"><button class="btn-primary">启用</button></a>';
                 }
                 html+= '</td></tr>';
                 $('#list_baoming').append(html);
             });
+            actionStatus();
         } else {
-            $('#alert-form').hide();
+            $('#baoming').modal('hide');
+            $('#myModal').modal('show');
             $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
         }
     } else {
-        $('#alert-form').hide();
+        $('#myModal').modal('show');
         $('#alert-info').html('<p>未知的错误</p>');
     }
 }

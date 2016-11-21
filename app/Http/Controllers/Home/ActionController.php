@@ -19,9 +19,10 @@ class ActionController extends Controller
         self::$request = $request;
     }
     /**
-     * Display a listing of the resource.
+     * 根据所选活动类型导航，返回相应的列表页+数据.
      *
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function index()
     {
@@ -57,18 +58,22 @@ class ActionController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 详情页.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @author 郭庆+张洵之
      */
     public function show($id)
     {
         $session = self::$request->session()->all();
         $data = self::$actionServer->getData($id);
         if($data["status"]){
-            $action = self::$actionServer->getAction($session['user']->guid);
-            $isHas = in_array($data["msg"]["data"][0]->guid,$action);
+            if (!isset($session['user'])){
+                $isHas = false;
+            }else{
+                $action = self::$actionServer->getAction($session['user']->guid);
+                $isHas = in_array($data["msg"]["data"][0]->guid,$action);
+            }
             return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id,'isHas'=>$isHas]);
         }
     }

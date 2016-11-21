@@ -154,6 +154,7 @@
                     </div><!--/.recent comments-->
                      <script>
                          $('#baoming').click(function () {
+                             @if(isset($session['user']))
                              var data = {
                                 user_id:'{{$session['user']->guid}}',
                                 action_id:'{{$id}}',
@@ -177,6 +178,9 @@
                                      }
                                  },
                              });
+                             @else
+                                 alert('您还未登录，请登录');
+                             @endif
                          });
                          </script>
 
