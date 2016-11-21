@@ -39,6 +39,8 @@ class UserRoleController extends Controller
         $data = $request->all();
         if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
         $result = self::$userRoleServer->getData($data);
+        if ($result['status'] === 'empty')
+            return response()->json(['StatusCode' => 300, 'ResultData' => $result['data']]);
         // 如果$result返回错误
         if(!$result['status'])
             return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
@@ -104,13 +106,6 @@ class UserRoleController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-//        $data = $request->all();
-//        $p = (isset($id) || !empty($data) || isset($data['status']));
-//        if (!$p) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
-//        $result = self::$userRoleServer->deleteUserData($data, $id);
-//        // 如果$result返回错误
-//        if($result['status'] == 400)
-//            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
-//        return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
+        //
     }
 }
