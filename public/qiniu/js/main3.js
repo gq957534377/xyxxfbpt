@@ -7,16 +7,27 @@
 $(function() {
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
-        browse_button: 'card_a',
-        container: 'card_box',
-        // drop_element: 'card_box',
+        browse_button: 'edit_img_pick',
+        container: 'edit_container',
+        drop_element: 'img_container',
         max_file_size: '1000mb',
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
         dragdrop: true,
         chunk_size: '4mb',
-        uptoken_url: $('#card_url').val(),
-        domain: $('#cardmain').val(),
+        uptoken_url: $('#uptoken_url').val(),
+        domain: $('#domain').val(),
         get_new_uptoken: false,
+        // downtoken_url: '/downtoken',
+        // unique_names: true,
+        // save_key: true,
+        // x_vars: {
+        //     'id': '1234',
+        //     'time': function(up, file) {
+        //         var time = (new Date()).getTime();
+        //         // do something with 'time'
+        //         return time;
+        //     },
+        // },
         auto_start: true,
         log_level: 5,
         init: {
@@ -24,13 +35,13 @@ $(function() {
                 $('table').show();
                 $('#success').hide();
                 plupload.each(files, function(file) {
-                    var progress = new FileProgress(file, 'card_body');
+                    var progress = new FileProgress(file, 'fsUploadProgress_edit_image');
                     progress.setStatus("等待中...");
                     progress.bindUploadCancel(up);
                 });
             },
             'BeforeUpload': function(up, file) {
-                var progress = new FileProgress(file, 'card_body');
+                var progress = new FileProgress(file, 'fsUploadProgress_edit_image');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 if (up.runtime === 'html5' && chunk_size) {
                     progress.setChunkProgess(chunk_size);
@@ -40,7 +51,7 @@ $(function() {
             // 上传过程这个函数会不断的执行,直到上传完成
             'UploadProgress': function(up, file) {
                 $('._block').hide();
-                var progress = new FileProgress(file, 'card_body');
+                var progress = new FileProgress(file, 'fsUploadProgress_edit_image');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
@@ -50,7 +61,7 @@ $(function() {
                 url = domain + encodeURI(res.key);
             },
             'FileUploaded': function(up, file, info) {
-                var progress = new FileProgress(file, 'card_body');
+                var progress = new FileProgress(file, 'fsUploadProgress_edit_image');
                 progress.setComplete(up, info);
 
                 //上传完成时将url放入隐藏的input[name=image]
@@ -61,7 +72,7 @@ $(function() {
             },
             'Error': function(up, err, errTip) {
                 $('table').show();
-                var progress = new FileProgress(err.file, 'card_body');
+                var progress = new FileProgress(err.file, 'fsUploadProgress_edit_image');
                 progress.setError();
                 progress.setStatus(errTip);
             }

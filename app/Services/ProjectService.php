@@ -45,14 +45,6 @@ class ProjectService {
         $data['addtime'] = date("Y-m-d H:i:s", time());
         $data['changetime'] = date("Y-m-d H:i:s", time());
 
-
-        //事务控制
-        DB::transaction(function () use ($data){
-
-            //project_info数据插入
-            $res = self::$projectStore->addData($data);
-        });
-
         $res = self::$projectStore->addData($data);
         if($res==0) return ['status'=> true,'msg'=>'插入失败'];
         return ['status'=> false,'msg'=>'插入成功'];
