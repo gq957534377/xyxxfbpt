@@ -18,7 +18,7 @@ function getInfoList(data){
                 modifyStatus();
                 showInfo();
                 updateRoad();
-                peopleAddClick();
+                checkAction();
             }
         } else {
             $('#myModal').modal('show');
@@ -52,7 +52,7 @@ function listHtml(data){
         } else if (e.status == 3) {
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-primary">启用</button></a>';
         }
-        html += '<button data-name="' + e.guid + '" class="zxz_content btn-primary">人员详情</button>';
+        html += '<button class="btn-primary bm" data-toggle="modal" data-target="#baoming">查看报名情况</button>';
         html += '</td>';
     });
     html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';

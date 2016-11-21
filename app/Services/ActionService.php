@@ -47,9 +47,23 @@ class ActionService
     public static function actionOrder($data)
     {
         $action = self::$actionOrderStore->getSomeField(['user_id'=>$data['user_id']],'action_id');
+        $isHas = in_array($data['action_id'],$action);
+        if($isHas)return ['status'=>false,'msg'=>'已经报名参加'];
         $result = self::$actionOrderStore->addData($data);
         if (!$result) return ['status' => false, 'msg' => '报名失败'];
         return ['status'=>true,'msg'=>$result];
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @author 郭庆
+     */
+    public static function getAction($user)
+    {
+        $action = self::$actionOrderStore->getSomeField(['user_id'=>$user],'action_id');
+        return $action;
     }
     /**
      * 发布活动

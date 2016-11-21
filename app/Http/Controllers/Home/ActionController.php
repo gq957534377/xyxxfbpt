@@ -50,7 +50,7 @@ class ActionController extends Controller
      */
     public function store()
     {
-        $data = self::$request->except('_token');
+        $data = self::$request->all();
         $result = self::$actionServer->actionOrder($data);
         if(!$result['status'])return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
         return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
@@ -67,7 +67,9 @@ class ActionController extends Controller
         $session = self::$request->session()->all();
         $data = self::$actionServer->getData($id);
         if($data["status"]){
-            return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id]);
+            $action = self::$actionServer->getAction($session['user']->guid);
+            $isHas = in_array($data["msg"]["data"][0]->guid,$action);
+            return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id,'isHas'=>$isHas]);
         }
     }
 

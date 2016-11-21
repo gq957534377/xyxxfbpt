@@ -394,8 +394,35 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>
+{{--报名表--}}
+<div id="baoming" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">报名表</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>用户id</th>
+                            <th>报名时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id = "list_baoming">
 
+                    </tbody>
+                    </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>
 <img src="/admin/images/load.gif" class="loading">
 
 <div class="wraper container-fluid">
@@ -444,6 +471,7 @@
     <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
     <script type="text/javascript">
         <?php $timestamp = time();?>
+        //发布活动-图片上传
         $(function() {
             $('#file_upload').uploadify({
                 'buttonText':'选择图片',
@@ -462,6 +490,7 @@
                     alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
                 }
             });
+            //修改活动-图片上传
             $('#file_charge').uploadify({
                 'buttonText':'修改图片',
                 'formData'     : {
@@ -489,9 +518,6 @@
             list_status = status;
             list(type,status);
         }
-        $('#chakan').click(function(){
-            listType($('#xz_type').val(),1);
-        });
         {{--修改--}}
                 !function($) {
             "use strict";
@@ -901,6 +927,13 @@
                         $('#alert-info').html('<p>未知的错误</p>');
                     }
                 }
+            });
+        }
+
+        //查看报名情况
+        function checkAction(){
+            $('.bm').click(function () {
+                
             });
         }
 
