@@ -18,8 +18,8 @@
 
     this.$avatarView = this.$container.find('.avatar-view');
     this.$avatar = this.$avatarView.find('img');
-    this.$avatarModal = $("body").find('#avatar-modal');
-    this.$loading = $("#page-wrapper").find('.loading');
+    this.$avatarModal = this.$container.find('#avatar-modal');
+    this.$loading = this.$container.find('.loading');
 
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
     this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
@@ -33,10 +33,12 @@
     this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
 
     this.init();
+    console.log(this);
   }
 
   CropAvatar.prototype = {
     constructor: CropAvatar,
+
     support: {
       fileList: !!$('<input type="file">').prop('files'),
       blobURLs: !!window.URL && URL.createObjectURL,
@@ -228,8 +230,7 @@
           data = new FormData(this.$avatarForm[0]),
           _this = this;
 
-      $.ajax(url,{
-        headers: {'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+      $.ajax(url, {
         type: 'post',
         data: data,
         dataType: 'json',
@@ -263,9 +264,12 @@
     },
 
     submitDone: function (data) {
-      if ($.isPlainObject(data)) {
+      console.log(data);
+
+      if ($.isPlainObject(data) && data.state === 200) {
         if (data.result) {
           this.url = data.result;
+
           if (this.support.datauri || this.uploaded) {
             this.uploaded = false;
             this.cropDone();
@@ -274,6 +278,7 @@
             this.$avatarSrc.val(this.url);
             this.startCropper();
           }
+
           this.$avatarInput.val('');
         } else if (data.message) {
           this.alert(data.message);
