@@ -264,4 +264,15 @@ class UserController extends Controller
         }
 
     }
+
+    public function avatar()
+    {
+        return view('home.user.headpic.index');
+    }
+
+    public function avatarUpload(Request $request)
+    {
+        $data = $request->all();
+        dd($data);
+    }
 }
