@@ -283,7 +283,7 @@ class CrowdFundingService
      */
     public function insertCrowdFunding($data,$project_status)
     {
-        if(!is_array($data)||!is_array($project_status))return['status'=>false,'msg'=>'数据应该为一个数组'];
+        if(!is_array($data)||!is_array($project_status))return ['status'=>false,'msg'=>'数据应该为一个数组'];
         $result = DB::transaction(function() use($data,$project_status)
         {
             self::$projectStore->update(["project_id"=>$data["project_id"]],$project_status);
@@ -323,11 +323,14 @@ class CrowdFundingService
         $data = $request->all();
         unset($data["_token"]);
         unset($data["_method"]);
-        $time = 24*3600*$data["days"];
-        $endtime = 24*3600*$data["enddays"];
+        $startTime = strtotime($data["days"]);
+        $endTime = strtotime($data["enddays"]);
+        if($startTime>$endTime||$startTime<time()){
+            return false;
+        }
         $data["changetime"] = date("Y-m-d H:i:s",time());
-        $data["starttime"] = date("Y-m-d H:i:s",time()+$time);
-        $data["endtime"] = date("Y-m-d H:i:s",time()+$endtime);
+        $data["starttime"] = date("Y-m-d H:i:s",$startTime);
+        $data["endtime"] = date("Y-m-d H:i:s",$endTime);
         unset($data["days"]);
         unset($data["enddays"]);
         $data["status"] = 1;
@@ -343,18 +346,23 @@ class CrowdFundingService
     public function insertCrowd($request)
     {
         $data = $this->createUplodData($request);
-        $data["addtime"] = date("Y-m-d H:i:s",time());
-        $project_status["crowd_status"] = 1;
-        $result = $this ->insertCrowdFunding($data,$project_status);
-        if($result["status"]){
-            return ['status'=>true,'msg'=>$result];
+        if($data){
+            $data["addtime"] = date("Y-m-d H:i:s",time());
+            $project_status["crowd_status"] = 1;
+            $result = $this ->insertCrowdFunding($data,$project_status);
+            if($result["status"]){
+                return ['status'=>true,'msg'=>$result];
+            }else{
+                return ['status'=>false,'msg'=>$result['msg']];
+            }
         }else{
-            return ['status'=>false,'msg'=>$result['msg']];
+            return ['status'=>false,'msg'=>"开始日期不应晚于结束日期或早于当前日期"];
         }
+
     }
 
     /**
-     * 更新众筹数据
+     * 重新发布众筹数据
      * @param $request
      * @return array
      * author 张洵之
@@ -362,11 +370,15 @@ class CrowdFundingService
     public function updataCrowd($request)
     {
         $data = $this->createUplodData($request);
-        $result = self::$crowdFundingStore->uplodData(["project_id"=>$data["project_id"]],$data);
-        if($result){
-            return ['status'=>true,'msg'=>$result];
+        if($data) {
+            $result = self::$crowdFundingStore->uplodData(["project_id" => $data["project_id"]], $data);
+            if ($result) {
+                return ['status' => true, 'msg' => $result];
+            } else {
+                return ['status' => false, 'msg' => $result];
+            }
         }else{
-            return ['status'=>false,'msg'=>$result];
+            return ['status'=>false,'msg'=>"开始日期不应晚于结束日期或早于当前日期"];
         }
     }
 
