@@ -52,7 +52,7 @@ function listHtml(data){
         } else if (e.status == 3) {
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-primary">启用</button></a>';
         }
-        html += '<button class="btn-primary bm" data-toggle="modal" data-target="#baoming">查看报名情况</button>';
+        html += '<a class="bm" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#baoming">查看报名情况</button></a>';
         html += '</td>';
     });
     html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
@@ -150,6 +150,33 @@ function showInfoList(data){
             $('#xq_status').val(data.status);
             $('#xq_brief').html(data.brief);
             $('#xq_describe').html(data.describe);
+        } else {
+            $('#alert-form').hide();
+            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+        }
+    } else {
+        $('#alert-form').hide();
+        $('#alert-info').html('<p>未知的错误</p>');
+    }
+}
+
+//展示活动报名情况表
+function actionOrder(data) {
+    $('.loading').hide();
+    console.log(data);
+    if (data) {
+        if (data.StatusCode == 200) {
+            data = data.ResultData;
+            data.map(function (item) {
+                var html = '<tr><td>'+item.user_id+'</td><td>'+item.time+'</td><td>';
+                if (data.status == 1) {
+                    html += '<a href="javascript:;" data-name="' + data.id + '" data-status="' + data.status + '" class="status"><button class="btn-danger">禁用</button></a>';
+                } else if (data.status == 2) {
+                    html += '<a href="javascript:;" data-name="' + data.id + '" data-status="' + data.status + '" class="status"><button class="btn-primary">启用</button></a>';
+                }
+                html+= '</td></tr>';
+                $('#list_baoming').append(html);
+            });
         } else {
             $('#alert-form').hide();
             $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');

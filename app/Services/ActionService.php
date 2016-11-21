@@ -4,6 +4,7 @@
  * User: Administrator
  * Date: 2016/11/17
  * Time: 13:51
+ * @author:郭庆
  */
 
 namespace App\Services;
@@ -49,6 +50,7 @@ class ActionService
         $action = self::$actionOrderStore->getSomeField(['user_id'=>$data['user_id']],'action_id');
         $isHas = in_array($data['action_id'],$action);
         if($isHas)return ['status'=>false,'msg'=>'已经报名参加'];
+        $data['time'] = date("Y-m-d H:i:s",time());
         $result = self::$actionOrderStore->addData($data);
         if (!$result) return ['status' => false, 'msg' => '报名失败'];
         return ['status'=>true,'msg'=>$result];

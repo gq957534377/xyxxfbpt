@@ -933,7 +933,19 @@
         //查看报名情况
         function checkAction(){
             $('.bm').click(function () {
-
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                var ajax = new ajaxController();
+                ajax.ajax({
+                    url     : '/action/' + $(this).data('name'),
+                    type:'delete',
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : actionOrder,
+                    error   : ajaxErrorModel
+                });
             });
         }
 
