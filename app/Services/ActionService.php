@@ -11,6 +11,7 @@ namespace App\Services;
 use App\Store\ActionStore;
 use App\Store\ActionOrderStore;
 use App\Tools\Common;
+use Illuminate\Support\Facades\DB;
 
 class ActionService
 {
@@ -45,15 +46,25 @@ class ActionService
      * @return \Illuminate\Http\Response
      * @author 郭庆
      */
-    public static function actionOrder($data)
+    public function actionOrder($data)
     {
         $action = self::$actionOrderStore->getSomeField(['user_id'=>$data['user_id']],'action_id');
         $isHas = in_array($data['action_id'],$action);
         if($isHas)return ['status'=>false,'msg'=>'已经报名参加'];
         $data['time'] = date("Y-m-d H:i:s",time());
-        $result = self::$actionOrderStore->addData($data);
-        if (!$result) return ['status' => false, 'msg' => '报名失败'];
-        return ['status'=>true,'msg'=>$result];
+        DB::beginTransaction();
+        try{
+            $result = self::$actionOrderStore->addData($data);
+            $res = self::$actionStore->incrementData(['guid'=>$data['action_id']],'people',1);
+            if($res && $result){
+                DB::commit();
+                return ['status' => true, 'msg' => '报名成功'];
+            }
+        }catch (Exception $e){
+            Log::error('报名失败', [$data]);
+            DB::rollback();
+            return ['status' => false, 'msg' => '报名失败'];
+        }
     }
 
     /**
@@ -250,15 +261,5 @@ class ActionService
         }else{
             return ['status'=>false,'msg'=>"数据参数有误！"];
         }
-    }
-
-    /**
-     * @return ActionOrderStore
-     */
-    public static function addPeople($where)
-    {
-        $result = self::$actionStore->incrementData($where,'people',1);
-        if (!$result)return ['status'=>false,'msg'=>'添加记录失败'];
-        return ['status'=>true,'msg'=>$result];
     }
 }

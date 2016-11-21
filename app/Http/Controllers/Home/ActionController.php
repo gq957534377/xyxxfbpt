@@ -54,8 +54,6 @@ class ActionController extends Controller
         $data = self::$request->all();
         $result = self::$actionServer->actionOrder($data);
         if(!$result['status'])return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
-        $res = self::$actionServer->addPeople(['guid'=>$data['action_id']]);
-        if(!$res['status'])return response()->json(['StatusCode'=> 500,'ResultData'=>$res['msg']]);
         return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
     }
 

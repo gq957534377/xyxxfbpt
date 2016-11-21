@@ -169,6 +169,7 @@
                                  type:'post',
                                  data:data,
                                  success : function (data) {
+                                     console.log(data);
                                      if(data.StatusCode == 200){
                                          alert('报名成功！');
                                          $('#baoming').html('已参加');

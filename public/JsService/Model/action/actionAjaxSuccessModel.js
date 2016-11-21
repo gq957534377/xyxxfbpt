@@ -167,6 +167,7 @@ function actionOrder(data) {
     console.log(data);
     if (data) {
         if (data.StatusCode == 200) {
+            $('#list_baoming').html('');
             data = data.ResultData;
             data.map(function (item) {
                 var html = '<tr><td>'+item.user_id+'</td><td>'+item.time+'</td><td>';
