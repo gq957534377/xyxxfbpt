@@ -49,7 +49,6 @@ var fpageClick = function(){
         data:{
             status:'1'
         },
-        beforeSend:ajaxBeforeNoHiddenModel,
         success:function (res) {
             var data = res.data;
             $('.loading').hide();
@@ -76,7 +75,6 @@ var statusCheck = function(dom){
                 id:id,
                 status:$(this).attr('status')
             },
-            beforeSend:ajaxBeforeNoHiddenModel,
             success:function(data){
                 $(".loading").hide();
                 $('.tmp').remove();
@@ -99,7 +97,7 @@ $(function(){
         data:{
             status:'1'
         },
-        beforeSend:ajaxBeforeNoHiddenModel,
+        beforeSend:function(){$('.loading').show()},
         success:function(res){
             $('.loading').hide();
             var data = res.data;
@@ -108,8 +106,7 @@ $(function(){
             statusCheck($(".changr_btn"));
             $("#unchecked_table").parent().append(data.pages);
             $('.pagination li').click(fpageClick);
-        },
-        error:ajaxErrorModel
+        }
     });
 
 })

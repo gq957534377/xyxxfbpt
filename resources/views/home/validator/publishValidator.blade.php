@@ -8,6 +8,7 @@
      */
     // 文档地址 http://www.runoob.com/jquery/jquery-plugin-validate.html
 
+    //发布前判定角色值
     $('#publish_trigger').click(function(){
         $.ajax({
             url:'/project/create',

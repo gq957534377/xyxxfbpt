@@ -12,14 +12,14 @@
 
 
             <ul class="portfolio-filter text-center">
-                <li><a class="btn btn-default active project_type" href="javascript:;" data-filter="protype_1" project_type="1">热门推荐</a></li>
-                <li><a class="btn btn-default project_type" href="javascript:;" data-filter="protype_2" project_type="2">新品上架</a></li>
-                <li><a class="btn btn-default project_type" href="javascript:;" data-filter="protype_3" project_type="3">未来科技</a></li>
-                <li><a class="btn btn-default project_type" href="javascript:;" data-filter="protype_4" project_type="4">健康出行</a></li>
-                <li><a class="btn btn-default project_type" href="javascript:;" data-filter="protype_5" project_type="5">生活美学</a></li>
-                <li><a class="btn btn-default project_type" href="javascript:;" data-filter="protype_6" project_type="6">美食生活</a></li>
-                <li><a class="btn btn-default project_type" href="javascript:;" data-filter="protype_7" project_type="7">流行文化</a></li>
-                <li><a class="btn btn-default project_type" href="javascript:;" data-filter="protype_8" project_type="8">爱心公益</a></li>
+                <li><a class="btn btn-default active project_type" href="javascript:;" data-filter=".protype_1" project_type="1">热门推荐</a></li>
+                <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_2" project_type="2">新品上架</a></li>
+                <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_3" project_type="3">未来科技</a></li>
+                <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_4" project_type="4">健康出行</a></li>
+                <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_5" project_type="5">生活美学</a></li>
+                <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_6" project_type="6">美食生活</a></li>
+                <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_7" project_type="7">流行文化</a></li>
+                <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_8" project_type="8">爱心公益</a></li>
             </ul><!--/#portfolio-filter-->
 
             <div class="row">
@@ -27,7 +27,7 @@
                     <!--返回视图模板数据遍历-->
                     @foreach ($data as $v)
 
-                    <div class="portfolio-item apps col-xs-12 col-sm-4 col-md-3 pro_type_{{$v->project_type}}">
+                    <div class="portfolio-item apps col-xs-12 col-sm-4 col-md-3 protype_{{$v->project_type}}">
                         <div class="recent-work-wrap">
                             <img class="img-responsive" src="{{$v->image}}" alt="">
                             <div class="overlay">

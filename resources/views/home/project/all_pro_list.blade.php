@@ -19,6 +19,7 @@
             success:function(data){
                 $('.loading').hide();
                 $('#userBox').hide();
+                $('#investorBox').hide();
                 project.creatProList(data.data);
                 $('.pro_edit').click(project.proEdit);
             }

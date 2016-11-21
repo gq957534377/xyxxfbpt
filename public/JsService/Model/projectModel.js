@@ -97,6 +97,19 @@ function Project(){
         })
     };
 
+    //投资人浏览详情部分
+    Project.prototype.creatDetail = function(data,dom){
+        dom.html("<span class='readmore_cycle'>  投资周期：</span><br><span class='readmore_habitude'>  投资性质：</span><br> <span class='readmore_less_funding'>  起步资金：</span><br>");
+        $('.readmore_cycle').append(data.cycle);
+        $('.readmore_habitude').append(data.habitude);
+        $('.readmore_less_funding').append(data.less_funding);
+    };
+
+    //测试函数
+    Project.prototype.test = function(){
+        alert('project测试');
+    };
+
 
     //绘制编辑信息模态框
     var creatListModal = function(data){

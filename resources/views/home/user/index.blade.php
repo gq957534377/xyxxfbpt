@@ -660,6 +660,7 @@
         // 申请成为投资者
         $("#investor").click(function(){
             $('#userBox').hide();
+            $('#pro_list_table').hide();
             $('#investorBox').show();
 
         });

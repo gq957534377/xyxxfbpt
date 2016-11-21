@@ -23,7 +23,12 @@ class ProjectUserController extends Controller
         self::$projectServer = $projectService;
     }
 
-    //返回指定项目类型的数据
+    /**
+     * 返回指定项目类型的数据
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
+     */
     public function index(Request $request)
     {
         $data = $request->all();
@@ -44,9 +49,16 @@ class ProjectUserController extends Controller
 
     }
 
+    /**
+     * 获得投资者权限的项目详情
+     * @param $id
+     */
     public function show($id)
     {
-        echo $id;
+        $where = ['project_id'=>$id];
+        $res = self::$projectServer->getData($where);
+        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        return response()->json(['status'=>'200','data'=>$res['data']]);
     }
 
     public function edit($id)
