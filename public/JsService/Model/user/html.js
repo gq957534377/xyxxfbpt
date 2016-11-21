@@ -252,6 +252,7 @@ function checkDetailShow(data){
     var sex = null;
     if(data.sex == 1) sex = "男";
     if(data.sex == 2) sex = "女";
+    if(data.status == 3) $('.check_fail').addClass("hidden");
     var html = '';
     html += '<div class="row">';
     html += '<div class="col-md-8">' +
