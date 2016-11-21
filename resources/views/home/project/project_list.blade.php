@@ -19,7 +19,7 @@
                 <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_5" project_type="5">生活美学</a></li>
                 <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_6" project_type="6">美食生活</a></li>
                 <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_7" project_type="7">流行文化</a></li>
-                <li><a class="btn btn-default project_type" href="javascript:;" data-filter=".protype_8" project_type="8">爱心公益</a></li>
+                <li><a class="btn btn-default project_type" href="javascript:;" data-filter="protype_8" project_type="8">爱心公益</a></li>
             </ul><!--/#portfolio-filter-->
 
             <div class="row">
@@ -32,7 +32,7 @@
                             <img class="img-responsive" src="{{$v->image}}" alt="">
                             <div class="overlay">
                                 <div class="recent-work-inner">
-                                    <h3><a href="#">{{$v->title}}</a></h3>
+                                    <h3><a href="project/{{$v->project_id}}">{{$v->title}}</a></h3>
                                         <span>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;质：{{$v->habitude}}</span><br>
                                     <span>起步资金：{{$v->less_funding}}</span><br>
                                     <span>项目周期：{{$v->cycle}}</span><br>
