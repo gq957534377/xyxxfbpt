@@ -322,13 +322,13 @@ class UserService {
      * @author wangfeilong
      */
     public function checkPass($data, $id){
-        //需要使用事务
         if (!isset($data['role']) || !isset($data['status'])) return ['status'=>true,'data'=>'请求参数错误！'];
-        $result_1 = self::$roleStore->updateUserInfo(['guid' => $id], ['status' => $data['status']]);
-        if (!$result_1) return ['status'=>false,'data'=>'修改status失败！'];
-        $result_2 = self::$userStore->updateUserInfo(['guid' => $id], ['role' => $data['role']]);
-        if (!$result_2) return ['status'=>false,'data'=>'修改role失败！'];
-        return ['status'=>true,'data'=>'修改成功！'];
+        //使用事务
+        $result = DB::transaction(function () use ($data, $id){
+            self::$roleStore->updateUserInfo(['guid' => $id], ['status' => $data['status']]);
+            self::$userStore->updateUserInfo(['guid' => $id], ['role' => $data['role']]);
+        });
+        if(!$result) return ['status'=>true,'data'=>'修改成功！'];
+        else return ['status'=>false,'data'=>'修改失败，请重试！'];
     }
-
 }

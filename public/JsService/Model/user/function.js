@@ -314,6 +314,8 @@ function checkInfo() {
                 if (data.StatusCode == 200) {
                     $('#alert-info').hide();
                     $('#alert-form').show().html(checkDetailShow(data.ResultData));
+                    // //清除模态框残余元素
+                    // $(".modal-backdrop").remove();
                 } else {
                     $('#alert-form').hide();
                     $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
@@ -449,6 +451,7 @@ function checkResponse(data, func, show) {
                     });
                 }
                 window.pagenum = $('.gradeX').length;
+
             }
         } else {
             $('#con-close-modal').modal('show');
