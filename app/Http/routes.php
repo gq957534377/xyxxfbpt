@@ -75,12 +75,14 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/crowd_funding', 'CrowdFundingController');
     //发布项目
     Route::resource('/project', 'ProjectController');
+    Route::resource('/project_user','ProjectUserController');
     //活动内容页
     Route::resource('/action', 'ActionController');
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         // 修改头像
-        Route::post('/headpic','UserController@headpic');
+        Route::resource('/headpic','HeadPicController');
+      //Route::post('/headpic','UserController@headpic');
         // 申请投资者
         Route::post('/apply','UserController@applyRole');
         // 个人中心页
@@ -89,5 +91,7 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::get('/logout','LoginController@logout');
         //路演活动
         Route::resource('/road','RoadController');
+        //众筹用户投钱
+        Route::get("/investment/{project_id}","CrowdFundingController@investment");
     });
 });

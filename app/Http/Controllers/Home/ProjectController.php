@@ -23,20 +23,22 @@ class ProjectController extends Controller
         self::$projectServer = $projectService;
     }
 
-    /**返回创业项目列表页
+    /**返回项目列表页
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 贾济林
      */
     public function index()
     {
-
-        return view('home.project.project_list')->with('','');
+        $where = ['disable'=>'0','status'=>'3'];
+        $res = self::$projectServer->getData($where);
+        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        return view('home.project.project_list')->with('data',$res['data']);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 根据用户session得到角色值
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
      */
     public function create()
     {
@@ -47,7 +49,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * 项目发布信息存入数据库
+     * 项目发布
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @author 贾济林
@@ -72,7 +74,10 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        echo $id;
+        $where = ['project_id'=>$id];
+        $res = self::$projectServer->getData($where);
+        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        return view('home.project.pro_details')->with('data',$res['data']);
     }
 
     /**
