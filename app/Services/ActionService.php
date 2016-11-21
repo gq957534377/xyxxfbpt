@@ -205,6 +205,12 @@ class ActionService
      */
     public function getOrderInfo($guid)
     {
-
+        $where = ["action_id"=>$guid];
+        $result = self::$actionOrderStore->getSomeData($where);
+        if($result){
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>"数据暂无数据！"];
+        }
     }
 }

@@ -19,7 +19,7 @@
                                 <a href="#"><img class="img-responsive img-blog" src="{{$data["pojectInfo"][0]->image}}" width="100%" alt="" /></a>
                                 <h2>{{$data["pojectInfo"][0]->title}}</h2>
                                 <h3>{{$data["pojectInfo"][0]->content}}</h3>
-                                <a class="btn btn-primary readmore" href="blog-item.html">支持(￥)</a>
+                                <a class="btn btn-primary readmore" href="/investment/{{$data["pojectInfo"][0]->project_id}}">支持(￥)</a>
                             </div>
                             <div class="col-xs-12 col-sm-10" style="height: auto;float: right">
 
