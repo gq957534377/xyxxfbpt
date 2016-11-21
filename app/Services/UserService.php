@@ -267,12 +267,12 @@ class UserService {
         // 检验数据
         if(empty($data)) return ['status'=>'400','msg'=>'请填写完整信息！'];
         // 查看该用户是否已申请
-        switch ($data['status']){
+        switch ($data['role']){
             case '2':
-                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'status'=>'2']);
+                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'role'=>'2']);
                 break;
             case '3':
-                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'status'=>'3']);
+                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'role'=>'3']);
                 break;
         }
         // 查询不为空

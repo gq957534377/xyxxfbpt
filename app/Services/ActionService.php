@@ -4,6 +4,7 @@
  * User: Administrator
  * Date: 2016/11/17
  * Time: 13:51
+ * @author:郭庆
  */
 
 namespace App\Services;
@@ -39,7 +40,7 @@ class ActionService
     }
 
     /**
-     * Display a listing of the resource.
+     * 报名活动.
      *
      * @return \Illuminate\Http\Response
      * @author 郭庆
@@ -47,9 +48,24 @@ class ActionService
     public static function actionOrder($data)
     {
         $action = self::$actionOrderStore->getSomeField(['user_id'=>$data['user_id']],'action_id');
+        $isHas = in_array($data['action_id'],$action);
+        if($isHas)return ['status'=>false,'msg'=>'已经报名参加'];
+        $data['time'] = date("Y-m-d H:i:s",time());
         $result = self::$actionOrderStore->addData($data);
         if (!$result) return ['status' => false, 'msg' => '报名失败'];
         return ['status'=>true,'msg'=>$result];
+    }
+
+    /**
+     * 获取指定用户所报名参加的所有活动.
+     *
+     * @return \Illuminate\Http\Response
+     * @author 郭庆
+     */
+    public static function getAction($user)
+    {
+        $action = self::$actionOrderStore->getSomeField(['user_id'=>$user],'action_id');
+        return $action;
     }
     /**
      * 发布活动
@@ -127,7 +143,7 @@ class ActionService
             return ['status'=>false,'msg'=>'生成分页样式发生错误'];
         }
         $Data = self::$actionStore->forPage($nowPage,$forPages,$where);
-        if($Data){
+        if($Data || empty($Data)){
             $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
         }else{
@@ -205,6 +221,44 @@ class ActionService
      */
     public function getOrderInfo($guid)
     {
+        $where = ["action_id"=>$guid];
+        $result = self::$actionOrderStore->getSomeData($where);
+        if($result){
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>"数据暂无数据！"];
+        }
+    }
+    /**
+     * 修改活动报名状态
+     * @author 郭庆
+     */
+    public function orderStatus($guid,$status)
+    {
+        if(!(isset($guid)&&isset($status))){
+            return ['status'=>false,'msg'=>"参数有误 ！"];
+        }
+        if($status == 1){
+            $status = 2;
+        }else{
+            $status = 1;
+        }
+        $Data = self::$actionOrderStore->updateData(["id"=>$guid],["status"=>$status]);
+        if($Data){
+            $result["data"] = $Data;
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>"数据参数有误！"];
+        }
+    }
 
+    /**
+     * @return ActionOrderStore
+     */
+    public static function addPeople($where)
+    {
+        $result = self::$actionStore->incrementData($where,'people',1);
+        if (!$result)return ['status'=>false,'msg'=>'添加记录失败'];
+        return ['status'=>true,'msg'=>$result];
     }
 }

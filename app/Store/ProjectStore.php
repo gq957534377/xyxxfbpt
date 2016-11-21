@@ -28,7 +28,12 @@ class ProjectStore {
     public function getData($where)
     {
         if(empty($where)) return false;
-        return DB::table(self::$table)->where($where)->get();
+        return DB::table(self::$table)->where($where)->orderBy('addtime','desc')->get();
+    }
+
+    public function getAllData()
+    {
+        return DB::table(self::$table)->get();
     }
 
     /**

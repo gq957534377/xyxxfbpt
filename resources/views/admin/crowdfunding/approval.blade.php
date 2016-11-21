@@ -236,15 +236,15 @@ function publishFrom(types,data) {
                     "</div>" +
                     "<div class='col-md-4'>" +
                         "<label for='field-3' class='control-label'>" +
-                            "预筹天数(天)" +
+                            "开始日期" +
                         "</label>" +
-                        "<input  class='form-control' id='field-3' >" +
+                        "<input type='text'  class='form-control some_class' id='field-3s' >" +
                     "</div>" +
                     "<div class='col-md-4'>" +
                         "<label for='field-3' class='control-label'>" +
-                            "预热天数(天)" +
+                            "结束日期" +
                         "</label>" +
-                        "<input type='text' class='form-control' id='field-5' >" +
+                        "<input type='text' class='form-control some_class' id='field-5s' >" +
                     "</div>" +
                 "</div>"+
                 "<div class='row'>" +
@@ -291,6 +291,7 @@ function publishFrom(types,data) {
     $("#plotDiv").html(html);
     startVerification();
     formShow();
+    dateTime();
 }
 //开启验证
 function startVerification() {
@@ -460,8 +461,8 @@ $("#supperButton").click(function () {
 function startCrowdfunding() {
     var project_id = $("#field-1").val();
     var project_type = $("#selects").val();
-    var days = $("#field-5").val();
-    var enddays = parseInt($("#field-3").val())+parseInt(days);
+    var days = $("#field-3s").val();
+    var enddays = $("#field-5s").val();
     var donors_info = $("#field-7").val();
     var info = $("#field-8").val();
     var simple_info = $("#field-6").val();
@@ -601,15 +602,15 @@ function closeCrowdfunding(id) {
                 "</div>" +
                 "<div class='col-md-4'>" +
                 "<label for='field-3' class='control-label'>" +
-                "预筹天数(天)" +
+                "开始日期" +
                 "</label>" +
-                "<input type='text' class='form-control' id='field-3' >" +
+                "<input type='text' class='form-control some_class' id='field-3s' >" +
                 "</div>" +
                 "<div class='col-md-4'>" +
                 "<label for='field-3' class='control-label'>" +
-                "预热天数(天)" +
+                "结束日期" +
                 "</label>" +
-                "<input type='text' class='form-control' id='field-4' >" +
+                "<input type='text' class='form-control some_class' id='field-4s' >" +
                 "</div>" +
                 "</div>"+
                 "<div class='row'>" +
@@ -651,27 +652,30 @@ function closeCrowdfunding(id) {
                 "</div>"+"<input type='hidden' value='"+data[Id]['guid']+"'id='guid'>"
         $("#creatPub").html(html);
         startVerification();
+        dateTime();
     }
+    //发布新众筹
     function newPub() {
         var project_id = $("#field-1").val();
         var guid = $("#guid").val();
         var selectIndex = document.getElementById("selectPubs").selectedIndex;
         var title = document.getElementById("selectPubs").options[selectIndex].text
         var project_type = $("#selects").val();
-        var days = parseInt($("#field-4").val());
-        var enddays = parseInt($("#field-3").val())+days;
+        var startdays = $("#field-3s").val();
+        var enddays = $("#field-4s").val();
         var donors_info = $("#field-7").val();
         var info = $("#field-8").val();
         var simple_info = $("#field-6").val();
         var fundraising = $("#field-5").val();
         var tokens = "{{csrf_token()}}";
-        if(fundraising&&project_id&&guid&&title&&project_type&&days&&enddays&&donors_info&&info&&simple_info){
+        if(fundraising&&project_id&&guid&&title&&project_type&&startdays&&enddays&&donors_info&&info&&simple_info){
             var ajaxFunction = new AjaxWork("/project_approval/publish","PATCH");
-            ajaxFunction.upload({_token:tokens,project_id:project_id,fundraising:fundraising,project_type:project_type,enddays:enddays,days:days,simple_info:simple_info,guid:guid,donors_info:donors_info,info:info,simple_info:simple_info,_method:"put",title:title},successPublishi,errFunction,beforeFunction);
+            ajaxFunction.upload({_token:tokens,project_id:project_id,fundraising:fundraising,project_type:project_type,enddays:enddays,days:startdays,simple_info:simple_info,guid:guid,donors_info:donors_info,info:info,simple_info:simple_info,_method:"put",title:title},successPublishi,errFunction,beforeFunction);
         }else{
             alert("以上内容不可为空！")
         }
     }
+    //查看众筹信息
     function seeFrom(data) {
         var html = "<div class='row'>" +
                 "<div class='col-md-6'>" +
@@ -809,6 +813,141 @@ function closeCrowdfunding(id) {
         $(this).addClass("btn-success");
         forPage("crowd_forpage?nowPage="+nowPage);
     })
+    //时间插件
+    function dateTime() {
+        $.datetimepicker.setLocale('en');
+        $('#datetimepicker_format').datetimepicker({value:'2015/04/15 05:03', format: $("#datetimepicker_format_value").val()});
+        console.log($('#datetimepicker_format').datetimepicker('getValue'));
+
+        $("#datetimepicker_format_change").on("click", function(e){
+            $("#datetimepicker_format").data('xdsoft_datetimepicker').setOptions({format: $("#datetimepicker_format_value").val()});
+        });
+        $("#datetimepicker_format_locale").on("change", function(e){
+            $.datetimepicker.setLocale($(e.currentTarget).val());
+        });
+
+        $('#datetimepicker').datetimepicker({
+            dayOfWeekStart : 1,
+            lang:'en',
+            disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
+            startDate:	'1986/01/05'
+        });
+        $('#datetimepicker').datetimepicker({value:'2015/04/15 05:03',step:10});
+
+        $('.some_class').datetimepicker();
+
+        $('#default_datetimepicker').datetimepicker({
+            formatTime:'H:i',
+            formatDate:'d.m.Y',
+            //defaultDate:'8.12.1986', // it's my birthday
+            defaultDate:'+03.01.1970', // it's my birthday
+            defaultTime:'10:00',
+            timepickerScrollbar:false
+        });
+
+        $('#datetimepicker10').datetimepicker({
+            step:5,
+            inline:true
+        });
+        $('#datetimepicker_mask').datetimepicker({
+            mask:'9999/19/39 29:59'
+        });
+
+        $('#datetimepicker1').datetimepicker({
+            datepicker:false,
+            format:'H:i',
+            step:5
+        });
+        $('#datetimepicker2').datetimepicker({
+            yearOffset:222,
+            lang:'ch',
+            timepicker:false,
+            format:'d/m/Y',
+            formatDate:'Y/m/d',
+            minDate:'-1970/01/02', // yesterday is minimum date
+            maxDate:'+1970/01/02' // and tommorow is maximum date calendar
+        });
+        $('#datetimepicker3').datetimepicker({
+            inline:true
+        });
+        $('#datetimepicker4').datetimepicker();
+        $('#open').click(function(){
+            $('#datetimepicker4').datetimepicker('show');
+        });
+        $('#close').click(function(){
+            $('#datetimepicker4').datetimepicker('hide');
+        });
+        $('#reset').click(function(){
+            $('#datetimepicker4').datetimepicker('reset');
+        });
+        $('#datetimepicker5').datetimepicker({
+            datepicker:false,
+            allowTimes:['12:00','13:00','15:00','17:00','17:05','17:20','19:00','20:00'],
+            step:5
+        });
+        $('#datetimepicker6').datetimepicker();
+        $('#destroy').click(function(){
+            if( $('#datetimepicker6').data('xdsoft_datetimepicker') ){
+                $('#datetimepicker6').datetimepicker('destroy');
+                this.value = 'create';
+            }else{
+                $('#datetimepicker6').datetimepicker();
+                this.value = 'destroy';
+            }
+        });
+        var logic = function( currentDateTime ){
+            if (currentDateTime && currentDateTime.getDay() == 6){
+                this.setOptions({
+                    minTime:'11:00'
+                });
+            }else
+                this.setOptions({
+                    minTime:'8:00'
+                });
+        };
+        $('#datetimepicker7').datetimepicker({
+            onChangeDateTime:logic,
+            onShow:logic
+        });
+        $('#datetimepicker8').datetimepicker({
+            onGenerate:function( ct ){
+                $(this).find('.xdsoft_date')
+                        .toggleClass('xdsoft_disabled');
+            },
+            minDate:'-1970/01/2',
+            maxDate:'+1970/01/2',
+            timepicker:false
+        });
+        $('#datetimepicker9').datetimepicker({
+            onGenerate:function( ct ){
+                $(this).find('.xdsoft_date.xdsoft_weekend')
+                        .addClass('xdsoft_disabled');
+            },
+            weekends:['01.01.2014','02.01.2014','03.01.2014','04.01.2014','05.01.2014','06.01.2014'],
+            timepicker:false
+        });
+        var dateToDisable = new Date();
+        dateToDisable.setDate(dateToDisable.getDate() + 2);
+        $('#datetimepicker11').datetimepicker({
+            beforeShowDay: function(date) {
+                if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
+                    return [false, ""]
+                }
+
+                return [true, ""];
+            }
+        });
+        $('#datetimepicker12').datetimepicker({
+            beforeShowDay: function(date) {
+                if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
+                    return [true, "custom-date-style"];
+                }
+
+                return [true, ""];
+            }
+        });
+        $('#datetimepicker_dark').datetimepicker({theme:'dark'})
+    }
 </script>
 
 @endsection

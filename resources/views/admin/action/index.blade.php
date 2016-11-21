@@ -394,8 +394,35 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>
+{{--报名表--}}
+<div id="baoming" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">报名表</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>用户id</th>
+                            <th>报名时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id = "list_baoming">
 
+                    </tbody>
+                    </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>
 <img src="/admin/images/load.gif" class="loading">
 
 <div class="wraper container-fluid">
@@ -444,6 +471,7 @@
     <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
     <script type="text/javascript">
         <?php $timestamp = time();?>
+        //发布活动-图片上传
         $(function() {
             $('#file_upload').uploadify({
                 'buttonText':'选择图片',
@@ -462,6 +490,7 @@
                     alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
                 }
             });
+            //修改活动-图片上传
             $('#file_charge').uploadify({
                 'buttonText':'修改图片',
                 'formData'     : {
@@ -484,11 +513,13 @@
     <script>
         var list_type = null;
         var list_status = 1;
+        //列表活动类型设置
         function listType(type,status) {
             list_type = type;
             list_status = status;
             list(type,status);
         }
+        //分类查看数据
         $('#chakan').click(function(){
             listType($('#xz_type').val(),1);
         });
@@ -785,32 +816,32 @@
                             required: '请选择活动类型',
                         },
                         title: {
-                            required: '请输入路演主题',
+                            required: '请输入活动主题',
                             maxlength:'标题最多50个字符'
                         },
                         author:{
-                            required: '请输入主讲人',
-                            maxlength:'主讲人最多5个字符'
+                            required: '请输入负责人',
+                            maxlength:'负责人最多5个字符'
 
                         },
                         group:{
                             required: '组织机构必选'
                         },
                         start_time:{
-                            required:'请输入路演时间'
+                            required:'请输入活动开始时间'
                         },
                         brief:{
-                            required: '请输入路演简述',
+                            required: '请输入活动简述',
                             rangelength:'请输入40-100个字符作为简述'
                         },
                         end_time:{
-                            required: '请输入路演结束时间'
+                            required: '请输入活动结束时间'
                         },
                         deadline:{
                             required: '请输入报名截止日期'
                         },
                         address:{
-                            required: '请输入路演地址',
+                            required: '请输入活动地址',
                             maxlength:'地址最多30个字符'
                         },
                         limit:{
@@ -818,7 +849,7 @@
                             required: '请输入报名限制人数'
                         },
                         describe:{
-                            required: '请输入路演详情',
+                            required: '请输入活动详情',
                             minlength:'详情长度最少50个字符'
                         },
                         banner:{
@@ -836,7 +867,7 @@
                     $.FormValidator.init()
                 }(window.jQuery);
 
-        //修改路演信息展示旧的信息
+        //修改活动信息展示旧的信息
         function updateRoad() {
             $('.charge-road').click(function () {
                 $('.loading').hide();
@@ -850,7 +881,7 @@
             });
         }
 
-        //展示路演信息详情
+        //展示活动信息详情
         function showInfo() {
             $('.info').click(function () {
                 var ajax = new ajaxController();
@@ -864,13 +895,13 @@
         }
 
 
-        // 修改路演信息状态
+        // 修改活动信息状态
         function modifyStatus() {
             $('.status').click(function () {
                 var _this = $(this);
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
+                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&type=2',
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
                     error   : ajaxErrorModel
@@ -901,6 +932,64 @@
                         $('#alert-info').html('<p>未知的错误</p>');
                     }
                 }
+            });
+        }
+        //修改报名信息状态
+        function actionStatus() {
+            $('.action_status').click(function () {
+                var _this = $(this);
+                var ajax = new ajaxController();
+                ajax.ajax({
+                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&type=1',
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : action_status,
+                    error   : ajaxErrorModel
+                });
+
+                function action_status(data){
+                    $('.loading').hide();
+                    $('#myModal').modal('show');
+                    $('.modal-title').html('提示');
+                    if (data) {
+                        if (data.StatusCode == 200) {
+                            var code = data.ResultData;
+                            $('#alert-form').hide();
+                            _this.data('status', code);
+                            if (_this.children().hasClass("btn-danger")) {
+                                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
+                            } else if (_this.children().hasClass("btn-primary")) {
+                                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
+                            }
+                            $('#alert-info').html('<p>状态修改成功!</p>');
+                            list(list_type,list_status);
+                        } else {
+                            $('#alert-form').hide();
+                            $('#alert-info').html('<p>状态修改失败！</p>');
+                        }
+                    } else {
+                        $('#alert-form').hide();
+                        $('#alert-info').html('<p>未知的错误</p>');
+                    }
+                }
+            });
+        }
+        
+        //查看报名情况
+        function checkAction(){
+            $('.bm').click(function () {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                var ajax = new ajaxController();
+                ajax.ajax({
+                    url     : '/action/' + $(this).data('name'),
+                    type:'delete',
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : actionOrder,
+                    error   : ajaxErrorModel
+                });
             });
         }
 
