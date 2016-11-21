@@ -89,5 +89,7 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::get('/logout','LoginController@logout');
         //路演活动
         Route::resource('/road','RoadController');
+        //众筹用户投钱
+        Route::get("/investment/{project_id}","CrowdFundingController@investment");
     });
 });

@@ -11,17 +11,19 @@ namespace App\Services;
 use App\Store\CrowdFundingStore;
 use App\Store\ProjectStore;
 use App\Tools\Common;
+use App\Store\CrowdCapitalStore;
 use DB;
 
 class CrowdFundingService
 {
     protected static $crowdFundingStore = null;
     protected static $projectStore = null;
-
-    public function __construct(CrowdFundingStore $crowdFundingStore,ProjectStore $ProjectStore)
+    protected static $crowdCapitalStore = null;
+    public function __construct(CrowdFundingStore $crowdFundingStore,ProjectStore $ProjectStore,CrowdCapitalStore $CrowdCapitalStore)
     {
         self::$crowdFundingStore = $crowdFundingStore;
         self::$projectStore = $ProjectStore;
+        self::$crowdCapitalStore = $CrowdCapitalStore;
     }
     /**
      * 返回众筹首页所需动态数据
@@ -384,6 +386,33 @@ class CrowdFundingService
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>$result];
+        }
+    }
+
+    /**
+     * 参与众筹
+     * @param $id
+     * @param $request
+     * @return array
+     * author 张洵之
+     */
+    public function insertCapital($id,$request)
+    {
+        $data["project_id"] = $id;
+        $data["money"] = $request->input("money");
+        $data["user_id"] = session('user')->guid;
+        $data["addtime"] = date("Y-m-d H:i:s",time());
+        $result = DB::transaction(function() use($data)
+        {
+            self::$crowdCapitalStore->insertData($data);
+            self::$crowdFundingStore->addFunshing(["project_id"=>$data["project_id"]],"fundraising_now",$data["money"]);
+            self::$crowdFundingStore->addFunshing(["project_id"=>$data["project_id"]],"Number_of_participants",1);
+            return true;
+        });
+        if($result){
+            return ['status'=>true,'msg'=>"提交成功"];
+        }else{
+            return ['status'=>false,'msg'=>"提交失败"];
         }
     }
 }
