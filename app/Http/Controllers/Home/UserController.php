@@ -90,7 +90,7 @@ class UserController extends Controller
         if($picInfo_b['status'] =='400') return response()->json(['StatusCode'=>'400','ResultData'=>'图片上传失败']);
         $data['card_pic_a'] = $picInfo_a['msg'];
         $data['card_pic_b'] = $picInfo_b['msg'];
-        $data['status'] = '2';
+        $data['role'] = '2';
         // 提交数据到业务服务层
         $info = self::$userServer->applyRole($data);
         // 返回状态信息
@@ -238,7 +238,7 @@ class UserController extends Controller
         if ($validator->fails()) return response()->json(['StatusCode' => '404','ResultData' => $validator->errors()->all()]);
         // 重新组装数据
         $newData['guid'] = $data['guid'];
-        $newData['status'] = '3';
+        $newData['role'] = '3';
         $newData['realname'] = $data['investor_name'];
         $newData['sex'] = $data['investor_sex'];
         $newData['birthday'] = $data['investor_birthday'];
@@ -265,14 +265,4 @@ class UserController extends Controller
 
     }
 
-    public function avatar()
-    {
-        return view('home.user.headpic.index');
-    }
-
-    public function avatarUpload(Request $request)
-    {
-        $data = $request->all();
-        dd($data);
-    }
 }
