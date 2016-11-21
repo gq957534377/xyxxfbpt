@@ -8,6 +8,7 @@
      */
     // 文档地址 http://www.runoob.com/jquery/jquery-plugin-validate.html
 
+    //发布前判定角色值
     $('#publish_trigger').click(function(){
         $.ajax({
             url:'/project/create',
@@ -20,8 +21,10 @@
                     promptBoxHandle('提示','请先申请成为创业者哦！');
                 }else{
                     $('#_projectPunlish').modal('show');
-//                        $('#publish_trigger2').click();
                 }
+            },
+            error:function(){
+                $('.loading').hide();
             }
         });
     })
@@ -75,6 +78,7 @@
                             $("input[name='less_funding']").val('');
                             $("input[name='cycle']").val('');
                             $("select[name='project_type']").val('');
+                            $('#pro_list_table tbody').html('');
                             promptBoxHandle('操作提示','提交成功');
                             $('#_projectPunlish').modal('hide');
                         },

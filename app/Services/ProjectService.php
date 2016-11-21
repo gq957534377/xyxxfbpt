@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Request;
 use App\Store\ProjectStore;
+use App\Store\RoleStore;
 use App\Store\UserStore;
 use App\Tools\Common;
 use Illuminate\Support\Facades\DB;
@@ -13,16 +14,18 @@ use Illuminate\Support\Facades\Validator;
 class ProjectService {
     protected static $projectStore = null;
     protected static $userStore = null;
+    protected static $roleStore = null;
 
     /**
      * 构造函数注入
      * ProjectService constructor.
      *
      */
-    public function __construct(ProjectStore $projectStore, UserStore $userStore)
+    public function __construct(ProjectStore $projectStore, UserStore $userStore, RoleStore $roleStore)
     {
         self::$projectStore = $projectStore;
         self::$userStore    = $userStore;
+        self::$roleStore    = $roleStore;
     }
 
     /**
@@ -61,10 +64,17 @@ class ProjectService {
      * @return array
      * @author 贾济林
      */
-    public function getData($data)
+    public function getData($where)
     {
-        $data = self::$projectStore->getData($data);
-        if (!$data) return ['status'=> true,'msg'=> '查询失败'];
+        $data = self::$projectStore->getData($where);
+        if (!$data) return ['status'=> false,'msg'=> '查询失败'];
+        return ['status'=>true,'data'=>$data];
+    }
+
+    public function getAllData()
+    {
+        $data = self::$projectStore->getAllData();
+        if (!$data) return ['status'=>false,'msg'=>'查询失败'];
         return ['status'=>true,'data'=>$data];
     }
 
@@ -137,9 +147,9 @@ class ProjectService {
     public function getRole($guid)
     {
         $param = ['guid'=>$guid];
-        $data = self::$userStore->getOneData($param);
-        $role = $data->role;
+        $data = self::$roleStore->getRole($param);
         if (!$data) return ['status'=>false,'msg'=>'查询失败'];
+        $role = $data->role;
         return ['status'=>true,'data'=>$role];
     }
 
@@ -156,5 +166,13 @@ class ProjectService {
         if (!$res) return ['status'=>false,'msg'=>'查询失败'];
         return ['status'=>true,'data'=>$res];
     }
+
+    public function updateData($data,$where)
+    {
+        $res = self::$projectStore->update($where,$data);
+        if ($res==0) return ['status'=>false,'msg'=>'更新失败'];
+        return ['status'=>true,'msg'=>'更新成功'];
+    }
+
 
 }
