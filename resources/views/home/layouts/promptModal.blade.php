@@ -17,7 +17,7 @@
         html += '          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times;</button>';
         html += '          <h4 class="modal-title" id="myModalLabel"> '+title+'  </h4>';
         html += '        </div>';
-        html += '        <div class="modal-body">';
+        html += '        <div id="promptBox" class="modal-body">';
         html += body;
         html += '        </div>';
         html += '        <div class="modal-footer">';
@@ -32,8 +32,11 @@
     // 触发
     function promptBoxHandle(title,body)
     {
+        msgEmpty();
         promptBox(title,body);
         $('#promptModal').click();
     }
-
+    function msgEmpty(){
+        $("#promptBox").empty();
+    }
 </script>

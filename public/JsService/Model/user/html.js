@@ -49,11 +49,11 @@ function listUserShow(data){
         html += '<td>';
 
         html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
-        if (p != 1)
+        if (p != 1 && p != 3)
         html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_unlock"><button class="btn btn-success btn-xs">激活</button></a>';
         if (p != 2 && p != 3)
         html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_lock"><button class="btn btn-warning btn-xs">禁用</button></a>';
-        if (p != 3)
+        if (p != 2 && p != 3)
         html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_delete"><button class="btn btn-danger btn-xs">停用</button></a>';
         if (p == 3)
         html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_un_delete"><button class="btn btn-danger btn-xs">启用</button></a>';
@@ -100,9 +100,69 @@ function userInfoUpdateShow(data) {
     html += '<div class="col-md-4"><div class="form-group no-margin"><label for="field-7" class="control-label">手机：</label>';
     html += '<input type="text" class="form-control" value="' + (data.tel || '') + '" id="tel" placeholder="无"></div></div>';
     html += '<div class="col-md-4"><div class="form-group no-margin"><label for="field-7" class="control-label">邮箱：</label>';
-    html += '<span class="form-control hidden" id="guid">' + data.guid + '</span>';
+    // html += '<span class="form-control hidden" id="guid">' + data.guid + '</span>';
     html += '<input type="text" class="form-control" value="' + (data.email || '') + '" id="email" placeholder="无"></div></div></div>';
     return html;
+}
+
+// 获得一条数据的html
+function listUserOneShow(data){
+    url = '/user/create';
+    var req_data = {
+        name : window.modify_guid
+    };
+    type = 'GET';
+    load(url, req_data, type, function (data) {
+        if (data) {
+            if (data.StatusCode == 200) {
+
+                var html = '';
+                var e = data.ResultData;
+                var status = null;
+                var p = '';
+                if(e.status == 1){
+                    status = '<p class="text-success">正常</p>';
+                    p = 1;
+                }
+                if(e.status == 2){
+                    status = '<p class="text-warning">禁用</p>';
+                    p = 2;
+                }
+                if(e.status == 3){
+                    status = '<p class="text-danger">已停用</p>';
+                    p = 3;
+                }
+
+                html += '<td>' + item + '</td>';
+                html += '<td>' + e.nickname + '</td>';
+                html += '<td>' + e.realname + '</td>';
+                html += '<td>' + e.sex + '</td>';
+                html += '<td>' + e.birthday + '</td>';
+                html += '<td>' + e.tel + '</td>';
+                html += '<td>' + e.email + '</td>';
+                html += '<td>' + status + '</td>';
+                html += '<td>';
+
+                html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
+                if (p != 1 && p != 3)
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_unlock"><button class="btn btn-success btn-xs">激活</button></a>';
+                if (p != 2 && p != 3)
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_lock"><button class="btn btn-warning btn-xs">禁用</button></a>';
+                if (p != 2 && p != 3)
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_delete"><button class="btn btn-danger btn-xs">停用</button></a>';
+                if (p == 3)
+                    html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_un_delete"><button class="btn btn-danger btn-xs">启用</button></a>';
+
+                html += '</td>';
+
+                $(".gradeX").eq(item - 1).html(html);
+
+            }
+        } else {
+            $('#alert-form').hide();
+            $('#alert-info').html('<p>未知的错误,不能展示修改！</p>');
+        }
+    });
 }
 
 // 创业者项目页面 投资者项目页面 暂用同一个
@@ -158,6 +218,7 @@ function listRoleShow(data){
         html += '<td>';
         html += '<a href="javascript:;" class="info check_check" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">审核</button></a>';
         html += '<a href="javascript:;" class="info check_pass" data-name="' + e.guid + '"><button class="btn btn-success btn-xs">通过</button></a>';
+        if(p != 3)
         html += '<a href="javascript:;" class="info check_fail" data-name="' + e.guid + '"><button class="btn btn-warning btn-xs">不通过</button></a>';
         if(p == 3)
         html += '<a href="javascript:;" class="info check_delete" data-name="' + e.guid + '"><button class="btn btn-danger btn-xs">删除</button></a>';

@@ -8,6 +8,7 @@
 
 namespace App\Services;
 use App\Store\ActionStore;
+use App\Store\ActionOrderStore;
 use App\Tools\Common;
 
 class ActionService
@@ -16,12 +17,40 @@ class ActionService
      * 引入活动数据仓储层
      */
     protected static $actionStore;
+    protected static $actionOrderStore;
     protected static $common;
-    public function __construct(ActionStore $actionStore)
+    public function __construct(ActionStore $actionStore,ActionOrderStore $actionOrderStore)
     {
         self::$actionStore = $actionStore;
+        self::$actionOrderStore = $actionOrderStore;
     }
 
+    /**
+     * 查询对应活动类型的所有活动数据
+     * @param $type
+     * @return array
+     * @author 郭庆
+     */
+    public static function selectByType($type)
+    {
+        $data = self::$actionStore->getData(['type'=>$type]);
+        if($data)return ['status'=>true,'msg'=>$data];
+        return ['status'=>false,'msg'=>'暂时没有本活动信息'];
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     * @author 郭庆
+     */
+    public static function actionOrder($data)
+    {
+        $action = self::$actionOrderStore->getSomeField(['user_id'=>$data['user_id']],'action_id');
+        $result = self::$actionOrderStore->addData($data);
+        if (!$result) return ['status' => false, 'msg' => '报名失败'];
+        return ['status'=>true,'msg'=>$result];
+    }
     /**
      * 发布活动
      * @param $data
@@ -98,8 +127,8 @@ class ActionService
             return ['status'=>false,'msg'=>'生成分页样式发生错误'];
         }
         $Data = self::$actionStore->forPage($nowPage,$forPages,$where);
-        if($Data["status"]){
-            $result["data"] = $Data["data"];
+        if($Data){
+            $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>"数据参数有误！"];
@@ -118,19 +147,64 @@ class ActionService
             return ['status'=>false,'msg'=>"缺少参数！"];
         }
         $Data = self::$actionStore->getData(["guid"=>$guid]);
-        if($Data["status"]){
-            $result["data"] = $Data["data"];
+        if($Data){
+            $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>"数据参数有误！"];
         }
     }
 
+    /**
+     * 修改活动状态
+     * @param $guid
+     * @param $status
+     * @return array
+     * author 张洵之
+     */
     public function changeStatus($guid,$status)
     {
-        if(is_string($guid)||!is_string($status)){
-            return ['status'=>false,'msg'=>"缺少参数！"];
+        if(!(isset($guid)&&isset($status))){
+            return ['status'=>false,'msg'=>"参数有误 ！"];
         }
-        $result = self::$actionStore;
+        if($status == 1){
+            $status = 3;
+        }else{
+            $status = 1;
+        }
+        $Data = self::$actionStore->upload(["guid"=>$guid],["status"=>$status]);
+        if($Data){
+            $result["data"] = $Data;
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>"数据参数有误！"];
+        }
+    }
+
+    /**
+     * 修改互动内容
+     * @param $where
+     * @param $data
+     * @return array
+     * author 张洵之
+     */
+    public function upDta($where,$data)
+    {
+        $Data = self::$actionStore->upload($where,$data);
+        if($Data){
+            $result["data"] = $Data;
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>"数据参数有误！"];
+        }
+    }
+
+    /**
+     * @param $guid
+     * author 张洵之
+     */
+    public function getOrderInfo($guid)
+    {
+
     }
 }

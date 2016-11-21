@@ -53,7 +53,10 @@
                                         break;
                                     case '200':
                                         promptBoxHandle('提示',data.ResultData);
-                                        window.location = '/login';
+                                        jQuery(document).ready(function(){
+                                            setTimeout('delayer()', 3000);
+                                            //这里实现延迟3秒跳转
+                                        });
                                         break;
                                 }
                             }
@@ -141,9 +144,11 @@
         // 判断手机号
         if($.trim(phone).length == 0){
             promptBoxHandle('警告','请输入手机号');
+            exit();
         } else {
             if(isPhoneNo($.trim(phone))== false) {
                 promptBoxHandle('警告','手机号不正确');
+                exit();
             }
         }
     }
@@ -162,7 +167,6 @@
                 switch (data.StatusCode){
                     case '400':
                         promptBoxHandle('警告',data.ResultData);
-//                        alert(data.ResultData);
                         break;
                     case '200':
                         promptBoxHandle('提示',data.ResultData);
@@ -172,6 +176,9 @@
         });
 
     });
-
+    // 跳转路径
+    function delayer(){
+        window.location = "/login";
+    }
 </script>
 <!-- 验证机制 End -->

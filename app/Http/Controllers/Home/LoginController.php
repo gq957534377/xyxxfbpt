@@ -52,7 +52,7 @@ class LoginController extends Controller
         // 先校验验证码
         if($data['homeCaptcha'] != Session::get('homeCode'))
         {
-            return back()->withErrors('验证码错误！');
+            return response()->json(['StatusCode'=>'400','ResultData'=>['验证错误！']]);
         }
         //验证数据
         $this->validate($request,[

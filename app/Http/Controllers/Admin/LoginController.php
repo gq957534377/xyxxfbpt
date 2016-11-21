@@ -79,7 +79,7 @@ class LoginController extends Controller
                 Log::error('数据异常',$data);//这边出错了那就不是逻辑问题了，抛给日志
                 return back()->withErrors('数据异常，请再来一次，非常抱歉！');
                 break;
-            case 'yes':
+            case 'yes': 
                 return redirect('/');
                 break;
         }

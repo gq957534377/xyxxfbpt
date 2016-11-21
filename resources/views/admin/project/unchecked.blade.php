@@ -20,9 +20,9 @@
 
 @section('script')
     <script src="{{url('JsService/Controller/AjaxController.js')}}" type="text/javascript"></script>
-    <script src="{{url('JsService/Model/road/roadAjaxBeforeModel.js')}}" type="text/javascript"></script>
-    <script src="{{url('JsService/Model/road/roadAjaxSuccessModel.js')}}" type="text/javascript"></script>
-    <script src="{{url('JsService/Model/road/roadAjaxErrorModel.js')}}" type="text/javascript"></script>
+    <script src="{{url('JsService/Model/road/actionAjaxBeforeModel.js')}}" type="text/javascript"></script>
+    <script src="{{url('JsService/Model/road/actionAjaxSuccessModel.js')}}" type="text/javascript"></script>
+    <script src="{{url('JsService/Model/road/actionAjaxErrorModel.js')}}" type="text/javascript"></script>
     <script src="{{url('JsService/Controller/project/uncheckedController.js')}}" type="text/javascript"></script>
     <script>
 </script>

@@ -147,7 +147,7 @@
         </div>
     </div>
 </div><!-- /.modal -->
-{{--修改路演表单--}}
+{{--修改活动表单--}}
 <div class="modal fade bs-example-modal-lg" id="xg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -260,7 +260,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-{{--路演详情--}}
+{{--活动详情--}}
 <div id="tabs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content p-0">
@@ -314,8 +314,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="field-2" class="control-label">主讲人</label>
-                                <input type="text" class="form-control" id="xq_speaker" placeholder="Doe" disabled="true">
+                                <label for="field-2" class="control-label">负责人</label>
+                                <input type="text" class="form-control" id="xq_author" disabled="true">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -431,9 +431,9 @@
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <!--引用ajax模块-->
     <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
-    <script src="JsService/Model/road/roadAjaxBeforeModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/road/roadAjaxSuccessModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/road/roadAjaxErrorModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/action/actionAjaxBeforeModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/action/actionAjaxSuccessModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/action/actionAjaxErrorModel.js" type="text/javascript"></script>
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <!--alertInfo end-->
@@ -511,8 +511,9 @@
                         });
                         var data = new FormData();
                         var resul={
+                            type:$('#yz_xg').find('select[name=action]').val(),
                             title:$('#yz_xg').find('input[name=title]').val(),
-                            speaker:$('#yz_xg').find('input[name=speaker]').val(),
+                            author:$('#yz_xg').find('input[name=author]').val(),
                             group:$('#yz_xg').find('select[name=group]').val(),
                             banner:$('#yz_xg').find('input[name=banner]').val(),
                             end_time:$('#yz_xg').find('input[name=end_time]').val(),
@@ -525,18 +526,17 @@
                         };
                         console.log(resul);
                         data.append( "title"      , resul.title);
-                        data.append( "speaker"     , resul.speaker);
+                        data.append( "author"     , resul.author);
                         data.append( "group"       ,resul.group);
                         data.append( "start_time"     , resul.start_time);
                         data.append( "brief"   , resul.brief);
                         data.append( "describe", resul.describe);
                         data.append( "banner", resul.banner);
                         data.append( "end_time", resul.end_time);
-                        data.append( "start_time", resul.start_time);
                         data.append( "address", resul.address);
                         data.append( "limit", resul.limit);
                         $.ajax({
-                            url     : '/road/' + $('input[name=id]').val(),
+                            url     : '/action/' + $('input[name=id]').val(),
                             type:'put',
                             data:resul,
                             before  : ajaxBeforeNoHiddenModel,
@@ -550,7 +550,7 @@
                             $('#alert-form').html('');
                             $('.modal-title').html('提示');
                             if (data) {
-                                if (data.ServerNo == 200) {
+                                if (data.StatusCode == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>活动修改成功!</p>');
                                     list(resul.type,1);
@@ -580,7 +580,7 @@
                         limit: {
                             required: true
                         },
-                        speaker:{
+                        author:{
                             required: true,
                         },
                         group:{
@@ -604,7 +604,7 @@
                         title: {
                             required: '请输入路演主题'
                         },
-                        speaker:{
+                        author:{
                             required: '请输入主讲人'
                         },
                         group:{
@@ -842,7 +842,7 @@
                 $('.loading').hide();
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/road/' + $(this).data('name'),
+                    url     : '/action/' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : date,
                     error   : ajaxErrorModel
@@ -870,19 +870,18 @@
                 var _this = $(this);
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/road/create?status=' + $(this).data('status') + '&name=' + $(this).data('name'),
+                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
                     error   : ajaxErrorModel
                 });
 
                 function checkStatus(data){
-                    console.log(data);
                     $('.loading').hide();
                     $('#myModal').modal('show');
                     $('.modal-title').html('提示');
                     if (data) {
-                        if (data.ServerNo == 200) {
+                        if (data.StatusCode == 200) {
                             var code = data.ResultData;
                             $('#alert-form').hide();
                             _this.data('status', code);
@@ -895,7 +894,7 @@
                             list(list_type,list_status);
                         } else {
                             $('#alert-form').hide();
-                            $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                            $('#alert-info').html('<p>状态修改失败！</p>');
                         }
                     } else {
                         $('#alert-form').hide();
