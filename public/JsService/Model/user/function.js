@@ -240,10 +240,23 @@ function getPage() {
             return false;
         }
 
-        //初始化全局变量
-        window.nowpage = $(this).children('a').text();
         data = roleData(user);
-        data.nowPage = window.nowpage;
+
+        //当前页数
+        var active = $('.pagination li.active').children('a').text();
+        //总页数
+        var total = $('.pagination li').length - 2;
+
+        window.nowpage = $(this).children('a').text();
+        data.nowPage = nowpage;
+
+        if(nowpage == '«') {
+            data.nowPage = parseInt(active) - 1;
+        }
+        if(nowpage == '»') {
+            data.nowPage = parseInt(active) + 1;
+        }
+
         window.pagenum = $('.gradeX').length;
 
         if(data.role == 1 || data.role == 2 || data.role == 3)
