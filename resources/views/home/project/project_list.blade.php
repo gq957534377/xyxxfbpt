@@ -54,12 +54,5 @@
 @section('script')
     <script src="{{url('JsService/Model/projectModel.js')}}"></script>
     <script>
-//        $(function(){
-//            var project = new Project();
-//            $('.project_type').click(function(){
-//                project.ajax('project_user','get',{project_type:$(this).attr('project_type')},
-//                        function(data){})
-//            })
-//        })
     </script>
     @endsection
