@@ -123,25 +123,14 @@ class CrowdFundingService
     }
 
     /**
-     * 查询某条记录详细信息
+     * 查询项目资金详情
      * @param $projectId
      * @return array
      * author 张洵之
      */
     public function revise($projectId)
     {
-        $where = ["project_id"=>$projectId];
-        $result = self::$crowdFundingStore->getWhere($where);
-        $endDay =  floor((strtotime($result[0]->endtime)-time())/(3600*24));
-        $endHour = floor(((strtotime($result[0]->endtime)-time())/(3600*24) - $endDay)*24);
-        $endScend =floor((((strtotime($result[0]->endtime)-time())/(3600*24) - $endDay)*24 - $endHour)*60);
-        $result[0]->endtime =$endDay."天".$endHour."时".$endScend."分";
-        if(isset($result)){
-            $result["type"] = "revise";
-            return ['status'=>true,'msg'=>$result];
-        }else{
-            return ['status'=>false,'msg'=>'发生错误'];
-        }
+
     }
 
     /**
