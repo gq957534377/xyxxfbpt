@@ -19,17 +19,16 @@ class ActionController extends Controller
         self::$request = $request;
     }
     /**
-     * 根据所选活动类型导航，返回相应的列表页+数据.
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     * @author 郭庆
      */
     public function index()
     {
         $type = self::$request->all()['type'];
         $result = self::$actionServer->selectByType($type);
-        if ($result['status'])return view('Home.action.index',['msg'=>$result['msg']]);
-        return view('Home.action.index',['msg'=>$result['msg']]);
+        if ($result['status'])return view('home.action.index',['msg'=>$result['msg']]);
+        return view('home.action.index',['msg'=>$result['msg']]);
     }
 
     /**
@@ -51,32 +50,24 @@ class ActionController extends Controller
      */
     public function store()
     {
-        $data = self::$request->all();
+        $data = self::$request->except('_token');
         $result = self::$actionServer->actionOrder($data);
         if(!$result['status'])return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
-        $res = self::$actionServer->addPeople(['guid'=>$data['action_id']]);
-        if(!$res['status'])return response()->json(['StatusCode'=> 500,'ResultData'=>$res['msg']]);
         return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
     }
 
     /**
-     * 详情页.
+     * Display the specified resource.
      *
      * @param  int  $id
-     * @author 郭庆+张洵之
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $session = self::$request->session()->all();
         $data = self::$actionServer->getData($id);
         if($data["status"]){
-            if (!isset($session['user'])){
-                $isHas = false;
-            }else{
-                $action = self::$actionServer->getAction($session['user']->guid);
-                $isHas = in_array($data["msg"]["data"][0]->guid,$action);
-            }
-            return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id,'isHas'=>$isHas]);
+            return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id]);
         }
     }
 

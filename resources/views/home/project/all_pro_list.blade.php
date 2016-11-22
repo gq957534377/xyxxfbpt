@@ -22,6 +22,8 @@
                 $('#investorBox').hide();
                 project.creatProList(data.data);
                 $('.pro_edit').click(project.proEdit);
+                $('.pro_on').click(project.proTurnOff);
+                $('.pro_off').click(project.proTurnOn);
             }
 
         })

@@ -61,9 +61,15 @@ class ProjectUserController extends Controller
         return response()->json(['status'=>'200','data'=>$res['data']]);
     }
 
-    public function edit($id)
+    //个人中心项目启用禁止
+    public function edit(Request $request, $id)
     {
-
+        $disable = $request['disable'];
+        $where = ['project_id'=>$id];
+        $data  = ['disable'=>$disable];
+        $res = self::$projectServer->changeAble($where,$data);
+        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'修改失败']);
+        return response()->json(['status'=>'200','msg'=>'修改成功']);
     }
 
 

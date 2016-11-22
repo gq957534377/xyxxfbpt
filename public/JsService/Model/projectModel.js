@@ -49,7 +49,8 @@ function Project(){
             var status_td = $('<td></td>');
             status_td.html(status);
             //操作
-            var operating_td = $('<td><button type="button" class="btn btn-info pro_edit">修改</button></td>');
+            if (data[i].disable==0) var operating_td = $('<td class="operateTd"><button type="button" class="btn btn-info pro_edit">修改</button><button type="button" class="btn btn-info pro_on">禁用</button></td>');
+            if (data[i].disable==1) var operating_td = $('<td><button type="button" class="btn btn-info pro_edit">修改</button><button type="button" class="btn btn-info pro_off">启用</button></td>');
             operating_td.find('button').prop('id',data[i].project_id);
             var tr = $('<tr></tr>');
             tr.append(title_td);
@@ -58,10 +59,10 @@ function Project(){
             $('#pro_list_table tbody').append(tr);
             $('#pro_list_table').show();
         }
-    }
+    };
 
 
-
+    //编辑按钮事件
     Project.prototype.proEdit = function(){
          pro_id = $(this).attr('id');
         $.ajax({
@@ -72,6 +73,58 @@ function Project(){
             },
             success:function(data){
                 creatListModal(data.data[0]);
+            }
+        })
+    };
+
+    //禁用按钮事件
+    Project.prototype.proTurnOff = function(){
+        pro_id = $(this).attr('id');
+        var This = $(this);
+        $.ajax({
+            url:'/project_user/'+pro_id+'/edit',
+            type:'get',
+            data:{
+                disable:1
+            },
+            beforeSend:function(){
+                $('.loading').show();
+            },
+            success:function(data){
+
+                if(data.status==200){
+                    This.html('启用');
+                    This.removeClass('pro_on').addClass('pro_off');
+                    alert('修改为禁用');
+                    $('.pro_off').off("click").click(project.proTurnOn);
+                    $('.pro_on').off("click").click(project.proTurnOff);
+                }
+            }
+        })
+    };
+
+    //开启按钮事件
+    Project.prototype.proTurnOn = function(){
+        pro_id = $(this).attr('id');
+        var This = $(this);
+        $.ajax({
+            url:'/project_user/'+pro_id+'/edit',
+            type:'get',
+            data:{
+                disable:0
+            },
+            beforeSend:function(){
+                $('.loading').show();
+            },
+            success:function(data){
+
+                if(data.status==200){
+                    This.html('禁用');
+                    This.removeClass('pro_off').addClass('pro_on');
+                    alert('修改为开启');
+                    $('.pro_on').off("click").click(project.proTurnOff);
+                    $('.pro_off').off("click").click(project.proTurnOn);
+                }
             }
         })
     };
