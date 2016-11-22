@@ -8,15 +8,18 @@ use App\Http\Requests;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
+use App\Services\UserService as UserServer;
 
 class ActionController extends Controller
 {
     protected static $request;
     protected  static $actionServer;
-    public function __construct(Request $request,ActionServer $actionServer)
+    protected  static $userServer;
+    public function __construct(Request $request,ActionServer $actionServer,UserServer $userServer)
     {
         self::$actionServer = $actionServer;
         self::$request = $request;
+        self::$userServer = $userServer;
     }
     /**
      * 根据所选活动类型导航，返回相应的列表页+数据.
@@ -28,18 +31,21 @@ class ActionController extends Controller
     {
         $type = self::$request->all()['type'];
         $result = self::$actionServer->selectByType($type);
-        if ($result['status'])return view('Home.action.index',['msg'=>$result['msg']]);
-        return view('Home.action.index',['msg'=>$result['msg']]);
+        if ($result['status'])return view('home.action.index',['msg'=>$result['msg']]);
+        return view('home.action.index',['msg'=>$result['msg']]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 添加评论
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-
+        $data = self::$request->all();
+        $result = self::$actionServer->comment($data);
+        if(!$result['status'])return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
     }
 
     /**
@@ -61,12 +67,13 @@ class ActionController extends Controller
      * 详情页.
      *
      * @param  int  $id
-     * @author 郭庆+张洵之
+     * @author 郭庆
      */
     public function show($id)
     {
         $session = self::$request->session()->all();
         $data = self::$actionServer->getData($id);
+        $result = self::$actionServer->getCommentLike($id);
         if($data["status"]){
             if (!isset($session['user'])){
                 $isHas = false;
@@ -74,7 +81,20 @@ class ActionController extends Controller
                 $action = self::$actionServer->getAction($session['user']->guid);
                 $isHas = in_array($data["msg"]["data"][0]->guid,$action);
             }
-            return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id,'isHas'=>$isHas]);
+            if (!$result['status'])
+                return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id,'isHas'=>$isHas,'comment'=>$result['msg'],'like'=>$result['msg']]);
+                foreach ($result['msg'][0] as $v)
+                {
+                    $res = self::$userServer->userInfo(['guid'=>$v->user_id]);
+                    if($res['status']){
+                        $v->user_name = $res['msg']->nickname;
+                        $v->headpic = $res['msg']->headpic;
+                    }else{
+                        $v->user_name = '无名英雄';
+                        $v->headpic = '';
+                    }
+                }
+                return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id,'isHas'=>$isHas,'comment'=>$result['msg'][0],'like'=>$result['msg'][1]]);
         }
     }
 
@@ -86,8 +106,10 @@ class ActionController extends Controller
      */
     public function edit($id)
     {
-
-
+        $field = self::$request->all();
+        $result = self::$actionServer->like($id,$field['temp']);
+        if($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+        return ['StatusCode' => 400, 'ResultData' => $result['msg']];;
     }
 
     /**
@@ -111,6 +133,6 @@ class ActionController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 }

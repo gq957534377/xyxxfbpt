@@ -894,14 +894,13 @@
             });
         }
 
-
         // 修改活动信息状态
         function modifyStatus() {
             $('.status').click(function () {
                 var _this = $(this);
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&type=2',
+                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
                     error   : ajaxErrorModel
@@ -940,7 +939,7 @@
                 var _this = $(this);
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&type=1',
+                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : action_status,
                     error   : ajaxErrorModel

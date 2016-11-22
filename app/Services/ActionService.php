@@ -10,6 +10,8 @@
 namespace App\Services;
 use App\Store\ActionStore;
 use App\Store\ActionOrderStore;
+use App\Store\CommentStore;
+use App\Store\LikeStore;
 use App\Tools\Common;
 use Illuminate\Support\Facades\DB;
 
@@ -19,12 +21,17 @@ class ActionService
      * 引入活动数据仓储层
      */
     protected static $actionStore;
+    protected static $commentStore;
     protected static $actionOrderStore;
     protected static $common;
-    public function __construct(ActionStore $actionStore,ActionOrderStore $actionOrderStore)
+    protected static $likeStore;
+
+    public function __construct(ActionStore $actionStore,ActionOrderStore $actionOrderStore,CommentStore $commentStore,LikeStore $likeStore)
     {
         self::$actionStore = $actionStore;
+        self::$commentStore = $commentStore;
         self::$actionOrderStore = $actionOrderStore;
+        self::$likeStore = $likeStore;
     }
 
     /**
@@ -136,7 +143,7 @@ class ActionService
     public function selectData($request)
     {
         $data = $request->all();
-        $forPages = 1;//一页的数据
+        $forPages = 5;//一页的数据
         $nowPage = isset($data["nowPage"])?(int)$data["nowPage"]:1;
         $status = $data["status"];
         $type = $data["type"];
@@ -183,7 +190,7 @@ class ActionService
     }
 
     /**
-     * 修改活动状态
+     * 修改活动/报名状态
      * @param $guid
      * @param $status
      * @return array
@@ -199,7 +206,11 @@ class ActionService
         }else{
             $status = 1;
         }
-        $Data = self::$actionStore->upload(["guid"=>$guid],["status"=>$status]);
+        if(strlen($guid)!=32){
+            $Data = self::$actionOrderStore->updateData(["id"=>$guid],["status"=>$status]);
+        }else{
+            $Data = self::$actionStore->upload(["guid"=>$guid],["status"=>$status]);
+        }
         if($Data){
             $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
@@ -240,26 +251,46 @@ class ActionService
             return ['status'=>false,'msg'=>"数据暂无数据！"];
         }
     }
+
     /**
-     * 修改活动报名状态
-     * @author 郭庆
+     * 获取评论表+like表中某一个活动的评论和点赞
+     * @return ActionOrderStore
+     * @author郭庆
      */
-    public function orderStatus($guid,$status)
+    public static function getCommentLike($id)
     {
-        if(!(isset($guid)&&isset($status))){
-            return ['status'=>false,'msg'=>"参数有误 ！"];
-        }
-        if($status == 1){
-            $status = 2;
-        }else{
-            $status = 1;
-        }
-        $Data = self::$actionOrderStore->updateData(["id"=>$guid],["status"=>$status]);
-        if($Data){
-            $result["data"] = $Data;
+        $comment = self::$commentStore->getSomeData(['action_id'=>$id]);
+        $like = self::$likeStore->getOneData(['action_id'=>$id]);
+        if(!($comment || $like))return ['status'=>false,'msg'=>'获取信息失败'];
+        return ['status'=>true,'msg'=>[$comment,$like]];
+    }
+
+    /**
+     * 发表评论
+     */
+    public static function comment($data)
+    {
+        $data["time"] = date("Y-m-d H:i:s",time());
+        $result = self::$commentStore->addData($data);
+        if($result){
             return ['status'=>true,'msg'=>$result];
         }else{
-            return ['status'=>false,'msg'=>"数据参数有误！"];
+            return ['status'=>false,'msg'=>'存储数据发生错误'];
         }
+    }
+
+    /**
+     * 点赞管理
+     */
+    public static function like($id,$field)
+    {
+        $isHas = self::$likeStore->getOneData(['action_id' => $id]);
+        if(!$isHas){
+            $res = self::$likeStore->addData(['action_id' => $id]);
+            if (!$res) return ['status' =>false, 'msg' => '系统错误'];
+        }
+        $res = self::$likeStore->incrementData(['action_id'=>$id],$field,1);
+        if(!$res) return ['status' => false,'msg' => '系统有误'];
+        return ['status' =>true, 'msg' => $res];
     }
 }
