@@ -7,7 +7,6 @@
     <script type="text/javascript" src="{{url('/qiniu/js/qiniu.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/ui.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/main.js')}}"></script>
-    <script type="text/javascript" src="{{url('/qiniu/js/ui2.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/main2.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/main3.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/main4.js')}}"></script>

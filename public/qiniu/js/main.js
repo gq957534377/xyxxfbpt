@@ -17,6 +17,15 @@ $(function() {
         uptoken_url: $('#uptoken_url').val(),
         domain: $('#domain').val(),
         get_new_uptoken: false,
+        multi_selection: false,
+        filters : {
+            max_file_size : '100mb',
+            prevent_duplicates: true,
+            // Specify what files to browse for
+            mime_types: [
+                {title : "Image files", extensions : "jpg,gif,png"}, // 限定jpg,gif,png后缀上传
+            ]
+        },
         // downtoken_url: '/downtoken',
         // unique_names: true,
         // save_key: true,

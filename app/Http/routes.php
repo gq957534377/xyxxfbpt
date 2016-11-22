@@ -93,5 +93,7 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/road','RoadController');
         //众筹用户投钱
         Route::get("/investment/{project_id}","CrowdFundingController@investment");
+        //活动管理
+        Route::resource('/activity', 'ActivityController');
     });
 });

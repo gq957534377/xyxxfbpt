@@ -163,6 +163,7 @@ class ActionService
             return ['status'=>false,'msg'=>"缺少参数！"];
         }
         $Data = self::$actionStore->getData(["guid"=>$guid]);
+        dd($Data);
         if($Data){
             $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
