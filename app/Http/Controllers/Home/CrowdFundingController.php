@@ -38,9 +38,9 @@ class CrowdFundingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 首页三球数据
+     * @return \Illuminate\Http\JsonResponse
+     * author 张洵之
      */
     public function create()
     {
@@ -59,9 +59,10 @@ class CrowdFundingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         //
+
     }
 
     /**
@@ -93,14 +94,20 @@ class CrowdFundingController extends Controller
     }
 
     /**
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 参与众筹
+     * @param $project_id
+     * @return \Illuminate\Http\JsonResponse
+     * author 张洵之
      */
-    public function update(Request $request, $id)
+    public function update($project_id)
     {
         //
+        $result = self::$crowdFundingServer->insertCapital($project_id,self::$request);
+        if($result["status"]){
+            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        }else{
+            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+        }
     }
 
     /**
@@ -115,4 +122,14 @@ class CrowdFundingController extends Controller
 
     }
 
+    /**
+     * 输入参与金额页
+     * @param $project_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * author 张洵之
+     */
+    public function investment($project_id)
+    {
+        return view("home.crowdfunding.investment",["project_id"=>$project_id]);
+    }
 }

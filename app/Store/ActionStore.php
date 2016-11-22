@@ -53,11 +53,26 @@ class ActionStore
         return DB::table(self::$table)->where($where)->get();
     }
 
-
+    /**
+     * 更新数据
+     * @param $where
+     * @param $data
+     * @return null
+     * author 张洵之
+     */
     public function upload($where,$data)
     {
         if(!is_array($where)||!is_array($data)) return null;
         $result =DB::table(self::$table)->where($where)->update($data);
         return $result;
+    }
+
+    /**
+     * 给某个字段自增data
+     * @author 郭庆
+     */
+    public static function incrementData($where,$field,$data)
+    {
+        return DB::table(self::$table)->where($where)->increment($field,$data);
     }
 }

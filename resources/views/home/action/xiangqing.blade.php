@@ -144,12 +144,17 @@
                                 <div>报名截止日期：{{$data->deadline}}</div>
                                 <div>活动开始日期：{{$data->start_time}}</div>
                                 <div>活动截止日期：{{$data->end_time}}</div>
-                                <div><button id="baoming" class="btn btn-success">我要报名</button></div>
+                                @if($isHas)
+                                    <div><button class="btn btn-success">已参加</button></div>
+                                @else
+                                    <div><button id="baoming" class="btn btn-success">我要报名</button></div>
+                                @endif
                             </div>
                         </div>                     
                     </div><!--/.recent comments-->
                      <script>
                          $('#baoming').click(function () {
+                             @if(isset($session['user']))
                              var data = {
                                 user_id:'{{$session['user']->guid}}',
                                 action_id:'{{$id}}',
@@ -169,10 +174,13 @@
                                          $('#baoming').html('已参加');
                                          $('#baoming').attr('class','btn-default');
                                      }else{
-                                         slert(data.ResultData);
+                                         alert(data.ResultData);
                                      }
                                  },
                              });
+                             @else
+                                 alert('您还未登录，请登录');
+                             @endif
                          });
                          </script>
 

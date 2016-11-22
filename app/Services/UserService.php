@@ -160,7 +160,10 @@ class UserService {
         if(!in_array($data['role'], ['1', '2', '3'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
         $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
-        if (!$userData) return ['status' => false, 'data' => '数据获取失败'];
+
+        if ($userData === false) return ['status' => false, 'data' => '缺少分页信息，数据获取失败'];
+        if ($userData === []) return ['status' => 'empty', 'data' => '没有查询到数据'];
+
         $userPage = self::getPage($data, 'user/create');
         if (!$userPage) return ['status' => false, 'data' => '分页获取失败'];
         //拼装数据，返回所需格式
@@ -264,12 +267,12 @@ class UserService {
         // 检验数据
         if(empty($data)) return ['status'=>'400','msg'=>'请填写完整信息！'];
         // 查看该用户是否已申请
-        switch ($data['status']){
+        switch ($data['role']){
             case '2':
-                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'status'=>'2']);
+                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'role'=>'2']);
                 break;
             case '3':
-                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'status'=>'3']);
+                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'role'=>'3']);
                 break;
         }
         // 查询不为空
