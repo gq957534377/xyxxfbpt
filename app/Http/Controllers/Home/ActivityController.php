@@ -16,18 +16,27 @@ class ActivityController extends Controller
     {
         self::$actionService = $actionService;
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 获得单个用户的所有活动信息
+     * @return $this|\Illuminate\Http\JsonResponse
+     * @author 贾济林
      */
     public function index()
     {
+        //获取用户id，取得所有活动id
         $guid = session('user')->guid;
-        $res = self::$actionService->getData($guid);
-        dd($res);
-        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'未找到数据']);
-        return view('home.user.activity.activity')->with('data',$res['status']);
+        $actionguid = self::$actionService->getAction($guid);
+
+        //拼接活动信息数据
+        $data = [];
+        foreach ($actionguid as $v){
+            $res = self::$actionService->getData($v);
+            array_push($data,$res['msg']['data'][0]);
+        }
+
+        if (empty($data)) return response()->json(['status'=>'500','msg'=>'未找到数据']);
+        return view('home.user.activity.activity')->with('data',$data);
     }
 
     /**
