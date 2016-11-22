@@ -240,10 +240,23 @@ function getPage() {
             return false;
         }
 
-        //初始化全局变量
-        window.nowpage = $(this).children('a').text();
         data = roleData(user);
-        data.nowPage = window.nowpage;
+
+        //当前页数
+        var active = $('.pagination li.active').children('a').text();
+        //总页数
+        var total = $('.pagination li').length - 2;
+
+        window.nowpage = $(this).children('a').text();
+        data.nowPage = nowpage;
+
+        if(nowpage == '«') {
+            data.nowPage = parseInt(active) - 1;
+        }
+        if(nowpage == '»') {
+            data.nowPage = parseInt(active) + 1;
+        }
+
         window.pagenum = $('.gradeX').length;
 
         if(data.role == 1 || data.role == 2 || data.role == 3)
@@ -314,6 +327,8 @@ function checkInfo() {
                 if (data.StatusCode == 200) {
                     $('#alert-info').hide();
                     $('#alert-form').show().html(checkDetailShow(data.ResultData));
+                    // //清除模态框残余元素
+                    // $(".modal-backdrop").remove();
                 } else {
                     $('#alert-form').hide();
                     $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
@@ -449,6 +464,7 @@ function checkResponse(data, func, show) {
                     });
                 }
                 window.pagenum = $('.gradeX').length;
+
             }
         } else {
             $('#con-close-modal').modal('show');
@@ -474,6 +490,11 @@ function checkResponseStatus(data){
     $('.check_pass').addClass("hidden");
     $('.check_fail').addClass("hidden");
     if (data) {
+        if(data.StatusCode == 300){
+            $('#alert-form').hide();
+            $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
+            // return false;
+        }
         if (data.StatusCode == 200) {
             $('#alert-form').hide();
             $('#alert-info').show().html('<p>数据修改成功!</p>');
@@ -502,7 +523,7 @@ function checkResponseStatus(data){
                         });
                 },1000);
             }
-        } else if(data.StatusCode == 300){
+        } else{
             $('#alert-form').hide();
             $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
             // return false;
