@@ -28,8 +28,8 @@ class ActionController extends Controller
     {
         $type = self::$request->all()['type'];
         $result = self::$actionServer->selectByType($type);
-        if ($result['status'])return view('Home.action.index',['msg'=>$result['msg']]);
-        return view('Home.action.index',['msg'=>$result['msg']]);
+        if ($result['status'])return view('home.action.index',['msg'=>$result['msg']]);
+        return view('home.action.index',['msg'=>$result['msg']]);
     }
 
     /**
