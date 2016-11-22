@@ -96,12 +96,11 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         //活动管理
         Route::resource('/activity', 'ActivityController');
     });
-<<<<<<< HEAD
+
 
 
 });
 //测试使用
 Route::resource('/test','TestController');
-=======
-});
->>>>>>> 5472924a2727eccaa0274ac8500e420b33d72e15
+
+
