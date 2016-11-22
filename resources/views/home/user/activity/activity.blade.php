@@ -1,15 +1,6 @@
 @extends('home.layouts.index')
 @section('style')
-    <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/uploadbox.css')}}">
-    <script type="text/javascript" src="{{url('qiniu/js/jquery.js')}}"></script>
-    <script type="text/javascript" src="{{url('/qiniu/js/plupload/plupload.full.min.js')}}"></script>
-    <script type="text/javascript" src="{{url('/qiniu/js/plupload/i18n/zh_CN.js')}}"></script>
-    <script type="text/javascript" src="{{url('/qiniu/js/qiniu.js')}}"></script>
-    <script type="text/javascript" src="{{url('/qiniu/js/ui.js')}}"></script>
-    <script type="text/javascript" src="{{url('/qiniu/js/main.js')}}"></script>
-    <script type="text/javascript" src="{{url('/qiniu/js/main2.js')}}"></script>
-    <script type="text/javascript" src="{{url('/qiniu/js/main3.js')}}"></script>
-    <script type="text/javascript" src="{{url('/qiniu/js/main4.js')}}"></script>
+
 @endsection
 @section('content')
     <section id="contact-page">

@@ -25,8 +25,9 @@ class ActivityController extends Controller
     {
         $guid = session('user')->guid;
         $res = self::$actionService->getData($guid);
-//        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'未找到数据']);
-        return view('home.user.activity.activity');
+        dd($res);
+        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'未找到数据']);
+        return view('home.user.activity.activity')->with('data',$res['status']);
     }
 
     /**
