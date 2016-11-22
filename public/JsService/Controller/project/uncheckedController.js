@@ -37,6 +37,7 @@ var creatTable = function(data){
     $("#unchecked_table thead").append(thead_tr);
 };
 
+//分页点击时间
 var fpageClick = function(){
     var class_name = $(this).prop('class');
     if(class_name == 'disabled' || class_name == 'active') {
@@ -64,8 +65,12 @@ var fpageClick = function(){
     return false;
 };
 
+//修改状态按钮事件
 var statusCheck = function(dom){
     dom.click(function(){
+
+        if(!confirm("是否确认删除")) return false;
+
         var id = $(this).attr('id');
         $(this).parent().parent().addClass('tmp');
         $.ajax({
