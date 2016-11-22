@@ -15,254 +15,234 @@
     <section id="contact-page">
         <div class="container main-container">
             <div class="users-show">
+                <!--侧边菜单栏 Start-->
                 <div class="col-md-3 box" style="padding: 15px 15px;">
-                    <div class="padding-md">
-                        <div class="list-group text-center">
-                            <a href="#" class="list-group-item active">
-                                <i class="text-md fa fa-list-alt" aria-hidden="true"></i>&nbsp;个人信息</a>
-                            <a href="#" class="list-group-item " data-toggle="modal" data-target="#myModal">
-                                <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;修改头像</a>
-                            <!--修改头像弹出层 start-->
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <h4 class="modal-title" id="myModalLabel">更换头像</h4>
-                                        </div>
-                                        <form method="POST" id="headPicForm" enctype="muitipart/form-data" >
-                                            <input type="hidden" mame="_method" value="put">
-                                            <div class="modal-body">
-                                                <img id="headpic" src="{{asset('home/images/man1.jpg')}}" class="img-circle" style="width: 147px;height: 138.88px;"><br>
-                                                <input type="file" name="headpic" />
-                                            </div>
-                                        </form>
-                                        <div class="modal-footer">
-                                            <button id="changeHead" type="button" class="btn btn-info">更换</button>
-                                        </div>
-                                    </div>
-                                </div>
+                   @include('home.user.side')
+                </div>
+                <!--侧边菜单栏 End-->
+
+                <!--修改头像弹出层 start-->
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">更换头像</h4>
                             </div>
-                            <!--修改头像弹出层 end-->
-                            <a href="#" class="list-group-item " data-toggle="modal" data-target="#myModal_1">
-                                <i class="text-md fa fa-bell" aria-hidden="true" style="margin-left: 40px;"></i>&nbsp;申请成为创业者
-                            </a>
-                            <!--申请成为创业者 start-->
-                            <div class="modal fade" id="myModal_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <h4 class="modal-title" id="myModalLabel">创业者申请</h4>
-                                        </div>
-                                        <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
-                                        <form id="entrepreneur" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">真实姓名</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" name="realname" type="text"></div>
-                                                <div class="col-sm-4 help-block">如：李小明</div></div>
-
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">
-                                                    身份证号码
-                                                </label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" name="card_number" type="text"></div>
-                                                <div class="col-sm-4 help-block">如：363636201611110012</div></div>
-
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">籍贯</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" name="hometown" value="" type="text"></div>
-                                                <div class="col-sm-4 help-block">如：湖北省武汉市光谷大道</div></div>
-
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">生日</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" name="birthday" value="" type="text"></div>
-                                                <div class="col-sm-4 help-block">如：19931127</div></div>
-
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">性别</label>
-                                                <div class="col-sm-6">
-                                                    <input class="sex1" name="sex" value="1" type="radio">男
-                                                    <input class="sex0" name="sex" value="0" type="radio">女</div></div>
-
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">手机号</label>
-                                                <div class="col-sm-6">
-                                                    <input class="form-control" name="tel" type="text"></div>
-                                                <div class="col-sm-4 help-block">如：18870913609</div></div>
-
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">身份证正面</label>
-                                                <div class="col-sm-6">
-                                                    <input type="file" class="form-control" name="card_pic_a" type="text"></div>
-                                                <div class="col-sm-4 help-block">如：</div></div>
-
-                                            <div class="form-group">
-                                                <label for="" class="col-sm-2 control-label">身份证反面</label>
-                                                <div class="col-sm-6">
-                                                    <input type="file" class="form-control" name="card_pic_b" type="text"></div>
-                                                <div class="col-sm-4 help-block">如：</div></div>
-
-                                            <div class="modal-footer">
-                                                <input class="btn btn-info" id="applySubmit" value="提交申请" type="button">
-                                            </div>
-                                        </form>
-                                    </div>
+                            <form method="POST" id="headPicForm" enctype="muitipart/form-data" >
+                                <input type="hidden" mame="_method" value="put">
+                                <div class="modal-body">
+                                    <img id="headpic" src="{{asset('home/images/man1.jpg')}}" class="img-circle" style="width: 147px;height: 138.88px;"><br>
+                                    <input type="file" name="headpic" />
                                 </div>
+                            </form>
+                            <div class="modal-footer">
+                                <button id="changeHead" type="button" class="btn btn-info">更换</button>
                             </div>
-                            <!--申请成为创业者 end-->
-                            <a href="#" class="list-group-item" id="investor">
-                                <i class="text-md fa fa-user" aria-hidden="true" style="margin-left: 40px;"></i>&nbsp;申请成为投资者</a>
-                            <!--项目发布 start-->
-                            <a id = 'publish_trigger' href="#" class="list-group-item " data-toggle="modal">
-                                <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
-                            </a>
-                            <a id = 'publish_trigger2' href="#" style="display: none;" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
-                                <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
-                            </a>
-                            <!--项目发布弹出层 start-->
-                            <div class="modal fade" id="_projectPunlish" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <h4 class="modal-title" id="myModalLabel">项目发布</h4>
-                                        </div>
-                                        <!--引入项目发布表单元素-->
-                                        <form id = "projectForm" class="form-horizontal" style="padding-bottom: 20px;">
-                                            <div class = "col-sm-10 col-sm-offset-1">
-                                                <input name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
-                                                <input name='habitude' type="text" class="form-control _input" placeholder="请输入项目性质">
-                                                <input name='less_funding' type="text" class="form-control _input" placeholder="请输入起步资金">
-                                                <input name='cycle' type="text" class="form-control _input" placeholder="请输入项目周期">
-                                                <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介（50字以内）"></textarea>
-                                                <select name = 'project_type' style="float: left;">
-                                                    <option>请选择项目分类</option>
-                                                    <option value = '1'>新品上架</option>
-                                                    <option value = '2'>健康生活</option>
-                                                    <option value = '3'>热门推荐</option>
-                                                    <option value = '4'>新品上架</option>
-                                                    <option value = '5'>健康生活</option>
-                                                    <option value = '6'>健康生活</option>
-                                                    <option value = '7'>健康生活</option>
-                                                    <option value = '8'>健康生活</option>
-                                                </select>
-                                            </div>
-                                            <div class = "col-sm-6">
-                                                <div id="img_container" style="margin-top: 30px;">
-                                                    <button class="btn btn-info btn-sm" type="button" id="img_pick">选择图片</button>
-                                                    <button class="btn btn-info btn-sm" type="button" id="file_pick">选择资料</button>
-                                                </div>
-                                            </div>
-                                            <!--隐藏表单区-->
-                                            <input  type ='hidden' name = "image"/>
-                                            <input  type ='hidden' name = "file"/>
-                                            <input type="hidden" id="domain" value="http://ogd29n56i.bkt.clouddn.com/">
-                                            <input type="hidden" id="uptoken_url" value="{{url('project/getuptoken/edit')}}">
-
-                                            <div class = "col-sm-10 col-sm-offset-1">
-                                                <table class="table table-striped table-hover"   style="margin-top:40px;display:none">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="col-md-4">文件名</th>
-                                                        <th class="col-md-2">大小</th>
-                                                        <th class="col-md-6">详情</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody id="fsUploadProgress">
-                                                    </tbody>
-                                                    <tbody id="fsUploadProgress2">
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                                <button class="btn btn-info" type="submit" style="margin-left: 70%;margin-top: 40px;">提交</button>
-                                        </form>
-                                        <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!--项目发布弹出层 end-->
-                            <!--项目发布 end-->
-
-                            <!--已发布项目管理 start-->
-                            <a id='all_pro_list' href="#" class="list-group-item " data-toggle="modal">
-                                <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;项目管理</a>
-                            <!--已发布项目管理 end-->
-
-                            <!--项目编辑弹出层 start-->
-                            <div class="modal fade" id="pro_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                            <h4 class="modal-title" id="myModalLabel">项目发布</h4>
-                                        </div>
-                                        <!--引入项目编辑表单元素-->
-                                        <form id = "pro_edit_form" class="form-horizontal" style="padding-bottom: 20px;">
-                                            <div class = "col-sm-10 col-sm-offset-1">
-                                                <input id='edit_title' name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
-                                                <input id='edit_habitude' name='habitude' type="text" class="form-control _input" placeholder="请输入项目性质">
-                                                <input id='edit_less_funding' name='less_funding' type="text" class="form-control _input" placeholder="请输入起步资金">
-                                                <input id ='edit_cycle' name='cycle' type="text" class="form-control _input" placeholder="请输入项目周期">
-                                                <textarea id='edit_content' name='content' class="form-control _input" rows="4" placeholder="请输入项目简介（50字以内）"></textarea>
-                                                <select id ='edit_project_type' name = 'project_type' style="float: left;">
-                                                    <option>请选择项目分类</option>
-                                                    <option value = '1'>新品上架</option>
-                                                    <option value = '2'>健康生活</option>
-                                                    <option value = '3'>热门推荐</option>
-                                                    <option value = '4'>新品上架</option>
-                                                    <option value = '5'>健康生活</option>
-                                                    <option value = '6'>健康生活</option>
-                                                    <option value = '7'>健康生活</option>
-                                                    <option value = '8'>健康生活</option>
-                                                </select>
-                                            </div>
-                                            <div class = "col-sm-6">
-                                                <div id="edit_container" style="margin-top: 30px;">
-                                                    <button class="btn btn-info btn-sm" type="button" id="edit_img_pick">选择图片</button>
-                                                    <button class="btn btn-info btn-sm" type="button" id="edit_file_pick">选择资料</button>
-                                                </div>
-                                            </div>
-                                            <!--隐藏表单区-->
-                                            <input  id='edit_image' type ='hidden' name = "image"/>
-                                            <input  id='edit_file' type ='hidden' name = "file"/>
-                                            <input type="hidden" id="domain" value="http://ogd29n56i.bkt.clouddn.com/">
-                                            <input type="hidden" id="uptoken_url" value="{{url('project/getuptoken/edit')}}">
-
-                                            <div class = "col-sm-10 col-sm-offset-1">
-                                                <table id='edit_table' class="table table-striped table-hover"   style="margin-top:40px;display:none">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="col-md-4">文件名</th>
-                                                        <th class="col-md-2">大小</th>
-                                                        <th class="col-md-6">详情</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody id="fsUploadProgress_edit_image">
-                                                    </tbody>
-                                                    <tbody id="fsUploadProgress_edit_file">
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                            <button class="btn btn-info" type="submit" style="margin-left: 70%;margin-top: 40px;">提交</button>
-                                        </form>
-                                        <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!--项目编辑弹出层 end-->
                         </div>
                     </div>
                 </div>
+                <!--修改头像弹出层 end-->
+
+                <!--申请成为创业者 start-->
+                <div class="modal fade" id="myModal_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">创业者申请</h4>
+                            </div>
+                            <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
+                            <form id="entrepreneur" class="form-horizontal" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">真实姓名</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="realname" type="text"></div>
+                                    <div class="col-sm-4 help-block">如：李小明</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">
+                                        身份证号码
+                                    </label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="card_number" type="text"></div>
+                                    <div class="col-sm-4 help-block">如：363636201611110012</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">籍贯</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="hometown" value="" type="text"></div>
+                                    <div class="col-sm-4 help-block">如：湖北省武汉市光谷大道</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">生日</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="birthday" value="" type="text"></div>
+                                    <div class="col-sm-4 help-block">如：19931127</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">性别</label>
+                                    <div class="col-sm-6">
+                                        <input class="sex1" name="sex" value="1" type="radio">男
+                                        <input class="sex0" name="sex" value="0" type="radio">女</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">手机号</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" name="tel" type="text"></div>
+                                    <div class="col-sm-4 help-block">如：18870913609</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">身份证正面</label>
+                                    <div class="col-sm-6">
+                                        <input type="file" class="form-control" name="card_pic_a" type="text"></div>
+                                    <div class="col-sm-4 help-block">如：</div></div>
+
+                                <div class="form-group">
+                                    <label for="" class="col-sm-2 control-label">身份证反面</label>
+                                    <div class="col-sm-6">
+                                        <input type="file" class="form-control" name="card_pic_b" type="text"></div>
+                                    <div class="col-sm-4 help-block">如：</div></div>
+
+                                <div class="modal-footer">
+                                    <input class="btn btn-info" id="applySubmit" value="提交申请" type="button">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--申请成为创业者 end-->
+
+                <!--项目发布弹出层 start-->
+                <div class="modal fade" id="_projectPunlish" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">项目发布</h4>
+                            </div>
+                            <!--引入项目发布表单元素-->
+                            <form id = "projectForm" class="form-horizontal" style="padding-bottom: 20px;">
+                                <div class = "col-sm-10 col-sm-offset-1">
+                                    <input name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
+                                    <input name='habitude' type="text" class="form-control _input" placeholder="请输入项目性质">
+                                    <input name='less_funding' type="text" class="form-control _input" placeholder="请输入起步资金">
+                                    <input name='cycle' type="text" class="form-control _input" placeholder="请输入项目周期">
+                                    <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介（50字以内）"></textarea>
+                                    <select name = 'project_type' style="float: left;">
+                                        <option>请选择项目分类</option>
+                                        <option value = '1'>新品上架</option>
+                                        <option value = '2'>健康生活</option>
+                                        <option value = '3'>热门推荐</option>
+                                        <option value = '4'>新品上架</option>
+                                        <option value = '5'>健康生活</option>
+                                        <option value = '6'>健康生活</option>
+                                        <option value = '7'>健康生活</option>
+                                        <option value = '8'>健康生活</option>
+                                    </select>
+                                </div>
+                                <div class = "col-sm-6">
+                                    <div id="img_container" style="margin-top: 30px;">
+                                        <button class="btn btn-info btn-sm" type="button" id="img_pick">选择图片</button>
+                                        <button class="btn btn-info btn-sm" type="button" id="file_pick">选择资料</button>
+                                    </div>
+                                </div>
+                                <!--隐藏表单区-->
+                                <input  type ='hidden' name = "image"/>
+                                <input  type ='hidden' name = "file"/>
+                                <input type="hidden" id="domain" value="http://ogd29n56i.bkt.clouddn.com/">
+                                <input type="hidden" id="uptoken_url" value="{{url('project/getuptoken/edit')}}">
+
+                                <div class = "col-sm-10 col-sm-offset-1">
+                                    <table class="table table-striped table-hover"   style="margin-top:40px;display:none">
+                                        <thead>
+                                        <tr>
+                                            <th class="col-md-4">文件名</th>
+                                            <th class="col-md-2">大小</th>
+                                            <th class="col-md-6">详情</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="fsUploadProgress">
+                                        </tbody>
+                                        <tbody id="fsUploadProgress2">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button class="btn btn-info" type="submit" style="margin-left: 70%;margin-top: 40px;">提交</button>
+                            </form>
+                            <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--项目发布弹出层 end-->
+
+                <!--项目编辑弹出层 start-->
+                <div class="modal fade" id="pro_edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">项目发布</h4>
+                            </div>
+                            <!--引入项目编辑表单元素-->
+                            <form id = "pro_edit_form" class="form-horizontal" style="padding-bottom: 20px;">
+                                <div class = "col-sm-10 col-sm-offset-1">
+                                    <input id='edit_title' name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
+                                    <input id='edit_habitude' name='habitude' type="text" class="form-control _input" placeholder="请输入项目性质">
+                                    <input id='edit_less_funding' name='less_funding' type="text" class="form-control _input" placeholder="请输入起步资金">
+                                    <input id ='edit_cycle' name='cycle' type="text" class="form-control _input" placeholder="请输入项目周期">
+                                    <textarea id='edit_content' name='content' class="form-control _input" rows="4" placeholder="请输入项目简介（50字以内）"></textarea>
+                                    <select id ='edit_project_type' name = 'project_type' style="float: left;">
+                                        <option>请选择项目分类</option>
+                                        <option value = '1'>新品上架</option>
+                                        <option value = '2'>健康生活</option>
+                                        <option value = '3'>热门推荐</option>
+                                        <option value = '4'>新品上架</option>
+                                        <option value = '5'>健康生活</option>
+                                        <option value = '6'>健康生活</option>
+                                        <option value = '7'>健康生活</option>
+                                        <option value = '8'>健康生活</option>
+                                    </select>
+                                </div>
+                                <div class = "col-sm-6">
+                                    <div id="edit_container" style="margin-top: 30px;">
+                                        <button class="btn btn-info btn-sm" type="button" id="edit_img_pick">选择图片</button>
+                                        <button class="btn btn-info btn-sm" type="button" id="edit_file_pick">选择资料</button>
+                                    </div>
+                                </div>
+                                <!--隐藏表单区-->
+                                <input  id='edit_image' type ='hidden' name = "image"/>
+                                <input  id='edit_file' type ='hidden' name = "file"/>
+                                <input type="hidden" id="domain" value="http://ogd29n56i.bkt.clouddn.com/">
+                                <input type="hidden" id="uptoken_url" value="{{url('project/getuptoken/edit')}}">
+
+                                <div class = "col-sm-10 col-sm-offset-1">
+                                    <table id='edit_table' class="table table-striped table-hover"   style="margin-top:40px;display:none">
+                                        <thead>
+                                        <tr>
+                                            <th class="col-md-4">文件名</th>
+                                            <th class="col-md-2">大小</th>
+                                            <th class="col-md-6">详情</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="fsUploadProgress_edit_image">
+                                        </tbody>
+                                        <tbody id="fsUploadProgress_edit_file">
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button class="btn btn-info" type="submit" style="margin-left: 70%;margin-top: 40px;">提交</button>
+                            </form>
+                            <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--项目编辑弹出层 end-->
 
                 <!--编辑个人资料 Start-->
                 <div class="main-col col-md-9 left-col" style="margin-top: 15px;">
@@ -488,10 +468,6 @@
                     </div>
                 </div>
                 <!--申请成为投资人 End-->
-
-                <!--更换头像弹出层 Start-->
-
-                <!--更换头像弹出层 End-->
 
             </div>
         </div><!--/.container-->
