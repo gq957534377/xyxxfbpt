@@ -130,7 +130,7 @@ class CrowdFundingService
      */
     public function revise($projectId)
     {
-        $result = self::$crowdCapitalStore->getData(["project_id"=>$projectId]);
+        $result[0] = self::$crowdCapitalStore->getData(["project_id" => $projectId]);
         if(is_array($result)){
             $result["type"] = "revise";
             return ['status'=>true,'msg'=>$result];

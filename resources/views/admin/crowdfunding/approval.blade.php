@@ -152,7 +152,7 @@ var successFunction = function (data) {
             formHide();
             alert("下架成功！");
         }else{
-            var datas = data.ResultData;
+            var datas = data.ResultData[0];
             plotForm(type,datas);//绘制弹框
         }
     }else {
@@ -307,7 +307,7 @@ function publishFrom(types,data) {
     }
     function reviseFrom(type,data)
     {
-        if(data[0]){
+        if(data){
             var html = "";
             html += "<table  class='table table-condensed table-striped table-bordered'>"
             html+="<thead>";
