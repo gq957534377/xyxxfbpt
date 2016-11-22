@@ -45,7 +45,7 @@
                     var data = new FormData();
                     data.append( "title"     , $('input[name=title]').val());
                     data.append( "content"   , $('input[name=content]').val());
-                    data.append( "image"     , $('input[name=image]').val());
+                    data.append( "image"     , $('#fsUploadProgress').html());
                     data.append( "file"      , $('input[name=file]').val());
                     data.append( "habitude"  , $('input[name=habitude]').val());
                     data.append( "less_funding" , $('input[name=less_funding]').val());
@@ -143,7 +143,7 @@
                     },
                     project_type:{
                         required: '请选择项目类型',
-                        max:'请控制在50字以内哦'
+                        max:'请选择项目类型'
                     }
                 }
             });

@@ -24,6 +24,9 @@ function listUserShow(data){
     $.each(data.ResultData.data, function (i, e) {
         var status = null;
         var p = '';
+        var sex = null;
+        if(e.sex == 1) sex = "男";
+        if(e.sex == 2) sex = "女";
         if(e.status == 1){
             status = '<p class="text-success">正常</p>';
             p = 1;
@@ -41,7 +44,7 @@ function listUserShow(data){
         html += '<td>' + (i + 1) + '</td>';
         html += '<td>' + e.nickname + '</td>';
         html += '<td>' + e.realname + '</td>';
-        html += '<td>' + e.sex + '</td>';
+        html += '<td>' + sex + '</td>';
         html += '<td>' + e.birthday + '</td>';
         html += '<td>' + e.tel + '</td>';
         html += '<td>' + e.email + '</td>';
@@ -77,6 +80,9 @@ function userDetailShow(data) {
 
 // 修改时弹出
 function userInfoUpdateShow(data) {
+    var sex = null;
+    if(data.sex == 1) sex = "男";
+    if(data.sex == 2) sex = "女";
     var html = '';
     html += '<div class="row">';
     html += '<div class="col-md-4">' +
@@ -92,7 +98,7 @@ function userInfoUpdateShow(data) {
         '</div>' +
         '</div>';
     html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">性别：</label>';
-    html += '<input type="text" class="form-control" value="' + (data.sex || '') + '" id="sex" placeholder="无"></div></div></div>';
+    html += '<input type="text" class="form-control" value="' + sex + '" id="sex" placeholder="无"></div></div></div>';
 
     html += '<div class="row">' +
         '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">生日：</label>';
@@ -120,6 +126,9 @@ function listUserOneShow(data){
                 var e = data.ResultData;
                 var status = null;
                 var p = '';
+                var sex = null;
+                if(e.sex == 1) sex = "男";
+                if(e.sex == 2) sex = "女";
                 if(e.status == 1){
                     status = '<p class="text-success">正常</p>';
                     p = 1;
@@ -136,7 +145,7 @@ function listUserOneShow(data){
                 html += '<td>' + item + '</td>';
                 html += '<td>' + e.nickname + '</td>';
                 html += '<td>' + e.realname + '</td>';
-                html += '<td>' + e.sex + '</td>';
+                html += '<td>' + sex + '</td>';
                 html += '<td>' + e.birthday + '</td>';
                 html += '<td>' + e.tel + '</td>';
                 html += '<td>' + e.email + '</td>';
@@ -154,13 +163,15 @@ function listUserOneShow(data){
                     html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_un_delete"><button class="btn btn-danger btn-xs">启用</button></a>';
 
                 html += '</td>';
-
+                //替换元素
                 $(".gradeX").eq(item - 1).html(html);
-
+                //替换元素后重新加载事件
+                modifyData();
+                changeSomeStatus();
             }
         } else {
             $('#alert-form').hide();
-            $('#alert-info').html('<p>未知的错误,不能展示修改！</p>');
+            $('#alert-info').html('<p>未知的错误,不能动态展示修改！</p>');
         }
     });
 }
@@ -192,6 +203,9 @@ function listRoleShow(data){
     $.each(data.ResultData.data, function (i, e) {
         var status = null;
         var p= '';
+        var sex = null;
+        if(e.sex == 1) sex = "男";
+        if(e.sex == 2) sex = "女";
         if(e.status == 1){
             status = '<p class="text-success">待审核</p>';
             p = 1;
@@ -211,15 +225,15 @@ function listRoleShow(data){
         html += '<tr class="gradeX">';
         html += '<td>' + (i + 1) + '</td>';
         html += '<td>' + e.realname + '</td>';
-        html += '<td>' + e.sex + '</td>';
+        html += '<td>' + sex + '</td>';
         html += '<td>' + e.tel + '</td>';
         html += '<td>' + e.card_number + '</td>';
         html += '<td>' + status + '</td>';
         html += '<td>';
+        if(p == 1)
         html += '<a href="javascript:;" class="info check_check" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">审核</button></a>';
-        html += '<a href="javascript:;" class="info check_pass" data-name="' + e.guid + '"><button class="btn btn-success btn-xs">通过</button></a>';
-        if(p != 3)
-        html += '<a href="javascript:;" class="info check_fail" data-name="' + e.guid + '"><button class="btn btn-warning btn-xs">不通过</button></a>';
+        if(p == 3)
+        html += '<a href="javascript:;" class="info check_check" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">重新审核</button></a>';
         if(p == 3)
         html += '<a href="javascript:;" class="info check_delete" data-name="' + e.guid + '"><button class="btn btn-danger btn-xs">删除</button></a>';
         html += '</td>';
@@ -237,6 +251,11 @@ function listRoleShow(data){
 
 // 审核弹出页面
 function checkDetailShow(data){
+    var sex = null;
+    if(data.sex == 1) sex = "男";
+    if(data.sex == 2) sex = "女";
+    if(data.status == 3) $('.check_fail').show();
+    // if(data.status == 3) $('.check_fail').addClass("hidden");
     var html = '';
     html += '<div class="row">';
     html += '<div class="col-md-8">' +
@@ -246,7 +265,7 @@ function checkDetailShow(data){
         '</div>' +
         '</div>';
     html += '<div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">性别：</label>';
-    html += '<input type="text" class="form-control" value="' + (data.sex || '') + '" id="english_name" placeholder="无" disabled="true"></div></div></div>';
+    html += '<input type="text" class="form-control" value="' + sex + '" id="english_name" placeholder="无" disabled="true"></div></div></div>';
 
     html += '<div class="row"><div class="col-md-4"><div class="form-group"><label for="field-2" class="control-label">生日：</label>';
     html += '<input type="text" class="form-control" value="' + data.birthday  + '" id="card_type" placeholder="无" disabled="true"></div></div>';

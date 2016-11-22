@@ -82,7 +82,7 @@
     // 创建DOM元素
     function createHtml(data) {
         if(data.length==0){
-            $("#datatable").html("<thead><tr>亲，暂无数据哦O(∩_∩)O~</tr></thead>")
+            $("#datatable").html("<thead ><tr><th>亲，暂无数据哦O(∩_∩)O~</th></tr></thead>")
         }else{
             var html ="";
             html+="<thead>";
@@ -152,8 +152,8 @@ var successFunction = function (data) {
             formHide();
             alert("下架成功！");
         }else{
-            var datas = data.ResultData;
-            plotForm(type,datas[0]);//绘制弹框
+            var datas = data.ResultData[0];
+            plotForm(type,datas);//绘制弹框
         }
     }else {
         alert(data.ResultData)
@@ -236,15 +236,15 @@ function publishFrom(types,data) {
                     "</div>" +
                     "<div class='col-md-4'>" +
                         "<label for='field-3' class='control-label'>" +
-                            "预筹天数(天)" +
+                            "开始日期" +
                         "</label>" +
-                        "<input  class='form-control' id='field-3' >" +
+                        "<input type='text'  class='form-control some_class' id='field-3s' >" +
                     "</div>" +
                     "<div class='col-md-4'>" +
                         "<label for='field-3' class='control-label'>" +
-                            "预热天数(天)" +
+                            "结束日期" +
                         "</label>" +
-                        "<input type='text' class='form-control' id='field-5' >" +
+                        "<input type='text' class='form-control some_class' id='field-5s' >" +
                     "</div>" +
                 "</div>"+
                 "<div class='row'>" +
@@ -291,113 +291,64 @@ function publishFrom(types,data) {
     $("#plotDiv").html(html);
     startVerification();
     formShow();
+    dateTime();
 }
-//开启验证
-function startVerification() {
-    $("#field-3,#field-4,#addDay,#addHour,#field-5").keyup(function () {
-        var temp = parseInt($(this).val());
-        if(isNaN(temp)) {
-            $(this).val("");
-            alert("请输入数字！")
-        }else{
-            $(this).val(temp)
-        }
-    })
-}
-function reviseFrom(type,data)
-{
-    var html ="<div class='row'>" +
-            "<div class='col-md-6'>" +
-            "<div class='form-group'>" +
-            "<label for='field-1' class='control-label'>                                                     项目ID" +
-            "</label>" +
-            "<input type='text' readonly  class='form-control' id='field-1' value='"+data.project_id+"'>" +
-            "</div>" +
-            "</div>" +
-            "<div class='col-md-6'>" +
-            "<div class='form-group'>" +
-            "<label for='field-2' class='control-label'>" +
-            "项目名称" +
-            "</label>" +
-            "<input type='text' readonly  class='form-control' id='field-2' value='"+data.title+"'>" +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            "<div class='row'>" +
-            "<div class='col-md-4'>" +
-            "<label for='field-3' class='control-label'>" +
-            "项目分类" +
-            "</label>" +
-            "<select id='selects' class='form-control'>" +
-            "<option value='0'>" +
-            "热门推荐" +
-            "</option>" +
-            "<option value='1'>" +
-            "最新发布" +
-            "</option>" +
-            "<option value='2'>" +
-            "未来科技" +
-            "</option>" +
-            "<option value='3'>" +
-            "健康出行" +
-            "</option>" +
-            "<option value='4'>" +
-            "生活美学" +
-            "</option>" +
-            "<option value='5'>" +
-            "美食生活" +
-            "</option>" +
-            "<option value='6'>" +
-            "流行文化" +
-            "</option>" +
-            "<option value='7'>" +
-            "爱心公益" +
-            "</option>" +
-            "</select>" +
-            "</div>" +
-            "<div class='col-md-4'>" +
-            "<label for='field-3' class='control-label'>" +
-            "预筹剩余天数(天)" +
-            "</label>" +
-            "<input type='text' class='form-control' id='field-3' readonly value='"+data.endtime+"' >" +
-            "</div>" +
-            "<div class='col-sm-2'>" +
-            "<label for='field-3' class='control-label'>" +
-            "追加日期(天)" +
-            "</label>" +
-            "<input type='text' class='form-control' id='addDay' value='0' >" +
-            "</div>" +
-            "<div class='col-sm-2'>" +
-            "<label for='field-3' class='control-label'>" +
-            "追加小时(时)" +
-            "</label>" +
-            "<input type='text' class='form-control' id='addHour' value='0' >" +
-            "</div>" +
-            "</div>"+
-            "<div class='row'>" +
-            "<div class='col-md-12'>" +
-            "<div class='form-group'>" +
-            "<label for='field-4' class='control-label'>" +
-            "预筹资金(￥)" +
-            "</label>" +
-            "<input type='number' class='form-control' id='field-4' value='"+data.fundraising+"'>" +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            "<div class='row'>" +
-            "<div class='col-md-12'>" +
-            "<div class='form-group no-margin'>" +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            "<div id='Type' style='display: none'>"+
-            type+
-            "</div>";
+    //开启验证
+    function startVerification() {
+        $("#field-3,#field-4,#addDay,#addHour,#field-5").keyup(function () {
+            var temp = parseInt($(this).val());
+            if(isNaN(temp)) {
+                $(this).val("");
+                alert("请输入数字！")
+            }else{
+                $(this).val(temp)
+            }
+        })
+    }
+    function reviseFrom(type,data)
+    {
+        if(data){
+            var html = "";
+            html += "<table  class='table table-condensed table-striped table-bordered'>"
+            html+="<thead>";
+            html+="<tr>"
+            html+="<th>ID</th>"
+            html+="<th>投资者ID</th>"
+            html+="<th>投资金额</th>"
+            html+="<th>投资日期</th>"
+            html+="</tr>"
+            html+="</thead>"
+            html+="<tbody id='caseData'>"
+            html+="</tbody>"
+            html += "</table>"
+            html += "<div id='Type' style='display: none'>"
+            html += type
+            html += "</div>";
             $("#plotDiv").html(html);
-            $("#selects").val(data.project_type);
-            startVerification();
+            var htmls = "";
+            console.log(data);
+            for(var key in data){
+                htmls+="<tr>"
+                htmls+="<td>"+data[key].id+"</td>";
+                htmls+="<td>"+data[key].user_id+"</td>";
+                htmls+="<td>"+data[key].money+"</td>";
+                htmls+="<td>"+data[key].addtime+"</td>";
+                htmls+="</tr>";
+            }
+            $("#caseData").html(htmls);
             formShow();
-}
+        }else{
+            var temp = "";
+            temp += "<h1>";
+            temp += "亲，暂无数据哦！O(∩_∩)O~";
+            temp += "</h1>";
+            temp += "<div id='Type' style='display: none'>";
+            temp += type;
+            temp += "</div>";
+            $("#plotDiv").html(temp);
+            formShow();
+        }
+    }
 
 //
 function closeFrom(type,data) {
@@ -450,7 +401,7 @@ $("#supperButton").click(function () {
     }
     switch (type){
         case "publish":startCrowdfunding();break;
-        case "revise" :revise();break;
+        case "revise" :formHide();break;
         case "selectPub":newPub();break;
         case "see":formHide();break;
         default:closeCrowdfunding(projectId);
@@ -460,8 +411,8 @@ $("#supperButton").click(function () {
 function startCrowdfunding() {
     var project_id = $("#field-1").val();
     var project_type = $("#selects").val();
-    var days = $("#field-5").val();
-    var enddays = parseInt($("#field-3").val())+parseInt(days);
+    var days = $("#field-3s").val();
+    var enddays = $("#field-5s").val();
     var donors_info = $("#field-7").val();
     var info = $("#field-8").val();
     var simple_info = $("#field-6").val();
@@ -475,21 +426,6 @@ function startCrowdfunding() {
     }
 }
 
-//修改内容方法
-function revise() {
-    var targetFund = $("#field-4").val();
-    var days = $("#addDay").val();
-    var hour =  $("#addHour").val();
-    var ID = $("#field-1").val();
-    var tokens = "{{csrf_token()}}";
-    var Typeclass =$("#selects").val();
-    var ajaxFunction = new AjaxWork("/crowdfunding_revise","post");
-    if(targetFund&&days&&hour&&ID&&Typeclass){
-        ajaxFunction.upload({_token:tokens,project_id:ID,fundraising:targetFund,project_type:Typeclass,days:days,hour:hour},successRevise,errFunction,beforeFunction);
-    }else{
-        alert("以上内容不得为空！");
-    }
-}
 function closeCrowdfunding(id) {
     ajaxRequest(id,"close");
 }
@@ -601,15 +537,15 @@ function closeCrowdfunding(id) {
                 "</div>" +
                 "<div class='col-md-4'>" +
                 "<label for='field-3' class='control-label'>" +
-                "预筹天数(天)" +
+                "开始日期" +
                 "</label>" +
-                "<input type='text' class='form-control' id='field-3' >" +
+                "<input type='text' class='form-control some_class' id='field-3s' >" +
                 "</div>" +
                 "<div class='col-md-4'>" +
                 "<label for='field-3' class='control-label'>" +
-                "预热天数(天)" +
+                "结束日期" +
                 "</label>" +
-                "<input type='text' class='form-control' id='field-4' >" +
+                "<input type='text' class='form-control some_class' id='field-4s' >" +
                 "</div>" +
                 "</div>"+
                 "<div class='row'>" +
@@ -651,27 +587,30 @@ function closeCrowdfunding(id) {
                 "</div>"+"<input type='hidden' value='"+data[Id]['guid']+"'id='guid'>"
         $("#creatPub").html(html);
         startVerification();
+        dateTime();
     }
+    //发布新众筹
     function newPub() {
         var project_id = $("#field-1").val();
         var guid = $("#guid").val();
         var selectIndex = document.getElementById("selectPubs").selectedIndex;
         var title = document.getElementById("selectPubs").options[selectIndex].text
         var project_type = $("#selects").val();
-        var days = parseInt($("#field-4").val());
-        var enddays = parseInt($("#field-3").val())+days;
+        var startdays = $("#field-3s").val();
+        var enddays = $("#field-4s").val();
         var donors_info = $("#field-7").val();
         var info = $("#field-8").val();
         var simple_info = $("#field-6").val();
         var fundraising = $("#field-5").val();
         var tokens = "{{csrf_token()}}";
-        if(fundraising&&project_id&&guid&&title&&project_type&&days&&enddays&&donors_info&&info&&simple_info){
+        if(fundraising&&project_id&&guid&&title&&project_type&&startdays&&enddays&&donors_info&&info&&simple_info){
             var ajaxFunction = new AjaxWork("/project_approval/publish","PATCH");
-            ajaxFunction.upload({_token:tokens,project_id:project_id,fundraising:fundraising,project_type:project_type,enddays:enddays,days:days,simple_info:simple_info,guid:guid,donors_info:donors_info,info:info,simple_info:simple_info,_method:"put",title:title},successPublishi,errFunction,beforeFunction);
+            ajaxFunction.upload({_token:tokens,project_id:project_id,fundraising:fundraising,project_type:project_type,enddays:enddays,days:startdays,simple_info:simple_info,guid:guid,donors_info:donors_info,info:info,simple_info:simple_info,_method:"put",title:title},successPublishi,errFunction,beforeFunction);
         }else{
             alert("以上内容不可为空！")
         }
     }
+    //查看众筹信息
     function seeFrom(data) {
         var html = "<div class='row'>" +
                 "<div class='col-md-6'>" +
@@ -809,6 +748,141 @@ function closeCrowdfunding(id) {
         $(this).addClass("btn-success");
         forPage("crowd_forpage?nowPage="+nowPage);
     })
+    //时间插件
+    function dateTime() {
+        $.datetimepicker.setLocale('en');
+        $('#datetimepicker_format').datetimepicker({value:'2015/04/15 05:03', format: $("#datetimepicker_format_value").val()});
+        console.log($('#datetimepicker_format').datetimepicker('getValue'));
+
+        $("#datetimepicker_format_change").on("click", function(e){
+            $("#datetimepicker_format").data('xdsoft_datetimepicker').setOptions({format: $("#datetimepicker_format_value").val()});
+        });
+        $("#datetimepicker_format_locale").on("change", function(e){
+            $.datetimepicker.setLocale($(e.currentTarget).val());
+        });
+
+        $('#datetimepicker').datetimepicker({
+            dayOfWeekStart : 1,
+            lang:'en',
+            disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
+            startDate:	'1986/01/05'
+        });
+        $('#datetimepicker').datetimepicker({value:'2015/04/15 05:03',step:10});
+
+        $('.some_class').datetimepicker();
+
+        $('#default_datetimepicker').datetimepicker({
+            formatTime:'H:i',
+            formatDate:'d.m.Y',
+            //defaultDate:'8.12.1986', // it's my birthday
+            defaultDate:'+03.01.1970', // it's my birthday
+            defaultTime:'10:00',
+            timepickerScrollbar:false
+        });
+
+        $('#datetimepicker10').datetimepicker({
+            step:5,
+            inline:true
+        });
+        $('#datetimepicker_mask').datetimepicker({
+            mask:'9999/19/39 29:59'
+        });
+
+        $('#datetimepicker1').datetimepicker({
+            datepicker:false,
+            format:'H:i',
+            step:5
+        });
+        $('#datetimepicker2').datetimepicker({
+            yearOffset:222,
+            lang:'ch',
+            timepicker:false,
+            format:'d/m/Y',
+            formatDate:'Y/m/d',
+            minDate:'-1970/01/02', // yesterday is minimum date
+            maxDate:'+1970/01/02' // and tommorow is maximum date calendar
+        });
+        $('#datetimepicker3').datetimepicker({
+            inline:true
+        });
+        $('#datetimepicker4').datetimepicker();
+        $('#open').click(function(){
+            $('#datetimepicker4').datetimepicker('show');
+        });
+        $('#close').click(function(){
+            $('#datetimepicker4').datetimepicker('hide');
+        });
+        $('#reset').click(function(){
+            $('#datetimepicker4').datetimepicker('reset');
+        });
+        $('#datetimepicker5').datetimepicker({
+            datepicker:false,
+            allowTimes:['12:00','13:00','15:00','17:00','17:05','17:20','19:00','20:00'],
+            step:5
+        });
+        $('#datetimepicker6').datetimepicker();
+        $('#destroy').click(function(){
+            if( $('#datetimepicker6').data('xdsoft_datetimepicker') ){
+                $('#datetimepicker6').datetimepicker('destroy');
+                this.value = 'create';
+            }else{
+                $('#datetimepicker6').datetimepicker();
+                this.value = 'destroy';
+            }
+        });
+        var logic = function( currentDateTime ){
+            if (currentDateTime && currentDateTime.getDay() == 6){
+                this.setOptions({
+                    minTime:'11:00'
+                });
+            }else
+                this.setOptions({
+                    minTime:'8:00'
+                });
+        };
+        $('#datetimepicker7').datetimepicker({
+            onChangeDateTime:logic,
+            onShow:logic
+        });
+        $('#datetimepicker8').datetimepicker({
+            onGenerate:function( ct ){
+                $(this).find('.xdsoft_date')
+                        .toggleClass('xdsoft_disabled');
+            },
+            minDate:'-1970/01/2',
+            maxDate:'+1970/01/2',
+            timepicker:false
+        });
+        $('#datetimepicker9').datetimepicker({
+            onGenerate:function( ct ){
+                $(this).find('.xdsoft_date.xdsoft_weekend')
+                        .addClass('xdsoft_disabled');
+            },
+            weekends:['01.01.2014','02.01.2014','03.01.2014','04.01.2014','05.01.2014','06.01.2014'],
+            timepicker:false
+        });
+        var dateToDisable = new Date();
+        dateToDisable.setDate(dateToDisable.getDate() + 2);
+        $('#datetimepicker11').datetimepicker({
+            beforeShowDay: function(date) {
+                if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
+                    return [false, ""]
+                }
+
+                return [true, ""];
+            }
+        });
+        $('#datetimepicker12').datetimepicker({
+            beforeShowDay: function(date) {
+                if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
+                    return [true, "custom-date-style"];
+                }
+
+                return [true, ""];
+            }
+        });
+        $('#datetimepicker_dark').datetimepicker({theme:'dark'})
+    }
 </script>
 
 @endsection

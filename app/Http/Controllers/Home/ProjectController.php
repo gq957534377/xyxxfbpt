@@ -23,13 +23,13 @@ class ProjectController extends Controller
         self::$projectServer = $projectService;
     }
 
-    /**返回审核通过并且状态值启用状态的项目列表页
+    /**返回项目列表页
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 贾济林
      */
     public function index()
     {
-        $where = ['disable'=>'0'];
+        $where = ['disable'=>'0','status'=>'3'];
         $res = self::$projectServer->getData($where);
         if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
         return view('home.project.project_list')->with('data',$res['data']);
@@ -49,7 +49,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * 项目发布信息存入数据库
+     * 项目发布
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @author 贾济林

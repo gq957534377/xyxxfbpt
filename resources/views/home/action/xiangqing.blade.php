@@ -53,42 +53,29 @@
                                 <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariaturp</p>
                                 <p><strong>Web:</strong> <a href="http://www.shapebootstrap.net">www.shapebootstrap.net</a></p>
                             </div>
-                        </div> 
-                        
-                        <h1 id="comments_title">5 Comments</h1>
-                        <div class="media comment_section">
-                            <div class="pull-left post_comments">
-                                <a href="#"><img src="images/blog/girl.png" class="img-circle" alt="" /></a>
+                        </div>
+                            {{--<button class="btn-danger" id="support" onclick="like(1)">支持{{$like->support}}</button>--}}
+                            {{--<button class="btn-custom" id="no_support" onclick="like(2)">不支持{{$like->no_support}}</button>--}}
+                        <h1 id="comments_title">{{count($comment)}} Comments</h1>
+                    <div id = 'comment_list'>
+                        @if(is_string($comment))
+                            <p>暂时没有评论</p>
+                        @else
+                        @foreach($comment as $v)
+                            <div class="media comment_section">
+                                <div class="pull-left post_comments">
+                                    <a href="#"><img src="{{asset($v->headpic)}}" class="img-circle" alt="" /></a>
+                                </div>
+                                <div class="media-body post_reply_comments">
+                                    <h3>{{$v->user_name}}</h3>
+                                    <h4>{{$v->time}}</h4>
+                                    <p>{{$v->content}}</p>
+                                    <a href="#">Reply</a>
+                                </div>
                             </div>
-                            <div class="media-body post_reply_comments">
-                                <h3>Marsh</h3>
-                                <h4>NOVEMBER 9, 2013 AT 9:15 PM</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
-                                <a href="#">Reply</a>
-                            </div>
-                        </div> 
-                        <div class="media comment_section">
-                            <div class="pull-left post_comments">
-                                <a href="#"><img src="images/blog/boy2.png" class="img-circle" alt="" /></a>
-                            </div>
-                            <div class="media-body post_reply_comments">
-                                <h3>Marsh</h3>
-                                <h4>NOVEMBER 9, 2013 AT 9:15 PM</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
-                                <a href="#">Reply</a>
-                            </div>
-                        </div> 
-                        <div class="media comment_section">
-                            <div class="pull-left post_comments">
-                                <a href="#"><img src="images/blog/boy3.png" class="img-circle" alt="" /></a>
-                            </div>
-                            <div class="media-body post_reply_comments">
-                                <h3>Marsh</h3>
-                                <h4>NOVEMBER 9, 2013 AT 9:15 PM</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud</p>
-                                <a href="#">Reply</a>
-                            </div>
-                        </div> 
+                            @endforeach
+                        @endif
+                    </div>
 
 
                         <div id="contact-page clearfix">
@@ -116,11 +103,11 @@
                                     </div>
                                     <div class="col-sm-7">                        
                                         <div class="form-group">
-                                            <label>Message *</label>
+                                            <label>评论 *</label>
                                             <textarea name="message" id="message" required class="form-control" rows="8"></textarea>
                                         </div>                        
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-lg" required="required">Submit Message</button>
+                                            <button type="submit" id="comment" class="btn btn-primary btn-lg" required="required">Submit Message</button>
                                         </div>
                                     </div>
                                 </div>
@@ -152,39 +139,7 @@
                             </div>
                         </div>                     
                     </div><!--/.recent comments-->
-                     <script>
-                         $('#baoming').click(function () {
-                             @if(isset($session['user']))
-                             var data = {
-                                user_id:'{{$session['user']->guid}}',
-                                action_id:'{{$id}}',
-                             };
-                             $.ajaxSetup({
-                                 headers: {
-                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                 }
-                             });
-                             $.ajax({
-                                 url: '/action',
-                                 type:'post',
-                                 data:data,
-                                 success : function (data) {
-                                     if(data.StatusCode == 200){
-                                         alert('报名成功！');
-                                         $('#baoming').html('已参加');
-                                         $('#baoming').attr('class','btn-default');
-                                     }else{
-                                         alert(data.ResultData);
-                                     }
-                                 },
-                             });
-                             @else
-                                 alert('您还未登录，请登录');
-                             @endif
-                         });
-                         </script>
 
-    				
     				<div class="widget archieve">
                         <h3>Archieve</h3>
                         <div class="row">
@@ -235,7 +190,6 @@
          </div><!--/.blog-->
 
     </section><!--/#blog-->
-
 
     <section id="bottom">
         <div class="container wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
@@ -314,6 +268,106 @@
     <script src="js/jquery.isotope.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/wow.min.js"></script>
+    <script>
+        //报名按钮
+        $('#baoming').click(function () {
+                    @if(isset($session['user']))
+            var data = {
+                        user_id:'{{$session['user']->guid}}',
+                        action_id:'{{$id}}',
+                    };
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/action',
+                type:'post',
+                data:data,
+                success : function (data) {
+                    console.log(data);
+                    if(data.StatusCode == 200){
+                        alert('报名成功！');
+                        $('#baoming').html('已参加');
+                        $('#baoming').attr('class','btn-default');
+                    }else{
+                        alert(data.ResultData);
+                    }
+                },
+            });
+            @else
+                alert('您还未登录，请登录');
+            @endif
+        });
+        //评论按钮
+        $('#comment').click(function () {
+                    @if(isset($session['user']))
+            var data = {
+                        user_id:'{{$session['user']->guid}}',
+                        action_id:'{{$id}}',
+                        content:$('#message').val()
+                    };
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            console.log(data);
+            $.ajax({
+                url: '/action/create',
+                data:data,
+                success : function (data) {
+                    console.log(data);
+                    if(data.StatusCode == 200){
+                        alert('评论成功！');
+                        $('#comment_list').append('<div class="media comment_section">'+
+                                '<div class="pull-left post_comments">'+
+                                '<a href="#"><img src="" class="img-circle" alt="" /></a>'+
+                                '</div>'+
+                                '<div class="media-body post_reply_comments">'+
+                                '<h3></h3>'+
+                                '<p>'+$('#message').val()+'</p>'+
+                                '<a href="#">Reply</a>'+
+                                '</div>'+
+                                '</div>');
+                        $('#message').val('');
+                    }else{
+                        alert(data.ResultData);
+                    }
+                },
+            });
+            @else
+                alert('您还未登录，请登录');
+            @endif
+        });
+        //点赞按钮
+        function like(support) {
+            switch (support){
+                case 1:
+                    var temp = 'support';
+                    break;
+                case 2:
+                    var temp = 'no_support';
+                    break;
+                default:
+                    break;
+            }
+            $.ajax({
+                url: '/action/{{$data->guid}}/edit',
+                data:{temp:temp},
+                success : function (data) {
+                    console.log(data);
+                    if(data.StatusCode == 200){
+                        {{--$('#support').html('支持{{$like->support+1}}')--}}
+                    }else{
+                        alert(data.ResultData);
+                    }
+                },
+            });
+
+        }
+    </script>
     @include('home.user.ajax.ajaxRequire')
     @include('home.validator.UpdateValidator')
 @endsection

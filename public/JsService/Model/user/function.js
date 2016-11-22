@@ -240,10 +240,23 @@ function getPage() {
             return false;
         }
 
-        //初始化全局变量
-        window.nowpage = $(this).children('a').text();
         data = roleData(user);
-        data.nowPage = window.nowpage;
+
+        //当前页数
+        var active = $('.pagination li.active').children('a').text();
+        //总页数
+        var total = $('.pagination li').length - 2;
+
+        window.nowpage = $(this).children('a').text();
+        data.nowPage = nowpage;
+
+        if(nowpage == '«') {
+            data.nowPage = parseInt(active) - 1;
+        }
+        if(nowpage == '»') {
+            data.nowPage = parseInt(active) + 1;
+        }
+
         window.pagenum = $('.gradeX').length;
 
         if(data.role == 1 || data.role == 2 || data.role == 3)
@@ -290,12 +303,12 @@ function modifyData() {
     });
 }
 
-//事件 修改
+//事件 审核
 function checkInfo() {
     $('.check_check').off("click").click(function () {
-        // alert(123);
-        // alert(user);
-        // alert(guid);
+
+        window.item = $(this).parent().siblings("td").first().text();
+
         var guid = $(this).data('name');
         url = 'user_role/create';
         var data = {
@@ -307,11 +320,15 @@ function checkInfo() {
             $('#con-modal').modal('show');
             $('#cancel').addClass("hidden");
             $('#post').addClass("hidden");
+            $('.check_pass').removeClass("hidden").addClass("btn-success").data('name',guid);
+            $('.check_fail').removeClass("hidden").data('name',guid);
             $('#close').removeClass("hidden");
             if (data) {
                 if (data.StatusCode == 200) {
                     $('#alert-info').hide();
                     $('#alert-form').show().html(checkDetailShow(data.ResultData));
+                    // //清除模态框残余元素
+                    // $(".modal-backdrop").remove();
                 } else {
                     $('#alert-form').hide();
                     $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
@@ -387,22 +404,18 @@ function changeSomeStatus(){
         getNumber($(this));
 
         //初始化全局变量
-        window.item = $(this).parent().siblings("td").first().text();
         guid = $(this).data('name');
-
-        $pointer1 = (number == 0 || number == 1 || number == 2 || number == 3);
-        $pointer2 = (number == 4);
-        $pointer3 = (number == 5 || number == 6);
 
         var url_1 = '/user/' + $(this).data('name');
         var url_2 = '/user_role/' + $(this).data('name');
 
-        if($pointer1){
+        if(number == 0 || number == 1 || number == 2 || number == 3){
+            window.item = $(this).parent().siblings("td").first().text();
             load(url_1, numberData(getNumber($(this))), 'put', checkResponseStatus);
         }
 
         //发送一个信号，让服务器执行一个事务
-        if($pointer2){
+        if(number == 4){
             var msg_1 = {
                 msg : "check_pass",
                 role : 2,
@@ -416,7 +429,11 @@ function changeSomeStatus(){
             if(user == 9 || user == 11) load(url_1, msg_1, 'put', checkResponseStatus);
             if(user == 10 || user == 12) load(url_1, msg_2, 'put', checkResponseStatus);
         }
-        if($pointer3){
+        if(number == 5){
+            load(url_2, numberData(getNumber($(this))), 'put', checkResponseStatus);
+        }
+        if(number == 6){
+            window.item = $(this).parent().siblings("td").first().text();
             load(url_2, numberData(getNumber($(this))), 'put', checkResponseStatus);
         }
 
@@ -433,6 +450,8 @@ function checkResponse(data, func, show) {
     if (data) {
         if (data.StatusCode == 400)
             $('#data').html('<p style="padding:20px;" class="text-center"> 获取数据失败！</p>');
+        if (data.StatusCode == 300)
+            $('#data').html('<p style="padding:20px;" class="text-center"> 没有数据，请添加！</p>');
         if (data.StatusCode == 200) {
             if(data.ResultData.data == '') {
                 $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
@@ -445,6 +464,7 @@ function checkResponse(data, func, show) {
                     });
                 }
                 window.pagenum = $('.gradeX').length;
+
             }
         } else {
             $('#con-close-modal').modal('show');
@@ -465,7 +485,16 @@ function checkResponseStatus(data){
     $('.loading').hide();
     $('#con-modal').modal('show');
     $('#close').removeClass("hidden");
+    $('#post').addClass("hidden");
+    $('#cancel').addClass("hidden");
+    $('.check_pass').addClass("hidden");
+    $('.check_fail').addClass("hidden");
     if (data) {
+        if(data.StatusCode == 300){
+            $('#alert-form').hide();
+            $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
+            // return false;
+        }
         if (data.StatusCode == 200) {
             $('#alert-form').hide();
             $('#alert-info').show().html('<p>数据修改成功!</p>');
@@ -474,32 +503,34 @@ function checkResponseStatus(data){
             // 页面数据条数为零则刷新
             window.pagenum -= 1;
             if(window.pagenum == 0){
-                //依据当前页面代号获取查询条件
-                data = roleData(user);
-                //获取查询分页数
-                if(totalpage - nowpage == 0)
-                    data.nowPage = (nowpage == 1) ? nowpage : (nowpage - 1);
-                else{
-                    data.nowPage = nowpage;
-                }
+                var t=setTimeout(function () {
+                    //依据当前页面代号获取查询条件
+                    data = roleData(user);
+                    //获取查询分页数
+                    if(totalpage - nowpage == 0)
+                        data.nowPage = (nowpage == 1) ? nowpage : (nowpage - 1);
+                    else{
+                        data.nowPage = nowpage;
+                    }
 
-                if(data.role == 1 || data.role == 2 || data.role == 3)
-                    load('/user/create', data, 'GET', function (data) {
-                        checkResponse(data, handle, listUserShow);
-                    });
-                if(data.role == 4 || data.role == 5)
-                    load('/user_role/create', data, 'GET', function (data) {
-                        checkResponse(data, handle, listRoleShow);
-                    });
+                    if(data.role == 1 || data.role == 2 || data.role == 3)
+                        load('/user/create', data, 'GET', function (data) {
+                            checkResponse(data, handle, listUserShow);
+                        });
+                    if(data.role == 4 || data.role == 5)
+                        load('/user_role/create', data, 'GET', function (data) {
+                            checkResponse(data, handle, listRoleShow);
+                        });
+                },1000);
             }
-        } else {
+        } else{
             $('#alert-form').hide();
             $('#alert-info').show().html('<p>' + data.ResultData + '</p>');
-            return false;
+            // return false;
         }
     } else {
         $('#alert-form').hide();
         $('#alert-info').show().html('<p>未知的错误</p>');
-        return false;
+        // return false;
     }
 }

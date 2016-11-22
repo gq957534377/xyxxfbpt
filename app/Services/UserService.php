@@ -108,6 +108,8 @@ class UserService {
         // 更新数据表，登录和ip
         $info = self::$homeStore->updateData(['guid'=>$temp->guid],['logintime'=>$time,'ip'=>$data['ip']]);
         if(!$info) return ['status'=>'400','msg'=>'服务器数据异常！'];
+        //获取角色状态
+        $temp->role = self::$userStore->getOneData(['guid'=>$temp->guid])->role;
         Session::put('user',$temp);
         return ['status'=>'200','msg'=>'登录成功！'];
     }
@@ -160,7 +162,10 @@ class UserService {
         if(!in_array($data['role'], ['1', '2', '3'])) return ['status' => false, 'data' => '请求参数错误'];
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
         $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
-        if (!$userData) return ['status' => false, 'data' => '数据获取失败'];
+
+        if ($userData === false) return ['status' => false, 'data' => '缺少分页信息，数据获取失败'];
+        if ($userData === []) return ['status' => 'empty', 'data' => '没有查询到数据'];
+
         $userPage = self::getPage($data, 'user/create');
         if (!$userPage) return ['status' => false, 'data' => '分页获取失败'];
         //拼装数据，返回所需格式
@@ -264,12 +269,12 @@ class UserService {
         // 检验数据
         if(empty($data)) return ['status'=>'400','msg'=>'请填写完整信息！'];
         // 查看该用户是否已申请
-        switch ($data['status']){
+        switch ($data['role']){
             case '2':
-                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'status'=>'2']);
+                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'role'=>'2']);
                 break;
             case '3':
-                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'status'=>'3']);
+                $info= self::$roleStore->getRole(['guid'=>$data['guid'],'role'=>'3']);
                 break;
         }
         // 查询不为空
@@ -319,13 +324,13 @@ class UserService {
      * @author wangfeilong
      */
     public function checkPass($data, $id){
-        //需要使用事务
         if (!isset($data['role']) || !isset($data['status'])) return ['status'=>true,'data'=>'请求参数错误！'];
-        $result_1 = self::$roleStore->updateUserInfo(['guid' => $id], ['status' => $data['status']]);
-        if (!$result_1) return ['status'=>false,'data'=>'修改status失败！'];
-        $result_2 = self::$userStore->updateUserInfo(['guid' => $id], ['role' => $data['role']]);
-        if (!$result_2) return ['status'=>false,'data'=>'修改role失败！'];
-        return ['status'=>true,'data'=>'修改成功！'];
+        //使用事务
+        $result = DB::transaction(function () use ($data, $id){
+            self::$roleStore->updateUserInfo(['guid' => $id], ['status' => $data['status']]);
+            self::$userStore->updateUserInfo(['guid' => $id], ['role' => $data['role']]);
+        });
+        if(!$result) return ['status'=>true,'data'=>'修改成功！'];
+        else return ['status'=>false,'data'=>'修改失败，请重试！'];
     }
-
 }

@@ -55,10 +55,10 @@ $(function(){
 //        var nowPage = if($('.pagination'))?$('.pagination'):'1';
 //        请求待审核数据
     $.ajax({
-        url:'status2',
+        url:'status3',
         type:'put',
         data:{
-            status:'2'
+            status:'3'
         },
         success:function(res){
             var data = res.data;

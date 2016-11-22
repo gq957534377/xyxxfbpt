@@ -45,14 +45,6 @@ class ProjectService {
         $data['addtime'] = date("Y-m-d H:i:s", time());
         $data['changetime'] = date("Y-m-d H:i:s", time());
 
-
-        //事务控制
-        DB::transaction(function () use ($data){
-
-            //project_info数据插入
-            $res = self::$projectStore->addData($data);
-        });
-
         $res = self::$projectStore->addData($data);
         if($res==0) return ['status'=> true,'msg'=>'插入失败'];
         return ['status'=> false,'msg'=>'插入成功'];
@@ -167,11 +159,31 @@ class ProjectService {
         return ['status'=>true,'data'=>$res];
     }
 
+    /**
+     * 更新项目数据
+     * @param $data
+     * @param $where
+     * @return array
+     * @author 贾济林
+     */
     public function updateData($data,$where)
     {
         $res = self::$projectStore->update($where,$data);
         if ($res==0) return ['status'=>false,'msg'=>'更新失败'];
         return ['status'=>true,'msg'=>'更新成功'];
+    }
+
+    /**
+     * 修改个人项目启用禁用
+     * @param $where
+     * @param $data
+     * @return array
+     */
+    public function changeAble($where,$data)
+    {
+        $res = self::$projectStore->update($where,$data);
+        if ($res==0) return ['status'=>false,'msg'=>'修改失败'];
+        return ['status'=>true,'msg'=>'修改成功'];
     }
 
 

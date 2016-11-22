@@ -8,3 +8,4 @@
 <script src="{{asset('home/js/cropper.min.js')}}"></script>
 <script src="{{asset('home/js/sitelogo.js')}}"></script>
 <script src="{{asset('home/js/jquery.citys.js')}}"></script>
+<script src="{{asset('dateTime/build/jquery.datetimepicker.full.js')}}"></script>

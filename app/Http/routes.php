@@ -81,7 +81,8 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         // 修改头像
-        Route::post('/headpic','UserController@headpic');
+        Route::resource('/headpic','HeadPicController');
+      //Route::post('/headpic','UserController@headpic');
         // 申请投资者
         Route::post('/apply','UserController@applyRole');
         // 个人中心页
@@ -90,9 +91,17 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::get('/logout','LoginController@logout');
         //路演活动
         Route::resource('/road','RoadController');
+        //众筹用户投钱
+        Route::get("/investment/{project_id}","CrowdFundingController@investment");
+        //活动管理
+        Route::resource('/activity', 'ActivityController');
     });
+<<<<<<< HEAD
 
 
 });
 //测试使用
 Route::resource('/test','TestController');
+=======
+});
+>>>>>>> 5472924a2727eccaa0274ac8500e420b33d72e15

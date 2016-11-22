@@ -22,13 +22,13 @@
 
                             <div class="col-xs-12 col-sm-10 blog-content">
                                 <a href="#"><img class="img-responsive img-blog" src="{{$data[0]->image}}" width="100%" alt="" /></a>
-                                <h2><a href="blog-item.html">{{$data[0]->title}}</a></h2>
+                                <h2><a href="javascript:;">{{$data[0]->title}}</a></h2>
                                 <h3>{{$data[0]->content}}</h3>
                                 <a class="btn btn-primary readmore" id="pro_details_readmore" pro_id="{{$data[0]->project_id}}">查看更多详情 <i class="fa fa-angle-right"></i></a>
                             </div>
 
                             <!--投资者浏览详情-->
-                            <div id = 'readmore'>
+                            <div id = 'readmore' style="margin-left: 150px;">
                             </div>
                         </div>
                     </div><!--/.blog-item-->

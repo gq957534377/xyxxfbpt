@@ -150,4 +150,19 @@ class CrowdFundingStore
         $result = DB::table(self::$table)->insertGetId($data,"project_id");
         return $result;
     }
+
+    /**
+     * 已筹资金字段增加金额
+     * @param $where
+     * @param $field
+     * @param $data
+     * @return bool
+     * author 张洵之
+     */
+    public function addFunshing($where,$field,$data)
+    {
+        if(empty($data)||empty($field)||empty($data)) return false;
+        $result = DB::table(self::$table)->where($where)->increment($field,$data);
+        return $result;
+    }
 }

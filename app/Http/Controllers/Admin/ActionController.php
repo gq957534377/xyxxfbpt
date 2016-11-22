@@ -18,10 +18,11 @@ class ActionController extends Controller
         self::$actionServer = $actionServer;
         self::$request = $request;
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 活动后台首页
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * author 张洵之
      */
     public function index()
     {
@@ -29,9 +30,9 @@ class ActionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 获取分页数据
+     * @return \Illuminate\Http\JsonResponse
+     * author 张洵之
      */
     public function create()
     {
@@ -64,11 +65,10 @@ class ActionController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @展示活动详情
-     * @author
+     * 拿取一条活动信息详情
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * author 张洵之
      */
     public function show($id)
     {
@@ -89,13 +89,8 @@ class ActionController extends Controller
      */
     public function edit($id)
     {
-
         $status = self::$request->input("status");
-        if (self::$request->input("type")=='1'){
-            $result = self::$actionServer->orderStatus($id,$status);
-        }else{
-            $result = self::$actionServer->changeStatus($id,$status);
-        }
+        $result = self::$actionServer->changeStatus($id,$status);
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
         }else{
@@ -104,11 +99,11 @@ class ActionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 更改活动信息内容
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * author 张洵之
      */
     public function update(Request $request, $id)
     {
@@ -124,10 +119,10 @@ class ActionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 获取参与者信息
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * author 张洵之
      */
     public function destroy($id)
     {
