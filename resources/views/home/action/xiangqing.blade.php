@@ -54,8 +54,8 @@
                                 <p><strong>Web:</strong> <a href="http://www.shapebootstrap.net">www.shapebootstrap.net</a></p>
                             </div>
                         </div>
-                            <button class="btn-danger" id="support" onclick="like(1)">支持{{$like->support}}</button>
-                            <button class="btn-custom" id="no_support" onclick="like(2)">不支持{{$like->no_support}}</button>
+                            {{--<button class="btn-danger" id="support" onclick="like(1)">支持{{$like->support}}</button>--}}
+                            {{--<button class="btn-custom" id="no_support" onclick="like(2)">不支持{{$like->no_support}}</button>--}}
                         <h1 id="comments_title">{{count($comment)}} Comments</h1>
                     <div id = 'comment_list'>
                         @if(is_string($comment))
@@ -321,18 +321,17 @@
                     console.log(data);
                     if(data.StatusCode == 200){
                         alert('评论成功！');
-                        $('#message').val('');
                         $('#comment_list').append('<div class="media comment_section">'+
                                 '<div class="pull-left post_comments">'+
                                 '<a href="#"><img src="" class="img-circle" alt="" /></a>'+
                                 '</div>'+
                                 '<div class="media-body post_reply_comments">'+
                                 '<h3></h3>'+
-                                '<h4>{{date("Y-m-d H:i:s",time())}}</h4>'+
-                                '<p>{{$v->content}}</p>'+
+                                '<p>'+$('#message').val()+'</p>'+
                                 '<a href="#">Reply</a>'+
                                 '</div>'+
-                                '</div>')
+                                '</div>');
+                        $('#message').val('');
                     }else{
                         alert(data.ResultData);
                     }
@@ -360,7 +359,7 @@
                 success : function (data) {
                     console.log(data);
                     if(data.StatusCode == 200){
-                        $('#support').html('支持{{$like->support+1}}')
+                        {{--$('#support').html('支持{{$like->support+1}}')--}}
                     }else{
                         alert(data.ResultData);
                     }
