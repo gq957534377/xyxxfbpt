@@ -99,8 +99,10 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
 
 
 
+
 });
 //测试使用
 Route::resource('/test','TestController');
+
 
 
