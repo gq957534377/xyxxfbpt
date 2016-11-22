@@ -42,10 +42,10 @@ class Common {
      * @return string
      * @author 刘峻廷
      */
-    public static function cryptString($email,$pass,$str='twitch',$position=5)
+    public static function cryptString($email, $pass, $str = 'twitch', $position = 5)
     {
         // 拼接字符串
-        $newStr = substr(Crypt::encrypt($email.$str) ,0,$position);
+        $newStr = substr(Crypt::encrypt($email.$str) , 0, $position);
         // 密码MD5 进行加密
         $cryptPass = md5($pass);
         return md5(md5($newStr.$cryptPass));
@@ -58,7 +58,7 @@ class Common {
      * @return PhraseBuilder|null|string
      * @author 刘峻廷
      */
-    public static function captcha($tmp,$model)
+    public static function captcha($tmp, $model)
     {
         $phrase = new PhraseBuilder();
         // 设置验证码位数,
@@ -148,9 +148,9 @@ class Common {
      * @author 郭庆
      */
 
-    public static function getPageUrl($data, $table, $url, $n,$where)
+    public static function getPageUrl($data, $table, $url, $n, $where)
     {
-        if(empty($table) || empty($url)) return false;
+        if (empty($table) || empty($url)) return false;
         $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
         $count     = DB::table($table)->where($where)->count();
         $totalPage = ceil($count / $n);
@@ -159,7 +159,7 @@ class Common {
         if($nowPage > $totalPage) $nowPage = $totalPage;
         return [
             'nowPage' => $nowPage,
-            'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl,null),
+            'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl, null),
         ];
     }
     /**

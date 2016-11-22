@@ -54,8 +54,13 @@
                                 <p><strong>Web:</strong> <a href="http://www.shapebootstrap.net">www.shapebootstrap.net</a></p>
                             </div>
                         </div>
-                            {{--<button class="btn-danger" id="support" onclick="like(1)">支持{{$like->support}}</button>--}}
-                            {{--<button class="btn-custom" id="no_support" onclick="like(2)">不支持{{$like->no_support}}</button>--}}
+                    @if(is_string($like))
+                            <button class="btn-danger" id="support" onclick="like(1)">支持0</button>
+                            <button class="btn-custom" id="no_support" onclick="like(2)">不支持0</button>
+                    @else
+                        <button class="btn-danger" id="support" onclick="like(1)">支持{{$like->support}}</button>
+                        <button class="btn-custom" id="no_support" onclick="like(2)">不支持{{$like->no_support}}</button>
+                    @endif
                         <h1 id="comments_title">{{count($comment)}} Comments</h1>
                     <div id = 'comment_list'>
                         @if(is_string($comment))
@@ -359,7 +364,18 @@
                 success : function (data) {
                     console.log(data);
                     if(data.StatusCode == 200){
-                        {{--$('#support').html('支持{{$like->support+1}}')--}}
+                        if(support==1)
+                        @if(is_string($like))
+                        $('#support').html('已支持1');
+                        @else
+                        $('#support').html('已支持{{$like->support+1}}');
+                        @endif
+                        else
+                        @if(is_string($like))
+                        $('#no_support').html('已不支持1');
+                        @else
+                        $('#no_support').html('已不支持{{$like->support+1}}');
+                        @endif
                     }else{
                         alert(data.ResultData);
                     }

@@ -37,11 +37,11 @@ class ActionController extends Controller
     public function create()
     {
         //
-        $result = self::$actionServer->selectData(self::$request);
+        $result = self::$actionServer -> selectData(self::$request);
         if($result["status"]){
-            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         }else{
-            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+            return response() -> son(['StatusCode' => 400,'ResultData' => $result['msg']]);
         }
     }
 
@@ -55,12 +55,12 @@ class ActionController extends Controller
     public function store()
     {
         //
-        $data = self::$request->all();
-        $result = self::$actionServer->insertData($data);
+        $data = self::$request -> all();
+        $result = self::$actionServer -> insertData($data);
         if($result["status"]){
-            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         }else{
-            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
         }
     }
 
@@ -72,11 +72,11 @@ class ActionController extends Controller
      */
     public function show($id)
     {
-        $result = self::$actionServer->getData($id);
+        $result = self::$actionServer -> getData($id);
         if($result["status"]){
-            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         }else{
-            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
         }
     }
 
@@ -89,12 +89,12 @@ class ActionController extends Controller
      */
     public function edit($id)
     {
-        $status = self::$request->input("status");
-        $result = self::$actionServer->changeStatus($id,$status);
+        $status = self::$request -> input("status");
+        $result = self::$actionServer -> changeStatus($id,$status);
         if($result["status"]){
-            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         }else{
-            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
         }
     }
 
@@ -108,13 +108,13 @@ class ActionController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $data = self::$request->all();
+        $data = self::$request -> all();
         $where = ["guid" => $id];
-        $result = self::$actionServer->upDta($where,$data);
+        $result = self::$actionServer -> upDta($where, $data);
         if($result["status"]){
-            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
         }else{
-            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
         }
     }
 
@@ -127,11 +127,11 @@ class ActionController extends Controller
     public function destroy($id)
     {
         //
-        $result = self::$actionServer->getOrderInfo($id);
+        $result = self::$actionServer -> getOrderInfo($id);
         if($result["status"]){
-            return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
         }else{
-            return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
+            return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
         }
     }
 }
