@@ -130,7 +130,13 @@ class CrowdFundingService
      */
     public function revise($projectId)
     {
-
+        $result = self::$crowdCapitalStore->getData(["project_id"=>$projectId]);
+        if(is_array($result)){
+            $result["type"] = "revise";
+            return ['status'=>true,'msg'=>$result];
+        }else{
+            return ['status'=>false,'msg'=>'暂无数据'];
+        }
     }
 
     /**
@@ -240,7 +246,7 @@ class CrowdFundingService
             for ($i=0;$i<$arrNum;$i++){
                 $status = $data[$i]->status;
                 if($status == 1){
-                        $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='revise' class='btn btn-sm btn-success '> <i class='fa fa-wrench'></i> </button><button zxz-type='close' class='btn btn-sm btn-danger '> <i class='fa fa-remove'></i></button><button zxz-type='see' class='btn btn-sm btn-info '> <i class='fa fa-bars'></i></button></div>";
+                        $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='revise' class='btn btn-sm btn-success '> <i class='fa fa-cny'></i> </button><button zxz-type='close' class='btn btn-sm btn-danger '> <i class='fa fa-remove'></i></button><button zxz-type='see' class='btn btn-sm btn-info '> <i class='fa fa-bars'></i></button></div>";
                 }else{
                     $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='publish' class='btn btn-sm btn-primary '><i class='fa fa-keyboard-o'></i></button><button zxz-type='see' class='btn btn-sm btn-info '> <i class='fa fa-bars'></i></button></div>";
                 }
