@@ -108,6 +108,8 @@ class UserService {
         // 更新数据表，登录和ip
         $info = self::$homeStore->updateData(['guid'=>$temp->guid],['logintime'=>$time,'ip'=>$data['ip']]);
         if(!$info) return ['status'=>'400','msg'=>'服务器数据异常！'];
+        //获取角色状态
+        $temp->role = self::$userStore->getOneData(['guid'=>$temp->guid])->role;
         Session::put('user',$temp);
         return ['status'=>'200','msg'=>'登录成功！'];
     }
