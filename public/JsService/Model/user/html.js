@@ -163,13 +163,15 @@ function listUserOneShow(data){
                     html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_un_delete"><button class="btn btn-danger btn-xs">启用</button></a>';
 
                 html += '</td>';
-
+                //替换元素
                 $(".gradeX").eq(item - 1).html(html);
-
+                //替换元素后重新加载事件
+                modifyData();
+                changeSomeStatus();
             }
         } else {
             $('#alert-form').hide();
-            $('#alert-info').html('<p>未知的错误,不能展示修改！</p>');
+            $('#alert-info').html('<p>未知的错误,不能动态展示修改！</p>');
         }
     });
 }
