@@ -123,24 +123,19 @@ class CrowdFundingService
     }
 
     /**
-     * 查询某条记录详细信息
+     * 查询项目资金详情
      * @param $projectId
      * @return array
      * author 张洵之
      */
     public function revise($projectId)
     {
-        $where = ["project_id"=>$projectId];
-        $result = self::$crowdFundingStore->getWhere($where);
-        $endDay =  floor((strtotime($result[0]->endtime)-time())/(3600*24));
-        $endHour = floor(((strtotime($result[0]->endtime)-time())/(3600*24) - $endDay)*24);
-        $endScend =floor((((strtotime($result[0]->endtime)-time())/(3600*24) - $endDay)*24 - $endHour)*60);
-        $result[0]->endtime =$endDay."天".$endHour."时".$endScend."分";
-        if(isset($result)){
+        $result[0] = self::$crowdCapitalStore->getData(["project_id" => $projectId]);
+        if(is_array($result)){
             $result["type"] = "revise";
             return ['status'=>true,'msg'=>$result];
         }else{
-            return ['status'=>false,'msg'=>'发生错误'];
+            return ['status'=>false,'msg'=>'暂无数据'];
         }
     }
 
@@ -251,7 +246,7 @@ class CrowdFundingService
             for ($i=0;$i<$arrNum;$i++){
                 $status = $data[$i]->status;
                 if($status == 1){
-                        $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='revise' class='btn btn-sm btn-success '> <i class='fa fa-wrench'></i> </button><button zxz-type='close' class='btn btn-sm btn-danger '> <i class='fa fa-remove'></i></button><button zxz-type='see' class='btn btn-sm btn-info '> <i class='fa fa-bars'></i></button></div>";
+                        $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='revise' class='btn btn-sm btn-success '> <i class='fa fa-cny'></i> </button><button zxz-type='close' class='btn btn-sm btn-danger '> <i class='fa fa-remove'></i></button><button zxz-type='see' class='btn btn-sm btn-info '> <i class='fa fa-bars'></i></button></div>";
                 }else{
                     $data[$i]->btn ="<div class='btn-group' zxz-id='".$data[$i]->project_id."'><button zxz-type='publish' class='btn btn-sm btn-primary '><i class='fa fa-keyboard-o'></i></button><button zxz-type='see' class='btn btn-sm btn-info '> <i class='fa fa-bars'></i></button></div>";
                 }

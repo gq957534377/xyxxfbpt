@@ -28,4 +28,16 @@ class CrowdCapitalStore
         return true;
     }
 
+    /**
+     * 基本条件查询
+     * @param $where
+     * @return null
+     * author 张洵之
+     */
+    public function getData($where)
+    {
+        if(!is_array($where))return null;
+        return DB::table(self::$table)->where($where)->get();
+    }
+
 }

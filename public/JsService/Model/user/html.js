@@ -163,13 +163,15 @@ function listUserOneShow(data){
                     html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_un_delete"><button class="btn btn-danger btn-xs">启用</button></a>';
 
                 html += '</td>';
-
+                //替换元素
                 $(".gradeX").eq(item - 1).html(html);
-
+                //替换元素后重新加载事件
+                modifyData();
+                changeSomeStatus();
             }
         } else {
             $('#alert-form').hide();
-            $('#alert-info').html('<p>未知的错误,不能展示修改！</p>');
+            $('#alert-info').html('<p>未知的错误,不能动态展示修改！</p>');
         }
     });
 }
@@ -252,7 +254,8 @@ function checkDetailShow(data){
     var sex = null;
     if(data.sex == 1) sex = "男";
     if(data.sex == 2) sex = "女";
-    if(data.status == 3) $('.check_fail').addClass("hidden");
+    if(data.status == 3) $('.check_fail').show();
+    // if(data.status == 3) $('.check_fail').addClass("hidden");
     var html = '';
     html += '<div class="row">';
     html += '<div class="col-md-8">' +

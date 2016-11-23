@@ -82,7 +82,7 @@
     // 创建DOM元素
     function createHtml(data) {
         if(data.length==0){
-            $("#datatable").html("<thead><tr>亲，暂无数据哦O(∩_∩)O~</tr></thead>")
+            $("#datatable").html("<thead ><tr><th>亲，暂无数据哦O(∩_∩)O~</th></tr></thead>")
         }else{
             var html ="";
             html+="<thead>";
@@ -152,8 +152,8 @@ var successFunction = function (data) {
             formHide();
             alert("下架成功！");
         }else{
-            var datas = data.ResultData;
-            plotForm(type,datas[0]);//绘制弹框
+            var datas = data.ResultData[0];
+            plotForm(type,datas);//绘制弹框
         }
     }else {
         alert(data.ResultData)
@@ -293,112 +293,62 @@ function publishFrom(types,data) {
     formShow();
     dateTime();
 }
-//开启验证
-function startVerification() {
-    $("#field-3,#field-4,#addDay,#addHour,#field-5").keyup(function () {
-        var temp = parseInt($(this).val());
-        if(isNaN(temp)) {
-            $(this).val("");
-            alert("请输入数字！")
-        }else{
-            $(this).val(temp)
-        }
-    })
-}
-function reviseFrom(type,data)
-{
-    var html ="<div class='row'>" +
-            "<div class='col-md-6'>" +
-            "<div class='form-group'>" +
-            "<label for='field-1' class='control-label'>                                                     项目ID" +
-            "</label>" +
-            "<input type='text' readonly  class='form-control' id='field-1' value='"+data.project_id+"'>" +
-            "</div>" +
-            "</div>" +
-            "<div class='col-md-6'>" +
-            "<div class='form-group'>" +
-            "<label for='field-2' class='control-label'>" +
-            "项目名称" +
-            "</label>" +
-            "<input type='text' readonly  class='form-control' id='field-2' value='"+data.title+"'>" +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            "<div class='row'>" +
-            "<div class='col-md-4'>" +
-            "<label for='field-3' class='control-label'>" +
-            "项目分类" +
-            "</label>" +
-            "<select id='selects' class='form-control'>" +
-            "<option value='0'>" +
-            "热门推荐" +
-            "</option>" +
-            "<option value='1'>" +
-            "最新发布" +
-            "</option>" +
-            "<option value='2'>" +
-            "未来科技" +
-            "</option>" +
-            "<option value='3'>" +
-            "健康出行" +
-            "</option>" +
-            "<option value='4'>" +
-            "生活美学" +
-            "</option>" +
-            "<option value='5'>" +
-            "美食生活" +
-            "</option>" +
-            "<option value='6'>" +
-            "流行文化" +
-            "</option>" +
-            "<option value='7'>" +
-            "爱心公益" +
-            "</option>" +
-            "</select>" +
-            "</div>" +
-            "<div class='col-md-4'>" +
-            "<label for='field-3' class='control-label'>" +
-            "预筹剩余天数(天)" +
-            "</label>" +
-            "<input type='text' class='form-control' id='field-3' readonly value='"+data.endtime+"' >" +
-            "</div>" +
-            "<div class='col-sm-2'>" +
-            "<label for='field-3' class='control-label'>" +
-            "追加日期(天)" +
-            "</label>" +
-            "<input type='text' class='form-control' id='addDay' value='0' >" +
-            "</div>" +
-            "<div class='col-sm-2'>" +
-            "<label for='field-3' class='control-label'>" +
-            "追加小时(时)" +
-            "</label>" +
-            "<input type='text' class='form-control' id='addHour' value='0' >" +
-            "</div>" +
-            "</div>"+
-            "<div class='row'>" +
-            "<div class='col-md-12'>" +
-            "<div class='form-group'>" +
-            "<label for='field-4' class='control-label'>" +
-            "预筹资金(￥)" +
-            "</label>" +
-            "<input type='number' class='form-control' id='field-4' value='"+data.fundraising+"'>" +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            "<div class='row'>" +
-            "<div class='col-md-12'>" +
-            "<div class='form-group no-margin'>" +
-            "</div>" +
-            "</div>" +
-            "</div>" +
-            "<div id='Type' style='display: none'>"+
-            type+
-            "</div>";
+    //开启验证
+    function startVerification() {
+        $("#field-3,#field-4,#addDay,#addHour,#field-5").keyup(function () {
+            var temp = parseInt($(this).val());
+            if(isNaN(temp)) {
+                $(this).val("");
+                alert("请输入数字！")
+            }else{
+                $(this).val(temp)
+            }
+        })
+    }
+    function reviseFrom(type,data)
+    {
+        if(data){
+            var html = "";
+            html += "<table  class='table table-condensed table-striped table-bordered'>"
+            html+="<thead>";
+            html+="<tr>"
+            html+="<th>ID</th>"
+            html+="<th>投资者ID</th>"
+            html+="<th>投资金额</th>"
+            html+="<th>投资日期</th>"
+            html+="</tr>"
+            html+="</thead>"
+            html+="<tbody id='caseData'>"
+            html+="</tbody>"
+            html += "</table>"
+            html += "<div id='Type' style='display: none'>"
+            html += type
+            html += "</div>";
             $("#plotDiv").html(html);
-            $("#selects").val(data.project_type);
-            startVerification();
+            var htmls = "";
+            console.log(data);
+            for(var key in data){
+                htmls+="<tr>"
+                htmls+="<td>"+data[key].id+"</td>";
+                htmls+="<td>"+data[key].user_id+"</td>";
+                htmls+="<td>"+data[key].money+"</td>";
+                htmls+="<td>"+data[key].addtime+"</td>";
+                htmls+="</tr>";
+            }
+            $("#caseData").html(htmls);
             formShow();
-}
+        }else{
+            var temp = "";
+            temp += "<h1>";
+            temp += "亲，暂无数据哦！O(∩_∩)O~";
+            temp += "</h1>";
+            temp += "<div id='Type' style='display: none'>";
+            temp += type;
+            temp += "</div>";
+            $("#plotDiv").html(temp);
+            formShow();
+        }
+    }
 
 //
 function closeFrom(type,data) {
@@ -451,7 +401,7 @@ $("#supperButton").click(function () {
     }
     switch (type){
         case "publish":startCrowdfunding();break;
-        case "revise" :revise();break;
+        case "revise" :formHide();break;
         case "selectPub":newPub();break;
         case "see":formHide();break;
         default:closeCrowdfunding(projectId);
@@ -476,21 +426,6 @@ function startCrowdfunding() {
     }
 }
 
-//修改内容方法
-function revise() {
-    var targetFund = $("#field-4").val();
-    var days = $("#addDay").val();
-    var hour =  $("#addHour").val();
-    var ID = $("#field-1").val();
-    var tokens = "{{csrf_token()}}";
-    var Typeclass =$("#selects").val();
-    var ajaxFunction = new AjaxWork("/crowdfunding_revise","post");
-    if(targetFund&&days&&hour&&ID&&Typeclass){
-        ajaxFunction.upload({_token:tokens,project_id:ID,fundraising:targetFund,project_type:Typeclass,days:days,hour:hour},successRevise,errFunction,beforeFunction);
-    }else{
-        alert("以上内容不得为空！");
-    }
-}
 function closeCrowdfunding(id) {
     ajaxRequest(id,"close");
 }

@@ -102,11 +102,11 @@
     <div id="alert-info"></div>
 @endsection
 @section('form-footer')
-    <button type="button" id="post" class="btn btn-info hidden" data-dismiss="modal">提交</button>
+    <button type="button" id="post" class="btn btn-info hidden">提交</button>
     <button type="button" id="cancel" class="btn btn-info hidden" data-dismiss="modal">取消</button>
 
-    <button type="button" class="btn check_pass hidden" data-dismiss="modal">通过</button>
-    <button type="button" class="btn check_fail btn-warning hidden" data-dismiss="modal">不通过</button>
+    <button type="button" class="btn check_pass hidden">通过</button>
+    <button type="button" class="btn check_fail btn-warning hidden">不通过</button>
 
     <button type="button" id="close" class="btn btn-info hidden" data-dismiss="modal">Close</button>
 

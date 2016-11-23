@@ -77,7 +77,7 @@ function getPage() {
         return false;
     });
 }
-
+//活动类型展示
 function type(type) {
     var res;
     switch (type){
@@ -93,7 +93,7 @@ function type(type) {
     }
     return res;
 }
-
+//所属机构展示
 function group(type) {
     var res;
     switch (type){
@@ -167,12 +167,13 @@ function actionOrder(data) {
     console.log(data);
     if (data) {
         if (data.StatusCode == 200) {
+            $('#list_baoming').html('');
             data = data.ResultData;
             data.map(function (item) {
                 var html = '<tr><td>'+item.user_id+'</td><td>'+item.time+'</td><td>';
                 if (item.status == 1) {
                     html += '<a href="javascript:;" data-name="' + item.id + '" data-status="' + item.status + '" class="action_status"><button class="btn-danger">禁用</button></a>';
-                } else if (item.status == 2) {
+                } else if (item.status == 3) {
                     html += '<a href="javascript:;" data-name="' + item.id + '" data-status="' + item.status + '" class="action_status"><button class="btn-primary">启用</button></a>';
                 }
                 html+= '</td></tr>';
