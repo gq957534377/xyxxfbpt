@@ -39,13 +39,23 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $data = $request->all();
-        if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+
+        //初步判断数据
+        if (empty($data))
+            return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+
+        //获取数据
         $result = self::$userServer->getData($data);
+
+        //判断获取的数据
         if ($result['status'] === 'empty')
             return response()->json(['StatusCode' => 300, 'ResultData' => $result['data']]);
-        // 如果$result返回错误
-        if(!$result['status'])
+
+        //判断获取的数据
+        if (!$result['status'])
             return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+
+        //返回正确数据
         return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 
@@ -54,14 +64,10 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     * @author wangfeilong
-     * 经测试，store方法可以带Request $request参数
      */
     public function store(Request $request)
     {
-//        $data = $request->all();
-//        dd($data);
-//        echo '1111111';
+        //
     }
 
     /**
@@ -69,14 +75,10 @@ class UserController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @author wangfeilong
-     * 经测试，show方法可以带Request $request参数
      */
     public function show(Request $request, $id)
     {
-//        dd($id);
-//        $data = $request->all();
-//        dd($data);
+        //
     }
 
     /**
@@ -84,14 +86,10 @@ class UserController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @author wangfeilong
-     * 经测试，edit方法可以带Request $request参数
      */
     public function edit(Request $request, $id)
     {
-//        dd($id);
-//        $data = $request->all();
-//        dd($data);
+        //
     }
 
     /**
@@ -100,23 +98,37 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @author wangfeilong
+     * @author wang fei long
      */
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        if (!isset($id) || empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
-        //审核通过信号
+
+        //初步判断请求数据
+        if (!isset($id) || empty($data))
+            return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+
+        //判断数据中是否有审核通过的信号
         if (isset($data['msg']) && $data['msg'] == "check_pass"){
             $result = self::$userServer->checkPass($data, $id);
+
+            //判断返回数据
             if (!$result['status'])
                 return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+
+            //返回正确的数据
             return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
         }
+
+        //获取数据
         $result = self::$userServer->updataUserInfo(['guid' => $id], $data);
         $result['data'] = $result['msg'];
+
+        //判断返回数据
         if($result['status'] == 400)
             return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+
+        //返回正确数据
         return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 
@@ -125,7 +137,6 @@ class UserController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @author wangfeilong
      */
     public function destroy(Request $request, $id)
     {
