@@ -21,7 +21,9 @@ class UserStore {
     public function getOneData($where)
     {
         if (empty($where)) return false;
-        return DB::table(self::$table)->where($where)->first();
+        return DB::table(self::$table)
+                          ->where($where)
+                          ->first();
     }
     /**
      * 添加用户信息
@@ -49,7 +51,9 @@ class UserStore {
         // 检验参数是否存在
         if(empty($where) || empty($data)) return false;
         // 指定条件，修改数据
-        return DB::table(self::$table)->where($where)->update($data);
+        return DB::table(self::$table)
+                         ->where($where)
+                         ->update($data);
 
     }
 

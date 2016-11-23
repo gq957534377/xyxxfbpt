@@ -13,10 +13,10 @@
     function ajaxRequire(url,type,data,obj,model)
     {
         $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
         switch(model){
             case 1:

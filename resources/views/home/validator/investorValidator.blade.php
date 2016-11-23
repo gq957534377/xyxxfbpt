@@ -27,12 +27,12 @@
                     });
                     //与正常form不同，通过下面这样来获取需要验证的字段
                     var data = new FormData();
-                    data.append( "investor_name"      , $("input[name= 'investor_name']").val());
-                    data.append( "investor_sex"       , $("input[name= 'investor_sex']").val());
-                    data.append( "investor_birthday"       , $("input[name= 'investor_birthday']").val());
-                    data.append( "investor_hometown"       , $("input[name= 'investor_hometown']").val());
-                    data.append( "investor_tel"       , $("input[name= 'investor_tel']").val());
-                    data.append( "investor_number"       , $("input[name= 'investor_number']").val());
+                    data.append( "realname"      , $("input[name= 'realname']").val());
+                    data.append( "sex"       , $("input[name= 'sex']").val());
+                    data.append( "birthday"       , $("input[name= 'birthday']").val());
+                    data.append( "hometown"       , $("input[name= 'hometown']").val());
+                    data.append( "tel"       , $("input[name= 'tel']").val());
+                    data.append( "card_number"       , $("input[name= 'card_number']").val());
 //                    data.append( "investor_carda"       , $("input[name= 'investor_carda']").val());
 //                    data.append( "investor_cardb"       , $("input[name= 'investor_cardb']").val());
                     data.append( "orgname"       , $("input[name= 'orgname']").val());
@@ -48,27 +48,25 @@
             this.$investorForm.validate({
                 // 验证规则
                 rules: {
-                    investor_name: {
+                    realname: {
                         required: true,
                         minlength : 2
                     },
-                    investor_sex: {
+                    sex: {
                         required: true,
                     },
-                    investor_birthday: {
-                        required: true,
-                        minlength: 4,
-                        maxlength: 8
-                    },
-                    investor_hometown: {
+                    birthday: {
                         required: true,
                     },
-                    investor_tel: {
+                    hometown: {
+                        required: true,
+                    },
+                    tel: {
                         required: true,
                         minlength: 11,
                         maxlength: 11
                     },
-                    investor_number: {
+                    number: {
                         required: true,
                         minlength: 16,
                         maxlength: 18
@@ -105,27 +103,25 @@
                 },
                 // 提示信息
                 messages: {
-                    investor_name: {
+                    realname: {
                         required: "请输入真实姓名！",
                         minlength : "最少两位"
                     },
-                    investor_sex: {
+                    sex: {
                         required: "请选择性别",
                     },
-                    investor_birthday: {
+                    birthday: {
                         required: "请填写你的出生年月",
-                        minlength: "4-8位",
-                        maxlength: "超出长度"
                     },
-                    investor_hometown: {
+                    hometown: {
                         required: "请填写您的籍贯",
                     },
-                    investor_tel: {
+                    tel: {
                         required: "请输入你的手机号",
                         minlength: "长度为11位",
                         maxlength: "长度为11位",
                     },
-                    investor_number: {
+                    card_number: {
                         required: "请填写真实的身份证号码",
                         minlength: "长度为16-18位",
                         maxlength: "超出长度"

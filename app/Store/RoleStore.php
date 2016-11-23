@@ -65,7 +65,9 @@ class RoleStore
     {
         // 条件检测
         if (empty($where)) return false;
-        return DB::table(self::$table)->where($where)->first();
+        return DB::table(self::$table)
+                         ->where($where)
+                         ->first();
     }
 
      /** 获取一条数据
