@@ -149,38 +149,54 @@ class UserRoleService {
      */
     public function getData($data)
     {
-        if (isset($data['name'])) return self::getOneData($data);
-        if(!isset($data['role']) || !isset($data['status'])) return ['status' => false, 'data' => '请求参数错误'];
-        if(!in_array($data['role'], ['4', '5'])) return ['status' => false, 'data' => '请求参数错误'];
-        $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        $userData = self::$roleStore->getUsersData($nowPage, ['role' => ($data['role'] - 2), 'status' => $data['status']]);
+        if (isset($data['name']))
+            return self::getOneData($data);
 
-        if ($userData === false) return ['status' => false, 'data' => '缺少分页信息，数据获取失败'];
-        if ($userData === []) return ['status' => 'empty', 'data' => '没有查询到数据'];
+        if(!isset($data['role']) || !isset($data['status']))
+            return ['status' => false, 'data' => '请求参数错误'];
+        if(!in_array($data['role'], ['4', '5']))
+            return ['status' => false, 'data' => '请求参数错误'];
+
+        $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
+
+        $userData = self::$roleStore
+            ->getUsersData($nowPage, ['role' => ($data['role'] - 2), 'status' => $data['status']]);
+        if ($userData === false)
+            return ['status' => false, 'data' => '缺少分页信息，数据获取失败'];
+        if ($userData === [])
+            return ['status' => 'empty', 'data' => '没有查询到数据'];
 
         $userPage = self::getPage($data, 'user_role/create');
-        if (!$userPage) return ['status' => false, 'data' => '分页获取失败'];
+        if (!$userPage)
+            return ['status' => false, 'data' => '分页获取失败'];
+
         //拼装数据，返回所需格式
         $result = array_merge(['data'=> $userData], $userPage['data']);
-        if (!$result) return ['status' => false, 'data' => '系统错误'];
+        if (!$result)
+            return ['status' => false, 'data' => '系统错误'];
+
         return ['status' => true, 'data' => $result];
     }
 
     /**
      * 获取分页
      * @param $data
-     * @return array|bool
+     * @param $url
+     * @return array
      * @author wang fei long
      */
     private static function getPage($data, $url)
     {
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-
-        $count = self::$roleStore->getUsersNumber(['role' => ($data['role'] - 2), 'status' => $data['status']]);
+        $count = self::$roleStore
+            ->getUsersNumber(['role' => ($data['role'] - 2), 'status' => $data['status']]);
         $totalPage = ceil($count / PAGENUM);
         $baseUrl   = url($url);
-        if($nowPage <= 0) $nowPage = 1;
-        if($nowPage > $totalPage) $nowPage = $totalPage;
+
+        if($nowPage <= 0)
+            $nowPage = 1;
+        if($nowPage > $totalPage)
+            $nowPage = $totalPage;
 
         return [
             'status' => true,
@@ -199,10 +215,12 @@ class UserRoleService {
      */
     public function getOneData($data)
     {
-//        if(!isset($data['role'])) return ['status' => false, 'data' => '请求参数错误'];
-//        if(!in_array($data['role'], ['4', '5'])) return ['status' => false, 'data' => '请求参数错误'];
-        $result = self::$roleStore->getOneData(['guid' => $data['name']]);
-        if (!$result) return ['status' => false, 'data' => '系统错误'];
+        $result = self::$roleStore
+            ->getOneData(['guid' => $data['name']]);
+
+        if (!$result)
+            return ['status' => false, 'data' => '系统错误'];
+
         return ['status' => true, 'data' => $result];
     }
 
@@ -287,20 +305,6 @@ class UserRoleService {
         $info = self::$roleStore->updateUserInfo($where,$data);
         if(!$info) return ['status'=>false,'data'=>'修改失败！'];
         return ['status'=>true,'data'=>'修改成功！'];
-    }
-
-    /**
-     * 软删除
-     * @param $data
-     * @param $id
-     * @return array
-     * @author 王飞龙
-     */
-    public function deleteUserData($data, $id)
-    {
-        $result = self::$roleStore->updateUserInfo(['guid' => $id], $data);
-        if(!$result) return ['status' => 400, 'data' => '删除失败'];
-        return ['status' => 200, 'data' => '删除成功'];
     }
 
 }
