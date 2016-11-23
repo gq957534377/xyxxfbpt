@@ -26,7 +26,12 @@ class ActionService
     protected static $common;
     protected static $likeStore;
 
-    public function __construct(ActionStore $actionStore, ActionOrderStore $actionOrderStore, CommentStore $commentStore, LikeStore $likeStore)
+    public function __construct(
+        ActionStore $actionStore,
+        ActionOrderStore $actionOrderStore,
+        CommentStore $commentStore,
+        LikeStore $likeStore
+    )
     {
         self::$actionStore = $actionStore;
         self::$commentStore = $commentStore;
