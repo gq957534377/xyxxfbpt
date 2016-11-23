@@ -10,9 +10,10 @@ var fpageClick = function(){
         url:url,
         type:'delete',
         data:{
-            status:'2'
+            status:'3'
         },
         success:function (res) {
+            if (res.status!=200) return false;
             var data = res.data;
             $('.loading').hide();
             $("#unchecked_table thead").html('');

@@ -40,9 +40,9 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
     }
 
     /**
@@ -96,9 +96,6 @@ class ProjectController extends Controller
         //整理请求数据
         $data = $request->all();
         $status = $data['status'];
-        $table = 'project_info_data';
-        $totalPage = DB::table($table)->where(['status'=>$status])->count();
-        $nowPage = 1;
         $num = 4;
 
         //获取首页数据
@@ -130,7 +127,6 @@ class ProjectController extends Controller
 
         //获取分页
         $pages = self::getpage($request,$num,$status);
-
         //整理返回数据
         $res['pages'] = $pages;
         if (!$res['status']) return response()->json(['status'=>'400','msg'=>'查询失败']);

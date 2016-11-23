@@ -75,7 +75,11 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/headpic','HeadPicController');
       //Route::post('/headpic','UserController@headpic');
         // 申请投资者
-        Route::post('/apply','UserController@applyRole');
+        Route::post('/user/apply','UserController@applyRole');
+        // 申请角色视图
+        Route::get('/user/apply/{param}','UserController@apply');
+        //获取角色信息
+        Route::get('/roleinfo/{id}','UserController@roleInfo');
         // 个人中心页
         Route::resource('/user','UserController');
         // 前台登出

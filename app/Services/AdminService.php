@@ -28,7 +28,7 @@ class AdminService {
     public static function addUser($data)
     {
         //查询用户是否被注册
-        $result = self::$adminStore->getOneData(['email'=>$data['email']]);
+        $result = self::$adminStore->getOneData(['email' => $data['email']]);
         //真，返回存在
         if ($result) return 'exist';
         // 添加用户数据，先对数据提纯
@@ -38,6 +38,7 @@ class AdminService {
         $data['password'] = Common::cryptString($data['email'],$data['password']);
         $data['guid'] = Common::getUuid();
         $data['addtime'] = $_SERVER['REQUEST_TIME'];
+
         //存入
         $info = self::$adminStore->addData($data);
         // 数据写入失败
@@ -55,16 +56,19 @@ class AdminService {
         //先进行密码加密
         $pass = Common::cryptString($data['email'],$data['password']);
         //检验用户
-        $temp =self::$adminStore->getOneData(['email'=> $data['email'],'password'=> $pass]);
+        $temp =self::$adminStore->getOneData(['email' => $data['email'],'password' => $pass]);
         // 查询不到，返回 error
         if(!$temp) return 'error';
+
         // 查询到数据，再进行状态判断
         if($temp->status != '1') return 'status';
+
         //验证成功后，更新此次登录时间和IP，密码不刷新
         unset($temp->password);
         // 获取客户端发起请求的时间
         $time = $_SERVER['REQUEST_TIME'];
-        $info = self::$adminStore->updateData(['guid'=>$temp->guid],['ip'=>$data['ip'],'loginTime'=>$time]);
+
+        $info = self::$adminStore->updateData(['guid' => $temp->guid],['ip' => $data['ip'],'loginTime' => $time]);
         //验证更新
         if(!$info) return 'noUpdate';
         Session::put('manager',$temp);

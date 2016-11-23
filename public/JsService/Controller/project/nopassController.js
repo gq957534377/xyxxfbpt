@@ -10,7 +10,7 @@ var fpageClick = function(){
         url:url,
         type:'delete',
         data:{
-            status:'3'
+            status:'2'
         },
         success:function (res) {
             var data = res.data;

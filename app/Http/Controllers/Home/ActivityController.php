@@ -16,18 +16,32 @@ class ActivityController extends Controller
     {
         self::$actionService = $actionService;
     }
+
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 获得单个用户的所有活动信息
+     * @return $this|\Illuminate\Http\JsonResponse
+     * @author 贾济林
      */
     public function index()
     {
+        //获取用户id，取得所有活动id
         $guid = session('user')->guid;
-        $res = self::$actionService->getData($guid);
-        dd($res);
-        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'未找到数据']);
-        return view('home.user.activity.activity')->with('data',$res['status']);
+        $where = ['user_id'=>$guid,'status'=>'1'];
+        $tmp = self::$actionService->getActivityId($where);
+
+        //如果数据为空，返回空数组
+        if (!$tmp['status']) return view('home.user.activity.activity')->with('data',[]);
+        $actionguid = $tmp['data'];
+
+        //拼接活动信息数据
+        $data = [];
+        foreach ($actionguid as $v){
+            $res = self::$actionService->getData($v);
+            array_push($data,$res['msg']['data'][0]);
+        }
+
+        if (empty($data)) return response()->json(['status'=>'500','msg'=>'未找到数据']);
+        return view('home.user.activity.activity')->with('data',$data);
     }
 
     /**
@@ -86,13 +100,17 @@ class ActivityController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 修改活动报名状态
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $activity_id = $request['activity_id'];
+        $res = self::$actionService->switchStatus($activity_id,3);
+        if (!$res['status']) return response()->json(['status' => '500', 'msg' => '修改失败']);
+        return response()->json(['status' => '200', 'msg' => '修改成功']);
     }
 }

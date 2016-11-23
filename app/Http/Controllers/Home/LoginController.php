@@ -40,10 +40,11 @@ class LoginController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 登录校验
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @author 刘峻廷
      */
     public function store(Request $request)
     {
@@ -52,23 +53,25 @@ class LoginController extends Controller
         // 先校验验证码
         if($data['homeCaptcha'] != Session::get('homeCode'))
         {
-            return response()->json(['StatusCode'=>'400','ResultData'=>['验证错误！']]);
+            return response()->json(['StatusCode' => '400','ResultData' => ['验证错误！']]);
         }
+
         //验证数据
         $this->validate($request,[
             'email' =>  'required|email',
             'password' => 'required|min:6',
         ]);
+
         // 获取登录IP
         $data['ip'] = $request->getClientIp();
         // 校验邮箱和账号,拿到状态码
         $info = self::$userServer->loginCheck($data);
         switch ($info['status']){
             case '400':
-                return response()->json(['StatusCode'=>'400','ResultData'=>$info['msg']]);
+                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
                 break;
             case '200':
-                return response()->json(['StatusCode'=>'200','ResultData'=>$info['msg']]);
+                return response()->json(['StatusCode' => '200','ResultData' => $info['msg']]);
                 break;
         }
     }
