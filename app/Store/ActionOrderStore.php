@@ -90,5 +90,17 @@ class ActionOrderStore{
         if(empty($where) || empty($data)) return false;
         return DB::table(self::$table)->where($where)->update($data);
     }
+
+    /**
+     * 得到指定条件的报名id
+     * @param $where
+     * @return bool
+     * @author 贾济林
+     */
+    public function getActivityId($where, $list)
+    {
+        if(empty($where)) return false;
+        return DB::table(self::$table)->where($where)->lists($list);
+    }
 }
 

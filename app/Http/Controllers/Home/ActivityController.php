@@ -26,7 +26,12 @@ class ActivityController extends Controller
     {
         //获取用户id，取得所有活动id
         $guid = session('user')->guid;
-        $actionguid = self::$actionService->getAction($guid);
+        $where = ['user_id'=>$guid,'status'=>'1'];
+        $tmp = self::$actionService->getActivityId($where);
+
+        //如果数据为空，返回空数组
+        if (!$tmp['status']) return view('home.user.activity.activity')->with('data',[]);
+        $actionguid = $tmp['data'];
 
         //拼接活动信息数据
         $data = [];
@@ -95,13 +100,17 @@ class ActivityController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 修改活动报名状态
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $activity_id = $request['activity_id'];
+        $res = self::$actionService->switchStatus($activity_id,3);
+        if (!$res['status']) return response()->json(['status' => '500', 'msg' => '修改失败']);
+        return response()->json(['status' => '200', 'msg' => '修改成功']);
     }
 }

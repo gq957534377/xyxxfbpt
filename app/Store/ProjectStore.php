@@ -21,7 +21,7 @@ class ProjectStore {
 
     /**
      * 获取制定条件的数据
-     * @param $data
+     * @param $where
      * @return bool
      * @author 贾济林
      */

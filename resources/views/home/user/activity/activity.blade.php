@@ -7,9 +7,7 @@
         <div class="container main-container">
             <div class="users-show">
                 <!--侧边菜单栏 Start-->
-                <div class="col-md-3 box" style="padding: 15px 15px;">
                     @include('home.user.side')
-                </div>
 
                 <!--活动管理 Start-->
                 <div class="main-col col-md-9 left-col" style="margin-top: 15px;">
@@ -51,17 +49,19 @@
     </section><!--/#contact-page-->
 @endsection
 @section('script')
+    <script type="text/javascript" src="{{url('JsService/Model/action/ActivityModel.js')}}"></script>
     <script>
         $(function(){
+            var activity = new Activity();
             $('.activity_cancle').click(function(){
-                $.ajax({
-                    url:'',
-                    type:'',
-                    data:'',
-                    success:function(){
-                        alert('a');
-                    }
-                })
+                if (!confirm("您确定取消报名么")) return false;
+                var This = $(this);
+                var activity_id = $(this).attr('activityId');
+                activity.ajax('activity/status','delete',{activity_id:activity_id},
+                        function(data){
+                             if (data.status==200) This.parents('tr').remove();
+                        }
+                )
             })
         })
     </script>
