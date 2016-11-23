@@ -29,16 +29,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
     Route::group(['middleware'=> 'AdminMiddleware'],function() {
         // 后台首页
         Route::resource('/', 'AdminController');
-        //创业技术培训
-        Route::resource('/training', 'TrainingController');
-        Route::resource('/training_info_page', 'TrainingController@getInfoPage');
-        // 创业大赛->发布信息入口
-        Route::resource('/match', 'VentureContestController');
-        Route::get('paging','VentureContestController@paging');
-        // 路演活动
-        Route::resource('/road','RoadController');
-        Route::resource('/road_info_page','RoadController@getInfoPage');
-        Route::any('/upload','RoadController@upload');
         // 用户管理
         Route::resource('/user', 'UserController');
         Route::resource('/user_role', 'UserRoleController');
@@ -56,6 +46,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::get("//select_publish",'CrowdFundingController@selectPublish');
         //活动管理
         Route::resource('/action', 'ActionController');
+        Route::any('/upload','ActionController@upload');
     });
 });
 
@@ -93,8 +84,6 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/user','UserController');
         // 前台登出
         Route::get('/logout','LoginController@logout');
-        //路演活动
-        Route::resource('/road','RoadController');
         //众筹用户投钱
         Route::get("/investment/{project_id}","CrowdFundingController@investment");
         //活动管理

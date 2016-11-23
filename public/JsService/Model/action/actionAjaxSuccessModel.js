@@ -112,7 +112,7 @@ function group(type) {
 
 //展示旧数据
 function date(data) {
-    data = data.ResultData.data[0];
+    data = data.ResultData;
     console.log(data);
     $('#yz_xg').find('input[name=id]').val(data.guid);
     $('#yz_xg').find('input[name=title]').val(data.title);
@@ -134,8 +134,8 @@ function showInfoList(data){
     $('.loading').hide();
     if (data) {
         if (data.StatusCode == 200) {
-            data = data.ResultData.data[0];
-            // console.log(data);
+            data = data.ResultData;
+            console.log(data);
             $('#xq_title').val(data.title);
             $('#xq_author').val(data.author);
             $('#xq_type').val(type(data.type));

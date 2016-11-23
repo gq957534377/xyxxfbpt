@@ -54,27 +54,15 @@
                                 <p><strong>Web:</strong> <a href="http://www.shapebootstrap.net">www.shapebootstrap.net</a></p>
                             </div>
                         </div>
-                            {{--<button class="btn-danger" id="support" onclick="like(1)">支持{{$like->support}}</button>--}}
-                            {{--<button class="btn-custom" id="no_support" onclick="like(2)">不支持{{$like->no_support}}</button>--}}
-                        <h1 id="comments_title">{{count($comment)}} Comments</h1>
-                    <div id = 'comment_list'>
-                        @if(is_string($comment))
-                            <p>暂时没有评论</p>
-                        @else
-                        @foreach($comment as $v)
-                            <div class="media comment_section">
-                                <div class="pull-left post_comments">
-                                    <a href="#"><img src="{{asset($v->headpic)}}" class="img-circle" alt="" /></a>
-                                </div>
-                                <div class="media-body post_reply_comments">
-                                    <h3>{{$v->user_name}}</h3>
-                                    <h4>{{$v->time}}</h4>
-                                    <p>{{$v->content}}</p>
-                                    <a href="#">Reply</a>
-                                </div>
-                            </div>
-                            @endforeach
+                    @if(is_string($likeNum))
+                        <p>{{$likeNum}}</p>
+                    @else
+                            <button class="btn-danger" id="support" onclick="like(1)">支持{{$likeNum[0]}}</button>
+                            <button class="btn-custom" id="no_support" onclick="like(2)">不支持{{$likeNum[1]}}</button>
                         @endif
+                        <h1 id="comments_title">Comments</h1>
+                    <div id = 'comment_list'>
+
                     </div>
 
 
@@ -190,73 +178,6 @@
          </div><!--/.blog-->
 
     </section><!--/#blog-->
-
-    <section id="bottom">
-        <div class="container wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
-            <div class="row">
-                <div class="col-md-3 col-sm-6">
-                    <div class="widget">
-                        <h3>Company</h3>
-                        <ul>
-                            <li><a href="#">About us</a></li>
-                            <li><a href="#">We are hiring</a></li>
-                            <li><a href="#">Meet the team</a></li>
-                            <li><a href="#">Copyright</a></li>
-                            <li><a href="#">Terms of use</a></li>
-                            <li><a href="#">Privacy policy</a></li>
-                            <li><a href="#">Contact us</a></li>
-                        </ul>
-                    </div>    
-                </div><!--/.col-md-3-->
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="widget">
-                        <h3>Support</h3>
-                        <ul>
-                            <li><a href="#">Faq</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Forum</a></li>
-                            <li><a href="#">Documentation</a></li>
-                            <li><a href="#">Refund policy</a></li>
-                            <li><a href="#">Ticket system</a></li>
-                            <li><a href="#">Billing system</a></li>
-                        </ul>
-                    </div>    
-                </div><!--/.col-md-3-->
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="widget">
-                        <h3>Developers</h3>
-                        <ul>
-                            <li><a href="#">Web Development</a></li>
-                            <li><a href="#">SEO Marketing</a></li>
-                            <li><a href="#">Theme</a></li>
-                            <li><a href="#">Development</a></li>
-                            <li><a href="#">Email Marketing</a></li>
-                            <li><a href="#">Plugin Development</a></li>
-                            <li><a href="#">Article Writing</a></li>
-                        </ul>
-                    </div>    
-                </div><!--/.col-md-3-->
-
-                <div class="col-md-3 col-sm-6">
-                    <div class="widget">
-                        <h3>Our Partners</h3>
-                        <ul>
-                            <li><a href="#">Adipisicing Elit</a></li>
-                            <li><a href="#">Eiusmod</a></li>
-                            <li><a href="#">Tempor</a></li>
-                            <li><a href="#">Veniam</a></li>
-                            <li><a href="#">Exercitation</a></li>
-                            <li><a href="#">Ullamco</a></li>
-                            <li><a href="#">Laboris</a></li>
-                        </ul>
-                    </div>    
-                </div><!--/.col-md-3-->
-            </div>
-        </div>
-    </section><!--/#bottom-->
-
     @include('home.validator.publishValidator')
 @endsection
 
@@ -271,10 +192,10 @@
     <script>
         //报名按钮
         $('#baoming').click(function () {
-                    @if(isset($session['user']))
+                    @if($isLogin)
             var data = {
-                        user_id:'{{$session['user']->guid}}',
-                        action_id:'{{$id}}',
+                        user_id:'{{$isLogin}}',
+                        action_id:'{{$data->guid}}',
                     };
             $.ajaxSetup({
                 headers: {
@@ -302,10 +223,10 @@
         });
         //评论按钮
         $('#comment').click(function () {
-                    @if(isset($session['user']))
+                    @if($isLogin)
             var data = {
-                        user_id:'{{$session['user']->guid}}',
-                        action_id:'{{$id}}',
+                        user_id:'{{$isLogin}}',
+                        action_id:'{{$data->guid}}',
                         content:$('#message').val()
                     };
             $.ajaxSetup({
@@ -321,16 +242,7 @@
                     console.log(data);
                     if(data.StatusCode == 200){
                         alert('评论成功！');
-                        $('#comment_list').append('<div class="media comment_section">'+
-                                '<div class="pull-left post_comments">'+
-                                '<a href="#"><img src="" class="img-circle" alt="" /></a>'+
-                                '</div>'+
-                                '<div class="media-body post_reply_comments">'+
-                                '<h3></h3>'+
-                                '<p>'+$('#message').val()+'</p>'+
-                                '<a href="#">Reply</a>'+
-                                '</div>'+
-                                '</div>');
+                        list();
                         $('#message').val('');
                     }else{
                         alert(data.ResultData);
@@ -341,31 +253,58 @@
                 alert('您还未登录，请登录');
             @endif
         });
-        //点赞按钮
-        function like(support) {
-            switch (support){
-                case 1:
-                    var temp = 'support';
-                    break;
-                case 2:
-                    var temp = 'no_support';
-                    break;
-                default:
-                    break;
-            }
+
+        //评论列表
+        function list(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             $.ajax({
-                url: '/action/{{$data->guid}}/edit',
-                data:{temp:temp},
+                url: '/action/{{$data->guid}}',
+                type: 'put',
                 success : function (data) {
                     console.log(data);
                     if(data.StatusCode == 200){
-                        {{--$('#support').html('支持{{$like->support+1}}')--}}
+                        data.ResultData.map(function (item) {
+                            $('#comment_list').append('<div class="media comment_section">' +
+                                    '<div class="pull-left post_comments">' +
+                                    '<a href="#"><img src="/'+item.headpic+'" class="img-circle" alt="" /></a>' +
+                                    '</div>' +
+                                    '<div class="media-body post_reply_comments">' +
+                                    '<h3>'+item.user_name+'</h3>' +
+                                    '<h4>'+item.time+'</h4>' +
+                                    '<p>'+item.content+'</p>' +
+                                    '<a href="#">Reply</a>');
+                        });
+                    }else{
+                        $('#comment_list').html('<p>'+data.ResultData+'</p>');
+                    }
+                }
+            });
+        }
+        list();
+        //点赞按钮
+        function like(support) {
+            @if($isLogin)
+            $.ajax({
+                url: '/action/{{$data->guid}}/edit',
+                data:{support:support},
+                success : function (data) {
+                    console.log(data);
+                    if(data.StatusCode == 200){
+                        $('#support').html('支持'+data.ResultData[0]);
+                        $('#no_support').html('不支持'+data.ResultData[1]);
+                        alert('点赞成功');
                     }else{
                         alert(data.ResultData);
                     }
                 },
             });
-
+            @else
+            alert('还未登陆，请登录');
+            @endif
         }
     </script>
     @include('home.user.ajax.ajaxRequire')

@@ -15,7 +15,7 @@ class ActionController extends Controller
     protected static $request;
     protected  static $actionServer;
     protected  static $userServer;
-    public function __construct(Request $request,ActionServer $actionServer,UserServer $userServer)
+    public function __construct(Request $request, ActionServer $actionServer, UserServer $userServer)
     {
         self::$actionServer = $actionServer;
         self::$request = $request;
@@ -29,10 +29,10 @@ class ActionController extends Controller
      */
     public function index()
     {
-        $type = self::$request->all()['type'];
-        $result = self::$actionServer->selectByType($type);
-        if ($result['status'])return view('home.action.index',['msg'=>$result['msg']]);
-        return view('home.action.index',['msg'=>$result['msg']]);
+        $type = self::$request -> all()['type'];
+        $result = self::$actionServer -> selectByType($type);
+        if ($result['status']) return view('home.action.index', ['msg' => $result['msg']]);
+        return view('home.action.index', ['msg' => $result['msg']]);
     }
 
     /**
@@ -42,10 +42,10 @@ class ActionController extends Controller
      */
     public function create()
     {
-        $data = self::$request->all();
-        $result = self::$actionServer->comment($data);
-        if(!$result['status'])return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
-        return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        $data = self::$request -> all();
+        $result = self::$actionServer -> comment($data);
+        if(!$result['status']) return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+        return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
     }
 
     /**
@@ -57,72 +57,98 @@ class ActionController extends Controller
      */
     public function store()
     {
-        $data = self::$request->all();
-        $result = self::$actionServer->actionOrder($data);
-        if(!$result['status'])return response()->json(['StatusCode'=> 400,'ResultData'=>$result['msg']]);
-        return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
+        $data = self::$request -> all();
+        $result = self::$actionServer -> actionOrder($data);
+        if(!$result['status']) return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+        return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
     }
 
     /**
      * 详情页.
-     *
+     * 传入：是否已经报名$isHas 活动详情$datas 登录状态$isLogin 点赞数量$likeNum 所有评论$comment+对应用户的信息
      * @param  int  $id
      * @author 郭庆
      */
     public function show($id)
     {
-        $session = self::$request->session()->all();
-        $data = self::$actionServer->getData($id);
-        $result = self::$actionServer->getCommentLike($id);
-        if($data["status"]){
-            if (!isset($session['user'])){
-                $isHas = false;
-            }else{
-                $action = self::$actionServer->getAction($session['user']->guid);
-                $isHas = in_array($data["msg"]["data"][0]->guid,$action);
-            }
-            if (!$result['status'])
-                return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id,'isHas'=>$isHas,'comment'=>$result['msg'],'like'=>$result['msg']]);
-                foreach ($result['msg'][0] as $v)
-                {
-                    $res = self::$userServer->userInfo(['guid'=>$v->user_id]);
-                    if($res['status']){
-                        $v->user_name = $res['msg']->nickname;
-                        $v->headpic = $res['msg']->headpic;
-                    }else{
-                        $v->user_name = '无名英雄';
-                        $v->headpic = '';
-                    }
-                }
-                return view("home.action.xiangqing",["data"=>$data["msg"]["data"][0],'session'=>$session,'id'=>$id,'isHas'=>$isHas,'comment'=>$result['msg'][0],'like'=>$result['msg'][1]]);
+        //所需要数据的获取
+        $session = self::$request -> session() -> all();
+        $data = self::$actionServer -> getData($id);//活动详情
+        $likeNum = self::$actionServer-> getLikeNum($id);//支持/不支持人数
+
+        //$isHas（是否已经报名参加）的设置
+        if (!isset($session['user'])){
+            $isLogin = false;
+            $isHas = false;
+        }else{
+            $action = self::$actionServer -> getAction($session['user'] -> guid);//当前用户报名参加的所有活动
+            $isLogin = $session['user']->guid;
+            if ($action['status']) $isHas = in_array($data["msg"] -> guid, $action['msg']);
+        }
+
+        //$datas活动详情设置
+        $datas = $data["msg"];
+
+        //返回详情页
+        return view("home.action.xiangqing", [
+            "data" => $data["msg"],
+            'isLogin' => $isLogin,
+            'isHas' => $isHas,
+            'likeNum' => $likeNum['msg']
+        ]);
+    }
+
+    /**
+     * 点赞
+     *
+     * @param  int  $id
+     */
+    public function edit($id)
+    {
+        $support = self::$request -> all();
+        $user_id = self::$request -> session() -> get('user')->guid;
+
+        //判断是否点赞了
+        $isHas = self::$actionServer->getLike($user_id,$id);
+        if($isHas['status']) {
+            if ($isHas['msg']->support == $support['support']) return ['StatusCode' => 400,  'ResultData' => '已经参与'];
+            $setLike = self::$actionServer->chargeLike($user_id, $id, $support);
+            if ($setLike) return ['StatusCode' => 200,  'ResultData' => self::$actionServer-> getLikeNum($id)['msg']];
+            return ['StatusCode' => 400,  'ResultData' => '点赞失败'];
+        }else{
+
+            //没有点赞则加一条新记录
+            $result = self::$actionServer -> setLike(['support' => $support['support'], 'action_id' => $id, 'user_id' => $user_id]);
+            if($result['status']) return ['StatusCode' => 200,  'ResultData' => self::$actionServer-> getLikeNum($id)['msg']];
+            return ['StatusCode' => 400, 'ResultData' => '点赞失败'];
         }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $field = self::$request->all();
-        $result = self::$actionServer->like($id,$field['temp']);
-        if($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
-        return ['StatusCode' => 400, 'ResultData' => $result['msg']];;
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * 展示评论
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-
-
+        $result = self::$actionServer -> getComment($id);
+        if (!$result['status']){
+            return ['StatusCode' => 400, 'ResultData' => $result['msg']];
+        }else{
+            foreach ($result['msg'] as $v)
+            {
+                $res = self::$userServer -> userInfo(['guid' => $v -> user_id]);
+                if($res['status']){
+                    $v -> user_name = $res['msg'] -> nickname;
+                    $v -> headpic = $res['msg'] -> headpic;
+                }else{
+                    $v -> user_name = '无名英雄';
+                    $v -> headpic = '';
+                }
+            }
+        }
+        return ['StatusCode' => 200, 'ResultData' => $result['msg']];
     }
 
     /**

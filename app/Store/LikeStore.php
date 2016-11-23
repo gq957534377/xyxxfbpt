@@ -94,5 +94,21 @@ class LikeStore{
     {
         return DB::table(self::$table)->where($where)->increment($field,$data);
     }
+
+    /**
+     * 获取支持数量
+     */
+    public static function getSupportNum($action_id)
+    {
+        return DB::table(self::$table)->where(['action_id' => $action_id, 'support' => 1])->count();
+    }
+
+    /**
+     * 获取不支持数量
+     */
+    public static function getNoSupportNum($action_id)
+    {
+        return DB::table(self::$table)->where(['action_id' => $action_id , 'support' => 2])->count();
+    }
 }
 
