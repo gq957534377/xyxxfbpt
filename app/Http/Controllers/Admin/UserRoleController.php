@@ -30,20 +30,30 @@ class UserRoleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author wang fei long
      */
     public function create(Request $request)
     {
         $data = $request->all();
-        if (empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+
+        //判断请求数据
+        if (empty($data))
+            return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+
+        //获取数据
         $result = self::$userRoleServer->getData($data);
+
+        //判断获取的数据
         if ($result['status'] === 'empty')
             return response()->json(['StatusCode' => 300, 'ResultData' => $result['data']]);
-        // 如果$result返回错误
+
+        //判断获取的数据
         if(!$result['status'])
             return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+
+        //返回正确数据
         return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 
@@ -86,15 +96,25 @@ class UserRoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author wang fei long
      */
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        if (!isset($id) || empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+
+        //判断请求数据
+        if (!isset($id) || empty($data))
+            return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+
+        //获取数据
         $result = self::$userRoleServer->updataUserInfo(['guid' => $id], $data);
         $result['data'] = $result['msg'];
+
+        //判断获取的数据
         if($result['status'] == 400)
             return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+
+        //返回正确数据
         return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);
     }
 

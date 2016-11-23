@@ -12,14 +12,15 @@ function Project(){
         var image_a = $('<a></a>');
         image_a.attr('href',data.data[i].image);
         image_a.attr('target','_blank');
-        image_a.html(data.data[i].image);
+        image_a.html('<img class="unchecked_img"/>');
+        image_a.find('img').attr('src',data.data[i].image);
         image_td.html(image_a);
 
         var file_td = $('<td></td>');
         var file_a = $('<a></a>');
-        file_a.attr('href',data.data[i].image);
+        file_a.attr('href',data.data[i].file);
         file_a.attr('target','_blank');
-        file_a.html(data.data[i].image);
+        file_a.html(data.data[i].file);
         file_td.html(file_a);
 
         var status_td = $('<td></td>');

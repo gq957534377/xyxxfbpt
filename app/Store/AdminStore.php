@@ -30,7 +30,9 @@ class AdminStore{
         // 条件是否存在
         if(empty($where)) return false;
         // 返回指定数据
-        return DB::table(self::$table)->where($where)->first();
+        return DB::table(self::$table)
+                         ->where($where)
+                         ->first();
     }
 
     /**
@@ -65,6 +67,8 @@ class AdminStore{
     public function updateData($where,$data)
     {
         if(empty($where) || empty($data)) return false;
-        return DB::table(self::$table)->where($where)->update($data);
+        return DB::table(self::$table)
+                         ->where($where)
+                         ->update($data);
     }
 }

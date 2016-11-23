@@ -99,51 +99,14 @@
                         </div>
                     </div>
                     <!--个人信息部分 end-->
-
-                    <!--项目列表部分 start-->
-                    <table class="table table-striped" id='pro_list_table' style="display: none">
-                        <caption>项目列表</caption>
-                        <thead>
-                        <tr>
-                            <th>项目标题</th>
-                            <th>项目状态</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    <!--项目列表部分 end-->
                 </div>
                 <!--编辑个人资料 End-->
-
-                <!--修改头像弹出层 start-->
-                @include('home.user.avatar')
-                <!--修改头像弹出层 end-->
-
-                <!--申请成为创业者 start-->
-                @include('home.user.entrepreneurs')
-                <!--申请成为创业者 end-->
-
-                <!--项目发布弹出层 start-->
-               @include('home.user.projectPublish')
-                <!--项目发布弹出层 end-->
-
-                <!--项目编辑弹出层 start-->
-                @include('home.user.projectEdit')
-                <!--项目编辑弹出层 end-->
-
-                <!--申请成为投资人 Start-->
-                @include('home.user.investor')
-                <!--申请成为投资人 End-->
-
             </div>
         </div><!--/.container-->
     </section><!--/#contact-page-->
 @endsection
 
 @section('script')
-@include('home.user.ajax.ajaxRequire')
 <script>
     $(function(){
         // 用户信息获取
@@ -178,34 +141,25 @@
             success: function(msg){
                 // 将传过json格式转换为json对象
                 switch(msg.StatusCode){
-                    case 200:
+                    case '200':
                         user_nickname.empty().val(msg.ResultData.msg.nickname);
                         user_email.empty().val(msg.ResultData.msg.email);
                         user_realname.empty().val(msg.ResultData.msg.realname);
                         user_hometown.empty().val(msg.ResultData.msg.hometown);
                         user_birthday.empty().val(msg.ResultData.msg.birthday);
                         msg.ResultData.msg.sex == 1?sex1.attr('checked','true'):sex0.attr('checked','true');
-                        tel.empty().val(msg.ResultData.msg.tel);
                         $("#head_pic").attr('src','uploads/image/'+msg.ResultData.msg.headpic);
                         $("#userinfo_headpic").attr('src','uploads/image/'+msg.ResultData.msg.headpic);
                         headpic.attr('src','uploads/image/'+msg.ResultData.msg.headpic);
-
-
-                        // 给创业提交信息也附上值
-                        nickname.empty().val(msg.ResultData.msg.nickname);
-                        realname.empty().val(msg.ResultData.msg.realname);
-                        hometown.empty().val(msg.ResultData.msg.hometown);
-                        birthday.empty().val(msg.ResultData.msg.birthday);
-                        msg.ResultData.msg.sex == 1?sex1.attr('checked','true'):sex0.attr('checked','true');
                         user_phone.empty().val(msg.ResultData.msg.tel);
 
                         $(".loading").hide();
                         break;
-                    case 404:
+                    case '404':
                         alert(msg.ResultData);
                         $(".loading").hide();
                         break;
-                    case 500:
+                    case '500':
                         alert(msg.ResultData);
                         $(".loading").hide();
                         break;
@@ -235,12 +189,6 @@
             ajaxRequire('/headpic','POST',headPicForm,$("#userBox"),3);
         });
 
-        // 申请成为创业者
-        $("#applySubmit").click(function(){
-            var formData = new FormData(document.getElementById("entrepreneur"));
-            formData.append('guid',guid);
-            ajaxRequire('/user','POST',formData,$('#entrepreneur'),1);
-        });
         // 申请成为投资者
         $("#applyInvestor").click(function(){
             var formData = new FormData(document.getElementById("investorForm"));
@@ -262,7 +210,9 @@
             $('#userBox').hide();
             $('#pro_list_table').hide();
             $('#investorBox').show();
+            $('#entrepreneursBox').hide();
             $("#editUserInfoBtn").removeClass('active');
+            $("#entrepreneursBtn").removeClass('active');
             $(this).addClass('active');
         });
 
@@ -270,6 +220,18 @@
             $('#userBox').show();
             $('#pro_list_table').hide();
             $('#investorBox').hide();
+            $('#entrepreneursBox').hide();
+            $("#investor").removeClass('active');
+            $("#entrepreneursBtn").removeClass('active');
+            $(this).addClass('active');
+        });
+
+        $("#entrepreneursBtn").click(function(){
+            $('#userBox').hide();
+            $('#pro_list_table').hide();
+            $('#investorBox').hide();
+            $('#entrepreneursBox').show();
+            $("#editUserInfoBtn").removeClass('active');
             $("#investor").removeClass('active');
             $(this).addClass('active');
         });
@@ -281,7 +243,6 @@
 </script>
 @include('home.user.ajax.ajaxRequire')
 @include('home.validator.UpdateValidator')
-@include('home.validator.investorValidator')
 @include('home.validator.publishValidator')
 @include('home.project.all_pro_list')
 @include('home.public.dateTime')

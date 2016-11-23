@@ -10,6 +10,7 @@
         .unchecked_table td{max-width:200px;overflow: hidden;}
         .unchecked_table button{font-size: 10px;}
         .loading{z-index:999;position:absolute;display: none;}
+        .unchecked_img{width:100%}
     </style>
     <h3>未通过项目</h3>
     <table class = "table table-striped table-bordered unchecked_table" id="unchecked_table">
@@ -20,10 +21,6 @@
 @endsection
 
 @section('script')
-    <script src="{{url('JsService/Controller/ajaxController.js')}}" type="text/javascript"></script>
-    <script src="{{url('JsService/Model/road/actionAjaxBeforeModel.js')}}" type="text/javascript"></script>
-    <script src="{{url('JsService/Model/road/actionAjaxSuccessModel.js')}}" type="text/javascript"></script>
-    <script src="{{url('JsService/Model/road/actionAjaxErrorModel.js')}}" type="text/javascript"></script>
     <script src="{{url('JsService/Model/projectModel.js')}}" type="text/javascript"></script>
     <script src="{{url('JsService/Controller/project/nopassController.js')}}" type="text/javascript"></script>
 @endsection

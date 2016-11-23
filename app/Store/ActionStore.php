@@ -12,7 +12,7 @@ use DB;
 
 class ActionStore
 {
-    protected static $table ="data_action_info";
+    protected static $table = "data_action_info";
 
     /**
      * 插入数据
@@ -23,10 +23,21 @@ class ActionStore
     public function insertData($data)
     {
         if(!is_array($data)) return null;
-        $result = DB::table(self::$table)->insertGetId($data);
+        $result = DB::table(self::$table) -> insertGetId($data);
         return $result;
     }
 
+    /**
+     * 获取一条数据
+     *
+     * @return \Illuminate\Http\Response
+     * @author 郭庆
+     */
+    public function getOneData($where)
+    {
+        if(empty($where)) return false;
+        return DB::table(self::$table) -> where($where) -> first();
+    }
     /**
      * 分页查询数据
      * @param $page
@@ -35,10 +46,14 @@ class ActionStore
      * @return null
      * author 张洵之
      */
-    public function forPage($page,$tolPage,$where)
+    public function forPage($page, $tolPage, $where)
     {
-        if(!is_int($page)||!is_int($tolPage) ||!is_array($where))return null;
-        $result = DB::table(self::$table)->where($where)->orderBy("change_time","desc")->forPage($page,$tolPage)->get();
+        if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return null;
+        $result = DB::table(self::$table)
+            -> where($where)
+            -> orderBy("change_time","desc")
+            -> forPage($page,$tolPage)
+            ->get();
         return $result;
     }
 
@@ -50,7 +65,7 @@ class ActionStore
     public static function getData($where)
     {
         if (empty($where)) return false;
-        return DB::table(self::$table)->where($where)->get();
+        return DB::table(self::$table) -> where($where) -> get();
     }
 
     /**
@@ -60,10 +75,10 @@ class ActionStore
      * @return null
      * author 张洵之
      */
-    public function upload($where,$data)
+    public function upload($where, $data)
     {
-        if(!is_array($where)||!is_array($data)) return null;
-        $result =DB::table(self::$table)->where($where)->update($data);
+        if(!is_array($where) || !is_array($data)) return null;
+        $result = DB::table(self::$table) -> where($where) -> update($data);
         return $result;
     }
 
@@ -71,8 +86,8 @@ class ActionStore
      * 给某个字段自增data
      * @author 郭庆
      */
-    public static function incrementData($where,$field,$data)
+    public static function incrementData($where, $field, $data)
     {
-        return DB::table(self::$table)->where($where)->increment($field,$data);
+        return DB::table(self::$table)->where($where)->increment($field, $data);
     }
 }
