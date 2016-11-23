@@ -6,7 +6,7 @@
             <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;修改头像</a>
 
         <!--活动管理 start-->
-        <a  href="activity" class="list-group-item ">
+        <a  href="{{url('/activity')}}" class="list-group-item ">
             <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;活动管理</a>
         <!--活动管理 end-->
 
