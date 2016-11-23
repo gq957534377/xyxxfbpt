@@ -23,8 +23,10 @@ class CrowdCapitalStore
      */
     public function insertData($data)
     {
-        if(!is_array($data))return null;
+        if(!is_array($data))return false;
+
         DB::table(self::$table)->insert($data);
+
         return true;
     }
 
@@ -36,8 +38,11 @@ class CrowdCapitalStore
      */
     public function getData($where)
     {
-        if(!is_array($where))return null;
-        return DB::table(self::$table)->where($where)->get();
+        if(!is_array($where))return false;
+
+        return DB::table(self::$table)
+            ->where($where)
+            ->get();
     }
 
 }

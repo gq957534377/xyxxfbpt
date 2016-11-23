@@ -22,8 +22,10 @@ class CrowdFundingStore
      */
     public function selectMaxOne($field)
     {
-        if(!is_string($field))return null;
+        if(!is_string($field))return false;
+
         $result = DB::table(self::$table)->max($field);
+
         if($result){
             return $result;
         }else{
@@ -38,8 +40,10 @@ class CrowdFundingStore
      */
     public function fieldSum($field)
     {
-        if(!is_string($field))return null;
+        if(!is_string($field))return false;
+
         $result= DB::table(self::$table)->sum($field);
+
         if($result){
             return $result;
         }else{
@@ -54,7 +58,8 @@ class CrowdFundingStore
      */
     public function selectLists($where,$field)
     {
-        if(!is_array($where)||!is_string($field))return null;
+        if(!is_array($where)||!is_string($field))return false;
+
         $result = DB::table(self::$table)->where($where)->lists($field);
         return $result;
     }
@@ -66,7 +71,8 @@ class CrowdFundingStore
      */
     public function selectListNum($where)
     {
-        if(!is_array($where))return null;
+        if(!is_array($where))return false;
+
         $result = DB::table(self::$table)->where($where)->count();
         return $result;
     }
@@ -79,8 +85,12 @@ class CrowdFundingStore
      */
     public function getList($where,$field,$page,$pages)
     {
-        if(!is_array($where)||!is_int($page)||!is_int($pages)||!is_string($field))return null;
-        $result = DB::table(self::$table)->where($where)->forPage($page,$pages)->lists($field);
+        if(!is_array($where)||!is_int($page)||!is_int($pages)||!is_string($field))return false;
+
+        $result = DB::table(self::$table)
+            ->where($where)
+            ->forPage($page,$pages)
+            ->lists($field);
         return $result;
     }
 
@@ -92,8 +102,11 @@ class CrowdFundingStore
      */
     public function uplodData($where,$update)
     {
-        if(!is_array($where)||!is_array($update))return null;
-        $result = DB::table(self::$table)->where($where)->update($update);
+        if(!is_array($where)||!is_array($update))return false;
+
+        $result = DB::table(self::$table)
+            ->where($where)
+            ->update($update);
         return $result;
     }
 
@@ -106,8 +119,14 @@ class CrowdFundingStore
      */
     public function forPage($page,$tolPage,$where)
     {
-        if(!is_int($page)||!is_int($tolPage) ||!is_array($where))return null;
-        $result = DB::table(self::$table)->where($where)->orderBy("changetime","desc")->forPage($page,$tolPage)->get();
+        if(!is_int($page)||!is_int($tolPage) ||!is_array($where))return false;
+
+        $result = DB::table(self::$table)
+            ->where($where)
+            ->orderBy("changetime","desc")
+            ->forPage($page,$tolPage)
+            ->get();
+
         return $result;
     }
 
@@ -119,8 +138,11 @@ class CrowdFundingStore
      */
     public function getWhere($where)
     {
-        if(!is_array($where))return null;
-        $result = DB::table(self::$table)->where($where)->get();
+        if(!is_array($where))return false;
+        $result = DB::table(self::$table)
+            ->where($where)
+            ->get();
+
         return $result;
     }
 
@@ -133,8 +155,12 @@ class CrowdFundingStore
      */
     public function getWhereIn($field,$where)
     {
-        if(!is_array($where)||!is_string($field))return null;
-        $result = DB::table(self::$table)->whereIn($field,$where)->orderBy("project_id","asc")->get();
+        if(!is_array($where)||!is_string($field))return false;
+
+        $result = DB::table(self::$table)
+            ->whereIn($field,$where)
+            ->orderBy("project_id","asc")
+            ->get();
         return $result;
     }
 
@@ -146,7 +172,8 @@ class CrowdFundingStore
      */
     public function insertData($data)
     {
-        if(!is_array($data))return null;
+        if(!is_array($data))return false;
+
         $result = DB::table(self::$table)->insertGetId($data,"project_id");
         return $result;
     }
@@ -162,7 +189,10 @@ class CrowdFundingStore
     public function addFunshing($where,$field,$data)
     {
         if(empty($data)||empty($field)||empty($data)) return false;
-        $result = DB::table(self::$table)->where($where)->increment($field,$data);
+
+        $result = DB::table(self::$table)
+            ->where($where)
+            ->increment($field,$data);
         return $result;
     }
 }
