@@ -74,7 +74,6 @@ class ActionController extends Controller
         //所需要数据的获取
         $session = self::$request -> session() -> all();
         $data = self::$actionServer -> getData($id);//活动详情
-        $result = self::$actionServer -> getComment($id);//评论
         $likeNum = self::$actionServer-> getLikeNum($id);//支持/不支持人数
 
         //$isHas（是否已经报名参加）的设置
@@ -90,29 +89,11 @@ class ActionController extends Controller
         //$datas活动详情设置
         $datas = $data["msg"];
 
-        //$comment评论设置
-        if (!$result['status']){
-            $comment = $result['msg'];
-        }else{
-            foreach ($result['msg'] as $v)
-            {
-                $res = self::$userServer -> userInfo(['guid' => $v -> user_id]);
-                if($res['status']){
-                    $v -> user_name = $res['msg'] -> nickname;
-                    $v -> headpic = $res['msg'] -> headpic;
-                }else{
-                    $v -> user_name = '无名英雄';
-                    $v -> headpic = '';
-                }
-            }
-        }
-
         //返回详情页
         return view("home.action.xiangqing", [
             "data" => $data["msg"],
             'isLogin' => $isLogin,
             'isHas' => $isHas,
-            'comment' => $result['msg'],
             'likeNum' => $likeNum['msg']
         ]);
     }
@@ -144,16 +125,30 @@ class ActionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 展示评论
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-
-
+        $result = self::$actionServer -> getComment($id);
+        if (!$result['status']){
+            return ['StatusCode' => 400, 'ResultData' => $result['msg']];
+        }else{
+            foreach ($result['msg'] as $v)
+            {
+                $res = self::$userServer -> userInfo(['guid' => $v -> user_id]);
+                if($res['status']){
+                    $v -> user_name = $res['msg'] -> nickname;
+                    $v -> headpic = $res['msg'] -> headpic;
+                }else{
+                    $v -> user_name = '无名英雄';
+                    $v -> headpic = '';
+                }
+            }
+        }
+        return ['StatusCode' => 200, 'ResultData' => $result['msg']];
     }
 
     /**

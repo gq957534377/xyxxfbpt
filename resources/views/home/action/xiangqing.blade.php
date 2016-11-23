@@ -60,25 +60,9 @@
                             <button class="btn-danger" id="support" onclick="like(1)">支持{{$likeNum[0]}}</button>
                             <button class="btn-custom" id="no_support" onclick="like(2)">不支持{{$likeNum[1]}}</button>
                         @endif
-                        <h1 id="comments_title">{{count($comment)}} Comments</h1>
+                        <h1 id="comments_title">Comments</h1>
                     <div id = 'comment_list'>
-                        @if(is_string($comment))
-                            <p>暂时没有评论</p>
-                        @else
-                        @foreach($comment as $v)
-                            <div class="media comment_section">
-                                <div class="pull-left post_comments">
-                                    <a href="#"><img src="{{asset($v->headpic)}}" class="img-circle" alt="" /></a>
-                                </div>
-                                <div class="media-body post_reply_comments">
-                                    <h3>{{$v->user_name}}</h3>
-                                    <h4>{{$v->time}}</h4>
-                                    <p>{{$v->content}}</p>
-                                    <a href="#">Reply</a>
-                                </div>
-                            </div>
-                            @endforeach
-                        @endif
+
                     </div>
 
 
@@ -258,16 +242,7 @@
                     console.log(data);
                     if(data.StatusCode == 200){
                         alert('评论成功！');
-                        $('#comment_list').append('<div class="media comment_section">'+
-                                '<div class="pull-left post_comments">'+
-                                '<a href="#"><img src="" class="img-circle" alt="" /></a>'+
-                                '</div>'+
-                                '<div class="media-body post_reply_comments">'+
-                                '<h3></h3>'+
-                                '<p>'+$('#message').val()+'</p>'+
-                                '<a href="#">Reply</a>'+
-                                '</div>'+
-                                '</div>');
+                        list();
                         $('#message').val('');
                     }else{
                         alert(data.ResultData);
@@ -278,6 +253,38 @@
                 alert('您还未登录，请登录');
             @endif
         });
+
+        //评论列表
+        function list(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '/action/{{$data->guid}}',
+                type: 'put',
+                success : function (data) {
+                    console.log(data);
+                    if(data.StatusCode == 200){
+                        data.ResultData.map(function (item) {
+                            $('#comment_list').append('<div class="media comment_section">' +
+                                    '<div class="pull-left post_comments">' +
+                                    '<a href="#"><img src="/'+item.headpic+'" class="img-circle" alt="" /></a>' +
+                                    '</div>' +
+                                    '<div class="media-body post_reply_comments">' +
+                                    '<h3>'+item.user_name+'</h3>' +
+                                    '<h4>'+item.time+'</h4>' +
+                                    '<p>'+item.content+'</p>' +
+                                    '<a href="#">Reply</a>');
+                        });
+                    }else{
+                        $('#comment_list').html('<p>'+data.ResultData+'</p>');
+                    }
+                }
+            });
+        }
+        list();
         //点赞按钮
         function like(support) {
             @if($isLogin)
