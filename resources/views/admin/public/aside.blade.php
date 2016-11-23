@@ -23,22 +23,6 @@
                 <a href="{{url('project_approval')}}"><i class="fa fa-dollar"></i> <span class="nav-label">众筹管理</span><span class="menu-arrow"></span></a>
             </li>
 
-            <li class="has-submenu"><a href="{{url('road')}}"><i class="zmdi zmdi-collection-text"></i> <span class="nav-label">路演管理</span><span class="menu-arrow"></span></a>
-            </li>
-
-            <li class="has-submenu"><a href="#"><i class="zmdi zmdi-chart"></i> <span class="nav-label">创业大赛</span><span class="menu-arrow"></span></a>
-                <ul class="list-unstyled">
-                    <li><a href="{{asset('/match')}}">发布信息</a></li>
-                    <li><a href="#">参赛者管理</a></li>
-                    <li><a href="#">修改信息</a></li>
-                </ul>
-            </li>
-
-            <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">创业技术培训</span><span class="menu-arrow"></span></a>
-                <ul class="list-unstyled">
-                    <li><a href="{{url('training')}}">列表页</a></li>
-                </ul>
-            </li>
             <li class="has-submenu"><a href="{{asset('/action')}}"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">活动管理</span><span class="menu-arrow"></span></a>
             </li>
             {{--项目发布--}}

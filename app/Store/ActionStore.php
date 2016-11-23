@@ -28,6 +28,17 @@ class ActionStore
     }
 
     /**
+     * 获取一条数据
+     *
+     * @return \Illuminate\Http\Response
+     * @author 郭庆
+     */
+    public function getOneData($where)
+    {
+        if(empty($where)) return false;
+        return DB::table(self::$table) -> where($where) -> first();
+    }
+    /**
      * 分页查询数据
      * @param $page
      * @param $tolPage
