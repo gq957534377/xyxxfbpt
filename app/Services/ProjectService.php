@@ -52,7 +52,7 @@ class ProjectService {
 
     /**
      * 获取指定条件的数据
-     * @param $data
+     * @param $where
      * @return array
      * @author 贾济林
      */
@@ -78,25 +78,21 @@ class ProjectService {
      */
     public function changeStatus($data)
     {
+        $updateData = array();
+        if (isset($data['remark'])) $updateData = ['remark' => $data['remark']];
+
         //整理参数
         $param = ['project_id'=>$data['id']];
-        $updateData = [];
 
         //根据传入参数指定状态值
-        if ($data['status']=='yes') $updateData['status']='3';
-        if ($data['status']=='no') $updateData['status']='2';
+        $updateData['status'] = $data['status'];
 
         $updateData['changetime'] = date("Y-m-d H:i:s", time());
 
-        //事务控制
-        DB::transaction(function () use ($param,$updateData){
-            //更新状态值
-            $res = self::$projectStore->update($param,$updateData);
-            //插入crowd_funding_data
-        });
 
-
-        if ($res =0) return ['status'=>false,'msg'=>'修改失败'];
+        //更新状态值
+        $res = self::$projectStore->update($param,$updateData);
+        if ($res==0) return ['status'=>false,'msg'=>'修改失败'];
         return ['status'=>true,'msg'=>'修改成功'];
     }
 
