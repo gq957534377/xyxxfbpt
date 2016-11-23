@@ -98,11 +98,13 @@ class ActionService
         $data["time"] = date("Y-m-d H:i:s",time());
         $data["change_time"] = date("Y-m-d H:i:s",time());
         $temp = $this->checkTime($data);
+
         if($temp["status"]){
             $result = self::$actionStore->insertData($data);
         }else{
             return ['status'=>false,'msg'=>$temp["msg"]];
         }
+
         if(isset($result)){
             return ['status'=>true,'msg'=>$result];
         }else{
@@ -121,16 +123,27 @@ class ActionService
         $endtime = strtotime($data["end_time"]);
         $deadline = strtotime($data["deadline"]);
         $starttime = strtotime($data["start_time"]);
+
         if($endtime>$starttime&&$starttime>$deadline&&$deadline>time()){
+
             return ['status'=>true];
+
         }elseif($endtime<$starttime){
+
             return ['status'=>false,"msg"=>"结束日期不可早于开始日期"];
+
         }elseif($endtime<$deadline){
+
             return ['status'=>false,"msg"=>"结束日期不可早于报名截止日期"];
+
         }elseif($deadline<time()){
+
             return ['status'=>false,"msg"=>"报名截止日期不可早于当前日期"];
+
         }else{
+
             return ['status'=>false,"msg"=>"开始日期不可早于报名截止日期"];
+
         }
     }
 
@@ -143,29 +156,47 @@ class ActionService
     public function selectData($request)
     {
         $data = $request->all();
-        $forPages = 5;//一页的数据
-        $nowPage = isset($data["nowPage"])?(int)$data["nowPage"]:1;
+        //一页的数据
+        $forPages = 5;
+        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"] : 1;
         $status = $data["status"];
         $type = $data["type"];
         $where =[];
+
         if($status){
             $where["status"] = $status;
         }
+
         if($type!="null"){
             $where["type"] = $type;
         }
-        $creatPage = Common::getPageUrls($data,"data_action_info","/action/create",$forPages,null,$where);
+
+        $creatPage = Common::getPageUrls(
+            $data,//传来的数据
+            "data_action_info",//要查询的表
+            "/action/create",//主URL
+            $forPages,//一页要显示的数据条数
+            null,
+            $where//查询条件
+        );
+
         if(isset($creatPage)){
             $result["pages"]=$creatPage['pages'];
         }else{
             return ['status'=>false,'msg'=>'生成分页样式发生错误'];
         }
+
         $Data = self::$actionStore->forPage($nowPage,$forPages,$where);
+
         if($Data || empty($Data)){
+
             $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
+
         }else{
+
             return ['status'=>false,'msg'=>"数据参数有误！"];
+
         }
     }
 
@@ -178,8 +209,11 @@ class ActionService
     public function getData($guid)
     {
         if(!is_string($guid)){
+
             return ['status'=>false,'msg'=>"缺少参数！"];
+
         }
+
         $Data = self::$actionStore->getData(["guid"=>$guid]);
 
         
@@ -203,22 +237,26 @@ class ActionService
         if(!(isset($guid)&&isset($status))){
             return ['status'=>false,'msg'=>"参数有误 ！"];
         }
+
         if($status == 1){
             $status = 3;
         }else{
             $status = 1;
         }
+
         if(strlen($guid)!=32){
             $Data = self::$actionOrderStore->updateData(["id"=>$guid],["status"=>$status]);
         }else{
             $Data = self::$actionStore->upload(["guid"=>$guid],["status"=>$status]);
         }
+
         if($Data){
             $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>"数据参数有误！"];
         }
+
     }
 
     /**
@@ -231,6 +269,7 @@ class ActionService
     public function upDta($where,$data)
     {
         $Data = self::$actionStore->upload($where,$data);
+
         if($Data){
             $result["data"] = $Data;
             return ['status'=>true,'msg'=>$result];
@@ -240,6 +279,7 @@ class ActionService
     }
 
     /**
+     * 查询报名数据
      * @param $guid
      * author 张洵之
      */
@@ -247,11 +287,13 @@ class ActionService
     {
         $where = ["action_id"=>$guid];
         $result = self::$actionOrderStore->getSomeData($where);
+
         if($result){
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>"数据暂无数据！"];
         }
+
     }
 
     /**
@@ -263,7 +305,9 @@ class ActionService
     {
         $comment = self::$commentStore->getSomeData(['action_id'=>$id]);
         $like = self::$likeStore->getOneData(['action_id'=>$id]);
+
         if(!($comment || $like))return ['status'=>false,'msg'=>'获取信息失败'];
+
         return ['status'=>true,'msg'=>[$comment,$like]];
     }
 
@@ -274,11 +318,13 @@ class ActionService
     {
         $data["time"] = date("Y-m-d H:i:s",time());
         $result = self::$commentStore->addData($data);
+
         if($result){
             return ['status'=>true,'msg'=>$result];
         }else{
             return ['status'=>false,'msg'=>'存储数据发生错误'];
         }
+
     }
 
     /**
