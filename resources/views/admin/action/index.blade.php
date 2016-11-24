@@ -46,7 +46,7 @@
                                 <label for="field-3">活动类型</label>
                                 <div for="field-3">
                                     <select class="form-control" id="action" name="action">
-                                        <option value="1">路演</option>
+                                        <option value="1">活动</option>
                                         <option value="2">比赛</option>
                                         <option value="3">学习</option>
                                     </select>
@@ -58,13 +58,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="field-1" class="control-label">活动主题</label>
-                                <input type="text" class="form-control" id="title" name="title" placeholder="roadShow title...">
+                                <input type="text" class="form-control" id="title" name="title" placeholder="action title...">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="field-2" class="control-label">负责人</label>
-                                <input type="text" class="form-control" id="author" name="author" placeholder="Doe">
+                                <input type="text" class="form-control" id="author" name="author" placeholder="Author">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -83,20 +83,20 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="field-4" class="control-label">活动开始时间：</label>
-                                <input type="text" class="some_class form-control" value="" id="start_time" name="start_time"/>
+                                <input type="text" class="some_class form-control" id="start_time" name="start_time"/>
 
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="field-4" class="control-label">活动结束时间：</label>
-                                <input type="text" class="some_class form-control" value="" id="end_time" name="end_time"/>
+                                <input type="text" class="some_class form-control" id="end_time" name="end_time"/>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="field-4" class="control-label">截止报名时间：</label>
-                                <input type="text" class="some_class form-control" value="" name="deadline" id="deadline"/>
+                                <input type="text" class="some_class form-control" name="deadline" id="deadline"/>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -126,7 +126,7 @@
                         <div class="col-md-12">
                             <div class="form-group no-margin">
                                 <label for="field-7" class="control-label">活动简述</label>
-                                <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                                <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about action" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
                             </div>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                                 <label for="field-3">活动类型</label>
                                 <div for="field-3">
                                     <select class="form-control" id="xg_action" name="action" disabled="true">
-                                        <option value="1">路演</option>
+                                        <option value="1">活动</option>
                                         <option value="2">比赛</option>
                                         <option value="3">学习</option>
                                     </select>
@@ -176,13 +176,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="field-1" class="control-label">活动主题</label>
-                                <input type="text" class="form-control" id="xg_title" name="title" placeholder="roadShow title...">
+                                <input type="text" class="form-control" id="xg_title" name="title" placeholder="action title...">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="field-2" class="control-label">负责人</label>
-                                <input type="text" class="form-control" id="xg_author" name="author" placeholder="Doe">
+                                <input type="text" class="form-control" id="xg_author" name="author" placeholder="Author">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -243,7 +243,7 @@
                         <div class="col-md-12">
                             <div class="form-group no-margin">
                                 <label for="field-7" class="control-label">活动简述</label>
-                                <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="Write something about yourself" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                                <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="Write something about action" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
                             </div>
                         </div>
                     </div>
@@ -300,7 +300,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="field-1" class="control-label">路演主题</label>
+                                <label for="field-1" class="control-label">活动主题</label>
                                 <input type="text" id="xq_title" class="form-control" disabled="true">
                             </div>
                         </div>
@@ -333,11 +333,11 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label for="field-3" class="control-label">路演开始时间</label>
+                                    <label for="field-3" class="control-label">活动开始时间</label>
                                     <input type="text" class="some_class form-control " id="xq_start_time" placeholder="start time..." disabled="true">
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="field-3" class="control-label">路演结束时间</label>
+                                    <label for="field-3" class="control-label">活动结束时间</label>
                                     <input type="text" class="some_class form-control" id="xq_end_time" placeholder="end time..." disabled="true">
                                 </div>
                                 <div class="col-md-4">
@@ -350,7 +350,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="field-5" class="control-label">路演地址</label>
+                                <label for="field-5" class="control-label">活动地址</label>
                                 <input type="text" class="form-control" id="xq_address" placeholder="United States" disabled="true">
                             </div>
                         </div>
@@ -370,7 +370,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="field-5" class="control-label">路演信息发布时间</label>
+                                <label for="field-5" class="control-label">活动信息发布时间</label>
                                 <input type="text" class="some_class form-control" id="xq_time" placeholder="United States" disabled="true">
                             </div>
                         </div>
@@ -633,7 +633,7 @@
                     //提示信息
                     messages: {
                         title: {
-                            required: '请输入路演主题'
+                            required: '请输入活动主题'
                         },
                         author:{
                             required: '请输入主讲人'
@@ -642,25 +642,25 @@
                             required: '组织机构必选'
                         },
                         start_time:{
-                            required:'请输入路演时间'
+                            required:'请输入活动时间'
                         },
                         brief:{
-                            required: '请输入路演简述'
+                            required: '请输入活动简述'
                         },
                         end_time:{
-                            required: '请输入路演结束时间'
+                            required: '请输入活动结束时间'
                         },
                         deadline:{
                             required: '请输入报名截止日期'
                         },
                         address:{
-                            required: '请输入路演地址'
+                            required: '请输入活动地址'
                         },
                         limit:{
                             required: '请输入报名限制人数'
                         },
                         describe:{
-                            required: '请输入路演详情'
+                            required: '请输入活动详情'
                         },
                         banner:{
                             required: '缩略图不能为空'

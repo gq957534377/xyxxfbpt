@@ -149,7 +149,7 @@ class ArticleService
         $forPages = 5;//一页的数据条数
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         $status = $data["status"];//文章状态：开始前 进行中  结束
-        $type = $data["type"];//获取数据类型
+        $type = $data["type"];//获取文章类型
         $where = [];
         if($status){
             $where["status"] = $status;
@@ -212,12 +212,8 @@ class ArticleService
             $status = 1;
         }
 
-        //判断请求的是改文章状态还是报名状态
-        if(strlen($guid) != 32){
-            $Data = self::$articleOrderStore -> updateData(["id" => $guid], ["status" => $status]);
-        }else{
-            $Data = self::$articleStore -> upload(["guid" => $guid], ["status" => $status]);
-        }
+
+        $Data = self::$articleStore -> upload(["guid" => $guid], ["status" => $status]);
 
         //判断修改结果并返回
         if($Data){

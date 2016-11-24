@@ -17,9 +17,7 @@ function getInfoList(data){
                 getPage();
                 modifyStatus();
                 showInfo();
-                updateRoad();
-                checkArticle();
-
+                updateArticle();
             }
         } else {
             $('#myModal').modal('show');
@@ -36,24 +34,24 @@ function getInfoList(data){
 function listHtml(data){
     var html = '';
     console.log(data);
-    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th>活动类型</th><th>活动主题</th><th>负责人</th><th>活动时间</th><th>截止报名</th><th>报名人数限定</th><th>报名人数</th><th>操作</th></tr></thead><tbody>';
+    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th>文章类型</th><th>文章标题</th><th>发布人</th><th>发布时间</th><th>文章状态</th><th>文章来源</th><th>操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
         html += '<td>' + type(e.type)+ '</td>';
         html += '<td>' + e.title+ '</td>';
         html += '<td>' + e.author + '</td>';
-        html += '<td>' + e.start_time + '--'+e.end_time+'</td>';
-        html += '<td>' + e.deadline+'</td>';
-        html += '<td>' + e.limit+'</td>';
-        html += '<td>' + e.people+'</td>';
+        html += '<td>' + e.time+'</td>';
+        html += '<td>' + status(e.status)+'</td>';
+        html += '<td>' + e.source+'</td>';
         html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#tabs-modal" style="margin-bottom: 6px">详情</button></a>';
-        html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改活动</button>';
+        html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改文章</button>';
         if (e.status == 1) {
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-danger">禁用</button></a>';
         } else if (e.status == 3) {
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-primary">启用</button></a>';
         }
-        html += '<a class="bm" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#baoming">查看报名情况</button></a>';
+        if (e.type == 3 && e.status == 2)
+            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-primary">通过</button></a>';
         html += '</td>';
     });
     html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
@@ -77,34 +75,34 @@ function getPage() {
         return false;
     });
 }
-//活动类型展示
+//文章类型展示
 function type(type) {
     var res;
     switch (type){
         case 1:
-            res = '路演活动';
+            res = '市场';
             break;
         case 2:
-            res = '大赛';
+            res = '政策';
             break;
         default:
-            res = '学习';
+            res = '用户来稿';
             break;
     }
     return res;
 }
-//所属机构展示
-function group(type) {
+//文章状态
+function status(status) {
     var res;
-    switch (type){
+    switch (status){
         case 1:
-            res = '英雄会';
+            res = '已发布';
             break;
         case 2:
-            res = '兄弟会';
+            res = '待审核...';
             break;
         default:
-            res = '个人';
+            res = '已下架';
             break;
     }
     return res;
@@ -116,20 +114,15 @@ function date(data) {
     console.log(data);
     $('#yz_xg').find('input[name=id]').val(data.guid);
     $('#yz_xg').find('input[name=title]').val(data.title);
-    $('#yz_xg').find('input[name=end_time]').val(data.end_time);
-    $('#yz_xg').find('input[name=deadline]').val(data.deadline);
-    $('#yz_xg').find('input[name=address]').val(data.address);
-    $('#yz_xg').find('input[name=limit]').val(data.limit);
+    $('#yz_xg').find('input[name=source]').val(data.source);
     $('#yz_xg').find('input[name=author]').val(data.author);
     $('#yz_xg').find('input[name=banner]').val(data.banner);
     $('#charge_thumb_img').attr('src',data.banner);
-    $('#yz_xg').find('select[name=group]').val(data.group);
-    $('#yz_xg').find('input[name=start_time]').val(data.start_time);
     $('#yz_xg').find('textarea[name=brief]').val(data.brief);
     ue1.setContent(data.describe);
     $('.loading').hide();
 }
-// 显示活动信息详情
+// 显示文章信息详情
 function showInfoList(data){
     $('.loading').hide();
     if (data) {
@@ -139,16 +132,10 @@ function showInfoList(data){
             $('#xq_title').val(data.title);
             $('#xq_author').val(data.author);
             $('#xq_type').val(type(data.type));
-            $('#xq_group').val(group(data.group));
-            $('#xq_start_time').val(data.start_time);
-            $('#xq_end_time').val(data.end_time);
-            $('#xq_deadline').val(data.deadline);
             $('#xq_time').val(data.time);
             $('#xq_banner').attr('src',data.banner);
-            $('#xq_population').val(data.people);
-            $('#xq_limit').val(data.limit);
-            $('#xq_address').val(data.address);
-            $('#xq_status').val(data.status);
+            $('#xq_source').val(data.source);
+            $('#xq_status').val(status(data.status));
             $('#xq_brief').html(data.brief);
             $('#xq_describe').html(data.describe);
         } else {
@@ -157,36 +144,6 @@ function showInfoList(data){
         }
     } else {
         $('#alert-form').hide();
-        $('#alert-info').html('<p>未知的错误</p>');
-    }
-}
-
-//展示活动报名情况表
-function articleOrder(data) {
-    $('.loading').hide();
-    console.log(data);
-    if (data) {
-        if (data.StatusCode == 200) {
-            $('#list_baoming').html('');
-            data = data.ResultData;
-            data.map(function (item) {
-                var html = '<tr><td>'+item.user_id+'</td><td>'+item.time+'</td><td>';
-                if (item.status == 1) {
-                    html += '<a href="javascript:;" data-name="' + item.id + '" data-status="' + item.status + '" class="article_status"><button class="btn-danger">禁用</button></a>';
-                } else if (item.status == 3) {
-                    html += '<a href="javascript:;" data-name="' + item.id + '" data-status="' + item.status + '" class="article_status"><button class="btn-primary">启用</button></a>';
-                }
-                html+= '</td></tr>';
-                $('#list_baoming').append(html);
-            });
-            articleStatus();
-        } else {
-            $('#baoming').modal('hide');
-            $('#myModal').modal('show');
-            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
-        }
-    } else {
-        $('#myModal').modal('show');
         $('#alert-info').html('<p>未知的错误</p>');
     }
 }

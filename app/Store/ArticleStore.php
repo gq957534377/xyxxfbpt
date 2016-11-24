@@ -51,7 +51,7 @@ class ArticleStore
         if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
         return DB::table(self::$table)
             -> where($where)
-            -> orderBy("change_time","desc")
+            -> orderBy("time","desc")
             -> forPage($page,$tolPage)
             ->get();
     }
@@ -76,7 +76,6 @@ class ArticleStore
      */
     public function upload($where, $data)
     {
-        if(!is_array($where) || !is_array($data)) return false;
         return DB::table(self::$table) -> where($where) -> update($data);
     }
 

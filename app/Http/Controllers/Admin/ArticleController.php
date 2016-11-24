@@ -63,9 +63,9 @@ class ArticleController extends Controller
     }
 
     /**
-     * 修改文章+报名状态
+     * 修改文章状态
      *
-     * @author 文章：郭庆 报名：郭庆
+     * @author 郭庆
      */
     public function edit(Request $request, $id)
     {
@@ -97,23 +97,5 @@ class ArticleController extends Controller
         $result = self::$articleServer -> getOrderInfo($id);
         if($result["status"]) return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
         return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-    }
-
-    /**
-     * 上传图片
-     * @author 郭庆
-     */
-    public function upload()
-    {
-        $file = Input::file('Filedata');
-        if($file->isValid()){
-            $realPath = $file->getRealPath();//临时文件的绝对路径
-            $extension = $file->getClientOriginalName();//上传文件的后缀
-            $hz = explode('.', $extension)[1];
-            $newName = date('YmdHis').mt_rand(100,999).'.'.$hz;
-            $path = $file->move(public_path('uploads/image/admin/road'), $newName);
-            $result = 'uploads/image/admin/road/'.$newName;
-            return response()->json(['res' => $result]);
-        }
     }
 }
