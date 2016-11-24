@@ -171,7 +171,7 @@
             var orglocation = $("input[name='orglocation']");
             var fundsize = $("input[name='fundsize']");
             var field = $("input[name='field']");
-            var orgdesc = $("input[name='orgdesc']");
+            var orgdesc = $("textarea[name='orgdesc']");
             var workyear = $("input[name='workyear']");
             var scale = $("input[name='scale']");
             var width = $("#userBox").width()/2 -40;
