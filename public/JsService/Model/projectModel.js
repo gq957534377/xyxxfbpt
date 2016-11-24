@@ -37,8 +37,8 @@ function Project(){
  };
 
     // 根据数据绘制个人项目列表
-    Project.prototype.creatProList = function(data){
-        $('#pro_list_table tbody').html('');
+    Project.prototype.creatProList = function(data,dom){
+        dom.find('tbody').html('');
         for (i in data){
             //标题
             var title_td = $('<td></td>');
@@ -57,8 +57,8 @@ function Project(){
             tr.append(title_td);
             tr.append(status_td);
             tr.append(operating_td);
-            $('#pro_list_table tbody').append(tr);
-            $('#pro_list_table').show();
+            dom.find('tbody').append(tr);
+            dom.show();
         }
     };
 
@@ -67,7 +67,7 @@ function Project(){
     Project.prototype.proEdit = function(){
          pro_id = $(this).attr('id');
         $.ajax({
-            url:'project/'+pro_id,
+            url:'/project/'+pro_id,
             type:'delete',
             beforeSend:function(){
                 $('.loading').show();

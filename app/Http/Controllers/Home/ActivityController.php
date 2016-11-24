@@ -37,7 +37,7 @@ class ActivityController extends Controller
         $data = [];
         foreach ($actionguid as $v){
             $res = self::$actionService->getData($v);
-            array_push($data,$res['msg']['data'][0]);
+            array_push($data,$res['msg']);
         }
 
         if (empty($data)) return response()->json(['status'=>'500','msg'=>'未找到数据']);

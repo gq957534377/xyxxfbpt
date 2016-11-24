@@ -113,6 +113,7 @@ class ActionController extends Controller
         if($isHas['status']) {
             if ($isHas['msg']->support == $support['support']) return ['StatusCode' => 400,  'ResultData' => '已经参与'];
             $setLike = self::$actionServer->chargeLike($user_id, $id, $support);
+
             if ($setLike) return ['StatusCode' => 200,  'ResultData' => self::$actionServer-> getLikeNum($id)['msg']];
             return ['StatusCode' => 400,  'ResultData' => '点赞失败'];
         }else{

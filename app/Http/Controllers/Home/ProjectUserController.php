@@ -52,9 +52,12 @@ class ProjectUserController extends Controller
     /**
      * 获得投资者权限的项目详情
      * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
      */
     public function show($id)
     {
+        if ($id=='myproject') return view('home.user.myproject');
         $where = ['project_id'=>$id];
         $res = self::$projectServer->getData($where);
         if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
