@@ -9,12 +9,12 @@
             <!--引入项目发布表单元素-->
             <form id = "projectForm" class="form-horizontal" style="padding-bottom: 20px;">
                 <div class = "col-sm-10 col-sm-offset-1">
-                    <input name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
-                    <input name='habitude' type="text" class="form-control _input" placeholder="请输入项目性质">
-                    <input name='less_funding' type="text" class="form-control _input" placeholder="请输入起步资金">
-                    <input name='cycle' type="text" class="form-control _input" placeholder="请输入项目周期">
-                    <textarea name='content' class="form-control _input" rows="4" placeholder="请输入项目简介（50字以内）"></textarea>
-                    <select name = 'project_type' style="float: left;">
+                    <input id='title' name='title' type="text" class="form-control _input" placeholder="请输入项目标题">
+                    <input id='habitude' name='habitude' type="text" class="form-control _input" placeholder="请输入项目性质">
+                    <input id='less_funding' name='less_funding' type="text" class="form-control _input" placeholder="请输入起步资金">
+                    <input id='cycle' name='cycle' type="text" class="form-control _input" placeholder="请输入项目周期">
+                    <textarea id='content' name='content' class="form-control _input" rows="4" placeholder="请输入项目简介（50字以内）"></textarea>
+                    <select id='project_type' name = 'project_type' style="float: left;">
                         <option>请选择项目分类</option>
                         <option value = '1'>新品上架</option>
                         <option value = '2'>健康生活</option>
@@ -39,7 +39,7 @@
                 <input type="hidden" id="uptoken_url" value="{{url('project/getuptoken/edit')}}">
 
                 <div class = "col-sm-10 col-sm-offset-1">
-                    <table class="table table-striped table-hover"   style="margin-top:40px;display:none">
+                    <table id='pro_list_table' class="table table-striped table-hover"   style="margin-top:40px;display:none">
                         <thead>
                         <tr>
                             <th class="col-md-4">文件名</th>

@@ -56,28 +56,28 @@
                         url:'/project',
                         type:'post',
                         data:{
-                            title:$("input[name='title']").val(),
-                            content:$("textarea[name='content']").val(),
+                            title:$("input[id='title']").val(),
+                            content:$("textarea[id='content']").val(),
                             image:$("input[name='image']").val(),
                             file: $("input[name='file']").val(),
-                            habitude: $("input[name='habitude']").val(),
-                            less_funding:$("input[name='less_funding']").val(),
-                            cycle:$("input[name='cycle']").val(),
-                            project_type:$("select[name='project_type']").val()
+                            habitude: $("input[id='habitude']").val(),
+                            less_funding:$("input[id='less_funding']").val(),
+                            cycle:$("input[id='cycle']").val(),
+                            project_type:$("select[id='project_type']").val()
                         },
                         beforeSend:function(){
                           $('.loading').show();
                         },
                         success:function(data){
                             $('.loading').hide();
-                            $("input[name='title']").val('');
-                            $("textarea[name='content']").val('');
+                            $("input[id='title']").val('');
+                            $("textarea[id='content']").val('');
                             $("input[name='image']").val('');
                             $("input[name='file']").val('');
-                            $("input[name='habitude']").val('');
-                            $("input[name='less_funding']").val('');
-                            $("input[name='cycle']").val('');
-                            $("select[name='project_type']").val('');
+                            $("input[id='habitude']").val('');
+                            $("input[id='less_funding']").val('');
+                            $("input[id='cycle']").val('');
+                            $("select[id='project_type']").val('0');
                             $('#pro_list_table tbody').html('');
                             promptBoxHandle('操作提示','提交成功');
                             $('#_projectPunlish').modal('hide');

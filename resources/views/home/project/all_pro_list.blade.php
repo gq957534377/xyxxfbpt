@@ -11,16 +11,14 @@
             }
         });
         $.ajax({
-            url:'project/list',
+            url:'/project/list',
             type:'put',
             beforeSend:function(){
                 $('.loading').show();
             },
             success:function(data){
                 $('.loading').hide();
-                $('#userBox').hide();
-                $('#investorBox').hide();
-                project.creatProList(data.data);
+                project.creatProList(data.data,$('#all_pros'));
                 $('.pro_edit').click(project.proEdit);
                 $('.pro_on').click(project.proTurnOff);
                 $('.pro_off').click(project.proTurnOn);

@@ -17,17 +17,14 @@ $(function() {
         uptoken_url: $('#uptoken_url').val(),
         domain: $('#domain').val(),
         get_new_uptoken: false,
-        // downtoken_url: '/downtoken',
-        // unique_names: true,
-        // save_key: true,
-        // x_vars: {
-        //     'id': '1234',
-        //     'time': function(up, file) {
-        //         var time = (new Date()).getTime();
-        //         // do something with 'time'
-        //         return time;
-        //     },
-        // },
+        filters : {
+            max_file_size : '100mb',
+            prevent_duplicates: true,
+            // Specify what files to browse for
+            mime_types: [
+                {title : "Image files", extensions : "jpg,gif,png"}, // 限定jpg,gif,png后缀上传
+            ]
+        },
         auto_start: true,
         log_level: 5,
         init: {
@@ -56,9 +53,6 @@ $(function() {
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
             },
             'UploadComplete': function() {
-                var res = $.parseJSON(info);
-                var domain = up.getOption('domain');
-                url = domain + encodeURI(res.key);
             },
             'FileUploaded': function(up, file, info) {
                 var progress = new FileProgress(file, 'fsUploadProgress_edit_image');

@@ -18,19 +18,12 @@
                 <i class="text-md fa fa-user" aria-hidden="true" style="margin-left: 40px;"></i>&nbsp;申请成为投资者</a>
 
         @elseif(session('user')->role == 2)
-        <!--项目发布 start-->
-            <a id = 'publish_trigger' href="{{url('')}}" class="list-group-item " data-toggle="modal">
-                <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
+        <!--我的项目 start-->
+            <a href="{{url('project_user/myproject')}}" class="list-group-item " data-toggle="modal">
+                <i class="text-md fa fa-bell" aria-hidden="true"></i>我的项目
             </a>
-            <a id = 'publish_trigger2' href="#" style="display: none;" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
-                <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
-            </a>
-            <!--项目发布 end-->
+            <!--我的项目 end-->
 
-            <!--已发布项目管理 start-->
-            <a id='all_pro_list' href="#" class="list-group-item " data-toggle="modal">
-                <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;项目管理</a>
-            <!--已发布项目管理 end-->
         @elseif(session('user')->role ==3)
         <!--已发布项目管理 start-->
             <a href="#" class="list-group-item ">
