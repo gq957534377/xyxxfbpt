@@ -20,7 +20,7 @@
         @elseif(session('user')->role == 2)
         <!--我的项目 start-->
             <a href="{{url('project_user/myproject')}}" class="list-group-item " data-toggle="modal">
-                <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
+                <i class="text-md fa fa-bell" aria-hidden="true"></i>我的项目
             </a>
             <!--我的项目 end-->
 

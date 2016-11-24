@@ -17,19 +17,16 @@ $(function() {
         uptoken_url: $('#uptoken_url').val(),
         domain: $('#domain').val(),
         get_new_uptoken: false,
-        // downtoken_url: '/downtoken',
-        // unique_names: true,
-        // save_key: true,
-        // x_vars: {
-        //     'id': '1234',
-        //     'time': function(up, file) {
-        //         var time = (new Date()).getTime();
-        //         // do something with 'time'
-        //         return time;
-        //     },
-        // },
         auto_start: true,
         log_level: 5,
+        filters : {
+            max_file_size : '100mb',
+            prevent_duplicates: true,
+            // Specify what files to browse for
+            mime_types: [
+                {title : "Image files", extensions : "doc,docx,docm,dotx,dotm,xls,xlsx,xlsm,xltx,xltm,xlsb,xlam,ppt,pptx,pptm,ppsx,ppsm,potx,potm,ppam"} // 限定jpg,gif,png后缀上传
+            ]
+        },
         init: {
             'FilesAdded': function(up, files) {
                 $('table').show();
