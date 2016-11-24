@@ -39,7 +39,7 @@ class HeadPicController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $info = new Crop($data['avatar_src'],$data['avatar_data'],$data['avatar_file']);
+        $info = new Crop();
         dd($info->getResult());
 
     }
