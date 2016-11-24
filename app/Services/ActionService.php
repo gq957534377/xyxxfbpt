@@ -334,4 +334,26 @@ class ActionService
         if($result) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '存储数据发生错误'];
     }
+
+    //修改活动报名状态
+    public function switchStatus($guid,$status)
+    {
+        $res = self::$actionOrderStore->updateData(['action_id' => $guid], ['status' => $status]);
+        if ($res==0) return ['status' => false, 'msg' => '修改失败'];
+        return ['status' => true, 'msg' => '修改成功'];
+    }
+
+    /**
+     * 得到指定条件的所有活动id
+     * @param $where
+     * @return array
+     * @author 贾济林
+     */
+    public function getActivityId($where)
+    {
+        $action = self::$actionOrderStore->getActivityId($where,'action_id');
+        if (empty($action)) return ['status' => false, 'msg' => '查询失败'];
+        return ['status' => true, 'data' => $action];
+    }
+
 }

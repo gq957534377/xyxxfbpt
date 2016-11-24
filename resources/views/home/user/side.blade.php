@@ -19,7 +19,7 @@
 
         @elseif(session('user')->role == 2)
         <!--项目发布 start-->
-            <a id = 'publish_trigger' href="#" class="list-group-item " data-toggle="modal">
+            <a id = 'publish_trigger' href="{{url('')}}" class="list-group-item " data-toggle="modal">
                 <i class="text-md fa fa-bell" aria-hidden="true"></i>项目发布
             </a>
             <a id = 'publish_trigger2' href="#" style="display: none;" class="list-group-item " data-toggle="modal" data-target="#_projectPunlish">
