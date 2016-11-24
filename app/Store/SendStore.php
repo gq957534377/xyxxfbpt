@@ -4,21 +4,21 @@
  * User: Administrator
  * Date: 2016/11/17
  * Time: 13:52
- * 活动信息表数据仓储层
+ * 用户来搞数据仓储层
  */
 
 namespace App\Store;
 use DB;
 
-class ActionStore
+class SendStore
 {
-    protected static $table = "data_action_info";
+    protected static $table = "data_send_info";
 
     /**
      * 插入数据
      * @param $data
      * @return null
-     * author 张洵之
+     * author 郭庆
      */
     public function insertData($data)
     {
@@ -43,7 +43,7 @@ class ActionStore
      * @param $tolPage
      * @param $where
      * @return null
-     * author 张洵之
+     * author 郭庆
      */
     public function forPage($page, $tolPage, $where)
     {
@@ -71,7 +71,7 @@ class ActionStore
      * @param $where
      * @param $data
      * @return null
-     * author 张洵之
+     * author 郭庆
      */
     public function upload($where, $data)
     {

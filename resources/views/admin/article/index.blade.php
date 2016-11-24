@@ -13,7 +13,7 @@
     table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
 </style>
 @section('content')
-@section('title', '活动管理')
+@section('title', '内容管理')
 {{-- 弹出表单开始 --}}
 <!--继承组件-->
 <!--替换按钮ID-->
@@ -30,201 +30,113 @@
     <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 @endsection
 {{-- 弹出表单结束 --}}
-{{--发布活动表单--}}
+{{--发布文章表单--}}
 <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" id="fabu">
         <div class="modal-content">
             <form data-name="" role="form" id="yz_fb"  onsubmit="return false">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="road_title">发布活动</h4>
+                    <h4 class="title">文章发布</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-2">
                             <div class="form-group">
-                                <label for="field-3">活动类型</label>
+                                <label for="field-3">文章类型</label>
                                 <div for="field-3">
-                                    <select class="form-control" id="action" name="action">
-                                        <option value="1">活动</option>
-                                        <option value="2">比赛</option>
-                                        <option value="3">学习</option>
+                                    <select class="form-control" id="type" name="type">
+                                        <option value="1">市场</option>
+                                        <option value="2">政策发布</option>
+                                        <option value="3">用户来搞</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-10">
                             <div class="form-group">
-                                <label for="field-1" class="control-label">活动主题</label>
-                                <input type="text" class="form-control" id="title" name="title" placeholder="action title...">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-2" class="control-label">负责人</label>
-                                <input type="text" class="form-control" id="author" name="author" placeholder="Author">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-3">所属机构</label>
-                                <div for="field-3">
-                                    <select class="form-control" id="group" name="group">
-                                        <option value="1">英雄会</option>
-                                        <option value="2">兄弟会</option>
-                                    </select>
-                                </div>
+                                <label for="field-1" class="control-label">文章标题</label>
+                                <input type="text" class="form-control" id="title" name="title" placeholder="article title...">
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">活动开始时间：</label>
-                                <input type="text" class="some_class form-control" id="start_time" name="start_time"/>
 
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">活动结束时间：</label>
-                                <input type="text" class="some_class form-control" id="end_time" name="end_time"/>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">截止报名时间：</label>
-                                <input type="text" class="some_class form-control" name="deadline" id="deadline"/>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">限报人数：</label>
-                                <input type="text" class="form-control" id="limit" name="limit">
-                            </div>
-                        </div>
-                    </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">缩略图</label>
                                 <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" name="banner" disabled="true">
                                 <input id="file_upload" name="file_upload" type="file" multiple="true">
-                                <img src="" id="action_thumb_img" style="max-width: 350px;max-height: 110px;">
+                                <img src="" id="article_thumb_img" style="max-width: 350px;max-height: 110px;">
                             </div>
                         </div>
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="field-4" class="control-label">活动地址：</label>
-                                <input type="text" class="form-control" id="address" name="address">
+                                <label for="field-1" class="control-label">文章来源</label>
+                                <input type="text" class="form-control" id="source" name="source" placeholder="article source...">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group no-margin">
-                                <label for="field-7" class="control-label">活动简述</label>
-                                <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about action" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                                <label for="field-7" class="control-label">文章简述</label>
+                                <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about your article" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-12 control-label">活动详情</label>
+                        <label class="col-md-12 control-label">文章详情</label>
                         <div class="col-md-12">
                             <textarea id="UE" name="describe" class="describe"></textarea>
                         </div>
                     </div>
+
                     <meta name="csrf-token" content="{{ csrf_token() }}">
 
                 </div>
                 <div class="modal-footer" id="caozuo">
                     <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                    <button type="submit" data-name="" class="road_update btn btn-primary" id="add_road">发布活动</button>
+                    <button type="submit" data-name="" class="article_update btn btn-primary" id="add_article">发布</button>
                 </div>
             </form>
         </div>
     </div>
 </div><!-- /.modal -->
-{{--修改活动表单--}}
+{{--修改文章表单--}}
 <div class="modal fade bs-example-modal-lg" id="xg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myLargeModalLabel">修改活动</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">修改文章</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg"  onsubmit="return false">
+                    <input name="id" type="hidden">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-2">
                             <div class="form-group">
-                                <label for="field-3">活动类型</label>
+                                <label for="field-3">文章类型</label>
                                 <div for="field-3">
-                                    <select class="form-control" id="xg_action" name="action" disabled="true">
-                                        <option value="1">活动</option>
-                                        <option value="2">比赛</option>
-                                        <option value="3">学习</option>
+                                    <select class="form-control" id="xg_type" name="type">
+                                        <option value="1">市场</option>
+                                        <option value="2">政策发布</option>
+                                        <option value="3">用户来搞</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <input type="hidden" name="id">
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-9" style="margin-left: 68px;">
                             <div class="form-group">
-                                <label for="field-1" class="control-label">活动主题</label>
-                                <input type="text" class="form-control" id="xg_title" name="title" placeholder="action title...">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-2" class="control-label">负责人</label>
-                                <input type="text" class="form-control" id="xg_author" name="author" placeholder="Author">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-3">所属机构</label>
-                                <div for="field-3">
-                                    <select class="form-control" id="xg_group" name="group">
-                                        <option value="1">英雄会</option>
-                                        <option value="2">兄弟会</option>
-                                    </select>
-                                </div>
+                                <label for="field-1" class="control-label">文章标题</label>
+                                <input type="text" class="form-control" id="xg_title" name="title" placeholder="article title...">
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">活动开始时间：</label>
-                                <input type="text" class="some_class form-control" id="xg_start_time" name="start_time">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">活动结束时间：</label>
-                                <input type="text" class="some_class form-control" id="xg_end_time" name="end_time">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">截止报名时间：</label>
-                                <input type="text" class="some_class form-control" id="xg_deadline" name="deadline">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">限报人数：</label>
-                                <input type="text" class="form-control" id="xg_limit" name="limit">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">缩略图</label>
                                 <input type="text" size="50" style="width: 150px;" class="lg" name="banner" id="charge_banner" disabled="true">
@@ -232,27 +144,28 @@
                                 <img src="" id="charge_thumb_img" style="max-width: 350px;max-height: 110px;">
                             </div>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-8">
                             <div class="form-group">
-                                <label for="field-4" class="control-label">活动地址：</label>
-                                <input type="text" class="form-control" id="xg_address" name="address">
+                                <label for="field-1" class="control-label">文章来源</label>
+                                <input type="text" class="form-control" id="xg_source" name="source" placeholder="article source...">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group no-margin">
-                                <label for="field-7" class="control-label">活动简述</label>
-                                <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="Write something about action" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                                <label for="field-7" class="control-label">文章简述</label>
+                                <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="Write something about your article" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-12 control-label">活动详情</label>
+                        <label class="col-md-12 control-label">文章详情</label>
                         <div class="col-md-12">
                             <textarea id="UE1" name="describe" class="describe"></textarea>
                         </div>
                     </div>
+
                     <meta name="csrf-token" content="{{ csrf_token() }}">
                     <center><button type="submit" class="btn btn-success m-l-10">修改</button></center>
                 </form>
@@ -260,7 +173,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-{{--活动详情--}}
+{{--文章详情--}}
 <div id="tabs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content p-0">
@@ -268,7 +181,7 @@
                 <li class="">
                     <a href="#home-2" data-toggle="tab" aria-expanded="false">
                         <span class="visible-xs"><i class="fa fa-home"></i></span>
-                        <span class="hidden-xs">宣传图</span>
+                        <span class="hidden-xs">缩略图</span>
                     </a>
                 </li>
                 <li class="">
@@ -300,13 +213,13 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="field-1" class="control-label">活动主题</label>
+                                <label for="field-1" class="control-label">文章标题</label>
                                 <input type="text" id="xq_title" class="form-control" disabled="true">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="field-1" class="control-label">活动类型</label>
+                                <label for="field-1" class="control-label">文章类型</label>
                                 <input type="text" id="xq_type" class="form-control" disabled="true">
                             </div>
                         </div>
@@ -314,64 +227,27 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="field-2" class="control-label">负责人</label>
+                                <label for="field-2" class="control-label">发布人</label>
                                 <input type="text" class="form-control" id="xq_author" disabled="true">
                             </div>
                         </div>
+
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="field-2" class="control-label">所属机构</label>
-                                <input type="text" class="form-control" id="xq_group" placeholder="Doe" disabled="true">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="field-2" class="control-label">活动状态</label>
+                                <label for="field-2" class="control-label">文章状态</label>
                                 <input type="text" class="form-control" id="xq_status" placeholder="Doe" disabled="true">
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label for="field-3" class="control-label">活动开始时间</label>
-                                    <input type="text" class="some_class form-control " id="xq_start_time" placeholder="start time..." disabled="true">
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="field-3" class="control-label">活动结束时间</label>
-                                    <input type="text" class="some_class form-control" id="xq_end_time" placeholder="end time..." disabled="true">
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="field-3" class="control-label">报名截止</label>
-                                    <input type="text" class="some_class form-control" id="xq_deadline" placeholder="end time..." disabled="true">
-                                </div>
-                            </div>
+                        <div class="col-md-4">
+                             <label for="field-3" class="control-label">文章发布时间</label>
+                             <input type="text" class="some_class form-control " id="xq_time" placeholder="time..." disabled="true">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="field-5" class="control-label">活动地址</label>
-                                <input type="text" class="form-control" id="xq_address" placeholder="United States" disabled="true">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="field-5" class="control-label">目前参与人数</label>
-                                <input type="text" class="form-control" id="xq_population" placeholder="United States" disabled="true">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="field-5" class="control-label">限报人数</label>
-                                <input type="text" class="form-control" id="xq_limit" placeholder="United States" disabled="true">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="field-5" class="control-label">活动信息发布时间</label>
-                                <input type="text" class="some_class form-control" id="xq_time" placeholder="United States" disabled="true">
+                                <label for="field-5" class="control-label">活动来源</label>
+                                <input type="text" class="form-control" id="xq_source" placeholder="United States" disabled="true">
                             </div>
                         </div>
                     </div>
@@ -394,48 +270,21 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-{{--报名表--}}
-<div id="baoming" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">报名表</h4>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>用户id</th>
-                            <th>报名时间</th>
-                            <th>操作</th>
-                        </tr>
-                    </thead>
-                    <tbody id = "list_baoming">
 
-                    </tbody>
-                    </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>
+<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">文章发布</button>
 <img src="/admin/images/load.gif" class="loading">
 
 <div class="wraper container-fluid">
     <div class="page-title">
         <div class="row">
             <div class="col-md-4">
-                <h3 class="title">活动管理</h3>
+                <h3 class="title">文章管理</h3>
             </div>
             <div class="col-md-4">
                 <select class="form-control" id="xz_type" name="xz_type">
-                    <option value="1">路演</option>
-                    <option value="2">比赛</option>
-                    <option value="3">学习</option>
+                    <option value="1">市场</option>
+                    <option value="2">政策</option>
+                    <option value="3">用户来稿</option>
                 </select>
             </div>
             <div class="col-md-4">
@@ -445,9 +294,9 @@
 
 
         <br>
-        <button class="btn-primary" onclick="listType(list_type,1)">报名中</button>
-        <button class="btn-danger" onclick="listType(list_type,2)">活动进行中...</button>
-        <button class="btn-primary" onclick="listType(list_type,3)">往期回顾</button>
+        <button class="btn-primary" onclick="listType(list_type,1)">已发布</button>
+        <button class="btn-danger" onclick="listType(list_type,2)">待审核...</button>
+        <button class="btn-primary" onclick="listType(list_type,3)">已下架</button>
     </div>
     <div class="panel" id="data"></div>
 </div>
@@ -458,9 +307,9 @@
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <!--引用ajax模块-->
     <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
-    <script src="JsService/Model/action/actionAjaxBeforeModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/action/actionAjaxSuccessModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/action/actionAjaxErrorModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/article/articleAjaxBeforeModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/article/articleAjaxSuccessModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/article/articleAjaxErrorModel.js" type="text/javascript"></script>
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <!--alertInfo end-->
@@ -471,7 +320,7 @@
     <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
     <script type="text/javascript">
         <?php $timestamp = time();?>
-        //发布活动-图片上传
+        //发布文章-图片上传
         $(function() {
             $('#file_upload').uploadify({
                 'buttonText':'选择图片',
@@ -484,13 +333,13 @@
                 'onUploadSuccess':function (file,data,response) {
                     var data = JSON.parse(data);
                     $('#banner').val(data.res);
-                    $('#action_thumb_img').attr('src',data.res);
+                    $('#article_thumb_img').attr('src',data.res);
                 },
                 'onUploadError' : function(file, errorCode, errorMsg, errorString) {
                     alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
                 }
             });
-            //修改活动-图片上传
+            //修改文章-图片上传
             $('#file_charge').uploadify({
                 'buttonText':'修改图片',
                 'formData'     : {
@@ -513,7 +362,7 @@
     <script>
         var list_type = null;
         var list_status = 1;
-        //列表活动类型设置
+        //列表文章类型设置
         function listType(type,status) {
             list_type = type;
             list_status = status;
@@ -542,32 +391,22 @@
                         });
                         var data = new FormData();
                         var resul={
-                            type:$('#yz_xg').find('select[name=action]').val(),
+                            type:$('#yz_xg').find('select[name=type]').val(),
                             title:$('#yz_xg').find('input[name=title]').val(),
-                            author:$('#yz_xg').find('input[name=author]').val(),
-                            group:$('#yz_xg').find('select[name=group]').val(),
                             banner:$('#yz_xg').find('input[name=banner]').val(),
-                            end_time:$('#yz_xg').find('input[name=end_time]').val(),
-                            deadline:$('#yz_xg').find('input[name=deadline]').val(),
-                            address:$('#yz_xg').find('input[name=address]').val(),
-                            limit:$('#yz_xg').find('input[name=limit]').val(),
-                            start_time:$('#yz_xg').find('input[name=start_time]').val(),
+                            source:$('#yz_xg').find('input[name=source]').val(),
                             brief:$('#yz_xg').find('textarea[name=brief]').val(),
                             describe:ue1.getContent(),
                         };
                         console.log(resul);
+                        data.append( "type"      , resul.type);
                         data.append( "title"      , resul.title);
-                        data.append( "author"     , resul.author);
-                        data.append( "group"       ,resul.group);
-                        data.append( "start_time"     , resul.start_time);
                         data.append( "brief"   , resul.brief);
                         data.append( "describe", resul.describe);
                         data.append( "banner", resul.banner);
-                        data.append( "end_time", resul.end_time);
-                        data.append( "address", resul.address);
-                        data.append( "limit", resul.limit);
+                        data.append( "source", resul.source);
                         $.ajax({
-                            url     : '/action/' + $('input[name=id]').val(),
+                            url     : '/article/' + $('input[name=id]').val(),
                             type:'put',
                             data:resul,
                             before  : ajaxBeforeNoHiddenModel,
@@ -583,7 +422,7 @@
                             if (data) {
                                 if (data.StatusCode == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
-                                    $('#alert-info').html('<p>活动修改成功!</p>');
+                                    $('#alert-info').html('<p>文章修改成功!</p>');
                                     list(resul.type,1);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
@@ -596,28 +435,13 @@
                 });
                 this.$signupForm.validate({
                     rules: {
+                        type: {
+                            required: true,
+                        },
                         title: {
                             required: true,
                         },
-                        end_time: {
-                            required: true
-                        },
-                        deadline: {
-                            required: true
-                        },
-                        address: {
-                            required: true
-                        },
-                        limit: {
-                            required: true
-                        },
-                        author:{
-                            required: true,
-                        },
-                        group:{
-                            required: true
-                        },
-                        start_time:{
+                        source: {
                             required: true
                         },
                         brief:{
@@ -632,35 +456,20 @@
                     },
                     //提示信息
                     messages: {
+                        type: {
+                            required: '请输入文章类型'
+                        },
                         title: {
-                            required: '请输入活动主题'
-                        },
-                        author:{
-                            required: '请输入主讲人'
-                        },
-                        group:{
-                            required: '组织机构必选'
-                        },
-                        start_time:{
-                            required:'请输入活动时间'
+                            required: '请输入文章标题'
                         },
                         brief:{
-                            required: '请输入活动简述'
+                            required: '请输入文章简述'
                         },
-                        end_time:{
-                            required: '请输入活动结束时间'
-                        },
-                        deadline:{
-                            required: '请输入报名截止日期'
-                        },
-                        address:{
-                            required: '请输入活动地址'
-                        },
-                        limit:{
-                            required: '请输入报名限制人数'
+                        source:{
+                            required: '请输入文章来源'
                         },
                         describe:{
-                            required: '请输入活动详情'
+                            required: '请输入路演详情'
                         },
                         banner:{
                             required: '缩略图不能为空'
@@ -696,36 +505,23 @@
                         });
                         var data = new FormData();
                         var resul={
-                            type:$('select[name=action]').val(),
+                            type:$('select[name=type]').val(),
                             title:$('input[name=title]').val(),
-                            author:$('input[name=author]').val(),
-                            group:$('select[name=group]').val(),
                             banner:$('input[name=banner]').val(),
-                            end_time:$('input[name=end_time]').val(),
-                            deadline:$('input[name=deadline]').val(),
-                            address:$('input[name=address]').val(),
-                            limit:$('input[name=limit]').val(),
-                            start_time:$('input[name=start_time]').val(),
+                            source:$('input[name=source]').val(),
                             brief:$('textarea[name=brief]').val(),
                             describe:$('textarea[name=describe]').val(),
                         };
                         console.log(resul);
                         data.append( "type"      , resul.type);
                         data.append( "title"      , resul.title);
-                        data.append( "author"     , resul.author);
-                        data.append( "group"       ,resul.group);
-                        data.append( "start_time"     , resul.start_time);
                         data.append( "brief"   , resul.brief);
                         data.append( "describe", resul.describe);
                         data.append( "banner", resul.banner);
-                        data.append( "end_time", resul.end_time);
-                        data.append( "start_time", resul.start_time);
-                        data.append( "address", resul.address);
-                        data.append( "limit", resul.limit);
+                        data.append( "source", resul.source);
                         $('#alert-info').html();
-                        console.log(resul);
                         $.ajax({
-                            url     : '/action',
+                            url     : '/article',
                             type:'post',
                             data:resul,
                             before  : ajaxBeforeNoHiddenModel,
@@ -741,17 +537,11 @@
                             if (data) {
                                 if (data.StatusCode == 200) {
                                     $('#con-close-modal').modal('hide');
-                                    $('#alert-info').html('<p>活动发布成功!</p>');
+                                    $('#alert-info').html('<p>文章发布成功!</p>');
                                     $('#yz_fb').find('input[name=title]').val('');
-                                    $('#yz_fb').find('input[name=end_time]').val('');
-                                    $('#yz_fb').find('input[name=deadline]').val('');
-                                    $('#yz_fb').find('input[name=address]').val('');
-                                    $('#yz_fb').find('input[name=limit]').val('');
-                                    $('#yz_fb').find('input[name=author]').val('');
+                                    $('#yz_fb').find('input[name=source]').val('');
                                     $('#yz_fb').find('input[name=banner]').val('');
-                                    $('#action_thumb_img').attr('src','');
-                                    $('#yz_fb').find('select[name=group]').val('');
-                                    $('#yz_fb').find('input[name=start_time]').val('');
+                                    $('#article_thumb_img').attr('src','');
                                     $('#yz_fb').find('textarea[name=brief]').val('');
                                     ue.setContent('');
                                     list(resul.type,1);
@@ -774,29 +564,9 @@
                             required: true,
                             maxlength:50
                         },
-                        end_time: {
-                            required: true
-                        },
-                        deadline: {
-                            required: true
-                        },
-                        address: {
+                        source: {
                             required: true,
-                            maxlength:30
-                        },
-                        limit: {
-                            digits:true,
-                            required: true
-                        },
-                        author:{
-                            required: true,
-                            maxlength:5
-                        },
-                        group:{
-                            required: true
-                        },
-                        start_time:{
-                            required: true
+                            maxlength:50
                         },
                         brief:{
                             required: true,
@@ -813,43 +583,22 @@
                     //提示信息
                     messages: {
                         type: {
-                            required: '请选择活动类型',
+                            required: '请选择文章类型',
                         },
                         title: {
-                            required: '请输入活动主题',
+                            required: '请输入文章标题',
                             maxlength:'标题最多50个字符'
                         },
-                        author:{
-                            required: '请输入负责人',
-                            maxlength:'负责人最多5个字符'
-
-                        },
-                        group:{
-                            required: '组织机构必选'
-                        },
-                        start_time:{
-                            required:'请输入活动开始时间'
-                        },
                         brief:{
-                            required: '请输入活动简述',
+                            required: '请输入文章简述',
                             rangelength:'请输入40-100个字符作为简述'
                         },
-                        end_time:{
-                            required: '请输入活动结束时间'
-                        },
-                        deadline:{
-                            required: '请输入报名截止日期'
-                        },
-                        address:{
-                            required: '请输入活动地址',
-                            maxlength:'地址最多30个字符'
-                        },
-                        limit:{
-                            digits:'人数限制必须为整数',
-                            required: '请输入报名限制人数'
+                        source:{
+                            required: '请输入文章来源',
+                            maxlength:'来源最多50个字符'
                         },
                         describe:{
-                            required: '请输入活动详情',
+                            required: '请输入文章详情',
                             minlength:'详情长度最少50个字符'
                         },
                         banner:{
@@ -867,13 +616,13 @@
                     $.FormValidator.init()
                 }(window.jQuery);
 
-        //修改活动信息展示旧的信息
-        function updateRoad() {
+        //修改文章信息展示旧的信息
+        function updateArticle() {
             $('.charge-road').click(function () {
                 $('.loading').hide();
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/action/' + $(this).data('name'),
+                    url     : '/article/' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : date,
                     error   : ajaxErrorModel
@@ -881,12 +630,12 @@
             });
         }
 
-        //展示活动信息详情
+        //展示文章信息详情
         function showInfo() {
             $('.info').click(function () {
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/action/' + $(this).data('name'),
+                    url     : '/article/' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : showInfoList,
                     error   : ajaxErrorModel
@@ -894,13 +643,13 @@
             });
         }
 
-        // 修改活动信息状态
+        // 修改文章信息状态
         function modifyStatus() {
             $('.status').click(function () {
                 var _this = $(this);
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
+                    url     : '/article/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
                     error   : ajaxErrorModel
@@ -933,70 +682,12 @@
                 }
             });
         }
-        //修改报名信息状态
-        function actionStatus() {
-            $('.action_status').click(function () {
-                var _this = $(this);
-                var ajax = new ajaxController();
-                ajax.ajax({
-                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : action_status,
-                    error   : ajaxErrorModel
-                });
-
-                function action_status(data){
-                    $('.loading').hide();
-                    $('#myModal').modal('show');
-                    $('.modal-title').html('提示');
-                    if (data) {
-                        if (data.StatusCode == 200) {
-                            var code = data.ResultData;
-                            $('#alert-form').hide();
-                            _this.data('status', code);
-                            if (_this.children().hasClass("btn-danger")) {
-                                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
-                            } else if (_this.children().hasClass("btn-primary")) {
-                                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
-                            }
-                            $('#alert-info').html('<p>状态修改成功!</p>');
-                            list(list_type,list_status);
-                        } else {
-                            $('#alert-form').hide();
-                            $('#alert-info').html('<p>状态修改失败！</p>');
-                        }
-                    } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>未知的错误</p>');
-                    }
-                }
-            });
-        }
-        
-        //查看报名情况
-        function checkAction(){
-            $('.bm').click(function () {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    }
-                });
-                var ajax = new ajaxController();
-                ajax.ajax({
-                    url     : '/action/' + $(this).data('name'),
-                    type:'delete',
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : actionOrder,
-                    error   : ajaxErrorModel
-                });
-            });
-        }
 
         // 页面加载时触发事件请求分页数据
         function list(type,status) {
             var ajax = new ajaxController();
             ajax.ajax({
-                url     : '/action/create?type='+type+'&status='+status,
+                url     : '/article/create?type='+type+'&status='+status,
                 before  : ajaxBeforeModel,
                 success : getInfoList,
                 error   : ajaxErrorModel,

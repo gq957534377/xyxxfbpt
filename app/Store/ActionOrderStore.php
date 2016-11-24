@@ -38,7 +38,11 @@ class ActionOrderStore{
     public function getPageData($nowPage, $where)
     {
         if(empty($nowPage)) return false;
-        return DB::table(self::$table) -> where($where) -> forPage($nowPage, PAGENUM) -> orderBy('time', 'desc') -> get();
+        return DB::table(self::$table)
+            -> where($where)
+            -> forPage($nowPage, PAGENUM)
+            -> orderBy('time', 'desc')
+            -> get();
     }
 
     /**
