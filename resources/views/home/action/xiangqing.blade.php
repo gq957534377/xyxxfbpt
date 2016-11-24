@@ -267,6 +267,7 @@
                 success : function (data) {
                     console.log(data);
                     if(data.StatusCode == 200){
+                        $('#comment_list').html('');
                         data.ResultData.map(function (item) {
                             $('#comment_list').append('<div class="media comment_section">' +
                                     '<div class="pull-left post_comments">' +
@@ -278,6 +279,7 @@
                                     '<p>'+item.content+'</p>' +
                                     '<a href="#">Reply</a>');
                         });
+                        $('#comments_title').html(data.ResultData.length+'Comments');
                     }else{
                         $('#comment_list').html('<p>'+data.ResultData+'</p>');
                     }
