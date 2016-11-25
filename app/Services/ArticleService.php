@@ -165,7 +165,7 @@ class ArticleService
 
         if ($data['user'] == 2) {
             //创建分页
-            unset($data['type']);
+            unset($where['type']);
             $creatPage = Common::getPageUrls($data, "data_send_info", "/article/create", $forPages, null, $where);
         }else{
             $creatPage = Common::getPageUrls($data, "data_article_info", "/article/create", $forPages, null, $where);
@@ -256,7 +256,14 @@ class ArticleService
      */
     public function upDta($where, $data)
     {
-        $Data = self::$articleStore -> upload($where, $data);
+        if ($data['user'] == 1){
+            unset($data['user']);
+            $Data = self::$articleStore -> upload($where, $data);
+        }else{
+            unset($data['user']);
+            unset($data['type']);
+            $Data = self::$sendStore -> upload($where, $data);
+        }
         if($Data){
             $result["data"] = $Data;
             return ['status' => true, 'msg' => $result];

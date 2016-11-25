@@ -71,7 +71,7 @@ function getPage() {
         if(class_name == 'disabled' || class_name == 'active') {
             return false;
         }
-        var url = $(this).children().prop('href')+'&type='+list_type+'&status='+list_status;
+        var url = $(this).children().prop('href')+'&type='+list_type+'&status='+list_status+'&user='+list_user;
         var ajax = new ajaxController();
         ajax.ajax({
             url : url,
@@ -126,7 +126,6 @@ function date(data) {
         $('#xg_type').attr('disable','true');
     }
     $('#yz_xg').find('input[name=id]').val(data.guid);
-    $('#yz_xg').find('input[name=type]').val(data.type);
     $('#yz_xg').find('input[name=title]').val(data.title);
     $('#yz_xg').find('input[name=source]').val(data.source);
     $('#yz_xg').find('input[name=author]').val(data.author);

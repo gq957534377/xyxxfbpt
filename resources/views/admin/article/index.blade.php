@@ -432,7 +432,7 @@
                         data.append( "banner", resul.banner);
                         data.append( "source", resul.source);
                         $.ajax({
-                            url     : '/article/' + $('input[name=id]').val(),
+                            url     : '/article/' + $('input[name=id]').val() + '?user='+list_user,
                             type:'put',
                             data:resul,
                             before  : ajaxBeforeNoHiddenModel,
@@ -449,7 +449,7 @@
                                 if (data.StatusCode == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>文章修改成功!</p>');
-                                    list(resul.type,1);
+                                    listType(resul.type,list_status,list_user);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -570,7 +570,7 @@
                                     $('#article_thumb_img').attr('src','');
                                     $('#yz_fb').find('textarea[name=brief]').val('');
                                     ue.setContent('');
-                                    list(resul.type,1);
+                                    list(resul.type,list_status,list_user);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -696,7 +696,7 @@
                                 _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
                             }
                             $('#alert-info').html('<p>状态修改成功!</p>');
-                            list(list_type,list_status);
+                            listType(list_type,list_status,list_user);
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>状态修改失败！</p>');
@@ -719,6 +719,6 @@
                 error   : ajaxErrorModel,
             });
         }
-        list(list_type,list_status,list_user);
+        listType(list_type,list_status,list_user);
     </script>
 @endsection
