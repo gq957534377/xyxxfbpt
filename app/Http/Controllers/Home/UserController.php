@@ -150,11 +150,12 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 更改用户信息
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 刘峻廷
      */
     public function update(Request $request, $id)
     {
@@ -185,20 +186,22 @@ class UserController extends Controller
     public function headpic(Request $request)
     {
         $data = $request->all();
-        // 验证数据
-        $this->validate($request,[
-            'guid' => 'required',
-            'headpic' => 'required'
-        ]);
-       // 转发业务服务层
-       $info = self::$userServer->updataUserInfo2($request);
+        //提取用户的guid
+        $guid = $data['guid'];
+        //判断上传文件是否存在
+        if (!$request->hasFile('avatar_file'))  return response()->json(['StatusCode' => '400','ResultData' => '上传文件为空!']);
+        $file = $request->file('avatar_file');
+
+        //将上传文件转交到servise层
+        $info = self::$userServer->avatar($guid,$file,$data);
+
         // 返回状态信息
         switch ($info['status']){
             case '400':
-                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
+                return response()->json(['state' => 400,'message' => $info['msg']  ,'result' => $info['msg']]);
                 break;
             case '200':
-                return response()->json(['StatusCode' => '200','ResultData' => $info['msg']]);
+                return response()->json(['state' => 200,'message' => $info['msg'],'result' => $info['msg']]);
                 break;
         }
     }

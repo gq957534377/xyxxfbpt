@@ -43,7 +43,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         //分页
         Route::get("/crowd_forpage",'CrowdFundingController@forPage');
         //查看可发布的中筹项目
-        Route::get("//select_publish",'CrowdFundingController@selectPublish');
+        Route::get("/select_publish",'CrowdFundingController@selectPublish');
         //活动管理
         Route::resource('/action', 'ActionController');
         Route::any('/upload','ActionController@upload');
@@ -55,7 +55,8 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
 /**
  * 前台入口
  */
-Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
+
+Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 验证码
@@ -66,16 +67,15 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/register', 'RegisterController');
     //众筹
     Route::resource('/crowd_funding', 'CrowdFundingController');
-    //发布项目
-    Route::resource('/project', 'ProjectController');
-    Route::resource('/project_user','ProjectUserController');
     //活动内容页
     Route::resource('/action', 'ActionController');
+    //文章内容页
+    Route::resource('/article', 'ArticleController');
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         // 修改头像
-        Route::resource('/headpic','HeadPicController');
-      //Route::post('/headpic','UserController@headpic');
+//        Route::resource('/headpic','HeadPicController');
+        Route::post('/headpic','UserController@headpic');
         // 申请投资者
         Route::post('/user/apply','UserController@applyRole');
         // 申请角色视图
@@ -88,8 +88,14 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::get('/logout','LoginController@logout');
         //众筹用户投钱
         Route::get("/investment/{project_id}","CrowdFundingController@investment");
+        //发布项目
+        Route::resource('/project', 'ProjectController');
+        Route::resource('/project_user','ProjectUsersController');
         //活动管理
         Route::resource('/activity', 'ActivityController');
+        //投稿管理
+        Route::resource('/send', 'SendController');
+        Route::any('/upload','ActionController@upload');
     });
 
 

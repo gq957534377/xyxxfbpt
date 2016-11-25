@@ -40,7 +40,7 @@ class ArticleController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *向文章表插入数据
+     * 向文章表插入数据
      * @author 郭庆
      */
     public function store(Request $request)
@@ -55,9 +55,10 @@ class ArticleController extends Controller
      * 拿取一条文章信息详情
      * author 郭庆
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $result = self::$articleServer -> getData($id);
+        $user = $request->input('user');
+        $result = self::$articleServer -> getData($id,$user);
         if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
     }
@@ -70,7 +71,8 @@ class ArticleController extends Controller
     public function edit(Request $request, $id)
     {
         $status = $request -> input("status");
-        $result = self::$articleServer -> changeStatus($id,$status);
+        $user = $request -> input('user');
+        $result = self::$articleServer -> changeStatus($id,$status,$user);
         if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
     }

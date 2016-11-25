@@ -38,9 +38,24 @@ class HeadPicController extends Controller
      */
     public function store(Request $request)
     {
+       
+        //判断上传文件是否存在
+        if (!$request->hasFile('avatar_file'))  return response()->json(['StatusCode' => '400','ResultData' => '上传文件为空!']);
+        $file = $request->file('avatar_file');
+        
+       
+        $newFile['name'] = $file->getClientOriginalName();
+        $newFile['type'] = $file->getClientMimeType();
+        $newFile['tmp_name'] = $file->getRealPath();
+        $newFile['error'] = $file->getError();
+        $newFile['size'] = $file->getClientSize();
+
         $data = $request->all();
-        $info = new Crop();
-        dd($info->getResult());
+        $info = new Crop($data['avatar_src'],$data['avatar_data'],$newFile);
+
+        if (empty($info)) return response()->json(['state' => 400,'result' => '上传文件失败!']);
+
+        return response()->json(['state' => 200,'result' => $info->getResult()]);
 
     }
 

@@ -135,12 +135,9 @@
         /**
          * 添加用户
          */
-<<<<<<< HEAD
-        $('#add_road').click(function () {
 
-=======
         $('#add_training').click(function () {
->>>>>>> origin/dev
+
             $('.modal-title').html('技术培训信息详情');
             var data = {
                 title: $('#title').val(),
@@ -154,13 +151,7 @@
 
             $.ajax({
                 url: '/training',
-<<<<<<< HEAD
-                type:'post',
-                dataType:'json',
-                data:data,
-                success : function (data) {
-                    alert(11);
-=======
+
                 type: 'post',
                 dataType: 'json',
                 data: data,
@@ -168,7 +159,7 @@
 //                    console.log('测试运行ajax');
                 },
                 success: function (data) {
->>>>>>> 01202d3764bee5f602f579d44236d8a0808b6c06
+
                     $('.loading').hide();
                     $('#myModal').modal('show');
                     $('.modal-title').html('提示');
