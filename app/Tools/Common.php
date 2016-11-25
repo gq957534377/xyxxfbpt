@@ -214,6 +214,13 @@ class Common {
         return $token;
     }
 
+    /**
+     * 七牛云服务器上传接口
+     * @param $filePath
+     * @param $key
+     * @return array
+     * @author 贾济林
+     */
     public static function QiniuUpload($filePath,$key)
     {
         //获得token
