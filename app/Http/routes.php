@@ -92,6 +92,3 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/activity', 'ActivityController');
     });
 });
-Route::get('test',function(){
-    echo \App\Tools\Common::QiniuUpload();
-});

@@ -19,6 +19,7 @@ use Flc\Alidayu\Client;
 use Flc\Alidayu\App;
 use Flc\Alidayu\Requests\AlibabaAliqinFcSmsNumSend;
 use Qiniu\Auth;
+use Qiniu\Storage\UploadManager;
 
 
 
@@ -210,30 +211,22 @@ class Common {
 
         // 生成上传 Token
         $token = $auth->uploadToken($bucket);
-        echo $token;
         return $token;
     }
 
-    public static function QiniuUpload()
+    public static function QiniuUpload($filePath,$key)
     {
-        $uptoken = self::getToken();
-        echo $uptoken;
-//        // 要上传文件的本地路径
-//        $filePath = './php-logo.png';
-//
-//        // 上传到七牛后保存的文件名
-//        $key = 'my-php-logo.png';
-//
-//        // 初始化 UploadManager 对象并进行文件的上传
-//        $uploadMgr = new UploadManager();
-//
-//        // 调用 UploadManager 的 putFile 方法进行文件的上传
-//        list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
-//        echo "\n====> putFile result: \n";
-//        if ($err !== null) {
-//            var_dump($err);
-//        } else {
-//            var_dump($ret);
-//        }
+        //获得token
+        $token = self::getToken();
+
+        // 初始化 UploadManager 对象并进行文件的上传
+        $uploadMgr = new UploadManager();
+
+        // 调用 UploadManager 的 putFile 方法进行文件的上传
+        list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
+        $res = ['status' => true, 'url'=> 'ogd29n56i.bkt.clouddn.com/'.$key];
+        
+        if (!$err==null) return $err;
+        return $res;
     }
 }
