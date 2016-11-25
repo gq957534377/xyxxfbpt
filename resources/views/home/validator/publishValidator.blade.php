@@ -42,10 +42,18 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
                     });
+
+                    //隐藏的图片和文件input非空验证
+                    var image_val = $('input[name=image]').val();
+                    var file_val = $('input[name=file]').val();
+                    if (image_val.length==0) return alert('请添加图片');
+                    if (file_val.length==0) return alert('请添加文件');
+
+                    
                     var data = new FormData();
                     data.append( "title"     , $('input[name=title]').val());
                     data.append( "content"   , $('input[name=content]').val());
-                    data.append( "image"     , $('#fsUploadProgress').html());
+                    data.append( "image"     , $('input[name=image]').val());
                     data.append( "file"      , $('input[name=file]').val());
                     data.append( "habitude"  , $('input[name=habitude]').val());
                     data.append( "less_funding" , $('input[name=less_funding]').val());
