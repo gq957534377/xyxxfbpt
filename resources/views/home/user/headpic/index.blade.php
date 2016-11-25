@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>演示：PHP+cropper+bootstrap实现头像剪切效果</title>
+        <title></title>
         <meta name="keywords" content="" />
         <meta name="description" content="" />
         <link href="{{asset('cropper/assets/css/bootstrap.min.css')}}" rel="stylesheet"/>
@@ -13,8 +13,7 @@
         <div class="container" id="crop-avatar">
 
             <!-- Current avatar -->
-            <div style="text-align:center;color:red;margin:50px 0">提示：点击头像上传</div>
-            <div class="avatar-view" title="Change the avatar">
+            <div class="avatar-view" title="更换头像">
                 <img src="{{asset('cropper/img/picture.jpg')}}" alt="Avatar"/>
             </div>
 

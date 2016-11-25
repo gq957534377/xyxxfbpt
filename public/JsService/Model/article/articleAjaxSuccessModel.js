@@ -39,7 +39,7 @@ function listHtml(data){
         html += '<tr class="gradeX">';
         html += '<td>' + type(e.type)+ '</td>';
         html += '<td>' + e.title+ '</td>';
-        html += '<td>' + e.author + '</td>';
+        html += '<td>' + author(e.author) + '</td>';
         html += '<td>' + e.time+'</td>';
         html += '<td>' + status(e.status)+'</td>';
         html += '<td>' + e.source+'</td>';
@@ -50,12 +50,19 @@ function listHtml(data){
         } else if (e.status == 3) {
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-primary">启用</button></a>';
         }
-        if (e.type == 3 && e.status == 2)
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-primary">通过</button></a>';
+        if (e.status == 2){
+            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-success">通过</button></a>';
+            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status=1 class="status"><button class="btn-danger">否决</button></a>';
+        }
         html += '</td>';
     });
     html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
     return html;
+}
+
+function author(author) {
+    if(author) return author;
+    return 'admin';
 }
 // 分页li点击触发获取ajax事件获取分页
 function getPage() {
@@ -64,7 +71,7 @@ function getPage() {
         if(class_name == 'disabled' || class_name == 'active') {
             return false;
         }
-        var url = $(this).children().prop('href')+'&type='+list_type+'&status='+list_status;
+        var url = $(this).children().prop('href')+'&type='+list_type+'&status='+list_status+'&user='+list_user;
         var ajax = new ajaxController();
         ajax.ajax({
             url : url,
@@ -112,6 +119,12 @@ function status(status) {
 function date(data) {
     data = data.ResultData;
     console.log(data);
+    if (list_user==1){
+        $('#xg_type').val(data.type);
+    }else{
+        $('#xg_type').val(3);
+        $('#xg_type').attr('disable','true');
+    }
     $('#yz_xg').find('input[name=id]').val(data.guid);
     $('#yz_xg').find('input[name=title]').val(data.title);
     $('#yz_xg').find('input[name=source]').val(data.source);

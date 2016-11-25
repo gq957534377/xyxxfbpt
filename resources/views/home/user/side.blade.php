@@ -1,6 +1,6 @@
 <div class="col-md-3 box" style="padding: 15px 15px;">
     <div class="list-group text-center">
-        <a href="{{url('/user')}}" id="editUserInfoBtn" class="list-group-item active">
+        <a href="{{url('/user')}}" id="editUserInfoBtn" class="list-group-item active" style="z-index: 0;">
             <i class="text-md fa fa-list-alt" aria-hidden="true"></i>&nbsp;个人信息</a>
         <a href="#" class="list-group-item " data-toggle="modal" data-target="#myModal">
             <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;修改头像</a>
@@ -30,5 +30,7 @@
                 <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;投资项目管理</a>
             <!--已发布项目管理 end-->
         @endif
+        <a href="/send" class="list-group-item ">
+            <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp我的文稿管理</a>
     </div>
 </div>

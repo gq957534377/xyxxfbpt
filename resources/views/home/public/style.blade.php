@@ -1,13 +1,11 @@
 <!-- core CSS -->
-<link href="{{asset('home/css/bootstrap.min.css')}}" rel="stylesheet">
+<link href="{{asset('cropper/assets/css/bootstrap.min.css')}}" rel="stylesheet"/>
 <link href="{{asset('home/css/font-awesome.min.css')}}" rel="stylesheet">
 <link href="{{asset('home/css/animate.min.css')}}" rel="stylesheet">
 <link href="{{asset('home/css/prettyPhoto.css')}}" rel="stylesheet">
 <link href="{{asset('home/css/main.css')}}" rel="stylesheet">
 <link href="{{asset('home/css/responsive.css')}}" rel="stylesheet">
 <link href="{{asset('home/css/helper.css')}}" rel="stylesheet">
-<link href="{{asset('home/css/cropper.min.css')}}" rel="stylesheet">
-<link href="{{asset('home/css/sitelogo.css')}}" rel="stylesheet">
 
 <!--[if lt IE 9]>
 <script src="{{asset('home/js/html5shiv.js')}}"></script>
@@ -20,3 +18,6 @@
 <link rel="apple-touch-icon-precomposed" href="{{asset('home/images/ico/apple-touch-icon-57-precomposed.png')}}">
 
 <link href="{{asset('dateTime/jquery.datetimepicker.css')}}" rel="stylesheet">
+
+<link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
+<link href="{{asset('cropper/css/main.css')}}" rel="stylesheet"/>

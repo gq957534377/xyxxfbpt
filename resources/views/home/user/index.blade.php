@@ -10,6 +10,7 @@
     <script type="text/javascript" src="{{url('/qiniu/js/main2.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/main3.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/main4.js')}}"></script>
+
 @endsection
 @section('content')
     <section id="contact-page">
@@ -27,13 +28,7 @@
                             <div style="height: 60px;">
                                 <h2><i class="fa fa-cog" aria-hidden="true"></i>编辑个人资料</h2>
                                 <div class="ibox-content pull-right" style="margin-top: -50px;">
-                                    <div class="row">
-                                        <div id="crop-avatar">
-                                            <div class="avatar-view col-md-3" title="Change Logo Picture">
-                                                <img id="userinfo_headpic" class="img-circle" style="width: 100%;" src="{{asset('home/images/load.gif')}}" alt="Logo">
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @include('home.user.avatar')
                                 </div>
                             </div>
 
@@ -148,9 +143,8 @@
                         user_hometown.empty().val(msg.ResultData.msg.hometown);
                         user_birthday.empty().val(msg.ResultData.msg.birthday);
                         msg.ResultData.msg.sex == 1?sex1.attr('checked','true'):sex0.attr('checked','true');
-                        $("#head_pic").attr('src','uploads/image/'+msg.ResultData.msg.headpic);
-                        $("#userinfo_headpic").attr('src','uploads/image/'+msg.ResultData.msg.headpic);
-                        headpic.attr('src','uploads/image/'+msg.ResultData.msg.headpic);
+                        $("#head_pic").attr('src',msg.ResultData.msg.headpic);
+                        headpic.attr('src',msg.ResultData.msg.headpic);
                         user_phone.empty().val(msg.ResultData.msg.tel);
 
                         $(".loading").hide();
@@ -206,35 +200,35 @@
         });
 
         // 申请成为投资者
-        $("#investor").click(function(){
-            $('#userBox').hide();
-            $('#pro_list_table').hide();
-            $('#investorBox').show();
-            $('#entrepreneursBox').hide();
-            $("#editUserInfoBtn").removeClass('active');
-            $("#entrepreneursBtn").removeClass('active');
-            $(this).addClass('active');
-        });
-
-        $("#editUserInfoBtn").click(function(){
-            $('#userBox').show();
-            $('#pro_list_table').hide();
-            $('#investorBox').hide();
-            $('#entrepreneursBox').hide();
-            $("#investor").removeClass('active');
-            $("#entrepreneursBtn").removeClass('active');
-            $(this).addClass('active');
-        });
-
-        $("#entrepreneursBtn").click(function(){
-            $('#userBox').hide();
-            $('#pro_list_table').hide();
-            $('#investorBox').hide();
-            $('#entrepreneursBox').show();
-            $("#editUserInfoBtn").removeClass('active');
-            $("#investor").removeClass('active');
-            $(this).addClass('active');
-        });
+//        $("#investor").click(function(){
+//            $('#userBox').hide();
+//            $('#pro_list_table').hide();
+//            $('#investorBox').show();
+//            $('#entrepreneursBox').hide();
+//            $("#editUserInfoBtn").removeClass('active');
+//            $("#entrepreneursBtn").removeClass('active');
+//            $(this).addClass('active');
+//        });
+//
+//        $("#editUserInfoBtn").click(function(){
+//            $('#userBox').show();
+//            $('#pro_list_table').hide();
+//            $('#investorBox').hide();
+//            $('#entrepreneursBox').hide();
+//            $("#investor").removeClass('active');
+//            $("#entrepreneursBtn").removeClass('active');
+//            $(this).addClass('active');
+//        });
+//
+//        $("#entrepreneursBtn").click(function(){
+//            $('#userBox').hide();
+//            $('#pro_list_table').hide();
+//            $('#investorBox').hide();
+//            $('#entrepreneursBox').show();
+//            $("#editUserInfoBtn").removeClass('active');
+//            $("#investor").removeClass('active');
+//            $(this).addClass('active');
+//        });
 
     });
 
@@ -246,5 +240,6 @@
 @include('home.validator.publishValidator')
 @include('home.project.all_pro_list')
 @include('home.public.dateTime')
+
 
 @endsection

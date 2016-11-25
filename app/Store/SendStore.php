@@ -50,7 +50,7 @@ class SendStore
         if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
         return DB::table(self::$table)
             -> where($where)
-            -> orderBy("change_time","desc")
+            -> orderBy("time","desc")
             -> forPage($page,$tolPage)
             ->get();
     }

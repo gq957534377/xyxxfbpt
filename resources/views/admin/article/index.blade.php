@@ -278,7 +278,11 @@
     <div class="page-title">
         <div class="row">
             <div class="col-md-4">
-                <h3 class="title">文章管理</h3>
+                <div class="col-md-6"><h3 class="title">文章管理</h3></div>
+                <div class="col-md-6">
+                    <button data-name="2" class="btn-default user">用户文章</button>
+                    <button data-name="1" class="btn-success user">管理员文章</button>
+                </div>
             </div>
             <div class="col-md-4">
                 <select class="form-control" id="xz_type" name="xz_type">
@@ -294,9 +298,9 @@
 
 
         <br>
-        <button class="btn-primary" onclick="listType(list_type,1)">已发布</button>
-        <button class="btn-danger" onclick="listType(list_type,2)">待审核...</button>
-        <button class="btn-primary" onclick="listType(list_type,3)">已下架</button>
+        <button class="btn-success status1" data-name="1">已发布</button>
+        <button class="btn-default status1" data-name="2">待审核...</button>
+        <button class="btn-default status1" data-name="3">已下架</button>
     </div>
     <div class="panel" id="data"></div>
 </div>
@@ -362,15 +366,37 @@
     <script>
         var list_type = null;
         var list_status = 1;
+        var list_user = 1;
         //列表文章类型设置
-        function listType(type,status) {
+        function listType(type,status,user) {
             list_type = type;
             list_status = status;
-            list(type,status);
+            list_user = user;
+            list(type,status,user);
         }
         //分类查看数据
         $('#chakan').click(function(){
-            listType($('#xz_type').val(),1);
+            if (list_user == 1){
+                listType($('#xz_type').val(),list_status,list_user);
+            }
+        });
+
+        //用户选择
+        $('.user').off('click').on('click',function () {
+            list_type = null;
+            $('.user').removeClass('btn-success').addClass('btn-default');
+            $(this).addClass('btn-success');
+            list_user = $(this).data('name');
+            listType(list_type,list_status,list_user);
+        });
+
+        //状态选择
+        $('.status1').off('click').on('click',function () {
+            if (list_user == 2){list_type = null;}
+            $('.status1').removeClass('btn-success').addClass('btn-default');
+            $(this).addClass('btn-success');
+            list_status = $(this).data('name');
+            listType(list_type,list_status,list_user);
         });
         {{--修改--}}
                 !function($) {
@@ -406,7 +432,7 @@
                         data.append( "banner", resul.banner);
                         data.append( "source", resul.source);
                         $.ajax({
-                            url     : '/article/' + $('input[name=id]').val(),
+                            url     : '/article/' + $('input[name=id]').val() + '?user='+list_user,
                             type:'put',
                             data:resul,
                             before  : ajaxBeforeNoHiddenModel,
@@ -423,7 +449,7 @@
                                 if (data.StatusCode == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>文章修改成功!</p>');
-                                    list(resul.type,1);
+                                    listType(resul.type,list_status,list_user);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -544,7 +570,7 @@
                                     $('#article_thumb_img').attr('src','');
                                     $('#yz_fb').find('textarea[name=brief]').val('');
                                     ue.setContent('');
-                                    list(resul.type,1);
+                                    list(resul.type,list_status,list_user);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -622,7 +648,7 @@
                 $('.loading').hide();
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/article/' + $(this).data('name'),
+                    url     : '/article/' + $(this).data('name') +'?user=' + list_user,
                     before  : ajaxBeforeNoHiddenModel,
                     success : date,
                     error   : ajaxErrorModel
@@ -635,7 +661,7 @@
             $('.info').click(function () {
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/article/' + $(this).data('name'),
+                    url     : '/article/' + $(this).data('name') + '?user=' + list_user,
                     before  : ajaxBeforeNoHiddenModel,
                     success : showInfoList,
                     error   : ajaxErrorModel
@@ -649,7 +675,7 @@
                 var _this = $(this);
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/article/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
+                    url     : '/article/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&user='+list_user,
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
                     error   : ajaxErrorModel
@@ -670,7 +696,7 @@
                                 _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
                             }
                             $('#alert-info').html('<p>状态修改成功!</p>');
-                            list(list_type,list_status);
+                            listType(list_type,list_status,list_user);
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>状态修改失败！</p>');
@@ -684,15 +710,15 @@
         }
 
         // 页面加载时触发事件请求分页数据
-        function list(type,status) {
+        function list(type,status,user) {
             var ajax = new ajaxController();
             ajax.ajax({
-                url     : '/article/create?type='+type+'&status='+status,
+                url     : '/article/create?type='+type+'&status='+status+'&user='+user,
                 before  : ajaxBeforeModel,
                 success : getInfoList,
                 error   : ajaxErrorModel,
             });
         }
-        list(list_type,list_status);
+        listType(list_type,list_status,list_user);
     </script>
 @endsection

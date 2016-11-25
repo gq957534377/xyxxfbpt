@@ -40,10 +40,12 @@ class CropAvatar {
     $errorCode = $file['error'];
 
     if ($errorCode === UPLOAD_ERR_OK) {
+      //获取图像类型
       $type = exif_imagetype($file['tmp_name']);
 
       if ($type) {
         $extension = image_type_to_extension($type);
+
         $src = 'uploads/avatars/' . date('YmdHis') . '.original' . $extension;
 
         if ($type == IMAGETYPE_GIF || $type == IMAGETYPE_JPEG || $type == IMAGETYPE_PNG) {
@@ -59,14 +61,16 @@ class CropAvatar {
             $this -> type = $type;
             $this -> extension = $extension;
             $this -> setDst();
+
           } else {
-            $this -> msg = 'Failed to save file';
+            $this -> msg = '无法保存文件';
           }
+
         } else {
-          $this -> msg = 'Please upload image with the following types: JPG, PNG, GIF';
+          $this -> msg = '请上传以下类型的图像: JPG, PNG, GIF';
         }
       } else {
-        $this -> msg = 'Please upload image file';
+        $this -> msg = '请上传图片文件';
       }
     } else {
       $this -> msg = $this -> codeToMessage($errorCode);
@@ -94,7 +98,7 @@ class CropAvatar {
       }
 
       if (!$src_img) {
-        $this -> msg = "Failed to read the image file";
+        $this -> msg = "无法读取图像文件";
         return;
       }
 
@@ -173,10 +177,10 @@ class CropAvatar {
 
       if ($result) {
         if (!imagepng($dst_img, $dst)) {
-          $this -> msg = "Failed to save the cropped image file";
+          $this -> msg = "无法保存裁剪的图像文件";
         }
       } else {
-        $this -> msg = "Failed to crop the image file";
+        $this -> msg = "无法裁剪图像文件";
       }
 
       imagedestroy($src_img);
@@ -185,43 +189,44 @@ class CropAvatar {
   }
 
   private function codeToMessage($code) {
-    switch ($code) {
+    switch ($code) { 
       case UPLOAD_ERR_INI_SIZE:
-        $message = 'The uploaded file exceeds the upload_max_filesize directive in php.ini';
+        $message = '上传的文件在php.ini中超过upload_max_filesize指令';
         break;
 
       case UPLOAD_ERR_FORM_SIZE:
-        $message = 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form';
+        $message = '上传的文件超过max_file_size指令是在HTML表单中指定的';
         break;
 
       case UPLOAD_ERR_PARTIAL:
-        $message = 'The uploaded file was only partially uploaded';
+        $message = '上传的文件只被部分上传';
         break;
 
       case UPLOAD_ERR_NO_FILE:
-        $message = 'No file was uploaded';
+        $message = '没有上传文件';
         break;
 
       case UPLOAD_ERR_NO_TMP_DIR:
-        $message = 'Missing a temporary folder';
+        $message = '错过一个临时文件夹';
         break;
 
       case UPLOAD_ERR_CANT_WRITE:
-        $message = 'Failed to write file to disk';
+        $message = '无法将文件写入磁盘';
         break;
 
       case UPLOAD_ERR_EXTENSION:
-        $message = 'File upload stopped by extension';
+        $message = '文件上传停止扩展';
         break;
 
       default:
-        $message = 'Unknown upload error';
+        $message = '未知上传错误';
     }
 
     return $message;
   }
 
   public function getResult() {
+    unlink($this->src);
     return !empty($this -> data) ? $this -> dst : $this -> src;
   }
 
@@ -229,14 +234,4 @@ class CropAvatar {
     return $this -> msg;
   }
 }
-
-$crop = new CropAvatar($_POST['avatar_src'], $_POST['avatar_data'], $_FILES['avatar_file']);
-
-$response = array(
-    'state'  => 200,
-    'message' => $crop -> getMsg(),
-    'result' => $crop -> getResult()
-);
-
-echo json_encode($response);
 ?>
