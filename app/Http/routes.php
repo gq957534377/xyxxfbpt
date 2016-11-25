@@ -43,7 +43,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         //分页
         Route::get("/crowd_forpage",'CrowdFundingController@forPage');
         //查看可发布的中筹项目
-        Route::get("//select_publish",'CrowdFundingController@selectPublish');
+        Route::get("/select_publish",'CrowdFundingController@selectPublish');
         //活动管理
         Route::resource('/action', 'ActionController');
         Route::any('/upload','ActionController@upload');
