@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\Admin;
 
 use App\Services\ProjectService;
 use Illuminate\Http\Request;
@@ -46,7 +46,7 @@ class ProjectUserController extends Controller
 
     public function show($id)
     {
-        echo $id;
+        
     }
 
     public function edit($id)

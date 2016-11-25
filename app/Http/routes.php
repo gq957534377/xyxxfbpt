@@ -55,7 +55,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
 /**
  * 前台入口
  */
-Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
+Route::group(['domain'=>'www.hero.app' ,'namespace'=>'Home'],function() {
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 验证码
@@ -66,9 +66,6 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/register', 'RegisterController');
     //众筹
     Route::resource('/crowd_funding', 'CrowdFundingController');
-    //发布项目
-    Route::resource('/project', 'ProjectController');
-    Route::resource('/project_user','ProjectUserController');
     //活动内容页
     Route::resource('/action', 'ActionController');
     //中间件，检验是否登录
@@ -88,6 +85,9 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::get('/logout','LoginController@logout');
         //众筹用户投钱
         Route::get("/investment/{project_id}","CrowdFundingController@investment");
+        //发布项目
+        Route::resource('/project', 'ProjectController');
+        Route::resource('/project_user','ProjectUsersController');
         //活动管理
         Route::resource('/activity', 'ActivityController');
     });

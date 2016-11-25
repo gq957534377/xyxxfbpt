@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
 
-class ProjectUserController extends Controller
+class ProjectUsersController extends Controller
 {
     protected static $projectServer = null;
     /**单例引入projectService
