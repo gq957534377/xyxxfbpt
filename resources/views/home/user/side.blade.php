@@ -30,5 +30,7 @@
                 <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;投资项目管理</a>
             <!--已发布项目管理 end-->
         @endif
+        <a href="/send" class="list-group-item ">
+            <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp我的文稿管理</a>
     </div>
 </div>

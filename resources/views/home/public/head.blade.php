@@ -50,7 +50,6 @@
 
             <div class="collapse navbar-collapse navbar-right">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.html">Home</a></li>
                     <li><a href="{{url('crowd_funding')}}">英雄众筹</a></li>
                     <li class="dropdown"><a href="{{url('/action?type=1')}}">路演活动<i class="fa fa-angle-down"></i></a>
                         <ul class="dropdown-menu">
@@ -63,8 +62,9 @@
                     </li>
                     <li><a href="{{url('/action?type=3')}}">创业技术培训</a></li>
                     <li><a href="{{url('/project')}}">创业项目</a></li>
-                    <li><a href="blog.html">Blog</a></li>
-                    <li><a href="contact-us.html">Contact</a></li>
+                    <li><a href="{{url('/article?type=1')}}">市场</a></li>
+                    <li><a href="{{url('/article?type=2')}}">政策</a></li>
+                    <li><a href="{{url('/article?type=3')}}">用户投稿</a></li>
                 </ul>
             </div>
         </div><!--/.container-->
