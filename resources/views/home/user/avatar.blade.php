@@ -42,20 +42,14 @@
                             <div class="row avatar-btns">
                                 <div class="col-md-9">
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees">Rotate Left</button>
-                                        <button class="btn btn-primary" data-method="rotate" data-option="-15" type="button">-15deg</button>
-                                        <button class="btn btn-primary" data-method="rotate" data-option="-30" type="button">-30deg</button>
-                                        <button class="btn btn-primary" data-method="rotate" data-option="-45" type="button">-45deg</button>
+                                        <button class="btn btn-info" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees">向左转</button>
                                     </div>
                                     <div class="btn-group">
-                                        <button class="btn btn-primary" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees">Rotate Right</button>
-                                        <button class="btn btn-primary" data-method="rotate" data-option="15" type="button">15deg</button>
-                                        <button class="btn btn-primary" data-method="rotate" data-option="30" type="button">30deg</button>
-                                        <button class="btn btn-primary" data-method="rotate" data-option="45" type="button">45deg</button>
+                                        <button class="btn btn-info" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees">向右转</button>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <button class="btn btn-primary btn-block avatar-save" type="submit">Done</button>
+                                    <button class="btn btn-info btn-block avatar-save" type="submit">更换</button>
                                 </div>
                             </div>
                         </div>
