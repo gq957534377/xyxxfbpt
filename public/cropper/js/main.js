@@ -112,7 +112,7 @@
 
             _this.submitDone(data);
           } else {
-            _this.submitFail('Image upload failed!');
+            _this.submitFail('图片上传失败!');
           }
 
           _this.submitEnd();
@@ -284,7 +284,7 @@
           this.alert(data.message);
         }
       } else {
-        this.alert('Failed to response');
+        this.alert('响应数据有误');
       }
     },
 

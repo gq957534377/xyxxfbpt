@@ -74,8 +74,8 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         // 修改头像
-        Route::resource('/headpic','HeadPicController');
-      //Route::post('/headpic','UserController@headpic');
+//        Route::resource('/headpic','HeadPicController');
+        Route::post('/headpic','UserController@headpic');
         // 申请投资者
         Route::post('/user/apply','UserController@applyRole');
         // 申请角色视图
