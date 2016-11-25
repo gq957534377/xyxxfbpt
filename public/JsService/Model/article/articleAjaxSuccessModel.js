@@ -124,7 +124,6 @@ function date(data) {
     }else{
         $('#xg_type').val(3);
         $('#xg_type').attr('disable','true');
-
     }
     $('#yz_xg').find('input[name=id]').val(data.guid);
     $('#yz_xg').find('input[name=type]').val(data.type);
