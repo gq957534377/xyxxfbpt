@@ -71,6 +71,8 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/project_user','ProjectUserController');
     //活动内容页
     Route::resource('/action', 'ActionController');
+    //文章内容页
+    Route::resource('/article', 'ArticleController');
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         // 修改头像
@@ -90,5 +92,8 @@ Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::get("/investment/{project_id}","CrowdFundingController@investment");
         //活动管理
         Route::resource('/activity', 'ActivityController');
+        //投稿管理
+        Route::resource('/send', 'SendController');
+        Route::any('/upload','ActionController@upload');
     });
 });

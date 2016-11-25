@@ -8,9 +8,11 @@
  */
 
 namespace App\Services;
+use App\Http\Requests\Request;
 use App\Store\ArticleStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
+use App\Store\SendStore;
 use App\Tools\Common;
 use Illuminate\Support\Facades\DB;
 
@@ -23,16 +25,19 @@ class ArticleService
     protected static $commentStore;
     protected static $common;
     protected static $likeStore;
+    protected static $sendStore;
 
     public function __construct(
         ArticleStore $articleStore,
         CommentStore $commentStore,
-        LikeStore $likeStore
+        LikeStore $likeStore,
+        SendStore $sendStore
     )
     {
         self::$articleStore = $articleStore;
         self::$commentStore = $commentStore;
         self::$likeStore = $likeStore;
+        self::$sendStore = $sendStore;
     }
 
     /**
@@ -158,8 +163,13 @@ class ArticleService
             $where["type"] = $type;
         }
 
-        //创建分页
-        $creatPage = Common::getPageUrls($data, "data_article_info", "/article/create", $forPages, null, $where);
+        if ($data['user'] == 2) {
+            //创建分页
+            unset($data['type']);
+            $creatPage = Common::getPageUrls($data, "data_send_info", "/article/create", $forPages, null, $where);
+        }else{
+            $creatPage = Common::getPageUrls($data, "data_article_info", "/article/create", $forPages, null, $where);
+        }
         if(isset($creatPage)){
             $result["pages"] = $creatPage['pages'];
         }else{
@@ -167,7 +177,13 @@ class ArticleService
         }
 
         //获取对应页的数据
-        $Data = self::$articleStore -> forPage($nowPage, $forPages, $where);
+        if ($data['user'] == 2) {
+            unset($where['type']);
+            $Data = self::$sendStore -> forPage($nowPage, $forPages, $where);
+        }else{
+            $Data = self::$articleStore -> forPage($nowPage, $forPages, $where);
+        }
+
         if($Data || empty($Data)){
             $result["data"] = $Data;
             return ['status' => true, 'msg' => $result];
@@ -181,13 +197,17 @@ class ArticleService
      * @return array
      * author 郭庆
      */
-    public function getData($guid)
+    public function getData($guid,$user)
     {
         if(!is_string($guid)){
             return ['status' => false, 'msg' => "参数有误！"];
         }
         //查询一条数据文章信息
-        $data = self::$articleStore -> getOneData(["guid" => $guid]);
+        if ($user == 1) {
+            $data = self::$articleStore -> getOneData(["guid" => $guid]);
+        }else{
+            $data = self::$sendStore -> getOneData(["guid" => $guid]);
+        }
         if($data) return ['status' => true, 'msg' => $data];
         return ['status' => false, 'msg' => "文章信息获取失败！"];
     }
@@ -199,7 +219,7 @@ class ArticleService
      * @return array
      * author 郭庆
      */
-    public function changeStatus($guid, $status)
+    public function changeStatus($guid, $status, $user)
     {
         if(!(isset($guid) && isset($status))){
             return ['status' => false, 'msg' => "参数有误 ！"];
@@ -212,8 +232,11 @@ class ArticleService
             $status = 1;
         }
 
-
-        $Data = self::$articleStore -> upload(["guid" => $guid], ["status" => $status]);
+        if ($user == 1) {
+            $Data = self::$articleStore -> upload(["guid" => $guid], ["status" => $status]);
+        }else{
+            $Data = self::$sendStore -> upload(["guid" => $guid], ["status" => $status]);
+        }
 
         //判断修改结果并返回
         if($Data){
@@ -323,6 +346,31 @@ class ArticleService
         $data["time"] = date("Y-m-d H:i:s", time());
         $result = self::$commentStore -> addData($data);
         if($result) return ['status' => true, 'msg' => $result];
+        return ['status' => false, 'msg' => '存储数据发生错误'];
+    }
+
+    /**
+     * 获取指定用户所发表的所有文章
+     */
+    public static function getArticleByUser($id)
+    {
+        $result = self::$sendStore->getData(['user_id' => $id]);
+        if($result) return ['status' => true, 'msg' => $result];
+        return ['status' => false, 'msg' => $result];
+    }
+
+    /**
+     * 用户发布文稿
+     */
+    public static function addSend($data)
+    {
+        $data["guid"] = Common::getUuid();
+        $data["time"] = date("Y-m-d H:i:s", time());
+
+        $result = self::$sendStore -> insertData($data);
+
+        //判断插入是否成功，并返回结果
+        if(isset($result)) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '存储数据发生错误'];
     }
 }

@@ -4,23 +4,22 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Input;
 use Validator;
 use App\Http\Controllers\Controller;
-use App\Services\ActionService as ActionServer;
+use App\Services\ArticleService as ArticleServer;
 use App\Services\UserService as UserServer;
 
-class ActionController extends Controller
+class ArticleController extends Controller
 {
-    protected  static $actionServer;
+    protected  static $articleServer;
     protected  static $userServer;
-    public function __construct(ActionServer $actionServer, UserServer $userServer)
+    public function __construct(ArticleServer $articleServer, UserServer $userServer)
     {
-        self::$actionServer = $actionServer;
+        self::$articleServer = $articleServer;
         self::$userServer = $userServer;
     }
     /**
-     * 根据所选活动类型导航，返回相应的列表页+数据.
+     * 根据所选文章类型导航，返回相应的列表页+数据.
      *
      * @return \Illuminate\Http\Response
      * @author 郭庆
@@ -28,9 +27,9 @@ class ActionController extends Controller
     public function index(Request $request)
     {
         $type = $request -> all()['type'];
-        $result = self::$actionServer -> selectByType($type);
-        if ($result['status']) return view('home.action.index', ['msg' => $result['msg']]);
-        return view('home.action.index', ['msg' => $result['msg']]);
+        $result = self::$articleServer -> selectByType($type);
+        if ($result['status']) return view('home.article.index', ['msg' => $result['msg']]);
+        return view('home.article.index', ['msg' => $result['msg']]);
     }
 
     /**
@@ -41,14 +40,14 @@ class ActionController extends Controller
     public function create(Request $request)
     {
         $data = $request -> all();
-        $result = self::$actionServer -> comment($data);
+        $result = self::$articleServer -> comment($data);
         if(!$result['status']) return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
         return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
     }
 
     /**
      * Store a newly created resource in storage.
-     *向活动表插入数据
+     *向文章表插入数据
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * @author 郭庆
@@ -56,14 +55,14 @@ class ActionController extends Controller
     public function store(Request $request)
     {
         $data = $request -> all();
-        $result = self::$actionServer -> actionOrder($data);
+        $result = self::$articleServer -> articleOrder($data);
         if(!$result['status']) return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
         return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
     }
 
     /**
      * 详情页.
-     * 传入：是否已经报名$isHas 活动详情$datas 登录状态$isLogin 点赞数量$likeNum 所有评论$comment+对应用户的信息
+     * 传入： 文章详情$datas 登录状态$isLogin 点赞数量$likeNum
      * @param  int  $id
      * @author 郭庆
      */
@@ -71,27 +70,22 @@ class ActionController extends Controller
     {
         //所需要数据的获取
         $session = $request -> session() -> all();
-        $data = self::$actionServer -> getData($id);//活动详情
-        $likeNum = self::$actionServer-> getLikeNum($id);//支持/不支持人数
-
-        //$isHas（是否已经报名参加）的设置
+        $data = self::$articleServer -> getData($id);//文章详情
+        $likeNum = self::$articleServer-> getLikeNum($id);//支持/不支持人数
+        //$isHas（是否已经登陆参加）的设置
         if (!isset($session['user'])){
             $isLogin = false;
-            $isHas = false;
         }else{
-            $action = self::$actionServer -> getAction($session['user'] -> guid);//当前用户报名参加的所有活动
             $isLogin = $session['user']->guid;
-            if ($action['status']) $isHas = in_array($data["msg"] -> guid, $action['msg']);
         }
 
-        //$datas活动详情设置
+        //$datas文章详情设置
         $datas = $data["msg"];
 
         //返回详情页
-        return view("home.action.xiangqing", [
+        return view("home.article.xiangqing", [
             "data" => $data["msg"],
             'isLogin' => $isLogin,
-            'isHas' => $isHas,
             'likeNum' => $likeNum['msg']
         ]);
     }
@@ -107,18 +101,18 @@ class ActionController extends Controller
         $user_id = $request -> session() -> get('user')->guid;
 
         //判断是否点赞了
-        $isHas = self::$actionServer->getLike($user_id,$id);
+        $isHas = self::$articleServer->getLike($user_id,$id);
         if($isHas['status']) {
             if ($isHas['msg']->support == $support['support']) return ['StatusCode' => 400,  'ResultData' => '已经参与'];
-            $setLike = self::$actionServer->chargeLike($user_id, $id, $support);
+            $setLike = self::$articleServer->chargeLike($user_id, $id, $support);
 
-            if ($setLike) return ['StatusCode' => 200,  'ResultData' => self::$actionServer-> getLikeNum($id)['msg']];
+            if ($setLike) return ['StatusCode' => 200,  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
             return ['StatusCode' => 400,  'ResultData' => '点赞失败'];
         }else{
 
             //没有点赞则加一条新记录
-            $result = self::$actionServer -> setLike(['support' => $support['support'], 'action_id' => $id, 'user_id' => $user_id]);
-            if($result['status']) return ['StatusCode' => 200,  'ResultData' => self::$actionServer-> getLikeNum($id)['msg']];
+            $result = self::$articleServer -> setLike(['support' => $support['support'], 'article_id' => $id, 'user_id' => $user_id]);
+            if($result['status']) return ['StatusCode' => 200,  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
             return ['StatusCode' => 400, 'ResultData' => '点赞失败'];
         }
     }
@@ -131,7 +125,7 @@ class ActionController extends Controller
      */
     public function update($id)
     {
-        $result = self::$actionServer -> getComment($id);
+        $result = self::$articleServer -> getComment($id);
         if (!$result['status']){
             return ['StatusCode' => 400, 'ResultData' => $result['msg']];
         }else{
@@ -159,22 +153,5 @@ class ActionController extends Controller
     public function destroy($id)
     {
 
-    }
-    /**
-     * 上传图片
-     * @author 郭庆
-     */
-    public function upload()
-    {
-        $file = Input::file('Filedata');
-        if($file->isValid()){
-            $realPath = $file->getRealPath();//临时文件的绝对路径
-            $extension = $file->getClientOriginalName();//上传文件的后缀
-            $hz = explode('.', $extension)[1];
-            $newName = date('YmdHis').mt_rand(100,999).'.'.$hz;
-            $path = $file->move(public_path('uploads/image/admin/road'), $newName);
-            $result = 'uploads/image/admin/road/'.$newName;
-            return response()->json(['res' => $result]);
-        }
     }
 }
