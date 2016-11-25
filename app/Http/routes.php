@@ -55,7 +55,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
 /**
  * 前台入口
  */
-Route::group(['domian'=>'www.hero.app' ,'namespace' => 'Home'],function() {
+Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 验证码

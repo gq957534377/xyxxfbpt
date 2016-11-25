@@ -70,7 +70,12 @@ class ArticleController extends Controller
     {
         //所需要数据的获取
         $session = $request -> session() -> all();
-        $data = self::$articleServer -> getData($id);//文章详情
+        if($request->input('type')==3) {
+            $user = 2;
+        }else{
+            $user = 1;
+        }
+        $data = self::$articleServer -> getData($id,$user);//文章详情
         $likeNum = self::$articleServer-> getLikeNum($id);//支持/不支持人数
         //$isHas（是否已经登陆参加）的设置
         if (!isset($session['user'])){

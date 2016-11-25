@@ -35,7 +35,6 @@
         </div>
         {{--引入弹出表单，包含@yield--}}
         @include('admin.libs.alertForm')
-        @include('admin.match.alterform')
         {{--引入弹出提示，包含@yield--}}
         @include('admin.libs.alertInfo')
         @include('admin.public.footer')

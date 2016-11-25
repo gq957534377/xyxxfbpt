@@ -46,7 +46,12 @@ class ArticleService
      */
     public static function selectByType($type)
     {
-        $data = self::$articleStore -> getData(['type' => $type]);
+        if ($type == 3){
+            $data = self::$sendStore -> getData(['status'=>1]);
+        }else{
+            $data = self::$articleStore -> getData(['type' => $type, 'status' => 1]);
+        }
+
         if($data) return ['status' => true, 'msg' => $data];
         return ['status' => false, 'msg' => '暂时没有本文章信息'];
     }
