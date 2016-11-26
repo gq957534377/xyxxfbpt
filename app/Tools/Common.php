@@ -18,6 +18,8 @@ use Ramsey\Uuid\Uuid;
 use Flc\Alidayu\Client;
 use Flc\Alidayu\App;
 use Flc\Alidayu\Requests\AlibabaAliqinFcSmsNumSend;
+use Qiniu\Auth;
+use Qiniu\Storage\UploadManager;
 
 
 
@@ -188,5 +190,50 @@ class Common {
             'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl,null),
         ];
 
+    }
+
+    /**
+     * 返回七牛upToken
+     * @return mixed
+     * @author 贾济林
+     */
+    public static function getToken()
+    {
+        // 需要填写你的 Access Key 和 Secret Key
+        $accessKey = 'VsAP-hK_hVPKiq5CQcoxWNhBT9ZpZ1Ii4z3O_W51';
+        $secretKey = '5dqfmvL15DFoAK1QzaVF2TwVzwJllOF8K4Puf1Po';
+
+        // 构建鉴权对象
+        $auth = new Auth($accessKey, $secretKey);
+
+        // 要上传的空间
+        $bucket = 'jacklin';
+
+        // 生成上传 Token
+        $token = $auth->uploadToken($bucket);
+        return $token;
+    }
+
+    /**
+     * 七牛云服务器上传接口
+     * @param $filePath
+     * @param $key
+     * @return array
+     * @author 贾济林
+     */
+    public static function QiniuUpload($filePath,$key)
+    {
+        //获得token
+        $token = self::getToken();
+
+        // 初始化 UploadManager 对象并进行文件的上传
+        $uploadMgr = new UploadManager();
+
+        // 调用 UploadManager 的 putFile 方法进行文件的上传
+        list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
+        $res = ['status' => true, 'url'=> 'ogd29n56i.bkt.clouddn.com/'.$key];
+        
+        if (!$err==null) return $err;
+        return $res;
     }
 }
