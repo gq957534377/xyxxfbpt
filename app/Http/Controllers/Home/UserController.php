@@ -200,7 +200,7 @@ class UserController extends Controller
         $info = Avatar::avatar($request);
 
         if ($info['status'] == '400') return response()->json(['state' => 400,'result' => '文件上传失败!']);
-        $avatarName = 'uploads/avatars/'.$info['msg'];
+        $avatarName = $info['msg'];
 
         $guid = $request->all()['guid'];
         //转交service 层，存储

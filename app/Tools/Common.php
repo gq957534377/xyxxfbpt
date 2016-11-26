@@ -231,7 +231,7 @@ class Common {
 
         // 调用 UploadManager 的 putFile 方法进行文件的上传
         list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
-        $res = ['status' => true, 'url'=> 'ogd29n56i.bkt.clouddn.com/'.$key];
+        $res = ['status' => true, 'url'=> 'http://ogd29n56i.bkt.clouddn.com/'.$key];
         
         if (!$err==null) return $err;
         return $res;

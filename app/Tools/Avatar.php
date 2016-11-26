@@ -28,18 +28,23 @@ class Avatar{
         //拼装新的文件名
         $extension = $file->getClientOriginalExtension();
         $newFilename = date('YmdHis').'.'.$extension;
+        $path = public_path('uploads/avatars/');
+
         //打开一张图片
         $img = Image::make($tmpFile)
             ->rotate(-$rotate)
             ->crop($cropW,$cropH,$cropX,$cropY)
-            ->save();
-
-        $path = public_path('uploads/avatars/');
-        $img->save($path .$newFilename);
+            ->save($path .$newFilename);
 
         if( !$img) return ['status' => '400','msg' => '图片保存失败'];
 
-        return ['status' => '200','msg' => $newFilename];
+        $info = Common::QiniuUpload($path .$newFilename,$newFilename);
+
+        if(!$info['status']) return ['status' => '400','msg' => '存储失败!'];
+        //成功删除本地图片
+        unlink($path .$newFilename);
+
+        return ['status' => '200','msg' => $info['url']];
     }
 
 }
