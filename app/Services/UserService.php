@@ -302,27 +302,15 @@ class UserService {
      * @return array
      * @author 刘峻廷
      */
-    public function avatar($guid,$file,$data)
+    public function avatar($guid,$avatarName)
     {
-        //数据提取过滤
-        $newFile['name'] = $file->getClientOriginalName();
-        $newFile['type'] = $file->getClientMimeType();
-        $newFile['tmp_name'] = $file->getRealPath();
-        $newFile['error'] = $file->getError();
-        $newFile['size'] = $file->getClientSize();
-
-        //图片处理
-        $avatarInfo = new Crop($data['avatar_src'],$data['avatar_data'],$newFile);
-
-        if (empty($avatarInfo)) return ['status' => '400','msg' => $avatarInfo->getMsg()];
-        //截取成功后的图像地址
-        $avatarUrl = $avatarInfo->getResult();
-
+        // 检验数据
+        if(empty($guid) || empty($avatarName)) return ['status' => '400','msg' => '缺少数据！'];
         //转交store层
-        $info = self::$userStore->updateUserInfo(['guid' => $guid],['headpic' => $avatarUrl]);
+        $info = self::$userStore->updateUserInfo(['guid' => $guid],['headpic' => $avatarName]);
 
-        if(!$info) return ['status' => '400','msg' => $avatarInfo->getResult()];
-        return ['status' => '200','msg' => $avatarUrl];
+        if(!$info) return ['status' => '400','msg' => '保存失败!'];
+        return ['status' => '200','msg' => '保存成功'];
 
     }
 

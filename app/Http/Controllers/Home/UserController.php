@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Services\UserService as UserServer;
 use App\Services\UploadService as UploadServer;
 use Illuminate\Support\Facades\Validator;
+use App\Tools\Avatar;
 
 class UserController extends Controller
 {
@@ -185,23 +186,32 @@ class UserController extends Controller
      */
     public function headpic(Request $request)
     {
-        $data = $request->all();
-        //提取用户的guid
-        $guid = $data['guid'];
-        //判断上传文件是否存在
-        if (!$request->hasFile('avatar_file'))  return response()->json(['StatusCode' => '400','ResultData' => '上传文件为空!']);
-        $file = $request->file('avatar_file');
+        //数据验证过滤
+        $validator = Validator::make($request->all(),[
+            'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
+        ],[
+            'avatar_file.required' => '上传文件为空!',
+            'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
 
-        //将上传文件转交到servise层
-        $info = self::$userServer->avatar($guid,$file,$data);
+        ]);
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['state' => 400,'result' => $validator->errors()->all()]);
+        //上传
+        $info = Avatar::avatar($request);
 
+        if ($info['status'] == '400') return response()->json(['state' => 400,'result' => '文件上传失败!']);
+        $avatarName = 'uploads/avatars/'.$info['msg'];
+
+        $guid = $request->all()['guid'];
+        //转交service 层，存储
+        $info = self::$userServer->avatar($guid,$avatarName);
         // 返回状态信息
         switch ($info['status']){
             case '400':
-                return response()->json(['state' => 400,'message' => $info['msg']  ,'result' => $info['msg']]);
+                return response()->json(['state' => 400,'result' => $info['msg']]);
                 break;
             case '200':
-                return response()->json(['state' => 200,'message' => $info['msg'],'result' => $info['msg']]);
+                return response()->json(['state' => 200,'result' => $avatarName]);
                 break;
         }
     }
