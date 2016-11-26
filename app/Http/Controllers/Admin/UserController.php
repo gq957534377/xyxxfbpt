@@ -39,7 +39,6 @@ class UserController extends Controller
     public function create(Request $request)
     {
         $data = $request->all();
-
         //初步判断数据
         if (empty($data))
             return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);

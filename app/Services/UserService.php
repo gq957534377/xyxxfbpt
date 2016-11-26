@@ -196,7 +196,7 @@ class UserService {
             return ['status' => false, 'data' => '请求参数错误'];
 
         // 1 普通用户 ；2 创业者 ；3 投资者
-        if(!in_array($data['role'], ['1', '2', '3']))
+        if(!in_array($data['role'], ['1', '2', '3', '4']))
             return ['status' => false, 'data' => '请求参数错误'];
 
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
@@ -204,7 +204,7 @@ class UserService {
         //获取数据
         $userData = self::$userStore
             ->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
-
+        
         //对获取的数据做判断
         if ($userData === false)
             return ['status' => false, 'data' => '缺少分页信息，数据获取失败'];
