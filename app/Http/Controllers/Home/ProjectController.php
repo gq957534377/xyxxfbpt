@@ -67,7 +67,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * 返回发布项目视图
+     * 返回项目详情视图
      * @param $id
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 贾济林
@@ -104,11 +104,11 @@ class ProjectController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 返回个人项目列表
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     * @author 贾济林
      */
     public function update(Request $request, $id)
     {
@@ -118,12 +118,11 @@ class ProjectController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 获得指定id的项目数据
+     * @param $id
+     * @return mixed
+     * @author 贾济林
      */
-    //获得指定id用户的项目数据
     public function destroy($id)
     {
         $where = ['project_id'=>$id];

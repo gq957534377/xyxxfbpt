@@ -57,14 +57,22 @@ class ProjectUsersController extends Controller
      */
     public function show($id)
     {
+        //返回个人中心项目列表视图
         if ($id=='myproject') return view('home.user.myproject');
+
         $where = ['project_id'=>$id];
         $res = self::$projectServer->getData($where);
+
         if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
         return response()->json(['status'=>'200','data'=>$res['data']]);
     }
 
-    //个人中心项目启用禁止
+    /**
+     * 用户设置已通过项目是否展示
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     */
     public function edit(Request $request, $id)
     {
         $disable = $request['disable'];
@@ -76,7 +84,13 @@ class ProjectUsersController extends Controller
     }
 
 
-    //个人中心数据项目数据更新
+    /**
+     * 个人中心数据项目数据更新
+     * @param Request $request
+     * @param $id
+     * @return mixed
+     * @antuor 贾济林
+     */
     public function update(Request $request, $id)
     {
         $data = $request->all();

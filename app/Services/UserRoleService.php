@@ -307,4 +307,11 @@ class UserRoleService {
         return ['status'=>true,'data'=>'修改成功！'];
     }
 
+    public function getList($where)
+    {
+        $res = self::$roleStore->getList($where);
+        if ($res==0) return ['status' => '500', 'msg' => '未找到数据'];
+        return ['status' => '200', 'data' => $res];
+    }
+
 }

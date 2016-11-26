@@ -22,6 +22,9 @@
             <button type="button" data-name="user_investor" class="add_event btn btn-default">投资者用户</button>
         </div>
         <div class="btn-group">
+            <button type="button" data-name="user_investor" role="4" status="1" class="add_event btn btn-default user_list">英雄会成员</button>
+        </div>
+        <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">待审核
                 <span class="caret"></span>
             </button>
@@ -31,6 +34,9 @@
                 </li>
                 <li>
                     <a data-name="check_investor" class="add_event" href="javascript:void(0)">投资者</a>
+                </li>
+                <li>
+                    <a data-name="check_investor" status="1" role="4" class="user_role_list" href="javascript:void(0)">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -44,6 +50,9 @@
                 </li>
                 <li>
                     <a data-name="check_investor_fail" class="add_event" href="javascript:void(0)">投资者</a>
+                </li>
+                <li>
+                    <a data-name="check_investor_fail" role="4" status="3" class="user_role_list" href="javascript:void(0)">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -61,6 +70,9 @@
                 <li>
                     <a data-name="user_investor_disabled" class="add_event" href="javascript:void(0)">投资者</a>
                 </li>
+                <li>
+                    <a data-name="user_investor_disabled" class="add_event" href="javascript:void(0)">英雄会成员</a>
+                </li>
             </ul>
         </div>
         <div class="btn-group">
@@ -76,6 +88,9 @@
                 </li>
                 <li>
                     <a data-name="user_investor_deleted" class="add_event" href="javascript:void(0)">投资者</a>
+                </li>
+                <li>
+                    <a data-name="user_investor_deleted" status="3" role="4" class="add_event" href="javascript:void(0)">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -181,6 +196,23 @@
             });
         });
 
+    </script>
+
+    <script>
+            $('.user_role_list').click(function(){
+                var status = $(this).attr('status'), role = $(this).attr('role');
+                $.ajax({
+                    url:'/user_role/list',
+                    type:'get',
+                    data:{
+                        status:status,
+                        role:role
+                    },
+                    success:function(data){
+                        alert(data);
+                    }
+                })
+            })
     </script>
 
 @endsection

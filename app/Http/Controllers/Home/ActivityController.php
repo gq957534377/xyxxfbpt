@@ -41,6 +41,7 @@ class ActivityController extends Controller
         }
 
         if (empty($data)) return response()->json(['status'=>'500','msg'=>'未找到数据']);
+        dd($data);
         return view('home.user.activity.activity')->with('data',$data);
     }
 
