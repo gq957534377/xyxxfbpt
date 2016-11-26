@@ -364,9 +364,9 @@ class ArticleService
     /**
      * 获取指定用户所发表的所有文章
      */
-    public static function getArticleByUser($id)
+    public static function getArticleByUser($id, $status)
     {
-        $result = self::$sendStore->getData(['user_id' => $id]);
+        $result = self::$sendStore->getData(['user_id' => $id, 'status' => $status]);
         if($result) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => $result];
     }

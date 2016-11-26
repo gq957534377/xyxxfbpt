@@ -106,4 +106,10 @@ class RoleStore
         if(empty($condition)) return false;
         return DB::table(self::$table)->where($condition)->delete();
     }
+
+    public function getList($where)
+    {
+        if(empty($where)) return false;
+        return DB::table(self::$table)->where($where)->get();
+    }
 }

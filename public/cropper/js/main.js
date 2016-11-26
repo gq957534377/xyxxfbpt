@@ -284,7 +284,7 @@
           this.alert(data.message);
         }
       } else {
-        this.alert('响应数据有误');
+        this.alert(data.result);
       }
     },
 

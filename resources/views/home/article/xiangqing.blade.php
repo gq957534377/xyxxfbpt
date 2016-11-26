@@ -13,6 +13,9 @@
 @section('content')
     <section id="blog" class="container">
         <div class="center">
+            @if(is_string($data))
+                <h2>{{$data}}</h2>
+            @else
             <h2>{{$data->title}}</h2>
             <p class="lead">{{$data->brief}}</p>
         </div>
@@ -32,12 +35,12 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-10 blog-content">
-                                    <h2>@if(isset($v->author)) {{$v->author}} @else Admin @endif</h2>
+                                    <h2>@if(isset($data->author)) {{$data->author}} @else Admin @endif</h2>
                                     {!!$data->describe!!}
                                 </div>
                             </div>
                         </div><!--/.blog-item-->
-
+@endif
                         
                         <div class="media reply_section">
                             <div class="pull-left post_reply text-center">

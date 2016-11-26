@@ -196,7 +196,7 @@ class UserService {
             return ['status' => false, 'data' => '请求参数错误'];
 
         // 1 普通用户 ；2 创业者 ；3 投资者
-        if(!in_array($data['role'], ['1', '2', '3']))
+        if(!in_array($data['role'], ['1', '2', '3', '4']))
             return ['status' => false, 'data' => '请求参数错误'];
 
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
@@ -204,7 +204,7 @@ class UserService {
         //获取数据
         $userData = self::$userStore
             ->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
-
+        
         //对获取的数据做判断
         if ($userData === false)
             return ['status' => false, 'data' => '缺少分页信息，数据获取失败'];
@@ -302,27 +302,15 @@ class UserService {
      * @return array
      * @author 刘峻廷
      */
-    public function avatar($guid,$file,$data)
+    public function avatar($guid,$avatarName)
     {
-        //数据提取过滤
-        $newFile['name'] = $file->getClientOriginalName();
-        $newFile['type'] = $file->getClientMimeType();
-        $newFile['tmp_name'] = $file->getRealPath();
-        $newFile['error'] = $file->getError();
-        $newFile['size'] = $file->getClientSize();
-
-        //图片处理
-        $avatarInfo = new Crop($data['avatar_src'],$data['avatar_data'],$newFile);
-
-        if (empty($avatarInfo)) return ['status' => '400','msg' => $avatarInfo->getMsg()];
-        //截取成功后的图像地址
-        $avatarUrl = $avatarInfo->getResult();
-
+        // 检验数据
+        if(empty($guid) || empty($avatarName)) return ['status' => '400','msg' => '缺少数据！'];
         //转交store层
-        $info = self::$userStore->updateUserInfo(['guid' => $guid],['headpic' => $avatarUrl]);
+        $info = self::$userStore->updateUserInfo(['guid' => $guid],['headpic' => $avatarName]);
 
-        if(!$info) return ['status' => '400','msg' => $avatarInfo->getResult()];
-        return ['status' => '200','msg' => $avatarUrl];
+        if(!$info) return ['status' => '400','msg' => '保存失败!'];
+        return ['status' => '200','msg' => '保存成功'];
 
     }
 

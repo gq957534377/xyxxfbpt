@@ -83,7 +83,7 @@
                                 <div class="form-group">
                                     <label for="" class="col-sm-2 control-label">手机号</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" name="user_phone" type="text"></div>
+                                        <input class="form-control" name="user_phone" type="text" readonly></div>
                                     <div class="col-sm-4 help-block">如：18870913609</div></div>
 
                                 <div class="form-group">
@@ -149,12 +149,12 @@
 
                         $(".loading").hide();
                         break;
-                    case '404':
-                        alert(msg.ResultData);
+                    case '400':
+                        promptBoxHandle('警告',msg.ResultData);
                         $(".loading").hide();
                         break;
                     case '500':
-                        alert(msg.ResultData);
+                        promptBoxHandle('警告',msg.ResultData);
                         $(".loading").hide();
                         break;
                 }
@@ -170,17 +170,8 @@
                 'hometown' : user_hometown.val(),
                 'birthday' : user_birthday.val(),
                 'sex':  $('input:radio[name="user_sex"]:checked').val(),
-                'tel' : user_phone.val()
             };
             ajaxRequire(url+'/'+guid,'PUT',data,$("#userBox"),2);
-        });
-
-        // 异步上传头像
-        $("#changeHead").click(function(){
-            var headPicForm = new FormData(document.getElementById("headPicForm"));
-            headPicForm.append('guid',guid);
-            var url = '/headpic';
-            ajaxRequire('/headpic','POST',headPicForm,$("#userBox"),3);
         });
 
         // 申请成为投资者
@@ -198,37 +189,6 @@
                 $('#place').val('当前选中地区：'+data['province']+text+' '+data['city']+' '+data['area']);
             }
         });
-
-        // 申请成为投资者
-//        $("#investor").click(function(){
-//            $('#userBox').hide();
-//            $('#pro_list_table').hide();
-//            $('#investorBox').show();
-//            $('#entrepreneursBox').hide();
-//            $("#editUserInfoBtn").removeClass('active');
-//            $("#entrepreneursBtn").removeClass('active');
-//            $(this).addClass('active');
-//        });
-//
-//        $("#editUserInfoBtn").click(function(){
-//            $('#userBox').show();
-//            $('#pro_list_table').hide();
-//            $('#investorBox').hide();
-//            $('#entrepreneursBox').hide();
-//            $("#investor").removeClass('active');
-//            $("#entrepreneursBtn").removeClass('active');
-//            $(this).addClass('active');
-//        });
-//
-//        $("#entrepreneursBtn").click(function(){
-//            $('#userBox').hide();
-//            $('#pro_list_table').hide();
-//            $('#investorBox').hide();
-//            $('#entrepreneursBox').show();
-//            $("#editUserInfoBtn").removeClass('active');
-//            $("#investor").removeClass('active');
-//            $(this).addClass('active');
-//        });
 
     });
 

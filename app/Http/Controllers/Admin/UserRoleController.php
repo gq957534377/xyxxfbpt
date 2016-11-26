@@ -37,7 +37,6 @@ class UserRoleController extends Controller
     public function create(Request $request)
     {
         $data = $request->all();
-
         //判断请求数据
         if (empty($data))
             return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
@@ -74,9 +73,12 @@ class UserRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $res = self::$userRoleServer->getList($data);
+        if (!$res) return response()->json(['status' => '500', 'msg' => '查询失败']);
+        return response()->json(['status' => '200', 'data' => $res['data']]);
     }
 
     /**
