@@ -201,6 +201,8 @@
     <script>
             $('.user_role_list').click(function(){
                 var status = $(this).attr('status'), role = $(this).attr('role');
+                $('.check_pass').show();
+                $('.check_fail').show();
                 $.ajax({
                     url:'/user_role/list',
                     type:'get',
@@ -209,7 +211,32 @@
                         role:role
                     },
                     success:function(data){
-                        alert(data);
+                        var html=listRoleShow2(data);
+                        $('#data').html(html);
+                        checkInfo();
+                        $('.check_pass').off('click').click(function(){
+                            var guid = $(this).data('name');
+                            var This = $(this);
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                url:'user_role/'+guid,
+                                type:'put',
+                                data:{
+                                    status:2
+                                },
+                                success:function(data){
+                                    $('#alert-form').hide();
+                                    $('#alert-info').show().html('<p>数据修改成功!</p>');
+                                    $('.check_pass').hide();
+                                    $('.check_fail').hide();
+                                    $('a[data-name='+guid+']').parents('tr').remove();
+                                }
+                            })
+                        });
                     }
                 })
             })

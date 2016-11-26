@@ -402,7 +402,6 @@ function changeSomeStatus(){
     $('.user_unlock, .user_lock, .user_delete, .user_un_delete, .check_pass, .check_fail, .check_delete').off('click').on('click', function () {
         //获得number
         getNumber($(this));
-
         //初始化全局变量
         guid = $(this).data('name');
 
@@ -413,7 +412,6 @@ function changeSomeStatus(){
             window.item = $(this).parent().siblings("td").first().text();
             load(url_1, numberData(getNumber($(this))), 'put', checkResponseStatus);
         }
-
         //发送一个信号，让服务器执行一个事务
         if(number == 4){
             var msg_1 = {
