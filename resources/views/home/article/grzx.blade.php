@@ -67,7 +67,9 @@
                         </div>
                         <div class="modal-footer" id="caozuo">
                             <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                            <button type="submit" data-name="" class="article_update btn btn-primary" id="add_article">发布</button>
+                            <button type="submit" data-name="2" class="add_article btn btn-primary">提交审核</button>
+                            <a target=_blank data-name="5" class="add_article"><button type="submit" data-name="5" class="add_article btn btn-primary">预览</button></a>
+                            <button type="submit" data-name="4" class="add_article btn btn-primary">存稿</button>
                         </div>
                     </form>
                 </div>
@@ -78,11 +80,50 @@
         <div class="center">
             <h2>文章管理</h2>
         </div>
-        <div>
 
-        </div>
         <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">文章发布</button>
+        <br>
+        <a href="/send?status=1"><button class="btn @if($status == 1) btn-success @else btn-default @endif">已发布</button></a>
+        <a href="/send?status=2"><button class="btn @if($status == 2) btn-success @else btn-default @endif">审核中...</button></a>
+        <a href="/send?status=3"><button class="btn @if($status == 3) btn-success @else btn-default @endif">已退稿</button></a>
+        <a href="/send?status=4"><button class="btn @if($status == 4) btn-success @else btn-default @endif">草稿</button></a>
 
+        <div>
+            <table style="width:100%;">
+            @if(is_string($article))
+            <h1>{{$article}}</h1>
+            @else
+                    <tr>
+                        <td>标题</td>
+                        <td>发布时间</td>
+                        <td>简述</td>
+                        <td>来源</td>
+                        <td>操作</td>
+                    </tr>
+                @foreach($article as $v)
+                <tr>
+                    <td>{{$v->title}}</td>
+                    <td>{{$v->time}}</td>
+                    <td>{{$v->brief}}</td>
+                    <td>{{$v->source}}</td>
+                    <td>
+                        @if($status == 1)
+                            <a href="/article/{{$v->guid}}?type=3" target=_blank><button class="btn btn-success">查看详情</button></a>
+                            @elseif($status == 2)
+                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=2">预览</button></a>
+                            @elseif($status == 3)
+                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=3">编辑</button></a>
+                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-danger" href="/send/create?status=3">删除</button></a>
+                            @else
+                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=4">编辑</button></a>
+                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-danger" href="/send/create?status=4">删除</button></a>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            @endif
+            </table>
+        </div>
     </section><!--/#blog-->
     @include('home.validator.publishValidator')
 @endsection
@@ -225,9 +266,13 @@
         });
     </script>
     <script>
+        $('.status1').off('click').on('click',function () {
+            $('.status1').removeClass('btn-success').addClass('btn-default');
+            $(this).addClass('btn-success');
+        });
 
 //发布
-        $('#add_article').click(function () {
+        $('.add_article').click(function () {
             var data = {
                 title:$('input[name=title]').val(),
                 banner:$('input[name=banner]').val(),
@@ -235,6 +280,7 @@
                 brief:$('textarea[name=brief]').val(),
                 describe:$('textarea[name=describe]').val(),
             };
+            var status = $(this).data('name');
 
             console.log(data);
             $.ajaxSetup({
@@ -243,13 +289,13 @@
                 }
             });
             $.ajax({
-                url:'/send',
+                url:'/send?status='+status,
                 type:'post',
                 data: data,
                 success:function (data) {
                     if (data.StatusCode == 200){
                         $('#con-close-modal').modal('hide');
-                        alert('发布成功');
+                        alert('成功');
                     }
                     else {
                         alert(data.ResultData);

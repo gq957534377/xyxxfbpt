@@ -25,20 +25,32 @@ class SendController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request['status']){
+            $status = $request['status'];
+        }else{
+            $status = 1;
+        }
         $user_id = $request -> session() -> get('user') -> guid;
-        $result = self::$articleServer->getArticleByUser($user_id);
-        if ($result['status'] || empty($result['msg'])) return view('home.article.grzx',['article' => $result['msg']]);
+        $result = self::$articleServer->getArticleByUser($user_id, $status);
+        if ($result['status'] || empty($result['msg'])) return view('home.article.grzx', ['article' => $result['msg'], 'status' => $status]);
         return view('home.article.grzx')->withErrors('获取文稿信息失败');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 展示详情
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        dd($request->all());
+        if(!$request['id']){
+            return view('home.article.new',['data' => $request->all()]);
+        }
+        $id = $request['id'];
+        $result = self::$articleServer->getData($id, 2);
+        if ($result['status']) return view('home.article.new',['data' => $result['msg']]);
+        return view('home.article.new',['data' => $result['msg']]);
     }
 
     /**
@@ -49,6 +61,14 @@ class SendController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+
+        //预览
+        if($data['status']==5){
+            dd($request['data']);
+            return view('home.article.new',['data' => $data]);
+        }
+
+
         $data['user_id'] = $request -> session() -> get('user') -> guid;
         $res = self::$userServer -> userInfo(['guid' => $data['user_id']]);
         if ($res['status']){
@@ -64,14 +84,16 @@ class SendController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * 展示详情
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $result = self::$articleServer->getData($id, 2);
+        if ($result['status']) return view('home.article.new',['data' => $result['msg']]);
+        return view('home.article.new',['data' => $result['msg']]);
     }
 
     /**
