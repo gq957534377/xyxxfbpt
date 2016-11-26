@@ -13,7 +13,7 @@
 @section('content')
     <section id="blog" class="container">
         <div class="center">
-            <h2>Blogs</h2>
+            <h2>@if($type==1)市场@elseif($type == 2)政策@else用户来稿@endif</h2>
             <p class="lead">Pellentesque habitant morbi tristique senectus et netus et malesuada</p>
         </div>
 
@@ -36,10 +36,10 @@
                             </div>
 
                             <div class="col-xs-12 col-sm-10 blog-content">
-                                <a href="#"><img class="img-responsive img-blog" src="{{asset('home/images/blog/blog1.jpg')}}" width="100%" alt="" /></a>
+                                <a href="#"><img class="img-responsive img-blog" src="{{asset($v->banner)}}" width="100%" alt="" /></a>
                                 <h2><a href="/article/{{$v->guid}}">{{$v->title}}</a></h2>
                                 <h3>{{$v->brief}}</h3>
-                                <a class="btn btn-primary readmore" href="/article/{{$v->guid}}">Read More <i class="fa fa-angle-right"></i></a>
+                                <a class="btn btn-primary readmore" href="/article/{{$v->guid}}?type={{$type}}">Read More <i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
                     </div><!--/.blog-item-->

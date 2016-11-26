@@ -26,10 +26,10 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        $type = $request -> all()['type'];
+        $type = $request['type'];
         $result = self::$articleServer -> selectByType($type);
-        if ($result['status']) return view('home.article.index', ['msg' => $result['msg']]);
-        return view('home.article.index', ['msg' => $result['msg']]);
+        if ($result['status']) return view('home.article.index', ['msg' => $result['msg'], 'type' => $type]);
+        return view('home.article.index', ['msg' => $result['msg'], 'type' => $type]);
     }
 
     /**
