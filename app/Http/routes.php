@@ -96,3 +96,15 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/send', 'SendController');
         Route::any('/upload','ActionController@upload');
     });
+
+
+
+
+
+});
+
+
+
+
+
+
