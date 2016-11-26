@@ -68,14 +68,14 @@
                         <div class="modal-footer" id="caozuo">
                             <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
                             <button type="submit" data-name="2" class="add_article btn btn-primary">提交审核</button>
-                            <a target=_blank data-name="5" class="add_article"><button type="submit" data-name="5" class="add_article btn btn-primary">预览</button></a>
+                            <a target=_blank data-name="5" id="yulan"></a>
+                            <button type="button" data-name="5" class="add_article btn btn-primary">预览</button>
                             <button type="submit" data-name="4" class="add_article btn btn-primary">存稿</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div><!-- /.modal -->
-        {{--修改--}}
 
         <div class="center">
             <h2>文章管理</h2>
@@ -112,10 +112,10 @@
                             @elseif($status == 2)
                             <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=2">预览</button></a>
                             @elseif($status == 3)
-                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=3">编辑</button></a>
+                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">编辑</button></a>
                             <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-danger" href="/send/create?status=3">删除</button></a>
                             @else
-                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=4">编辑</button></a>
+                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">编辑</button></a>
                             <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-danger" href="/send/create?status=4">删除</button></a>
                         @endif
                     </td>
@@ -280,8 +280,13 @@
                 brief:$('textarea[name=brief]').val(),
                 describe:$('textarea[name=describe]').val(),
             };
-            var status = $(this).data('name');
 
+            var status = $(this).data('name');
+            if (status == 5){
+                var data1 = JSON.stringify(data);
+                window.open('/send/1?data='+data1);
+                return ;
+            }
             console.log(data);
             $.ajaxSetup({
                 headers: {
@@ -296,6 +301,13 @@
                     if (data.StatusCode == 200){
                         $('#con-close-modal').modal('hide');
                         alert('成功');
+                        $('input[name=title]').val('');
+                        $('input[name=banner]').val('');
+                        $('input[name=source]').val('');
+                        $('textarea[name=brief]').val('');
+                        $('textarea[name=describe]').val('');
+                        ue.setContent('');
+                        $('#article_thumb_img').attr('src', '');
                     }
                     else {
                         alert(data.ResultData);

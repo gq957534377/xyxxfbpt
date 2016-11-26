@@ -61,14 +61,6 @@ class SendController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
-        //预览
-        if($data['status']==5){
-            dd($request['data']);
-            return view('home.article.new',['data' => $data]);
-        }
-
-
         $data['user_id'] = $request -> session() -> get('user') -> guid;
         $res = self::$userServer -> userInfo(['guid' => $data['user_id']]);
         if ($res['status']){
@@ -83,14 +75,32 @@ class SendController extends Controller
         return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }
 
+
     /**
-     * 展示详情
+     * 展示预览（未发布）
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        if($id==1){
+            if (is_string($request['data'])){
+                $data = json_decode($request['data']);
+            }else{
+                $data = $request['data'];
+            }
+            $user_id = $request -> session() -> get('user') -> guid;
+            $res = self::$userServer -> userInfo(['guid' => $user_id]);
+            if ($res['status']){
+                $data->author = $res['msg'] -> nickname;
+                $data->headpic = $res['msg'] -> headpic;
+            }else{
+                $data->author = '佚名';
+                $data->headpic = '/home/images/logo.jpg';
+            }
+            return view('home.article.new',['data' => $data]);
+        }
         $result = self::$articleServer->getData($id, 2);
         if ($result['status']) return view('home.article.new',['data' => $result['msg']]);
         return view('home.article.new',['data' => $result['msg']]);
