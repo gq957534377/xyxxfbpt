@@ -22,7 +22,7 @@
             <button type="button" data-name="user_investor" class="add_event btn btn-default">投资者用户</button>
         </div>
         <div class="btn-group">
-            <button type="button" data-name="user_investor" role="4" status="1" class="add_event btn btn-default user_list">英雄会成员</button>
+            <button type="button" data-name="user_investor" role="4" status="1" class=" btn btn-default user_list" title="英雄会成员">英雄会成员</button>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">待审核
@@ -36,7 +36,7 @@
                     <a data-name="check_investor" class="add_event" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="check_investor" status="1" role="4" class="user_role_list" href="javascript:void(0)">英雄会成员</a>
+                    <a data-name="check_investor" status="1" role="4" class="user_role_list" href="javascript:void(0)" title="待审核英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -52,7 +52,7 @@
                     <a data-name="check_investor_fail" class="add_event" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="check_investor_fail" role="4" status="3" class="user_role_list" href="javascript:void(0)">英雄会成员</a>
+                    <a data-name="check_investor_fail" role="4" status="3" class="user_role_list" href="javascript:void(0)" title="审核失败英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -71,7 +71,7 @@
                     <a data-name="user_investor_disabled" class="add_event" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="user_investor_disabled" class="add_event" href="javascript:void(0)">英雄会成员</a>
+                    <a data-name="user_investor_disabled" role="4" status="2" class="user_list" href="javascript:void(0)" title="已禁用英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -90,7 +90,7 @@
                     <a data-name="user_investor_deleted" class="add_event" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="user_investor_deleted" status="3" role="4" class="add_event" href="javascript:void(0)">英雄会成员</a>
+                    <a data-name="user_investor_deleted" status="3" role="4" class="user_list" href="javascript:void(0)" title="已停用英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -103,7 +103,7 @@
     </div>
 
     {{--表格盒子开始--}}
-    <div class="panel" id="data"></div>
+    <div class="panel" id="data" style="text-align: center"></div>
     {{--表格盒子结束--}}
 
 @endsection
@@ -199,7 +199,9 @@
     </script>
 
     <script>
+            //定义用户角色表格相关按钮事件  待审核、审核失败
             $('.user_role_list').click(function(){
+                $('#user_title').html($(this).attr('title'));
                 var status = $(this).attr('status'), role = $(this).attr('role');
                 $('.check_pass').show();
                 $('.check_fail').show();
@@ -211,6 +213,7 @@
                         role:role
                     },
                     success:function(data){
+                        if (data.data.length==0) return $('#data').html('暂无数据哦');
                         var html=listRoleShow2(data);
                         $('#data').html(html);
                         checkInfo();
@@ -237,6 +240,30 @@
                                 }
                             })
                         });
+                    }
+                })
+            });
+
+            //定义用户表格
+            $('.user_list').click(function(){
+                $('#user_title').html($(this).attr('title'));
+                var status = $(this).attr('status'), role = $(this).attr('role');
+                $('.check_pass').show();
+                $('.check_fail').show();
+                $.ajax({
+                    url:'/user/create',
+                    type:'get',
+                    data:{
+                        status:status,
+                        role:role
+                    },
+                    success:function(data){
+                        if (data.StatusCode==300) $('#data').html('暂时没有数据');
+                        var html=listUserShow(data);
+                        $('#data').html(html);
+                        checkInfo();
+                        changeSomeStatus();
+                        modifyData();
                     }
                 })
             })

@@ -107,6 +107,12 @@ class RoleStore
         return DB::table(self::$table)->where($condition)->delete();
     }
 
+    /**
+     * 获取指定条件的数据
+     * @param $where
+     * @return bool
+     * @author 贾济林
+     */
     public function getList($where)
     {
         if(empty($where)) return false;
