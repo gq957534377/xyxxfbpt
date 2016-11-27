@@ -43,14 +43,7 @@ class SendController extends Controller
      */
     public function create(Request $request)
     {
-        dd($request->all());
-        if(!$request['id']){
-            return view('home.article.new',['data' => $request->all()]);
-        }
-        $id = $request['id'];
-        $result = self::$articleServer->getData($id, 2);
-        if ($result['status']) return view('home.article.new',['data' => $result['msg']]);
-        return view('home.article.new',['data' => $result['msg']]);
+
     }
 
     /**
@@ -107,36 +100,41 @@ class SendController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 给前台传出对应id的所有数据
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        $result = self::$articleServer->getData($id, 2);
+        if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+        return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }
 
     /**
-     * Update the specified resource in storage.
+     * 修改文稿内容
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $data['user'] = 2;
+        $result = self::$articleServer->upDta(['guid'=>$id], $data);
+        if($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+        return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 用户来搞删除.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $result = self::$articleServer->changeStatus($id, 5, 2);
+        if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+        return ['StatusCode' => 400, 'ResultData' => '删除失败！'];
     }
 }
