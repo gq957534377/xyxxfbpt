@@ -57,7 +57,7 @@ function Project(){
             if (data[i].status==1) var operating_td = $('<td>请耐心等待...</td>');
 
             //未通过，提供重新发布
-            if (data[i].status==2) var operating_td = $('<td><button type="button" class="btn btn-info pro_edit">修改</button></td>');
+            if (data[i].status==2) var operating_td = $('<td><button type="button" class="btn btn-info pro_edit">重新发布</button></td>');
             operating_td.find('button').prop('id',data[i].project_id);
             var tr = $('<tr></tr>');
             tr.append(title_td);

@@ -85,7 +85,7 @@ class ProjectUsersController extends Controller
 
 
     /**
-     * 个人中心数据项目数据更新
+     * 个人中心重新发布
      * @param Request $request
      * @param $id
      * @return mixed
