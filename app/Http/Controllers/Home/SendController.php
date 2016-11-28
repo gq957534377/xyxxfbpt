@@ -91,6 +91,7 @@ class SendController extends Controller
             $user_id = $request -> session() -> get('user') -> guid;
             $res = self::$userServer -> userInfo(['guid' => $user_id]);
             if ($res['status']){
+                dd($res['status']);
                 $data->author = $res['msg'] -> nickname;
                 $data->headpic = $res['msg'] -> headpic;
             }else{

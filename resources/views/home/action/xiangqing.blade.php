@@ -193,7 +193,7 @@
                         data.ResultData.map(function (item) {
                             $('#comment_list').append('<div class="media comment_section">' +
                                     '<div class="pull-left post_comments">' +
-                                    '<a href="#"><img src="/'+item.headpic+'" class="img-circle" alt="" /></a>' +
+                                    '<a href="#"><img src='+item.headpic+' class="img-circle"/></a>' +
                                     '</div>' +
                                     '<div class="media-body post_reply_comments">' +
                                     '<h3>'+item.user_name+'</h3>' +
