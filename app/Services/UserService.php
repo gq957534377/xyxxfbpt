@@ -25,7 +25,7 @@ class UserService {
      * @param UserStore $userStore
      * @param RoleStore $roleStore
      */
-    public function __construct(HomeStore $homeStore ,UserStore $userStore,  RoleStore $roleStore,UploadServer $uploadServer)
+    public function __construct(HomeStore $homeStore, UserStore $userStore, RoleStore $roleStore, UploadServer $uploadServer)
     {
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
