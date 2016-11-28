@@ -35,8 +35,9 @@ class ActionController extends Controller
 
     /**
      * 添加评论
-     *
+     * @param $request
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function create(Request $request)
     {
@@ -48,7 +49,7 @@ class ActionController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *向活动表插入数据
+     * 向活动表插入数据
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * @author 郭庆
@@ -63,8 +64,9 @@ class ActionController extends Controller
 
     /**
      * 详情页.
-     * 传入：是否已经报名$isHas 活动详情$datas 登录状态$isLogin 点赞数量$likeNum 所有评论$comment+对应用户的信息
-     * @param  int  $id
+     * @return array ：是否已经报名$isHas 活动详情$datas 登录状态$isLogin 点赞数量$likeNum 所有评论$comment+对应用户的信息
+     * @param $request
+     * @param $id
      * @author 郭庆
      */
     public function show(Request $request, $id)
@@ -81,7 +83,11 @@ class ActionController extends Controller
         }else{
             $action = self::$actionServer -> getAction($session['user'] -> guid);//当前用户报名参加的所有活动
             $isLogin = $session['user']->guid;
-            if ($action['status']) $isHas = in_array($data["msg"] -> guid, $action['msg']);
+            if ($action['status']){
+                $isHas = in_array($data["msg"] -> guid, $action['msg']);
+            }else{
+                $isHas = false;
+            }
         }
 
         //$datas活动详情设置
@@ -98,8 +104,11 @@ class ActionController extends Controller
 
     /**
      * 点赞
+     * @param $request
+     * @param $id
+     * @return array
      *
-     * @param  int  $id
+     * @author 郭庆
      */
     public function edit(Request $request, $id)
     {
@@ -125,9 +134,9 @@ class ActionController extends Controller
 
     /**
      * 展示评论
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param $id
+     * @return array
+     * @author 郭庆
      */
     public function update($id)
     {
@@ -160,8 +169,11 @@ class ActionController extends Controller
     {
 
     }
+
     /**
      * 上传图片
+     *
+     * @return \Illuminate\Http\Response
      * @author 郭庆
      */
     public function upload()

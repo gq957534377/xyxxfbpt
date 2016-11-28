@@ -20,8 +20,10 @@ class SendController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 展示用户来稿列表页
      *
+     * @return array
+     * @author 郭庆
      */
     public function index(Request $request)
     {
@@ -37,9 +39,10 @@ class SendController extends Controller
     }
 
     /**
-     * 展示详情
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function create(Request $request)
     {
@@ -49,7 +52,8 @@ class SendController extends Controller
     /**
      * 用户投稿
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     * @author 郭庆
      */
     public function store(Request $request)
     {
@@ -74,6 +78,7 @@ class SendController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function show(Request $request, $id)
     {
@@ -103,6 +108,8 @@ class SendController extends Controller
      * 给前台传出对应id的所有数据
      *
      * @param  int  $id
+     * @return array
+     * @author 郭庆
      */
     public function edit($id)
     {
@@ -116,6 +123,7 @@ class SendController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     * @author 郭庆
      */
     public function update(Request $request, $id)
     {
@@ -129,7 +137,9 @@ class SendController extends Controller
     /**
      * 用户来搞删除.
      *
-     * @param  int  $id
+     * @param $id
+     * @return array
+     * @author 郭庆
      */
     public function destroy($id)
     {

@@ -42,6 +42,8 @@ class ArticleService
 
     /**
      * 查询对应文章类型的所有文章数据
+     * @param $type
+     * @return array
      * @author 郭庆
      */
     public static function selectByType($type)
@@ -127,6 +129,8 @@ class ArticleService
 
     /**
      * 查询相关文章信息
+     * @param $guid
+     * @param $user
      * @return array
      * author 郭庆
      */
@@ -149,6 +153,7 @@ class ArticleService
      * 修改文章状态
      * @param $guid
      * @param $status
+     * @param $user
      * @return array
      * author 郭庆
      */
@@ -201,7 +206,9 @@ class ArticleService
 
     /**
      * 获取评论表+like表中某一个文章的评论
-     * @author郭庆
+     * @param $id
+     * @return array
+     * @author 郭庆
      */
     public static function getComment($id)
     {
@@ -212,7 +219,9 @@ class ArticleService
 
     /**
      * 获取点赞记录用于检测是否点赞
-     *
+     * @param $user_id
+     * @param $article_id
+     * @return array
      * @author 郭庆
      */
     public static function getLike($user_id, $article_id)
@@ -224,7 +233,8 @@ class ArticleService
 
     /**
      * 添加点赞记录.
-     *
+     * @param $data
+     * @return array
      * @author 郭庆
      */
     public static function setLike($data)
@@ -236,6 +246,9 @@ class ArticleService
 
     /**
      * 获取点赞数量
+     * @param $id
+     * @return array
+     * @author 郭庆
      */
     public static function getLikeNum($id)
     {
@@ -249,6 +262,11 @@ class ArticleService
 
     /**
      * 修改点赞/不支持
+     * @param $user_id
+     * @param $article_id
+     * @param $data
+     * @return array
+     * @author 郭庆
      */
     public static function chargeLike($user_id, $article_id,$data)
     {
@@ -256,8 +274,12 @@ class ArticleService
         if ($result) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '操作失败'];
     }
+
     /**
      * 发表评论
+     * @param $data
+     * @return array
+     * @author 郭庆
      */
     public static function comment($data)
     {
@@ -269,6 +291,10 @@ class ArticleService
 
     /**
      * 获取指定用户所发表的所有文章
+     * @param $id
+     * @param $status
+     * @return array
+     * @author 郭庆
      */
     public static function getArticleByUser($id, $status)
     {
@@ -279,6 +305,9 @@ class ArticleService
 
     /**
      * 用户发布文稿
+     * @param $data
+     * @return array
+     * @author 郭庆
      */
     public static function addSend($data)
     {
