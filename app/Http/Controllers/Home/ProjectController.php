@@ -31,7 +31,7 @@ class ProjectController extends Controller
     {
         $where = ['disable'=>'0','status'=>'3'];
         $res = self::$projectServer->getData($where);
-        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        if (!$res['status']) return view('home.project.project_list')->with('data',[]);
         return view('home.project.project_list')->with('data',$res['data']);
     }
 
