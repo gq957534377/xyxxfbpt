@@ -189,7 +189,25 @@
                 $('#place').val('当前选中地区：'+data['province']+text+' '+data['city']+' '+data['area']);
             }
         });
-
+        // 个人中心头像改变，顶部头像也改变
+        $("button[type ='submit']").click(function(){
+            setTimeout(function(){
+                $.ajax({
+                    type: "get",
+                    url: url+'/'+guid,
+                    success: function(data){
+                        switch (data.StatusCode){
+                            case '200':
+                                $("#head_pic").attr('src',data.ResultData.msg.headpic);
+                                break;
+                            case '400':
+                                promptBoxHandle('警告',msg.ResultData);
+                                break;
+                        }
+                    }
+                });
+            },2000);
+        });
     });
 
 

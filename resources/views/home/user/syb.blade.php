@@ -109,6 +109,7 @@
                 $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
             },
             success: function(msg){
+                console.log(msg);
                 // 将传过json格式转换为json对象
                 switch(msg.StatusCode){
                     case '200':

@@ -318,5 +318,4 @@
   $(function () {
     return new CropAvatar($('#crop-avatar'));
   });
-
 });

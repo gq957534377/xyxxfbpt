@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\Services\UserService as UserServer;
 use App\Services\UploadService as UploadServer;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Tools\Avatar;
 
@@ -205,6 +206,7 @@ class UserController extends Controller
         $guid = $request->all()['guid'];
         //转交service 层，存储
         $info = self::$userServer->avatar($guid,$avatarName);
+        
         // 返回状态信息
         switch ($info['status']){
             case '400':

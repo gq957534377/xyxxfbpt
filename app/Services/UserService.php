@@ -131,8 +131,12 @@ class UserService {
         $info = self::$homeStore->updateData(['guid'=>$temp->guid],['logintime' => $time,'ip' => $data['ip']]);
         if(!$info) return ['status' => '400','msg' => '服务器数据异常！'];
 
+        //将一些用户的信息推到session里，方便维持
+        $userInfo = self::$userStore->getOneData(['guid' => $temp->guid]);
         //获取角色状态
-        $temp->role = self::$userStore->getOneData(['guid' => $temp->guid])->role;
+        $temp->role = $userInfo->role;
+        //获取用户信息头像
+        $temp->headpic = $userInfo->headpic;
 
         Session::put('user',$temp);
         return ['status' => '200','msg' => '登录成功！'];
@@ -310,6 +314,16 @@ class UserService {
         $info = self::$userStore->updateUserInfo(['guid' => $guid],['headpic' => $avatarName]);
 
         if(!$info) return ['status' => '400','msg' => '保存失败!'];
+
+        //成功后再进行数据重组，转存到session中
+        $temp = self::$homeStore->getOneData(['guid' => $guid]);
+        $userInfo = self::$userStore->getOneData(['guid' => $guid]);
+        //获取角色状态
+        $temp->role = $userInfo->role;
+        //获取用户信息头像
+        $temp->headpic = $userInfo->headpic;
+
+        Session::put('user',$temp);
         return ['status' => '200','msg' => '保存成功'];
 
     }
