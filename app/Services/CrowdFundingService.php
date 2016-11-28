@@ -19,7 +19,7 @@ class CrowdFundingService
     protected static $crowdFundingStore = null;
     protected static $projectStore = null;
     protected static $crowdCapitalStore = null;
-    public function __construct(CrowdFundingStore $crowdFundingStore,ProjectStore $ProjectStore,CrowdCapitalStore $CrowdCapitalStore)
+    public function __construct(CrowdFundingStore $crowdFundingStore, ProjectStore $ProjectStore, CrowdCapitalStore $CrowdCapitalStore)
     {
         self::$crowdFundingStore = $crowdFundingStore;
         self::$projectStore = $ProjectStore;
@@ -95,13 +95,7 @@ class CrowdFundingService
             null,
             $where
         );
-        $projectIdArr = self::$crowdFundingStore
-            ->getList(
-                $where,
-                $field,
-                $page,
-                4
-            );
+        $projectIdArr = self::$crowdFundingStore->getList($where,$field,$page,4);
         $projectIdArr = isset($projectIdArr) ? $projectIdArr : [];
         //项目信息
         $projectArr = self::$projectStore
@@ -110,19 +104,15 @@ class CrowdFundingService
                 $projectIdArr
             );
         //众筹信息
-        $crowdinfoArr =self::$crowdFundingStore
-            ->getWhereIn(
-                "project_id",
-                $projectIdArr
-            );
+        $crowdinfoArr =self::$crowdFundingStore->getWhereIn("project_id",$projectIdArr);
 
         if(isset($crowdinfoArr)&&isset($projectArr)){
             return [
-                'status'=>true,'
-                msg'=>[
-                    "projectInfo"=>$projectArr,
-                    "crowdInfo"=>$crowdinfoArr,
-                    "forPage"=>$creatPage
+                'status' => true,
+                'msg' => [
+                    'projectInfo' => $projectArr,
+                    'crowdInfo' => $crowdinfoArr,
+                    'forPage' => $creatPage
                 ]
             ];
         }else{
@@ -255,7 +245,7 @@ class CrowdFundingService
         //移出token
         unset($requestArr["_token"]);
         $where = ["project_id"=>$requestArr["project_id"]];
-        $addTime =24*3600*$requestArr["days"] + 3600*$requestArr["hour"];
+        $addTime =24*3600*$requestArr["days"] + 3600 * $requestArr["hour"];
         //移出days
         unset($requestArr["days"]);
         //移出hour

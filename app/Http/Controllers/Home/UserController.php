@@ -17,7 +17,7 @@ class UserController extends Controller
     protected static $userServer = null;
     protected static $uploadServer = null;
 
-    public function __construct(UserServer $userServer,UploadServer $uploadServer)
+    public function __construct(UserServer $userServer, UploadServer $uploadServer)
     {
         self::$userServer = $userServer;
         self::$uploadServer = $uploadServer;
@@ -135,6 +135,7 @@ class UserController extends Controller
     public function roleInfo($id)
     {
         if(empty($id)) return response()->json(['StatusCode' => '500','ResultData' => '服务器数据异常']);
+
         // 获取到用户的id，返回数据
         $info = self::$userServer->roleInfo(['guid' => $id]);
         if(!$info['status']) return response()->json(['StatusCode' => '404','ResultData' => '未查询到数据']);

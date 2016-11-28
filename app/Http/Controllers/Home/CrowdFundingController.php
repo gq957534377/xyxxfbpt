@@ -9,8 +9,6 @@
 namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\CrowdFundingService as CrowdFundingServer;
 
@@ -18,12 +16,10 @@ use App\Services\CrowdFundingService as CrowdFundingServer;
 class CrowdFundingController extends Controller
 {
     protected static $crowdFundingServer = null;
-    protected static $request = null;
 
-    public function __construct(CrowdFundingServer $crowdFundingServer,Request $request)
+    public function __construct(CrowdFundingServer $crowdFundingServer)
     {
         self::$crowdFundingServer = $crowdFundingServer;
-        self::$request = $request;
     }
     /**
      * 显示众筹首页
@@ -71,11 +67,11 @@ class CrowdFundingController extends Controller
      * @return \Illuminate\Http\Response
      * @author 张洵之
      */
-    public function show($id)
+    public function show($id,Request $request)
     {
         $id = (int)$id;
         if($id>7||$id<0) return view("errors.503");
-        $data = self::$crowdFundingServer->dynamicDataList($id,self::$request);
+        $data = self::$crowdFundingServer->dynamicDataList($id,$request);
         return view("home.crowdfunding.list",["data"=>$data["msg"]]);
     }
 
@@ -99,10 +95,10 @@ class CrowdFundingController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * author 张洵之
      */
-    public function update($project_id)
+    public function update($project_id,Request $request)
     {
         //
-        $result = self::$crowdFundingServer->insertCapital($project_id,self::$request);
+        $result = self::$crowdFundingServer->insertCapital($project_id,$request);
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
         }else{

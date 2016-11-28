@@ -4,19 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\CrowdFundingService as CrowdFundingServer;
 
 class CrowdFundingController extends Controller
 {
     protected static $crowdFundingServer = null;
-    protected static $request = null;
 
-    public function __construct(CrowdFundingServer $crowdFundingServer,Request $request)
+    public function __construct(CrowdFundingServer $crowdFundingServer)
     {
         self::$crowdFundingServer = $crowdFundingServer;
-        self::$request = $request;
     }
     /**
      *众筹后台管理首页
@@ -47,9 +44,9 @@ class CrowdFundingController extends Controller
      * @return \Illuminate\Http\Response
      * @author 张洵之
      */
-    public function store()
+    public function store(Request $request)
     {
-        $result = self::$crowdFundingServer->startCrowdFuding(self::$request);
+        $result = self::$crowdFundingServer->startCrowdFuding($request);
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
         }else{
@@ -92,10 +89,10 @@ class CrowdFundingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request,$id)
     {
         //
-        $result = self::$crowdFundingServer->serverRoute(self::$request,$id);
+        $result = self::$crowdFundingServer->serverRoute($request,$id);
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
         }else{
@@ -119,9 +116,9 @@ class CrowdFundingController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @author 张洵之
      */
-    public function forPage()
+    public function forPage(Request $request)
     {
-        $result = self::$crowdFundingServer->forPage(self::$request);
+        $result = self::$crowdFundingServer->forPage($request);
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
         }else{
@@ -134,9 +131,9 @@ class CrowdFundingController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @author 张洵之
      */
-    public function revise()
+    public function revise(Request $request)
     {
-        $result = self::$crowdFundingServer->reviseCrowdFunding(self::$request);
+        $result = self::$crowdFundingServer->reviseCrowdFunding($request);
         if($result["status"]){
             return response()->json(['StatusCode'=> 200,'ResultData'=>$result['msg']]);
         }else{
