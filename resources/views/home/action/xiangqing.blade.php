@@ -39,21 +39,6 @@
                         </div><!--/.blog-item-->
 
                         
-                        <div class="media reply_section">
-                            <div class="pull-left post_reply text-center">
-                                <a href="#"><img src="images/blog/boy.png" class="img-circle" alt="" /></a>
-                                <ul>
-                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-google-plus"></i> </a></li>
-                                </ul>
-                            </div>
-                            <div class="media-body post_reply_content">
-                                <h3>Antone L. Huges</h3>
-                                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariaturp</p>
-                                <p><strong>Web:</strong> <a href="http://www.shapebootstrap.net">www.shapebootstrap.net</a></p>
-                            </div>
-                        </div>
                     @if(is_string($likeNum))
                         <p>{{$likeNum}}</p>
                     @else
@@ -67,35 +52,15 @@
 
 
                         <div id="contact-page clearfix">
-                            <div class="status alert alert-success" style="display: none"></div>
-                            <div class="message_heading">
-                                <h4>Leave a Replay</h4>
-                                <p>Make sure you enter the(*)required information where indicate.HTML code is not allowed</p>
-                            </div> 
-      
                             <form id="main-contact-form" class="contact-form" name="contact-form" method="post" action="sendemail.php" role="form">
                                 <div class="row">
-                                    <div class="col-sm-5">
-                                        <div class="form-group">
-                                            <label>Name *</label>
-                                            <input type="text" class="form-control" required="required">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Email *</label>
-                                            <input type="email" class="form-control" required="required">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>URL</label>
-                                            <input type="url" class="form-control">
-                                        </div>                    
-                                    </div>
-                                    <div class="col-sm-7">                        
+                                    <div class="col-sm-12">
                                         <div class="form-group">
                                             <label>评论 *</label>
                                             <textarea name="message" id="message" required class="form-control" rows="8"></textarea>
                                         </div>                        
                                         <div class="form-group">
-                                            <button type="submit" id="comment" class="btn btn-primary btn-lg" required="required">Submit Message</button>
+                                            <button type="submit" id="comment" class="btn btn-primary btn-lg" required="required">提交</button>
                                         </div>
                                     </div>
                                 </div>
@@ -128,50 +93,7 @@
                         </div>                     
                     </div><!--/.recent comments-->
 
-    				<div class="widget archieve">
-                        <h3>Archieve</h3>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <ul class="blog_archieve">
-                                    <li><a href="#"><i class="fa fa-angle-double-right"></i> December 2013 <span class="pull-right">(97)</span></a></li>
-                                    <li><a href="#"><i class="fa fa-angle-double-right"></i> November 2013 <span class="pull-right">(32)</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-double-right"></i> October 2013 <span class="pull-right">(19)</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-double-right"></i> September 2013 <span class="pull-right">(08)</a></li>
-                                </ul>
-                            </div>
-                        </div>                     
-                    </div><!--/.archieve-->
-    				
-                    <div class="widget tags">
-                        <h3>Tag Cloud</h3>
-                        <ul class="tag-cloud">
-                            <li><a class="btn btn-xs btn-primary" href="#">Apple</a></li>
-                            <li><a class="btn btn-xs btn-primary" href="#">Barcelona</a></li>
-                            <li><a class="btn btn-xs btn-primary" href="#">Office</a></li>
-                            <li><a class="btn btn-xs btn-primary" href="#">Ipod</a></li>
-                            <li><a class="btn btn-xs btn-primary" href="#">Stock</a></li>
-                            <li><a class="btn btn-xs btn-primary" href="#">Race</a></li>
-                            <li><a class="btn btn-xs btn-primary" href="#">London</a></li>
-                            <li><a class="btn btn-xs btn-primary" href="#">Football</a></li>
-                            <li><a class="btn btn-xs btn-primary" href="#">Porche</a></li>
-                            <li><a class="btn btn-xs btn-primary" href="#">Gadgets</a></li>
-                        </ul>
-                    </div><!--/.tags-->
-    				
-    				<div class="widget blog_gallery">
-                        <h3>Our Gallery</h3>
-                        <ul class="sidebar-gallery">
-                            <li><a href="#"><img src="images/blog/gallery1.png" alt="" /></a></li>
-                            <li><a href="#"><img src="images/blog/gallery2.png" alt="" /></a></li>
-                            <li><a href="#"><img src="images/blog/gallery3.png" alt="" /></a></li>
-                            <li><a href="#"><img src="images/blog/gallery4.png" alt="" /></a></li>
-                            <li><a href="#"><img src="images/blog/gallery5.png" alt="" /></a></li>
-                            <li><a href="#"><img src="images/blog/gallery6.png" alt="" /></a></li>
-                        </ul>
-                    </div><!--/.blog_gallery-->
-    					
-    				
-                </aside>     
+                </aside>
 
             </div><!--/.row-->
 

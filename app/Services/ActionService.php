@@ -41,6 +41,8 @@ class ActionService
 
     /**
      * 查询对应活动类型的所有活动数据
+     * @param $type
+     * @return array
      * @author 郭庆
      */
     public static function selectByType($type)
@@ -51,8 +53,9 @@ class ActionService
     }
 
     /**
-     * 报名活动.
-     *
+     * 报名活动
+     * @param $data
+     * @return array
      * @author 郭庆
      */
     public function actionOrder($data)
@@ -87,7 +90,7 @@ class ActionService
 
     /**
      * 获取指定用户所报名参加的所有活动.
-     * 返回一个活动id为元素的一维数组
+     * @return array 返回一个活动id为元素的一维数组
      * @author 郭庆
      */
     public static function getAction($user)
@@ -189,6 +192,7 @@ class ActionService
 
     /**
      * 查询相关活动信息
+     * @param $guid
      * @return array
      * author 郭庆
      */
@@ -259,7 +263,8 @@ class ActionService
 
     /**
      * 获取报名信息
-     *
+     * @param $guid
+     * @return array
      * @author 郭庆
      */
     public function getOrderInfo($guid)
@@ -275,7 +280,9 @@ class ActionService
 
     /**
      * 获取评论表+like表中某一个活动的评论
-     * @author郭庆
+     * @param $id
+     * @return array
+     * @author 郭庆
      */
     public static function getComment($id)
     {
@@ -286,7 +293,9 @@ class ActionService
 
     /**
      * 获取点赞记录用于检测是否点赞
-     *
+     * @param $user_id : 用户id
+     * @param $action_id : 活动id
+     * @return array
      * @author 郭庆
      */
     public static function getLike($user_id, $action_id)
@@ -298,7 +307,8 @@ class ActionService
 
     /**
      * 添加点赞记录.
-     *
+     * @param $data ：点赞表对应的数据
+     * @return array
      * @author 郭庆
      */
     public static function setLike($data)
@@ -310,6 +320,9 @@ class ActionService
 
     /**
      * 获取点赞数量
+     * @param $id：活动id
+     * @return array : ['点赞数量','点不支持数量']
+     * @author 郭庆
      */
     public static function getLikeNum($id)
     {
@@ -323,6 +336,11 @@ class ActionService
 
     /**
      * 修改点赞/不支持
+     * @param $user_id ：用户id
+     * @param $action_id : 活动id
+     * @param $data : 数据
+     * @return array
+     * @author 郭庆
      */
     public static function chargeLike($user_id, $action_id,$data)
     {
@@ -330,8 +348,12 @@ class ActionService
         if ($result) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '操作失败'];
     }
+
     /**
      * 发表评论
+     * @param $data ：评论表字段对应的数据['用户id','活动id','评论内容']
+     * @return array
+     * @author 郭庆
      */
     public static function comment($data)
     {
@@ -341,7 +363,13 @@ class ActionService
         return ['status' => false, 'msg' => '存储数据发生错误'];
     }
 
-    //修改活动报名状态
+    /**
+     * 修改活动报名状态
+     * @param $guid ：活动id
+     * @param $status : 当前状态
+     * @return array
+     * @author 郭庆
+     */
     public function switchStatus($guid,$status)
     {
         $res = self::$actionOrderStore->updateData(['action_id' => $guid], ['status' => $status]);

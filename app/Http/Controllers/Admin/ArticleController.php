@@ -20,7 +20,9 @@ class ArticleController extends Controller
 
     /**
      * 文章后台首页
-     * author 郭庆
+     *
+     * @return array
+     * @author 郭庆
      */
     public function index()
     {
@@ -29,7 +31,9 @@ class ArticleController extends Controller
 
     /**
      * 获取分页数据
-     * author 郭庆
+     *
+     * @return array
+     * @author 郭庆
      */
     public function create(Request $request)
     {
@@ -39,8 +43,9 @@ class ArticleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
      * 向文章表插入数据
+     *
+     * @return array
      * @author 郭庆
      */
     public function store(Request $request)
@@ -53,7 +58,9 @@ class ArticleController extends Controller
 
     /**
      * 拿取一条文章信息详情
-     * author 郭庆
+     *
+     * @return array
+     * @author 郭庆
      */
     public function show(Request $request, $id)
     {
@@ -66,20 +73,28 @@ class ArticleController extends Controller
     /**
      * 修改文章状态
      *
+     * @return array
      * @author 郭庆
      */
     public function edit(Request $request, $id)
     {
         $status = $request -> input("status");
         $user = $request -> input('user');
-        $result = self::$articleServer -> changeStatus($id,$status,$user);
+
+        if ($status == 3 && $user == 2){
+            $result = self::$articleServer->upDta(['guid'=>$id], ['status' => 3, 'reason' => $request["reason"], 'user'=>2]);
+        }else{
+            $result = self::$articleServer -> changeStatus($id,$status,$user);
+        }
         if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
     }
 
     /**
      * 更改文章信息内容
-     * author 郭庆
+     *
+     * @return array
+     * @author 郭庆
      */
     public function update(Request $request, $id)
     {
@@ -92,7 +107,9 @@ class ArticleController extends Controller
 
     /**
      * 获取报名情况表信息
-     * author 郭庆
+     *
+     * @return array
+     * @author 郭庆
      */
     public function destroy($id)
     {

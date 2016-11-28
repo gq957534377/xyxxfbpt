@@ -100,6 +100,8 @@ class ActionController extends Controller
 
     /**
      * 上传图片
+     *
+     * @return \Illuminate\Http\Response
      * @author 郭庆
      */
     public function upload()

@@ -43,16 +43,19 @@ function listHtml(data){
         html += '<td>' + e.time+'</td>';
         html += '<td>' + status(e.status)+'</td>';
         html += '<td>' + e.source+'</td>';
-        html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#tabs-modal" style="margin-bottom: 6px">详情</button></a>';
-        html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改文章</button>';
+        html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#full-width-modal" style="margin-bottom: 6px">详情</button></a>';
+        if(!e.author){
+            html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改文章</button>';
+        }else{
+        }
         if (e.status == 1) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-danger">禁用</button></a>';
+            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="3" class="status"><button class="btn-danger">禁用</button></a>';
         } else if (e.status == 3) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-primary">启用</button></a>';
+            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="1" class="status"><button class="btn-primary">启用</button></a>';
         }
         if (e.status == 2){
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-success">通过</button></a>';
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status=1 class="status"><button class="btn-danger">否决</button></a>';
+            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="1" class="status"><button class="btn-success">通过</button></a>';
+            html += '<button class="btn-danger" id="pass" data-name="' + e.guid + '" data-status="3" data-toggle="modal" data-target="#panel-modal">否决</button>';
         }
         html += '</td>';
     });
@@ -142,13 +145,10 @@ function showInfoList(data){
         if (data.StatusCode == 200) {
             data = data.ResultData;
             console.log(data);
-            $('#xq_title').val(data.title);
-            $('#xq_author').val(data.author);
-            $('#xq_type').val(type(data.type));
-            $('#xq_time').val(data.time);
+            $('#xq_title').html(data.title);
+            $('#xq_time_author').html(data.time+'     发表人：'+ data.author);
             $('#xq_banner').attr('src',data.banner);
-            $('#xq_source').val(data.source);
-            $('#xq_status').val(status(data.status));
+            $('#xq_source').html('<h5>来源：'+data.source+'</h5>');
             $('#xq_brief').html(data.brief);
             $('#xq_describe').html(data.describe);
         } else {

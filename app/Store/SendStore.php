@@ -63,7 +63,7 @@ class SendStore
     public static function getData($where)
     {
         if (empty($where)) return false;
-        return DB::table(self::$table) -> where($where) -> get();
+        return DB::table(self::$table) -> where($where) -> orderBy("time","desc") -> get();
     }
 
     /**
