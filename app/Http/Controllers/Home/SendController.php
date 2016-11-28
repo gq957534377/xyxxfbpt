@@ -22,7 +22,7 @@ class SendController extends Controller
     /**
      * 展示用户来稿列表页
      *
-     * @return array
+     * @return
      * @author 郭庆
      */
     public function index(Request $request)
@@ -46,7 +46,7 @@ class SendController extends Controller
      */
     public function create(Request $request)
     {
-
+        return view('my');
     }
 
     /**
@@ -91,7 +91,6 @@ class SendController extends Controller
             $user_id = $request -> session() -> get('user') -> guid;
             $res = self::$userServer -> userInfo(['guid' => $user_id]);
             if ($res['status']){
-                dd($res['status']);
                 $data->author = $res['msg'] -> nickname;
                 $data->headpic = $res['msg'] -> headpic;
             }else{
