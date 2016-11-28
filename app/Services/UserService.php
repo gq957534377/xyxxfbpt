@@ -271,8 +271,7 @@ class UserService {
      */
     public static function getOneData($data)
     {
-        $result = self::$userStore
-            ->getOneData(['guid' => $data['name']]);
+        $result = self::$userStore->getOneData(['guid' => $data['name']]);
 
         if (!$result)
             return ['status' => false, 'data' => '系统错误'];

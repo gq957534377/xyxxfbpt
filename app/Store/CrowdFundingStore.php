@@ -181,11 +181,11 @@ class CrowdFundingStore
      * @return bool
      * author 张洵之
      */
-    public function addFunshing($where,$field,$data)
+    public function addFunshing($where,$data)
     {
-        if(empty($data)||empty($field)||empty($data)) return false;
+        if(empty($data) || empty($data)) return false;
 
-        $result = DB::table(self::$table)->where($where)->increment($field,$data);
+        $result = DB::table(self::$table)->where($where)->increment($data);
         return $result;
     }
 }

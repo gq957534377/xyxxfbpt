@@ -123,7 +123,7 @@
 
                         $(".loading").hide();
                         break;
-                    case '404':
+                    case '400':
                         alert(msg.ResultData);
                         $(".loading").hide();
                         break;

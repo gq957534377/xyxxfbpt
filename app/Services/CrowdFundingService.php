@@ -58,7 +58,7 @@ class CrowdFundingService
             return ['status' => false,'msg' => '发生错误3'];
         }
 
-        if(isset($maxGold)||isset($totalAmount)||isset($maxPeoples)){
+        if(isset($maxGold) || isset($totalAmount) || isset($maxPeoples)){
             $result = [
                 'status'=>true,'
                 msg'=>[
@@ -98,11 +98,7 @@ class CrowdFundingService
         $projectIdArr = self::$crowdFundingStore->getList($where,$field,$page,4);
         $projectIdArr = isset($projectIdArr) ? $projectIdArr : [];
         //项目信息
-        $projectArr = self::$projectStore
-            ->getWhereIn(
-                "project_id",
-                $projectIdArr
-            );
+        $projectArr = self::$projectStore->getWhereIn("project_id", $projectIdArr);
         //众筹信息
         $crowdinfoArr =self::$crowdFundingStore->getWhereIn("project_id",$projectIdArr);
 
@@ -148,7 +144,7 @@ class CrowdFundingService
             case 'see' :
                 return $this->publish($projectId,$type);
                 break;
-            default:return ['status'=>false,'msg'=>'发生错误'];
+            default:return ['status' => false,'msg' => '发生错误'];
         }
     }
 
@@ -165,9 +161,9 @@ class CrowdFundingService
 
         if(isset($result)){
             $result['type'] = $status;
-            return ['status'=>true,'msg'=>$result];
+            return ['status' => true,'msg' => $result];
         }else{
-            return ['status'=>false,'msg'=>'发生错误'];
+            return ['status' => false,'msg' => '发生错误'];
         }
     }
 
@@ -179,14 +175,13 @@ class CrowdFundingService
      */
     public function revise($projectId)
     {
-        $result[0] = self::$crowdCapitalStore
-            ->getData(["project_id" => $projectId]);
+        $result[0] = self::$crowdCapitalStore->getData(["project_id" => $projectId]);
 
         if(is_array($result)){
             $result["type"] = "revise";
-            return ['status'=>true,'msg'=>$result];
+            return ['status' => true,'msg' => $result];
         }else{
-            return ['status'=>false,'msg'=>'暂无数据'];
+            return ['status' => false,'msg' => '暂无数据'];
         }
     }
 
@@ -197,15 +192,15 @@ class CrowdFundingService
      * author 张洵之
      */
     function close($projectId){
-        $where = ['project_id'=>$projectId];
-        $requestArr = ['status'=>'0'];
+        $where = ['project_id' => $projectId];
+        $requestArr = ['status' => '0'];
         $resultArr = self::$crowdFundingStore->uplodData($where,$requestArr);
 
         if(isset($resultArr)){
             $result['type'] = 'close';
-            return ['status'=>true,'msg'=>$result];
+            return ['status' => true,'msg'=>$result];
         }else{
-            return ['status'=>false,'msg'=>'发生错误'];
+            return ['status' => false,'msg' => '发生错误'];
         }
     }
 
@@ -219,17 +214,17 @@ class CrowdFundingService
     {
         $requestArr = $request->all();
         unset($requestArr["_token"]);//移出token
-        $where = ["project_id"=>$requestArr["project_id"]];
+        $where = ["project_id" => $requestArr["project_id"]];
         $requestArr["status"] = 1;
         $time = 24*3600*$requestArr["days"];
-        unset($requestArr["days"]);
-        $requestArr["endtime"] = date("Y-m-d H:i:s",time()+$time);
+        unset($requestArr['days']);
+        $requestArr['endtime'] = date("Y-m-d H:i:s",time()+$time);
         $result = self::$crowdFundingStore->uplodData($where,$requestArr);
 
         if(isset($result)){
-            return ['status'=>true,'msg'=>$result];
+            return ['status' => true,'msg' => $result];
         }else{
-            return ['status'=>false,'msg'=>'发生错误'];
+            return ['status' => false,'msg' => '发生错误'];
         }
     }
 
@@ -284,24 +279,19 @@ class CrowdFundingService
         );
 
         if(isset($creatPage)){
-            $result["page"]=$creatPage;
+            $result["page"] = $creatPage;
         }else{
-           return ['status'=>false,'msg'=>'生成分页样式发生错误'];
+           return ['status' => false,'msg' => '生成分页样式发生错误'];
         }
 
         $nowPage =(int)$request->input("nowPage");
-        $dbDatearr = self::$crowdFundingStore
-            ->forPage(
-                $nowPage,
-                $tolPages,
-                ["status"=>$status]
-            );
+        $dbDatearr = self::$crowdFundingStore->forPage($nowPage, $tolPages, ['status' => $status]);
         $result["data"] = $this->forPageHtml($dbDatearr,$status);
 
         if(isset($result)){
-            return ['status'=>true,'msg'=>$result];
+            return ['status' => true,'msg' => $result];
         }else{
-            return ['status'=>false,'msg'=>'发生错误'];
+            return ['status' => false,'msg' => '发生错误'];
         }
     }
 
@@ -314,7 +304,7 @@ class CrowdFundingService
      */
     public function forPageHtml($data,$myStatus)
     {
-        if(!is_array($data)||!isset($myStatus)) return null;
+        if(!is_array($data) || !isset($myStatus)) return null;
             $arrNum =count($data);
 
             for ($i=0;$i<$arrNum;$i++){
@@ -337,13 +327,13 @@ class CrowdFundingService
      */
     public function selectPublish()
     {
-        $where = ["status"=>"3","crowd_status"=>0];
+        $where = ['status' => '3','crowd_status' => 0];
         $result = self::$projectStore->getData($where);
 
         if(isset($result)){
-            return ['status'=>true,'msg'=>$result];
+            return ['status' => true,'msg' => $result];
         }else{
-            return ['status'=>false,'msg'=>'发生错误'];
+            return ['status' => false,'msg' => '发生错误'];
         }
     }
 
@@ -355,7 +345,7 @@ class CrowdFundingService
      */
     public function insertCrowdFunding($data,$project_status)
     {
-        if(!is_array($data)||!is_array($project_status))return ['status'=>false,'msg'=>'数据应该为一个数组'];
+        if(!is_array($data) || !is_array($project_status))return ['status'=>false,'msg'=>'数据应该为一个数组'];
         $result = DB::transaction(function() use($data,$project_status)
         {
             self::$projectStore
@@ -368,9 +358,9 @@ class CrowdFundingService
         });
 
         if(isset($result)){
-            return ['status'=>true,'msg'=>$result];
+            return ['status' => true,'msg' => $result];
         }else{
-            return ['status'=>false,'msg'=>'存储数据发生错误'];
+            return ['status' => false,'msg' => '存储数据发生错误'];
         }
     }
 
@@ -404,17 +394,17 @@ class CrowdFundingService
         $data = $request->all();
         unset($data["_token"]);
         unset($data["_method"]);
-        $startTime = strtotime($data["days"]);
-        $endTime = strtotime($data["enddays"]);
+        $startTime = strtotime($data['days']);
+        $endTime = strtotime($data['enddays']);
 
-        if($startTime>$endTime||$startTime<time()) return false;
+        if($startTime>$endTime || $startTime<time()) return false;
 
-        $data["changetime"] = date("Y-m-d H:i:s",time());
-        $data["starttime"] = date("Y-m-d H:i:s",$startTime);
-        $data["endtime"] = date("Y-m-d H:i:s",$endTime);
-        unset($data["days"]);
-        unset($data["enddays"]);
-        $data["status"] = 1;
+        $data['changetime'] = date('Y-m-d H:i:s',time());
+        $data['starttime'] = date('Y-m-d H:i:s',$startTime);
+        $data['endtime'] = date('Y-m-d H:i:s',$endTime);
+        unset($data['days']);
+        unset($data['enddays']);
+        $data['status'] = 1;
         return $data;
     }
 
@@ -434,13 +424,13 @@ class CrowdFundingService
             $result = $this ->insertCrowdFunding($data,$project_status);
 
             if($result["status"]){
-                return ['status'=>true,'msg'=>$result];
+                return ['status' => true,'msg' => $result];
             }else{
-                return ['status'=>false,'msg'=>$result['msg']];
+                return ['status' => false,'msg' => $result['msg']];
             }
 
         }else{
-            return ['status'=>false,'msg'=>"开始日期不应晚于结束日期或早于当前日期"];
+            return ['status' => false,'msg' => "开始日期不应晚于结束日期或早于当前日期"];
         }
 
     }
@@ -456,7 +446,7 @@ class CrowdFundingService
         $data = $this->createUplodData($request);
 
         if($data) {
-            $result = self::$crowdFundingStore->uplodData(["project_id" => $data["project_id"]], $data);
+            $result = self::$crowdFundingStore->uplodData(['project_id' => $data['project_id']], $data);
 
             if ($result) {
                 return ['status' => true, 'msg' => $result];
@@ -465,7 +455,7 @@ class CrowdFundingService
             }
 
         }else{
-            return ['status'=>false,'msg'=>"开始日期不应晚于结束日期或早于当前日期"];
+            return ['status' => false,'msg' => '开始日期不应晚于结束日期或早于当前日期'];
         }
     }
 
@@ -482,9 +472,9 @@ class CrowdFundingService
         $crowdInfo = self::$crowdFundingStore->getWhere($where);
         $result = ["pojectInfo"=>$pojectInfo,"crowdInfo"=>$crowdInfo];
         if($result){
-            return ['status'=>true,'msg'=>$result];
+            return ['status'=>true,'msg' => $result];
         }else{
-            return ['status'=>false,'msg'=>$result];
+            return ['status' => false,'msg' => $result];
         }
     }
 
@@ -501,26 +491,19 @@ class CrowdFundingService
         $data["money"] = $request->input("money");
         $data["user_id"] = session('user')->guid;
         $data["addtime"] = date("Y-m-d H:i:s",time());
-        $result = DB::transaction(function() use($data)
+        $where = ['project_id' => $data["project_id"]];
+        $upData = ['fundraising_now' => $data["money"],'Number_of_participants' => 1];
+        $result = DB::transaction(function() use($data,$where,$upData)
         {
             self::$crowdCapitalStore->insertData($data);
-            self::$crowdFundingStore
-                ->addFunshing(
-                    ["project_id"=>$data["project_id"]],
-                    "fundraising_now",$data["money"]
-                );
-            self::$crowdFundingStore
-                ->addFunshing(
-                    ["project_id"=>$data["project_id"]],
-                    "Number_of_participants",1
-                );
+            self::$crowdFundingStore->addFunshing($where,$upData);
             return true;
         });
 
         if($result){
-            return ['status'=>true,'msg'=>"提交成功"];
+            return ['status' => true,'msg' => '提交成功'];
         }else{
-            return ['status'=>false,'msg'=>"提交失败"];
+            return ['status' => false,'msg' => '提交失败'];
         }
     }
 }

@@ -136,10 +136,21 @@ class UserController extends Controller
     {
         if(empty($id)) return response()->json(['StatusCode' => '500','ResultData' => '服务器数据异常']);
 
-        // 获取到用户的id，返回数据
-        $info = self::$userServer->roleInfo(['guid' => $id]);
-        if(!$info['status']) return response()->json(['StatusCode' => '404','ResultData' => '未查询到数据']);
-        return response()->json(['StatusCode' => '200','ResultData' => $info]);
+        // 获取当前用的角色，判断该查那张表
+        $userInfo = self::$userServer->userInfo(['guid' => $id]);
+
+        // 判断当前用户的数据
+        if (!$userInfo['status']) return response()->json(['StatusCode' => '400','ResultData' => '未查询到数据']);
+
+        if ($userInfo['msg']->role == 1) {
+            if(!$userInfo['status']) return response()->json(['StatusCode' => '400','ResultData' => '未查询到数据']);
+            return response()->json(['StatusCode' => '200','ResultData' => $userInfo]);
+        }else{
+            // 获取到用户的id，返回数据
+            $info = self::$userServer->roleInfo(['guid' => $id]);
+            if(!$info['status']) return response()->json(['StatusCode' => '400','ResultData' => '未查询到数据']);
+            return response()->json(['StatusCode' => '200','ResultData' => $info]);
+        }
     }
 
     /**
