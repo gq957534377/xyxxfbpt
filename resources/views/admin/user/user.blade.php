@@ -13,16 +13,16 @@
 
     <div class="btn-toolbar" role="toolbar">
         <div class="btn-group">
-            <button type="button" data-name="user_normal"  class="add_event btn btn-default">普通用户</button>
+            <button type="button" data-name="user_normal" title="普通用户" role="1" status="1" class="user_list btn btn-default">普通用户</button>
         </div>
         <div class="btn-group">
-            <button type="button" data-name="user_entrepreneurs" class="add_event btn btn-default">创业者用户</button>
+            <button type="button" data-name="user_entrepreneurs" title="创业者用户" role="2" status="1" class="user_list btn btn-default">创业者用户</button>
         </div>
         <div class="btn-group">
-            <button type="button" data-name="user_investor" class="add_event btn btn-default">投资者用户</button>
+            <button type="button" data-name="user_investor" title="投资者用户" role="3" status="1" class="user_list btn btn-default">投资者用户</button>
         </div>
         <div class="btn-group">
-            <button type="button" data-name="user_investor" role="4" status="1" class="add_event btn btn-default user_list">英雄会成员</button>
+            <button type="button" data-name="user_investor" role="4" status="1" class=" btn btn-default user_list" title="英雄会成员">英雄会成员</button>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">待审核
@@ -30,13 +30,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a data-name="check_entrepreneurs" class="add_event" href="javascript:void(0)">创业者</a>
+                    <a data-name="check_entrepreneurs" class="user_role_list" title="待审核创业者用户" role="2" status="1" href="javascript:void(0)">创业者</a>
                 </li>
                 <li>
-                    <a data-name="check_investor" class="add_event" href="javascript:void(0)">投资者</a>
+                    <a data-name="check_investor" class="user_role_list" title="待审核投资者用户" role="3" status="1" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="check_investor" status="1" role="4" class="user_role_list" href="javascript:void(0)">英雄会成员</a>
+                    <a data-name="check_investor" status="1" role="4" class="user_role_list" href="javascript:void(0)" title="待审核英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -46,13 +46,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a data-name="check_entrepreneurs_fail" class="add_event" href="javascript:void(0)">创业者</a>
+                    <a data-name="check_entrepreneurs_fail" class="user_role_list" title="审核失败创业者用户" role="2" status="3" href="javascript:void(0)">创业者</a>
                 </li>
                 <li>
-                    <a data-name="check_investor_fail" class="add_event" href="javascript:void(0)">投资者</a>
+                    <a data-name="check_investor_fail" class="user_role_list" title="审核失败投资者用户" role="3" status="3" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="check_investor_fail" role="4" status="3" class="user_role_list" href="javascript:void(0)">英雄会成员</a>
+                    <a data-name="check_investor_fail" role="4" status="3" class="user_role_list" href="javascript:void(0)" title="审核失败英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -62,16 +62,16 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a data-name="user_normal_disabled" class="add_event" href="javascript:void(0)">普通用户</a>
+                    <a data-name="user_normal_disabled" class="user_list" title="已禁用普通用户" role="1" status="2" href="javascript:void(0)">普通用户</a>
                 </li>
                 <li>
-                    <a data-name="user_entrepreneurs_disabled" class="add_event" href="javascript:void(0)">创业者</a>
+                    <a data-name="user_entrepreneurs_disabled" class="user_list" title="已禁用创业者用户" role="2" status="2" href="javascript:void(0)">创业者</a>
                 </li>
                 <li>
-                    <a data-name="user_investor_disabled" class="add_event" href="javascript:void(0)">投资者</a>
+                    <a data-name="user_investor_disabled" class="user_list" title="已禁用投资者用户" role="3" status="2" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="user_investor_disabled" class="add_event" href="javascript:void(0)">英雄会成员</a>
+                    <a data-name="user_investor_disabled" role="4" status="2" class="user_list" href="javascript:void(0)" title="已禁用英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -81,16 +81,16 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a data-name="user_normal_deleted" class="add_event" href="javascript:void(0)">普通用户</a>
+                    <a data-name="user_normal_deleted" class="user_list" title="已停用普通用户" role="1" status="3" href="javascript:void(0)">普通用户</a>
                 </li>
                 <li>
-                    <a data-name="user_entrepreneurs_deleted" class="add_event" href="javascript:void(0)">创业者</a>
+                    <a data-name="user_entrepreneurs_deleted" class="user_list" title="已停用创业者用户" role="2" status="3" href="javascript:void(0)">创业者</a>
                 </li>
                 <li>
-                    <a data-name="user_investor_deleted" class="add_event" href="javascript:void(0)">投资者</a>
+                    <a data-name="user_investor_deleted" class="user_list" title="已停用投资者用户" role="3" status="3" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="user_investor_deleted" status="3" role="4" class="add_event" href="javascript:void(0)">英雄会成员</a>
+                    <a data-name="user_investor_deleted" status="3" role="4" class="user_list" href="javascript:void(0)" title="已停用英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -103,7 +103,7 @@
     </div>
 
     {{--表格盒子开始--}}
-    <div class="panel" id="data"></div>
+    <div class="panel" id="data" style="text-align: center"></div>
     {{--表格盒子结束--}}
 
 @endsection
@@ -137,69 +137,25 @@
 
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
-
-    {{--<script src="{{asset('JsService/Model/user/user_normal.js')}}" type="text/javascript"></script>--}}
-    {{--<script src="{{asset('JsService/Model/user/user_check_investor.js')}}" type="text/javascript"></script>--}}
-
     <script src="{{asset('JsService/Model/user/html.js')}}" type="text/javascript"></script>
     <script src="{{asset('JsService/Model/user/function.js')}}" type="text/javascript"></script>
 
 
 
     <script>
-//      全局变量声明开始
-//        user全局变量，标识当前在哪个页面，不同标识加载不同的页面，请求不同的数据 0~12
-        var user = 0;
-//        number全局变量，标识动作，不同标识，执行不同的动作 0~6
         var number = 0;
-//        guid全局变量，标识当前数据身份
-        var guid = null;
-//        item全局变量，标识当前数据item
-        var item = null;
-//        data全局变量，标识不同情况下ajax请求参数
-        var data = null;
-//        url全局变量，标识不同情况下ajax请求url
-        var url = null;
-//        type全局变量，标识不同情况下ajax请求type
-        var type = null;
-//        success全局变量，标识不同情况下ajax请求success
-        var handle = null;
-//        nowPage全局变量，标识不同情况下ajax请求success
-        var nowpage = 1;
-//        当前页面数据条数
-        var pagenum = 0;
-//        当前页面总页面数
-        var totalpage = 1;
-//      全局变量声明结束
-        var modify_guid = null;
-
+        
         //初始化 请求数据 包含分页数据 添加事件
         $(function () {
-//            $('.btn-group').eq(user).children('button').addClass('btn-success');
-            $('.add_event').eq(user).addClass('btn-success');
-            url = '/user/create';
-            data = {
-                role : user + 1,
-                status : 1
-            };
-            type = 'GET';
-            //加载事件列表
-            handle = {
-                one : initial,
-                two : getPage,
-                three : changeSomeStatus,
-                four : checkInfo,
-                five : modifyData
-            };
-            load(url, data, type, function (data) {
-                checkResponse(data, handle, listUserShow);
-            });
+            $("button[title='普通用户']").click();
         });
 
     </script>
 
     <script>
+            //定义用户角色表格相关按钮事件  待审核、审核失败
             $('.user_role_list').click(function(){
+                $('#user_title').html($(this).attr('title'));
                 var status = $(this).attr('status'), role = $(this).attr('role');
                 $.ajax({
                     url:'/user_role/list',
@@ -209,7 +165,59 @@
                         role:role
                     },
                     success:function(data){
-                        alert(data);
+                        if (data.data.length==0) return $('#data').html('暂无数据哦');
+                        var html=listRoleShow2(data);
+                        $('#data').html(html);
+                        checkInfo();
+                        changeSomeStatus();
+                        modifyData();
+                        $('.check_pass').off('click').click(function(){
+                            var guid = $(this).data('name');
+                            var This = $(this);
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                url:'user_role/'+guid,
+                                type:'put',
+                                data:{
+                                    status:2
+                                },
+                                success:function(data){
+                                    $('#alert-form').hide();
+                                    $('.check_pass').addClass("hidden");
+                                    $('.check_fail').addClass("hidden");
+                                    $('#alert-info').show().html('<p>数据修改成功!</p>');
+                                    $('a[data-name='+guid+']').parents('tr').remove();
+                                }
+                            })
+                        });
+                    }
+                })
+            });
+
+            //定义用户相关列表查询
+            $('.user_list').click(function(){
+                $('#user_title').html($(this).attr('title'));
+                var status = $(this).attr('status'), role = $(this).attr('role');
+                $('.check_pass').show();
+                $('.check_fail').show();
+                $.ajax({
+                    url:'/user/create',
+                    type:'get',
+                    data:{
+                        status:status,
+                        role:role
+                    },
+                    success:function(data){
+                        if (data.StatusCode==300) $('#data').html('暂时没有数据');
+                        var html=listUserShow(data);
+                        $('#data').html(html);
+                        checkInfo();
+                        changeSomeStatus();
+                        modifyData();
                     }
                 })
             })

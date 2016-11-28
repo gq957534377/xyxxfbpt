@@ -9,6 +9,7 @@ use App\Store\RoleStore;
 use App\Services\UploadService as UploadServer;
 use App\Tools\Common;
 use App\Tools\CustomPage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class UserRoleService {
@@ -16,6 +17,7 @@ class UserRoleService {
     protected static $userStore = null;
     protected static $roleStore = null;
     protected static $uploadServer = null;
+
 
     /**
      * UserService constructor.
@@ -307,6 +309,60 @@ class UserRoleService {
         return ['status'=>true,'data'=>'修改成功！'];
     }
 
+    /**
+     * 修改user_info中的角色值
+     * @param $where
+     * @param $data
+     * @return array
+     * @author 贾济林
+     */
+    public function userRoleChange($where,$data)
+    {
+        // 检验条件
+        if (empty($where) || empty($data)) return ['status' => false, 'data' => '请求参数错误'];
+        // 提交数据给store层
+        $info = self::$userStore->updateUserInfo($where,$data);
+        if(!$info) return ['status'=>false,'data'=>'修改失败！'];
+        return ['status'=>true,'data'=>'修改成功！'];
+    }
+
+    /**
+     * 用户审核，修改角色
+     * @param $where
+     * @param $data
+     * @return array
+     */
+    public function userCheck($where, $data)
+    {
+        //如果不通过，直接修改角色表中状态
+        if ($data['status']==3) $res_role = self::updataUserInfo($where, $data);
+
+        //如果通过，开启事务，同时操作角色表和用户表
+        if ($data['status']==2) {
+             DB::transaction(function () use ($where, $data){
+
+                //获取角色表中的角色值
+                $roleData = self::$roleStore->getRole($where);
+                $role = $roleData->role;
+                $userData = ['role' => $role];
+
+                //同时修改用户表中的角色值和角色表中的状态值
+                $res_role = self::updataUserInfo($where, $data);
+                $res_user = self::userRoleChange($where, $userData);
+            });
+
+        }
+
+        if(isset($res_role)&&$res_role['status']==400) return ['status'=>400,'msg'=>'修改失败！'];
+        return ['status'=>200,'msg'=>'修改成功！'];
+    }
+    
+    /**
+     * 获得指定条件的数据
+     * @param $where
+     * @return array
+     * @author 贾济林
+     */
     public function getList($where)
     {
         $res = self::$roleStore->getList($where);

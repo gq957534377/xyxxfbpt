@@ -49,9 +49,15 @@ function Project(){
             if (data[i].status==3) var status = '已通过';
             var status_td = $('<td></td>');
             status_td.html(status);
-            //操作
-            if (data[i].disable==0) var operating_td = $('<td class="operateTd"><button type="button" class="btn btn-info pro_edit">修改</button><button type="button" class="btn btn-info pro_on">禁用</button></td>');
-            if (data[i].disable==1) var operating_td = $('<td><button type="button" class="btn btn-info pro_edit">修改</button><button type="button" class="btn btn-info pro_off">启用</button></td>');
+            //已通过，提供修改项目公开隐藏功能
+            if (data[i].disable==0&&data[i].status==3) var operating_td = $('<td class="operateTd"><button type="button" class="btn btn-info pro_on">隐藏</button></td>');
+            if (data[i].disable==1&&data[i].status==3) var operating_td = $('<td><button type="button" class="btn btn-info pro_off">公开</button></td>');
+
+            //待审核，
+            if (data[i].status==1) var operating_td = $('<td>请耐心等待...</td>');
+
+            //未通过，提供重新发布
+            if (data[i].status==2) var operating_td = $('<td><button type="button" class="btn btn-info pro_edit">修改</button></td>');
             operating_td.find('button').prop('id',data[i].project_id);
             var tr = $('<tr></tr>');
             tr.append(title_td);
@@ -94,9 +100,9 @@ function Project(){
             success:function(data){
 
                 if(data.status==200){
-                    This.html('启用');
+                    This.html('公开');
                     This.removeClass('pro_on').addClass('pro_off');
-                    alert('修改为禁用');
+                    alert('已经设置为隐藏');
                     $('.pro_off').off("click").click(project.proTurnOn);
                     $('.pro_on').off("click").click(project.proTurnOff);
                 }
@@ -120,9 +126,9 @@ function Project(){
             success:function(data){
 
                 if(data.status==200){
-                    This.html('禁用');
+                    This.html('隐藏');
                     This.removeClass('pro_off').addClass('pro_on');
-                    alert('修改为开启');
+                    alert('修改为公开');
                     $('.pro_on').off("click").click(project.proTurnOff);
                     $('.pro_off').off("click").click(project.proTurnOn);
                 }

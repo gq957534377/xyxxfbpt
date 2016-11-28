@@ -21,6 +21,9 @@ function listUserShow(data){
         '</tr>' +
         '</thead>';
     html += '<tbody>';
+
+    //如果数据为0
+    if (!data.ResultData.data||data.ResultData.data.length==0) return false;
     $.each(data.ResultData.data, function (i, e) {
         var status = null;
         var p = '';
@@ -73,10 +76,6 @@ function listUserShow(data){
     return html;
 }
 
-// 普通用户 创业者 投资者 用户详情页，暂用同一个
-function userDetailShow(data) {
-    //
-}
 
 // 修改时弹出
 function userInfoUpdateShow(data) {
@@ -176,12 +175,6 @@ function listUserOneShow(data){
     });
 }
 
-// 创业者项目页面 投资者项目页面 暂用同一个
-function listProjectShow(data){
-    //
-}
-
-/////////////////////////////////////////////////////////////////
 
 // 待审核创业者 投资者 共用主列表页面样式
 function listRoleShow(data){
@@ -255,7 +248,7 @@ function checkDetailShow(data){
     if(data.sex == 1) sex = "男";
     if(data.sex == 2) sex = "女";
     if(data.status == 3) $('.check_fail').show();
-    // if(data.status == 3) $('.check_fail').addClass("hidden");
+
     var html = '';
     html += '<div class="row">';
     html += '<div class="col-md-8">' +
@@ -282,15 +275,81 @@ function checkDetailShow(data){
     html += '<div class="row">' +
         '<div class="col-md-6"><div class="form-group no-margin">' +
         '<label for="field-7" class="control-label">身份证正面：</label>' +
-        '<img src="admin/images/card_pic_z.png" alt="身份证正面" width="150px">' +
+        '<img src="'+ data.card_pic_a +'" alt="身份证正面" width="150px">' +
         '</div>' +
         '</div>';
     html += '<div class="col-md-6">' +
         '<div class="form-group no-margin">' +
         '<label for="field-7" class="control-label">身份证反面：</label>' +
-        '<img src="admin/images/card_pic_b.png" alt="身份证反面" width="150px">' +
+        '<img src="'+ data.card_pic_b +'" alt="身份证反面" width="150px">' +
         '</div>' +
         '</div>' +
+        '</div>';
+    return html;
+}
+
+function listRoleShow2(data){
+    var html = '';
+    html += '<div class="panel-body">' +
+        '<table class="table table-bordered table-striped">' +
+        '<thead>' +
+        '<tr>' +
+        '<th>item</th>' +
+        '<th>姓名</th>' +
+        '<th>性别</th>' +
+        '<th>手机</th>' +
+        '<th>身份证号码</th>' +
+        '<th>状态</th>' +
+        '<th>操作</th>' +
+        '</tr>' +
+        '</thead>';
+    html += '<tbody>';
+    $.each(data.data, function (i, e) {
+        var status = null;
+        var p= '';
+        var sex = null;
+        if(e.sex == 1) sex = "男";
+        if(e.sex == 2) sex = "女";
+        if(e.status == 1){
+            status = '<p class="text-success">待审核</p>';
+            p = 1;
+        }
+        if(e.status == 2){
+            status = '<p class="text-warning">审核成功</p>';
+            p = 2;
+        }
+        if(e.status == 3){
+            status = '<p class="text-danger">审核失败</p>';
+            p = 3;
+        }
+        // if(e.status == 4){
+        //     status = '<p class="text-danger">删除</p>';
+        // }
+
+        html += '<tr class="gradeX">';
+        html += '<td>' + (i + 1) + '</td>';
+        html += '<td>' + e.realname + '</td>';
+        html += '<td>' + sex + '</td>';
+        html += '<td>' + e.tel + '</td>';
+        html += '<td>' + e.card_number + '</td>';
+        html += '<td>' + status + '</td>';
+        html += '<td>';
+        if(p == 1)
+            html += '<a href="javascript:;" class="info check_check check_btn" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">审核</button></a>';
+
+        if(p == 3)
+            html += '<a href="javascript:;" class="info check_check check_btn" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">重新审核</button></a>';
+        if(p == 3)
+            html += '<a href="javascript:;" class="info check_delete" data-name="' + e.guid + '"><button class="btn btn-danger btn-xs">删除</button></a>';
+        html += '</td>';
+
+    });
+    html += '</tbody>' +
+        '</table>' +
+        '</div>' +
+        '<div class="row">' +
+        '<div class="col-sm-8"></div>' +
+        '<div class="col-sm-4" id="page"></div>' +
         '</div>';
     return html;
 }
