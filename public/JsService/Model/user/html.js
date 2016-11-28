@@ -275,13 +275,13 @@ function checkDetailShow(data){
     html += '<div class="row">' +
         '<div class="col-md-6"><div class="form-group no-margin">' +
         '<label for="field-7" class="control-label">身份证正面：</label>' +
-        '<img src="'+ data.card_pic_a +'" alt="身份证正面" width="150px">' +
+        '<img src="uploads/image/'+ data.card_pic_a +'" alt="身份证正面" width="150px">' +
         '</div>' +
         '</div>';
     html += '<div class="col-md-6">' +
         '<div class="form-group no-margin">' +
         '<label for="field-7" class="control-label">身份证反面：</label>' +
-        '<img src="'+ data.card_pic_b +'" alt="身份证反面" width="150px">' +
+        '<img src="uploads/image/'+ data.card_pic_b +'" alt="身份证反面" width="150px">' +
         '</div>' +
         '</div>' +
         '</div>';
