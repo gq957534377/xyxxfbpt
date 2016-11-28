@@ -21,6 +21,9 @@ function listUserShow(data){
         '</tr>' +
         '</thead>';
     html += '<tbody>';
+
+    //如果数据为0
+    if (!data.ResultData.data||data.ResultData.data.length==0) return false;
     $.each(data.ResultData.data, function (i, e) {
         var status = null;
         var p = '';
@@ -73,10 +76,6 @@ function listUserShow(data){
     return html;
 }
 
-// 普通用户 创业者 投资者 用户详情页，暂用同一个
-function userDetailShow(data) {
-    //
-}
 
 // 修改时弹出
 function userInfoUpdateShow(data) {
@@ -176,12 +175,6 @@ function listUserOneShow(data){
     });
 }
 
-// 创业者项目页面 投资者项目页面 暂用同一个
-function listProjectShow(data){
-    //
-}
-
-/////////////////////////////////////////////////////////////////
 
 // 待审核创业者 投资者 共用主列表页面样式
 function listRoleShow(data){
@@ -255,7 +248,7 @@ function checkDetailShow(data){
     if(data.sex == 1) sex = "男";
     if(data.sex == 2) sex = "女";
     if(data.status == 3) $('.check_fail').show();
-    // if(data.status == 3) $('.check_fail').addClass("hidden");
+
     var html = '';
     html += '<div class="row">';
     html += '<div class="col-md-8">' +
@@ -282,13 +275,13 @@ function checkDetailShow(data){
     html += '<div class="row">' +
         '<div class="col-md-6"><div class="form-group no-margin">' +
         '<label for="field-7" class="control-label">身份证正面：</label>' +
-        '<img src="admin/images/card_pic_z.png" alt="身份证正面" width="150px">' +
+        '<img src="'+ data.card_pic_a +'" alt="身份证正面" width="150px">' +
         '</div>' +
         '</div>';
     html += '<div class="col-md-6">' +
         '<div class="form-group no-margin">' +
         '<label for="field-7" class="control-label">身份证反面：</label>' +
-        '<img src="admin/images/card_pic_b.png" alt="身份证反面" width="150px">' +
+        '<img src="'+ data.card_pic_b +'" alt="身份证反面" width="150px">' +
         '</div>' +
         '</div>' +
         '</div>';
