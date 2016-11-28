@@ -58,7 +58,7 @@ class CrowdFundingStore
      */
     public function selectLists($where,$field)
     {
-        if(!is_array($where)||!is_string($field))return false;
+        if(!is_array($where) || !is_string($field))return false;
 
         $result = DB::table(self::$table)->where($where)->lists($field);
         return $result;
@@ -85,7 +85,7 @@ class CrowdFundingStore
      */
     public function getList($where,$field,$page,$pages)
     {
-        if(!is_array($where)||!is_int($page)||!is_int($pages)||!is_string($field))return false;
+        if(!isset($where) || !isset($page) || !isset($pages) || !isset($field))return false;
 
         $result = DB::table(self::$table)
             ->where($where)
@@ -104,9 +104,7 @@ class CrowdFundingStore
     {
         if(!is_array($where)||!is_array($update))return false;
 
-        $result = DB::table(self::$table)
-            ->where($where)
-            ->update($update);
+        $result = DB::table(self::$table)->where($where)->update($update);
         return $result;
     }
 
@@ -119,7 +117,7 @@ class CrowdFundingStore
      */
     public function forPage($page,$tolPage,$where)
     {
-        if(!is_int($page)||!is_int($tolPage) ||!is_array($where))return false;
+        if(!isset($page) || !isset($tolPage) || !isset($where))return false;
 
         $result = DB::table(self::$table)
             ->where($where)
@@ -139,10 +137,7 @@ class CrowdFundingStore
     public function getWhere($where)
     {
         if(!is_array($where))return false;
-        $result = DB::table(self::$table)
-            ->where($where)
-            ->get();
-
+        $result = DB::table(self::$table)->where($where)->get();
         return $result;
     }
 
@@ -155,7 +150,7 @@ class CrowdFundingStore
      */
     public function getWhereIn($field,$where)
     {
-        if(!is_array($where)||!is_string($field))return false;
+        if(!isset($where) || !isset($field))return false;
 
         $result = DB::table(self::$table)
             ->whereIn($field,$where)
@@ -172,7 +167,7 @@ class CrowdFundingStore
      */
     public function insertData($data)
     {
-        if(!is_array($data))return false;
+        if(!isset($data))return false;
 
         $result = DB::table(self::$table)->insertGetId($data,"project_id");
         return $result;
@@ -190,9 +185,7 @@ class CrowdFundingStore
     {
         if(empty($data)||empty($field)||empty($data)) return false;
 
-        $result = DB::table(self::$table)
-            ->where($where)
-            ->increment($field,$data);
+        $result = DB::table(self::$table)->where($where)->increment($field,$data);
         return $result;
     }
 }

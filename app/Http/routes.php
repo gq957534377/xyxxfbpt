@@ -46,7 +46,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::get("/select_publish",'CrowdFundingController@selectPublish');
         //活动管理
         Route::resource('/action', 'ActionController');
-        Route::any('/upload','ActionController@upload');
+        Route::resource('/upload','ActionController@upload');
         //内容管理
         Route::resource('/article', 'ArticleController');
     });
@@ -94,7 +94,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/activity', 'ActivityController');
         //投稿管理
         Route::resource('/send', 'SendController');
-        Route::any('/upload','ActionController@upload');
+        Route::resource('/upload','ActionController@upload');
     });
 
 

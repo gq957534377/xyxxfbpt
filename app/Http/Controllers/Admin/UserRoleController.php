@@ -77,6 +77,7 @@ class UserRoleController extends Controller
     {
         $data = $request->all();
         $res = self::$userRoleServer->getList($data);
+
         if (!$res) return response()->json(['status' => '500', 'msg' => '查询失败']);
         return response()->json(['status' => '200', 'data' => $res['data']]);
     }
@@ -103,13 +104,12 @@ class UserRoleController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-
         //判断请求数据
         if (!isset($id) || empty($data))
             return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
 
         //获取数据
-        $result = self::$userRoleServer->updataUserInfo(['guid' => $id], $data);
+        $result = self::$userRoleServer->userCheck(['guid' => $id], $data);
         $result['data'] = $result['msg'];
 
         //判断获取的数据

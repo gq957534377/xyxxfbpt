@@ -42,6 +42,8 @@ class ArticleService
 
     /**
      * 查询对应文章类型的所有文章数据
+     * @param $type
+     * @return array
      * @author 郭庆
      */
     public static function selectByType($type)
@@ -56,52 +58,6 @@ class ArticleService
         return ['status' => false, 'msg' => '暂时没有本文章信息'];
     }
 
-    /**
-     * 报名文章.
-     *
-     * @author 郭庆
-     */
-    public function articleOrder($data)
-    {
-        //判断是否已经报名
-        $article = self::$articleOrderStore -> getSomeField(['user_id' => $data['user_id']], 'article_id');
-        $isHas = in_array($data['article_id'], $article);
-        if($isHas) return ['status' => false, 'msg' => '已经报名参加'];
-
-        //添加新的报名记录
-        $data['time'] = date("Y-m-d H:i:s", time());
-        DB::beginTransarticle();
-        try{
-            //插入报名记录
-            $result = self::$articleOrderStore -> addData($data);
-
-            //给文章信息表参与人数字段加1
-            $res = self::$articleStore -> incrementData(['guid' => $data['article_id']], 'people',1);
-
-            //上述俩个操作全部成功则返回成功
-            if($res && $result){
-                DB::commit();
-                return ['status' => true, 'msg' => '报名成功'];
-            }
-        }catch (Exception $e){
-            //上述操作有一个失败就报错，数据库手动回滚
-            Log::error('报名失败', [$data]);
-            DB::rollback();
-            return ['status' => false, 'msg' => '报名失败'];
-        }
-    }
-
-    /**
-     * 获取指定用户所报名参加的所有文章.
-     * 返回一个文章id为元素的一维数组
-     * @author 郭庆
-     */
-    public static function getArticle($user)
-    {
-        $article = self::$articleOrderStore -> getSomeField(['user_id' => $user], 'article_id');
-        if (!$article) return ['status' => false, 'msg' => '获取报名文章清单失败'];
-        return ['status' => true, 'msg' => $article];
-    }
     /**
      * 发布文章
      * @param $data
@@ -118,32 +74,6 @@ class ArticleService
         //判断插入是否成功，并返回结果
         if(isset($result)) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '存储数据发生错误'];
-    }
-
-    /**
-     * 检查日期是否合乎逻辑
-     *
-     *  @author 郭庆
-     */
-    public function checkTime($data)
-    {
-        //转为时间戳
-        $endtime = strtotime($data["end_time"]);
-        $deadline = strtotime($data["deadline"]);
-        $starttime = strtotime($data["start_time"]);
-
-        //检测开始：报名截止时间 < 文章开始时间 < 文章结束时间
-        if($endtime > $starttime && $starttime > $deadline && $deadline > time()){
-            return ['status' => true];
-        }elseif($endtime < $starttime){
-            return ['status' => false, "msg" => "结束日期不可早于开始日期"];
-        }elseif($endtime < $deadline){
-            return ['status' => false, "msg" => "结束日期不可早于报名截止日期"];
-        }elseif($deadline<time()){
-            return ['status' => false, "msg" => "报名截止日期不可早于当前日期"];
-        }else{
-            return ['status' => false, "msg" => "开始日期不可早于报名截止日期"];
-        }
     }
 
     /**
@@ -199,6 +129,8 @@ class ArticleService
 
     /**
      * 查询相关文章信息
+     * @param $guid
+     * @param $user
      * @return array
      * author 郭庆
      */
@@ -218,9 +150,10 @@ class ArticleService
     }
 
     /**
-     * 修改文章/报名状态
+     * 修改文章状态
      * @param $guid
      * @param $status
+     * @param $user
      * @return array
      * author 郭庆
      */
@@ -228,13 +161,6 @@ class ArticleService
     {
         if(!(isset($guid) && isset($status))){
             return ['status' => false, 'msg' => "参数有误 ！"];
-        }
-
-        //修改状态
-        if($status == 1){
-            $status = 3;
-        }else{
-            $status = 1;
         }
 
         if ($user == 1) {
@@ -261,6 +187,7 @@ class ArticleService
      */
     public function upDta($where, $data)
     {
+        $data["time"] = date("Y-m-d H:i:s", time());
         if ($data['user'] == 1){
             unset($data['user']);
             $Data = self::$articleStore -> upload($where, $data);
@@ -278,24 +205,10 @@ class ArticleService
     }
 
     /**
-     * 获取报名信息
-     *
-     * @author 郭庆
-     */
-    public function getOrderInfo($guid)
-    {
-        $where = ["article_id" => $guid];
-        $result = self::$articleOrderStore -> getSomeData($where);
-        if($result){
-            return ['status' => true, 'msg' => $result];
-        }else{
-            return ['status' => false, 'msg' => "数据暂无数据！"];
-        }
-    }
-
-    /**
      * 获取评论表+like表中某一个文章的评论
-     * @author郭庆
+     * @param $id
+     * @return array
+     * @author 郭庆
      */
     public static function getComment($id)
     {
@@ -306,7 +219,9 @@ class ArticleService
 
     /**
      * 获取点赞记录用于检测是否点赞
-     *
+     * @param $user_id
+     * @param $article_id
+     * @return array
      * @author 郭庆
      */
     public static function getLike($user_id, $article_id)
@@ -318,7 +233,8 @@ class ArticleService
 
     /**
      * 添加点赞记录.
-     *
+     * @param $data
+     * @return array
      * @author 郭庆
      */
     public static function setLike($data)
@@ -330,6 +246,9 @@ class ArticleService
 
     /**
      * 获取点赞数量
+     * @param $id
+     * @return array
+     * @author 郭庆
      */
     public static function getLikeNum($id)
     {
@@ -343,6 +262,11 @@ class ArticleService
 
     /**
      * 修改点赞/不支持
+     * @param $user_id
+     * @param $article_id
+     * @param $data
+     * @return array
+     * @author 郭庆
      */
     public static function chargeLike($user_id, $article_id,$data)
     {
@@ -350,8 +274,12 @@ class ArticleService
         if ($result) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '操作失败'];
     }
+
     /**
      * 发表评论
+     * @param $data
+     * @return array
+     * @author 郭庆
      */
     public static function comment($data)
     {
@@ -363,6 +291,10 @@ class ArticleService
 
     /**
      * 获取指定用户所发表的所有文章
+     * @param $id
+     * @param $status
+     * @return array
+     * @author 郭庆
      */
     public static function getArticleByUser($id, $status)
     {
@@ -373,6 +305,9 @@ class ArticleService
 
     /**
      * 用户发布文稿
+     * @param $data
+     * @return array
+     * @author 郭庆
      */
     public static function addSend($data)
     {

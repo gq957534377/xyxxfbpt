@@ -20,8 +20,10 @@ class SendController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 展示用户来稿列表页
      *
+     * @return array
+     * @author 郭庆
      */
     public function index(Request $request)
     {
@@ -37,38 +39,25 @@ class SendController extends Controller
     }
 
     /**
-     * 展示详情
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function create(Request $request)
     {
-        dd($request->all());
-        if(!$request['id']){
-            return view('home.article.new',['data' => $request->all()]);
-        }
-        $id = $request['id'];
-        $result = self::$articleServer->getData($id, 2);
-        if ($result['status']) return view('home.article.new',['data' => $result['msg']]);
-        return view('home.article.new',['data' => $result['msg']]);
+
     }
 
     /**
      * 用户投稿
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     * @author 郭庆
      */
     public function store(Request $request)
     {
         $data = $request->all();
-
-        //预览
-        if($data['status']==5){
-            dd($request['data']);
-            return view('home.article.new',['data' => $data]);
-        }
-
-
         $data['user_id'] = $request -> session() -> get('user') -> guid;
         $res = self::$userServer -> userInfo(['guid' => $data['user_id']]);
         if ($res['status']){
@@ -83,50 +72,80 @@ class SendController extends Controller
         return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }
 
+
     /**
-     * 展示详情
+     * 展示预览（未发布）
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        if($id==1){
+            if (is_string($request['data'])){
+                $data = json_decode($request['data']);
+            }else{
+                $data = $request['data'];
+            }
+            $user_id = $request -> session() -> get('user') -> guid;
+            $res = self::$userServer -> userInfo(['guid' => $user_id]);
+            if ($res['status']){
+                dd($res['status']);
+                $data->author = $res['msg'] -> nickname;
+                $data->headpic = $res['msg'] -> headpic;
+            }else{
+                $data->author = '佚名';
+                $data->headpic = '/home/images/logo.jpg';
+            }
+            return view('home.article.new',['data' => $data]);
+        }
         $result = self::$articleServer->getData($id, 2);
         if ($result['status']) return view('home.article.new',['data' => $result['msg']]);
         return view('home.article.new',['data' => $result['msg']]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 给前台传出对应id的所有数据
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return array
+     * @author 郭庆
      */
     public function edit($id)
     {
-        //
+        $result = self::$articleServer->getData($id, 2);
+        if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+        return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }
 
     /**
-     * Update the specified resource in storage.
+     * 修改文稿内容
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $data['user'] = 2;
+        $result = self::$articleServer->upDta(['guid'=>$id], $data);
+        if($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+        return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 用户来搞删除.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return array
+     * @author 郭庆
      */
     public function destroy($id)
     {
-        //
+        $result = self::$articleServer->changeStatus($id, 5, 2);
+        if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+        return ['StatusCode' => 400, 'ResultData' => '删除失败！'];
     }
 }

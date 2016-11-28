@@ -10,121 +10,195 @@
     <script type="text/javascript" src="{{url('/qiniu/js/ui2.js')}}"></script>
     <script type="text/javascript" src="{{url('/qiniu/js/main2.js')}}"></script>
 @endsection
+
 @section('content')
-    <section id="blog" class="container">
-        {{--发布--}}
-        <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog" id="fabu">
-                <div class="modal-content">
-                    <form data-name="" role="form" id="yz_fb"  onsubmit="return false">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="title">文章发布</h4>
+
+    <section id="contact-page">
+        <div class="container main-container">
+            <div class="users-show">
+                <!--侧边菜单栏 Start-->
+            @include('home.user.side')
+            <!--侧边菜单栏 End-->
+
+                <div id="blog" class="main-col col-md-9 left-col" style="margin-top: 15px;">
+                    {{--发布--}}
+                    <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog" id="fabu">
+                            <div class="modal-content">
+                                <form data-name="" role="form" id="yz_fb"  onsubmit="return false">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="title">文章发布</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="field-1" class="control-label">文章标题</label>
+                                                    <input type="text" class="form-control" id="title" name="title" placeholder="article title...">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="field-5" class="control-label">缩略图</label>
+                                                    <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" name="banner" disabled="true">
+                                                    <input id="file_upload" name="file_upload" type="file" multiple="true">
+                                                    <img src="" id="article_thumb_img" style="max-width: 350px;max-height: 110px;">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label for="field-1" class="control-label">文章来源</label>
+                                                    <input type="text" class="form-control" id="source" name="source" placeholder="article source...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group no-margin">
+                                                    <label for="field-7" class="control-label">文章简述</label>
+                                                    <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about your article" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-12 control-label">文章详情</label>
+                                            <div class="col-md-12">
+                                                <textarea id="UE" name="describe" class="describe"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+                                    </div>
+                                    <div class="modal-footer" id="caozuo">
+                                        <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                                        <button type="submit" data-name="2" class="add_article btn btn-primary">提交审核</button>
+                                        <a target=_blank data-name="5" id="yulan"></a>
+                                        <button type="button" data-name="5" class="add_article btn btn-primary">预览</button>
+                                        <button type="submit" data-name="4" class="add_article btn btn-primary">存稿</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="field-1" class="control-label">文章标题</label>
-                                        <input type="text" class="form-control" id="title" name="title" placeholder="article title...">
-                                    </div>
-                                </div>
-                            </div>
+                    </div><!-- /.modal -->
 
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="field-5" class="control-label">缩略图</label>
-                                        <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" name="banner" disabled="true">
-                                        <input id="file_upload" name="file_upload" type="file" multiple="true">
-                                        <img src="" id="article_thumb_img" style="max-width: 350px;max-height: 110px;">
+                    {{--编辑--}}
+                    <div id="xg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog" id="xg">
+                            <div class="modal-content">
+                                <form data-name="" role="form" id="yz_xg"  onsubmit="return false">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="title">编辑文章</h4>
                                     </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <label for="field-1" class="control-label">文章来源</label>
-                                        <input type="text" class="form-control" id="source" name="source" placeholder="article source...">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group no-margin">
-                                        <label for="field-7" class="control-label">文章简述</label>
-                                        <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about your article" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-md-12 control-label">文章详情</label>
-                                <div class="col-md-12">
-                                    <textarea id="UE" name="describe" class="describe"></textarea>
-                                </div>
-                            </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="field-1" class="control-label">文章标题</label>
+                                                    <input type="text" class="form-control" id="xg_title" name="title" placeholder="article title...">
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            <meta name="csrf-token" content="{{ csrf_token() }}">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="field-5" class="control-label">缩略图</label>
+                                                    <input type="text" size="50" style="width: 150px;" class="lg" name="banner" id="charge_banner" disabled="true">
+                                                    <input id="file_charge" name="file_upload" type="file" multiple="true">
+                                                    <img src="" id="charge_thumb_img" style="max-width: 350px;max-height: 110px;">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <label for="field-1" class="control-label">文章来源</label>
+                                                    <input type="text" class="form-control" id="xg_source" name="source" placeholder="article source...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group no-margin">
+                                                    <label for="field-7" class="control-label">文章简述</label>
+                                                    <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="Write something about your article" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-md-12 control-label">文章详情</label>
+                                            <div class="col-md-12">
+                                                <textarea id="UE1" name="describe" class="describe"></textarea>
+                                            </div>
+                                        </div>
 
+                                        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+                                    </div>
+                                    <div class="modal-footer" id="caozuo">
+                                        <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+                                        <button type="submit" data-name="" data-status="2" class="xg_article btn btn-primary">提交审核</button>
+                                        <a target=_blank data-name="5" id="yulan"></a>
+                                        <button type="button" data-status="5" class="xg_article btn btn-primary">预览</button>
+                                        <button type="submit" data-name="" data-status="4" class="xg_article btn btn-primary">存稿</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="modal-footer" id="caozuo">
-                            <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                            <button type="submit" data-name="2" class="add_article btn btn-primary">提交审核</button>
-                            <a target=_blank data-name="5" class="add_article"><button type="submit" data-name="5" class="add_article btn btn-primary">预览</button></a>
-                            <button type="submit" data-name="4" class="add_article btn btn-primary">存稿</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div><!-- /.modal -->
-        {{--修改--}}
+                    </div><!-- /.modal -->
 
-        <div class="center">
-            <h2>文章管理</h2>
-        </div>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">文章发布</button>
+                    <br>
+                    <a href="/send?status=1"><button class="btn @if($status == 1) btn-success @else btn-default @endif">已发布</button></a>
+                    <a href="/send?status=2"><button class="btn @if($status == 2) btn-success @else btn-default @endif">审核中...</button></a>
+                    <a href="/send?status=3"><button class="btn @if($status == 3) btn-success @else btn-default @endif">已退稿</button></a>
+                    <a href="/send?status=4"><button class="btn @if($status == 4) btn-success @else btn-default @endif">草稿</button></a>
 
-        <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">文章发布</button>
-        <br>
-        <a href="/send?status=1"><button class="btn @if($status == 1) btn-success @else btn-default @endif">已发布</button></a>
-        <a href="/send?status=2"><button class="btn @if($status == 2) btn-success @else btn-default @endif">审核中...</button></a>
-        <a href="/send?status=3"><button class="btn @if($status == 3) btn-success @else btn-default @endif">已退稿</button></a>
-        <a href="/send?status=4"><button class="btn @if($status == 4) btn-success @else btn-default @endif">草稿</button></a>
-
-        <div>
-            <table style="width:100%;">
-            @if(is_string($article))
-            <h1>{{$article}}</h1>
-            @else
-                    <tr>
-                        <td>标题</td>
-                        <td>发布时间</td>
-                        <td>简述</td>
-                        <td>来源</td>
-                        <td>操作</td>
-                    </tr>
-                @foreach($article as $v)
-                <tr>
-                    <td>{{$v->title}}</td>
-                    <td>{{$v->time}}</td>
-                    <td>{{$v->brief}}</td>
-                    <td>{{$v->source}}</td>
-                    <td>
-                        @if($status == 1)
-                            <a href="/article/{{$v->guid}}?type=3" target=_blank><button class="btn btn-success">查看详情</button></a>
-                            @elseif($status == 2)
-                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=2">预览</button></a>
-                            @elseif($status == 3)
-                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=3">编辑</button></a>
-                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-danger" href="/send/create?status=3">删除</button></a>
+                    <div>
+                        <table style="width:100%;">
+                            @if(is_string($article))
+                                <h1>{{$article}}</h1>
                             @else
-                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=4">编辑</button></a>
-                            <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-danger" href="/send/create?status=4">删除</button></a>
-                        @endif
-                    </td>
-                </tr>
-                @endforeach
-            @endif
-            </table>
-        </div>
-    </section><!--/#blog-->
+                                <tr>
+                                    <td>标题</td>
+                                    <td>发布时间</td>
+                                    <td>简述</td>
+                                    <td>来源</td>
+                                    <td>操作</td>
+                                </tr>
+                                @foreach($article as $v)
+                                    <tr>
+                                        <td>{{$v->title}}</td>
+                                        <td>{{$v->time}}</td>
+                                        <td>{{$v->brief}}</td>
+                                        <td>{{$v->source}}</td>
+                                        <td>
+                                            @if($status == 1)
+                                                <a href="/article/{{$v->guid}}?type=3" target=_blank><button class="btn btn-success">查看详情</button></a>
+                                            @elseif($status == 2)
+                                                <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=2">预览</button></a>
+                                            @elseif($status == 3)
+                                                <button data-name="{{$v->guid}}" class="change btn btn-primary" data-toggle="modal" data-target="#xg">编辑</button>
+                                                <button data-name="{{$v->guid}}" class="dele btn btn-danger">删除</button>
+                                            @elseif($status == 4)
+                                                <button data-name="{{$v->guid}}" class="change btn btn-primary" data-toggle="modal" data-target="#xg">编辑</button>
+                                                <button data-name="{{$v->guid}}" class="dele btn btn-danger">删除</button>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </table>
+                    </div>
+                </div><!--/#blog-->
+            </div>
+        </div><!--/.container-->
+    </section><!--/#contact-page-->
+
     @include('home.validator.publishValidator')
 @endsection
 
@@ -220,7 +294,7 @@
             initialFrameWidth : '100%',
         };
         var ue = UE.getEditor('UE', toolbra);
-//        var ue1 = UE.getEditor('UE1', toolbra);
+        var ue1 = UE.getEditor('UE1', toolbra);
         //    var ue2 = UE.getEditor('UE2', toolbra);
 
     </script>
@@ -280,8 +354,13 @@
                 brief:$('textarea[name=brief]').val(),
                 describe:$('textarea[name=describe]').val(),
             };
-            var status = $(this).data('name');
 
+            var status = $(this).data('name');
+            if (status == 5){
+                var data1 = JSON.stringify(data);
+                window.open('/send/1?data='+data1);
+                return ;
+            }
             console.log(data);
             $.ajaxSetup({
                 headers: {
@@ -296,10 +375,103 @@
                     if (data.StatusCode == 200){
                         $('#con-close-modal').modal('hide');
                         alert('成功');
+                        $('input[name=title]').val('');
+                        $('input[name=banner]').val('');
+                        $('input[name=source]').val('');
+                        $('textarea[name=brief]').val('');
+                        $('textarea[name=describe]').val('');
+                        ue.setContent('');
+                        $('#article_thumb_img').attr('src', '');
                     }
                     else {
                         alert(data.ResultData);
                     }
+                }
+            });
+        });
+
+//        修改
+        $('.xg_article').click(function () {
+            var data = {
+                title:$('#xg_title').val(),
+                banner:$('#charge_banner').val(),
+                source:$('#xg_source').val(),
+                brief:$('#xg_brief').val(),
+                describe:ue1.getContent(),
+                status:$(this).data('status')
+            };
+            console.log(data);
+            var status = $(this).data('status');
+            if (status == 5){
+                var data1 = JSON.stringify(data);
+                window.open('/send/1?data='+data1);
+                return ;
+            }
+            console.log(data);
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url:'/send/'+$(this).data('name'),
+                type:'put',
+                data: data,
+                success:function (data) {
+                    if (data.StatusCode == 200){
+                        $('#xg').modal('hide');
+                        alert('成功');
+                        $('#xg_title').val('');
+                        $('#charge_banner').val('');
+                        $('#xg_source').val('');
+                        $('#xg_brief').val('');
+                        ue1.getContent('');
+                        $('#charge_thumb_img').attr('src', '');
+                    }
+                    else {
+                        alert(data.ResultData);
+                    }
+                }
+            });
+        });
+        
+//        删除
+        $('.dele').click(function () {
+            var id = $(this).data('name');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url:'/send/'+id,
+                type:'delete',
+                success:function (data) {
+                    if (data.StatusCode==200){
+                        alert('删除成功');
+                        location.reload();
+                    }else{
+                        alert(data.ResultData);
+                    }
+                }
+            });
+        });
+
+//        展示修改旧内容
+        $('.change').click(function () {
+            var id = $(this).data('name');
+            $.ajax({
+                url:'/send/'+id+'/edit',
+                type:'get',
+                success:function (data) {
+                    data = data.ResultData;
+                    $('#xg_title').val(data.title);
+                    $('#charge_banner').val(data.banner);
+                    $('#xg_source').val(data.source);
+                    $('#xg_brief').val(data.brief);
+                    ue1.setContent(data.describe);
+                    $('.xg_article').attr('data-name', data.guid);
+                    $('#charge_thumb_img').attr('src', data.banner);
                 }
             });
         });

@@ -299,6 +299,7 @@
     cropDone: function () {
       this.$avatarForm.get(0).reset();
       this.$avatar.attr('src', this.url);
+      $("#head_pic").attr('src',this.url);
       this.stopCropper();
       this.$avatarModal.modal('hide');
     },
@@ -318,5 +319,4 @@
   $(function () {
     return new CropAvatar($('#crop-avatar'));
   });
-
 });

@@ -51,8 +51,11 @@
     </section><!--/#contact-page-->
 @endsection
 @section('script')
-    <script>
-    </script>
     @include('home.validator.publishValidator')
     @include('home.project.all_pro_list')
+    <script>
+        $(function(){
+            $('#all_pro_list').click();
+        })
+    </script>
 @endsection

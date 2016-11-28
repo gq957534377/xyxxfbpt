@@ -36,6 +36,7 @@ class ArticleController extends Controller
      * 添加评论
      *
      * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function create(Request $request)
     {
@@ -97,8 +98,10 @@ class ArticleController extends Controller
 
     /**
      * 点赞
-     *
-     * @param  int  $id
+     * @param $request
+     * @param $id
+     * @return array
+     * @author 郭庆
      */
     public function edit(Request $request, $id)
     {
@@ -124,9 +127,10 @@ class ArticleController extends Controller
 
     /**
      * 展示评论
+     * @param $id
+     * @return array
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @author 郭庆
      */
     public function update($id)
     {

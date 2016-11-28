@@ -3,6 +3,7 @@
 <script type="text/javascript" src="{{url("qiniu/js/main4.js")}}"></script>
 <script>
     var project = new Project();
+
     // 根据session获得项目管理个人列表
     $('#all_pro_list').click(function(){
         $.ajaxSetup({
@@ -25,6 +26,8 @@
             }
 
         })
-    })
+    });
+
+    //重新发布事件定义
 </script>
 @include('home.validator.editValidator')

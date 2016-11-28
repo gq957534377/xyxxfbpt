@@ -164,6 +164,9 @@ class ProjectService {
      */
     public function updateData($data,$where)
     {
+        //重新提交后，将status改为1
+        $data['status'] = 1;
+
         $res = self::$projectStore->update($where,$data);
         if ($res==0) return ['status'=>false,'msg'=>'更新失败'];
         return ['status'=>true,'msg'=>'更新成功'];
