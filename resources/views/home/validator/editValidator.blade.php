@@ -62,11 +62,7 @@
                             $('#pro_edit').modal('hide');
 
                             // 重新获得个人管理列表
-                            var project = new Project();
-                            project.ajax('project/list','put','',function(data){
-                                project.creatProList(data.data);
-                                $('.pro_edit').click(project.proEdit);
-                            });
+                            $('#all_pro_list').click();
                         },
                         error:function(data){
 
