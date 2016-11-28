@@ -8,7 +8,8 @@
  */
 
 namespace App\Store;
-use DB;
+
+use Illuminate\Support\Facades\DB;
 
 class ActionStore
 {
@@ -23,7 +24,7 @@ class ActionStore
     public function insertData($data)
     {
         if(!is_array($data)) return false;
-        return $result = DB::table(self::$table) -> insertGetId($data);
+        return $result = DB::table(self::$table)->insertGetId($data);
     }
 
     /**
@@ -34,8 +35,7 @@ class ActionStore
      */
     public function getOneData($where)
     {
-        if(empty($where)) return false;
-        return DB::table(self::$table) -> where($where) -> first();
+        return DB::table(self::$table)->where($where)->first();
     }
     /**
      * 分页查询数据
@@ -49,10 +49,10 @@ class ActionStore
     {
         if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
         return DB::table(self::$table)
-            -> where($where)
-            -> orderBy("change_time","desc")
-            -> forPage($page,$tolPage)
-            ->get();
+           ->where($where)
+           ->orderBy("change_time","desc")
+           ->forPage($page,$tolPage)
+           ->get();
     }
 
     /**
@@ -62,8 +62,7 @@ class ActionStore
      */
     public static function getData($where)
     {
-        if (empty($where)) return false;
-        return DB::table(self::$table) -> where($where) -> get();
+        return DB::table(self::$table)->where($where)->get();
     }
 
     /**
@@ -76,7 +75,7 @@ class ActionStore
     public function upload($where, $data)
     {
         if(!is_array($where) || !is_array($data)) return false;
-        return DB::table(self::$table) -> where($where) -> update($data);
+        return DB::table(self::$table)->where($where)->update($data);
     }
 
     /**

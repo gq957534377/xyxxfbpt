@@ -19,7 +19,9 @@ class ActionController extends Controller
 
     /**
      * 活动后台首页
-     * author 张洵之
+     * @param
+     * @return \Illuminate\Http\Response
+     * @author 张洵之
      */
     public function index()
     {
@@ -28,7 +30,9 @@ class ActionController extends Controller
 
     /**
      * 获取分页数据
-     * author 张洵之
+     * @param
+     * @return array
+     * @author 张洵之
      */
     public function create(Request $request)
     {
@@ -38,8 +42,9 @@ class ActionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *向活动表插入数据
+     * 获取分页数据
+     * @param
+     * @return array
      * @author 张洵之
      */
     public function store(Request $request)
@@ -52,7 +57,9 @@ class ActionController extends Controller
 
     /**
      * 拿取一条活动信息详情
-     * author 张洵之
+     * @param
+     * @return array
+     * @author 张洵之
      */
     public function show($id)
     {

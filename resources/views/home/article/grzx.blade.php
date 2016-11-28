@@ -409,7 +409,7 @@
             var status = $(this).data('status');
             if (status == 5){
                 var data1 = JSON.stringify(data);
-                window.open('/send/create','预览','datas=123');
+                window.open('/send/1?data='+data1);
                 return ;
             }
             console.log(data);

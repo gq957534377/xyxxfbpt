@@ -4,11 +4,13 @@
  * User: Administrator
  * Date: 2016/11/17
  * Time: 13:52
+ * USER:郭庆
  * 用户来搞数据仓储层
  */
 
 namespace App\Store;
-use DB;
+
+use Illuminate\Support\Facades\DB;
 
 class SendStore
 {
@@ -22,8 +24,7 @@ class SendStore
      */
     public function insertData($data)
     {
-        if(!is_array($data)) return false;
-        return $result = DB::table(self::$table) -> insertGetId($data);
+        return $result = DB::table(self::$table)->insertGetId($data);
     }
 
     /**
@@ -34,8 +35,7 @@ class SendStore
      */
     public function getOneData($where)
     {
-        if(empty($where)) return false;
-        return DB::table(self::$table) -> where($where) -> first();
+        return DB::table(self::$table)->where($where)->first();
     }
     /**
      * 分页查询数据
@@ -47,11 +47,10 @@ class SendStore
      */
     public function forPage($page, $tolPage, $where)
     {
-        if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
         return DB::table(self::$table)
-            -> where($where)
-            -> orderBy("time","desc")
-            -> forPage($page,$tolPage)
+           ->where($where)
+           ->orderBy("time","desc")
+           ->forPage($page,$tolPage)
             ->get();
     }
 
@@ -62,8 +61,7 @@ class SendStore
      */
     public static function getData($where)
     {
-        if (empty($where)) return false;
-        return DB::table(self::$table) -> where($where) -> orderBy("time","desc") -> get();
+        return DB::table(self::$table)->where($where)->orderBy("time","desc")->get();
     }
 
     /**
@@ -75,8 +73,7 @@ class SendStore
      */
     public function upload($where, $data)
     {
-        if(!is_array($where) || !is_array($data)) return false;
-        return DB::table(self::$table) -> where($where) -> update($data);
+        return DB::table(self::$table)->where($where)->update($data);
     }
 
     /**

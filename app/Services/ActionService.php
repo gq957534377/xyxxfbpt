@@ -47,7 +47,7 @@ class ActionService
      */
     public static function selectByType($type)
     {
-        $data = self::$actionStore -> getData(['type' => $type]);
+        $data = self::$actionStore->getData(['type' => $type]);
         if($data) return ['status' => true, 'msg' => $data];
         return ['status' => false, 'msg' => '暂时没有本活动信息'];
     }
@@ -61,7 +61,7 @@ class ActionService
     public function actionOrder($data)
     {
         //判断是否已经报名
-        $action = self::$actionOrderStore -> getSomeField(['user_id' => $data['user_id']], 'action_id');
+        $action = self::$actionOrderStore->getSomeField(['user_id' => $data['user_id']], 'action_id');
         $isHas = in_array($data['action_id'], $action);
         if($isHas) return ['status' => false, 'msg' => '已经报名参加'];
 
@@ -70,10 +70,10 @@ class ActionService
         DB::beginTransaction();
         try{
             //插入报名记录
-            $result = self::$actionOrderStore -> addData($data);
+            $result = self::$actionOrderStore->addData($data);
 
             //给活动信息表参与人数字段加1
-            $res = self::$actionStore -> incrementData(['guid' => $data['action_id']], 'people',1);
+            $res = self::$actionStore->incrementData(['guid' => $data['action_id']], 'people',1);
 
             //上述俩个操作全部成功则返回成功
             if($res && $result){
@@ -95,7 +95,7 @@ class ActionService
      */
     public static function getAction($user)
     {
-        $action = self::$actionOrderStore -> getSomeField(['user_id' => $user], 'action_id');
+        $action = self::$actionOrderStore->getSomeField(['user_id' => $user], 'action_id');
         if (!$action) return ['status' => false, 'msg' => '获取报名活动清单失败'];
         return ['status' => true, 'msg' => $action];
     }
@@ -112,9 +112,9 @@ class ActionService
         $data["change_time"] = date("Y-m-d H:i:s", time());
 
         //检测时间是否符合标准
-        $temp = $this -> checkTime($data);
+        $temp = $this->checkTime($data);
         if($temp["status"]){
-            $result = self::$actionStore -> insertData($data);
+            $result = self::$actionStore->insertData($data);
         }else{
             return ['status' => false, 'msg' => $temp["msg"]];
         }
@@ -159,7 +159,7 @@ class ActionService
     public function selectData($request)
     {
         //数据初始化
-        $data = $request -> all();
+        $data = $request->all();
         $forPages = 5;//一页的数据条数
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         $status = $data["status"];//活动状态：开始前 进行中  结束
@@ -181,7 +181,7 @@ class ActionService
         }
 
         //获取对应页的数据
-        $Data = self::$actionStore -> forPage($nowPage, $forPages, $where);
+        $Data = self::$actionStore->forPage($nowPage, $forPages, $where);
         if($Data || empty($Data)){
             $result["data"] = $Data;
             return ['status' => true, 'msg' => $result];
@@ -202,7 +202,7 @@ class ActionService
             return ['status' => false, 'msg' => "参数有误！"];
         }
         //查询一条数据活动信息
-        $data = self::$actionStore -> getOneData(["guid" => $guid]);
+        $data = self::$actionStore->getOneData(["guid" => $guid]);
         if($data) return ['status' => true, 'msg' => $data];
         return ['status' => false, 'msg' => "活动信息获取失败！"];
     }
@@ -229,9 +229,9 @@ class ActionService
 
         //判断请求的是改活动状态还是报名状态
         if(strlen($guid) != 32){
-            $Data = self::$actionOrderStore -> updateData(["id" => $guid], ["status" => $status]);
+            $Data = self::$actionOrderStore->updateData(["id" => $guid], ["status" => $status]);
         }else{
-            $Data = self::$actionStore -> upload(["guid" => $guid], ["status" => $status]);
+            $Data = self::$actionStore->upload(["guid" => $guid], ["status" => $status]);
         }
 
         //判断修改结果并返回
@@ -252,7 +252,7 @@ class ActionService
      */
     public function upDta($where, $data)
     {
-        $Data = self::$actionStore -> upload($where, $data);
+        $Data = self::$actionStore->upload($where, $data);
         if($Data){
             $result["data"] = $Data;
             return ['status' => true, 'msg' => $result];
@@ -270,7 +270,7 @@ class ActionService
     public function getOrderInfo($guid)
     {
         $where = ["action_id" => $guid];
-        $result = self::$actionOrderStore -> getSomeData($where);
+        $result = self::$actionOrderStore->getSomeData($where);
         if($result){
             return ['status' => true, 'msg' => $result];
         }else{
@@ -286,7 +286,7 @@ class ActionService
      */
     public static function getComment($id)
     {
-        $comment = self::$commentStore -> getSomeData(['action_id' => $id]);
+        $comment = self::$commentStore->getSomeData(['action_id' => $id]);
         if(!$comment) return ['status' => false, 'msg' => '获取评论信息失败'];
         return ['status' => true, 'msg' => $comment];
     }
@@ -342,7 +342,7 @@ class ActionService
      * @return array
      * @author 郭庆
      */
-    public static function chargeLike($user_id, $action_id,$data)
+    public static function chargeLike($user_id, $action_id, $data)
     {
         $result = self::$likeStore->updateData(['user_id' => $user_id, 'action_id' => $action_id], $data);
         if ($result) return ['status' => true, 'msg' => $result];
@@ -358,7 +358,7 @@ class ActionService
     public static function comment($data)
     {
         $data["time"] = date("Y-m-d H:i:s", time());
-        $result = self::$commentStore -> addData($data);
+        $result = self::$commentStore->addData($data);
         if($result) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '存储数据发生错误'];
     }
@@ -370,7 +370,7 @@ class ActionService
      * @return array
      * @author 郭庆
      */
-    public function switchStatus($guid,$status)
+    public function switchStatus($guid, $status)
     {
         $res = self::$actionOrderStore->updateData(['action_id' => $guid], ['status' => $status]);
         if ($res==0) return ['status' => false, 'msg' => '修改失败'];
@@ -385,7 +385,7 @@ class ActionService
      */
     public function getActivityId($where)
     {
-        $action = self::$actionOrderStore->getActivityId($where,'action_id');
+        $action = self::$actionOrderStore->getActivityId($where, 'action_id');
         if (empty($action)) return ['status' => false, 'msg' => '查询失败'];
         return ['status' => true, 'data' => $action];
     }
