@@ -26,7 +26,6 @@
                 <div class="portfolio-items">
                     <!--返回视图模板数据遍历-->
                     @foreach ($data as $v)
-
                     <div class="portfolio-item apps col-xs-12 col-sm-4 col-md-3 protype_{{$v->project_type}}">
                         <div class="recent-work-wrap">
                             <img class="img-responsive" src="{{$v->image}}" alt="">
