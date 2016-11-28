@@ -10,24 +10,8 @@
 
     //发布前判定角色值
     $('#publish_trigger').click(function(){
-        $.ajax({
-            url:'/project/create',
-            type:'get',
-            async:false,
-            beforeSend:function(){$('.loading').show()},
-            success:function(data){
-                $('.loading').hide();
-                if(data.data!=2){
-                    promptBoxHandle('提示','请先申请成为创业者哦！');
-                }else{
-                    $('#_projectPunlish').modal('show');
-                }
-            },
-            error:function(){
-                $('.loading').hide();
-            }
-        });
-    })
+        $('#_projectPunlish').modal('show');
+    });
 
     !function($) {
         "use strict";
