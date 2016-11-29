@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
@@ -29,7 +30,24 @@ class ActionController extends Controller
     {
         $type = $request['type'];
         $result = self::$actionServer->selectByType($type);
-        if ($result['status']) return view('home.action.index', ['msg' => $result['msg']]);
+        if($result["status"]){
+            foreach ($result['msg'] as $v){
+                $status = self::$actionServer->setStatusByTime($v);
+                if ($status['status']){
+                    if (!is_string($status['msg'])){
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        if (!$chage['status']){
+                            Log::info("用户请求更改活动状态失败".$v->guid.':'.$status['msg']);
+                        }else{
+                            $v->status = $status['msg'];
+                        }
+                    }
+                }else{
+                    Log::info("用户请求更改活动状态失败".$v->guid.'要改为:'.$status['msg']);
+                }
+            }
+            return view('home.action.index', ['msg' => $result['msg']]);
+        }
         return view('home.action.index', ['msg' => $result['msg']]);
     }
 

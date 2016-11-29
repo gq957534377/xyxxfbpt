@@ -32,7 +32,7 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-10 blog-content">
-                                    <h2>{{$data->author}}</h2>
+                                    <h2>{{$data->title}}</h2>
                                     {!!$data->describe!!}
                                 </div>
                             </div>
@@ -86,8 +86,14 @@
                                 <div>活动截止日期：{{$data->end_time}}</div>
                                 @if($isHas)
                                     <div><button class="btn btn-success">已参加</button></div>
-                                @else
+                                @elseif($data->status==1)
                                     <div><button id="baoming" class="btn btn-success">我要报名</button></div>
+                                @elseif($data->status==2)
+                                    <div><button class="btn btn-success">活动进行中</button></div>
+                                @elseif($data->status==3)
+                                    <div><button class="btn btn-success">活动已结束</button></div>
+                                @elseif($data->status==5)
+                                    <div><button class="btn btn-success">报名已截止</button></div>
                                 @endif
                             </div>
                         </div>                     

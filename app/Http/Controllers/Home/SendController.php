@@ -89,10 +89,10 @@ class SendController extends Controller
             }
             $user_id = session('user')->guid;
             $res = self::$userServer->userInfo(['guid' => $user_id]);
-            if ($res['status']){
+            if ($res['status'] && $data){
                 $data->author = $res['msg']->nickname;
                 $data->headpic = $res['msg']->headpic;
-            }else{
+            }elseif ($data){
                 $data->author = '佚名';
                 $data->headpic = '/home/images/logo.jpg';
             }

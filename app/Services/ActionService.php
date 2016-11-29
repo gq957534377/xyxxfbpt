@@ -47,8 +47,9 @@ class ActionService
      */
     public static function selectByType($type)
     {
-        $data = self::$actionStore->getData(['type' => $type]);
+        $data = self::$actionStore->getListData($type);
         if($data) return ['status' => true, 'msg' => $data];
+        \Log::info('前端查询列表失败:'.$data);
         return ['status' => false, 'msg' => '暂时没有本活动信息'];
     }
 
@@ -82,7 +83,7 @@ class ActionService
             }
         }catch (Exception $e){
             //上述操作有一个失败就报错，数据库手动回滚
-            Log::error('报名失败', [$data]);
+            \Log::error('报名失败', [$data]);
             DB::rollback();
             return ['status' => false, 'msg' => '报名失败'];
         }
@@ -96,8 +97,9 @@ class ActionService
     public static function getAction($user)
     {
         $action = self::$actionOrderStore->getSomeField(['user_id' => $user], 'action_id');
-        if (!$action) return ['status' => false, 'msg' => '获取报名活动清单失败'];
-        return ['status' => true, 'msg' => $action];
+        if ($action) return ['status' => true, 'msg' => $action];
+        \Log::info('获取'.$user.'数据失败：'.$action);
+        return ['status' => false, 'msg' => '获取报名活动清单失败'];
     }
     /**
      * 发布活动
@@ -121,6 +123,7 @@ class ActionService
 
         //判断插入是否成功，并返回结果
         if(isset($result)) return ['status' => true, 'msg' => $result];
+        \Log::info('发表评论失败', $data, $result);
         return ['status' => false, 'msg' => '存储数据发生错误'];
     }
 
@@ -151,6 +154,43 @@ class ActionService
     }
 
     /**
+     * 每次加载页面更新活动状态
+     * @param $data
+     * @return array
+     * @author 郭庆
+     */
+    public static function setStatusByTime($data)
+    {
+        //目前的状态
+        $old = $data->status;
+        //转为时间戳
+        $endTime = strtotime($data->end_time);
+        $deadline = strtotime($data->deadline);
+        $startTime = strtotime($data->start_time);
+        $time = time();
+
+        //设置状态
+        if ($old == 4){
+            return ['status' => true, "msg" => "无需更改"];
+        }else{
+            //判断时间设置状态
+            if ($time < $deadline){
+                $status = 1;
+            }elseif ($time > $startTime && $time < $endTime){
+                $status = 2;
+            }elseif ($time > $endTime){
+                $status = 3;
+            }elseif ($time > $deadline && $time < $startTime){
+                $status = 5;
+            }else{
+                return ['status' => false, "msg" => "数据有误"];
+            }
+        }
+
+        //返回所需要更改的状态
+        return ['status' => true, "msg" => $status];
+    }
+    /**
      * 分页查询
      * @param $request
      * @return array
@@ -177,6 +217,7 @@ class ActionService
         if(isset($creatPage)){
             $result["pages"] = $creatPage['pages'];
         }else{
+            \Log::info('生成分页出错:', $creatPage);
             return ['status' => false, 'msg' => '生成分页样式发生错误'];
         }
 
@@ -186,8 +227,22 @@ class ActionService
             $result["data"] = $Data;
             return ['status' => true, 'msg' => $result];
         }else{
+            \Log::info('获取活动分页数据出错:', $Data);
             return ['status' => false, 'msg' => "数据参数有误！"];
         }
+    }
+
+    /**
+     * 获取所有活动数据
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public static function getAllAction()
+    {
+        $data = self::$actionStore->getData([]);
+        if ($data) return ['status' => true, 'msg' => $data];
+        return ['status' => false, 'msg' => "获取所有活动失败"];
     }
 
     /**
@@ -204,6 +259,7 @@ class ActionService
         //查询一条数据活动信息
         $data = self::$actionStore->getOneData(["guid" => $guid]);
         if($data) return ['status' => true, 'msg' => $data];
+        \Log::info('获取'.$guid.'活动详情出错:'.$data);
         return ['status' => false, 'msg' => "活动信息获取失败！"];
     }
 
@@ -220,13 +276,6 @@ class ActionService
             return ['status' => false, 'msg' => "参数有误 ！"];
         }
 
-        //修改状态
-        if($status == 1){
-            $status = 3;
-        }else{
-            $status = 1;
-        }
-
         //判断请求的是改活动状态还是报名状态
         if(strlen($guid) != 32){
             $Data = self::$actionOrderStore->updateData(["id" => $guid], ["status" => $status]);
@@ -239,7 +288,8 @@ class ActionService
             $result["data"] = $Data;
             return ['status' => true, 'msg' => $result];
         }else{
-            return ['status' => false, 'msg' => "数据参数有误！"];
+            \Log::info('修改'.$guid.'活动/报名状态出错:'.$Data);
+            return ['status' => false, 'msg' => $Data];
         }
     }
 
@@ -257,6 +307,7 @@ class ActionService
             $result["data"] = $Data;
             return ['status' => true, 'msg' => $result];
         }else{
+            \Log::info('修改'.$where['guid'].'活动出错:'.$Data);
             return ['status' => false, 'msg' => "数据参数有误！"];
         }
     }
@@ -274,6 +325,7 @@ class ActionService
         if($result){
             return ['status' => true, 'msg' => $result];
         }else{
+            \Log::info('获取'.$guid.'报名信息出错:'.$result);
             return ['status' => false, 'msg' => "数据暂无数据！"];
         }
     }
@@ -287,8 +339,12 @@ class ActionService
     public static function getComment($id)
     {
         $comment = self::$commentStore->getSomeData(['action_id' => $id]);
-        if(!$comment) return ['status' => false, 'msg' => '获取评论信息失败'];
-        return ['status' => true, 'msg' => $comment];
+        if($comment) {
+            return ['status' => true, 'msg' => $comment];
+        }else{
+            if (!is_array($comment)) \Log::info('获取'.$id.'活动的评论出错:'.$comment);
+            return ['status' => false, 'msg' => '获取评论信息失败'];
+        }
     }
 
     /**
@@ -301,8 +357,9 @@ class ActionService
     public static function getLike($user_id, $action_id)
     {
         $result = self::$likeStore->getOneData(['action_id' => $action_id, 'user_id' => $user_id]);
-        if (!$result) return ['status' => false, 'msg' => '还未点赞'];
-        return ['status' => true, 'msg' => $result];
+        if ($result) return ['status' => true, 'msg' => $result];
+        \Log::info($action_id.'人'.'获取'.$action_id.'活动的点赞记录出错:'.$result);
+        return ['status' => false, 'msg' => '还未点赞'];
     }
 
     /**
@@ -314,8 +371,9 @@ class ActionService
     public static function setLike($data)
     {
         $result = self::$likeStore->addData($data);
-        if(!$result) return ['status' => false, 'msg' => '点赞失败'];
-        return ['status' => true, 'msg' => $result];
+        if($result) return ['status' => true, 'msg' => $result];
+        \Log::info($data['user_id'].'人点赞失败：'.$result);
+        return ['status' => false, 'msg' => '点赞失败'];
     }
 
     /**
@@ -331,6 +389,7 @@ class ActionService
 
         //判断获取结果并返回
         if (isset($like) && isset($no_like)) return ['status' => true, 'msg' => [$like,$no_like]];
+        \Log::info('获取'.$id.'活动点赞记录失败：支持-'.$like.'不支持'.$no_like);
         return ['status' => false, 'msg' => '获取点赞数量失败'];
     }
 
@@ -346,6 +405,7 @@ class ActionService
     {
         $result = self::$likeStore->updateData(['user_id' => $user_id, 'action_id' => $action_id], $data);
         if ($result) return ['status' => true, 'msg' => $result];
+        \Log::info('修改'.$action_id.'点赞失败：'.$result);
         return ['status' => false, 'msg' => '操作失败'];
     }
 
@@ -360,6 +420,7 @@ class ActionService
         $data["time"] = date("Y-m-d H:i:s", time());
         $result = self::$commentStore->addData($data);
         if($result) return ['status' => true, 'msg' => $result];
+        \Log::info('发表评论'.$data['action_id'].'失败：'.$result);
         return ['status' => false, 'msg' => '存储数据发生错误'];
     }
 

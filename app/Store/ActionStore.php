@@ -66,6 +66,20 @@ class ActionStore
     }
 
     /**
+     * 查询某一类型活动列表业所需的活动
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public static function getListData($type)
+    {
+        return DB::table(self::$table)
+            ->where(['type' => $type])
+            ->where('status', '!=', '4')
+            ->get();
+    }
+
+    /**
      * 更新数据
      * @param $where
      * @param $data

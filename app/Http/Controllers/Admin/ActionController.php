@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
@@ -20,7 +20,7 @@ class ActionController extends Controller
     /**
      * 活动后台首页
      * @param
-     * @return \Illuminate\Http\Response
+     * @return 活动管理页面
      * @author 张洵之
      */
     public function index()
@@ -37,7 +37,24 @@ class ActionController extends Controller
     public function create(Request $request)
     {
         $result = self::$actionServer -> selectData($request);
-        if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
+        if($result["status"]){
+            foreach ($result['msg']['data'] as $v){
+                $status = self::$actionServer->setStatusByTime($v);
+                if ($status['status']){
+                    if (!is_string($status['msg'])){
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        if (!$chage['status']){
+                            Log::info("用户请求更改活动状态失败".$v->guid.':'.$status['msg']);
+                        }else{
+                            $v->status = $status['msg'];
+                        }
+                    }
+                }else{
+                    Log::info("用户请求更改活动状态失败".$v->guid.'要改为:'.$status['msg']);
+                }
+            }
+            return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
+        }
         return response() -> json(['StatusCode' => 400,'ResultData' => $result['msg']]);
     }
 
