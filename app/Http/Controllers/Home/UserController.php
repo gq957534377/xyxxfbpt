@@ -315,6 +315,9 @@ class UserController extends Controller
                 break;
             case 'change':
                 return view('home.user.change');
+
+            case 'member':
+                return view('home.user.member');
                 break;
         }
     }

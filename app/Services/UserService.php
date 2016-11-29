@@ -210,7 +210,7 @@ class UserService {
      * 获取符合请求的所有用户记录
      * @param $data
      * @return array|bool
-     * @author wang fei long
+     * @author 王飞龙
      */
     public function getData($data)
     {
@@ -261,7 +261,7 @@ class UserService {
      * @param $data
      * @param $url
      * @return array
-     * @author wang fei long
+     * @author 王飞龙
      */
     private static function getPage($data, $url)
     {
@@ -386,7 +386,7 @@ class UserService {
      * @param $data
      * @param $id
      * @return array
-     * @author wangfeilong
+     * @author 王飞龙
      */
     public function checkPass($data, $id){
 

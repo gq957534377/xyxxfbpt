@@ -34,7 +34,7 @@ class UserController extends Controller
      * 返回用户JSON数据 包含分页信息
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @author wang fei long
+     * @author 王飞龙
      */
     public function create(Request $request)
     {
@@ -92,12 +92,11 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
+     * 审核操作
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @author wang fei long
+     * @author 王飞龙
      */
     public function update(Request $request, $id)
     {
