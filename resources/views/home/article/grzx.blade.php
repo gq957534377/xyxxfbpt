@@ -90,7 +90,7 @@
                     <div id="xg" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                         <div class="modal-dialog" id="xg">
                             <div class="modal-content">
-                                <form data-name="" role="form" id="yz_xg"  onsubmit="return false">
+                                <form name="form1" method="get" action='/send/1' role="form" id="yz_xg"  onsubmit="return false">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                         <h4 class="title">编辑文章</h4>
@@ -142,7 +142,7 @@
                                     <div class="modal-footer" id="caozuo">
                                         <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
                                         <button type="submit" data-name="" data-status="2" class="xg_article btn btn-primary">提交审核</button>
-                                        <a target=_blank data-name="5" id="yulan"></a>
+                                        <a target=_blank href='javascript:document.form1.submit()' data-name="5" id="yulan"></a>
                                         <button type="button" data-status="5" class="xg_article btn btn-primary">预览</button>
                                         <button type="submit" data-name="" data-status="4" class="xg_article btn btn-primary">存稿</button>
                                     </div>
@@ -159,17 +159,21 @@
                     <a href="/send?status=4"><button class="btn @if($status == 4) btn-success @else btn-default @endif">草稿</button></a>
 
                     <div>
-                        <table style="width:100%;">
+                        <table class="table table-bordered table-striped">
                             @if(is_string($article))
                                 <h1>{{$article}}</h1>
                             @else
+                                <thead>
                                 <tr>
-                                    <td>标题</td>
-                                    <td>发布时间</td>
-                                    <td>简述</td>
-                                    <td>来源</td>
-                                    <td>操作</td>
+                                    <th>标题</th>
+                                    <th>发布时间</th>
+                                    <th>简述</th>
+                                    <th>来源</th>
+                                    <th>操作</th>
                                 </tr>
+                                </thead>
+                                <tbody>
+
                                 @foreach($article as $v)
                                     <tr>
                                         <td>{{$v->title}}</td>
@@ -191,6 +195,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                </tbody>
                             @endif
                         </table>
                     </div>

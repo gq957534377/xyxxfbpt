@@ -41,6 +41,7 @@
                                 <a href="#"><img class="img-responsive img-blog" src="{{asset($v->banner)}}" width="100%" alt="" /></a>
                                 <h2><a href="/action/{{$v->guid}}">{{$v->title}}</a></h2>
                                 <h3>{{$v->brief}}</h3>
+                                <label>@if($v->status == 1)报名中@elseif($v->status == 2)进行中@elseif($v->status == 3)已结束@elseif($v->status == 5)报名已截止@endif</label>
                                 <a class="btn btn-primary readmore" href="/action/{{$v->guid}}">Read More <i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>

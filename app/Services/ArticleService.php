@@ -8,13 +8,11 @@
  */
 
 namespace App\Services;
-use App\Http\Requests\Request;
 use App\Store\ArticleStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
 use App\Store\SendStore;
 use App\Tools\Common;
-use Illuminate\Support\Facades\DB;
 
 class ArticleService
 {
@@ -32,8 +30,7 @@ class ArticleService
         CommentStore $commentStore,
         LikeStore $likeStore,
         SendStore $sendStore
-    )
-    {
+    ){
         self::$articleStore = $articleStore;
         self::$commentStore = $commentStore;
         self::$likeStore = $likeStore;
@@ -49,9 +46,9 @@ class ArticleService
     public static function selectByType($type)
     {
         if ($type == 3){
-            $data = self::$sendStore -> getData(['status'=>1]);
+            $data = self::$sendStore->getData(['status' => 1]);
         }else{
-            $data = self::$articleStore -> getData(['type' => $type, 'status' => 1]);
+            $data = self::$articleStore->getData(['type' => $type, 'status' => 1]);
         }
 
         if($data) return ['status' => true, 'msg' => $data];
@@ -69,7 +66,7 @@ class ArticleService
         $data["guid"] = Common::getUuid();
         $data["time"] = date("Y-m-d H:i:s", time());
 
-        $result = self::$articleStore -> insertData($data);
+        $result = self::$articleStore->insertData($data);
 
         //判断插入是否成功，并返回结果
         if(isset($result)) return ['status' => true, 'msg' => $result];
@@ -85,7 +82,7 @@ class ArticleService
     public function selectData($request)
     {
         //数据初始化
-        $data = $request -> all();
+        $data = $request->all();
         $forPages = 5;//一页的数据条数
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         $status = $data["status"];//文章状态：开始前 进行中  结束
@@ -114,9 +111,9 @@ class ArticleService
         //获取对应页的数据
         if ($data['user'] == 2) {
             unset($where['type']);
-            $Data = self::$sendStore -> forPage($nowPage, $forPages, $where);
+            $Data = self::$sendStore->forPage($nowPage, $forPages, $where);
         }else{
-            $Data = self::$articleStore -> forPage($nowPage, $forPages, $where);
+            $Data = self::$articleStore->forPage($nowPage, $forPages, $where);
         }
 
         if($Data || empty($Data)){
@@ -141,9 +138,9 @@ class ArticleService
         }
         //查询一条数据文章信息
         if ($user == 1) {
-            $data = self::$articleStore -> getOneData(["guid" => $guid]);
+            $data = self::$articleStore->getOneData(["guid" => $guid]);
         }else{
-            $data = self::$sendStore -> getOneData(["guid" => $guid]);
+            $data = self::$sendStore->getOneData(["guid" => $guid]);
         }
         if($data) return ['status' => true, 'msg' => $data];
         return ['status' => false, 'msg' => "文章信息获取失败！"];
@@ -164,9 +161,9 @@ class ArticleService
         }
 
         if ($user == 1) {
-            $Data = self::$articleStore -> upload(["guid" => $guid], ["status" => $status]);
+            $Data = self::$articleStore->upload(["guid" => $guid], ["status" => $status]);
         }else{
-            $Data = self::$sendStore -> upload(["guid" => $guid], ["status" => $status]);
+            $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
         }
 
         //判断修改结果并返回
@@ -190,11 +187,11 @@ class ArticleService
         $data["time"] = date("Y-m-d H:i:s", time());
         if ($data['user'] == 1){
             unset($data['user']);
-            $Data = self::$articleStore -> upload($where, $data);
+            $Data = self::$articleStore->upload($where, $data);
         }else{
             unset($data['user']);
             unset($data['type']);
-            $Data = self::$sendStore -> upload($where, $data);
+            $Data = self::$sendStore->upload($where, $data);
         }
         if($Data){
             $result["data"] = $Data;
@@ -212,7 +209,7 @@ class ArticleService
      */
     public static function getComment($id)
     {
-        $comment = self::$commentStore -> getSomeData(['article_id' => $id]);
+        $comment = self::$commentStore->getSomeData(['article_id' => $id]);
         if(!$comment) return ['status' => false, 'msg' => '获取评论信息失败'];
         return ['status' => true, 'msg' => $comment];
     }
@@ -268,7 +265,7 @@ class ArticleService
      * @return array
      * @author 郭庆
      */
-    public static function chargeLike($user_id, $article_id,$data)
+    public static function chargeLike($user_id, $article_id, $data)
     {
         $result = self::$likeStore->updateData(['user_id' => $user_id, 'article_id' => $article_id], $data);
         if ($result) return ['status' => true, 'msg' => $result];
@@ -284,7 +281,7 @@ class ArticleService
     public static function comment($data)
     {
         $data["time"] = date("Y-m-d H:i:s", time());
-        $result = self::$commentStore -> addData($data);
+        $result = self::$commentStore->addData($data);
         if($result) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '存储数据发生错误'];
     }
@@ -314,7 +311,7 @@ class ArticleService
         $data["guid"] = Common::getUuid();
         $data["time"] = date("Y-m-d H:i:s", time());
 
-        $result = self::$sendStore -> insertData($data);
+        $result = self::$sendStore->insertData($data);
 
         //判断插入是否成功，并返回结果
         if(isset($result)) return ['status' => true, 'msg' => $result];

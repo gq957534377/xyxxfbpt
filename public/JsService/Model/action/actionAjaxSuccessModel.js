@@ -47,13 +47,13 @@ function listHtml(data){
         html += '<td>' + e.limit+'</td>';
         html += '<td>' + e.people+'</td>';
         html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#tabs-modal" style="margin-bottom: 6px">详情</button></a>';
-        html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改活动</button>';
+        html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改</button>';
         if (e.status == 1) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-danger">禁用</button></a>';
-        } else if (e.status == 3) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + e.status + '" class="status"><button class="btn-primary">启用</button></a>';
+            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + 4 + '" class="status"><button class="btn-danger">禁用</button></a>';
+        } else if (e.status == 4) {
+            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + 1 + '" class="status"><button class="btn-primary">启用</button></a>';
         }
-        html += '<a class="bm" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#baoming">查看报名情况</button></a>';
+        html += '<a class="bm" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#baoming">报名详情</button></a>';
         html += '</td>';
     });
     html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
@@ -97,10 +97,10 @@ function type(type) {
 function group(type) {
     var res;
     switch (type){
-        case 1:
+        case '1':
             res = '英雄会';
             break;
-        case 2:
+        case '2':
             res = '兄弟会';
             break;
         default:
@@ -109,7 +109,30 @@ function group(type) {
     }
     return res;
 }
-
+//活动状态
+function status(status) {
+    var res;
+    switch (status){
+        case 1:
+            res = '报名中';
+            break;
+        case 2:
+            res = '活动进行时';
+            break;
+        case 3:
+            res = '活动已结束';
+            break;
+        case 4:
+            res = '已禁用';
+            break;
+        case 5:
+            res = '报名截止，等待开始';
+            break;
+        default:
+            break;
+    }
+    return res;
+}
 //展示旧数据
 function date(data) {
     data = data.ResultData;
@@ -148,7 +171,7 @@ function showInfoList(data){
             $('#xq_population').val(data.people);
             $('#xq_limit').val(data.limit);
             $('#xq_address').val(data.address);
-            $('#xq_status').val(data.status);
+            $('#xq_status').val(status(data.status));
             $('#xq_brief').html(data.brief);
             $('#xq_describe').html(data.describe);
         } else {
