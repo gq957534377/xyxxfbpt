@@ -60,7 +60,7 @@ class AdminService {
         // 查询不到，返回 400
         if(!$temp) return ['status' => '400', 'msg' => '账号输入错误!'];
         // 检验用户密码是否正确
-        $temp =self::$adminStore->getOneData(['password' => $pass]);
+        $temp =self::$adminStore->getOneData(['email' => $data['email'],'password' => $pass]);
         // 查询不到，返回 400
         if(!$temp) return ['status' => '400', 'msg' => '密码输入错误!'];
 

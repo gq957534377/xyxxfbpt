@@ -12,6 +12,7 @@ use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Tools\CropAvatar as Crop;
+use PhpSpec\Exception\Exception;
 
 class UserService {
     protected static $homeStore = null;
@@ -94,16 +95,30 @@ class UserService {
         unset($data['code']);
         unset($data['phone']);
 
+        // 执行事务
+        DB::beginTransaction();
+
         // 存入登录表
         $loginInfo = self::$homeStore -> addData($data);
         // 数据写入失败
-        if(!$loginInfo) return ['status' => '400','msg' => '数据写入失败！'];
+        if (!$loginInfo) {
+            Log::error('注册用户失败',$data);
+            return ['status' => '500','msg' => '数据写入失败！'];
+        };
 
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
-        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'],'nickname' => $nickname,'tel' => $phone,'email' =>  $data['email']]);
-        if(!$userInfo) return ['status' => '400','msg' => '用户信息添加失败！'];
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'],'nickname' => $nickname,'tel' => $phone,'email' =>  $data['email'],'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
 
-        return ['status'=>'200','msg'=>'注册成功'];
+        if (!$userInfo) {
+            Log::error('用户注册信息写入失败',$userInfo);
+            DB::rollback();
+            return ['status' => '500','msg' => '用户信息添加失败，请重新注册!'];
+        } else {
+            DB::commit();
+            return ['status'=>'200','msg'=>'注册成功'];
+        }
+
+
     }
     /**
      * 用户登录
@@ -120,7 +135,7 @@ class UserService {
         // 返回假，说明此账号不存在
         if(!$temp) return ['status' => '400','msg' => '账号不存在或输入错误！'];
         // 查询数据
-        $temp = self::$homeStore->getOneData(['password' => $pass]);
+        $temp = self::$homeStore->getOneData(['email' => $data['email'],'password' => $pass]);
         // 返回假，说明此密码不正确
         if(!$temp) return ['status' => '400','msg' => '密码错误！'];
         // 返回真，再进行账号状态判断
@@ -136,7 +151,9 @@ class UserService {
         if(!$info) return ['status' => '500','msg' => '服务器数据异常！'];
 
         //将一些用户的信息推到session里，方便维持
+
         $userInfo = self::$userStore->getOneData(['guid' => $temp->guid]);
+
         //获取角色状态
         $temp->role = $userInfo->role;
         //获取用户信息头像

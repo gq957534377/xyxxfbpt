@@ -52,7 +52,7 @@ class LoginController extends Controller
         $data = $request->all();
 
         // 先校验验证码
-        if($data['homeCaptcha'] != Session::get('homeCode'))
+        if($data['captcha'] != Session::get('code'))
         {
             return response()->json(['StatusCode' => '400','ResultData' => ['验证错误!']]);
         }
@@ -135,7 +135,7 @@ class LoginController extends Controller
      */
     public function captcha($tmp)
     {
-        return Common::captcha($tmp,2);
+        return Common::captcha($tmp);
     }
 
     /**

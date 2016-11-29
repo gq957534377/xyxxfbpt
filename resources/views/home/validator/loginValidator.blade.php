@@ -38,7 +38,7 @@
                         data: {
                             'email': $("input[name= 'email']").val(),
                             'password': $("input[name= 'password']").val(),
-                            'homeCaptcha': $("input[name= 'homeCaptcha']").val(),
+                            'captcha': $("input[name= 'captcha']").val(),
                         },
                         success:function(data){
                             switch (data.StatusCode){
@@ -65,7 +65,7 @@
                         required: true,
                         minlength:6
                     },
-                    homeCaptcha: {
+                    captcha: {
                         required: true,
                         minlength: 4,
                         maxlength: 4
@@ -81,7 +81,7 @@
                         required: "请输入密码",
                         minlength: "密码长度不能小于 6 个字母"
                     },
-                    homeCaptcha: {
+                    captcha: {
                         required: "请输入验证码",
                         minlength: "请填写4位验证码",
                         maxlength: "请填写4位验证码"
