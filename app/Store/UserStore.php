@@ -58,9 +58,10 @@ class UserStore {
     }
 
     /**
+     * 获取分页数据
      * @param array $condition
      * @return mixed
-     * @author wang fei long
+     * @author 王飞龙
      */
     public function getUsersData($nowPage, $condition = [])
     {
@@ -75,7 +76,7 @@ class UserStore {
      * 依条件获取记录条数
      * @param $condition
      * @return mixed
-     * @author wang fei long
+     * @author 王飞龙
      */
     function getUsersNumber($condition = [])
     {
@@ -84,9 +85,10 @@ class UserStore {
     }
 
     /**
+     * 删除数据
      * @param array $condition
      * @return bool
-     * @author wang fei long
+     * @author 王飞龙
      */
     function deleteData($condition = [])
     {

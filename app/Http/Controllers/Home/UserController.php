@@ -302,6 +302,9 @@ class UserController extends Controller
             case 'investor':
                 return view('home.user.investor');
                 break;
+            case 'member':
+                return view('home.user.member');
+                break;
         }
     }
 
