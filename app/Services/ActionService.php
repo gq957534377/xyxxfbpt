@@ -97,9 +97,12 @@ class ActionService
     public static function getAction($user)
     {
         $action = self::$actionOrderStore->getSomeField(['user_id' => $user], 'action_id');
-        if ($action) return ['status' => true, 'msg' => $action];
-        \Log::info('获取'.$user.'数据失败：'.$action);
-        return ['status' => false, 'msg' => '获取报名活动清单失败'];
+        if ($action) {
+            return ['status' => true, 'msg' => $action];
+        }else{
+            if (!is_array($action)) \Log::info('获取'.$user.'数据失败：'.$action);
+            return ['status' => false, 'msg' => '获取报名活动清单失败'];
+        }
     }
     /**
      * 发布活动
