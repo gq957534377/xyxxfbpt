@@ -55,13 +55,17 @@ class AdminService {
     public function loginCheck($data){
         //先进行密码加密
         $pass = Common::cryptString($data['email'],$data['password']);
-        //检验用户
-        $temp =self::$adminStore->getOneData(['email' => $data['email'],'password' => $pass]);
-        // 查询不到，返回 error
-        if(!$temp) return 'error';
+        // 检验用户是否存在
+        $temp =self::$adminStore->getOneData(['email' => $data['email']]);
+        // 查询不到，返回 400
+        if(!$temp) return ['status' => '400', 'msg' => '账号输入错误!'];
+        // 检验用户密码是否正确
+        $temp =self::$adminStore->getOneData(['password' => $pass]);
+        // 查询不到，返回 400
+        if(!$temp) return ['status' => '400', 'msg' => '密码输入错误!'];
 
         // 查询到数据，再进行状态判断
-        if($temp->status != '1') return 'status';
+        if($temp->status != '1') return ['status' => '400', 'msg' => '账号被锁定，快去联系网站管理员吧!'];
 
         //验证成功后，更新此次登录时间和IP，密码不刷新
         unset($temp->password);
@@ -70,8 +74,9 @@ class AdminService {
 
         $info = self::$adminStore->updateData(['guid' => $temp->guid],['ip' => $data['ip'],'loginTime' => $time]);
         //验证更新
-        if(!$info) return 'noUpdate';
+        if(!$info) return ['status' => '500', 'msg' => '数据登录信息没有更新!'];
+       
         Session::put('manager',$temp);
-        return 'yes';
+        return ['status' => '200', 'msg' => '登录成功!'];
     }
 }

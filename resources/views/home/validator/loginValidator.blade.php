@@ -83,7 +83,8 @@
                     },
                     homeCaptcha: {
                         required: "请输入验证码",
-                        minlength: "请填写4位验证码"
+                        minlength: "请填写4位验证码",
+                        maxlength: "请填写4位验证码"
                     }
                 }
             });

@@ -76,7 +76,7 @@ class Common {
         //设置后置干扰线
         $builder->setMaxBehindLines(0);
         //设置倾斜角度
-        $builder->setMaxAngle(10);
+        $builder->setMaxAngle(0);
         //设置图片的宽高及字体
         $builder->build($width = 118 ,$height = 36,$font = null);
         // 获取验证码的内容
@@ -84,7 +84,7 @@ class Common {
         // $model 模式，1：后台验证码图 2：前台验证码图 3：短信验证码
         switch ($model){
             case 1:
-                Session::put('code',$phrase);
+                Session::flash('code',$phrase);
                 //生成图片，设置头文件的格式
                 header("Cache-Control: no-cache,must-revalidate");
                 header("Content-Type:image/jpeg");
@@ -92,7 +92,7 @@ class Common {
                 $builder->output();
                 break;
             case 2:
-                Session::put('homeCode',$phrase);
+                Session::flash('homeCode',$phrase);
                 //生成图片，设置头文件的格式
                 header("Cache-Control: no-cache,must-revalidate");
                 header("Content-Type:image/jpeg");

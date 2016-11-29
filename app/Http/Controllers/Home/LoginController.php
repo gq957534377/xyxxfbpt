@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\UserService as UserServer;
 use App\Tools\Common;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
@@ -53,7 +54,7 @@ class LoginController extends Controller
         // 先校验验证码
         if($data['homeCaptcha'] != Session::get('homeCode'))
         {
-            return response()->json(['StatusCode' => '400','ResultData' => ['验证错误！']]);
+            return response()->json(['StatusCode' => '400','ResultData' => ['验证错误!']]);
         }
 
         //验证数据
@@ -66,9 +67,14 @@ class LoginController extends Controller
         $data['ip'] = $request->getClientIp();
         // 校验邮箱和账号,拿到状态码
         $info = self::$userServer->loginCheck($data);
+
         switch ($info['status']){
             case '400':
                 return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
+                break;
+            case '500':
+                Log::error($info['msg'],$data);
+                return response()->json(['StatusCode' => '500','ResultData' => $info['msg']]);
                 break;
             case '200':
                 return response()->json(['StatusCode' => '200','ResultData' => $info['msg']]);

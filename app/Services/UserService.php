@@ -116,9 +116,13 @@ class UserService {
         // 对密码进行加密
         $pass = Common::cryptString($data['email'],$data['password'],'hero');
         // 查询数据
-        $temp = self::$homeStore->getOneData(['email' => $data['email'],'password' => $pass]);
-        // 返回假，说明此账号不存在或密码不正确
-        if(!$temp) return ['status' => '400','msg' => '账号不存在或密码错误！'];
+        $temp = self::$homeStore->getOneData(['email' => $data['email']]);
+        // 返回假，说明此账号不存在
+        if(!$temp) return ['status' => '400','msg' => '账号不存在或输入错误！'];
+        // 查询数据
+        $temp = self::$homeStore->getOneData(['password' => $pass]);
+        // 返回假，说明此密码不正确
+        if(!$temp) return ['status' => '400','msg' => '密码错误！'];
         // 返回真，再进行账号状态判断
         if($temp->status != '1') ['status' => '400','msg' => '账号存在异常，已锁定，请紧快与客服联系！'];
 
@@ -129,7 +133,7 @@ class UserService {
 
         // 更新数据表，登录和ip
         $info = self::$homeStore->updateData(['guid'=>$temp->guid],['logintime' => $time,'ip' => $data['ip']]);
-        if(!$info) return ['status' => '400','msg' => '服务器数据异常！'];
+        if(!$info) return ['status' => '500','msg' => '服务器数据异常！'];
 
         //将一些用户的信息推到session里，方便维持
         $userInfo = self::$userStore->getOneData(['guid' => $temp->guid]);
@@ -137,6 +141,8 @@ class UserService {
         $temp->role = $userInfo->role;
         //获取用户信息头像
         $temp->headpic = $userInfo->headpic;
+        //获取用户昵称
+        $temp->nickname = $userInfo->nickname;
 
         Session::put('user',$temp);
         return ['status' => '200','msg' => '登录成功！'];
