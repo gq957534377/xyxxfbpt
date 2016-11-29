@@ -184,7 +184,7 @@ class UserService {
         //校验
         if($sms['phone']==$phone){
             // 两分之内，不在发短信
-            if(($sms['time'] + 120)> $nowTime ) return ['status' => '400','msg' => '短信已发送，请等待两分钟！'];
+            if(($sms['time'] + 60)> $nowTime ) return ['status' => '400','msg' => '短信已发送，请等待两分钟！'];
             // 两分钟之后，可以再次发送
             $resp = Common::sendSms($phone,$content,'兄弟会','SMS_25700502');
 
