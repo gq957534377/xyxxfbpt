@@ -68,18 +68,15 @@ class LoginController extends Controller
         $data['ip'] = $request->getClientIp();
         // 与数据库里数据进行校验，将这些业务逻辑交给服务层
         $info = self::$adminServer->loginCheck($data);
-        switch($info) {
-            case 'error':
-                return back()->withErrors('账号密码错误！');
+        switch($info['status']) {
+            case '400':
+                return back()->withErrors($info['msg']);
                 break;
-            case 'status':
-                return back()->withErrors('账号被锁定，快去联系Twitch哒哒吧！');
+            case '500':
+                Log::error($info['msg'],$data);//这边出错了那就不是逻辑问题了，抛给日志
+                return back()->withErrors($info['msg']);
                 break;
-            case 'error':
-                Log::error('数据异常',$data);//这边出错了那就不是逻辑问题了，抛给日志
-                return back()->withErrors('数据异常，请再来一次，非常抱歉！');
-                break;
-            case 'yes': 
+            case '200':
                 return redirect('/');
                 break;
         }
@@ -137,7 +134,7 @@ class LoginController extends Controller
      */
     public function captcha($tmp)
     {
-        return Common::captcha($tmp,1);
+        return Common::captcha($tmp);
     }
 
     /**

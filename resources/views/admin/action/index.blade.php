@@ -448,6 +448,8 @@
         <button class="btn-primary" onclick="listType(list_type,1)">报名中</button>
         <button class="btn-danger" onclick="listType(list_type,2)">活动进行中...</button>
         <button class="btn-primary" onclick="listType(list_type,3)">往期回顾</button>
+        <button class="btn-primary" onclick="listType(list_type,4)">回收站</button>
+        <button class="btn-primary" onclick="listType(list_type,5)">报名截止，等待开始</button>
     </div>
     <div class="panel" id="data"></div>
 </div>

@@ -17,9 +17,10 @@ class RoleStore
     protected static $table = 'data_role_info';
 
     /**
+     * 获取分页数据
      * @param array $condition
      * @return mixed
-     * @author wang fei long
+     * @author 王飞龙
      */
     public function getUsersData($nowPage, $condition =[])
     {
@@ -34,7 +35,7 @@ class RoleStore
      * 依条件获取记录条数
      * @param $condition
      * @return mixed
-     * @author wang fei long
+     * @author 王飞龙
      */
     public function getUsersNumber($condition = [])
     {
@@ -73,7 +74,7 @@ class RoleStore
      /** 获取一条数据
      * @param $condition
      * @return bool
-     * @author wang fei long
+     * @author 王飞龙
      */
     public function getOneData($condition)
     {
@@ -82,10 +83,11 @@ class RoleStore
     }
 
     /**
+     * 修改数据
      * @param $where
      * @param $data
      * @return bool
-     * @author wang fei long
+     * @author 王飞龙
      */
     public function updateUserInfo($where,$data)
     {
@@ -99,7 +101,7 @@ class RoleStore
     /**
      * @param array $condition
      * @return bool
-     * @author wang fei long
+     * @author 王飞龙
      */
     function deleteData($condition = [])
     {

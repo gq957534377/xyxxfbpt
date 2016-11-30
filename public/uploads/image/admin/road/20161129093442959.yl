@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<title>掌阅文学创作大赛-全国大学生就业创业平台</title>
+<link rel="icon" href="/image/favicon.ico" mce_href="/dir/favicon.ico" type="image/x-icon">
+<meta name="keywords" content="掌阅文学创作大赛"/>
+<meta name="description" content="掌阅文学创作大赛"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<link rel="stylesheet" type="text/css" href="/css/style_all.css" />
+<script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="/js/json2.js"></script>
+</head>
+<body>
+<style>
+body {
+}
+</style>
+<style>
+.LanMu_58{
+position:fixed; top:0px; left:0px;;
+overflow:hidden;
+z-index:999;
+width:100%;
+height:44px;
+float:none;
+margin:0px;
+}
+.LanMuNeiRong_58{
+width: 100%;
+height: 44px;
+margin:0px;
+padding:0px;
+}
+</style>
+<div id = "LanMu_58" class="LanMu_58">
+	<div class = "LanMuNeiRong_58">
+
+
+
+
+<style type="text/css">
+.dh_yj1{width:100%; position:fixed;top:0;left:0;z-index:2147483647; height:41px; border-bottom:#3982de 3px solid; background-color:#333436; line-height:41px; }
+.dh_yj1 a.erjidaohang{text-decoration:none; display:block;_display:inline-block;height:41px;line-height:41px;padding:10px;color:#cccccc;outline:medium none; }
+.dh_yj1 a.erjidaohang:hover{text-decoration:none; background:#393939;color:#FFF;} 
+.dh_yj1 a.erjidaohang:active{ text-decoration:none; background:#262626}
+.sanjiao{background:url(images/daohangsanjiao.png) no-repeat;display:inline;*display:inline;*zoom:10000;}
+.gheader-new .gh-nav-active{background:#393939;color:#FFF}
+
+.dh_yj1 a.neiyeshoucang{text-decoration:none; color:#cccccc; }
+.dh_yj1 a.neiyeshoucang:hover{text-decoration:underline;}
+
+.dh_yj1 a.neiyedenglu{text-decoration:none; color:#3982de; }
+.dh_yj1 a.neiyedenglu:hover{text-decoration:underline;}
+
+.gh-search{float:left;margin-top:4px;border:1px solid #444}
+.gh-search p,.gh-search input{float:left;}
+.gh-search p{height:25px;border:0;border-top:1px solid #FFF;border-left:1px solid #FFF;padding:1px 0 0 1px;background:#FFF}
+.focus{border-top:1px solid #BCBCBC;border-left:1px solid #BCBCBC;box-shadow:1px 1px 1px #E9E9E9 inset}
+.gh-search-txt{width:150px;padding:3px 20px 4px 5px;border:0;*border:0;outline:0;height:17px}
+
+.gnicon-search{background: url(/image/sousuo.png) no-repeat;display:inline-block;*display:inline;*zoom:1;text-indent:-9999px;overflow:hidden;vertical-align:middle}
+.gnicon-search{background-position:0px 0px;width:16px;height:16px; border:0;cursor:pointer; }
+.gnicon-search:hover,.gnicon-search:active{background-position:-32px 0px; width:16px;height:16px}
+
+</style>
+<link rel="stylesheet" type="text/css" href="/css/xcConfirm.css"/>
+<script type="text/javascript" src="/js/xcConfirm.js" charset="utf-8"></script>
+<form action="/sousuo.yl" name="YC_POST_A" METHOD="POST">
+<input type="hidden" value="dasai" name="leixin">
+<div class="dh_yj1">
+	<div style="width:1100px; height:40px; margin:0px auto;">
+        	<div style=" height:41px; width:740px; float:left;">
+            	<ul style="font-size:12px;">
+					<li style="float:left;_display:inline;_height:18px;margin-right:5px; height:41px; position:relative;">
+					<a href="/index.yl" class="erjidaohang" style=" height:41px; padding:0px 10px 0px 25px; position:relative;"><span style="display:block; width:16px; height:14px; position:absolute; top:3px; *top:13px; left:2px; "><img src="/image/fangzi.png" width="16" height="14" /></span>返回首页</a>
+					</li>  
+					<li style="float:left;_display:inline;_height:18px;margin-right:5px; height:41px;">
+					<a href="/jiuye.yl" class="erjidaohang" style=" height:41px; padding:0px 10px; position:relative;">
+					
+					就业</a>
+					</li>
+					<li style="float:left;_display:inline;_height:18px;margin-right:5px; height:41px;">
+					<a href="/jianzhi.yl" class="erjidaohang" style=" height:41px; padding:0px 10px; position:relative;">
+					
+					兼职</a>
+					</li>
+
+					<li style="float:left;_display:inline;_height:18px;margin-right:5px; height:41px;">
+					<a href="/chuangye.yl" class="erjidaohang" style=" height:41px; padding:0px 10px; position:relative;">
+					
+					创业</a>
+					</li> 
+					<li style="float:left;_display:inline;_height:18px;margin-right:5px; height:41px;">
+					<a href="/chuangke.yl" class="erjidaohang" style=" height:41px; padding:0px 10px; position:relative;">
+					
+					创客</a>
+					</li>
+					
+					<li style="float:left;_display:inline;_height:18px;margin-right:5px; height:41px;">
+					<a href="/xuexi.yl" class="erjidaohang" style=" height:41px; padding:0px 10px; position:relative;">
+					
+					学习</a>
+					</li>
+
+					<li style="float:left;_display:inline;_height:18px;margin-right:5px; height:41px;">
+					<a href="/huodong.yl" class="erjidaohang" style=" height:41px; padding:0px 10px; position:relative;">
+					
+					活动</a>
+					</li>    
+					<li style="float:left;_display:inline;_height:18px;margin-right:5px; height:41px;">
+					<a href="/dasai.yl" class="erjidaohang" style=" height:41px; padding:0px 10px; position:relative;">
+					
+						<div style="height:4px; width:8px; position:absolute; top:37px; left:17px; background:url(/image/daohangsanjiao.png) center center no-repeat;"></div>
+					
+					大赛</a>
+					</li>    
+					    
+					<li style="float:left;_display:inline;_height:18px;margin-right:5px; height:41px;">
+					<a href="/shequ.yl" class="erjidaohang" style=" height:41px; padding:0px 10px; position:relative;">
+					
+					社区</a>
+					</li>
+					<li style="float:left;_display:inline;_height:18px;margin-right:5px; height:41px;">
+					<a href="/yuanxiao.yl" class="erjidaohang" style=" height:41px; padding:0px 10px; position:relative;">
+					
+					院校</a>
+					</li>
+					
+					<li style="float:left; _display:inline; width:180px; background-color:#fff; height:25px; margin-top:7px;">
+						<input type="text" id="guanjianzi" name="guanjianzi" value="" style=" float:left; background:url('/image/shuru.png') left center no-repeat;  width:155px; border:0px; margin:0; padding:0; padding-left:5px; height:25px; line-height:25px;" ><!-- placeholder="输入搜索的内容"-->
+						<input type="button" style=" float:right; border:none; width:20px; height:25px;  background:url(/image/dc_01.jpg) no-repeat scroll left center transparent" onclick="sousuo1()">
+					</li>
+					
+			  </ul>
+			</div>
+			<div style=" float:right; height:41px; width:360px;">
+				<a style=" ; line-height:41px; cursor:default; float:right; background: url(/image/dian4.jpg) no-repeat left; padding-left:10px;" class="neiyeshoucang" onclick="addToFavorite()">收藏</a>
+				
+					<a style=" ; line-height:41px; cursor:default; float:right; background: url(/image/dian4.jpg) no-repeat left; padding:0px 10px;" class="neiyedenglu" href="/zhuce.yl">免费注册</a>
+					<a style=" ; line-height:41px; float:right; cursor:default; padding:0px 10px;" class="neiyedenglu" onclick="dr('/denglu.yl')">请登录</a>
+					<span style="line-height:41px; float:right; color:#cccccc;  ; " class="neiyeshoucang" href="s">欢迎来到全国大学生就业创业平台! </span>
+					
+				
+			</div>
+    </div>
+</div>
+</form>
+<script type="text/javascript">
+$('#guanjianzi').click(function(){
+	$('#guanjianzi').css("background","");
+});
+$('#guanjianzi').blur(function(){
+	$('#guanjianzi').css("background","url('/image/shuru.png') left center no-repeat");
+});
+function sousuo1(){
+if(document.YC_POST_A.guanjianzi.value==""||document.YC_POST_A.guanjianzi.value==null){
+		window.wxc.xcConfirm('请输入搜索内容', window.wxc.xcConfirm.typeEnum.warning);
+		return;
+	}
+	YC_POST_A.submit();
+}
+function addToFavorite(){
+  var a="http://www.dcpt.com:9001/index.yl";
+  var b="大创平台";
+if(document.all){window.external.AddFavorite(a,b)}
+else if(window.sidebar){window.sidebar.addPanel(b,a,"")}
+else{alert("对不起，您的浏览器不支持此操作!\n请您使用菜单栏或Ctrl+D收藏本页。")}
+}
+function dr(href){
+	var url = location.href;
+	var paraString = encodeURIComponent(url);
+	location.href=href+"?returnUrl="+paraString;
+}
+function tcdr(href){
+	var url = location.href;
+	var paraString = encodeURIComponent(url);
+	location.href=href+"?returnUrl="+paraString;
+}
+</script>
+	</div>
+	<div style = "clear:both"></div>
+</div>
+<style>
+.LanMu_349{
+position:relative;
+overflow:hidden;
+z-index:1;
+width:100%;
+float:none;
+margin:0px auto;
+background-color:#ffffff;
+}
+.LanMuNeiRong_349{
+width: 1100px;
+margin:44px auto 0px auto;
+padding:0px;
+}
+</style>
+<div id = "LanMu_349" class="LanMu_349">
+	<div class = "LanMuNeiRong_349">
+
+
+
+<style>
+a.neiyedaohang{text-decoration:none; color:#000; font-size:18px;  line-height:95px;}
+a.neiyedaohang:hover{text-decoration:underline; font-size:18px;  line-height:95px;}
+</style>
+<div style="height:95px; width:1100px; margin:0px auto; position:relative;">
+	<div style="float:left; margin-top:24px; "><a href="/index.yl"><img src="/image/neiye-logo.png" width="329" height="50" /></a>
+    </div>
+    <div style="float:right; width:761px; height:41px;">
+    	<ul style="height:95px;">		
+        <li style=" float:right; margin-left:30px;"><a href="/dasai/saishidongtai.yl" class="neiyedaohang" style = "">赛事动态</a></li>
+        <li style=" float:right; margin-left:30px;"><a href="/dasai/wangqihuigus.yl" class="neiyedaohang" style = "">往期回顾</a></li>
+        <li style=" float:right; margin-left:30px;"><a href="/dasai/guanfangsaishi.yl" class="neiyedaohang" style = "">官方赛事</a></li>
+        <li style=" float:right; margin-left:30px;"><a href="/dasai/zuixinsaishi.yl" class="neiyedaohang" style = "">最新赛事</a></li>
+		<li style=" float:right;"><a href="/dasai.yl" class="neiyedaohang" style = "">大赛首页</a></li>
+        </ul>
+    </div>
+</div>	</div>
+	<div style = "clear:both"></div>
+</div>
+<style>
+.LanMu_357{
+position:relative;
+overflow:hidden;
+z-index:1;
+width:100%;
+height:46px;
+float:none;
+margin:0 auto;
+background-color:#9fd7ff;
+}
+.LanMuNeiRong_357{
+width: 100%;
+margin:0px;
+padding:0px;
+}
+</style>
+<div id = "LanMu_357" class="LanMu_357">
+	<div class = "LanMuNeiRong_357">
+
+	</div>
+	<div style = "clear:both"></div>
+</div>
+<style>
+.LanMu_689{
+position:relative;
+overflow:hidden;
+z-index:1;
+width:100%;
+height:45px;
+float:none;
+background-color:#f2f2f2;
+background: url(/webfile/f/1006/dasai/saishidongtai/20164168522.png) ;
+}
+.LanMuNeiRong_689{
+width: 1100px;
+height: 45px;
+margin:0 auto;
+padding:0px;
+}
+</style>
+<div id = "LanMu_689" class="LanMu_689">
+	<div class = "LanMuNeiRong_689">
+
+
+
+
+<style>
+ul,li{list-style:none}
+ul,li,span{ padding:0px; margin:0px;}
+img{ border:none;}
+a.neiyedaohang1{text-decoration:none; color:#000000; font-size:16px; font-family:'微软雅黑','黑体','宋体'; line-height:45px;display:block; text-align:center;}
+a.neiyedaohang1:hover{text-decoration:underline; color:#fff; font-size:16px; font-family:'微软雅黑','黑体','宋体'; line-height:45px; background-color:#579df5;display:block;}
+</style>
+
+
+<div style="height:45px; width:1100px; position:relative;background-color:#fff;">
+	<div style="float:left; height:45px; width:600px;">
+		<ul style="height:45px;">
+			<li style="height:45px; width:134px; float:left; margin-left:0px;"><a href="/dasai/saishidongtai.yl" class="neiyedaohang1" style = "">最新动态</a></li>
+			<li style="height:45px; width:160px; float:left; margin-left:0px;"><a href="/dasai/geshengsaishidongtai.yl" class="neiyedaohang1" style = "">各省赛事动态</a></li>
+			<!--<li style="height:45px; width:134px; float:left; margin-left:0px;"><a href="/dasai/saishisaicheng.yl" class="neiyedaohang1" style = "">赛事赛程</a></li>-->
+			<li style="height:45px; width:134px; float:left; margin-left:0px;"><a href="/dasai/saishipaihang.yl" class="neiyedaohang1" style = "">赛事排名</a></li>
+		</ul>
+	</div>
+    <div style="float:left; height:45px; width:500px;"></div>
+</div>
+	</div>
+	<div style = "clear:both"></div>
+</div>
+<style>
+.LanMu_361{
+position:relative;
+overflow:hidden;
+z-index:1;
+width:100%;
+float:none;
+margin:0 auto;
+background-color:#f2f2f2;
+}
+.LanMuButtom_361{
+float: left;
+width:100%;
+height:30px;
+background-color: #f2f2f2;
+}
+.LanMuNeiRong_361{
+width: 1100px;
+margin:0px auto;
+padding:0px 0px 15px 0px;
+}
+</style>
+<div id = "LanMu_361" class="LanMu_361">
+	<div class = "LanMuNeiRong_361">
+<style>
+.LanMu_362{
+position:relative;
+overflow:hidden;
+z-index:1;
+width:780px;
+float:left;
+margin:15px 0px 0px 0px;
+}
+.LanMuNeiRong_362{
+width: 780px;
+margin:0px;
+padding:0px;
+}
+</style>
+<div id = "LanMu_362" class="LanMu_362">
+	<div class = "LanMuNeiRong_362">
+
+
+
+
+
+<style type="text/css">
+ul,li{list-style:none}
+img{ border:none;}
+</style>
+
+<div style="width:720px; min-height:500px; background:#fff; padding:30px;">
+  
+    <div style="width:720px; font-size:36px;  color:#000;">掌阅文学创作大赛</div>
+   <div style="height:40px; width:720px; line-height:40px;  color:#989898; font-size:12px; margin-bottom:20px;">作者：<span style=" color:#0055ba;"></span>&nbsp;&nbsp;&nbsp;&nbsp;发布时间：2016-07-29&nbsp;&nbsp;&nbsp;&nbsp;来源：</div>
+    <div style="width:720px;">
+	<div style=" padding:30px 20px; background-color:#f4f4f4;  color:#555555; font-size:14px; line-height:24px; "><span style=" font-size:16px; color:#000;">摘要：</span>为了鼓励更多的文学爱好者积极创作，活跃文学市场，孕育新的创作力量，近日，国内领先的数字阅读服务商掌阅科技，联合完美时空、蜻蜓FM作为主办单位，同时联合中信出版社、作家出版社、凤凰联动等二十二家知名出版社，及全国高校文学社团联合会、声工厂、北京天象映画文化传媒有限公司、北京虎彩文化传播有限公司、剧能玩APP作为协办单位，展开全国范围内的文学创作大赛。大赛大奖超过15万元，总奖金也将达到百万以上。</div>
+<div style="width:720px; line-height:30px; font-size:16px; color:#555555; "><p>大赛名称：掌阅文学创作大赛<br/>截稿日期：2016年11月23日<br/>决赛期：2016年12月1日至2016年12月30日<br/><br/>征稿要求：<br/>1，作品征集日期：2016年7月3日至2016年11月23日止<br/>2，大赛分为A组（长篇）、B组（中篇）和C组（短篇）同时进行，设有情感、科幻、悬疑、武侠、纯文学五大类别。<br/>3，参赛文章数量不限，但同一作品稿件不可投稿至多个组别，否则将视为无效。<br/>4，长篇10万字以上，长篇以连载方式在掌阅平台书友圈发布，征稿期结束长篇作品可以未完结，但须连载至10万字以上。<br/>5，中篇1万-10万字，以连载方式在掌阅平台书友圈发布，征稿期结束中篇作品必须完结，否则将视为无效。<br/>6，短篇在1万字以内，作品直接在掌阅平台书友圈发布。<br/><br/>赛程安排：<br/>A.海选<br/>海选期：2016年7月3日起至2016年11月23日，选出入围作品进入决赛<br/>海选评选方式：大众投票+组委会评选<br/><br/>大赛共设7个人气榜：<br/>长篇1个、中篇5个（情感、科幻、悬疑、武侠、纯文学各1个）、短篇1个。<br/>海选期结束时，每个人气榜的大众投票前10部的作品，直接成为入围作品进入决赛。即读者投票可以直接决定部分入围作品！<br/><br/>入围作品其他名额由组委会评出。<br/>所有入围作品名单会在2016年11月24日起至2016年11月30日陆续公布。<br/><br/>B.决赛期<br/>2016年12月1日至2016年12月30日<br/>决赛评选方式：大众投票+专业评委团评选<br/><br/>决赛期7个人气榜投票清零。<br/>重新进行投票，决赛期结束时，每个人气榜的前3名，直接获得该组人气奖。即读者投票可以直接决定人气奖作品！<br/><br/>各组别一等奖、二等奖将由专业评委根据作品水平和两次用户投票的结果综合评出。<br/><br/>奖金设置<br/>A组（长篇）：<br/>一等奖1名：奖金15万<br/>二等奖3名：奖金5万<br/>人气奖3名：奖金3千<br/>入围奖50名：奖金1千<br/><br/>B组（中篇）：<br/>一等奖5名：奖金3万<br/>二等奖15名：奖金1万<br/>人气奖15名：奖金1千5百<br/>入围奖500名：奖金1百<br/><br/>C组（短篇）：<br/>一等奖3名：奖金1万<br/>二等奖20名：奖金5千<br/>人气奖3名：奖金1千<br/>入围奖500名：奖金1百<br/><br/>评委阵容：<br/>A.主席评委组<br/>成湘均：掌阅科技CEO<br/>王曦：北京完美时空传媒娱乐集团董事长，影视出品人、制片人<br/>姚文彬：掌趣科技董事长<br/>杨廷皓：中国最大音频平台蜻蜓FM CEO<br/>饶俊：知名编剧、作家<br/>顾伟：电影票房过亿导演、编剧、作家<br/>周琳皓：演员，导演，2014年网络剧最佳导演奖<br/><br/>B.专家评委组<br/>常书欣：作家。代表作《余罪》《黑锅》《超级大忽悠》<br/>纯情犀利哥：中国作协会员，中国网络作家名家，小说总点击超过二十亿。代表作《异界魅影逍遥》《一等家丁》《绝世邪神》《诸天至尊》等<br/>红娘子：悬疑作家、编剧。已创作《红缎》《青丝》《绿门》等在二十三部作品，编剧中韩合拍口碑惊悚电影《凶怨灵》<br/>贾东岩：知名编剧。代表作《第一伞兵队》，韩东君主演电视剧《人生如若初相见》<br/>冷残河：作家、编剧。作品《天葬》被翻译成多国语言出口发行国外，畅销书作品《新疆探秘录》系列即将拍摄影视<br/>冷小张：推理作家<br/>已创作《罪瘾者》《九宫猎局》《灭罪师》，其中《灭罪师》由五百导演，2016年将在爱奇艺上映<br/>栗心博：电视剧导演、摄影师。《重案六组》《急诊室故事》《武神赵子龙》《战金岭》<br/>刘小念：新晋情感作家。作品《婚后三十六个月》改编为《二胎时代》，由滕华涛导演执导，《煮妇炼爱记》也即将拍摄<br/>绿亦歌：新晋青春畅销书作家。已创作《任时光寂静如海》《岁月忽已暮》等作品，《岁月忽已暮》电影、电视剧开拍在即<br/>尼罗：作家。已创作《无心法师》《民国遗事1931》《残酷罗曼史》等数十部小说，其中《无心法师》在搜狐热播后成为高口碑之作<br/>钱莉芳：历史科幻小说作家。《天意》保持当代中国科幻小说最畅销记录多年。<br/>秦明：作家，主检法医师。微博几十万粉丝期待之作《法医秦明》即将拍摄<br/>却却：知名作家、编剧。已创作《智取华山传奇》《战长沙》《夜芙蓉》等多部作品，其中霍建华、杨紫主演的《战长沙》一经播出就成为口碑之作<br/>唐欣恬：中国作家协会会员。《裸婚——80后的新结婚时代》被改编为电视剧《裸婚时代》并引发社会强烈反响<br/>王晋康：中国当代科幻三巨头之一，科幻终身成就奖得主<br/>潇湘冬儿：特工穿越流小说代表作家。代表作《特工皇妃》由赵丽颖、林更新主演<br/>叶紫：作家、编剧。代表作《许你来生》《可惜不是你》《相思未向薄情染》，并编剧经典网络小说作品《校花的贴身高手》<br/>一丁：作家。创作《思慕归》《如初》。参与编剧由钟汉良、Angelababy主演作品《孤芳不自赏》<br/>月斜影清：网络作家。代表作《婚姻支付宝》《拐个皇帝回现代》《六宫无妃》，其中《拐个皇帝回现代》一经热播就掀起微博热议<br/>周浩晖：当代最负盛名的推理悬疑作家之一。代表作《暗黑者》系列改编作品成为2014年现象级热播网剧<br/>庄秦：国内资深悬疑作家、编剧。作品《高校诡秘事件档案》《龙穴》系列，电视剧《火锅传奇》国际科幻巨制《蒸发太平洋》<br/><br/></p></div>
+</div>
+<div style="margin:10px auto 0px; height:58px; width:689px; background: url(/image/dianxian9.png) repeat-x top; "><span style="line-height:26px;font-size:14px; display:block; float:left;">分享到：</span><div class="bdsharebuttonbox"><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a><a href="#" class="bds_more" data-cmd="more"></a></div>
+</div>
+</div>
+<script>
+function dianzan(){
+	$.ajax(
+            {
+                type: "post",
+                url: "/modle/dcpt/huodong/list/dianzang.jsp",
+                data: { "NE_ID":"3475" },
+                success: function (msg) {
+                        $("#dianzai").val(msg);
+                }
+            })
+}
+</script>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到111：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>	</div>
+	<div style = "clear:both"></div>
+</div>
+<style>
+.LanMu_366{
+position:relative;
+overflow:hidden;
+z-index:1;
+width:305px;
+float:left;
+margin:15px 0px 0px 15px;
+background-color:#ffffff;
+}
+.LanMuTop_366{
+width:288px;
+height: 43px;
+line-height: 43px;
+font-family: 微软雅黑;
+font-size:18px;
+color: #000000;
+font-weight: bold;
+background: url(/webfile/f/1006/dasai/saishixiangqing/201631411943.jpg)   ;
+padding:0px 0px 0px 17px;
+}
+.LanMuNeiRong_366{
+width: 275px;
+margin:0px auto;
+padding:0px;
+}
+</style>
+<div id = "LanMu_366" class="LanMu_366">
+	<div class = "LanMuTop_366">推荐赛事动态</div>
+	<div class = "LanMuNeiRong_366">
+
+
+
+
+<ul style="width:280px; list-style:none;">
+
+	<li style=" height:37px; width:280px; background:url(/image/xian.jpg) bottom repeat-x; "><div style=" float:left; padding-left:7px; list-style:none; background:url(/image/dian2.png) no-repeat center left; height:36px; line-height:36px; font-family:'', '黑体', '宋体'; font-size:; color:#787878;"><a href = "?NE_ID=3809" target="_blank" style = "color:#787878;" title="书法课 人间好时节，提笔问安好。">书法课 人间好时节，提笔问安好。</a></div></li>
+
+	<li style=" height:37px; width:280px; background:url(/image/xian.jpg) bottom repeat-x; "><div style=" float:left; padding-left:7px; list-style:none; background:url(/image/dian2.png) no-repeat center left; height:36px; line-height:36px; font-family:'', '黑体', '宋体'; font-size:; color:#787878;"><a href = "?NE_ID=3829" target="_blank" style = "color:#787878;" title="9.30－10.07 轻行国庆之轻松追美金色额济纳 大话西北游">9.30－10.07 轻行国庆之轻松追美金色额济纳 大...</a></div></li>
+
+	<li style=" height:37px; width:280px; background:url(/image/xian.jpg) bottom repeat-x; "><div style=" float:left; padding-left:7px; list-style:none; background:url(/image/dian2.png) no-repeat center left; height:36px; line-height:36px; font-family:'', '黑体', '宋体'; font-size:; color:#787878;"><a href = "?NE_ID=3830" target="_blank" style = "color:#787878;" title="【企业家课程】《企业战略如何借势互联网社群浪潮》火热报名中">【企业家课程】《企业战略如何借势互联网社群...</a></div></li>
+
+    </ul>	</div>
+	<div style = "clear:both"></div>
+</div>
+<style>
+.LanMu_367{
+position:relative;
+overflow:hidden;
+z-index:1;
+width:305px;
+float:left;
+margin:15px 0px 0px 15px;
+}
+.LanMuTop_367{
+width:288px;
+height: 43px;
+line-height: 43px;
+font-family: 微软雅黑;
+font-size:18px;
+color: #000000;
+font-weight: bold;
+background: url(/webfile/f/1006/dasai/saishixiangqing/201631411943.jpg)   ;
+padding:0px 0px 0px 17px;
+}
+.LanMuNeiRong_367{
+width: 305px;
+margin:0px;
+padding:0px 0px 15px 0px;
+}
+</style>
+<div id = "LanMu_367" class="LanMu_367">
+	<div class = "LanMuTop_367">推荐赛事</div>
+	<div class = "LanMuNeiRong_367">
+
+
+
+
+
+
+<ul style="width:280px; list-style:none; ">
+
+
+<li style=" float:left; width:305px; -moz-box-shadow:0px 10px 13px #ededed; -webkit-box-shadow:0px 10px 13px #ededed; box-shadow:0px 10px 13px #ededed; margin:0px;background-color:#fff"><a href="/dasai/saishixiangqing.yl?NE_ID=3601"><img src="/webfile/f/1006/dasai/zuixinsaishi/201681724027.jpg" width="270" height="135" style="margin:15px 18px 5px 18px" /></a><div style=" background-color:#FFF; width:280px;padding:0 12px; ">
+<div style="width:280px; border-bottom:1px solid #f2f2f2;  font-size:16px; color:#000; padding-bottom:8px;text-align:center"  title="第一届百度前端技术竞赛"><a href="/dasai/saishixiangqing.yl?NE_ID=3601">第一届百度前端技术竞赛</a></div></div></li>
+
+
+
+<li style=" float:left; width:305px; -moz-box-shadow:0px 10px 13px #ededed; -webkit-box-shadow:0px 10px 13px #ededed; box-shadow:0px 10px 13px #ededed; margin:0px;background-color:#fff"><a href="/dasai/saishixiangqing.yl?NE_ID=3647"><img src="/webfile/f/1006/dasai/zuixinsaishi/201682551126.jpg" width="270" height="135" style="margin:15px 18px 5px 18px" /></a><div style=" background-color:#FFF; width:280px;padding:0 12px; ">
+<div style="width:280px; border-bottom:1px solid #f2f2f2;  font-size:16px; color:#000; padding-bottom:8px;text-align:center"  title="2016第五届中国高等院校设计艺术大赛"><a href="/dasai/saishixiangqing.yl?NE_ID=3647">2016第五届中国高等院校设计艺术...</a></div></div></li>
+
+
+
+<li style=" float:left; width:305px; -moz-box-shadow:0px 10px 13px #ededed; -webkit-box-shadow:0px 10px 13px #ededed; box-shadow:0px 10px 13px #ededed; margin:0px;background-color:#fff"><a href="/dasai/saishixiangqing.yl?NE_ID=3644"><img src="/webfile/f/1006/dasai/zuixinsaishi/20168255311.jpg" width="270" height="135" style="margin:15px 18px 5px 18px" /></a><div style=" background-color:#FFF; width:280px;padding:0 12px; ">
+<div style="width:280px; border-bottom:1px solid #f2f2f2;  font-size:16px; color:#000; padding-bottom:8px;text-align:center"  title="中国火星探测工程名称和图形标识全球设计征集"><a href="/dasai/saishixiangqing.yl?NE_ID=3644">中国火星探测工程名称和图形标识...</a></div></div></li>
+
+
+
+<li style=" float:left; width:305px; -moz-box-shadow:0px 10px 13px #ededed; -webkit-box-shadow:0px 10px 13px #ededed; box-shadow:0px 10px 13px #ededed; margin:0px;background-color:#fff"><a href="/dasai/saishixiangqing.yl?NE_ID=3640"><img src="/webfile/f/1006/dasai/zuixinsaishi/201682545458.jpg" width="270" height="135" style="margin:15px 18px 5px 18px" /></a><div style=" background-color:#FFF; width:280px;padding:0 12px; ">
+<div style="width:280px; border-bottom:1px solid #f2f2f2;  font-size:16px; color:#000; padding-bottom:8px;text-align:center"  title="阿里云安全算法挑战赛（线上赛）"><a href="/dasai/saishixiangqing.yl?NE_ID=3640">阿里云安全算法挑战赛（线上赛）</a></div></div></li>
+
+
+	
+	
+
+    </ul>	</div>
+	<div style = "clear:both"></div>
+</div>
+	</div>
+	<div class = "LanMuButtom_361"></div>
+	<div style = "clear:both"></div>
+</div>
+<style>
+.LanMu_42{
+position:relative;
+z-index:1;
+width:100%;
+float:none;
+margin:30px auto 0px auto;
+background-color:#ffffff;
+}
+.LanMuTop_42{
+width:1083px;
+height: 15px;
+line-height: 15px;
+font-family: 微软雅黑;
+font-size:12px;
+color: #333333;
+background: url(/webfile/f/1006/chuangke/201632333641.jpg)   no-repeat;
+margin:0 auto;
+padding:0px 0px 0px 17px;
+}
+.LanMuNeiRong_42{
+width: 1100px;
+margin:0 auto;
+padding:8px 0px 0px 0px;
+}
+</style>
+<div id = "LanMu_42" class="LanMu_42">
+	<div class = "LanMuTop_42">友情链接</div>
+	<div class = "LanMuNeiRong_42">
+
+
+
+
+<style type="text/css">
+a{margin:0px; padding:0px;}
+.ul123{ color:#666666; text-decoration: none; text-align:center; margin:0px auto;}
+.ul123 a:link {color:#666666; padding:0px 4px;}		/* 未被访问的链接 */
+.ul123 a:visited {color:#666666;}	/* 已被访问的链接 */
+.ul123 a:hover {color:#666666;}	/* 鼠标指针移动到链接上 */
+.ul123 a:active {color:#666666;}
+</style>
+
+<div class="ul123">
+<!-- <a href="http://www.yshhr.com/" target="_blank" rel="nofollow">优仕汇</a><a href="http://www.wujiaw.com/" target="_blank"  rel="nofollow">吾家网</a><a href="http://gosunn.com.cn/" target="_blank"  rel="nofollow">股商</a><a href="http://hexun.gosunn.com/" target="_blank"  rel="nofollow">京放投顾</a><a href="http://www.sh9h.com/" target="_blank"  rel="nofollow">生辉九合</a><a href="http://www.yoleedu.com/" target="_blank"  rel="nofollow">优乐学园</a><a href="http://www.xingjiutu.com/" target="_blank"  rel="nofollow">行九途</a><a href="http://gosunn.com.cn/gstougu1303/gstgindex.asp" target="_blank"  rel="nofollow">股商投顾</a><a href="http://www.yshhr.com/" target="_blank"  rel="nofollow">股商投资</a><a href="http://www.classicc.cn/" target="_blank"  rel="nofollow">经典创想</a><a href="http://www.yshhr.com/" target="_blank"  rel="nofollow">顺网视通</a><a href="http://www.yousihui.com/" target="_blank"  rel="nofollow">优思慧</a><a href="http://gosunn.com.cn/gs_ycplatform/gsyc_Platform.asp" target="_blank"  rel="nofollow">远程平台</a> -->
+		
+<a href="http://www.angelgoing.com/" target="_blank"  rel="nofollow">天使帮</a>
+	
+<a href="http://www.najianzhi.com/" target="_blank"  rel="nofollow">哪兼职</a>
+	
+<a href="http://www.yousihui.com/" target="_blank"  rel="nofollow">优思慧</a>
+	
+<a href="http://www.classicc.cn/" target="_blank"  rel="nofollow">经典创想</a>
+	
+<a href="http://www.yshhr.com/" target="_blank"  rel="nofollow">优仕汇</a>
+	
+<a href="http://www.xingjiutu.com/" target="_blank"  rel="nofollow">行九途</a>
+	
+<a href="http://www.yoleedu.com/" target="_blank"  rel="nofollow">优乐学园</a>
+	
+<a href="http://www.sh9h.com/" target="_blank"  rel="nofollow">生辉九合</a>
+	
+<a href="http://www.gosunn.com/" target="_blank"  rel="nofollow">股商</a>
+	
+<a href="http://www.wujiaw.com/" target="_blank"  rel="nofollow">吾家网</a>
+	
+<a href="/wanzhanjiesha/youqinglianjie.yl" target="_self">更多</a>
+</div>
+<div style="clear:both; height:10px;"></div>
+<script language ="javaScript">  
+/*
+window.onbeforeunload=function (){
+	
+	//if(event.clientX>document.body.clientWidth && event.clientY < 0 || event.altKey){
+		//alert("关闭或刷新1");
+	//}else{
+		//alert("关闭或刷新");
+	//}
+	var userAgent = navigator.userAgent;
+	alert(userAgent.toUpperCase().indexOf("MSIE"));
+}
+var flag = true;
+window.onbeforeunload = function () {
+  if (flag) {
+	var evt = window.event || arguments[0];
+	var userAgent = navigator.userAgent;
+	if (userAgent.indexOf("MSIE") > 0) {
+	  var n = window.event.screenX - window.screenLeft;
+	  var b = n > document.documentElement.scrollWidth - 20;
+	  if (b && window.event.clientY < 0 || window.event.altKey) {
+		updateLogoutTime();
+	  }else {
+		updateLogoutTime();
+	  }
+	}else {
+	  updateLogoutTime();
+	}
+  }
+}
+
+function  updateLogoutTime(){
+	$.ajax({
+		type: "POST",
+		url: '/modle/dcpt/updateLogout.jsp',
+		data: { 
+		}, 
+		complete: function(xhr){
+		
+		}
+	});
+}
+*/
+</script>  	</div>
+	<div style = "clear:both"></div>
+</div>
+<style>
+.LanMu_46{
+position:relative;
+overflow:hidden;
+z-index:1;
+width:100%;
+height:266px;
+float:none;
+margin:0px auto;
+background-color:#ffffff;
+}
+.LanMuTop_46{
+width:100%;
+height: 1px;
+line-height: 1px;
+font-size:0px;
+color: #ededed;
+background: url(/webfile/f/1006/huodong/xiaoyuanhuodong/201631521735.jpg)   ;
+}
+.LanMuNeiRong_46{
+width: 100%;
+height: 266px;
+margin:0px;
+padding:0px;
+}
+</style>
+<div id = "LanMu_46" class="LanMu_46">
+	<div class = "LanMuTop_46">栏目组</div>
+	<div class = "LanMuNeiRong_46">
+<style>
+.LanMu_47{
+position:relative;
+overflow:hidden;
+z-index:1;
+width:1100px;
+float:none;
+margin:0px auto;
+}
+.LanMuNeiRong_47{
+width: 1100px;
+margin:0px auto;
+padding:0px;
+}
+</style>
+<div id = "LanMu_47" class="LanMu_47">
+	<div class = "LanMuNeiRong_47">
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?92b377695c7681810df4d539619f2b35";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+<div style="width:1100px; margin-top:20px;">
+	
+	<div style="text-align: center;">
+    <a href="/wanzhanjiesha/wanzhanjieshao.yl" target="_self"><span style="color:#262626;">网站简介</span></a>&nbsp;-&nbsp;<a href="/wanzhanjiesha/guanggaofuwu.yl" target="_self"><span style="color:#262626;">广告服务</span></a>&nbsp;-&nbsp;<a href="/wanzhanjiesha/zhaoshangjiameng.yl" target="_self"><span style="color:#262626;">招商加盟</span></a>&nbsp;-&nbsp;<a href="/wanzhanjiesha/falvshengming.yl" target="_self"><span style="color:#262626;">法律申明</span></a>&nbsp;-&nbsp;<a href="/wanzhanjiesha/lianxiwomen.yl" target="_self"><span style="color:#262626;">联系我们</span></a>&nbsp;-&nbsp;<a href="/wanzhanjiesha/woyaotougao.yl" target="_self"><span style="color:#262626;">我要投稿</span></a>&nbsp;-&nbsp;<a href="/wanzhanjiesha/neibubangong.yl" target="_self"><span style="color:#262626;">内部办公</span></a>&nbsp;-&nbsp;<a href="/wanzhanjiesha/lianmengditu.yl" target="_self"><span style="color:#262626;">联盟地图</span></a>&nbsp;-&nbsp;<a href="/wanzhanjiesha/zhaopinyingcai.yl" target="_self"><span style="color:#262626;">诚聘英才</span></a>&nbsp;-&nbsp;<a href="/wanzhanjiesha/wangzhandaohang.yl" target="_self"><span style="color:#262626;">网站导航</span></a>
+	</div>
+
+	<div style="text-align: center; line-height: 24px; margin-top:20px;">
+		<div style="color:#262626;">全国大学生就业创业平台&nbsp;&nbsp;&nbsp;&nbsp;联系电话：010-52870777&nbsp;&nbsp;&nbsp;&nbsp;电子邮箱：<a href="mailto:webmaster@jycypt.com">webmaster@jycypt.com</a></div>
+
+		<div style="color:#262626;">联系地址：北京市海淀区中关村东路66号世纪科贸大厦C座25层2501-2503</div>
+
+		<div style="height:24px;"><div style="color:#262626; width:670px; float:left; text-align:right;"><a href="mailto:Conyright@2008-2016">Conyright@2008-2016</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.jycypt.com">www.jycypt.com</a>&nbsp;&nbsp;&nbsp;&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;京ICP备09041727号-3</div><div style="width:425px; float:right; text-align:left;"><a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802021862" style="display:inline-block;height:24px;line-height:24px;"><img src="/image/beiantubiao.png" style=" float:left;"/><span style="line-height:20px; padding-left:5px; color:#262626;">京公网安备 11010802021862号</span></a></div></div>
+
+	</div>
+
+	<div style="text-align: center; margin-top:20px;">
+    <span style="color:#262626;"><img src="/mgr/u/20160219/1455852606640045463.jpg"/></span>
+	</div>
+
+	<div style="width:1100px; height:67px;"></div>
+
+</div>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?9fb6d9691c1cabfddbc0ce30d8397d5b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>	</div>
+	<div style = "clear:both"></div>
+</div>
+	</div>
+	<div style = "clear:both"></div>
+</div>
+</body>
+</html>

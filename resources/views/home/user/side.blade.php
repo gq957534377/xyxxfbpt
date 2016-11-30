@@ -3,6 +3,9 @@
         <a href="{{url('/user')}}" id="editUserInfoBtn" class="list-group-item active" style="z-index: 0;">
             <i class="text-md fa fa-list-alt" aria-hidden="true"></i>&nbsp;个人信息</a>
 
+        <a href="{{url('/user/apply/change')}}" class="list-group-item ">
+            <i class="text-md fa fa-edit" aria-hidden="true"></i>&nbsp;账号改绑</a>
+
         <!--活动管理 start-->
         <a  href="{{url('/activity')}}" class="list-group-item ">
             <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp;活动管理</a>
@@ -29,6 +32,6 @@
             <!--已发布项目管理 end-->
         @endif
         <a href="/send" class="list-group-item ">
-            <i class="text-md fa fa-picture-o" aria-hidden="true"></i>&nbsp我的文稿管理</a>
+            <i class="text-md fa fa-picture-o" aria-hidden="true" style="margin-left: 30px;"></i>&nbsp;我的文稿管理</a>
     </div>
 </div>

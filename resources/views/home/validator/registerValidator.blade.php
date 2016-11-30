@@ -155,6 +155,7 @@
 
     // 异步发送短信
     $("#sendCode").click(function(){
+
         var phone =$("input[name='phone']").val();
         // 校验手机号
         formValidate(phone);
@@ -167,15 +168,35 @@
                 switch (data.StatusCode){
                     case '400':
                         promptBoxHandle('警告',data.ResultData);
+                        setTime($("#sendCode"));
                         break;
                     case '200':
                         promptBoxHandle('提示',data.ResultData);
+                        setTime($("#sendCode"));
                         break;
                 }
             }
         });
 
     });
+    // 短信验证发送后计时器
+    var countdown=60;
+    function setTime(obj) {
+        if (countdown == 0) {
+            obj.removeAttr('disabled');
+            obj.html('获取验证码');
+            countdown = 60;
+            return;
+        } else {
+            obj.attr('disabled','true');
+            obj.html('等待('+ countdown + 's)');
+            countdown --;
+        }
+        setTimeout(function() {
+            setTime(obj)
+        },1000);
+    }
+
     // 跳转路径
     function delayer(){
         window.location = "/login";

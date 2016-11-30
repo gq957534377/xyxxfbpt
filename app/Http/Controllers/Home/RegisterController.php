@@ -71,6 +71,9 @@ class RegisterController extends Controller
         $info = self::$userServer->addUser($data);
         //返回视图成状态码
         switch ($info['status']) {
+            case '500':
+                return response()->json(['StatusCode'=>'500','ResultData' => $info['msg']]);
+                break;
             case '400':
                 return response()->json(['StatusCode'=>'400','ResultData' => $info['msg']]);
                 break;

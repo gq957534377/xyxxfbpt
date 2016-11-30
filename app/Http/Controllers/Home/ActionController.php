@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
@@ -27,9 +28,26 @@ class ActionController extends Controller
      */
     public function index(Request $request)
     {
-        $type = $request -> all()['type'];
-        $result = self::$actionServer -> selectByType($type);
-        if ($result['status']) return view('home.action.index', ['msg' => $result['msg']]);
+        $type = $request['type'];
+        $result = self::$actionServer->selectByType($type);
+        if($result["status"]){
+            foreach ($result['msg'] as $v){
+                $status = self::$actionServer->setStatusByTime($v);
+                if ($status['status']){
+                    if (!is_string($status['msg'])){
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        if (!$chage['status']){
+                            Log::info("用户请求更改活动状态失败".$v->guid.':'.$status['msg']);
+                        }else{
+                            $v->status = $status['msg'];
+                        }
+                    }
+                }else{
+                    Log::info("用户请求更改活动状态失败".$v->guid.'要改为:'.$status['msg']);
+                }
+            }
+            return view('home.action.index', ['msg' => $result['msg']]);
+        }
         return view('home.action.index', ['msg' => $result['msg']]);
     }
 
@@ -41,14 +59,13 @@ class ActionController extends Controller
      */
     public function create(Request $request)
     {
-        $data = $request -> all();
-        $result = self::$actionServer -> comment($data);
-        if(!$result['status']) return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
+        $data = $request->all();
+        $result = self::$actionServer->comment($data);
+        if(!$result['status']) return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
     }
 
     /**
-     * Store a newly created resource in storage.
      * 向活动表插入数据
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -56,10 +73,10 @@ class ActionController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request -> all();
-        $result = self::$actionServer -> actionOrder($data);
-        if(!$result['status']) return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
+        $data = $request->all();
+        $result = self::$actionServer->actionOrder($data);
+        if(!$result['status']) return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
     }
 
     /**
@@ -72,26 +89,22 @@ class ActionController extends Controller
     public function show(Request $request, $id)
     {
         //所需要数据的获取
-        $session = $request -> session() -> all();
-        $data = self::$actionServer -> getData($id);//活动详情
+        $data = self::$actionServer->getData($id);//活动详情
         $likeNum = self::$actionServer-> getLikeNum($id);//支持/不支持人数
 
         //$isHas（是否已经报名参加）的设置
-        if (!isset($session['user'])){
+        if (!isset(session('user')->guid)){
             $isLogin = false;
             $isHas = false;
         }else{
-            $action = self::$actionServer -> getAction($session['user'] -> guid);//当前用户报名参加的所有活动
-            $isLogin = $session['user']->guid;
+            $action = self::$actionServer->getAction(session('user')->guid);//当前用户报名参加的所有活动
+            $isLogin = session('user')->guid;
             if ($action['status']){
-                $isHas = in_array($data["msg"] -> guid, $action['msg']);
+                $isHas = in_array($data["msg"]->guid, $action['msg']);
             }else{
                 $isHas = false;
             }
         }
-
-        //$datas活动详情设置
-        $datas = $data["msg"];
 
         //返回详情页
         return view("home.action.xiangqing", [
@@ -112,8 +125,8 @@ class ActionController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $support = $request -> all();
-        $user_id = $request -> session() -> get('user')->guid;
+        $support = $request->all();
+        $user_id = session('user')->guid;
 
         //判断是否点赞了
         $isHas = self::$actionServer->getLike($user_id,$id);
@@ -126,7 +139,7 @@ class ActionController extends Controller
         }else{
 
             //没有点赞则加一条新记录
-            $result = self::$actionServer -> setLike(['support' => $support['support'], 'action_id' => $id, 'user_id' => $user_id]);
+            $result = self::$actionServer->setLike(['support' => $support['support'], 'action_id' => $id, 'user_id' => $user_id]);
             if($result['status']) return ['StatusCode' => 200,  'ResultData' => self::$actionServer-> getLikeNum($id)['msg']];
             return ['StatusCode' => 400, 'ResultData' => '点赞失败'];
         }
@@ -140,19 +153,19 @@ class ActionController extends Controller
      */
     public function update($id)
     {
-        $result = self::$actionServer -> getComment($id);
+        $result = self::$actionServer->getComment($id);
         if (!$result['status']){
             return ['StatusCode' => 400, 'ResultData' => $result['msg']];
         }else{
             foreach ($result['msg'] as $v)
             {
-                $res = self::$userServer -> userInfo(['guid' => $v -> user_id]);
+                $res = self::$userServer->userInfo(['guid' => $v->user_id]);
                 if($res['status']){
-                    $v -> user_name = $res['msg'] -> nickname;
-                    $v -> headpic = $res['msg'] -> headpic;
+                    $v->user_name = $res['msg']->nickname;
+                    $v->headpic = $res['msg']->headpic;
                 }else{
-                    $v -> user_name = '无名英雄';
-                    $v -> headpic = '';
+                    $v->user_name = '无名英雄';
+                    $v->headpic = '';
                 }
             }
         }

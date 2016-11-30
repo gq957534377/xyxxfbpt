@@ -15,6 +15,8 @@
         <div class="center">
             @if(is_string($data))
                 <h2>{{$data}}</h2>
+            @elseif(!$data)
+                <h2>失败</h2>
             @else
                 <h2>{{$data->title}}</h2>
                 <p class="lead">{{$data->brief}}</p>

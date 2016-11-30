@@ -30,6 +30,10 @@ class Avatar{
         $newFilename = date('YmdHis').'.'.$extension;
         $path = public_path('uploads/avatars/');
 
+        if (!file_exists($path)) {
+            mkdir($path,0755,true);
+        }
+
         //打开一张图片
         $img = Image::make($tmpFile)
             ->rotate(-$rotate)

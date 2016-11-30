@@ -27,7 +27,6 @@ class LikeStore{
      */
     public function getOneData($where)
     {
-        if(empty($where)) return false;
         return DB::table(self::$table)->where($where)->first();
     }
 
@@ -38,8 +37,11 @@ class LikeStore{
      */
     public function getPageData($nowPage,$where)
     {
-        if(empty($nowPage)) return false;
-        return DB::table(self::$table)->where($where)->forPage($nowPage, PAGENUM)->orderBy('time','desc')->get();
+        return DB::table(self::$table)
+            ->where($where)
+            ->forPage($nowPage, PAGENUM)
+            ->orderBy('time','desc')
+            ->get();
     }
 
     /**
@@ -70,7 +72,6 @@ class LikeStore{
      */
     public function addData($data)
     {
-        if (empty($data)) return false;
         return DB::table(self::$table)->insert($data);
     }
 
@@ -83,7 +84,6 @@ class LikeStore{
      */
     public function updateData($where,$data)
     {
-        if(empty($where) || empty($data)) return false;
         return DB::table(self::$table)->where($where)->update($data);
     }
     /**
