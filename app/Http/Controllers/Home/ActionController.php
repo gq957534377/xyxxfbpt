@@ -37,13 +37,11 @@ class ActionController extends Controller
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
                         if (!$chage['status']){
-                            Log::info("用户请求更改活动状态失败".$v->guid.':'.$status['msg']);
+                            Log::info("普通用户第一次请求更改活动状态失败".$v->guid.':'.$chage['msg']);
                         }else{
                             $v->status = $status['msg'];
                         }
                     }
-                }else{
-                    Log::info("用户请求更改活动状态失败".$v->guid.'要改为:'.$status['msg']);
                 }
             }
             return view('home.action.index', ['msg' => $result['msg']]);
