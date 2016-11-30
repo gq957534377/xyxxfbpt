@@ -364,13 +364,13 @@ class UserController extends Controller
         if($picInfo_b['status'] =='400') return response()->json(['StatusCode' => '400','ResultData' => '图片上传失败']);
         $data['card_pic_a'] = $picInfo_a['msg'];
         $data['card_pic_b'] = $picInfo_b['msg'];
-        
+
         unset($data['province']);
         unset($data['city']);
         unset($data['area']);
 
         // 提交数据到业务服务层
-        $info = self::$userServer->applyRole($data);
+        $info = self::$userServer->applyMemeber($data);
 
         // 返回状态信息
         switch ($info['status']){

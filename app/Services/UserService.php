@@ -380,7 +380,57 @@ class UserService {
         $user['hometown'] = $data['hometown'];
         $result = self::$userStore->updateUserInfo(['guid' => $data['guid']],$user);
         
-        return ['status' => '200','msg' => '申请成功'];
+        return ['status' => '200','msg' => '申请成功，请等待管理员的审核！'];
+    }
+
+    public function applyMemeber($data)
+    {
+        // 检验数据
+        if(empty($data)) return ['status' => '400', 'msg' => '请填写完整信息！'];
+
+        // 获取当前用户是否存在
+        $result = self::$roleStore->getOneData(['guid' => $data['guid']]);
+
+        if (!$result) {
+            // 新增
+            $result = self::$roleStore->addRole($data);
+
+            if ($result) return ['status' => '200', 'msg' => '申请会员成功，请等待审核！'];
+
+            Log::error('申请英雄会会员',$result);
+            return ['status' => '400', 'msg' => '申请会员失败，数据异常'];
+        } else {
+            // 判断用户是否已申请
+
+            switch ($result->memeber) {
+                case 1:
+                    // 修改字段
+                    $result = self::$roleStore->updateUserInfo(['guid' => $data['guid']], ['memeber' => 2]);
+
+                    if ($result) return ['status' => '200', 'msg' => '申请会员成功，请等待审核！'];
+
+                    Log::error('申请英雄会会员',$data);
+                    return ['status' => '400', 'msg' => '申请会员失败，修改失败'];
+                    break;
+                case 2:
+                    return ['status' => '400', 'msg' => '已申请会员，请等待管理员审核'];
+                    break;
+                case 3:
+                    return ['status' => '400', 'msg' => '已是英雄会会员，无需再申请'];
+                    break;
+                case 4:
+                    // 修改字段
+                    $result = self::$roleStore->updateUserInfo(['guid' => $data['guid']], ['memeber' => 2]);
+
+                    if ($result) return ['status' => '200', 'msg' => '申请会员成功，请等待审核！'];
+
+                    Log::error('申请英雄会会员',$data);
+                    return ['status' => '400', 'msg' => '申请会员失败，修改失败'];
+                    break;
+            }
+
+        }
+
     }
 
     /**
