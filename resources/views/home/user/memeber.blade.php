@@ -8,7 +8,7 @@
                 <!--侧边菜单栏 End-->
                 <!--申请成为创业者 start-->
                 <div class="main-col col-md-9 left-col" style="margin-top: 15px;">
-                    <div id="entrepreneursBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
+                    <div id="MemeberBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
                         <div class="panel-body ">
                             <div style="height: 60px;">
                                 <h2><i class="fa fa-cog" aria-hidden="true"></i>英雄会入会申请</h2>
