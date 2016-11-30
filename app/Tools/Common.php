@@ -82,7 +82,7 @@ class Common {
         // 获取验证码的内容
         $phrase = $builder->getPhrase();
         // 验证码存入session
-        Session::flash('code',$phrase);
+        Session::put('code',$phrase);
         //生成图片，设置头文件的格式
         header("Cache-Control: no-cache,must-revalidate");
         header("Content-Type:image/jpeg");
