@@ -322,4 +322,79 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * 更换邮箱绑定
+     * @param Request $request
+     * @param $guid
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
+    public function changeEmail(Request $request,$guid)
+    {
+        $data = $request->all();
+        // 验证过滤数据
+        $validator = Validator::make($request->all(),[
+            'email' => 'required|email',
+            'newEmail' => 'required|email',
+            'password' => 'required',
+        ],[
+            'email.requried' => '请填写您的原始邮箱!<br>',
+            'email.email' => '您输入的邮箱格式不正确<br>',
+            'newEmail.requried' => '请填写您的新邮箱<br>',
+            'newEmail.email' => '您输入的新邮箱格式不正确<br>',
+            'password.requried' => '请输入您的密码',
+
+        ]);
+
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        // 简单数据验证后，提交给业务层
+        $info = self::$userServer->changeEmail($data,$guid);
+
+        // 返回状态信息
+        switch ($info['status']){
+            case '400':
+                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
+                break;
+            case '200':
+                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Email' => $data['newEmail']]);
+                break;
+        }
+
+    }
+
+
+    public function changeTel(Request $request,$guid)
+    {
+        $data = $request->all();
+        // 验证过滤数据
+        $validator = Validator::make($request->all(),[
+            'tel' => 'required|email',
+            'newEmail' => 'required|email',
+            'password' => 'required',
+        ],[
+            'email.requried' => '请填写您的原始邮箱!<br>',
+            'email.email' => '您输入的邮箱格式不正确<br>',
+            'newEmail.requried' => '请填写您的新邮箱<br>',
+            'newEmail.email' => '您输入的新邮箱格式不正确<br>',
+            'password.requried' => '请输入您的密码',
+
+        ]);
+
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        // 简单数据验证后，提交给业务层
+        $info = self::$userServer->changeEmail($data,$guid);
+
+        // 返回状态信息
+        switch ($info['status']){
+            case '400':
+                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
+                break;
+            case '200':
+                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Email' => $data['newEmail']]);
+                break;
+        }
+
+    }
 }

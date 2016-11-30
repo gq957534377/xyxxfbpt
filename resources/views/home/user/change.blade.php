@@ -44,7 +44,8 @@
     <!-- 修改邮箱模态框 Start -->
     <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form action="" method="post" id="changeEmail">
+            <form action="{{ url('/user/change/email/'.session('user')->guid) }}" method="post" id="changeEmail">
+                <input type="hidden" name="_method" value="PUT">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -54,26 +55,26 @@
                         <div class="form-group">
                             <label for="originalEmail" class="control-label">原始邮箱</label>
                             <div class="">
-                                <input class="form-control" name="email" type="text">
+                                <input class="form-control" name="email" type="email" placeholder="输入原始邮箱地址">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="email" class="control-label">新邮箱</label>
                             <div class="">
-                                <input class="form-control" name="newEmail" type="text">
+                                <input class="form-control" name="newEmail" type="text" placeholder="输入新的邮箱地址">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="password" class="control-label">账户密码</label>
                             <div class="">
-                                <input class="form-control" name="password" type="text">
+                                <input class="form-control" name="password" type="password" placeholder="输入账号密码">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">提交</button>
+                        <button id="changeEmailBtn" type="submit" class="btn btn-primary">提交</button>
                     </div>
                 </div>
             </form>
@@ -84,6 +85,7 @@
     <div class="modal fade" id="changeTelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form action="" method="post" id="changeTel">
+                <input type="hidden" name="_method" value="PUT">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -156,6 +158,11 @@
                 }
             }
         });
+
+        // 修改邮箱
+
     });
 </script>
+    @include('home.validator.changeEmailValidator')
+    @include('home.validator.changePhoneValidator')
 @endsection

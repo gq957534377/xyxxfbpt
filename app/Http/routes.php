@@ -81,6 +81,9 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::get('/user/apply/{param}','UserController@apply');
         //获取角色信息
         Route::get('/roleinfo/{id}','UserController@roleInfo');
+        // 修改账号绑定信息
+        Route::resource('/user/change/email','UserController@changeEmail');
+        Route::resource('/user/change/phone','UserController@changeTel');
         // 个人中心页
         Route::resource('/user','UserController');
         // 前台登出
