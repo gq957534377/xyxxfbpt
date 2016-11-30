@@ -109,12 +109,12 @@
                         <div class="form-group">
                             <label for="password" class="control-label">账户密码</label>
                             <div class="">
-                                <input class="form-control" name="password" type="text">
+                                <input class="form-control" name="telPassword" type="password">
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">提交</button>
+                        <button type="submit" class="btn btn-primary">提交</button>
                     </div>
                 </div>
             </form>

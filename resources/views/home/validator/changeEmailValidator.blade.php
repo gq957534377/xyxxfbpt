@@ -38,7 +38,6 @@
                         },
                         success:function(data){
                             $('.loading').hide();
-                            $("input[name='email']").val('');
                             $("input[name='newEmail']").val('');
                             $("input[name='password']").val('');
 

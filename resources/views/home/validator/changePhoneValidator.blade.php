@@ -37,7 +37,7 @@
                     var data = new FormData();
                     data.append( "tel"    , $("input[name='tel']").val());
                     data.append( "newTel" , $("input[name='newTel']").val());
-                    data.append( "password" , $("input[name='password']").val());
+                    data.append( "telPassword" , $("input[name='telPassword']").val());
                     // add data for ajax
                     $.ajax({
                         url:'/user/change/phone/'+ $("#userinfo").val(),
@@ -45,19 +45,19 @@
                         data:{
                             tel     :$("input[name='tel']").val(),
                             newTel  :$("input[name='newTel']").val(),
-                            password:$("input[name='password']").val(),
+                            password:$("input[name='telPassword']").val(),
                         },
                         beforeSend:function(){
                             $('.loading').show();
                         },
                         success:function(data){
                             $('.loading').hide();
-                            $("input[name='tel']").val('');
                             $("input[name='newTel']").val('');
-                            $("input[name='password']").val('');
+                            $("input[name='telPassword']").val('');
 
                             switch (data.StatusCode){
                                 case '400':
+                                    $('.close').click();
                                     promptBoxHandle('警告',data.ResultData);
                                     break;
                                 case '200':
@@ -87,14 +87,14 @@
                         minlength  : 11,
                         isMobile : true
                     },
-                    password: {
+                    telPassword: {
                         required: true
                     }
                 },
                 // 提示信息
                 messages: {
                     tel: {
-                        required: '请填写您的原始手机号',
+                        required: '请填写您的原始手机号1',
                         minlength  : '确认手机不能小于11个字符',
                     },
                     newTel: {
@@ -102,7 +102,7 @@
                         minlength  : '确认手机不能小于11个字符',
                         isMobile : "请正确填写您的手机号码"
                     },
-                    password: {
+                    telPassword: {
                         required: '请输入你的账号密码'
                     }
                 }

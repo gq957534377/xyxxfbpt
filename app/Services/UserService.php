@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use App\Tools\CropAvatar as Crop;
 use PhpSpec\Exception\Exception;
+use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 
 class UserService {
     protected static $homeStore = null;
@@ -446,6 +447,47 @@ class UserService {
             return ['status' => '200', 'msg' => '更改邮箱绑定成功!'];
         }
 
+    }
+
+    /**
+     * 更改手机号绑定
+     * @param $data
+     * @param $guid
+     * @return array
+     * @author 刘峻廷
+     */
+    public function changeTel($data,$guid)
+    {
+        // 检验数据
+        if (!is_array($data) || empty($guid)) return ['status' => '400','msg' => '缺少数据！'];
+     
+        // 输入信息和数据进行比对
+        $result = self::$userStore->getOneData(['guid' => $guid, 'tel' => $data['tel']]);
+
+        if (!$result) return ['status'=> '400', 'msg' => '原始手机号错误，请重新输入。'];
+
+        // 再次进行新邮箱和原始邮箱是否一样
+        if ($result->tel == $data['newTel']) return ['status'=> '400', 'msg' => '原始手机号与新手机号相同，请更换一个。'];
+
+        // 再次进行 新邮箱是否存在数据表中
+        $result = self::$userStore->getOneData(['tel' => $data['newTel']]);
+        if ($result) return ['status' => '400', 'msg' => '您输入的新手机号已存在，请更换一个!'];
+
+        // 确认密码是否正确,先对密码加密
+        $result = self::$homeStore->getOneData(['guid' => $guid]);
+        $pass = Common::cryptString($result->email, $data['password'], 'hero');
+
+        if ($result->password != $pass) return ['status' => '400', 'msg' => '账号密码错误!'];
+
+        // 进行更新邮箱
+        $result = self::$userStore->updateUserInfo(['guid' => $guid], ['tel' => $data['newTel']]);
+
+        if (!$result) {
+            Log::error('更换手机号错误',$result);
+            return ['status' => '400', 'msg' => '数据更新失败!'];
+        } else {
+            return ['status' => '200', 'msg' => '更改手机号绑定成功!'];
+        }
 
     }
 }

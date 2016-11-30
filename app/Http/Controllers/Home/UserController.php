@@ -364,27 +364,36 @@ class UserController extends Controller
     }
 
 
+    /**
+     * 更改手机号绑定
+     * @param Request $request
+     * @param $guid
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
     public function changeTel(Request $request,$guid)
     {
         $data = $request->all();
         // 验证过滤数据
         $validator = Validator::make($request->all(),[
-            'tel' => 'required|email',
-            'newEmail' => 'required|email',
+            'tel' => 'required|min:11|regex:/^1[34578][0-9]{9}$/',
+            'newTel' => 'required|min:11|regex:/^1[34578][0-9]{9}$/',
             'password' => 'required',
         ],[
-            'email.requried' => '请填写您的原始邮箱!<br>',
-            'email.email' => '您输入的邮箱格式不正确<br>',
-            'newEmail.requried' => '请填写您的新邮箱<br>',
-            'newEmail.email' => '您输入的新邮箱格式不正确<br>',
-            'password.requried' => '请输入您的密码',
+            'tel.required' => '请填写您的原始手机号<br>',
+            'tel.min' => '确认手机不能小于11个字符<br>',
+            'tel.regex' => '请正确填写您的手机号码<br>',
+            'newTel.required' => '请填写您的新手机号<br>',
+            'newTel.min' => '确认手机不能小于11个字符<br>',
+            'newTel.regex' => '请正确填写您的新手机号码<br>',
+            'password.required' => '请输入您的密码',
 
         ]);
 
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 
         // 简单数据验证后，提交给业务层
-        $info = self::$userServer->changeEmail($data,$guid);
+        $info = self::$userServer->changeTel($data,$guid);
 
         // 返回状态信息
         switch ($info['status']){
@@ -392,7 +401,7 @@ class UserController extends Controller
                 return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
                 break;
             case '200':
-                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Email' => $data['newEmail']]);
+                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Tel' => $data['newTel']]);
                 break;
         }
 
