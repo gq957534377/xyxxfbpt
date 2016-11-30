@@ -8,11 +8,12 @@
             <!--侧边菜单栏 End-->
                 <!--账号绑定 Start-->
                 <div class="main-col col-md-9 left-col" style="margin-top: 15px;">
-                    <div id="investorBox" class="panel panel-default padding-md" >
+                    <div id="changeBox" class="panel panel-default padding-md" style="position: relative;z-index: 1;">
                         <div class="panel-body ">
                             <div style="height: 60px;">
                                 <h2><i class="fa fa-cog" aria-hidden="true"></i>账号改绑</h2>
                             </div>
+                            <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;" >
                             <hr>
 
                             <div class="form-group">
@@ -53,14 +54,14 @@
                         <div class="form-group">
                             <label for="originalEmail" class="control-label">原始邮箱</label>
                             <div class="">
-                                <input class="form-control" name="originalEmail" type="text">
+                                <input class="form-control" name="email" type="text">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="email" class="control-label">新邮箱</label>
                             <div class="">
-                                <input class="form-control" name="email" type="text">
+                                <input class="form-control" name="newEmail" type="text">
                             </div>
                         </div>
 
@@ -92,14 +93,14 @@
                         <div class="form-group">
                             <label for="originalEmail" class="control-label">原始手机号</label>
                             <div class="">
-                                <input class="form-control" name="originalEmail" type="text">
+                                <input class="form-control" name="tel" type="text">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="email" class="control-label">新手机号</label>
                             <div class="">
-                                <input class="form-control" name="email" type="text">
+                                <input class="form-control" name="newTel" type="text">
                             </div>
                         </div>
 
@@ -121,5 +122,40 @@
 
 @endsection
 @section('script')
+<script>
+    $(function(){
+        var guid = $("#userinfo").val();
+        var email = $("input[name='email']");
+        var tel = $("input[name='tel']");
+        var width = $("#changeBox").width()/2 -40;
+        var height = $("#changeBox").height()/2 -50;
 
+        $.ajax({
+            type: "get",
+            url: '/user/'+guid,
+            beforeSend:function(){
+                $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
+            },
+            success: function(msg){
+                // 将传过json格式转换为json对象
+                switch(msg.StatusCode){
+                    case '200':
+                        email.empty().val(msg.ResultData.msg.email);
+                        tel.empty().val(msg.ResultData.msg.tel);
+
+                        $(".loading").hide();
+                        break;
+                    case '400':
+                        promptBoxHandle('警告',msg.ResultData);
+                        $(".loading").hide();
+                        break;
+                    case '500':
+                        promptBoxHandle('警告',msg.ResultData);
+                        $(".loading").hide();
+                        break;
+                }
+            }
+        });
+    });
+</script>
 @endsection
