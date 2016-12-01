@@ -22,7 +22,7 @@
             <button type="button" data-name="user_investor" title="投资者用户" role="3" status="1" class="user_list btn btn-default">投资者用户</button>
         </div>
         <div class="btn-group">
-            <button type="button" data-name="user_investor" role="4" status="1" class=" btn btn-default user_list" title="英雄会成员">英雄会成员</button>
+            <button type="button" data-name="user_investor" memeber="3" role="memeber" status="1" class=" btn btn-default user_list" title="英雄会成员">英雄会成员</button>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">待审核
@@ -36,7 +36,7 @@
                     <a data-name="check_investor" class="user_role_list" title="待审核投资者用户" role="3" status="1" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="check_investor" status="1" role="4" class="user_role_list" href="javascript:void(0)" title="待审核英雄会成员">英雄会成员</a>
+                    <a data-name="check_investor" memeber="2" role="memeber" status="1" class="user_role_list" href="javascript:void(0)" title="待审核英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -52,7 +52,7 @@
                     <a data-name="check_investor_fail" class="user_role_list" title="审核失败投资者用户" role="3" status="3" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="check_investor_fail" role="4" status="3" class="user_role_list" href="javascript:void(0)" title="审核失败英雄会成员">英雄会成员</a>
+                    <a data-name="check_investor_fail" memeber="4" role="memeber" status="3" class="user_role_list" href="javascript:void(0)" title="审核失败英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -71,7 +71,7 @@
                     <a data-name="user_investor_disabled" class="user_list" title="已禁用投资者用户" role="3" status="2" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="user_investor_disabled" role="4" status="2" class="user_list" href="javascript:void(0)" title="已禁用英雄会成员">英雄会成员</a>
+                    <a data-name="user_investor_disabled" memeber="5" role="memeber" status="2" class="user_list" href="javascript:void(0)" title="已禁用英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -90,7 +90,7 @@
                     <a data-name="user_investor_deleted" class="user_list" title="已停用投资者用户" role="3" status="3" href="javascript:void(0)">投资者</a>
                 </li>
                 <li>
-                    <a data-name="user_investor_deleted" status="3" role="4" class="user_list" href="javascript:void(0)" title="已停用英雄会成员">英雄会成员</a>
+                    <a data-name="user_investor_deleted" status="3" memeber="6" role="memeber" class="user_list" href="javascript:void(0)" title="已停用英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -122,6 +122,7 @@
 
     <button type="button" class="btn check_pass hidden">通过</button>
     <button type="button" class="btn check_fail btn-warning hidden">不通过</button>
+    <button type="button" class="btn change_memeber_false btn-warning hidden">不通过</button>
 
     <button type="button" id="close" class="btn btn-info hidden" data-dismiss="modal">Close</button>
 
@@ -156,44 +157,77 @@
             //定义用户角色表格相关按钮事件  待审核、审核失败
             $('.user_role_list').click(function(){
                 $('#user_title').html($(this).attr('title'));
-                var status = $(this).attr('status'), role = $(this).attr('role');
+                var memeber = $(this).attr('memeber'), status = $(this).attr('status'), role = $(this).attr('role');
                 $.ajax({
                     url:'/user_role/list',
                     type:'get',
                     data:{
                         status:status,
-                        role:role
+                        role:role,
+                        memeber:memeber
                     },
                     success:function(data){
                         if (data.data.length==0) return $('#data').html('暂无数据哦');
-                        var html=listRoleShow2(data);
-                        $('#data').html(html);
-                        checkInfo();
-                        changeSomeStatus();
-                        modifyData();
-                        $('.check_pass').off('click').click(function(){
-                            var guid = $(this).data('name');
-                            var This = $(this);
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                }
+                        if (data.memeber == 'true') {
+                            var html=listRoleShow3(data);
+                            $('#data').html(html);
+                            checkInfo();
+                            changeSomeStatus();
+                            modifyData();
+                            $('.check_pass').off('click').click(function(){
+                                var guid = $(this).data('name');
+                                var This = $(this);
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+                                $.ajax({
+                                    url:'user_role/'+guid,
+                                    type:'put',
+                                    data:{
+                                        memeber:3
+                                    },
+                                    success:function(data){
+                                        $('#alert-form').hide();
+                                        $('.check_pass').addClass("hidden");
+                                        $('.check_fail').addClass("hidden");
+                                        $('#alert-info').show().html('<p>数据修改成功!</p>');
+                                        $('a[data-name='+guid+']').parents('tr').remove();
+                                    }
+                                })
                             });
-                            $.ajax({
-                                url:'user_role/'+guid,
-                                type:'put',
-                                data:{
-                                    status:2
-                                },
-                                success:function(data){
-                                    $('#alert-form').hide();
-                                    $('.check_pass').addClass("hidden");
-                                    $('.check_fail').addClass("hidden");
-                                    $('#alert-info').show().html('<p>数据修改成功!</p>');
-                                    $('a[data-name='+guid+']').parents('tr').remove();
-                                }
-                            })
-                        });
+                        } else {
+                            var html=listRoleShow2(data);
+                            $('#data').html(html);
+                            checkInfo();
+                            changeSomeStatus();
+                            modifyData();
+                            $('.check_pass').off('click').click(function(){
+                                var guid = $(this).data('name');
+                                var This = $(this);
+                                $.ajaxSetup({
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    }
+                                });
+                                $.ajax({
+                                    url:'user_role/'+guid,
+                                    type:'put',
+                                    data:{
+                                        status:2
+                                    },
+                                    success:function(data){
+                                        $('#alert-form').hide();
+                                        $('.check_pass').addClass("hidden");
+                                        $('.check_fail').addClass("hidden");
+                                        $('#alert-info').show().html('<p>数据修改成功!</p>');
+                                        $('a[data-name='+guid+']').parents('tr').remove();
+                                    }
+                                })
+                            });
+                        }
+
                     }
                 })
             });
@@ -201,7 +235,7 @@
             //定义用户相关列表查询
             $('.user_list').click(function(){
                 $('#user_title').html($(this).attr('title'));
-                var status = $(this).attr('status'), role = $(this).attr('role');
+                var memeber = $(this).attr('memeber'), status = $(this).attr('status'), role = $(this).attr('role');
                 $('.check_pass').show();
                 $('.check_fail').show();
                 $.ajax({
@@ -209,7 +243,8 @@
                     type:'get',
                     data:{
                         status:status,
-                        role:role
+                        role:role,
+                        memeber:memeber
                     },
                     success:function(data){
                         if (data.StatusCode==300) $('#data').html('暂时没有数据');

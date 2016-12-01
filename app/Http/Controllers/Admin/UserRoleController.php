@@ -10,14 +10,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\UserRoleService;
+use App\Services\UserService;
 
 class UserRoleController extends Controller
 {
     protected static $userRoleServer = null;
+    protected static $userServer = null;
     // 构造函数注入服务
-    public function __construct(UserRoleService $userRoleService)
+    public function __construct(UserRoleService $userRoleService, UserService $userServer)
     {
         self::$userRoleServer = $userRoleService;
+        self::$userServer = $userServer;
     }
     /**
      * Display a listing of the resource.
@@ -76,10 +79,23 @@ class UserRoleController extends Controller
     public function show(Request $request, $id)
     {
         $data = $request->all();
-        $res = self::$userRoleServer->getList($data);
+        //数据过滤
+        if (isset($data['memeber'])) {
+            unset($data['role']);
+            unset($data['status']);
 
-        if (!$res) return response()->json(['status' => '500', 'msg' => '查询失败']);
-        return response()->json(['status' => '200', 'data' => $res['data']]);
+            $result = self::$userRoleServer->getList($data);
+
+            if (!$result) return response()->json(['status' => '500', 'msg' => '查询失败']);
+            return response()->json(['status' => '200', 'data' => $result['data'], 'memeber' => 'true']);
+        } else {
+            $result = self::$userRoleServer->getList($data);
+
+            if (!$result) return response()->json(['status' => '500', 'msg' => '查询失败']);
+            return response()->json(['status' => '200', 'data' => $result['data']]);
+        }
+
+
     }
 
     /**

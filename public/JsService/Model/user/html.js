@@ -354,3 +354,79 @@ function listRoleShow2(data){
     return html;
 }
 
+
+function listRoleShow3(data){
+
+    var html = '';
+    html += '<div class="panel-body">' +
+        '<table class="table table-bordered table-striped">' +
+        '<thead>' +
+        '<tr>' +
+        '<th>item</th>' +
+        '<th>姓名</th>' +
+        '<th>性别</th>' +
+        '<th>手机</th>' +
+        '<th>身份证号码</th>' +
+        '<th>状态</th>' +
+        '<th>操作</th>' +
+        '</tr>' +
+        '</thead>';
+    html += '<tbody>';
+    $.each(data.data, function (i, e) {
+        var memeber = null;
+        var p= '';
+        var sex = null;
+        if(e.sex == 1) sex = "男";
+        if(e.sex == 2) sex = "女";
+        if(e.memeber == 2){
+            memeber = '<p class="text-success">待审核</p>';
+            p = 1;
+        }
+        if(e.memeber == 3){
+            memeber = '<p class="text-warning">英雄会会员</p>';
+            p = 2;
+        }
+        if(e.memeber == 4){
+            memeber = '<p class="text-danger">会员申请失败</p>';
+            p = 3;
+        }
+        if(e.status == 5){
+            memeber = '<p class="text-danger">禁用</p>';
+            p = 4;
+        }
+
+        if(e.memeber == 6){
+            memeber = '<p class="text-danger">停用</p>';
+            p = 5;
+        }
+
+        html += '<tr class="gradeX">';
+        html += '<td>' + (i + 1) + '</td>';
+        html += '<td>' + e.realname + '</td>';
+        html += '<td>' + sex + '</td>';
+        html += '<td>' + e.tel + '</td>';
+        html += '<td>' + e.card_number + '</td>';
+        html += '<td>' + memeber + '</td>';
+        html += '<td>';
+        if(p == 1)
+            html += '<a href="javascript:;" class="info check_memeber check_btn memeber" data-name="' + e.guid + '"><button class="btn btn-info btn-xs memeber">审核</button></a>';
+
+        if(p == 3)
+            html += '<a href="javascript:;" class="info check_check check_btn" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">重新审核</button></a>';
+        if(p == 4)
+            html += '<a href="javascript:;" class="info check_delete" data-name="' + e.guid + '"><button class="btn btn-danger btn-xs">激活</button></a>';
+        html += '</td>';
+        if(p == 5)
+            html += '<a href="javascript:;" class="info check_delete" data-name="' + e.guid + '"><button class="btn btn-danger btn-xs">续费</button></a>';
+        html += '</td>';
+
+    });
+    html += '</tbody>' +
+        '</table>' +
+        '</div>' +
+        '<div class="row">' +
+        '<div class="col-sm-8"></div>' +
+        '<div class="col-sm-4" id="page"></div>' +
+        '</div>';
+    return html;
+}

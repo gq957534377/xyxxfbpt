@@ -43,6 +43,11 @@ class UserController extends Controller
         if (empty($data))
             return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
 
+        //判断数据是否有memeber字段
+        if (isset($data["memeber"])) {
+            unset($data['role']);
+        }
+
         //获取数据
         $result = self::$userServer->getData($data);
 

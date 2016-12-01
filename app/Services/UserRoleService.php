@@ -334,24 +334,49 @@ class UserRoleService {
      */
     public function userCheck($where, $data)
     {
-        //如果不通过，直接修改角色表中状态
-        if ($data['status']==3) $res_role = self::updataUserInfo($where, $data);
-
-        //如果通过，开启事务，同时操作角色表和用户表
-        if ($data['status']==2) {
-             DB::transaction(function () use ($where, $data){
-
-                //获取角色表中的角色值
-                $roleData = self::$roleStore->getRole($where);
-                $role = $roleData->role;
-                $userData = ['role' => $role];
-
-                //同时修改用户表中的角色值和角色表中的状态值
+        if (isset($data['memeber'])) {
+            //如果不通过，直接修改角色表中状态
+            if ($data['memeber'] == 4) {
                 $res_role = self::updataUserInfo($where, $data);
-                $res_user = self::userRoleChange($where, $userData);
-            });
+            }
 
+            //如果通过，开启事务，同时操作角色表和用户表
+            if ($data['memeber'] == 3) {
+                DB::transaction(function () use ($where, $data){
+
+                    //同时修改用户表中的会员值和会员表中的状态值
+                    $res_role = self::updataUserInfo($where, $data);
+
+                    //获取角色表中的角色值
+                    $roleData = self::$roleStore->getRole($where);
+                    $memeber = $roleData->memeber;
+                    $userData = ['memeber' => $memeber];
+
+                    $res_user = self::userRoleChange($where, $userData);
+                });
+
+            }
+        } else {
+            //如果不通过，直接修改角色表中状态
+            if ($data['status']==3) $res_role = self::updataUserInfo($where, $data);
+
+            //如果通过，开启事务，同时操作角色表和用户表
+            if ($data['status']==2) {
+                DB::transaction(function () use ($where, $data){
+
+                    //获取角色表中的角色值
+                    $roleData = self::$roleStore->getRole($where);
+                    $role = $roleData->role;
+                    $userData = ['role' => $role];
+
+                    //同时修改用户表中的角色值和角色表中的状态值
+                    $res_role = self::updataUserInfo($where, $data);
+                    $res_user = self::userRoleChange($where, $userData);
+                });
+
+            }
         }
+
 
         if(isset($res_role)&&$res_role['status']==400) return ['status'=>400,'msg'=>'修改失败！'];
         return ['status'=>200,'msg'=>'修改成功！'];
