@@ -30,6 +30,7 @@
                     data.append( "email"      , $("input[name= 'email']").val());
                     data.append( "password"       , $("input[name= 'password']").val());
                     data.append( "homeCaptcha"       , $("input[name= 'homeCaptcha']").val());
+                    data.append( "tel"       , $("input[name= 'tel']").val());
                     //开始正常的ajax
                     // 异步登录
                     $.ajax({
@@ -39,6 +40,7 @@
                             'email': $("input[name= 'email']").val(),
                             'password': $("input[name= 'password']").val(),
                             'captcha': $("input[name= 'captcha']").val(),
+                            'tel': $("input[name= 'tel']").val(),
                         },
                         success:function(data){
                             switch (data.StatusCode){
