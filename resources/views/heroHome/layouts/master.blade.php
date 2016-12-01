@@ -15,12 +15,15 @@
 <body>
 
 @include('heroHome.public.header')
-
+@include('admin.public.errors')
+@include('admin.public.success')
 @yield('content')
 
 @include('heroHome.public.footer')
 
 @include('heroHome.public.script')
+
+
 
 @yield('script')
 </body>

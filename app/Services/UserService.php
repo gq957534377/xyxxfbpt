@@ -70,8 +70,62 @@ class UserService {
      * @param $data
      * @return string
      * @author 刘峻廷
+     * @modify 王通
      */
     public function addUser($data)
+    {
+        // 检验用户是否被注册
+        $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
+        // 返回真，用户存在
+        if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
+
+        // 进行检验手机号是否唯一
+        $result = self::$userStore->getOneData(['tel' => $data['tel']]);
+        // 返回真，用户存在
+        if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
+
+        // 返回假，添加数据，先对数据提纯
+        $data['guid'] = Common::getUuid();
+        $data['password'] = Common::cryptString($data['tel'], $data['password'], 'hero');
+        $data['addtime'] = $_SERVER['REQUEST_TIME'];
+
+        $phone = $data['tel'];
+        unset($data['confirm_password']);
+        unset($data['stage']);
+
+        // 执行事务
+        DB::beginTransaction();
+
+        // 存入登录表
+        $loginInfo = self::$homeStore -> addData($data);
+        // 数据写入失败
+        if (!$loginInfo) {
+            Log::error('注册用户失败', $data);
+            return ['status' => '500', 'msg' => '数据写入失败！'];
+        };
+
+        // 添加数据成功到登录表，然后在往用户信息表里插入一条
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
+
+        if (!$userInfo) {
+            Log::error('用户注册信息写入失败', $userInfo);
+            DB::rollback();
+            return ['status' => '500', 'msg' => '用户信息添加失败，请重新注册!'];
+        } else {
+            DB::commit();
+            return ['status'=>'200', 'msg'=>'注册成功'];
+        }
+
+
+    }
+
+    /**
+     * 注册用户 旧
+     * @param $data
+     * @return string
+     * @author 刘峻廷
+     */
+    public function addUserOld($data)
     {
         // 检验用户是否被注册
         $result = self::$homeStore->getOneData(['email' => $data['email']]);
@@ -121,22 +175,37 @@ class UserService {
 
 
     }
+
+
+    /**
+     * 验证手机号是否存在
+     * @param $data
+     * @return bool
+     */
+    public function checkUser($data)
+    {
+        // 检验用户是否被注册
+        $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
+        // 返回真，用户存在
+        return $result;
+    }
     /**
      * 用户登录
      * @param array $data
      * @return string
      * @auther 刘峻廷
+     * @modify 王通
      */
     public function loginCheck($data)
     {
         // 对密码进行加密
-        $pass = Common::cryptString($data['email'],$data['password'],'hero');
+        $pass = Common::cryptString($data['tel'],$data['password'],'hero');
         // 查询数据
-        $temp = self::$homeStore->getOneData(['email' => $data['email']]);
+        $temp = self::$homeStore->getOneData(['tel' => $data['tel']]);
         // 返回假，说明此账号不存在
         if(!$temp) return ['status' => '400','msg' => '账号不存在或输入错误！'];
         // 查询数据
-        $temp = self::$homeStore->getOneData(['email' => $data['email'],'password' => $pass]);
+        $temp = self::$homeStore->getOneData(['tel' => $data['tel'],'password' => $pass]);
         // 返回假，说明此密码不正确
         if(!$temp) return ['status' => '400','msg' => '密码错误！'];
         // 返回真，再进行账号状态判断

@@ -1,7 +1,7 @@
 .user-center {
     padding-top: 1.5em;
     width: 90%;
-    font-size: 0.17em;
+    font-size: 1.15em;
     margin:  5em auto 0 auto;
 }
 aside ul > li > a {
@@ -21,28 +21,53 @@ aside ul > li {
 }
 
 aside ul li:first-child > a {
-    background-image: url("../img/1.png");
+    background-image: url("../img/ic-txt-gray.png");
 }
 aside ul li:nth-child(2) > a {
-    background-image: url("../img/2.png");
+    background-image: url("../img/ic-status-gray.png");
 }
 aside ul li:nth-child(3) > a {
-    background-image: url("../img/3.png");
+    background-image: url("../img/ic-show-gray.png");
 }
 aside ul li:nth-child(4) > a {
-    background-image: url("../img/4.png");
+    background-image: url("../img/ic-flag-gray.png");
 }
 aside ul li:nth-child(5) > a {
-    background-image: url("../img/5.png");
+    background-image: url("../img/ic-pen-gray.png");
 }
 aside ul li:nth-child(6) > a {
-    background-image: url("../img/6.png");
+    background-image: url("../img/ic-book-gray.png");
 }
 aside ul li:nth-child(7) > a {
-    background-image: url("../img/7.png");
+    background-image: url("../img/ic-col-gray.png");
 }
 aside ul li:nth-child(8) > a {
-    background-image: url("../img/8.png");
+    background-image: url("../img/ic-set-gray.png");
+}
+/************************/
+aside ul li:first-child > a:hover {
+    background-image: url("../img/ic-txt-org.png");
+}
+aside ul li:nth-child(2) > a:hover {
+    background-image: url("../img/ic-status-org.png");
+}
+aside ul li:nth-child(3) > a:hover {
+    background-image: url("../img/ic-show-org.png");
+}
+aside ul li:nth-child(4) > a:hover {
+    background-image: url("../img/ic-flag-org.png");
+}
+aside ul li:nth-child(5) > a:hover {
+    background-image: url("../img/ic-pen-org.png");
+}
+aside ul li:nth-child(6) > a:hover {
+    background-image: url("../img/ic-book-org.png");
+}
+aside ul li:nth-child(7) > a:hover {
+    background-image: url("../img/ic-col-org.png");
+}
+aside ul li:nth-child(8) > a:hover {
+    background-image: url("../img/ic-set-org.png");
 }
 
 
@@ -54,21 +79,26 @@ aside ul li:nth-child(8) > a {
 @media (max-width: 767px) {
     .user-center {
         width: 100%;
-        margin:  4em auto 0 auto;
+        margin:  6.5em auto 0 auto;
     }
     .mobile-aside {
         display: block;
+        width: 100%;
+        max-width:100%;
+        margin:  4.5em auto 0 auto;
+        padding: 1em;
+        box-shadow:0 1px 1px #f0f0f0;
+        background-color: #ffffff;
     }
     .mobile-aside > span {
-        position: fixed;
-        left: 2.25em;
-        top: 4.8em;
-        z-index: 999;
+        width: 100%;
+        padding:1em 4em;
+        background: url("../img/menu.png") no-repeat 30% 50%;
     }
     .mobile-aside > ul {
         position: fixed;
-        left: 2.2em;
-        top: 4.6em;
+        left: 2.15em;
+        top: 7.8em;
         z-index: 999;
     }
     .mobile-aside ul > li > a {
@@ -84,28 +114,53 @@ aside ul li:nth-child(8) > a {
         margin-bottom: 5px;
     }
     .mobile-aside ul li:first-child > a {
-        background-image: url("../img/1.png");
+        background-image: url("../img/ic-txt-gray.png");
     }
     .mobile-aside ul li:nth-child(2) > a {
-        background-image: url("../img/2.png");
+        background-image: url("../img/ic-status-gray.png");
     }
     .mobile-aside ul li:nth-child(3) > a {
-        background-image: url("../img/3.png");
+        background-image: url("../img/ic-show-gray.png");
     }
     .mobile-aside ul li:nth-child(4) > a {
-        background-image: url("../img/4.png");
+        background-image: url("../img/ic-flag-gray.png");
     }
     .mobile-aside ul li:nth-child(5) > a {
-        background-image: url("../img/5.png");
+        background-image: url("../img/ic-pen-gray.png");
     }
     .mobile-aside ul li:nth-child(6) > a {
-        background-image: url("../img/6.png");
+        background-image: url("../img/ic-book-gray.png");
     }
     .mobile-aside ul li:nth-child(7) > a {
-        background-image: url("../img/7.png");
+        background-image: url("../img/ic-col-gray.png");
     }
     .mobile-aside ul li:nth-child(8) > a {
-        background-image: url("../img/8.png");
+        background-image: url("../img/ic-set-gray.png");
+    }
+    /************************/
+    .mobile-aside ul li:first-child > a:hover {
+        background-image: url("../img/ic-txt-org.png");
+    }
+    .mobile-aside ul li:nth-child(2) > a:hover {
+        background-image: url("../img/ic-status-org.png");
+    }
+    .mobile-aside ul li:nth-child(3) > a:hover {
+        background-image: url("../img/ic-show-org.png");
+    }
+    .mobile-aside ul li:nth-child(4) > a:hover {
+        background-image: url("../img/ic-flag-org.png");
+    }
+    .mobile-aside ul li:nth-child(5) > a:hover {
+        background-image: url("../img/ic-pen-org.png");
+    }
+    .mobile-aside ul li:nth-child(6) > a:hover {
+        background-image: url("../img/ic-book-org.png");
+    }
+    .mobile-aside ul li:nth-child(7) > a:hover {
+        background-image: url("../img/ic-col-org.png");
+    }
+    .mobile-aside ul li:nth-child(8) > a:hover {
+        background-image: url("../img/ic-set-org.png");
     }
 }
 /*屏幕宽度大于等于768px小于992px时,bootstrap row容器宽度750px*/
