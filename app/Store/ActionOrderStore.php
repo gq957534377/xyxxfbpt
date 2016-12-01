@@ -27,7 +27,7 @@ class ActionOrderStore{
     public function getOneData($where)
     {
         if(empty($where)) return false;
-        return DB::table(self::$table) -> where($where) -> first();
+        return DB::table(self::$table)->where($where)->first();
     }
 
     /**获取指定页码的数据
@@ -39,10 +39,10 @@ class ActionOrderStore{
     {
         if(empty($nowPage)) return false;
         return DB::table(self::$table)
-            -> where($where)
-            -> forPage($nowPage, PAGENUM)
-            -> orderBy('time', 'desc')
-            -> get();
+           ->where($where)
+           ->forPage($nowPage, PAGENUM)
+           ->orderBy('time', 'desc')
+           ->get();
     }
 
     /**
@@ -52,11 +52,11 @@ class ActionOrderStore{
      */
     public static function getSomeData($where)
     {
-        return DB::table(self::$table) -> where($where) -> get();
+        return DB::table(self::$table)->where($where)->get();
     }
     public static function getSomeField($where, $field)
     {
-        return DB::table(self::$table) -> where($where) -> lists($field);
+        return DB::table(self::$table)->where($where)->lists($field);
     }
     /**
      * 查询所有数据
@@ -66,7 +66,7 @@ class ActionOrderStore{
     public function getAllData()
     {
         // 返回指定表中说有数据
-        return DB::table(self::$table) -> get();
+        return DB::table(self::$table)->get();
     }
 
     /**
@@ -78,7 +78,7 @@ class ActionOrderStore{
     public function addData($data)
     {
         if (empty($data)) return false;
-        return DB::table(self::$table) -> insert($data);
+        return DB::table(self::$table)->insert($data);
     }
 
     /**
@@ -91,7 +91,7 @@ class ActionOrderStore{
     public function updateData($where, $data)
     {
         if(empty($where) || empty($data)) return false;
-        return DB::table(self::$table) -> where($where) -> update($data);
+        return DB::table(self::$table)->where($where)->update($data);
     }
 
     /**

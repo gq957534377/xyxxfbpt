@@ -35,7 +35,7 @@
                         {{--验证码 Start--}}
                         <div class="form-group">
                             <div class="col-xs-7">
-                                <input  name="homeCaptcha" class="form-control" type="text" placeholder="验证码...">
+                                <input  name="captcha" class="form-control" type="text" placeholder="验证码...">
                             </div>
                             <div class="col-xs-5">
                                 <img id="captcha" src="{{url('/code/captcha/1')}}">

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
@@ -19,7 +19,9 @@ class ActionController extends Controller
 
     /**
      * 活动后台首页
-     * author 张洵之
+     * @param
+     * @return 活动管理页面
+     * @author 张洵之
      */
     public function index()
     {
@@ -28,18 +30,36 @@ class ActionController extends Controller
 
     /**
      * 获取分页数据
-     * author 张洵之
+     * @param
+     * @return array
+     * @author 张洵之
      */
     public function create(Request $request)
     {
         $result = self::$actionServer -> selectData($request);
-        if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
+        if($result["status"]){
+            foreach ($result['msg']['data'] as $v){
+                $status = self::$actionServer->setStatusByTime($v);
+                if ($status['status']){
+                    if (!is_string($status['msg'])){
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        if (!$chage['status']){
+                            Log::info("普通用户第一次请求更改活动状态失败".$v->guid.':'.$chage['msg']);
+                        }else{
+                            $v->status = $status['msg'];
+                        }
+                    }
+                }
+            }
+            return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
+        }
         return response() -> json(['StatusCode' => 400,'ResultData' => $result['msg']]);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *向活动表插入数据
+     * 获取分页数据
+     * @param
+     * @return array
      * @author 张洵之
      */
     public function store(Request $request)
@@ -52,7 +72,9 @@ class ActionController extends Controller
 
     /**
      * 拿取一条活动信息详情
-     * author 张洵之
+     * @param
+     * @return array
+     * @author 张洵之
      */
     public function show($id)
     {

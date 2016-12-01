@@ -23,8 +23,7 @@ class ArticleStore
      */
     public function insertData($data)
     {
-        if(!is_array($data)) return false;
-        return $result = DB::table(self::$table) -> insertGetId($data);
+        return $result = DB::table(self::$table)->insertGetId($data);
     }
 
     /**
@@ -35,8 +34,7 @@ class ArticleStore
      */
     public function getOneData($where)
     {
-        if(empty($where)) return false;
-        return DB::table(self::$table) -> where($where) -> first();
+        return DB::table(self::$table)->where($where)->first();
     }
     /**
      * 分页查询数据
@@ -50,10 +48,10 @@ class ArticleStore
     {
         if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
         return DB::table(self::$table)
-            -> where($where)
-            -> orderBy("time","desc")
-            -> forPage($page,$tolPage)
-            ->get();
+           ->where($where)
+           ->orderBy("time","desc")
+           ->forPage($page,$tolPage)
+           ->get();
     }
 
     /**
@@ -63,8 +61,7 @@ class ArticleStore
      */
     public static function getData($where)
     {
-        if (empty($where)) return false;
-        return DB::table(self::$table) -> where($where) -> get();
+        return DB::table(self::$table)->where($where)->get();
     }
 
     /**
@@ -76,7 +73,7 @@ class ArticleStore
      */
     public function upload($where, $data)
     {
-        return DB::table(self::$table) -> where($where) -> update($data);
+        return DB::table(self::$table)->where($where)->update($data);
     }
 
     /**

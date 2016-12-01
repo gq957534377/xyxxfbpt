@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
 use App\Services\UserService as UserServer;
@@ -22,7 +20,7 @@ class SendController extends Controller
     /**
      * 展示用户来稿列表页
      *
-     * @return array
+     * @return
      * @author 郭庆
      */
     public function index(Request $request)
@@ -32,7 +30,7 @@ class SendController extends Controller
         }else{
             $status = 1;
         }
-        $user_id = $request -> session() -> get('user') -> guid;
+        $user_id = session('user')->guid;
         $result = self::$articleServer->getArticleByUser($user_id, $status);
         if ($result['status'] || empty($result['msg'])) return view('home.article.grzx', ['article' => $result['msg'], 'status' => $status]);
         return view('home.article.grzx')->withErrors('获取文稿信息失败');
@@ -58,11 +56,11 @@ class SendController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['user_id'] = $request -> session() -> get('user') -> guid;
-        $res = self::$userServer -> userInfo(['guid' => $data['user_id']]);
+        $data['user_id'] = session('user')->guid;
+        $res = self::$userServer->userInfo(['guid' => $data['user_id']]);
         if ($res['status']){
-            $data['author'] = $res['msg'] -> nickname;
-            $data['headpic'] = $res['msg'] -> headpic;
+            $data['author'] = $res['msg']->nickname;
+            $data['headpic'] = $res['msg']->headpic;
         }else{
             $data['author'] = '佚名';
             $data['headpic'] = '/home/images/logo.jpg';
@@ -82,19 +80,19 @@ class SendController extends Controller
      */
     public function show(Request $request, $id)
     {
-        if($id==1){
+
+        if($id == 1){
             if (is_string($request['data'])){
                 $data = json_decode($request['data']);
             }else{
                 $data = $request['data'];
             }
-            $user_id = $request -> session() -> get('user') -> guid;
-            $res = self::$userServer -> userInfo(['guid' => $user_id]);
-            if ($res['status']){
-                dd($res['status']);
-                $data->author = $res['msg'] -> nickname;
-                $data->headpic = $res['msg'] -> headpic;
-            }else{
+            $user_id = session('user')->guid;
+            $res = self::$userServer->userInfo(['guid' => $user_id]);
+            if ($res['status'] && $data){
+                $data->author = $res['msg']->nickname;
+                $data->headpic = $res['msg']->headpic;
+            }elseif ($data){
                 $data->author = '佚名';
                 $data->headpic = '/home/images/logo.jpg';
             }
@@ -130,7 +128,7 @@ class SendController extends Controller
     {
         $data = $request->all();
         $data['user'] = 2;
-        $result = self::$articleServer->upDta(['guid'=>$id], $data);
+        $result = self::$articleServer->upDta(['guid' => $id], $data);
         if($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
         return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }

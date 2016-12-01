@@ -136,10 +136,21 @@ class UserController extends Controller
     {
         if(empty($id)) return response()->json(['StatusCode' => '500','ResultData' => '服务器数据异常']);
 
-        // 获取到用户的id，返回数据
-        $info = self::$userServer->roleInfo(['guid' => $id]);
-        if(!$info['status']) return response()->json(['StatusCode' => '404','ResultData' => '未查询到数据']);
-        return response()->json(['StatusCode' => '200','ResultData' => $info]);
+        // 获取当前用的角色，判断该查那张表
+        $userInfo = self::$userServer->userInfo(['guid' => $id]);
+
+        // 判断当前用户的数据
+        if (!$userInfo['status']) return response()->json(['StatusCode' => '400','ResultData' => '未查询到数据']);
+
+        if ($userInfo['msg']->role == 1) {
+            if(!$userInfo['status']) return response()->json(['StatusCode' => '400','ResultData' => '未查询到数据']);
+            return response()->json(['StatusCode' => '200','ResultData' => $userInfo]);
+        }else{
+            // 获取到用户的id，返回数据
+            $info = self::$userServer->roleInfo(['guid' => $id]);
+            if(!$info['status']) return response()->json(['StatusCode' => '400','ResultData' => '未查询到数据']);
+            return response()->json(['StatusCode' => '200','ResultData' => $info]);
+        }
     }
 
     /**
@@ -219,6 +230,30 @@ class UserController extends Controller
     }
 
     /**
+     * 申请角色视图
+     * @param $param
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @author 刘峻廷
+     */
+    public function apply($param)
+    {
+        switch ($param) {
+            case 'syb':
+                return view('home.user.syb');
+                break;
+            case 'investor':
+                return view('home.user.investor');
+                break;
+            case 'change':
+                return view('home.user.change');
+
+            case 'memeber':
+                return view('home.user.memeber');
+                break;
+        }
+    }
+
+    /**
      * 申请成为投资者
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -287,22 +322,152 @@ class UserController extends Controller
 
     }
 
-    /**
-     * 申请角色视图
-     * @param $param
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @author 刘峻廷
-     */
-    public function apply($param)
+    public function applyHeroMemeber(Request $request)
     {
-        switch ($param) {
-            case 'syb':
-                return view('home.user.syb');
+        // 获取数据
+        $data = $request->all();
+        //验证数据
+        $validator = Validator::make($request->all(),[
+            'guid' => 'required',
+            'realname' => 'required|min:2',
+            'card_number' => 'required|min:16|max:18',
+            'hometown' => 'required|min:2',
+            'birthday' => 'required',
+            'sex' => 'required',
+            'tel' => 'required|min:11',
+            'card_pic_a' => 'required',
+            'card_pic_b' => 'required',
+        ],[
+            'guid.required' => '非法操作!<br>',
+            'realname.required' => '请填写您的真实姓名<br>',
+            'realname.min' => '真实姓名最少两位<br>',
+            'card_number.required' => '请填写您的真实身份证件号<br>',
+            'card_number.min' => '身份证件号16-18位<br>',
+            'card_number.max' => '身份证件号16-18位<br>',
+            'hometown.required' => '请填写您的籍贯<br>',
+            'hometown.min' => '籍贯最少两位<br>',
+            'birthday.required' => '请填写您的出身年月<br>',
+            'sex.required' => '请选择您的性别<br>',
+            'tel.required' => '请填写您的手机号码<br>',
+            'tel.min' => '手机号码标准11位<br>',
+            'card_pic_a.required' => '请上传您的出身份证正面照<br>',
+            'card_pic_b.required' => '请上传您的出身份证反面照',
+        ]);
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['StatusCode' => '404','ResultData' => $validator->errors()->all()]);
+
+        //将申请者的提交数据转发到service层
+        // 提取想要的数据
+        $picInfo_a = self::$uploadServer->uploadFile($request->file('card_pic_a'));
+        if($picInfo_a['status'] =='400') return response()->json(['StatusCode' => '400','ResultData' => '图片上传失败']);
+        $picInfo_b = self::$uploadServer->uploadFile($request->file('card_pic_b'));
+        if($picInfo_b['status'] =='400') return response()->json(['StatusCode' => '400','ResultData' => '图片上传失败']);
+        $data['card_pic_a'] = $picInfo_a['msg'];
+        $data['card_pic_b'] = $picInfo_b['msg'];
+        
+        unset($data['province']);
+        unset($data['city']);
+        unset($data['area']);
+
+        // 提交数据到业务服务层
+        $info = self::$userServer->applyRole($data);
+
+        // 返回状态信息
+        switch ($info['status']){
+            case '400':
+                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
                 break;
-            case 'investor':
-                return view('home.user.investor');
+            case '200':
+                return response()->json(['StatusCode' => '200','ResultData' => $info['msg']]);
                 break;
         }
+
+
+
     }
 
+    /**
+     * 更换邮箱绑定
+     * @param Request $request
+     * @param $guid
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
+    public function changeEmail(Request $request,$guid)
+    {
+        $data = $request->all();
+        // 验证过滤数据
+        $validator = Validator::make($request->all(),[
+            'email' => 'required|email',
+            'newEmail' => 'required|email',
+            'password' => 'required',
+        ],[
+            'email.requried' => '请填写您的原始邮箱!<br>',
+            'email.email' => '您输入的邮箱格式不正确<br>',
+            'newEmail.requried' => '请填写您的新邮箱<br>',
+            'newEmail.email' => '您输入的新邮箱格式不正确<br>',
+            'password.requried' => '请输入您的密码',
+
+        ]);
+
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        // 简单数据验证后，提交给业务层
+        $info = self::$userServer->changeEmail($data,$guid);
+
+        // 返回状态信息
+        switch ($info['status']){
+            case '400':
+                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
+                break;
+            case '200':
+                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Email' => $data['newEmail']]);
+                break;
+        }
+
+    }
+
+
+    /**
+     * 更改手机号绑定
+     * @param Request $request
+     * @param $guid
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
+    public function changeTel(Request $request,$guid)
+    {
+        $data = $request->all();
+        // 验证过滤数据
+        $validator = Validator::make($request->all(),[
+            'tel' => 'required|min:11|regex:/^1[34578][0-9]{9}$/',
+            'newTel' => 'required|min:11|regex:/^1[34578][0-9]{9}$/',
+            'password' => 'required',
+        ],[
+            'tel.required' => '请填写您的原始手机号<br>',
+            'tel.min' => '确认手机不能小于11个字符<br>',
+            'tel.regex' => '请正确填写您的手机号码<br>',
+            'newTel.required' => '请填写您的新手机号<br>',
+            'newTel.min' => '确认手机不能小于11个字符<br>',
+            'newTel.regex' => '请正确填写您的新手机号码<br>',
+            'password.required' => '请输入您的密码',
+
+        ]);
+
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        // 简单数据验证后，提交给业务层
+        $info = self::$userServer->changeTel($data,$guid);
+
+        // 返回状态信息
+        switch ($info['status']){
+            case '400':
+                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
+                break;
+            case '200':
+                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Tel' => $data['newTel']]);
+                break;
+        }
+
+    }
 }

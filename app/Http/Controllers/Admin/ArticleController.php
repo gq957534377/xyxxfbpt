@@ -37,9 +37,9 @@ class ArticleController extends Controller
      */
     public function create(Request $request)
     {
-        $result = self::$articleServer -> selectData($request);
-        if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode' => 400,'ResultData' => $result['msg']]);
+        $result = self::$articleServer->selectData($request);
+        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
+        return response()->json(['StatusCode' => 400,'ResultData' => $result['msg']]);
     }
 
     /**
@@ -50,10 +50,10 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request -> all();
-        $result = self::$articleServer -> insertData($data);
-        if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        $data = $request->all();
+        $result = self::$articleServer->insertData($data);
+        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
+        return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
     }
 
     /**
@@ -65,9 +65,9 @@ class ArticleController extends Controller
     public function show(Request $request, $id)
     {
         $user = $request->input('user');
-        $result = self::$articleServer -> getData($id,$user);
-        if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        $result = self::$articleServer->getData($id,$user);
+        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
+        return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
     }
 
     /**
@@ -78,16 +78,16 @@ class ArticleController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $status = $request -> input("status");
-        $user = $request -> input('user');
+        $status = $request->input("status");
+        $user = $request->input('user');
 
         if ($status == 3 && $user == 2){
             $result = self::$articleServer->upDta(['guid'=>$id], ['status' => 3, 'reason' => $request["reason"], 'user'=>2]);
         }else{
-            $result = self::$articleServer -> changeStatus($id,$status,$user);
+            $result = self::$articleServer->changeStatus($id,$status,$user);
         }
-        if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
+        return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
     }
 
     /**
@@ -98,11 +98,11 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request -> all();
+        $data = $request->all();
         $where = ["guid" => $id];
-        $result = self::$articleServer -> upDta($where, $data);
-        if($result["status"]) return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+        $result = self::$articleServer->upDta($where, $data);
+        if($result["status"]) return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
+        return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
     }
 
     /**
@@ -113,8 +113,8 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        $result = self::$articleServer -> getOrderInfo($id);
-        if($result["status"]) return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+        $result = self::$articleServer->getOrderInfo($id);
+        if($result["status"]) return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
+        return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
     }
 }

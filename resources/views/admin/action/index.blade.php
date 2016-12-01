@@ -27,7 +27,7 @@
 @endsection
 <!--定义底部按钮-->
 @section('form-footer')
-    <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
 @endsection
 {{-- 弹出表单结束 --}}
 {{--发布活动表单--}}
@@ -417,7 +417,7 @@
                     </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -448,6 +448,8 @@
         <button class="btn-primary" onclick="listType(list_type,1)">报名中</button>
         <button class="btn-danger" onclick="listType(list_type,2)">活动进行中...</button>
         <button class="btn-primary" onclick="listType(list_type,3)">往期回顾</button>
+        <button class="btn-primary" onclick="listType(list_type,4)">回收站</button>
+        <button class="btn-primary" onclick="listType(list_type,5)">报名截止，等待开始</button>
     </div>
     <div class="panel" id="data"></div>
 </div>
@@ -938,13 +940,17 @@
             $('.action_status').click(function () {
                 var _this = $(this);
                 var ajax = new ajaxController();
+                var status = $(this).data('status');
+                if (status.data) {
+                    status = status.data;
+                }
+                console.log(status);
                 ajax.ajax({
-                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
+                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + status,
                     before  : ajaxBeforeNoHiddenModel,
                     success : action_status,
                     error   : ajaxErrorModel
                 });
-
                 function action_status(data){
                     $('.loading').hide();
                     $('#myModal').modal('show');
@@ -953,14 +959,9 @@
                         if (data.StatusCode == 200) {
                             var code = data.ResultData;
                             $('#alert-form').hide();
-                            _this.data('status', code);
-                            if (_this.children().hasClass("btn-danger")) {
-                                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
-                            } else if (_this.children().hasClass("btn-primary")) {
-                                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
-                            }
+                            checkAction();
+                            $('.bm').click();
                             $('#alert-info').html('<p>状态修改成功!</p>');
-                            list(list_type,list_status);
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>状态修改失败！</p>');
