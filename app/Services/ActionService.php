@@ -49,7 +49,7 @@ class ActionService
     {
         $data = self::$actionStore->getListData($type);
         if($data) return ['status' => true, 'msg' => $data];
-        \Log::info('前端查询列表失败:'.$data);
+        if ($data!=[]) \Log::info('前端查询列表失败:'.$data);
         return ['status' => false, 'msg' => '暂时没有本活动信息'];
     }
 
@@ -166,6 +166,7 @@ class ActionService
     {
         //目前的状态
         $old = $data->status;
+
         //转为时间戳
         $endTime = strtotime($data->end_time);
         $deadline = strtotime($data->deadline);
@@ -191,6 +192,7 @@ class ActionService
         }
 
         //返回所需要更改的状态
+        if ($old == $status) return ['status' => false, "msg" => '无需更改'];
         return ['status' => true, "msg" => $status];
     }
     /**
@@ -291,7 +293,7 @@ class ActionService
             $result["data"] = $Data;
             return ['status' => true, 'msg' => $result];
         }else{
-            \Log::info('修改'.$guid.'活动/报名状态出错:'.$Data);
+            if ($Data != 0) \Log::info('修改'.$guid.'活动/报名状态出错:'.$Data);
             return ['status' => false, 'msg' => $Data];
         }
     }
@@ -328,7 +330,7 @@ class ActionService
         if($result){
             return ['status' => true, 'msg' => $result];
         }else{
-            \Log::info('获取'.$guid.'报名信息出错:'.$result);
+            if (!is_array($result)) \Log::info('获取'.$guid.'报名信息出错:'.$result);
             return ['status' => false, 'msg' => "数据暂无数据！"];
         }
     }

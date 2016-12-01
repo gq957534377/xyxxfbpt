@@ -64,13 +64,11 @@ class Chage_Action_Status extends Command
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
                         if (!$chage['status']){
-                            \Log::info("活动状态更新失败".$v->guid.':'.$chage['msg']);
+                            Log::info("普通用户第一次请求更改活动状态失败".$v->guid.':'.$chage['msg']);
                         }else{
-                            \Log::info("活动状态更新成功".$v->guid.'改成了:'.$status['msg']);
+                            $v->status = $status['msg'];
                         }
                     }
-                }else{
-                    \Log::info("计算活动状态失败".$v->guid.'原因:'.$status['msg']);
                 }
             }
         }else{

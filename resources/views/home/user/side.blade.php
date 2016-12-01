@@ -17,7 +17,8 @@
             </a>
             <a href="{{url('user/apply/investor')}}" class="list-group-item" id="investor">
                 <i class="text-md fa fa-user" aria-hidden="true" style="margin-left: 40px;"></i>&nbsp;申请成为投资者</a>
-
+            <a href="{{url('user/apply/memeber')}}" class="list-group-item" id="investor">
+                <i class="text-md fa fa-group" aria-hidden="true" style="margin-left: 70px;"></i>&nbsp;申请成为英雄会会员</a>
         @elseif(session('user')->role == 2)
         <!--我的项目 start-->
             <a href="{{url('project_user/myproject')}}" class="list-group-item " data-toggle="modal">
@@ -32,6 +33,6 @@
             <!--已发布项目管理 end-->
         @endif
         <a href="/send" class="list-group-item ">
-            <i class="text-md fa fa-picture-o" aria-hidden="true" style="margin-left: 30px;"></i>&nbsp;我的文稿管理</a>
+            <i class="text-md fa fa-folder-open" aria-hidden="true" style="margin-left: 30px;"></i>&nbsp;我的文稿管理</a>
     </div>
 </div>
