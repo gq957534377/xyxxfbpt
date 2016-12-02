@@ -335,13 +335,8 @@ class UserRoleService {
     public function userCheck($where, $data)
     {
         if (isset($data['memeber'])) {
-            //如果不通过，直接修改角色表中状态
-            if ($data['memeber'] == 4) {
-                $res_role = self::updataUserInfo($where, $data);
-            }
 
-            //如果通过，开启事务，同时操作角色表和用户表
-            if ($data['memeber'] == 3) {
+                // 开启事务，英雄会会员修改状态
                 DB::transaction(function () use ($where, $data){
 
                     //同时修改用户表中的会员值和会员表中的状态值
@@ -355,7 +350,6 @@ class UserRoleService {
                     $res_user = self::userRoleChange($where, $userData);
                 });
 
-            }
         } else {
             //如果不通过，直接修改角色表中状态
             if ($data['status']==3) $res_role = self::updataUserInfo($where, $data);

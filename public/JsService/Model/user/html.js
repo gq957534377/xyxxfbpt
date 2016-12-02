@@ -76,6 +76,91 @@ function listUserShow(data){
     return html;
 }
 
+function listUserShow2(data){
+    var html = '';
+    html += '<div class="panel-body">' +
+        '<table class="table table-bordered table-striped">' +
+        '<thead>' +
+        '<tr>' +
+        '<th>item</th>' +
+        '<th>昵称</th>' +
+        '<th>姓名</th>' +
+        '<th>性别</th>' +
+        '<th>生日</th>' +
+        '<th>手机</th>' +
+        '<th>邮箱</th>' +
+        '<th>会员状态</th>' +
+        '<th>操作</th>' +
+        '</tr>' +
+        '</thead>';
+    html += '<tbody>';
+
+    //如果数据为0
+    if (!data.ResultData.data||data.ResultData.data.length==0) return false;
+    $.each(data.ResultData.data, function (i, e) {
+        var memeber = null;
+        var p = '';
+        var sex = null;
+        if(e.sex == 1) sex = "男";
+        if(e.sex == 2) sex = "女";
+        if(e.memeber == 1){
+            memeber = '<p class="text-success">非会员</p>';
+            p = 1;
+        }
+        if(e.memeber == 2){
+            memeber = '<p class="text-warning">待审核</p>';
+            p = 2;
+        }
+        if(e.memeber == 3){
+            memeber = '<p class="text-danger">英雄会会员</p>';
+            p = 3;
+        }
+        if(e.memeber == 4){
+            memeber = '<p class="text-success">审核失败</p>';
+            p = 4;
+        }
+        if(e.memeber == 5){
+            memeber = '<p class="text-warning">禁用</p>';
+            p = 5;
+        }
+        if(e.memeber == 6){
+            memeber = '<p class="text-danger">已停用</p>';
+            p = 6;
+        }
+
+        html += '<tr class="gradeX">';
+        html += '<td>' + (i + 1) + '</td>';
+        html += '<td>' + e.nickname + '</td>';
+        html += '<td>' + e.realname + '</td>';
+        html += '<td>' + sex + '</td>';
+        html += '<td>' + e.birthday + '</td>';
+        html += '<td>' + e.tel + '</td>';
+        html += '<td>' + e.email + '</td>';
+        html += '<td>' + memeber + '</td>';
+        html += '<td>';
+
+        html += '<a href="javascript:;" data-name="' + e.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
+
+        if (p == 5)
+            html += '<a href="javascript:;" data-name="' + e.guid + '" class="change_memeber_true"><button class="btn btn-success btn-xs">激活</button></a>';
+        if (p != 5)
+            html += '<a href="javascript:;" data-name="' + e.guid + '" class="change_memeber_lock"><button class="btn btn-warning btn-xs">禁用</button></a>';
+        if (p != 6)
+            html += '<a href="javascript:;" data-name="' + e.guid + '" class="change_memeber_delete"><button class="btn btn-danger btn-xs">停用</button></a>';
+        if (p == 6)
+            html += '<a href="javascript:;" data-name="' + e.guid + '" class="change_memeber_true"><button class="btn btn-danger btn-xs">启用</button></a>';
+
+        html += '</td>';
+    });
+    html += '</tbody>' +
+        '</table>' +
+        '</div>' +
+        '<div class="row">' +
+        '<div class="col-sm-8"></div>' +
+        '<div class="col-sm-4" id="page"></div>' +
+        '</div>';
+    return html;
+}
 
 // 修改时弹出
 function userInfoUpdateShow(data) {
@@ -412,7 +497,7 @@ function listRoleShow3(data){
             html += '<a href="javascript:;" class="info check_memeber check_btn memeber" data-name="' + e.guid + '"><button class="btn btn-info btn-xs memeber">审核</button></a>';
 
         if(p == 3)
-            html += '<a href="javascript:;" class="info check_check check_btn" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">重新审核</button></a>';
+            html += '<a href="javascript:;" class="info check_memeber check_btn" data-name="' + e.guid + '"><button class="btn btn-info btn-xs">重新审核</button></a>';
         if(p == 4)
             html += '<a href="javascript:;" class="info check_delete" data-name="' + e.guid + '"><button class="btn btn-danger btn-xs">激活</button></a>';
         html += '</td>';

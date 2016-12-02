@@ -120,17 +120,16 @@ class UserRoleController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
+
         //判断请求数据
-        if (!isset($id) || empty($data))
-            return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
+        if (!isset($id) || empty($data)) return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
 
         //获取数据
         $result = self::$userRoleServer->userCheck(['guid' => $id], $data);
         $result['data'] = $result['msg'];
 
         //判断获取的数据
-        if($result['status'] == 400)
-            return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
+        if($result['status'] == 400) return response()->json(['StatusCode' => 400, 'ResultData' => $result['data']]);
 
         //返回正确数据
         return response()->json(['StatusCode' => 200, 'ResultData' => $result['data']]);

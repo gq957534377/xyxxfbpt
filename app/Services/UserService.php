@@ -294,9 +294,9 @@ class UserService {
             $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
 
             //获取数据
-            $userData = self::$userStore
-                ->getUsersData($nowPage, ['memeber' => $data['memeber'], 'status' => $data['status']]);
 
+            $userData = self::$userStore->getUsersData($nowPage, ['memeber' => $data['memeber']]);
+            
         } else {
             //data中若有key为name的数据，则调用getOneData()
             if (isset($data['name']))
@@ -313,8 +313,7 @@ class UserService {
             $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
 
             //获取数据
-            $userData = self::$userStore
-                ->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
+            $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
         }
 
         
