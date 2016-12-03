@@ -1,6 +1,7 @@
 footer {
     font-size: 1em;
     background-color: #222222;
+    /*margin-top: 3em;*/
 }
 .footer-left, .footer-center, .footer-right {
     max-width: 100%;
@@ -31,8 +32,9 @@ footer {
     background: no-repeat top center;
 }
 .footer-right {
-    padding: 2.1em 0 2.1em 17.5%;
-    background: url("../img/demoimg/erweima_18.jpg") no-repeat 25% 50%;
+    padding: 2.1em 0 2.1em 15.5%;
+    /*padding: 2.1em 0 2.1em 17.5%;*/
+    background: url("../img/demoimg/erweima_18.jpg") no-repeat 20% 50%;
 
 }
 .footer-right > span {

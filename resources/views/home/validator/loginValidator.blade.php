@@ -46,7 +46,11 @@
                             switch (data.StatusCode){
                                 case '400':
                                     // promptBoxHandle('警告',data.ResultData);
+<<<<<<< HEAD
+                                    alert('警告',data.ResultData);
+=======
                                     alert('警告' + data.ResultData);
+>>>>>>> 706b881ac01c8251762e13e1e0a6b581a9308496
                                     break;
                                 case '200':
                                     window.location = '/';
