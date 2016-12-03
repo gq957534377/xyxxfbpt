@@ -192,6 +192,7 @@
         var str = '';
         // 判断手机号
         if($.trim(phone).length == 0){
+<<<<<<< HEAD
            // promptBoxHandle('警告','请输入手机号');
             alert('警告','请输入手机号');
             exit();
@@ -199,6 +200,14 @@
             if(isPhoneNo($.trim(phone))== false) {
                 //promptBoxHandle('警告','手机号不正确');
                 alert('警告','请输入手机号');
+=======
+            alert('警告' + '请输入手机号');
+            exit();
+        } else {
+            if(isPhoneNo($.trim(phone))== false) {
+                // promptBoxHandle('警告','手机号不正确');
+                alert('警告' + '手机号不正确');
+>>>>>>> 706b881ac01c8251762e13e1e0a6b581a9308496
                 exit();
             }
         }
@@ -208,7 +217,6 @@
     $("#signUpForm").on('click','#sendCode',function(){
 
         var phone =$(".phoneNum").html();
-        alert(phone)
         // 校验手机号
         formValidate(phone);
         // 传输
@@ -220,12 +228,20 @@
                 switch (data.StatusCode){
                     case '400':
                         // promptBoxHandle('警告',data.ResultData);
+<<<<<<< HEAD
                         alert('警告',data.ResultData);
                         setTime($("#sendCode"));
                         break;
                     case '200':
                         // promptBoxHandle('提示',data.ResultData);
                         alert('提示',data.ResultData);
+=======
+                        alert('警告' + data.ResultData);
+                        setTime($("#sendCode"));
+                        break;
+                    case '200':
+                        alert('提示' + data.ResultData);
+>>>>>>> 706b881ac01c8251762e13e1e0a6b581a9308496
                         setTime($("#sendCode"));
                         break;
                 }

@@ -35,10 +35,13 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      * @author 王飞龙
+     * @modify 刘峻廷
      */
     public function create(Request $request)
     {
+
         $data = $request->all();
+
         //初步判断数据
         if (empty($data))
             return response()->json(['StatusCode' => 400, 'ResultData' => '请求参数错误']);
