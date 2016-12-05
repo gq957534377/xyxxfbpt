@@ -7,9 +7,21 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use zgldh\QiniuStorage\QiniuStorage;
+use App\Services\WebAdminService;
+use Validator;
 
 class WebAdminstrationController extends Controller
 {
+    protected static $webAdmin;
+    /** 单例引入
+     *
+     * @param WebAdminService $webAdminService
+     * @author 王通
+     */
+    public function __construct(WebAdminService $webAdminService)
+    {
+        self::$webAdmin = $webAdminService;
+    }
     /**
      * 网站管理页面
      *
@@ -29,46 +41,33 @@ class WebAdminstrationController extends Controller
      */
     public function create(Request $request)
     {
-        //数据验证过滤
-        $validator = Validator::make($request->all(),[
-            'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
-        ],[
-            'avatar_file.required' => '上传文件为空!',
-            'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
-
-        ]);
-        // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['state' => 400,'result' => $validator->errors()->all()]);
-        //上传
-        $info = Avatar::avatar($request);
-
-        if ($info['status'] == '400') return response()->json(['state' => 400,'result' => '文件上传失败!']);
-        $avatarName = $info['msg'];
-
-        $guid = $request->all()['guid'];
-        //转交service 层，存储
-        $info = self::$userServer->avatar($guid,$avatarName);
-
-        // 返回状态信息
-        switch ($info['status']){
-            case '400':
-                return response()->json(['state' => 400,'result' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['state' => 200,'result' => $avatarName]);
-                break;
-        }
+dd('asdfdsa');
     }
 
     /**
-     * Store a newly created resource in storage.
+     *  管理界面文字信息
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'time' => 'required',
+            'tel' => 'required',
+            'record' => 'required',
+        ], [
+            'email.required' => '邮箱不能为空',
+            'email.email' => '邮箱不能为空',
+            'time.required' => '邮箱不能为空',
+            'tel.required' => '邮箱不能为空',
+            'time.required' => '邮箱不能为空',
+            'record.required' => '邮箱不能为空',
+        ]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+       self::$webAdmin->saveWebText($validator->all());
+
     }
 
     /**
