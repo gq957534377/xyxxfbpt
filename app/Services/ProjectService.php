@@ -71,6 +71,20 @@ class ProjectService {
     }
 
     /**
+     * 随机拿取指定条数 数据
+     * @param int $number 默认3条
+     * @return array
+     * @author 刘峻廷
+     */
+    public function takeData($number = 3)
+    {
+        $data = self::$projectStore->takeData($number);
+
+        if (!$data) return ['status' => false, 'msg' => '查询失败'];
+        return ['status' => true, 'msg' => $data];
+    }
+
+    /**
      * 修改项目状态
      * @param $data
      * @return array
@@ -184,6 +198,4 @@ class ProjectService {
         if ($res==0) return ['status'=>false,'msg'=>'修改失败'];
         return ['status'=>true,'msg'=>'修改成功'];
     }
-
-
 }

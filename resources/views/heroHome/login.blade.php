@@ -4,14 +4,14 @@
 
 
 @section('style')
-          <link rel="stylesheet" href="{{ asset('heroHome/css/base.css') }}">
-          <link rel="stylesheet" href="{{ asset('heroHome/css/login.css') }}">
-      @endsection
+  <link rel="stylesheet" href="{{ asset('heroHome/css/base.css') }}">
+  <link rel="stylesheet" href="{{ asset('heroHome/css/login.css') }}">
+@endsection
 
 
-		<!--登录主要内容 Start-->
+
 @section('content')
-
+<!--登录主要内容 Start-->
     <div class="content-login">
 		@include('admin.public.errors')
 		@include('admin.public.success')
@@ -44,6 +44,8 @@
 
     	</div>
     </div>
+<!--登录主要内容 End-->
+
 	@include('home.login.script')
 	@include('home.validator.loginValidator')
 	@include('home.layouts.promptModal')

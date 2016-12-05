@@ -73,10 +73,10 @@ class ActionStore
      */
     public static function getListData($type)
     {
-        return DB::table(self::$table)
-            ->where(['type' => $type])
-            ->where('status', '!=', '4')
-            ->get();
+            return DB::table(self::$table)
+                ->where(['type' => $type])
+                ->where('status', '!=', '4')
+                ->get();
     }
 
     /**
@@ -99,5 +99,20 @@ class ActionStore
     public static function incrementData($where, $field, $data)
     {
         return DB::table(self::$table)->where($where)->increment($field, $data);
+    }
+
+    /**
+     * 获取三条活动数据
+     * @param $type
+     * @param int $number
+     * @return mixed
+     * @author 刘峻廷
+     */
+    public function takeActions($where,$number)
+    {
+        return DB::table(self::$table)
+            ->where($where)
+            ->take($number)
+            ->get();
     }
 }

@@ -3,18 +3,23 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>琦立英雄会--首页</title>
     <script type="text/javascript" src="{{ asset('heroHome/js/jquery-3.1.1.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('heroHome/js/index.js') }}"></script>
     <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('heroHome/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('heroHome/css/top.css') }}" rel="stylesheet">
     <link href="{{ asset('heroHome/css/footer.css') }}" rel="stylesheet">
     <link href="{{ asset('heroHome/css/common.css') }}" rel="stylesheet"/>
     <link href="{{ asset('heroHome/css/bottom.css') }}" rel="stylesheet">
     <link href="{{ asset('heroHome/css/index(pc).css') }}" rel="stylesheet" >
 </head>
+
 <body>
+
+<!-- 顶部导航栏 Start-->
 <header class="container-fluid navbar-fixed-top">
     <div class="container">
         <div class="row change-row-margin">
@@ -23,13 +28,26 @@
             </div>
             @if(!empty(session('user')))
                 <div class="top-right">
-                    <a href="{{ url('/user') }}"><img class="img-circle" src="{{ session('user')->headpic }}" alt="头像" title="{{ session('user')->nickname }}"></a>
-                    <a href="{{ url('/user') }}">{{ session('user')->nickname }}</a>
+                    <ul class="navbar-right">
+                        <li id="fat-menu" class="dropdown">
+                            <a id="drop3" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="img-circle" src="{{ session('user')->headpic }}" alt="头像" title="{{ session('user')->nickname }}">
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="{{ url('/user') }}"><i class="fa fa-briefcase"></i> 个人中心</a></li>
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="{{ url('/logout') }}"><i class="fa fa-sign-in"></i> 退出登录</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <a href="#">消息</a>
                     <a href="#">英雄社区</a>
+
                 </div>
             @else
                 <div class="top-right">
-                    <a href="#"><img class="img-circle" src="{{ asset('heroHome/img/icon_empty.png') }}"></a>
+                    <a href="{{ url('/login') }}"><img class="img-circle" src="{{ asset('heroHome/img/icon_empty.png') }}"></a>
                     <a href="{{ url('/login') }}">未登录</a>
                     <a href="#">英雄社区</a>
                 </div>
@@ -37,9 +55,13 @@
         </div>
     </div>
 </header>
+<!-- 顶部导航栏 End-->
+
+<!-- Menu 导航栏 Start -->
 <div class=" container-fluid" style="margin-top: 79.6px;">
     <div class="row">
         <nav id="NavigationBar" class="font-size">
+            <!-- Menu Start -->
             <ul>
                 <li><a href="#">奇力首页</a></li>
                 <li><a href="#">创新作品</a></li>
@@ -49,6 +71,8 @@
                 <li><a href="#">创业政策</a></li>
                 <li><a href="#">路演活动</a></li>
             </ul>
+            <!-- Menu End -->
+            <!-- 轮播图 Start -->
             <div id="carousel-example-generic" class="carousel slide animated rotateInUpLeft" data-ride="carousel">
                 <!-- Indicators -->
                 <ol class="carousel-indicators">
@@ -92,13 +116,19 @@
                     <span class="sr-only">Next</span>
                 </a>
             </div>
+            <!-- 轮播图 End -->
+            <!-- 底部 Menu Start -->
             <ul>
                 <li><a href="#">项目投资</a></li>
                 <li><a href="#">找投资人</a></li>
             </ul>
+            <!-- 底部 Menu End -->
         </nav>
     </div>
 </div>
+<!-- Menu 导航栏 End -->
+
+<!-- 精选项目 Start -->
 <div class=" container-fluid" style="background-color: #F7F7F7;">
     <div id="section1">
         <div class="container" style="max-width: 1200px;width:100%;">
@@ -112,50 +142,49 @@
                 </div>
             </div>
             <ul class="row">
-                <li class="col-sm-4">
-                    <a class="new_a" href="#">
-                        <img src="{{ asset('heroHome/img/demoimg/test1.jpg') }}">
-                        <div class="companyName">深圳前海探鹿科技有限公司</div>
-                        <div class="classLabel">
-                            <span>消费生活</span>
-                            <span>Pre-A轮</span>
-                        </div>
-                        <p class="new_p">
-                            深圳前海探鹿科技有限公司，于2014年在中国深圳创立。探鹿·探享智驾乐趣，作为智能车联网生态
-                        </p>
-                    </a>
-                </li>
-                <li class="col-sm-4">
-                    <a class="new_a" href="#">
-                        <img src="{{ asset('heroHome/img/demoimg/test1.jpg') }}">
-                        <div class="companyName">深圳前海探鹿科技有限公司</div>
-                        <div class="classLabel">
-                            <span>消费生活</span>
-                            <span>Pre-A轮</span>
-                        </div>
-                        <p class="new_p">
-                            深圳前海探鹿科技有限公司，于2014年在中国深圳创立。探鹿·探享智驾乐趣，作为智能车联网生态
-                        </p>
-                    </a>
-                </li>
-                <li class="col-sm-4">
-                    <a class="new_a" href="#">
-                        <img src="{{ asset('heroHome/img/demoimg/test1.jpg') }}">
-                        <div class="companyName">深圳前海探鹿科技有限公司</div>
-                        <div class="classLabel">
-                            <span>消费生活</span>
-                            <span>Pre-A轮</span>
-                        </div>
-                        <p class="new_p">
-                            深圳前海探鹿科技有限公司，于2014年在中国深圳创立。探鹿·探享智驾乐趣，作为智能车联网生态
-                        </p>
-                    </a>
-                </li>
+                @foreach ($projects as $project)
+                    <li class="col-sm-4">
+                        <a class="new_a" href="#">
+                            <img src="{{ $project->image }}">
+                            <div class="companyName">{{ $project->title }}</div>
+                            <div class="classLabel">
+                                <span>
+                                    @if($project->project_type == 1)
+                                        热门推荐
+                                    @elseif($project->project_type == 2)
+                                        新品上架
+                                    @elseif($project->project_type == 3)
+                                        未来科技
+                                    @elseif($project->project_type == 4)
+                                        健康出行
+                                    @elseif($project->project_type == 5)
+                                        生活美学
+                                    @elseif($project->project_type == 6)
+                                        美食生活
+                                    @elseif($project->project_type == 7)
+                                        流行文化
+                                    @elseif($project->project_type == 8)
+                                        爱心公益
+                                    @endif
+                                </span>
+                                <span>{{ $project->habitude }}</span>
+                            </div>
+                            <p class="new_p">
+                                {{ $project->content }}
+                            </p>
+                        </a>
+                    </li>
+                @endforeach
             </ul>
         </div>
     </div>
 </div>
+<!-- 精选项目 End -->
+
+<!-- 活动 Start -->
 <div class=" container-fluid">
+
+    <!-- 英雄榜 Start -->
     <section id="section2" class="font-size">
         <div class="row">
             <h2>英雄榜</h2>
@@ -268,134 +297,124 @@
             </li>
         </ul>
     </section>
+    <!-- 英雄榜 End -->
+
+    <!-- 路演活动 Start -->
     <section id="section3" class="font-size">
         <div class="section_title">
             <h2>路演活动</h2>
             <a href="#">查看全部</a>
         </div>
         <ul class="row">
+            @foreach($roadShows as $roadShow)
             <li class="col-sm-4">
                 <a href="#">
-                    <img src="{{ asset('heroHome/img/demoimg/Roadshow.jpg') }}"/>
+                    <img src="{{ $roadShow->banner }}"/>
                 </a>
                 <div class="ly">
-                    <h3><a href="#">玩出未来2016：未来预测游戏</a></h3>
-                    <span>进行中</span>
+                    <h3><a href="#">{{ $roadShow->title }}</a></h3>
+                    <span>
+                        @if($roadShow->status == 1)
+                            报名中
+                        @elseif($roadShow->status == 2)
+                            进行中
+                        @elseif($roadShow->status == 3)
+                            已结束
+                        @elseif($roadShow->status == 4)
+                            已取消
+                        @elseif($roadShow->status == 5)
+                            报名截止
+                        @endif
+                    </span>
                 </div>
                 <span>
-    				<span>微信HTML5</span>
-    				<span>2016-12-21</span>
+    				<span>{{ $roadShow->address }}</span>
+    				<span>{{ $roadShow->start_time }}</span>
     			</span>
             </li>
-            <li class="col-sm-4">
-                <a href="#">
-                    <img src="{{ asset('heroHome/img/demoimg/Roadshow.jpg') }}"/>
-                </a>
-                <div class="ly">
-                    <h3><a href="#">玩出未来2016：未来预测游戏</a></h3>
-                    <span>进行中</span>
-                </div>
-                <span>
-    				<span>微信HTML5</span>
-    				<span>2016-12-21</span>
-    			</span>
-            </li>
-            <li class="col-sm-4">
-                <a href="#">
-                    <img src="{{ asset('heroHome/img/demoimg/Roadshow.jpg') }}"/>
-                </a>
-                <div class="ly">
-                    <h3><a href="#">玩出未来2016：未来预测游戏</a></h3>
-                    <span>进行中</span>
-                </div>
-                <span>
-    				<span>微信HTML5</span>
-    				<span>2016-12-21</span>
-    			</span>
-            </li>
+            @endforeach
         </ul>
     </section>
+    <!-- 路演活动 End -->
+
+    <!-- 创业大赛 Start -->
     <section id="section3s" class="font-size">
         <div class="section_title">
             <h2>创业大赛</h2>
             <a href="#">查看全部</a>
         </div>
         <ul class="row">
+            @foreach($sybs as $syb)
             <li class="col-sm-4">
                 <a href="#">
-                    <img src="{{ asset('heroHome/img/demoimg/Roadshow.jpg') }}"/>
+                    <img src="{{ $syb->banner }}"/>
                 </a>
                 <div class="ly">
-                    <h3><a href="#">玩出未来2016：未来预测游戏</a></h3>
-                    <span>进行中</span>
+                    <h3><a href="#">{{ $syb->title }}</a></h3>
+                    <span>
+                        @if($syb->status == 1)
+                            报名中
+                        @elseif($syb->status == 2)
+                            进行中
+                        @elseif($syb->status == 3)
+                            已结束
+                        @elseif($syb->status == 4)
+                            已取消
+                        @elseif($syb->status == 5)
+                            报名截止
+                        @endif
+                    </span>
                 </div>
                 <span>
-    				<span>微信HTML5</span>
-    				<span>2016-12-21</span>
+    				<span>{{ $syb->address }}</span>
+    				<span>{{ $syb->start_time }}</span>
     			</span>
             </li>
-            <li class="col-sm-4">
-                <a href="#">
-                    <img src="{{ asset('heroHome/img/demoimg/Roadshow.jpg') }}"/>
-                </a>
-                <div class="ly">
-                    <h3><a href="#">玩出未来2016：未来预测游戏</a></h3>
-                    <span>进行中</span>
-                </div>
-                <span>
-    				<span>微信HTML5</span>
-    				<span>2016-12-21</span>
-    			</span>
-            </li>
-            <li class="col-sm-4">
-                <a href="#">
-                    <img src="{{ asset('heroHome/img/demoimg/Roadshow.jpg') }}"/>
-                </a>
-                <div class="ly">
-                    <h3><a href="#">玩出未来2016：未来预测游戏</a></h3>
-                    <span>进行中</span>
-                </div>
-                <span>
-    				<span>微信HTML5</span>
-    				<span>2016-12-21</span>
-    			</span>
-            </li>
+            @endforeach
         </ul>
     </section>
+    <!-- 创业大赛 End -->
+
+    <!-- 英雄学院 Start -->
     <section id="section4" class="font-size">
         <div class="section_title">
             <h2>英雄学院</h2>
             <a href="#">查看全部</a>
         </div>
         <ul class="row">
+            @foreach($trains as $train)
             <li class="col-sm-6">
                 <a href="#">
                     <span>第1期</span>
-                    <img src="{{ asset('heroHome/img/demoimg/test5.jpg') }}"/>
+                    <img src="{{ $train->banner }}"/>
                     <div>
-                        <h3>最受尊敬的脑洞评选</h3>
-                        <span>已结束</span>
+                        <h3>{{ $train->title }}</h3>
+                        <span>
+                            @if($train->status == 1)
+                                报名中
+                            @elseif($train->status == 2)
+                                进行中
+                            @elseif($train->status == 3)
+                                已结束
+                            @elseif($train->status == 4)
+                                已取消
+                            @elseif($train->status == 5)
+                                报名截止
+                            @endif
+                        </span>
                     </div>
-                    <p>
-                        虎嗅网发起的针对奇妙idea创造与执行者的品牌特色评选活动。产品服务、商业营销、影视IP、文化设计........这些奇妙idea的主人，或在各行业窠臼、或在让改变发生。向TA们表示喜爱与致敬，是活动初心，也是一次年度创新...</p>
+                    <p>{{ $train->brief }}</p>
                 </a>
             </li>
-            <li class="col-sm-6">
-                <a href="#">
-                    <span>第1期</span>
-                    <img src="{{ asset('heroHome/img/demoimg/test5.jpg') }}"/>
-                    <div>
-                        <h3>最受尊敬的脑洞评选</h3>
-                        <span>已结束</span>
-                    </div>
-                    <p>
-                        虎嗅网发起的针对奇妙idea创造与执行者的品牌特色评选活动。产品服务、商业营销、影视IP、文化设计........这些奇妙idea的主人，或在各行业窠臼、或在让改变发生。向TA们表示喜爱与致敬，是活动初心，也是一次年度创新...</p>
-                </a>
-            </li>
+            @endforeach
         </ul>
     </section>
+    <!-- 英雄学院 End -->
     </div>
-    <div class=" container-fluid" style="background-color: #F6F6F6;">
+<!-- 活动 End -->
+
+<!-- 英雄众筹 Start-->
+<div class=" container-fluid" style="background-color: #F6F6F6;">
     <section id="section5" class="font-size">
         <div class="section_title">
             <h2>英雄众筹</h2>
@@ -576,6 +595,9 @@
         </div>
     </section>
         </div>
+<!-- 英雄众筹 End-->
+
+<!-- 英雄社区 Start-->
 <div class=" container-fluid">
     <section id="section6" class="font-size">
         <ul class="section6_top">
@@ -677,11 +699,15 @@
     </section>
     <!----英雄会友情机构结束----->
     </div>
+<!-- 英雄社区 End-->
+
+<!-- 英雄会顶级投资机构联盟 Start-->
 <div class=" container-fluid" style="padding: 0px">
     <section id="section8" class="font-size">
         <img src="{{ asset('heroHome/img/demoimg/test3.jpg') }}"/>
     </section>
-    </div>
+</div>
+
 <div class=" container-fluid" style="background: #F2F3F7;">
     <section id="section9" class="font-size">
         <h2>英雄会顶级投资机构联盟</h2>
@@ -771,6 +797,9 @@
         </ul>
     </section>
 </div>
+<!-- 英雄会顶级投资机构联盟 End-->
+
+<!-- 底部栏 Start-->
 <footer class="container-fluid">
     <div class="container">
         <div class="row change-row-margin">
@@ -792,5 +821,6 @@
 <div class="container-fluid bottom">
     <p class="text-center">@2011-2016 崎立英雄会 | 京ICP备16042819号-1</p>
 </div>
+<!-- 底部栏 End-->
 </body>
 </html>
