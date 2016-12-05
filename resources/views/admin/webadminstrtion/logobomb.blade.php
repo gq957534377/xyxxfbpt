@@ -1,7 +1,7 @@
 <div class="" id="crop-avatar">
 
     <!-- Current avatar -->
-    <div class="avatar-view" title="更换头像">
+    <div class="avatar-view" title="修改logo">
         <img id="headpic" src="{{asset('cropper/img/picture.jpg')}}" alt="Avatar"/>
     </div>
 
@@ -9,12 +9,12 @@
     <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form class="avatar-form" action="{{url('/headpic')}}" enctype="multipart/form-data" method="post">
+                <form class="avatar-form" action="{{ url('/webadmins/create') }}" enctype="multipart/form-data" method="post">
                     {{ csrf_field()}}
-                    <input type="hidden" name="guid" value="{{session('user')->guid}}">
+                    <input type="hidden" name="guid" value="{{asset('cropper/img/picture.jpg')}}">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">&times;</button>
-                        <h4 class="modal-title" id="avatar-modal-label">更换头像</h4>
+                        <h4 class="modal-title" id="avatar-modal-label">更改logo</h4>
                     </div>
                     <div class="modal-body">
                         <div class="avatar-body">
@@ -23,7 +23,7 @@
                             <div class="avatar-upload">
                                 <input class="avatar-src" name="avatar_src" type="hidden"/>
                                 <input class="avatar-data" name="avatar_data" type="hidden"/>
-                                <label for="avatarInput">头像上传</label>
+                                <label for="avatarInput">logo上传</label>
                                 <input class="avatar-input" id="avatarInput" name="avatar_file" type="file"/>
                             </div>
 

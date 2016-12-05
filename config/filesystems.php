@@ -79,6 +79,18 @@ return [
             'region'    => 'IAD',
             'url_type'  => 'publicURL',
         ],
+        'qiniu' => [
+            'driver'  => 'qiniu',
+            'domains' => [
+                'default'   => 'ohozzh5sa.bkt.clouddn.com', //你的七牛域名
+                'https'     => 'dn-laravelacademy.qbox.me',         //你的HTTPS域名
+                'custom'    => 'static.laravelacademy.org',     //你的自定义域名
+            ],
+            'access_key'=> 'Ij4lqkBV-iTzMJxjy98ns1fD-xk_I2Yyy561zl0I',  //AccessKey
+            'secret_key'=> 'QjjAKmI0G7WaBcKdo0HubORwUI4qw87d4Ws4ldqI',  //SecretKey
+            'bucket'    => 'pero',  //Bucket名字
+            'notify_url'=> '',  //持久化处理回调地址
+        ],
 
     ],
 
