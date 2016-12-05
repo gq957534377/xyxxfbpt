@@ -9,25 +9,14 @@
     color: #9a9a9a;
     margin: 0;
 }
-/*这里的媒体查询为bottom私有*/
+
+/*768px以下的样式，最小宽度为320px*/
 @media (max-width: 767px) {
     .bottom > p {
         padding: 1em 0;
     }
 }
-/*屏幕宽度大于等于768px小于992px时,bootstrap row容器宽度750px*/
-@media (min-width: 768px) and (max-width: 992px) {
-    .bottom > p {
-        padding: 1.25em 0;
-    }
-}
-/*屏幕宽度大于等于992px小于1200px时,bootstrap row容器宽度970px*/
-@media (min-width: 992px) and (max-width: 1200px) {
-    .bottom > p {
-        padding: 1.4em 0;
-    }
-}
-/*屏幕宽度大于等于1200px时,bootstrap row容器宽度1170px*/
-@media (min-width: 1200px) {
-    /*所有不在媒体查询之内的样式都可视为在此之内*/
+/*768px以上的样式，最大宽度为1200px*/
+@media (min-width: 768px) {
+    /*所有媒体查询之外的样式，都可以视为属于此*/
 }

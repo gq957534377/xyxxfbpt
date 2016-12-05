@@ -1,41 +1,217 @@
 /*common文件里应该放置一些公共性质的，全局性质页面的css*/
-/*header*/
-/*footer*/
-/*bottom*/
 
 body {
     font-family: 'Lantinghei SC', 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
     /*font-family: "Microsoft YaHei UI",Helvetica,Arial,sans-serif;*/
-    font-size: 6.25em;
 }
 
-/*这里的媒体查询用于控制body的font-size，通过em控制页面缩放*/
-/*屏幕宽度小于768px时,bootstrap row容器宽度不定，自动变化*/
-@media (max-width: 768px) {
-    /*设置rem值*/
-    html {
-        font-size: 13px;
+.change-row-margin {
+    margin-left: -30px;
+    margin-right: -30px;
+}
+/*公共类开始*/
+
+/*高度*/
+.ht-8 {
+    height: 8em !important;
+}
+.ht-16 {
+    height: 16em !important;
+}
+.line-h {
+    line-height: 71px;
+}
+.line-h-1 {
+    line-height: 34px;
+}
+
+/*display*/
+.dis-bl {
+    display: block;
+}
+.dis-in-bl {
+    display: inline-block;
+}
+/*浮动*/
+.fl {
+    float: left;
+}
+.fr {
+    float: right;
+}
+.cf {
+    clear: both;
+}
+
+/*颜色*/
+
+/*字体大小*/
+.fs-12 {
+    font-size: 12px;
+}
+.fs-14 {
+    font-size: 14px;
+}
+.fs-16 {
+    font-size: 16px;
+}
+.fs-18 {
+    font-size: 18px;
+}
+.fs-22 {
+    font-size: 22px;
+}
+.fs-24 {
+    font-size: 24px;
+}
+/*padding*/
+.pad-cl {
+    padding-left: 0 !important;
+}
+.pad-cr {
+    padding-right: 0 !important;
+}
+.pad-clr{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/*align*/
+.h-align {
+    text-align: center !important;
+}
+/*margin*/
+.mar-cb {
+    margin-bottom: 0;
+}
+.mar-b30 {
+    margin-bottom: 30px;
+}
+.mar-b15 {
+    margin-bottom: 15px;
+}
+.mar-b10 {
+    margin-bottom: 10px !important;
+}
+.mar-r5{
+    margin-right: 5px !important;
+}
+
+/*resize*/
+.text-r {
+    resize: none;
+}
+
+/*单选框样式*/
+.radio-1 {
+    margin-bottom: 0;
+    font-weight: normal;
+    padding-right: 35px;
+}
+
+/*星号*/
+.form-star {
+    color: #ff4861;
+    padding-right: 5px;
+    line-height: inherit;
+    vertical-align: -3px;
+    /*margin-left: -15px;*/
+}
+
+/*select控件背景*/
+.se-bg-1 {
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari 和 Chrome */
+    background: #ffffff url(../img/icon-downarrow.png) no-repeat 98% 7px;
+}
+.se-bg-2 {
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari 和 Chrome */
+    background: #ffffff url(../img/icon-downarrow.png) no-repeat 97% 7px;
+}
+
+/*button样式*/
+#btn-1:hover {
+    color: #ffffff;
+    background: #ff9035;
+}
+
+/*选项卡 start*/
+.tab-info-top {
+    background-color: #f3f3f3;
+}
+.tab-info-top > a {
+    display: inline-block;
+    text-decoration: none;
+    color: #000000;
+    padding: 8px 2%;
+    /*padding: 8px 15px;*/
+    position: relative;
+}
+.tab-info-top > a:hover {
+    background-color: #ff9035;
+    color: white;
+}
+.tab-info-top > a:hover > span {
+    display: block;
+    /*定位*/
+    position: absolute;
+    top: 100%;
+    left: 44%;
+    right: 45%;
+    z-index: 999;
+}
+/*画三角形*/
+.triangle-down {
+    width: 12px;
+    height: 6px;
+    border-top: 7px solid #ff9035;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    display: none;
+}
+/*选项卡 end*/
+
+/*position定位*/
+.left-1 {
+    left: 42% !important;
+}
+.left-2 {
+    left: 43% !important;
+}
+.left-3 {
+    left: 45% !important;
+}
+.left-4 {
+    left: 46% !important;
+}
+
+/*公共类结束*/
+
+/*768px以下的样式，最小宽度为320px*/
+@media (max-width: 767px) {
+    body {
+        font-size: 12px;
+    }
+    .mar-b15-xs {
+        margin-bottom: 15px;
+    }
+    .mar-b10-xs {
+        margin-bottom: 10px;
+    }
+    .pad-clr-xs{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .pad-cl-xs {
+        padding-left: 0 !important;
+    }
+    .pad-cr-xs {
+        padding-right: 0 !important;
+    }
+    .pad-tab-top-info-xs {
+        padding: 8px .9% !important;
     }
 }
-/*屏幕宽度大于等于768px小于992px时,bootstrap row容器宽度750px*/
-@media (min-width: 768px) and (max-width: 992px) {
-    /*设置rem值*/
-    html {
-        font-size: 14px;
-    }
-}
-/*屏幕宽度大于等于992px小于1200px时,bootstrap row容器宽度970px*/
-@media (min-width: 992px) and (max-width: 1200px) {
-    /*设置rem值*/
-    html {
-        font-size: 15px;
-    }
-}
-/*屏幕宽度大于等于1200px时,bootstrap row容器宽度1170px*/
-@media (min-width: 1200px) {
-    /*设置rem值*/
-    html {
-        font-size: 16px;
-    }
-    /*所有不在媒体查询之内的样式都可视为在此之内*/
-}
+
+

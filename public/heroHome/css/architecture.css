@@ -1,0 +1,26 @@
+/*这里存放一些常用的样式*/
+
+/*媒体查询的结构，全局一致  以768px为分界线，以上一个样式，以下一个样式*/
+
+/*768px以下的样式，最小宽度为320px*/
+@media (max-width: 767px) {
+}
+/*768px以上的样式，最大宽度为1200px*/
+@media (min-width: 768px) {
+    /*所有媒体查询之外的样式，都可以视为属于此*/
+}
+
+/*这里存放一些使用过的颜色*/
+.color {
+    color: #222222;
+    color: #5a5a5a;
+    color: #9a9a9a;
+    color: #000000;
+    color: #ffffff;
+    color: #f0f0f0;
+    color: #ff9035;
+    color: #ba3d3b;
+}
+
+/*background 简写顺序*/
+/*background：color img_url repeat attachment position / size*/

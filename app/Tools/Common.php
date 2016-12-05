@@ -44,10 +44,10 @@ class Common {
      * @return string
      * @author 刘峻廷
      */
-    public static function cryptString($email, $pass, $str = 'twitch', $position = 5)
+    public static function cryptString($tel, $pass, $str = 'twitch', $position = 5)
     {
         // 拼接字符串
-        $newStr = substr(Crypt::encrypt($email.$str) , 0, $position);
+        $newStr = substr(Crypt::encrypt($tel.$str) , 0, $position);
         // 密码MD5 进行加密
         $cryptPass = md5($pass);
         return md5(md5($newStr.$cryptPass));

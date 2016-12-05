@@ -24,10 +24,12 @@ class LoginController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * @modify 王通
      */
     public function index()
     {
-        return view('home.login');
+        if (!empty(session('user'))) return redirect('/');
+        return view('heroHome.login');
     }
 
     /**
@@ -46,20 +48,21 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * @author 刘峻廷
+     * @modify 王通
      */
     public function store(Request $request)
     {
         $data = $request->all();
 
         // 先校验验证码
-        if($data['captcha'] != Session::get('code'))
-        {
-            return response()->json(['StatusCode' => '400','ResultData' => ['验证错误!']]);
-        }
+//        if($data['captcha'] != Session::get('code'))
+//        {
+//            return response()->json(['StatusCode' => '400','ResultData' => ['验证错误!']]);
+//        }
 
         //验证数据
         $this->validate($request,[
-            'email' =>  'required|email',
+            'tel' =>  'required',
             'password' => 'required|min:6',
         ]);
 

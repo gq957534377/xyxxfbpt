@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use App\Tools\CropAvatar as Crop;
-use PhpSpec\Exception\Exception;
-use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
+
 
 class UserService {
     protected static $homeStore = null;
@@ -71,8 +70,62 @@ class UserService {
      * @param $data
      * @return string
      * @author 刘峻廷
+     * @modify 王通
      */
     public function addUser($data)
+    {
+        // 检验用户是否被注册
+        $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
+        // 返回真，用户存在
+        if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
+
+        // 进行检验手机号是否唯一
+        $result = self::$userStore->getOneData(['tel' => $data['tel']]);
+        // 返回真，用户存在
+        if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
+
+        // 返回假，添加数据，先对数据提纯
+        $data['guid'] = Common::getUuid();
+        $data['password'] = Common::cryptString($data['tel'], $data['password'], 'hero');
+        $data['addtime'] = $_SERVER['REQUEST_TIME'];
+
+        $phone = $data['tel'];
+        unset($data['confirm_password']);
+        unset($data['stage']);
+
+        // 执行事务
+        DB::beginTransaction();
+
+        // 存入登录表
+        $loginInfo = self::$homeStore -> addData($data);
+        // 数据写入失败
+        if (!$loginInfo) {
+            Log::error('注册用户失败', $data);
+            return ['status' => '500', 'msg' => '数据写入失败！'];
+        };
+
+        // 添加数据成功到登录表，然后在往用户信息表里插入一条
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
+
+        if (!$userInfo) {
+            Log::error('用户注册信息写入失败', $userInfo);
+            DB::rollback();
+            return ['status' => '500', 'msg' => '用户信息添加失败，请重新注册!'];
+        } else {
+            DB::commit();
+            return ['status'=>'200', 'msg'=>'注册成功'];
+        }
+
+
+    }
+
+    /**
+     * 注册用户 旧
+     * @param $data
+     * @return string
+     * @author 刘峻廷
+     */
+    public function addUserOld($data)
     {
         // 检验用户是否被注册
         $result = self::$homeStore->getOneData(['email' => $data['email']]);
@@ -122,22 +175,37 @@ class UserService {
 
 
     }
+
+
+    /**
+     * 验证手机号是否存在
+     * @param $data
+     * @return bool
+     */
+    public function checkUser($data)
+    {
+        // 检验用户是否被注册
+        $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
+        // 返回真，用户存在
+        return $result;
+    }
     /**
      * 用户登录
      * @param array $data
      * @return string
      * @auther 刘峻廷
+     * @modify 王通
      */
     public function loginCheck($data)
     {
         // 对密码进行加密
-        $pass = Common::cryptString($data['email'],$data['password'],'hero');
+        $pass = Common::cryptString($data['tel'],$data['password'],'hero');
         // 查询数据
-        $temp = self::$homeStore->getOneData(['email' => $data['email']]);
+        $temp = self::$homeStore->getOneData(['tel' => $data['tel']]);
         // 返回假，说明此账号不存在
         if(!$temp) return ['status' => '400','msg' => '账号不存在或输入错误！'];
         // 查询数据
-        $temp = self::$homeStore->getOneData(['email' => $data['email'],'password' => $pass]);
+        $temp = self::$homeStore->getOneData(['tel' => $data['tel'],'password' => $pass]);
         // 返回假，说明此密码不正确
         if(!$temp) return ['status' => '400','msg' => '密码错误！'];
         // 返回真，再进行账号状态判断
@@ -216,23 +284,38 @@ class UserService {
      */
     public function getData($data)
     {
-        //data中若有key为name的数据，则调用getOneData()
-        if (isset($data['name']))
-            return self::getOneData($data);
+        if (isset($data['memeber'])) {
 
-        //进一步判断data中的数据
-        if(!isset($data['role']) || !isset($data['status']))
-            return ['status' => false, 'data' => '请求参数错误'];
+            if (!isset($data['status'])) return ['status' => false, 'data' => '请求参数错误'];
 
-        // 1 普通用户 ；2 创业者 ；3 投资者
-        if(!in_array($data['role'], ['1', '2', '3', '4']))
-            return ['status' => false, 'data' => '请求参数错误'];
+            if (!in_array($data['memeber'], ['1', '2', '3', '4', '5', '6'])) return ['status' => false, 'data' => '请求参数错误'];
 
-        $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
+            // 当前页
+            $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
 
-        //获取数据
-        $userData = self::$userStore
-            ->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
+            //获取数据
+
+            $userData = self::$userStore->getUsersData($nowPage, ['memeber' => $data['memeber']]);
+            
+        } else {
+            //data中若有key为name的数据，则调用getOneData()
+            if (isset($data['name']))
+                return self::getOneData($data);
+
+            //进一步判断data中的数据
+            if(!isset($data['role']) || !isset($data['status']))
+                return ['status' => false, 'data' => '请求参数错误'];
+
+            // 1 普通用户 ；2 创业者 ；3 投资者
+            if(!in_array($data['role'], ['1', '2', '3', '4']))
+                return ['status' => false, 'data' => '请求参数错误'];
+
+            $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
+
+            //获取数据
+            $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
+        }
+
         
         //对获取的数据做判断
         if ($userData === false)
@@ -267,10 +350,16 @@ class UserService {
      */
     private static function getPage($data, $url)
     {
+
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
 
-        $count = self::$userStore
-            ->getUsersNumber(['role' => $data['role'], 'status' => $data['status']]);
+        if (isset($data['memeber'])) {
+            $count = self::$userStore->getUsersNumber(['memeber' => $data['memeber'], 'status' => $data['status']]);
+        } else {
+            $count = self::$userStore
+                ->getUsersNumber(['role' => $data['role'], 'status' => $data['status']]);
+        }
+
         $totalPage = ceil($count / PAGENUM);
         $baseUrl   = url($url);
 
@@ -283,7 +372,7 @@ class UserService {
             'status' => true,
             'data' => [
                 'nowPage' => $nowPage,
-                'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl,null)
+                'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl, null)
             ]
         ];
     }
@@ -380,7 +469,66 @@ class UserService {
         $user['hometown'] = $data['hometown'];
         $result = self::$userStore->updateUserInfo(['guid' => $data['guid']],$user);
         
-        return ['status' => '200','msg' => '申请成功'];
+        return ['status' => '200','msg' => '申请成功，请等待管理员的审核！'];
+    }
+
+    /**
+     * 申请英雄会会会员
+     * @param $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function applyMemeber($data)
+    {
+        // 检验数据
+        if(empty($data)) return ['status' => '400', 'msg' => '请填写完整信息！'];
+
+        // 获取当前用户是否存在
+        $result = self::$roleStore->getOneData(['guid' => $data['guid']]);
+
+        if (!$result) {
+            // 新增
+            $result = self::$roleStore->addRole($data);
+
+            if ($result) return ['status' => '200', 'msg' => '申请会员成功，请等待审核！'];
+
+            Log::error('申请英雄会会员',$result);
+            return ['status' => '400', 'msg' => '申请会员失败，数据异常'];
+        } else {
+            // 判断用户是否已申请
+
+            switch ($result->memeber) {
+                case 1:
+                    // 修改字段
+                    DB::transaction(function () use($data) {
+                        $result = self::$roleStore->updateUserInfo(['guid' => $data['guid']], ['memeber' => 2]);
+                        $resultUser = self::$userStore->updateUserInfo(['guid' => $data['guid']], ['memeber' => 2]);
+                    });
+
+                    if ($result) return ['status' => '200', 'msg' => '申请会员成功，请等待审核！'];
+
+                    Log::error('申请英雄会会员',$data);
+                    return ['status' => '400', 'msg' => '申请会员失败，修改失败'];
+                    break;
+                case 2:
+                    return ['status' => '400', 'msg' => '已申请会员，请等待管理员审核'];
+                    break;
+                case 3:
+                    return ['status' => '400', 'msg' => '已是英雄会会员，无需再申请'];
+                    break;
+                case 4:
+                    // 修改字段
+                    $result = self::$roleStore->updateUserInfo(['guid' => $data['guid']], ['memeber' => 2]);
+
+                    if ($result) return ['status' => '200', 'msg' => '申请会员成功，请等待审核！'];
+
+                    Log::error('申请英雄会会员',$data);
+                    return ['status' => '400', 'msg' => '申请会员失败，修改失败'];
+                    break;
+            }
+
+        }
+
     }
 
     /**
