@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ae9a48a96bc99bb596b6d31fbf046178",
-    "content-hash": "c679102d54d0e5ecdf6c0c894ee4e8e3",
+    "hash": "8a76c1b964cf5102a69c46d309de9279",
+    "content-hash": "bfb9177162f9c9508e817b939e024f08",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -864,20 +864,20 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.27",
+            "version": "1.0.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "50e2045ed70a7e75a5e30bc3662904f3b67af8a9"
+                "reference": "1b5c4a0031697f46e779a9d1b309c2e1b24daeab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/50e2045ed70a7e75a5e30bc3662904f3b67af8a9",
-                "reference": "50e2045ed70a7e75a5e30bc3662904f3b67af8a9",
+                "url": "https://packagist.phpcomposer.com/files/thephpleague/flysystem/1b5c4a0031697f46e779a9d1b309c2e1b24daeab.zip",
+                "reference": "1b5c4a0031697f46e779a9d1b309c2e1b24daeab",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.5.9"
             },
             "conflict": {
                 "league/flysystem-sftp": "<1.0.6"
@@ -943,7 +943,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2016-08-10 08:55:11"
+            "time": "2016-10-19 20:38:46"
         },
         {
             "name": "maximebf/debugbar",
@@ -2649,58 +2649,6 @@
                 "environment"
             ],
             "time": "2015-05-30 15:59:26"
-        },
-        {
-            "name": "zgldh/qiniu-laravel-storage",
-            "version": "v0.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zgldh/qiniu-laravel-storage.git",
-                "reference": "c9d0d544d2d6c3189631ca5455bafed7833de4af"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/zgldh/qiniu-laravel-storage/c9d0d544d2d6c3189631ca5455bafed7833de4af.zip",
-                "reference": "c9d0d544d2d6c3189631ca5455bafed7833de4af",
-                "shasum": ""
-            },
-            "require": {
-                "league/flysystem": "^1.0",
-                "php": ">=5.3.3",
-                "qiniu/php-sdk": "^7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "zgldh\\QiniuStorage\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "zgldh",
-                    "email": "zgldh@hotmail.com",
-                    "role": "Original Developer"
-                },
-                {
-                    "name": "abcsun",
-                    "email": "chenglongsun_nj@163.com",
-                    "homepage": "http://github.com/abcsun",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Qiniu Resource (Cloud) Storage SDK for Laravel 5",
-            "keywords": [
-                "cloud",
-                "laravel",
-                "qiniu",
-                "sdk",
-                "storage"
-            ],
-            "time": "2016-11-10 10:00:48"
         }
     ],
     "packages-dev": [

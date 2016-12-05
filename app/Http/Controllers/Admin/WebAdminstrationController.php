@@ -52,8 +52,9 @@ dd('asdfdsa');
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'email' => 'required',
             'time' => 'required',
             'tel' => 'required',
             'record' => 'required',
@@ -62,11 +63,15 @@ dd('asdfdsa');
             'email.email' => '邮箱不能为空',
             'time.required' => '邮箱不能为空',
             'tel.required' => '邮箱不能为空',
-            'time.required' => '邮箱不能为空',
             'record.required' => '邮箱不能为空',
         ]);
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
-       self::$webAdmin->saveWebText($validator->all());
+        $info = self::$webAdmin->saveWebText($request->all());
+        if ($info['status'] == '200') {
+            return ['StatusCode' => '200', 'ResultData' => $info['msg']];
+        } else {
+            return ['StatusCode' => $info['status'], 'ResultData' => $info['msg']];
+        }
 
     }
 
