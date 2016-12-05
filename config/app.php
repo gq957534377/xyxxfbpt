@@ -148,7 +148,6 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Riverslei\UEditor\UEditorServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-        zgldh\QiniuStorage\QiniuFilesystemServiceProvider::class,
     ],
 
     /*

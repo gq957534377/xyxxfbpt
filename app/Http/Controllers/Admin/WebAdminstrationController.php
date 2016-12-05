@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use zgldh\QiniuStorage\QiniuStorage;
 use App\Services\WebAdminService;
 use Validator;
 
@@ -29,8 +28,6 @@ class WebAdminstrationController extends Controller
      */
     public function index()
     {
-        $disk = QiniuStorage::disk('qiniu');
-
         return view('admin.webadminstrtion.webadmin');
     }
 
