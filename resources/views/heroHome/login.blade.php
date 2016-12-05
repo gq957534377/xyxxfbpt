@@ -2,13 +2,14 @@
 
 @section('title','欢迎来到英雄会登录中心!')
 
+@section('menu')
+
+@endsection
 
 @section('style')
   <link rel="stylesheet" href="{{ asset('heroHome/css/base.css') }}">
   <link rel="stylesheet" href="{{ asset('heroHome/css/login.css') }}">
 @endsection
-
-
 
 @section('content')
 <!--登录主要内容 Start-->

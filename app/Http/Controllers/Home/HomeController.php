@@ -19,7 +19,7 @@ class HomeController extends Controller
      * 构造函数注入
      * HomeController constructor.
      * @param ProjectService $projectServer
-     * @ author
+     * @ author 刘峻廷
      */
     public function __construct(ProjectServer $projectServer, ActionServer $actionServer)
     {
@@ -31,6 +31,7 @@ class HomeController extends Controller
      * 首页渲染.
      *
      * @return \Illuminate\Http\Response
+     * @ author 刘峻廷
      */
     public function index()
     {
@@ -45,8 +46,8 @@ class HomeController extends Controller
         $sybResult = self::$actionServer->takeActions(2);
         // 学习培训活动
         $trainResult = self::$actionServer->takeActions(3, null, 2);
-        self::$actionServer->wordLimit($trainResult['msg'], 'brief',99);
-
+        self::$actionServer->wordLimit($trainResult['msg'], 'brief',60);
+       
         $projects = $projectResult['msg'];
         $roadShows  = $roadShowResult['msg'];
         $sybs = $sybResult['msg'];

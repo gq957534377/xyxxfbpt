@@ -11,7 +11,11 @@
 </head>
 <body>
 
+@include('heroHome.public.header')
 
+@section('menu')
+    @include('heroHome.public.menu')
+@show
 
 @yield('content')
 
