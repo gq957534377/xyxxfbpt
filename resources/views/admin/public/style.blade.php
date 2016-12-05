@@ -24,6 +24,9 @@
     <link href="http://cdn.rooyun.com/css/style.css" rel="stylesheet">
     <link href="http://cdn.rooyun.com/css/helper.css" rel="stylesheet">
 
+    <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('cropper/css/main.css')}}" rel="stylesheet"/>
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
     <!--[if lt IE 9]>
     <script src="http://cdn.rooyun.com/js/html5shiv.js"></script>

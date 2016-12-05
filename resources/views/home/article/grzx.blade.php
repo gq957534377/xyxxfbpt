@@ -125,7 +125,7 @@
                                             <div class="col-md-12">
                                                 <div class="form-group no-margin">
                                                     <label for="field-7" class="control-label">文章简述</label>
-                                                    <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="Write something about your article" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                                                    <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -185,10 +185,7 @@
                                                 <a href="/article/{{$v->guid}}?type=3" target=_blank><button class="btn btn-success">查看详情</button></a>
                                             @elseif($status == 2)
                                                 <a href="/send/{{$v->guid}}" target=_blank><button class="btn btn-success" href="/send/create?status=2">预览</button></a>
-                                            @elseif($status == 3)
-                                                <button data-name="{{$v->guid}}" class="change btn btn-primary" data-toggle="modal" data-target="#xg">编辑</button>
-                                                <button data-name="{{$v->guid}}" class="dele btn btn-danger">删除</button>
-                                            @elseif($status == 4)
+                                            @elseif($status == 3 || $status == 4)
                                                 <button data-name="{{$v->guid}}" class="change btn btn-primary" data-toggle="modal" data-target="#xg">编辑</button>
                                                 <button data-name="{{$v->guid}}" class="dele btn btn-danger">删除</button>
                                             @endif
@@ -344,101 +341,168 @@
             });
         });
     </script>
+    <script src="{{asset('admin/js/jquery.validate.min.js')}}"></script>
     <script>
         $('.status1').off('click').on('click',function () {
             $('.status1').removeClass('btn-success').addClass('btn-default');
             $(this).addClass('btn-success');
         });
+        $('.add_article').on('click',function() {
+            $('#caozuo').data('name',$(this).data('name'));
+        });
+        $('.xg_article').on('click',function() {
+            $('#caozuo').data('status',$(this).data('status'));
+
+        });
+
 
 //发布
-        $('.add_article').click(function () {
-            var data = {
-                title:$('input[name=title]').val(),
-                banner:$('input[name=banner]').val(),
-                source:$('input[name=source]').val(),
-                brief:$('textarea[name=brief]').val(),
-                describe:$('textarea[name=describe]').val(),
-            };
+//        $('.add_article').click(function () {
+            // 在键盘按下并释放及提交后验证提交表单
+            $("#yz_fb").validate({
+                rules: {
+                    title: {
+                        required: true,
+                        minlength: 2,
+                        maxlength:20
+                    },
+                    file_upload: "required",
+                    source: "required",
+                    brief: "required",
+                    describe: "required"
+                },
+                messages: {
+                    title: {
+                        required: "请输入标题",
+                        minlength: "标题必须大于两个字符长度",
+                        maxlength: "标题长度不能大于20个字符"
+                    },
+                    file_upload: "请传入图片",
+                    source: "文章来源不能为空",
+                    brief: "文章简述不能为空",
+                    describe: "文章详情不能为空"
+                },
 
-            var status = $(this).data('name');
-            if (status == 5){
-                var data1 = JSON.stringify(data);
-                window.open('/send/1?data='+data1);
-                return ;
-            }
-            console.log(data);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                submitHandler: function()
+                {
+
+                    if ($('#caozuo').data('name') != undefined && $('#caozuo').data('name') != null) {
+                        var data = {
+                            title:$('input[name=title]').val(),
+                            banner:$('input[name=banner]').val(),
+                            source:$('input[name=source]').val(),
+                            brief:$('textarea[name=brief]').val(),
+                            describe:$('textarea[name=describe]').val(),
+                        };
+
+                        var status = $('#caozuo').data('name');
+                        if (status == 5){
+                            var data1 = JSON.stringify(data);
+                            window.open('/send/1?data='+data1);
+                            return ;
+                        }
+                        console.log(data);
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url:'/send?status='+status,
+                            type:'post',
+                            data: data,
+                            success:function (data) {
+                                if (data.StatusCode == 200){
+                                    $('#con-close-modal').modal('hide');
+                                    alert('成功');
+                                    location.reload();
+                                }
+                                else {
+                                    alert(data.ResultData);
+                                }
+                            }
+                        });
+                    }
+
                 }
             });
-            $.ajax({
-                url:'/send?status='+status,
-                type:'post',
-                data: data,
-                success:function (data) {
-                    if (data.StatusCode == 200){
-                        $('#con-close-modal').modal('hide');
-                        alert('成功');
-                        $('input[name=title]').val('');
-                        $('input[name=banner]').val('');
-                        $('input[name=source]').val('');
-                        $('textarea[name=brief]').val('');
-                        $('textarea[name=describe]').val('');
-                        ue.setContent('');
-                        $('#article_thumb_img').attr('src', '');
+        $("#yz_xg").validate({
+            rules: {
+                title: {
+                    required: true,
+                    minlength: 2,
+                    maxlength:20
+                },
+                file_upload: "required",
+                source: "required",
+                brief: "required",
+                describe: "required"
+            },
+            messages: {
+                title: {
+                    required: "请输入标题",
+                    minlength: "标题必须大于两个字符长度",
+                    maxlength: "标题长度不能大于20个字符"
+                },
+                file_upload: "请传入图片",
+                source: "文章来源不能为空",
+                brief: "文章简述不能为空",
+                describe: "文章详情不能为空"
+            },
+
+            submitHandler: function()
+            {
+                    var data = {
+                        title:$('#xg_title').val(),
+                        banner:$('#charge_banner').val(),
+                        source:$('#xg_source').val(),
+                        brief:$('#xg_brief').val(),
+                        describe:ue1.getContent(),
+                        status:$('#caozuo').data('status')
+                    };
+                    console.log(data);
+                    var status = $('#caozuo').data('status');
+                    if (status == 5){
+                        var data1 = JSON.stringify(data);
+                        window.open('/send/1?data='+data1);
+                        return ;
                     }
-                    else {
-                        alert(data.ResultData);
-                    }
+                    console.log(data);
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url:'/send/'+$('#caozuo').data('name'),
+                        type:'put',
+                        data: data,
+                        success:function (data) {
+                            if (data.StatusCode == 200){
+                                $('#xg').modal('hide');
+                                alert('成功aaaa');
+                                location.reload();
+//                        $('#xg_title').val('');
+//                        $('#charge_banner').val('');
+//                        $('#xg_source').val('');
+//                        $('#xg_brief').val('');
+//                        ue1.getContent('');
+//                        $('#charge_thumb_img').attr('src', '');
+                            }
+                            else {
+                                alert(data.ResultData);
+                            }
+                        }
+                    });
                 }
-            });
         });
+
+//        });
 
 //        修改
-        $('.xg_article').click(function () {
-            var data = {
-                title:$('#xg_title').val(),
-                banner:$('#charge_banner').val(),
-                source:$('#xg_source').val(),
-                brief:$('#xg_brief').val(),
-                describe:ue1.getContent(),
-                status:$(this).data('status')
-            };
-            console.log(data);
-            var status = $(this).data('status');
-            if (status == 5){
-                var data1 = JSON.stringify(data);
-                window.open('/send/1?data='+data1);
-                return ;
-            }
-            console.log(data);
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url:'/send/'+$(this).data('name'),
-                type:'put',
-                data: data,
-                success:function (data) {
-                    if (data.StatusCode == 200){
-                        $('#xg').modal('hide');
-                        alert('成功');
-                        $('#xg_title').val('');
-                        $('#charge_banner').val('');
-                        $('#xg_source').val('');
-                        $('#xg_brief').val('');
-                        ue1.getContent('');
-                        $('#charge_thumb_img').attr('src', '');
-                    }
-                    else {
-                        alert(data.ResultData);
-                    }
-                }
-            });
-        });
+//        $('.xg_article').click(function () {
+//
+//        });
         
 //        删除
         $('.dele').click(function () {
@@ -475,7 +539,7 @@
                     $('#xg_source').val(data.source);
                     $('#xg_brief').val(data.brief);
                     ue1.setContent(data.describe);
-                    $('.xg_article').attr('data-name', data.guid);
+                    $('#caozuo').attr('data-name', data.guid);
                     $('#charge_thumb_img').attr('src', data.banner);
                 }
             });

@@ -11,13 +11,15 @@
         "use strict";//使用严格标准
         // 获取表单元素
         var FormValidator = function(){
-            this.$signOnForm = $("#signOnForm");
+            this.$textfrom = $("#textfrom");
         };
         // 初始化
         FormValidator.prototype.init = function() {
+
             // ajax 异步
             $.validator.setDefaults({
                 // 提交触发事件
+
                 submitHandler: function() {
                     $.ajaxSetup({
                         //将laravel的csrftoken加入请求头，所以页面中应该有meta标签，详细写法在上面的form表单部分
@@ -27,51 +29,60 @@
                     });
                     //与正常form不同，通过下面这样来获取需要验证的字段
                     var data = new FormData();
-                    data.append( "email"      , $("input[name= 'email']").val());
-                    data.append( "password"       , $("input[name= 'password']").val());
-                    data.append( "homeCaptcha"       , $("input[name= 'homeCaptcha']").val());
-                    data.append( "tel"       , $("input[name= 'tel']").val());
+                    data.append( "tel"      , $("input[name= 'tel']").val());
+                    data.append( "email"     , $("input[name= 'email']").val());
+                    data.append( "time"       , $("input[name= 'time']").val());
+                    data.append( "record"     ,$("input[name= 'record']").val());
+
                     //开始正常的ajax
                     // 异步登录
                     $.ajax({
                         type: "POST",
-                        url: '/login',
+                        url: '/webadmins',
                         data: {
                             'email': $("input[name= 'email']").val(),
-                            'password': $("input[name= 'password']").val(),
-                            'captcha': $("input[name= 'captcha']").val(),
+                            'time': $("input[name= 'time']").val(),
                             'tel': $("input[name= 'tel']").val(),
+                            'record': $("input[name= 'record']").val(),
+
                         },
                         success:function(data){
                             switch (data.StatusCode){
                                 case '400':
-                                    // promptBoxHandle('警告',data.ResultData);
-                                    alert('警告',data.ResultData);
+                                    alert('警告' + data.ResultData);
                                     break;
                                 case '200':
-                                    window.location = '/';
+                                    alert('chenggong');
                                     break;
                             }
                         }
                     });
                 }
             });
-            // 验证规则和提示信息
-            this.$signOnForm.validate({
+
+
+            this.$textfrom.validate({
                 // 验证规则
                 rules: {
                     email: {
                         required: true,
                         email : true
                     },
-                    password: {
+//                    toppropaganda:{
+//                        required: true,
+//                        minlength: 2,
+//                        maxlength: 20
+//                    },
+                    tel: {
                         required: true,
-                        minlength:6
+                        minlength:6,
+                        maxlength:13
                     },
-                    captcha: {
-                        required: true,
-                        minlength: 4,
-                        maxlength: 4
+                    time: {
+                        required: true
+                    },
+                    record: {
+                        required: true
                     }
                 },
                 // 提示信息
@@ -80,14 +91,16 @@
                         required: "请输入邮箱！",
                         email: "Email 格式不对！"
                     },
-                    password: {
-                        required: "请输入密码",
-                        minlength: "密码长度不能小于 6 个字母"
+                    time:{
+                        required: "工作时间是必填选项！"
                     },
-                    captcha: {
-                        required: "请输入验证码",
-                        minlength: "请填写4位验证码",
-                        maxlength: "请填写4位验证码"
+                    tel: {
+                        required: "请输入客服电话",
+                        minlength: "电话长度必须大于6小于13",
+                        maxlength: "电话长度必须大于6小于13",
+                    },
+                    record: {
+                        required: '备案内容不能为空'
                     }
                 }
             });
@@ -100,13 +113,7 @@
                 $.FormValidator.init();
             }(window.jQuery);
 
-    // 验证码点击更换
-    var captcha = document.getElementById('captcha');
-    captcha.onclick = function(){
-        $url = "{{url('/code/captcha')}}";
-        $url = $url + "/" + Math.random();
-        this.src = $url;
-    }
+
 
 </script>
 <!-- 验证机制 End -->

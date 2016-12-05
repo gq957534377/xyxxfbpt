@@ -49,6 +49,9 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/upload','ActionController@upload');
         //内容管理
         Route::resource('/article', 'ArticleController');
+
+        // 网站管理
+        Route::resource('/webadmins', 'WebAdminstrationController');
     });
 });
 

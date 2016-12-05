@@ -55,6 +55,7 @@ class SendController extends Controller
      */
     public function store(Request $request)
     {
+
         $data = $request->all();
         $data['user_id'] = session('user')->guid;
         $res = self::$userServer->userInfo(['guid' => $data['user_id']]);
