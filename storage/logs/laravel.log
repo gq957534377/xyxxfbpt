@@ -796,6 +796,7 @@ Stack trace:
 #52 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(87): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
 #53 /vagrant/Hero/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #54 {main}  
+<<<<<<< HEAD
 [2016-12-06 09:17:25] local.ERROR: InvalidArgumentException: View [Home.projects.index] not found. in /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/FileViewFinder.php:137
 Stack trace:
 #0 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/FileViewFinder.php(79): Illuminate\View\FileViewFinder->findInPaths('Home.projects.i...', Array)
@@ -1881,4 +1882,4 @@ Stack trace:
 #51 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(122): Illuminate\Pipeline\Pipeline->then(Object(Closure))
 #52 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(87): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
 #53 /vagrant/Hero/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
-#54 {main}  
+#54 {main}

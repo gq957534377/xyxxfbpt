@@ -54,4 +54,16 @@ class WebAdminStore
             ->select('id')
             ->first();
     }
+
+    /**
+     * 得到表中未被软删除的数据
+     * @return mixed
+     * @author 王通
+     */
+    public function getConfig ()
+    {
+        return DB::table(self::$table)
+            ->where('state', '<>', 4)
+            ->get();
+    }
 }

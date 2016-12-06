@@ -7,20 +7,19 @@
 @endsection
 <div class="wraper container-fluid">
     <div class="page-title">
-        <h3 class="title">网站管理</h3>
+        <h3 class="title">二维码管理</h3>
     </div>
 
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">logo管理</h3></div>
                 <div class="panel-body">
                     <div class=" form p-20">
 
                         <div style="height: 60px;">
-                            <h2>更换logo</h2>
+                            <h2>更换二维码</h2>
                             <div  class="ibox-content pull-right" style="margin: -50px 150px 0 0;">
-                                @include('admin.webadminstrtion.logobomb')
+                                @include('admin.webadminstrtion.qrcode')
                             </div>
                         </div>
 
@@ -34,7 +33,7 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">文字管理</h3></div>
+                <div class="panel-heading"><h3 class="panel-title">二维码介绍</h3></div>
                 <div class="panel-body">
                     <div class=" form p-20">
 
@@ -46,27 +45,21 @@
                                 {{--</div>--}}
                             {{--</div>--}}
                             <div class="form-group ">
-                                <label for="cemail" class="control-label col-lg-2">客服电话：</label>
+                                <label for="cemail" class="control-label col-lg-2">标题：</label>
                                 <div class="col-lg-10">
-                                    <input class="form-control " id="tel" type="text" name="tel" required="" aria-required="true" value="{{ $info['tel'] or ''}}">
+                                    <input class="form-control " id="title" type="text" name="title" required="" aria-required="true" value="{{ $info['title'] or ''}}">
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label for="cemail" class="control-label col-lg-2">客服邮箱：</label>
+                                <label for="cemail" class="control-label col-lg-2">简介1：</label>
                                 <div class="col-lg-10">
-                                    <input class="form-control " id="cemail" type="email" name="email" required="" aria-required="true" value="{{ $info['email'] or ''}}">
+                                    <input class="form-control " id="synopsis1" type="text" name="synopsis1" aria-required="true" value="{{ $info['synopsis1'] or ''}}">
                                 </div>
                             </div>
                             <div class="form-group ">
-                                <label for="cemail" class="control-label col-lg-2">工作时间：</label>
+                                <label for="cemail" class="control-label col-lg-2">简介2：</label>
                                 <div class="col-lg-10">
-                                    <input class="form-control " id="time" type="text" name="time" required="" aria-required="true" value="{{ $info['time'] or ''}}" >
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label for="curl" class="control-label col-lg-2">备案内容：</label>
-                                <div class="col-lg-10">
-                                    <input class="form-control " id="record" type="text" name="record" value="{{ $info['record'] or '' }}">
+                                    <input class="form-control " id="synopsis2" type="text" name="synopsis2"  aria-required="true" value="{{ $info['time'] or ''}}" >
                                 </div>
                             </div>
 
@@ -88,7 +81,7 @@
 
 </div>
 @include("Tool.Ajax")
-@include("admin.validator.webAdminValidator")
+@include("admin.validator.webAdminQRcodeValidator")
 
 
 @endsection

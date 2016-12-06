@@ -9,28 +9,22 @@
     <div class="page-title">
         <h3 class="title">网站管理</h3>
     </div>
-
     <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">logo管理</h3></div>
-                <div class="panel-body">
-                    <div class=" form p-20">
-
-                        <div style="height: 60px;">
-                            <h2>更换logo</h2>
-                            <div  class="ibox-content pull-right" style="margin: -50px 150px 0 0;">
-                                @include('admin.webadminstrtion.logobomb')
-                            </div>
-                        </div>
-
-                    </div> <!-- .form -->
-                </div> <!-- panel-body -->
-            </div> <!-- panel -->
-        </div> <!-- col -->
-    </div> <!-- End row -->
-
-
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="field-5" class="control-label">缩略图</label>
+                <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" name="banner" disabled="true">
+                <input id="file_upload" name="file_upload" type="file" multiple="true">
+                <img src="" id="article_thumb_img" style="max-width: 350px;max-height: 110px;">
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label for="field-1" class="control-label">文章来源</label>
+                <input type="text" class="form-control" id="source" name="source" placeholder="article source...">
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
@@ -39,12 +33,6 @@
                     <div class=" form p-20">
 
                         <form class="cmxform form-horizontal tasi-form" id="textfrom" method="get" action="#">
-                            {{--<div class="form-group ">--}}
-                                {{--<label for="cname" class="control-label col-lg-2">顶部宣传语：</label>--}}
-                                {{--<div class="col-lg-10">--}}
-                                    {{--<input class=" form-control" id="top-propaganda" name="toppropaganda" type="text" required="" aria-required="true">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
                             <div class="form-group ">
                                 <label for="cemail" class="control-label col-lg-2">客服电话：</label>
                                 <div class="col-lg-10">
@@ -93,8 +81,30 @@
 
 @endsection
 @section('script')
-    <script>
-
+    {{--<script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>--}}
+    <script src="{{url('uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
+    <script type="text/javascript">
+        <?php $timestamp = time();?>
+        //发布文章-图片上传
+        $(function() {
+            $('#file_upload').uploadify({
+                'buttonText':'选择图片',
+                'formData'     : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    '_token'     : "{{csrf_token()}}",
+                },
+                'swf'      : '{{url('uploadify/uploadify.swf')}}',
+                'uploader' : '{{url('/upload')}}',
+                'onUploadSuccess':function (file,data,response) {
+                    var data = JSON.parse(data);
+                    $('#banner').val(data.res);
+                    $('#article_thumb_img').attr('src',data.res);
+                },
+                'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+                    alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
+                }
+            });
+        });
     </script>
-
 @endsection
