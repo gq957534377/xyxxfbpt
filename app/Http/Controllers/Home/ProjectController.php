@@ -7,9 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 use Qiniu\Auth;
-use Qiniu\Storage\UploadManager;
+use App\Tools\Common;
 
 class ProjectController extends Controller
 {
@@ -26,13 +25,24 @@ class ProjectController extends Controller
     /**返回项目列表页
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 贾济林
+     * @modify 刘峻廷
      */
     public function index()
     {
         $where = ['disable'=>'0','status'=>'3'];
+
         $res = self::$projectServer->getData($where);
-        if (!$res['status']) return view('home.project.project_list')->with('data',[]);
-        return view('home.project.project_list')->with('data',$res['data']);
+        // 处理内容，限制字数
+        $projects = $res['data'];
+        Common::wordLimit($projects, 'content', 15);
+
+        if (!$res['status']) {
+            $projects = [];
+            return view('heroHome.projects.index', compact('projects'));
+        } else {
+            return view('heroHome.projects.index', compact('projects'));
+        }
+
     }
 
     /**

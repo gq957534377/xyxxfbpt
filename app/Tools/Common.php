@@ -68,7 +68,7 @@ class Common {
         // 生成验证码图片的Builder对象，配置相应属性
         $builder = new CaptchaBuilder($code,$phrase);
         //设置背景颜色
-        $builder->setBackgroundColor(205, 233, 192);
+        $builder->setBackgroundColor(255, 255, 255);
         //设置文本字体颜色
         $builder->setTextColor(46,105,59);
         // 设置前置干扰线
@@ -78,7 +78,7 @@ class Common {
         //设置倾斜角度
         $builder->setMaxAngle(0);
         //设置图片的宽高及字体
-        $builder->build($width = 118 ,$height = 36,$font = null);
+        $builder->build($width = 118 ,$height = 44,$font = null);
         // 获取验证码的内容
         $phrase = $builder->getPhrase();
         // 验证码存入session
@@ -222,5 +222,22 @@ class Common {
         
         if (!$err==null) return $err;
         return $res;
+    }
+
+    /**
+     * 字符限制，添加省略号
+     * @param $words
+     * @param $limit
+     * @return string
+     * @author 刘峻廷
+     */
+    public static function wordLimit($words, $filed,$limit)
+    {
+        foreach($words as $word){
+            $content = trim($word->$filed);
+            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';;
+            $word->$filed = $content;
+        }
+
     }
 }

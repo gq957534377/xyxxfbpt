@@ -192,12 +192,15 @@
         var str = '';
         // 判断手机号
         if($.trim(phone).length == 0){
-            alert('警告' + '请输入手机号');
+
+           // promptBoxHandle('警告','请输入手机号');
+            alert('警告','请输入手机号');
             exit();
         } else {
             if(isPhoneNo($.trim(phone))== false) {
                 // promptBoxHandle('警告','手机号不正确');
                 alert('警告' + '手机号不正确');
+
                 exit();
             }
         }
@@ -218,9 +221,10 @@
                 switch (data.StatusCode){
                     case '400':
                         // promptBoxHandle('警告',data.ResultData);
-                        alert('警告' + data.ResultData);
+                        alert('警告',data.ResultData);
                         setTime($("#sendCode"));
                         break;
+
                     case '200':
                         alert('提示' + data.ResultData);
                         setTime($("#sendCode"));

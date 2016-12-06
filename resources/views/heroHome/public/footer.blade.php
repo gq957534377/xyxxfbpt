@@ -1,10 +1,10 @@
 <footer class="container-fluid">
     <div class="container">
-        <div class="row">
-            <div class="footer-left col-xs-12 col-sm-4 col-md-3 col-lg-3">
+        <div class="row change-row-margin">
+            <div class="footer-left col-xs-12 col-sm-4 col-md-4 col-lg-3">
                 <p class="text-left">客服电话：4008652555<br>客服邮箱：qlyxh@.com<br>工作时间：周一至周五10:00-18:00</p>
             </div>
-            <div class="footer-center col-xs-12  col-sm-4 col-md-5 col-lg-5">
+            <div class="footer-center col-xs-12  col-sm-4 col-md-4 col-lg-5">
                 <a href="#">关于我们</a>
                 <a href="#">新人课堂</a>
                 <a href="#">常见问题</a>

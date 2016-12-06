@@ -36,6 +36,10 @@
                     <li><a href="{{url('project/nopass')}}">未通过项目管理</a></li>
                 </ul>
             </li>
+            {{--网站管理--}}
+            <li class="has-submenu">
+                <a href="{{url('webadmins')}}"><i class="fa fa-dollar"></i> <span class="nav-label">网站管理</span><span class="menu-arrow"></span></a>
+            </li>
         </ul>
     </nav>
 
