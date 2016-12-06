@@ -19,7 +19,7 @@
 
                         <div style="height: 60px;">
                             <h2>更换logo</h2>
-                            <div  class="ibox-content pull-right" style="margin: -50px 150px 0 0;">
+                            <div class="ibox-content pull-right" style="margin-top: -50px;">
                                 @include('admin.webadminstrtion.logobomb')
                             </div>
                         </div>
@@ -30,7 +30,6 @@
         </div> <!-- col -->
     </div> <!-- End row -->
 
-
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
@@ -39,12 +38,6 @@
                     <div class=" form p-20">
 
                         <form class="cmxform form-horizontal tasi-form" id="textfrom" method="get" action="#">
-                            {{--<div class="form-group ">--}}
-                                {{--<label for="cname" class="control-label col-lg-2">顶部宣传语：</label>--}}
-                                {{--<div class="col-lg-10">--}}
-                                    {{--<input class=" form-control" id="top-propaganda" name="toppropaganda" type="text" required="" aria-required="true">--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
                             <div class="form-group ">
                                 <label for="cemail" class="control-label col-lg-2">客服电话：</label>
                                 <div class="col-lg-10">
@@ -90,11 +83,5 @@
 @include("Tool.Ajax")
 @include("admin.validator.webAdminValidator")
 
-
-@endsection
-@section('script')
-    <script>
-
-    </script>
 
 @endsection

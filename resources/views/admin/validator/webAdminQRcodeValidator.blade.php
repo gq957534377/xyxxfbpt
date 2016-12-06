@@ -29,21 +29,19 @@
                     });
                     //与正常form不同，通过下面这样来获取需要验证的字段
                     var data = new FormData();
-                    data.append( "tel"      , $("input[name= 'tel']").val());
-                    data.append( "email"     , $("input[name= 'email']").val());
-                    data.append( "time"       , $("input[name= 'time']").val());
-                    data.append( "record"     ,$("input[name= 'record']").val());
+                    data.append( "title"      , $("input[name= 'title']").val());
+                    data.append( "synopsis1"     , $("input[name= 'synopsis1']").val());
+                    data.append( "synopsis2"       , $("input[name= 'synopsis2']").val());
 
                     //开始正常的ajax
                     // 异步登录
                     $.ajax({
                         type: "POST",
-                        url: '/web_admins',
+                        url: '/web_qrcode_organiz',
                         data: {
-                            'email': $("input[name= 'email']").val(),
-                            'time': $("input[name= 'time']").val(),
-                            'tel': $("input[name= 'tel']").val(),
-                            'record': $("input[name= 'record']").val(),
+                            'title': $("input[name= 'email']").val(),
+                            'synopsis1': $("input[name= 'time']").val(),
+                            'synopsis2': $("input[name= 'tel']").val()
 
                         },
                         success:function(data){
@@ -64,38 +62,14 @@
             this.$textfrom.validate({
                 // 验证规则
                 rules: {
-                    email: {
-                        required: true,
-                        email : true
-                    },
-                    tel: {
-                        required: true,
-                        minlength:6,
-                        maxlength:13
-                    },
-                    time: {
-                        required: true
-                    },
-                    record: {
+                    title: {
                         required: true
                     }
                 },
                 // 提示信息
                 messages: {
-                    email: {
-                        required: "请输入邮箱！",
-                        email: "Email 格式不对！"
-                    },
-                    time:{
-                        required: "工作时间是必填选项！"
-                    },
-                    tel: {
-                        required: "请输入客服电话",
-                        minlength: "电话长度必须大于6小于13",
-                        maxlength: "电话长度必须大于6小于13",
-                    },
-                    record: {
-                        required: '备案内容不能为空'
+                    title: {
+                        required: "请输入标题！"
                     }
                 }
             });

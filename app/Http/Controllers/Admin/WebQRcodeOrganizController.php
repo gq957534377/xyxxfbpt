@@ -8,9 +8,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\WebAdminService;
 use Validator;
-use App\Tools\Avatar;
 
-class WebAdminstrationController extends Controller
+
+class WebQRcodeOrganizController extends Controller
 {
     protected static $webAdmin;
     /** 单例引入
@@ -22,69 +22,23 @@ class WebAdminstrationController extends Controller
     {
         self::$webAdmin = $webAdminService;
     }
+
+
     /**
-     * 网站管理页面
+     * Display a listing of the resource.
      *
-     * @author 王通
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        // 取出界面数据
-        $res = self::$webAdmin->getAllWebConf();
-        return view('admin.webadminstrtion.webadmin', ['info' => $res['msg']]);
+        return view('admin.webadminstrtion.webadminqrcode');
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-    }
-
-    /**
-     *  管理界面文字信息
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $data = $request->all();
-        $validator = Validator::make($data, [
-            'email' => 'required',
-            'time' => 'required',
-            'tel' => 'required',
-            'record' => 'required',
-        ], [
-            'email.required' => '邮箱不能为空',
-            'email.email' => '邮箱格式不正确',
-            'time.required' => '时间不能为空',
-            'tel.required' => '联系方式不能为空',
-            'record.required' => '备案内容不能为空',
-        ]);
-        // 验证不通过 退回请求
-        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
-
-        // 管理页面文字信息
-        $info = self::$webAdmin->saveWebAdmin($request->all());
-
-        if ($info['status'] == '200') {
-            return ['StatusCode' => '200', 'ResultData' => $info['msg']];
-        } else {
-            return ['StatusCode' => '400', 'ResultData' => $info['msg']];
-        }
-
-    }
-
-    /**
-     * 上传 更改 logo
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @author 王通
+     * @return array|\Illuminate\Http\JsonResponse
      */
-    public function uploadLogo (Request $request)
+    public function uploadQRcode (Request $request)
     {
         //数据验证过滤
         $validator = Validator::make($request->all(),[
@@ -98,7 +52,7 @@ class WebAdminstrationController extends Controller
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['state' => 400,'result' => $validator->errors()->all()]);
 
-        $info = self::$webAdmin->uploadImg($request, 'logo');
+        $info = self::$webAdmin->uploadImg($request, 'qrcode');
 
         // 判断上传是否成功
         if ($info['status'] == '200') {
@@ -106,9 +60,28 @@ class WebAdminstrationController extends Controller
         } else {
             return response()->json(['state' => 400,'result' => $info['msg']]);
         }
-
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
     }
 
+    /**
+     * 保存二维码相关介绍
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\
+     * @author 王通
+     */
+    public function store(Request $request)
+    {
+        dd('asdfasdddddd');
+    }
 
     /**
      * Display the specified resource.
