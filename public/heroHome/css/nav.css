@@ -1,0 +1,63 @@
+/******导航样式开始***********/
+li{
+  list-style: none;
+}
+input{
+  border: 0px;
+}
+.naves{
+  margin-top: 78.6px;
+  background: #ff9036;
+}
+.icon-bar{
+  background: #ffffff;
+}
+.naves a{
+  color: #ffffff;
+}
+.naves .nav > li > a:focus,.naves .nav > li > a:hover{
+  background: #ffffff;
+  color:#FF9036;
+}
+.naves .nav{
+  width: 100%;
+  max-width:996px;
+  text-align: center;
+  margin: 0 auto;
+  float: none;
+}
+.naves .nav>li{
+  float: none;
+  padding: 0 0.6%;
+  font-size: 0;
+  text-align: left;
+}
+@media screen and (min-width: 1200px){
+  .naves .nav>li{
+    padding:0 25px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .naves .nav>li{
+    text-align: center;
+    display: inline-block;
+  }
+}
+.naves .nav>li>a{
+  font-size: 14px;
+}
+.naves .nav>li:nth-child(1){
+  padding-left: 0;
+}
+.naves .nav>li:last-child{
+  padding-right: 0;
+}
+.hang{
+  width: 100%;
+  height: auto;
+  margin-bottom: 14px;
+}
+.hang>img{
+  width: 100%;
+}
+/******导航样式结束***********/

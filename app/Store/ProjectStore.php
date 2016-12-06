@@ -37,6 +37,15 @@ class ProjectStore {
     }
 
     /**
+     * 随机拿取3条数据
+     * @return mixed
+     * @author 刘峻廷
+     */
+    public function takeData($number)
+    {
+        return DB::table(self::$table)->orderByRaw('RAND()')->take($number)->get();
+    }
+    /**
      * 更新指定条件的数据
      * @param $param
      * @param $data

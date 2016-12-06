@@ -14,6 +14,7 @@ use App\Store\CommentStore;
 use App\Store\LikeStore;
 use App\Tools\Common;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ActionService
 {
@@ -456,4 +457,47 @@ class ActionService
         return ['status' => true, 'data' => $action];
     }
 
+    /**
+     * 拿取三条活动数据
+     * @param $type
+     * @param int $number
+     * @return array
+     * @author 刘峻廷
+     */
+    public function takeActions($type, $status = null,$number = 3)
+    {
+
+        if (!isset($type)) return ['status' => false, 'msg' => '缺少参数'];
+
+        if (isset($status)) {
+            $where = ['type' => $type, 'status' => $status];
+        } else {
+            $where = ['type' => $type];
+        }
+
+        $result = self::$actionStore->takeActions($where,$number);
+
+        if ($result) return ['status' => true, 'msg' => $result];
+
+        Log::error('拿取三条活动数据失败', $result);
+
+        return ['status' => false, 'msg' => '查询失败'];
+    }
+
+    /**
+     * 字符限制，添加省略号
+     * @param $words
+     * @param $limit
+     * @return string
+     * @author 刘峻廷
+     */
+    public function wordLimit($words, $filed,$limit)
+    {
+        foreach($words as $word){
+            $content = trim($word->$filed);
+            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';;
+            $word->$filed = $content;
+        }
+
+    }
 }
