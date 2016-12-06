@@ -9,7 +9,7 @@
                     <ul class="navbar-right">
                         <li id="fat-menu" class="dropdown">
                             <a id="drop3" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="img-circle" src="{{ session('user')->headpic }}" alt="头像" title="{{ session('user')->nickname }}">
+                                <img id="topAvatar" class="img-circle" src="{{ session('user')->headpic }}" alt="头像" title="{{ session('user')->nickname }}" data-id="{{ session('user')->guid }}">
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
                                 <li role="presentation">

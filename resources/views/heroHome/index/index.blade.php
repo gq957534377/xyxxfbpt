@@ -1,5 +1,9 @@
 @extends('heroHome.layouts.master')
 
+@section('style')
+    <link href="{{ asset('heroHome/css/index(pc).css') }}" rel="stylesheet">
+@endsection
+
 @section('menu')
     @parent
 @endsection
@@ -21,7 +25,7 @@
                 <ul class="row">
                     @foreach ($projects as $project)
                         <li class="col-sm-4">
-                            <a class="new_a" href="#">
+                            <a class="new_a" href="{{ route('project.show', $project->project_id) }}">
                                 <img src="{{ $project->image }}">
                                 <div class="companyName">{{ $project->title }}</div>
                                 <div class="classLabel">

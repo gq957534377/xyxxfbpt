@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Home;
 
 use App\Services\ProjectService;
+use App\Services\UserRoleService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -13,13 +15,19 @@ use App\Tools\Common;
 class ProjectController extends Controller
 {
     protected static $projectServer = null;
+    protected static $userRoleServer = null;
+    protected static $userServer = null;
+
+
     /**单例引入projectService
      * ProjectController constructor.
      * @param ProjectService $projectService
      */
-    public function __construct(ProjectService $projectService)
+    public function __construct(ProjectService $projectService, UserService $userServer, UserRoleService $userRoleServer)
     {
         self::$projectServer = $projectService;
+        self::$userServer = $userServer;
+        self::$userRoleServer = $userRoleServer;
     }
 
     /**返回项目列表页
@@ -81,13 +89,30 @@ class ProjectController extends Controller
      * @param $id
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 贾济林
+     * @modify 刘峻廷
      */
     public function show($id)
     {
+        // 项目详情
         $where = ['project_id'=>$id];
         $res = self::$projectServer->getData($where);
+
         if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
-        return view('home.project.pro_details')->with('data',$res['data']);
+        $project_details = $res['data'][0];
+
+        // 获取项目属于者具体信息
+        $userResult =self::$userServer->userInfo(['guid' => $project_details->guid]);
+        if (!$userResult['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        $headpic = $userResult['msg']->headpic;
+
+        $roleResult = self::$userRoleServer->userInfo(['guid' => $project_details->guid]);
+
+        if (!$userResult['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+        $userinfo = $userResult['msg'];
+        $userinfo->headpic = $headpic;
+
+//        return view('home.project.pro_details')->with('data',$res['data']);
+        return view('heroHome.projects.details', compact('project_details', 'userinfo'));
     }
 
     /**
