@@ -1,4 +1,4 @@
-@extends('admin.layouts.master')
+@extends('admin.layouts.master_logo')
 
 @section('content')
 @section('title', '网站管理')
@@ -19,7 +19,7 @@
 
                         <div style="height: 60px;">
                             <h2>更换logo</h2>
-                            <div  class="ibox-content pull-right" style="margin: -50px 150px 0 0;">
+                            <div  class="ibox-content pull-right" style="margin: -50px 10px 0 0;">
                                 @include('admin.webadminstrtion.logobomb')
                             </div>
                         </div>
@@ -89,6 +89,7 @@
 </div>
 @include("Tool.Ajax")
 @include("admin.validator.webAdminValidator")
+
 
 
 @endsection

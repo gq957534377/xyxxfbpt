@@ -17,7 +17,7 @@
                     <div class=" form p-20">
 
                         <div style="height: 60px;">
-                            <h2>更换二维码</h2>
+                            <h2>点击更换二维码</h2>
                             <div  class="ibox-content pull-right" style="margin: -50px 150px 0 0;">
                                 @include('admin.webadminstrtion.qrcode')
                             </div>
@@ -59,7 +59,7 @@
                             <div class="form-group ">
                                 <label for="cemail" class="control-label col-lg-2">简介2：</label>
                                 <div class="col-lg-10">
-                                    <input class="form-control " id="synopsis2" type="text" name="synopsis2"  aria-required="true" value="{{ $info['time'] or ''}}" >
+                                    <input class="form-control " id="synopsis2" type="text" name="synopsis2"  aria-required="true" value="{{ $info['synopsis2'] or ''}}" >
                                 </div>
                             </div>
 

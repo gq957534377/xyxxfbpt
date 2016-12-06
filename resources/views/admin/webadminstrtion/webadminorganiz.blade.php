@@ -16,9 +16,8 @@
                 <div class="panel-heading"><h3 class="panel-title">logo管理</h3></div>
                 <div class="panel-body">
                     <div class=" form p-20">
-
                         <div style="height: 60px;">
-                            <h2>更换logo</h2>
+                            <h2>点击更换logo</h2>
                             <div class="ibox-content pull-right" style="margin-top: -50px;">
                                 @include('admin.webadminstrtion.logobomb')
                             </div>
@@ -80,8 +79,11 @@
 
 
 </div>
+
 @include("Tool.Ajax")
+
 @include("admin.validator.webAdminValidator")
 
-
 @endsection
+
+

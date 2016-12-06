@@ -52,6 +52,8 @@ class WebAdminstrationController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+
+        // 验证信息
         $validator = Validator::make($data, [
             'email' => 'required',
             'time' => 'required',
@@ -75,7 +77,6 @@ class WebAdminstrationController extends Controller
         } else {
             return ['StatusCode' => '400', 'ResultData' => $info['msg']];
         }
-
     }
 
     /**

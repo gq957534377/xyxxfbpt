@@ -1,8 +1,8 @@
 <div class="" id="crop-avatar">
 
     <!-- Current avatar -->
-    <div class="avatar-view" title="修改logo" style="width: 400px;">
-        <img id="headpic" src="{{asset('cropper/img/picture.jpg')}}" alt="Avatar"/>
+    <div class="avatar-view" title="修改logo" style="width: 60%;height: 100%;">
+        <img id="headpic" src="{{ $info['logo'] }}" alt="Avatar"/>
     </div>
 
     <!-- Cropping modal -->
@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <form class="avatar-form" action="{{ url('/web_admins/uploadlogo') }}" enctype="multipart/form-data" method="post">
                     {{ csrf_field()}}
-                    <input type="hidden" name="guid" value="{{asset('cropper/img/picture.jpg')}}">
+                    <input type="hidden" name="guid" value="{{ $info['logo'] }}">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">&times;</button>
                         <h4 class="modal-title" id="avatar-modal-label">更改logo</h4>
@@ -62,6 +62,7 @@
     <!-- Loading state -->
     <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
 </div>
+
 <script>
 
 </script>
