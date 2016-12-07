@@ -23,12 +23,13 @@
                     </div>
                 </div>
                 <ul class="row">
-                    @foreach ($projects as $project)
-                        <li class="col-sm-4">
-                            <a class="new_a" href="{{ route('project.show', $project->project_id) }}">
-                                <img src="{{ $project->image }}">
-                                <div class="companyName">{{ $project->title }}</div>
-                                <div class="classLabel">
+                    @if(isset($projects))
+                        @foreach ($projects as $project)
+                            <li class="col-sm-4">
+                                <a class="new_a" href="{{ route('project.show', $project->project_id) }}">
+                                    <img src="{{ $project->image }}">
+                                    <div class="companyName">{{ $project->title }}</div>
+                                    <div class="classLabel">
                                 <span>
                                     @if($project->project_type == 1)
                                         热门推荐
@@ -48,14 +49,17 @@
                                         爱心公益
                                     @endif
                                 </span>
-                                    <span>{{ $project->habitude }}</span>
-                                </div>
-                                <p class="new_p">
-                                    {{ $project->content }}
-                                </p>
-                            </a>
-                        </li>
-                    @endforeach
+                                        <span>{{ $project->habitude }}</span>
+                                    </div>
+                                    <p class="new_p">
+                                        {{ $project->content }}
+                                    </p>
+                                </a>
+                            </li>
+                        @endforeach
+                    @else
+                        暂无数据
+                    @endif
                 </ul>
             </div>
         </div>

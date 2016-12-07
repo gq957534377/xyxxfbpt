@@ -47,7 +47,7 @@ class HomeController extends Controller
         // 学习培训活动
         $trainResult = self::$actionServer->takeActions(3, null, 2);
         self::$actionServer->wordLimit($trainResult['msg'], 'brief',60);
-       
+
         $projects = $projectResult['msg'];
         $roadShows  = $roadShowResult['msg'];
         $sybs = $sybResult['msg'];

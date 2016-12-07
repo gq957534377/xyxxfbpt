@@ -2,10 +2,7 @@
 
 namespace App\Tools;
 
-
-use App\Http\Requests\Request;
 use Intervention\Image\Facades\Image as Image;
-use Faker\Provider\Uuid;
 
 class Avatar{
 
@@ -28,7 +25,8 @@ class Avatar{
         $tmpFile = $file->getRealPath();
         //拼装新的文件名
         $extension = $file->getClientOriginalExtension();
-        $newFilename = Uuid::uuid().'.'.$extension;
+//        $newFilename = Uuid::uuid().'.'.$extension;
+        $newFilename = date('YmdHis').str_random(3).'.'.$extension;
         $path = public_path('uploads/avatars/');
 
         if (!file_exists($path)) {
@@ -41,9 +39,9 @@ class Avatar{
             ->crop($cropW,$cropH,$cropX,$cropY)
             ->save($path .$newFilename);
 
-        if( !$img) return ['status' => '400','msg' => '图片保存失败'];
+        if(!$img) return ['status' => '400','msg' => '图片保存失败'];
 
-        $info = Common::QiniuUpload($path .$newFilename,$newFilename);
+        $info = Common::QiniuUpload($path.$newFilename,$newFilename);
 
         if(!$info['status']) return ['status' => '400','msg' => '存储失败!'];
         //成功删除本地图片
