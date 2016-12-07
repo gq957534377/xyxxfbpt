@@ -81,9 +81,10 @@
 
                 <!--基本信息编辑开始 隐藏-->
                 <div id="editUserInfo" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 personal-data" style="display: none;">
+                    <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
                     <div class="basic-info">
                         <span>基本信息</span>
-                        <a href="#" class="pull-right">保存</a>
+                        <a href="#" class="pull-right" id="editSubmit">保存</a>
 
                         <div class="mar-b30 col-md-12 col-sm-12" style="padding: 0;margin-top: 30px;">
                             <label for="inputfile" class="col-md-2 control-label line-h hidden-xs hidden-sm" style="padding: 0;font-weight: unset;">头像</label>
@@ -121,7 +122,7 @@
                             <div class="form-group mar-b15">
                                 <span class="col-md-2 control-label mar-b10 dis-in-bl">生日</span>
                                   <div class="col-md-4">
-                                      <input type="text" name="birthday" class="form-control pad-clr-xs text-center some_class" id="birthday-year"></div>
+                                      <input type="text" name="birthday" class="form-control pad-clr-xs text-center date-time" id="birthday-year"></div>
                             </div>
                             <div class="form-group mar-b30">
                                 <label for="wechat-num" class="col-md-2 control-label mar-b10">微信</label>
@@ -155,8 +156,10 @@
 @section('script')
     <script src="{{asset('home/js/jquery.citys.js')}}"></script>
     <script src="{{asset('dateTime/build/jquery.datetimepicker.full.js')}}"></script>
+    <script src="{{asset('home/js/dateTime.js')}}"></script>
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
     <script src="{{asset('cropper/js/main.js')}}"></script>
+    <script src="{{asset('home/js/ajaxRequire.js')}}"></script>
 
 
 <script>
@@ -224,12 +227,20 @@
         });
 
         // 编辑页，点击编辑，将Dom元素替换
-
-
         $('#editBtn').click(function(){
             $('#userinfo').hide();
             $('#editUserInfo').show();
 
+        });
+
+        // 编辑保存用户信息
+        $("#editSubmit").click(function(){
+            var data = {
+                'realname' : $('input[name="realname"]').val(),
+                'birthday' : $('input[name="birthday"]').val(),
+                'sex':  $('input:radio[name="user_sex"]:checked').val()
+            };
+            ajaxRequire('user/'+guid,'PUT',data,$("#editUserInfo"),2);
         });
 
     });
