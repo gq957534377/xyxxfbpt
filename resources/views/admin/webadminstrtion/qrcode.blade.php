@@ -1,7 +1,7 @@
 <div class="" id="crop-avatar">
 
     <!-- Current avatar -->
-    <div class="avatar-view" title="修改logo" style="width: 400px;">
+    <div class="avatar-view" title="修改二维码">
         <img id="headpic" src="{{asset('cropper/img/picture.jpg')}}" alt="Avatar"/>
     </div>
 
@@ -9,12 +9,12 @@
     <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form class="avatar-form" action="{{ url('/web_admins/uploadlogo') }}" enctype="multipart/form-data" method="post">
+                <form class="avatar-form" action="{{ url('/web_qrcode_organiz/uploadqrcode') }}" enctype="multipart/form-data" method="post">
                     {{ csrf_field()}}
                     <input type="hidden" name="guid" value="{{asset('cropper/img/picture.jpg')}}">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">&times;</button>
-                        <h4 class="modal-title" id="avatar-modal-label">更改logo</h4>
+                        <h4 class="modal-title" id="avatar-modal-label">更改二维码</h4>
                     </div>
                     <div class="modal-body">
                         <div class="avatar-body">
@@ -23,7 +23,7 @@
                             <div class="avatar-upload">
                                 <input class="avatar-src" name="avatar_src" type="hidden"/>
                                 <input class="avatar-data" name="avatar_data" type="hidden"/>
-                                <label  for="avatarInput">logo上传</label>
+                                <label  for="avatarInput">二维码上传</label>
                                 <input class="avatar-input" id="avatarInput" name="avatar_file" type="file"/>
                             </div>
 
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <button id="uploadimg" class="btn btn-info btn-block avatar-save" type="submit">更换</button>
+                                    <button class="btn btn-info btn-block avatar-save" type="submit">更换</button>
                                 </div>
                             </div>
                         </div>
@@ -63,5 +63,10 @@
     <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
 </div>
 <script>
-
+    $('.avatar-view > img').cropper({
+        aspectRatio: 16 / 9,
+        crop: function(data) {
+            // Output the result data for cropping image.
+        }
+    });
 </script>

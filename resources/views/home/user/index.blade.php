@@ -85,8 +85,7 @@
                                     <div class="col-sm-6">
                                         <input class="form-control" name="user_phone" type="text" readonly></div>
                                     <div class="col-sm-4 help-block">如：18870913609</div></div>
-
-                                <div class="form-group">
+                                 <div class="form-group">
                                     <div class="col-sm-offset-2 col-sm-6">
                                         <input class="btn btn-info" id="editSubmit" value="应用修改" type="button"></div>
                                 </div>

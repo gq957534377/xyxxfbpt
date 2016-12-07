@@ -37,9 +37,17 @@
                 </ul>
             </li>
             {{--网站管理--}}
-            <li class="has-submenu">
-                <a href="{{url('webadmins')}}"><i class="fa fa-dollar"></i> <span class="nav-label">网站管理</span><span class="menu-arrow"></span></a>
+
+            <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">网站管理</span><span class="menu-arrow"></span></a>
+                <ul class="list-unstyled">
+                    <li><a href="{{ url('/web_admins') }}">公共内容管理</a></li>
+                    <li><a href="{{ url('/web_qrcode_organiz') }}">二维码管理</a></li>
+                    <li><a href="{{url('/web_admins_seo')}}">SEO优化</a></li>
+                    <li><a href="{{url('/web_Cooper_organiz')}}">合作机构管理</a></li>
+                    <li><a href="{{url('/web_invest_organiz')}}">投资机构管理</a></li>
+                </ul>
             </li>
+
         </ul>
     </nav>
 

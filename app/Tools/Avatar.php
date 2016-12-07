@@ -5,6 +5,7 @@ namespace App\Tools;
 
 use App\Http\Requests\Request;
 use Intervention\Image\Facades\Image as Image;
+use Faker\Provider\Uuid;
 
 class Avatar{
 
@@ -27,7 +28,7 @@ class Avatar{
         $tmpFile = $file->getRealPath();
         //拼装新的文件名
         $extension = $file->getClientOriginalExtension();
-        $newFilename = date('YmdHis').'.'.$extension;
+        $newFilename = Uuid::uuid().'.'.$extension;
         $path = public_path('uploads/avatars/');
 
         if (!file_exists($path)) {
