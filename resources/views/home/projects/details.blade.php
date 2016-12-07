@@ -1,14 +1,14 @@
-@extends('heroHome.layouts.master')
+@extends('home.layouts.master')
 
 @section('title','创新作品详情')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('heroHome/css/content(pc).css') }}">
+    <link rel="stylesheet" href="{{ asset('home/css/content(pc).css') }}">
 @endsection
 
 @section('menu')
     <!---导航栏开始-->
-    @include('heroHome.public.nav')
+    @include('home.public.nav')
     <!---导航栏结束-->
 @endsection
 
@@ -16,14 +16,14 @@
     <section class="container-fluid hang">
         <div class="row vidio_block">
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 top_left">
-                {{--<img src="{{ asset('heroHome/img/demoimg/test7.jpg') }}">--}}
+                {{--<img src="{{ asset('home/img/demoimg/test7.jpg') }}">--}}
                 <img src="{{ $project_details->image }}">
             </div>
             <!--项目主要属性开始-->
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 top_right">
                 <div class="row top_right_1">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 top_right_1_left">
-                        <img src="{{ asset('heroHome/img/demoimg/test8.jpg') }}">
+                        <img src="{{ asset('home/img/demoimg/test8.jpg') }}">
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 top_right_1_right">
                         <h2>{{ $project_details->title }}</h2>
@@ -173,7 +173,7 @@
                 <!--循环遍历结束-->
                 <li class="row">
                     <div class="rowsd">
-                        <img src="{{ asset('heroHome/img/demoimg/test11.jpg') }}" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <img src="{{ asset('home/img/demoimg/test11.jpg') }}" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                         <ul class="col-lg-9 col-md-9 col-sm-9 cyxx-ul">
                             <li class="row">
                                 <span>CEO</span>
@@ -216,7 +216,7 @@
                         <li class="row">
                             <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                 <div class="user-img-bgs">
-                                    <img src="{{ asset('heroHome/img/demoimg/test11.jpg') }}">
+                                    <img src="{{ asset('home/img/demoimg/test11.jpg') }}">
                                 </div>
                             </div>
                             <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
@@ -233,7 +233,7 @@
                         <li class="row">
                             <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                 <div class="user-img-bgs">
-                                    <img src="{{ asset('heroHome/img/demoimg/test11.jpg') }}">
+                                    <img src="{{ asset('home/img/demoimg/test11.jpg') }}">
                                 </div>
                             </div>
                             <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">

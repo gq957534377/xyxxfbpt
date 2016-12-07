@@ -25,22 +25,22 @@
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner" role="listbox">
                     <div class="item active">
-                        <img src="{{ asset('heroHome/img/demoimg/index_nav_img.jpg') }}" alt="...">
+                        <img src="{{ asset('home/img/demoimg/index_nav_img.jpg') }}" alt="...">
                         <div class="carousel-caption">
                         </div>
                     </div>
                     <div class="item">
-                        <img src="{{ asset('heroHome/img/demoimg/banner.png') }}" alt="...">
+                        <img src="{{ asset('home/img/demoimg/banner.png') }}" alt="...">
                         <div class="carousel-caption">
                         </div>
                     </div>
                     <div class="item">
-                        <img src="{{ asset('heroHome/img/demoimg/index_nav_img.jpg') }}" alt="...">
+                        <img src="{{ asset('home/img/demoimg/index_nav_img.jpg') }}" alt="...">
                         <div class="carousel-caption">
                         </div>
                     </div>
                     <div class="item">
-                        <img src="{{ asset('heroHome/img/demoimg/banner.png') }}" alt="...">
+                        <img src="{{ asset('home/img/demoimg/banner.png') }}" alt="...">
                         <div class="carousel-caption">
                         </div>
                     </div>

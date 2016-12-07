@@ -1,4 +1,4 @@
-﻿@extends('heroHome.layouts.master')
+﻿@extends('home.layouts.master')
 
 @section('title','欢迎来到英雄会登录中心!')
 
@@ -7,8 +7,8 @@
 @endsection
 
 @section('style')
-  <link rel="stylesheet" href="{{ asset('heroHome/css/base.css') }}">
-  <link rel="stylesheet" href="{{ asset('heroHome/css/login.css') }}">
+  <link rel="stylesheet" href="{{ asset('home/css/base.css') }}">
+  <link rel="stylesheet" href="{{ asset('home/css/login.css') }}">
 @endsection
 
 @section('content')

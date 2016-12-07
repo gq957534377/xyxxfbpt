@@ -1,21 +1,21 @@
-@extends('heroHome.layouts.master')
+@extends('home.layouts.master')
 
 @section('title', '创新作品')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('heroHome/css/list(pc).css') }}">
+    <link rel="stylesheet" href="{{ asset('home/css/list(pc).css') }}">
 @endsection
 
 @section('menu')
     <!---导航栏开始-->
-    @include('heroHome.public.nav')
+    @include('home.public.nav')
     <!---导航栏结束-->
 @endsection
 
 @section('content')
 <!-- 广告图 Start-->
     <section class="hang">
-        <img src="{{ asset('heroHome/img/demoimg/dd.jpg') }}">
+        <img src="{{ asset('home/img/demoimg/dd.jpg') }}">
     </section>
 <!-- 广告图 End-->
 

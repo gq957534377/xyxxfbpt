@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('heroHome.user.index');
+        return view('home.user.index');
     }
 
     /**

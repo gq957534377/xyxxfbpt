@@ -1,10 +1,10 @@
-@extends('heroHome.layouts.master')
+@extends('home.layouts.master')
 
 @section('title','用户中心')
 
 @section('style')
-    <link href="{{ asset('heroHome/css/user_center_aside.css') }}" rel="stylesheet">
-    <link href="{{ asset('heroHome/css/user_center_personal_data.css') }}" rel="stylesheet">
+    <link href="{{ asset('home/css/user_center_aside.css') }}" rel="stylesheet">
+    <link href="{{ asset('home/css/user_center_personal_data.css') }}" rel="stylesheet">
     <link href="{{asset('dateTime/jquery.datetimepicker.css')}}" rel="stylesheet">
     <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
     <link href="{{asset('cropper/css/main.css')}}" rel="stylesheet"/>
@@ -54,12 +54,12 @@
 
                 <!--基本信息开始-->
                 <div id="userinfo" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 personal-data">
-                    <img src="{{asset('heroHome/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+                    <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
                     <div class="basic-info">
                         <span>基本信息</span>
                         <a href="javascript:void(0);" class="pull-right" id="editBtn">编辑</a>
                         <ul class="list-unstyled">
-                            <li>头像<img class="user_avatar img-circle" src="{{ asset('heroHome/img/user_center.jpg') }}"></li>
+                            <li>头像<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}"></li>
                             <li>名字<span class="user_name">XXXXXXXXXX</span></li>
                             <li>性别<span class="user_sex">XXXXXXXXXX</span></li>
                             <li>生日<span class="user_birthday">XXXXXXXXXX</span></li>
@@ -88,7 +88,7 @@
                         <div class="mar-b30 col-md-12 col-sm-12" style="padding: 0;margin-top: 30px;">
                             <label for="inputfile" class="col-md-2 control-label line-h hidden-xs hidden-sm" style="padding: 0;font-weight: unset;">头像</label>
                             <div class="col-md-2">
-                                @include('heroHome.public.avatar')
+                                @include('home.public.avatar')
                             </div>
                             <div class="col-md-2">
                                 <span>点击头像进行更换</span>

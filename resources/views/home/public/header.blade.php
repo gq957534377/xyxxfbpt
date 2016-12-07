@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row change-row-margin">
             <div class="top-left">
-                <a href="{{ url('/') }}"><img class="img-responsive" src="{{ asset('heroHome/img/logo.jpg') }}"></a>
+                <a href="{{ url('/') }}"><img class="img-responsive" src="{{ asset('home/img/logo.jpg') }}"></a>
             </div>
             @if(!empty(session('user')))
                 <div class="top-right">
@@ -25,7 +25,7 @@
                 </div>
             @else
                 <div class="top-right">
-                    <a href="{{ url('/login') }}"><img class="img-circle" src="{{ asset('heroHome/img/icon_empty.png') }}"></a>
+                    <a href="{{ url('/login') }}"><img class="img-circle" src="{{ asset('home/img/icon_empty.png') }}"></a>
                     <a href="{{ url('/login') }}">未登录</a>
                     <a href="#">英雄社区</a>
                 </div>

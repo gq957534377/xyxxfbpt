@@ -53,7 +53,7 @@ class HomeController extends Controller
         $sybs = $sybResult['msg'];
         $trains = $trainResult['msg'];
 
-        return view('heroHome.index.index', compact('projects', 'roadShows', 'sybs', 'trains'));
+        return view('home.index.index', compact('projects', 'roadShows', 'sybs', 'trains'));
     }
 
     /**

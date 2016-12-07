@@ -33,7 +33,7 @@ class RegisterController extends Controller
     public function index()
     {
         if (!empty(session('user'))) return redirect('/');
-        return view('heroHome.register.register1');
+        return view('home.register.register1');
     }
 
     /**

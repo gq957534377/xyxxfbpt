@@ -1,7 +1,7 @@
-@extends('heroHome.layouts.master')
+@extends('home.layouts.master')
 
 @section('style')
-    <link href="{{ asset('heroHome/css/index(pc).css') }}" rel="stylesheet">
+    <link href="{{ asset('home/css/index(pc).css') }}" rel="stylesheet">
 @endsection
 
 @section('menu')
@@ -74,8 +74,8 @@
                 <li class="row">
                     <a href="#">
                         <div class="section2_img col-sm-3">
-                            <img src="{{ asset('heroHome/img/demoimg/xiaoyu.jpg') }}">
-                            <img src="{{ asset('heroHome/img/demoimg/xiaoyu.jpg') }}">
+                            <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
+                            <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
                         </div>
                         <div class="section2_center col-sm-6">
                             <div class="section2_center_title">
@@ -109,8 +109,8 @@
                 <li class="row">
                     <a href="#">
                         <div class="section2_img col-sm-3">
-                            <img src="{{ asset('heroHome/img/demoimg/xiaoyu.jpg') }}">
-                            <img src="{{ asset('heroHome/img/demoimg/xiaoyu.jpg') }}">
+                            <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
+                            <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
                         </div>
                         <div class="section2_center col-sm-6">
                             <div class="section2_center_title">
@@ -144,8 +144,8 @@
                 <li class="row">
                     <a href="#">
                         <div class="section2_img col-sm-3">
-                            <img src="{{ asset('heroHome/img/demoimg/xiaoyu.jpg') }}">
-                            <img src="{{ asset('heroHome/img/demoimg/xiaoyu.jpg') }}">
+                            <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
+                            <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
                         </div>
                         <div class="section2_center col-sm-6">
                             <div class="section2_center_title">
@@ -312,7 +312,7 @@
                         <li class="col-sm-3">
                             <a href="#">
                                 <div class="img_block">
-                                    <img src="{{ asset('heroHome/img/demoimg/test.jpg') }}">
+                                    <img src="{{ asset('home/img/demoimg/test.jpg') }}">
                                     <div>
                                         <p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>
                                     </div>
@@ -332,7 +332,7 @@
                         <li class="col-sm-3">
                             <a href="#">
                                 <div class="img_block">
-                                    <img src="{{ asset('heroHome/img/demoimg/test.jpg') }}">
+                                    <img src="{{ asset('home/img/demoimg/test.jpg') }}">
                                     <div>
                                         <p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>
                                     </div>
@@ -352,7 +352,7 @@
                         <li class="col-sm-3">
                             <a href="#">
                                 <div class="img_block">
-                                    <img src="{{ asset('heroHome/img/demoimg/test.jpg') }}">
+                                    <img src="{{ asset('home/img/demoimg/test.jpg') }}">
                                     <div>
                                         <p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>
                                     </div>
@@ -372,7 +372,7 @@
                         <li class="col-sm-3">
                             <a href="#">
                                 <div class="img_block">
-                                    <img src="{{ asset('heroHome/img/demoimg/test.jpg') }}">
+                                    <img src="{{ asset('home/img/demoimg/test.jpg') }}">
                                     <div>
                                         <p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>
                                     </div>
@@ -394,7 +394,7 @@
                         <li class="col-sm-3">
                             <a href="#">
                                 <div class="img_block">
-                                    <img src="{{ asset('heroHome/img/demoimg/5837b19bN7c6a2b50.jpg') }}">
+                                    <img src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">
                                     <div>
                                         <p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>
                                     </div>
@@ -414,7 +414,7 @@
                         <li class="col-sm-3">
                             <a href="#">
                                 <div class="img_block">
-                                    <img src="{{ asset('heroHome/img/demoimg/5837b19bN7c6a2b50.jpg') }}">
+                                    <img src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">
                                     <div>
                                         <p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>
                                     </div>
@@ -434,7 +434,7 @@
                         <li class="col-sm-3">
                             <a href="#">
                                 <div class="img_block">
-                                    <img src="{{ asset('heroHome/img/demoimg/5837b19bN7c6a2b50.jpg') }}">
+                                    <img src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">
                                     <div>
                                         <p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>
                                     </div>
@@ -454,7 +454,7 @@
                         <li class="col-sm-3">
                             <a href="#">
                                 <div class="img_block">
-                                    <img src="{{ asset('heroHome/img/demoimg/5837b19bN7c6a2b50.jpg') }}">
+                                    <img src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">
                                     <div>
                                         <p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>
                                     </div>
@@ -489,7 +489,7 @@
             <div id="section6_bottom">
                 <ul id="section6_left" class="row">
                     <li class="col-sm-6">
-                        <img src="{{ asset('heroHome/img/demoimg/Roadshow.jpg') }}"/>
+                        <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
                         <div>
                             <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
                             <p>Posted on 2016/11/11 10:44:05</p>
@@ -497,7 +497,7 @@
                         </div>
                     </li>
                     <li class="col-sm-6">
-                        <img src="{{ asset('heroHome/img/demoimg/Roadshow.jpg') }}"/>
+                        <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
                         <div>
                             <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
                             <p>Posted on 2016/11/11 10:44:05</p>
@@ -505,7 +505,7 @@
                         </div>
                     </li>
                     <li class="col-sm-6">
-                        <img src="{{ asset('heroHome/img/demoimg/Roadshow.jpg') }}"/>
+                        <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
                         <div>
                             <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
                             <p>Posted on 2016/11/11 10:44:05</p>
@@ -513,7 +513,7 @@
                         </div>
                     </li>
                     <li class="col-sm-6">
-                        <img src="{{ asset('heroHome/img/demoimg/Roadshow.jpg') }}"/>
+                        <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
                         <div>
                             <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
                             <p>Posted on 2016/11/11 10:44:05</p>
@@ -571,11 +571,11 @@
         <section id="section7" class="font-size">
             <h2>英雄会合作机构</h2>
             <ul class="row">
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('heroHome/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('heroHome/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('heroHome/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('heroHome/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('heroHome/img/demoimg/test2.jpg') }}"></a></li>
+                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
+                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
+                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
+                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
+                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
             </ul>
         </section>
         <!----英雄会友情机构结束----->
@@ -585,7 +585,7 @@
     <!-- 英雄会顶级投资机构联盟 Start-->
     <div class=" container-fluid" style="padding: 0px">
         <section id="section8" class="font-size">
-            <img src="{{ asset('heroHome/img/demoimg/test3.jpg') }}"/>
+            <img src="{{ asset('home/img/demoimg/test3.jpg') }}"/>
         </section>
     </div>
 
@@ -594,84 +594,84 @@
             <h2>英雄会顶级投资机构联盟</h2>
             <ul class="row">
                 <li class="col-sm-2">
-                    <img src="{{ asset('heroHome/img/demoimg/test4.jpg') }}"/>
+                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">
                         <div>
-                            <img src="{{ asset('heroHome/img/cross.png') }}"/>
+                            <img src="{{ asset('home/img/cross.png') }}"/>
                         </div>
                     </a>
                 </li>
                 <li class="col-sm-2">
-                    <img src="{{ asset('heroHome/img/demoimg/test4.jpg') }}"/>
+                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">
                         <div>
-                            <img src="{{ asset('heroHome/img/cross.png') }}"/>
+                            <img src="{{ asset('home/img/cross.png') }}"/>
                         </div>
                     </a>
                 </li>
                 <li class="col-sm-2">
-                    <img src="{{ asset('heroHome/img/demoimg/test4.jpg') }}"/>
+                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">
                         <div>
-                            <img src="{{ asset('heroHome/img/cross.png') }}"/>
+                            <img src="{{ asset('home/img/cross.png') }}"/>
                         </div>
                     </a>
                 </li>
                 <li class="col-sm-2">
-                    <img src="{{ asset('heroHome/img/demoimg/test4.jpg') }}"/>
+                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">
                         <div>
-                            <img src="{{ asset('heroHome/img/cross.png') }}"/>
+                            <img src="{{ asset('home/img/cross.png') }}"/>
                         </div>
                     </a>
                 </li>
                 <li class="col-sm-2">
-                    <img src="{{ asset('heroHome/img/demoimg/test4.jpg') }}"/>
+                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">
                         <div>
-                            <img src="{{ asset('heroHome/img/cross.png') }}"/>
+                            <img src="{{ asset('home/img/cross.png') }}"/>
                         </div>
                     </a>
                 </li>
             </ul>
             <ul class="row">
                 <li class="col-sm-2">
-                    <img src="{{ asset('heroHome/img/demoimg/test4.jpg') }}"/>
+                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">
                         <div>
-                            <img src="{{ asset('heroHome/img/cross.png') }}"/>
+                            <img src="{{ asset('home/img/cross.png') }}"/>
                         </div>
                     </a>
                 </li>
                 <li class="col-sm-2">
-                    <img src="{{ asset('heroHome/img/demoimg/test4.jpg') }}"/>
+                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">
                         <div>
-                            <img src="{{ asset('heroHome/img/cross.png') }}"/>
+                            <img src="{{ asset('home/img/cross.png') }}"/>
                         </div>
                     </a>
                 </li>
                 <li class="col-sm-2">
-                    <img src="{{ asset('heroHome/img/demoimg/test4.jpg') }}"/>
+                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">
                         <div>
-                            <img src="{{ asset('heroHome/img/cross.png') }}"/>
+                            <img src="{{ asset('home/img/cross.png') }}"/>
                         </div>
                     </a>
                 </li>
                 <li class="col-sm-2">
-                    <img src="{{ asset('heroHome/img/demoimg/test4.jpg') }}"/>
+                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">
                         <div>
-                            <img src="{{ asset('heroHome/img/cross.png') }}"/>
+                            <img src="{{ asset('home/img/cross.png') }}"/>
                         </div>
                     </a>
                 </li>
                 <li class="col-sm-2">
-                    <img src="{{ asset('heroHome/img/demoimg/test4.jpg') }}"/>
+                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">
                         <div>
-                            <img src="{{ asset('heroHome/img/cross.png') }}"/>
+                            <img src="{{ asset('home/img/cross.png') }}"/>
                         </div>
                     </a>
                 </li>
