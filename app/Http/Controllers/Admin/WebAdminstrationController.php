@@ -62,6 +62,7 @@ dd('asdfdsa');
             'tel.required' => '邮箱不能为空',
             'record.required' => '邮箱不能为空',
         ]);
+
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
         $info = self::$webAdmin->saveWebText($request->all());
         if ($info['status'] == '200') {
