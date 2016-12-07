@@ -54,7 +54,7 @@
 
                 <!--基本信息开始-->
                 <div id="userinfo" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 personal-data">
-                    <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+                    <img src="{{asset('heroHome/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
                     <div class="basic-info">
                         <span>基本信息</span>
                         <a href="javascript:void(0);" class="pull-right" id="editBtn">编辑</a>
