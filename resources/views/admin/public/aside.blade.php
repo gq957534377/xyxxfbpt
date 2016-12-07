@@ -49,6 +49,8 @@
 
                 </ul>
             </li>
+            <li class="has-submenu"><a href="{{asset('/test')}}"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">用户管理beta</span><span class="menu-arrow"></span></a>
+
 
         </ul>
     </nav>

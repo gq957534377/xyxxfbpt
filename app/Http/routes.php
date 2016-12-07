@@ -62,6 +62,9 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/web_qrcode_organiz', 'WebQRcodeOrganizController');
         // 图片内容管理
         Route::resource('/picture/carousel', 'PictureOrganizController@carousel');
+
+        // 用户管理bate
+        Route::resource('/test','TestController');
     });
 });
 
