@@ -13,7 +13,7 @@
 
     </div> <!-- End row -->
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <div class="panel">
                 <div class="panel-body">
                     <div class="media-main">
@@ -38,7 +38,7 @@
             </div> <!-- panel -->
         </div> <!-- end col -->
 
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <div class="panel">
                 <div class="panel-body">
                     <div class="media-main">
@@ -103,13 +103,13 @@
 
 
 
-
 </div>
 
-@include("Tool.Ajax")
-
-@include("admin.validator.webAdminValidator")
-
+@endsection
+@section('script')
+        @include("admin.validator.webAdminValidator")
+        <script src="{{asset('/cropper/js/cropper.min.js')}}"></script>
+        <script src="{{asset('/cropper/js/main.js')}}"></script>
 @endsection
 
 
