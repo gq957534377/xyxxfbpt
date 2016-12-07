@@ -1,20 +1,21 @@
 <div class="" id="crop-avatar">
 
     <!-- Current avatar -->
-    <div class="avatar-view" title="更换头像">
-        <img id="headpic" src="{{asset('cropper/img/picture.jpg')}}" alt="Avatar"/>
+    <div class="avatar-view" title="修改logo" style="width: 60%;height: 100%;">
+        <img id="headpic" class="thumb-lg" src="http://img1.imgtn.bdimg.com/it/u=3387611966,1108989621&fm=21&gp=0.jpg" alt="Avatar"/>
+
     </div>
 
     <!-- Cropping modal -->
     <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form class="avatar-form" action="{{url('/headpic')}}" enctype="multipart/form-data" method="post">
-                    {{ csrf_field()}}
-                    <input type="hidden" name="guid" value="{{session('user')->guid}}">
+                <form class="avatar-form" action="{{ url('/web_admins/uploadlogo') }}" enctype="multipart/form-data" method="post">
+                    {{ csrf_field() }}
+                    <input type="hidden" name="guid" value="http://img1.imgtn.bdimg.com/it/u=3387611966,1108989621&fm=21&gp=0.jpg">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">&times;</button>
-                        <h4 class="modal-title" id="avatar-modal-label">更换头像</h4>
+                        <h4 class="modal-title" id="avatar-modal-label">更改logo</h4>
                     </div>
                     <div class="modal-body">
                         <div class="avatar-body">
@@ -23,7 +24,7 @@
                             <div class="avatar-upload">
                                 <input class="avatar-src" name="avatar_src" type="hidden"/>
                                 <input class="avatar-data" name="avatar_data" type="hidden"/>
-                                <label for="avatarInput">头像上传</label>
+                                <label  for="avatarInput">logo上传</label>
                                 <input class="avatar-input" id="avatarInput" name="avatar_file" type="file"/>
                             </div>
 
@@ -49,7 +50,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <button class="btn btn-info btn-block avatar-save" type="submit">更换</button>
+                                    <button id="uploadimg" class="btn btn-info btn-block avatar-save" type="submit">更换</button>
                                 </div>
                             </div>
                         </div>
@@ -62,3 +63,7 @@
     <!-- Loading state -->
     <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
 </div>
+
+<script>
+
+</script>

@@ -30,10 +30,6 @@
 <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
 
 
-
-
-<script src="{{asset('cropper/js/cropper.min.js')}}"></script>
-<script src="{{asset('cropper/js/main.js')}}"></script>
 {{--
 @ 富文本
 @ author郭庆

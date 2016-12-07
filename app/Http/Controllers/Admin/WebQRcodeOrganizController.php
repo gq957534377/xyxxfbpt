@@ -25,13 +25,16 @@ class WebQRcodeOrganizController extends Controller
 
 
     /**
-     * Display a listing of the resource.
+     * 显示二维码修改界面
      *
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function index()
     {
-        return view('admin.webadminstrtion.webadminqrcode');
+        // 取出界面数据
+        $res = self::$webAdmin->getAllWebConf();
+        return view('admin.webadminstrtion.webadminqrcode', ['info' => $res['msg']]);
     }
 
     /**
@@ -80,7 +83,23 @@ class WebQRcodeOrganizController extends Controller
      */
     public function store(Request $request)
     {
-        dd('asdfasdddddd');
+        // 验证信息
+        $validator = Validator::make($request->all(), [
+            'title' => 'required',
+        ], [
+            'title.required' => '名称不能为空',
+        ]);
+        // 验证不通过 退回请求
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        // 管理页面文字信息
+        $info = self::$webAdmin->saveWebAdmin($request->all());
+
+        if ($info['status'] == '200') {
+            return ['StatusCode' => '200', 'ResultData' => $info['msg']];
+        } else {
+            return ['StatusCode' => '400', 'ResultData' => $info['msg']];
+        }
     }
 
     /**

@@ -1,5 +1,6 @@
 <!-- 验证机制 Start -->
 <script src="{{asset('admin/js/jquery.validate.min.js')}}"></script>
+
 <script>
     /**
      * Theme: Velonic Admin Template

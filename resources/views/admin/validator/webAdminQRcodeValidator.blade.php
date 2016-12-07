@@ -39,9 +39,9 @@
                         type: "POST",
                         url: '/web_qrcode_organiz',
                         data: {
-                            'title': $("input[name= 'email']").val(),
-                            'synopsis1': $("input[name= 'time']").val(),
-                            'synopsis2': $("input[name= 'tel']").val()
+                            'title': $("input[name= 'title']").val(),
+                            'synopsis1': $("input[name= 'synopsis1']").val(),
+                            'synopsis2': $("input[name= 'synopsis2']").val()
 
                         },
                         success:function(data){
