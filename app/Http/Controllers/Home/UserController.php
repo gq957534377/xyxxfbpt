@@ -217,7 +217,7 @@ class UserController extends Controller
         $guid = $request->all()['guid'];
         //转交service 层，存储
         $info = self::$userServer->avatar($guid,$avatarName);
-        dd($info);
+
         // 返回状态信息
         switch ($info['status']){
             case '400':

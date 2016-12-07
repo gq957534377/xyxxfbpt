@@ -46,9 +46,9 @@ class Avatar{
             ->save($path .$newFilename);
 
         if(!$img) return ['status' => '400','msg' => '图片保存失败'];
-
-        $info = Common::QiniuUpload($path .$newFilename,$newFilename);
         
+        $info = Common::QiniuUpload($path .$newFilename,$newFilename);
+
         if(!$info['status']) {
             unlink($path .$newFilename);
             return ['status' => '400','msg' => '存储失败!'];

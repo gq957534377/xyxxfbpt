@@ -12,14 +12,14 @@
   'use strict';
 
   var console = window.console || { log: function () {} };
-  // 头像上传处理类
+
   function CropAvatar($element) {
     this.$container = $element;
 
     this.$avatarView = this.$container.find('.avatar-view');
     this.$avatar = this.$avatarView.find('img');
     this.$avatarModal = this.$container.find('#avatar-modal');
-    this.$loading = this.$container.find('.load');
+    this.$loading = this.$container.find('.loading');
 
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
     this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
@@ -36,19 +36,15 @@
     console.log(this);
   }
 
-  // 类实例方法
   CropAvatar.prototype = {
-    // 构造函数
     constructor: CropAvatar,
 
-    // 浏览器兼容支持
     support: {
       fileList: !!$('<input type="file">').prop('files'),
       blobURLs: !!window.URL && URL.createObjectURL,
       formData: !!window.FormData
     },
 
-    // 初始化
     init: function () {
       this.support.datauri = this.support.fileList && this.support.blobURLs;
 
@@ -61,7 +57,6 @@
       this.addListener();
     },
 
-    // 添加监听事件
     addListener: function () {
       this.$avatarView.on('click', $.proxy(this.click, this));
       this.$avatarInput.on('change', $.proxy(this.change, this));
@@ -69,29 +64,24 @@
       this.$avatarBtns.on('click', $.proxy(this.rotate, this));
     },
 
-    // 初始化工具提示
     initTooltip: function () {
       this.$avatarView.tooltip({
-        placement: 'bottom' // 提示摆放位置
+        placement: 'bottom'
       });
     },
 
-    // 初始化模态框
     initModal: function () {
       this.$avatarModal.modal({
-        show: false // 模态框默认隐藏
+        show: false
       });
     },
 
-    // 初始化预览
     initPreview: function () {
-      // 设置预览时 头像不同尺寸
       var url = this.$avatar.attr('src');
 
       this.$avatarPreview.empty().html('<img src="' + url + '">');
     },
 
-    // 初始化Iframe
     initIframe: function () {
       var target = 'upload-iframe-' + (new Date()).getTime(),
           $iframe = $('<iframe>').attr({
@@ -122,7 +112,7 @@
 
             _this.submitDone(data);
           } else {
-            _this.submitFail('图片上传失败!');
+            _this.submitFail('Image upload failed!');
           }
 
           _this.submitEnd();
@@ -134,13 +124,11 @@
       this.$avatarForm.attr('target', target).after($iframe.hide());
     },
 
-    // 点击事件，模态框显示，预览开启
     click: function () {
       this.$avatarModal.modal('show');
       this.initPreview();
     },
 
-    // 联动事件，判断下图片格式
     change: function () {
       var files,
           file;
@@ -169,7 +157,6 @@
       }
     },
 
-    // 提交事件
     submit: function () {
       if (!this.$avatarSrc.val() && !this.$avatarInput.val()) {
         return false;
@@ -181,7 +168,6 @@
       }
     },
 
-    // 旋转
     rotate: function (e) {
       var data;
 
@@ -194,7 +180,6 @@
       }
     },
 
-    // 是否是图片
     isImageFile: function (file) {
       if (file.type) {
         return /^image\/\w+$/.test(file.type);
@@ -203,7 +188,6 @@
       }
     },
 
-    // 截取的信息，起始点、宽高、旋转角度信息
     startCropper: function () {
       var _this = this;
 
@@ -218,12 +202,12 @@
           strict: false,
           crop: function (data) {
             var json = [
-                  '{"x":' + data.x,
-                  '"y":' + data.y,
-                  '"height":' + data.height,
-                  '"width":' + data.width,
-                  '"rotate":' + data.rotate + '}'
-                ].join();
+              '{"x":' + data.x,
+              '"y":' + data.y,
+              '"height":' + data.height,
+              '"width":' + data.width,
+              '"rotate":' + data.rotate + '}'
+            ].join();
 
             _this.$avatarData.val(json);
           }
@@ -233,7 +217,6 @@
       }
     },
 
-    // 截取完后
     stopCropper: function () {
       if (this.active) {
         this.$img.cropper('destroy');
@@ -242,7 +225,6 @@
       }
     },
 
-    // 异步上传
     ajaxUpload: function () {
       var url = this.$avatarForm.attr('action'),
           data = new FormData(this.$avatarForm[0]),
@@ -302,7 +284,7 @@
           this.alert(data.message);
         }
       } else {
-        this.alert(data.result);
+        this.alert('Failed to response');
       }
     },
 
@@ -317,18 +299,17 @@
     cropDone: function () {
       this.$avatarForm.get(0).reset();
       this.$avatar.attr('src', this.url);
-      $("#head_pic").attr('src',this.url);
       this.stopCropper();
       this.$avatarModal.modal('hide');
     },
 
     alert: function (msg) {
       var $alert = [
-            '<div class="alert alert-danger avater-alert">',
-              '<button type="button" class="close" data-dismiss="alert">&times;</button>',
-              msg,
-            '</div>'
-          ].join('');
+        '<div class="alert alert-danger avater-alert">',
+        '<button type="button" class="close" data-dismiss="alert">&times;</button>',
+        msg,
+        '</div>'
+      ].join('');
 
       this.$avatarUpload.after($alert);
     }
@@ -337,5 +318,5 @@
   $(function () {
     return new CropAvatar($('#crop-avatar'));
   });
-});
 
+});
