@@ -798,6 +798,7 @@ Stack trace:
 #54 {main}  
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 [2016-12-06 20:44:09] local.ERROR: ErrorException: Trying to get property of non-object in /vagrant/Hero/app/Tools/Avatar.php:21
 Stack trace:
@@ -919,6 +920,8 @@ Stack trace:
 Stack trace:
 #0 /vagrant/Hero/storage/framework/views/0081d0fff607a1be254ac7a80d5796dd(126): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8, 'Trying to get p...', '/vagrant/Hero/s...', 126, Array)
 =======
+=======
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 [2016-12-06 09:17:25] local.ERROR: InvalidArgumentException: View [Home.projects.index] not found. in /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/FileViewFinder.php:137
 Stack trace:
 #0 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/FileViewFinder.php(79): Illuminate\View\FileViewFinder->findInPaths('Home.projects.i...', Array)
@@ -1099,6 +1102,9 @@ Stack trace:
 [2016-12-06 10:45:22] local.ERROR: ErrorException: Trying to get property of non-object in /vagrant/Hero/storage/framework/views/7fc7120c5ce9ab22b96e66e44e6d4f06:21
 Stack trace:
 #0 /vagrant/Hero/storage/framework/views/7fc7120c5ce9ab22b96e66e44e6d4f06(21): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8, 'Trying to get p...', '/vagrant/Hero/s...', 21, Array)
+<<<<<<< HEAD
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
+=======
 >>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #1 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(42): include('/vagrant/Hero/s...')
 #2 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(58): Illuminate\View\Engines\PhpEngine->evaluatePath('/vagrant/Hero/s...', Array)
@@ -1115,7 +1121,11 @@ Stack trace:
 #13 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
 #14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(114): Illuminate\Pipeline\Pipeline->then(Object(Closure))
 <<<<<<< HEAD
+<<<<<<< HEAD
 #15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ArticleController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
+=======
+#15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ProjectController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 =======
 #15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ProjectController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
 >>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
@@ -1124,6 +1134,7 @@ Stack trace:
 #18 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Router.php(708): Illuminate\Routing\Route->run(Object(Illuminate\Http\Request))
 #19 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
 #20 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(139): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
+<<<<<<< HEAD
 <<<<<<< HEAD
 #21 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #22 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
@@ -1163,6 +1174,8 @@ Stack trace:
 
 Next ErrorException: Trying to get property of non-object (View: /vagrant/Hero/resources/views/home/article/xiangqing.blade.php) in /vagrant/Hero/storage/framework/views/0081d0fff607a1be254ac7a80d5796dd:126
 =======
+=======
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #21 /vagrant/Hero/app/Http/Middleware/Home/HomeMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #22 [internal function]: App\Http\Middleware\Home\HomeMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
 #23 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
@@ -1203,6 +1216,9 @@ Next ErrorException: Trying to get property of non-object (View: /vagrant/Hero/r
 #58 {main}
 
 Next ErrorException: Trying to get property of non-object (View: /vagrant/Hero/resources/views/heroHome/projects/details.blade.php) in /vagrant/Hero/storage/framework/views/7fc7120c5ce9ab22b96e66e44e6d4f06:21
+<<<<<<< HEAD
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
+=======
 >>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 Stack trace:
 #0 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(44): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 2)
@@ -1220,8 +1236,11 @@ Stack trace:
 #12 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
 #13 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(114): Illuminate\Pipeline\Pipeline->then(Object(Closure))
 <<<<<<< HEAD
+<<<<<<< HEAD
 #14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ArticleController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
 =======
+=======
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ProjectController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
 #15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'show')
 #16 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(134): Illuminate\Routing\Route->runWithCustomDispatcher(Object(Illuminate\Http\Request))
@@ -1343,6 +1362,9 @@ Stack trace:
 #12 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
 #13 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(114): Illuminate\Pipeline\Pipeline->then(Object(Closure))
 #14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ProjectController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
+<<<<<<< HEAD
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
+=======
 >>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'show')
 #16 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(134): Illuminate\Routing\Route->runWithCustomDispatcher(Object(Illuminate\Http\Request))
@@ -1350,7 +1372,10 @@ Stack trace:
 #18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
 #19 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(139): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #20 /vagrant/Hero/app/Http/Middleware/Home/HomeMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #21 [internal function]: App\Http\Middleware\Home\HomeMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
 #22 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
@@ -1411,6 +1436,9 @@ Stack trace:
 #17 /vagrant/Hero/app/Http/Middleware/Home/HomeMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #18 [internal function]: App\Http\Middleware\Home\HomeMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
 #19 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(124): call_user_func_array(Array, Array)
+<<<<<<< HEAD
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
+=======
 >>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #20 [internal function]: Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #21 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
@@ -1448,6 +1476,7 @@ Stack trace:
 #53 /vagrant/Hero/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #54 {main}  
 <<<<<<< HEAD
+<<<<<<< HEAD
 [2016-12-06 21:20:56] local.ERROR: InvalidArgumentException: View [admin.webadminstrtion.pictureorganiz.blade] not found. in /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/FileViewFinder.php:137
 Stack trace:
 #0 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/FileViewFinder.php(79): Illuminate\View\FileViewFinder->findInPaths('admin.webadmins...', Array)
@@ -1459,6 +1488,8 @@ Stack trace:
 #6 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(164): Illuminate\Routing\Controller->callAction('carousel', Array)
 #7 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(112): Illuminate\Routing\ControllerDispatcher->call(Object(App\Http\Controllers\Admin\PictureOrganizController), Object(Illuminate\Routing\Route), 'carousel')
 =======
+=======
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 [2016-12-06 11:05:44] local.ERROR: PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column '0' in 'where clause' in /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Database/Connection.php:319
 Stack trace:
 #0 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Database/Connection.php(319): PDO->prepare('select * from `...')
@@ -1598,6 +1629,9 @@ Stack trace:
 #5 /vagrant/Hero/vendor/symfony/http-foundation/Response.php(202): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
 #6 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Router.php(1229): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
 #7 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(112): Illuminate\Routing\Router->prepareResponse(Object(Illuminate\Http\Request), Object(Illuminate\View\View))
+<<<<<<< HEAD
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
+=======
 >>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #8 [internal function]: Illuminate\Routing\ControllerDispatcher->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
 #9 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(139): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
@@ -1605,8 +1639,13 @@ Stack trace:
 #11 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
 #12 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(114): Illuminate\Pipeline\Pipeline->then(Object(Closure))
 <<<<<<< HEAD
+<<<<<<< HEAD
 #13 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Admin\PictureOrganizController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'carousel')
 #14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'carousel')
+=======
+#13 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ProjectController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
+#14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'show')
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 =======
 #13 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ProjectController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
 #14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'show')
@@ -1616,8 +1655,13 @@ Stack trace:
 #17 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
 #18 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(139): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
 <<<<<<< HEAD
+<<<<<<< HEAD
 #19 /vagrant/Hero/app/Http/Middleware/Admin/AdminMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #20 [internal function]: App\Http\Middleware\Admin\AdminMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
+=======
+#19 /vagrant/Hero/app/Http/Middleware/Home/HomeMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#20 [internal function]: App\Http\Middleware\Home\HomeMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 =======
 #19 /vagrant/Hero/app/Http/Middleware/Home/HomeMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #20 [internal function]: App\Http\Middleware\Home\HomeMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
@@ -1657,6 +1701,7 @@ Stack trace:
 #53 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(122): Illuminate\Pipeline\Pipeline->then(Object(Closure))
 #54 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(87): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
 #55 /vagrant/Hero/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+<<<<<<< HEAD
 <<<<<<< HEAD
 #56 {main}  
 [2016-12-06 21:56:00] local.ERROR: ErrorException: Undefined variable: info in /vagrant/Hero/storage/framework/views/6723519f191dae9c6ec761df02de4e5c:5
@@ -1731,16 +1776,22 @@ Next ErrorException: Undefined variable: info (View: /vagrant/Hero/resources/vie
 Stack trace:
 #0 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(44): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 4)
 =======
+=======
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #56 {main}
 
 Next ErrorException: Parse error: syntax error, unexpected end of file, expecting elseif (T_ELSEIF) or else (T_ELSE) or endif (T_ENDIF) (View: /vagrant/Hero/resources/views/heroHome/projects/details.blade.php) in /vagrant/Hero/storage/framework/views/7fc7120c5ce9ab22b96e66e44e6d4f06:254
 Stack trace:
 #0 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(46): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(Symfony\Component\Debug\Exception\FatalThrowableError), 2)
+<<<<<<< HEAD
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
+=======
 >>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #1 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/Engines/CompilerEngine.php(58): Illuminate\View\Engines\PhpEngine->evaluatePath('/vagrant/Hero/s...', Array)
 #2 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/View.php(147): Illuminate\View\Engines\CompilerEngine->get('/vagrant/Hero/r...', Array)
 #3 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/View.php(118): Illuminate\View\View->getContents()
 #4 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/View.php(83): Illuminate\View\View->renderContents()
+<<<<<<< HEAD
 <<<<<<< HEAD
 #5 /vagrant/Hero/storage/framework/views/f261d41c69360668e150ea698654f45d(19): Illuminate\View\View->render()
 #6 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(42): include('/vagrant/Hero/s...')
@@ -1804,6 +1855,8 @@ Stack trace:
 
 Next ErrorException: Undefined variable: info (View: /vagrant/Hero/resources/views/admin/webadminstrtion/logobomb.blade.php) (View: /vagrant/Hero/resources/views/admin/webadminstrtion/logobomb.blade.php) in /vagrant/Hero/storage/framework/views/6723519f191dae9c6ec761df02de4e5c:5
 =======
+=======
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #5 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Http/Response.php(51): Illuminate\View\View->render()
 #6 /vagrant/Hero/vendor/symfony/http-foundation/Response.php(202): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
 #7 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Router.php(1229): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
@@ -1920,6 +1973,9 @@ Stack trace:
 #58 {main}
 
 Next ErrorException: Undefined property: stdClass::$headpic (View: /vagrant/Hero/resources/views/heroHome/projects/details.blade.php) in /vagrant/Hero/storage/framework/views/7fc7120c5ce9ab22b96e66e44e6d4f06:67
+<<<<<<< HEAD
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
+=======
 >>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 Stack trace:
 #0 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(44): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 2)
@@ -1937,8 +1993,13 @@ Stack trace:
 #12 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
 #13 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(114): Illuminate\Pipeline\Pipeline->then(Object(Closure))
 <<<<<<< HEAD
+<<<<<<< HEAD
 #14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Admin\PictureOrganizController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'carousel')
 #15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'carousel')
+=======
+#14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ProjectController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
+#15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'show')
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 =======
 #14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ProjectController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
 #15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'show')
@@ -1948,8 +2009,13 @@ Stack trace:
 #18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
 #19 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(139): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
 <<<<<<< HEAD
+<<<<<<< HEAD
 #20 /vagrant/Hero/app/Http/Middleware/Admin/AdminMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #21 [internal function]: App\Http\Middleware\Admin\AdminMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
+=======
+#20 /vagrant/Hero/app/Http/Middleware/Home/HomeMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#21 [internal function]: App\Http\Middleware\Home\HomeMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 =======
 #20 /vagrant/Hero/app/Http/Middleware/Home/HomeMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #21 [internal function]: App\Http\Middleware\Home\HomeMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
@@ -1991,9 +2057,15 @@ Stack trace:
 #56 /vagrant/Hero/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #57 {main}  
 <<<<<<< HEAD
+<<<<<<< HEAD
 [2016-12-06 21:58:16] local.ERROR: ErrorException: Undefined variable: info in /vagrant/Hero/storage/framework/views/6723519f191dae9c6ec761df02de4e5c:5
 Stack trace:
 #0 /vagrant/Hero/storage/framework/views/6723519f191dae9c6ec761df02de4e5c(5): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8, 'Undefined varia...', '/vagrant/Hero/s...', 5, Array)
+=======
+[2016-12-06 11:38:11] local.ERROR: ErrorException: Undefined variable: uerinfo in /vagrant/Hero/storage/framework/views/7fc7120c5ce9ab22b96e66e44e6d4f06:159
+Stack trace:
+#0 /vagrant/Hero/storage/framework/views/7fc7120c5ce9ab22b96e66e44e6d4f06(159): Illuminate\Foundation\Bootstrap\HandleExceptions->handleError(8, 'Undefined varia...', '/vagrant/Hero/s...', 159, Array)
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 =======
 [2016-12-06 11:38:11] local.ERROR: ErrorException: Undefined variable: uerinfo in /vagrant/Hero/storage/framework/views/7fc7120c5ce9ab22b96e66e44e6d4f06:159
 Stack trace:
@@ -2004,6 +2076,7 @@ Stack trace:
 #3 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/View.php(147): Illuminate\View\Engines\CompilerEngine->get('/vagrant/Hero/r...', Array)
 #4 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/View.php(118): Illuminate\View\View->getContents()
 #5 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/View.php(83): Illuminate\View\View->renderContents()
+<<<<<<< HEAD
 <<<<<<< HEAD
 #6 /vagrant/Hero/storage/framework/views/f261d41c69360668e150ea698654f45d(19): Illuminate\View\View->render()
 #7 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(42): include('/vagrant/Hero/s...')
@@ -2134,6 +2207,8 @@ Stack trace:
 
 Next ErrorException: Undefined variable: info (View: /vagrant/Hero/resources/views/admin/webadminstrtion/logobomb.blade.php) (View: /vagrant/Hero/resources/views/admin/webadminstrtion/logobomb.blade.php) in /vagrant/Hero/storage/framework/views/6723519f191dae9c6ec761df02de4e5c:5
 =======
+=======
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 #6 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Http/Response.php(51): Illuminate\View\View->render()
 #7 /vagrant/Hero/vendor/symfony/http-foundation/Response.php(202): Illuminate\Http\Response->setContent(Object(Illuminate\View\View))
 #8 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Router.php(1229): Symfony\Component\HttpFoundation\Response->__construct(Object(Illuminate\View\View))
@@ -2189,6 +2264,9 @@ Next ErrorException: Undefined variable: info (View: /vagrant/Hero/resources/vie
 #58 {main}
 
 Next ErrorException: Undefined variable: uerinfo (View: /vagrant/Hero/resources/views/heroHome/projects/details.blade.php) in /vagrant/Hero/storage/framework/views/7fc7120c5ce9ab22b96e66e44e6d4f06:159
+<<<<<<< HEAD
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
+=======
 >>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 Stack trace:
 #0 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/View/Engines/PhpEngine.php(44): Illuminate\View\Engines\CompilerEngine->handleViewException(Object(ErrorException), 2)
@@ -2206,8 +2284,13 @@ Stack trace:
 #12 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(102): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
 #13 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(114): Illuminate\Pipeline\Pipeline->then(Object(Closure))
 <<<<<<< HEAD
+<<<<<<< HEAD
 #14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Admin\PictureOrganizController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'carousel')
 #15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'carousel')
+=======
+#14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ProjectController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
+#15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'show')
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 =======
 #14 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(67): Illuminate\Routing\ControllerDispatcher->callWithinStack(Object(App\Http\Controllers\Home\ProjectController), Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'show')
 #15 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/Route.php(203): Illuminate\Routing\ControllerDispatcher->dispatch(Object(Illuminate\Routing\Route), Object(Illuminate\Http\Request), 'App\\Http\\Contro...', 'show')
@@ -2217,8 +2300,13 @@ Stack trace:
 #18 [internal function]: Illuminate\Routing\Router->Illuminate\Routing\{closure}(Object(Illuminate\Http\Request))
 #19 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(139): call_user_func(Object(Closure), Object(Illuminate\Http\Request))
 <<<<<<< HEAD
+<<<<<<< HEAD
 #20 /vagrant/Hero/app/Http/Middleware/Admin/AdminMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #21 [internal function]: App\Http\Middleware\Admin\AdminMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
+=======
+#20 /vagrant/Hero/app/Http/Middleware/Home/HomeMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
+#21 [internal function]: App\Http\Middleware\Home\HomeMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 =======
 #20 /vagrant/Hero/app/Http/Middleware/Home/HomeMiddleware.php(21): Illuminate\Pipeline\Pipeline->Illuminate\Pipeline\{closure}(Object(Illuminate\Http\Request))
 #21 [internal function]: App\Http\Middleware\Home\HomeMiddleware->handle(Object(Illuminate\Http\Request), Object(Closure))
@@ -2260,8 +2348,11 @@ Stack trace:
 #56 /vagrant/Hero/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #57 {main}  
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> wangtong
 =======
+=======
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
 [2016-12-06 11:46:52] local.ERROR: InvalidArgumentException: Route [$project.show] not defined. in /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:306
 Stack trace:
 #0 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php(611): Illuminate\Routing\UrlGenerator->route('$project.show', 283, true, NULL)
@@ -2379,4 +2470,7 @@ Stack trace:
 #52 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(87): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
 #53 /vagrant/Hero/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #54 {main}
+<<<<<<< HEAD
+>>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
+=======
 >>>>>>> 51973634a7335bb644c57cdbe4b87fd6c2724a7d
