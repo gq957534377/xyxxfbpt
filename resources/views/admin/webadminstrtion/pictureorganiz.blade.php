@@ -11,15 +11,6 @@
     </div>
     <div class="row">
 
-
-
-
-
-
-
-
-
-
     </div> <!-- End row -->
     <div class="row">
         <div class="col-sm-6">
