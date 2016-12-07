@@ -197,7 +197,7 @@
         this.$img = $('<img src="' + this.url + '">');
         this.$avatarWrapper.empty().html(this.$img);
           this.$img.cropper({
-              aspectRatio: 63/10,
+              aspectRatio: 192/60,
               crop: function(data) {
                   var json = [
                       '{"x":' + data.x,

@@ -44,6 +44,9 @@ aside ul li:nth-child(7) > a {
 aside ul li:nth-child(8) > a {
     background-image: url("../img/ic-set-gray.png");
 }
+aside ul li:nth-child(9) > a {
+    background-image: url("../img/ic-set-gray.png");
+}
 /************************/
 aside ul li:first-child > a:hover {
     background-image: url("../img/ic-txt-org.png");
@@ -69,6 +72,9 @@ aside ul li:nth-child(7) > a:hover {
 aside ul li:nth-child(8) > a:hover {
     background-image: url("../img/ic-set-org.png");
 }
+aside ul li:nth-child(9) > a:hover {
+    background-image: url("../img/ic-set-org.png");
+}
 
 
 /*移动端菜单*/
@@ -85,8 +91,9 @@ aside ul li:nth-child(8) > a:hover {
         display: block;
         width: 100%;
         max-width:100%;
-        margin:  4.5em auto 0 auto;
+        margin:  4.1em auto 0 auto;
         padding: 1em;
+        border-top: 1px solid #f0f0f0;
         box-shadow:0 1px 1px #f0f0f0;
         background-color: #ffffff;
     }
@@ -137,6 +144,9 @@ aside ul li:nth-child(8) > a:hover {
     .mobile-aside ul li:nth-child(8) > a {
         background-image: url("../img/ic-set-gray.png");
     }
+    .mobile-aside ul li:nth-child(9) > a {
+        background-image: url("../img/ic-set-gray.png");
+    }
     /************************/
     .mobile-aside ul li:first-child > a:hover {
         background-image: url("../img/ic-txt-org.png");
@@ -160,6 +170,9 @@ aside ul li:nth-child(8) > a:hover {
         background-image: url("../img/ic-col-org.png");
     }
     .mobile-aside ul li:nth-child(8) > a:hover {
+        background-image: url("../img/ic-set-org.png");
+    }
+    .mobile-aside ul li:nth-child(9) > a:hover {
         background-image: url("../img/ic-set-org.png");
     }
 }

@@ -1,16 +1,15 @@
 <div class="" id="crop-avatar">
 
     <!-- Current avatar -->
-    <div class="avatar-view" title="修改logo" style="width: 60%;height: 100%;">
-        <img id="headpic" class="thumb-lg" src="http://img1.imgtn.bdimg.com/it/u=3387611966,1108989621&fm=21&gp=0.jpg" alt="Avatar"/>
-
+    <div class="avatar-view" title="修改logo" style="width: 100%;height: 100%;">
+        <img id="headpic" class="thumb-lg" src="http://ogd29n56i.bkt.clouddn.com/98668910-b28a-3ed9-8c05-b7302919f4fb.jpg" alt="Avatar"/>
     </div>
 
     <!-- Cropping modal -->
     <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form class="avatar-form" action="{{ url('/web_admins/uploadlogo') }}" enctype="multipart/form-data" method="post">
+                <form class="avatar-form" action="{{ url('/picture/uploadcarousel') }}" enctype="multipart/form-data" method="post">
                     {{ csrf_field() }}
                     <input type="hidden" name="guid" value="http://img1.imgtn.bdimg.com/it/u=3387611966,1108989621&fm=21&gp=0.jpg">
                     <div class="modal-header">

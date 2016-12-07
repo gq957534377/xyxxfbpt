@@ -55,13 +55,18 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/web_admins/uploadqrcode', 'WebAdminstrationController@uploadQRcode');
         Route::resource('/web_admins', 'WebAdminstrationController');
 
+        // SEO 优化管理
         Route::resource('/web_admins_seo', 'WebAdminsSeoController');
+
+        // 合作机构管理
         Route::resource('/web_Cooper_organiz', 'WebCooperOrganizController');
+
+        // 投资机构管理
         Route::resource('/web_invest_organiz', 'WebInvestOrganizController');
-        Route::resource('/web_qrcode_organiz/uploadqrcode', 'WebQRcodeOrganizController@uploadQRcode');
-        Route::resource('/web_qrcode_organiz', 'WebQRcodeOrganizController');
+
         // 图片内容管理
         Route::resource('/picture/carousel', 'PictureOrganizController@carousel');
+        Route::resource('/picture/uploadcarousel', 'PictureOrganizController@uploadCarousel');
     });
 });
 

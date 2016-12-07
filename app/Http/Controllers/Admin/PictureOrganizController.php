@@ -6,13 +6,57 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Services\PictureService;
+use Validator;
+
 
 class PictureOrganizController extends Controller
 {
 
+    protected static $pictureservice;
+    /** 单例引入
+     *
+     * @param WebAdminService $webAdminService
+     * @author 王通
+     */
+    public function __construct(PictureService $pictureservice)
+    {
+        self::$pictureservice = $pictureservice;
+    }
+    /**
+     * 轮播图管理
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @author 王通
+     */
     public function carousel ()
     {
-        return view('admin.webadminstrtion.pictureorganiz');
+        return view('admin.webadminstrtion.carouselorganiz');
+    }
+
+    /**
+     * 更新轮播图
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 王通
+     */
+    public function uploadCarousel (Request $request)
+    {
+        //数据验证过滤
+        $validator = Validator::make($request->all(),[
+            'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
+        ],[
+            'avatar_file.required' => '上传文件为空!',
+            'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
+
+        ]);
+
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['state' => 400,'result' => $validator->errors()->all()]);
+
+        self::$pictureservice->saveCarousel($request);
+
+
+
     }
     /**
      * Display a listing of the resource.
