@@ -4,6 +4,7 @@ namespace App\Tools;
 
 use Intervention\Image\Facades\Image as Image;
 
+
 class Avatar{
 
     /**
@@ -31,9 +32,8 @@ class Avatar{
         $tmpFile = $file->getRealPath();
         //拼装新的文件名
         $extension = $file->getClientOriginalExtension();
-//        $newFilename = Uuid::uuid().'.'.$extension;
         $newFilename = date('YmdHis').str_random(3).'.'.$extension;
-        $path = public_path('uploads/avatars/');
+        $path = public_path().'/uploads/avatars/';
 
         if (!file_exists($path)) {
             mkdir($path,0755,true);
@@ -46,17 +46,18 @@ class Avatar{
             ->save($path .$newFilename);
 
         if(!$img) return ['status' => '400','msg' => '图片保存失败'];
-        
+
         $info = Common::QiniuUpload($path .$newFilename,$newFilename);
 
         if(!$info['status']) {
             unlink($path .$newFilename);
             return ['status' => '400','msg' => '存储失败!'];
         }
-        //成功删除本地图片
+//        成功删除本地图片
         unlink($path .$newFilename);
 
         return ['status' => '200','msg' => $info['url']];
+
     }
 
     /**

@@ -60,5 +60,5 @@
     </div><!-- /.modal -->
 
     <!-- Loading state -->
-    <div class="load" aria-label="Loading" role="img" tabindex="-1"></div>
+    <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
 </div>
