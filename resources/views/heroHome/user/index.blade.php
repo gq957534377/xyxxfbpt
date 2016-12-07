@@ -5,6 +5,9 @@
 @section('style')
     <link href="{{ asset('heroHome/css/user_center_aside.css') }}" rel="stylesheet">
     <link href="{{ asset('heroHome/css/user_center_personal_data.css') }}" rel="stylesheet">
+    <link href="{{asset('dateTime/jquery.datetimepicker.css')}}" rel="stylesheet">
+    <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('cropper/css/main.css')}}" rel="stylesheet"/>
 @endsection
 
 @section('menu')
@@ -82,24 +85,24 @@
                         <span>基本信息</span>
                         <a href="#" class="pull-right">保存</a>
 
-                        <form class="form-horizontal personal-data-edit" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-
-                            <div class="form-group mar-b30">
-                                <label for="inputfile" class="col-md-2 control-label line-h hidden-xs hidden-sm">头像</label>
-                                <div class="col-md-2">
-                                    <img id="head-pic" class="img-circle" src="{{ asset('heroHome/img/user_center.jpg') }}">
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="button" value="修改头像" onclick="inputfile.click()" id="upload-button">
-                                    <input type="file" id="inputfile" class="hidden" >
-                                </div>
+                        <div class="mar-b30 col-md-12 col-sm-12" style="padding: 0;margin-top: 30px;">
+                            <label for="inputfile" class="col-md-2 control-label line-h hidden-xs hidden-sm" style="padding: 0;font-weight: unset;">头像</label>
+                            <div class="col-md-2">
+                                @include('heroHome.public.avatar')
                             </div>
+                            <div class="col-md-2">
+                                <span>点击头像进行更换</span>
+                            </div>
+                        </div>
+
+                        <form class="form-horizontal personal-data-edit" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
                             <div class="form-group mar-b30">
                                 <label for="form-title" class="col-md-2 control-label mar-b10">名字</label>
                                 <div class="col-md-4">
                                     <input type="text" name="realname" class="form-control" id="form-title" placeholder="">
                                 </div>
                             </div>
+
                             <div class="form-group mar-b30">
                                 <label class="col-md-2 control-label mar-b10">性别</label>
                                 <div class="col-md-6">
@@ -114,10 +117,11 @@
                                     </label>
                                 </div>
                             </div>
+
                             <div class="form-group mar-b15">
                                 <span class="col-md-2 control-label mar-b10 dis-in-bl">生日</span>
                                   <div class="col-md-4">
-                                      <input type="text" name="birthday" class="form-control pad-clr-xs text-center" id="birthday-year"></div>
+                                      <input type="text" name="birthday" class="form-control pad-clr-xs text-center some_class" id="birthday-year"></div>
                             </div>
                             <div class="form-group mar-b30">
                                 <label for="wechat-num" class="col-md-2 control-label mar-b10">微信</label>
@@ -146,7 +150,14 @@
     <!--用户中心基本信息结束-->
 @endsection
 
+
+
 @section('script')
+    <script src="{{asset('home/js/jquery.citys.js')}}"></script>
+    <script src="{{asset('dateTime/build/jquery.datetimepicker.full.js')}}"></script>
+    <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
+    <script src="{{asset('cropper/js/main.js')}}"></script>
+
 <script>
     $(document).ready(function (){
 
@@ -212,8 +223,6 @@
         });
 
         // 编辑页，点击编辑，将Dom元素替换
-
-
 
 
         $('#editBtn').click(function(){
