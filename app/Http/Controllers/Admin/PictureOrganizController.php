@@ -6,39 +6,40 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Services\WebAdminService;
+use App\Services\PictureService;
 use Validator;
 
 
-class WebQRcodeOrganizController extends Controller
+class PictureOrganizController extends Controller
 {
-    protected static $webAdmin;
+
+    protected static $pictureservice;
     /** 单例引入
      *
      * @param WebAdminService $webAdminService
      * @author 王通
      */
-    public function __construct(WebAdminService $webAdminService)
+    public function __construct(PictureService $pictureservice)
     {
-        self::$webAdmin = $webAdminService;
+        self::$pictureservice = $pictureservice;
     }
-
-
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * 轮播图管理
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @author 王通
      */
-    public function index()
+    public function carousel ()
     {
-        return view('admin.webadminstrtion.webadminqrcode');
+        return view('admin.webadminstrtion.carouselorganiz');
     }
 
     /**
+     * 更新轮播图
      * @param Request $request
-     * @return array|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
+     * @author 王通
      */
-    public function uploadQRcode (Request $request)
+    public function uploadCarousel (Request $request)
     {
         //数据验证过滤
         $validator = Validator::make($request->all(),[
@@ -52,15 +53,21 @@ class WebQRcodeOrganizController extends Controller
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['state' => 400,'result' => $validator->errors()->all()]);
 
-        $info = self::$webAdmin->uploadImg($request, 'qrcode');
+        self::$pictureservice->saveCarousel($request);
 
-        // 判断上传是否成功
-        if ($info['status'] == '200') {
-            return response()->json(['state' => 200,'result' => $info['msg']]);
-        } else {
-            return response()->json(['state' => 400,'result' => $info['msg']]);
-        }
+
+
     }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        //
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -72,15 +79,14 @@ class WebQRcodeOrganizController extends Controller
     }
 
     /**
-     * 保存二维码相关介绍
+     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\
-     * @author 王通
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        dd('asdfasdddddd');
+        //
     }
 
     /**

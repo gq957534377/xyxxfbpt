@@ -55,8 +55,9 @@
 
 
 </div>
-@include("Tool.Ajax")
-@include("admin.validator.webAdminSeoValidator")
 
 
+@endsection
+@section('script')
+    @include("admin.validator.webAdminSeoValidator")
 @endsection

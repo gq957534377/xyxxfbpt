@@ -224,8 +224,8 @@ class Common {
         list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
         $res = ['status' => true, 'url'=> 'http://ogd29n56i.bkt.clouddn.com/'.$key];
 
-        if (!$err==null) return $err;
-        
+        if (!$err==null) return ['status' => false, 'msg' => $err];
+
         return $res;
     }
 

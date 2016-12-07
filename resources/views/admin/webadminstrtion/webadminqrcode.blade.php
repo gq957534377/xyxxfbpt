@@ -7,28 +7,8 @@
 @endsection
 <div class="wraper container-fluid">
     <div class="page-title">
-        <h3 class="title">二维码管理</h3>
+        <h3 class="title">二维码介绍管理</h3>
     </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class=" form p-20">
-
-                        <div style="height: 60px;">
-                            <h2>更换二维码</h2>
-                            <div  class="ibox-content pull-right" style="margin: -50px 150px 0 0;">
-                                @include('admin.webadminstrtion.qrcode')
-                            </div>
-                        </div>
-
-                    </div> <!-- .form -->
-                </div> <!-- panel-body -->
-            </div> <!-- panel -->
-        </div> <!-- col -->
-    </div> <!-- End row -->
-
 
     <div class="row">
         <div class="col-sm-12">
@@ -59,7 +39,7 @@
                             <div class="form-group ">
                                 <label for="cemail" class="control-label col-lg-2">简介2：</label>
                                 <div class="col-lg-10">
-                                    <input class="form-control " id="synopsis2" type="text" name="synopsis2"  aria-required="true" value="{{ $info['time'] or ''}}" >
+                                    <input class="form-control " id="synopsis2" type="text" name="synopsis2"  aria-required="true" value="{{ $info['synopsis2'] or ''}}" >
                                 </div>
                             </div>
 

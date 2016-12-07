@@ -2,7 +2,7 @@
 
     <!-- Current avatar -->
     <div class="avatar-view" title="修改二维码">
-        <img id="headpic" src="{{asset('cropper/img/picture.jpg')}}" alt="Avatar"/>
+        <img id="headpic" src="{{ $info['qrcode'] }}" alt="Avatar"/>
     </div>
 
     <!-- Cropping modal -->
@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <form class="avatar-form" action="{{ url('/web_qrcode_organiz/uploadqrcode') }}" enctype="multipart/form-data" method="post">
                     {{ csrf_field()}}
-                    <input type="hidden" name="guid" value="{{asset('cropper/img/picture.jpg')}}">
+                    <input type="hidden" name="guid" value="{{ $info['qrcode'] }}">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">&times;</button>
                         <h4 class="modal-title" id="avatar-modal-label">更改二维码</h4>

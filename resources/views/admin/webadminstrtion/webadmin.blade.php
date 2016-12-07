@@ -7,29 +7,8 @@
 @endsection
 <div class="wraper container-fluid">
     <div class="page-title">
-        <h3 class="title">网站管理</h3>
+        <h3 class="title">联系方式及备案内容</h3>
     </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">logo管理</h3></div>
-                <div class="panel-body">
-                    <div class=" form p-20">
-
-                        <div style="height: 60px;">
-                            <h2>更换logo</h2>
-                            <div  class="ibox-content pull-right" style="margin: -50px 150px 0 0;">
-                                @include('admin.webadminstrtion.logobomb')
-                            </div>
-                        </div>
-
-                    </div> <!-- .form -->
-                </div> <!-- panel-body -->
-            </div> <!-- panel -->
-        </div> <!-- col -->
-    </div> <!-- End row -->
-
 
     <div class="row">
         <div class="col-sm-12">
@@ -87,14 +66,10 @@
 
 
 </div>
-@include("Tool.Ajax")
-@include("admin.validator.webAdminValidator")
 
 
 @endsection
 @section('script')
-    <script>
-
-    </script>
+    @include("admin.validator.webAdminValidator")
 
 @endsection
