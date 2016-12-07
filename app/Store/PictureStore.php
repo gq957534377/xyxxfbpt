@@ -42,4 +42,18 @@ class PictureStore
             ->get();
     }
 
+    /**
+     * 删除指定ID的数据
+     * @param $where
+     * @return bool
+     * @author 王通
+     */
+    public function updatePic ($where, $field)
+    {
+        if (empty($where) || empty($field)) return false;
+        return DB::table(self::$table)
+            ->where($where)
+            ->update($field);
+    }
+
 }

@@ -32,10 +32,10 @@ function carouselHtml (data) {
         html += '<img class="thumb-lg bx-s" src="'+ value.url +'" alt="" style="width: 250%;">';
         html += '</a>';
         html += '<div class="pull-right btn-group-sm">';
-        html += '<a href="#" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">';
+        html += '<a href="" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">';
         html += '<i class="fa fa-pencil"></i>';
         html += '</a>';
-        html += '<a id="'+ value.id +'" href="#" class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">';
+        html += '<a id="'+ value.id +'"  class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">';
         html += '<i class="fa fa-close"></i>';
         html += '</a>';
         html += '</div>';
@@ -54,7 +54,27 @@ function carouselHtml (data) {
 }
 $(document).ready(function(){
     carousel();
-    $('.panel-body').on('click', '.btn-danger' ,function () {
-        alert('nihao');
+    $('#carousel').on('click', '.btn-danger' ,function () {
+        if (!confirm('是否确认删除？')) {
+            return ;
+        }
+        var me = $(this);
+        // 异步删除
+        $.ajax({
+            type: "POST",
+            url: '/picture/'+ me.attr('id'),
+            data: {
+                '_method': 'DELETE',
+                '_token' : $('meta[name="csrf-token"]').attr('content')
+            },
+            success:function(data){
+                if (data.StatusCode == 200) {
+                    me.parent().parent().parent().parent().parent().parent().remove();
+                } else {
+                    alert(data.ResultData);
+                }
+
+            }
+        });
     })
 });

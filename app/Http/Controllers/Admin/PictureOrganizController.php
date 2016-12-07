@@ -24,24 +24,17 @@ class PictureOrganizController extends Controller
         self::$pictureservice = $pictureservice;
     }
     /**
-     * 轮播图管理
+     * 轮播图管理界面
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 王通
      */
     public function carousel ()
     {
-        $res = self::$pictureservice->getCarousel();
-
-        if ($res['StatusCode'] == 200) {
-
-            return view('admin.webadminstrtion.carouselorganiz', ['data' => $res['ResultData']]);
-        } else {
-            return view('admin.webadminstrtion.carouselorganiz')->with('error', $res['ResultData']);
-        }
+        return view('admin.webadminstrtion.carouselorganiz');
     }
 
     /**
-     * 轮播图管理
+     * 轮播图管理Ajax请求
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 王通
      */
@@ -147,6 +140,6 @@ class PictureOrganizController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return self::$pictureservice->delPicture($id);
     }
 }

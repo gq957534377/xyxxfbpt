@@ -56,4 +56,19 @@ class PictureService
             return ['StatusCode' => '200', 'ResultData' => $res];
         }
     }
+
+    /**
+     * 删除指定ID的图片
+     * @param $id
+     * @author 王通
+     */
+    public function delPicture ($id)
+    {
+        $res = self::$picturestore->updatePic(['id' => $id], ['state' => 4]);
+        if ($res) {
+            return ['StatusCode' => '200', 'ResultData' => '删除成功'];
+        } else {
+            return ['StatusCode' => '400', 'ResultData' => '删除失败'];
+        }
+    }
 }
