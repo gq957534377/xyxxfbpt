@@ -66,6 +66,12 @@ class Avatar{
 
         // 获取用户对文件进行处理的数据
         $avatarInfo  = json_decode($data->all()['avatar_data']);
+        $cropX = floor($avatarInfo->x);
+        $cropY = floor($avatarInfo->y);
+        $cropW = floor($avatarInfo->width);
+        $cropH = floor($avatarInfo->height);
+        $rotate = $avatarInfo->rotate;
+
         //提取上传后的临时存放地址
         $tmpFile = $file->getRealPath();
         //拼装新的文件名
@@ -79,6 +85,8 @@ class Avatar{
 
         //打开一张图片
         $img = Image::make($tmpFile)
+            ->rotate(-$rotate)
+            ->crop($cropW,$cropH,$cropX,$cropY)
             ->resize(1920, 600)
             ->save($path .$newFilename);
 

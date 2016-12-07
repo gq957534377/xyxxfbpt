@@ -272,6 +272,7 @@
           if (this.support.datauri || this.uploaded) {
             this.uploaded = false;
             this.cropDone();
+              carousel();
           } else {
             this.uploaded = true;
             this.$avatarSrc.val(this.url);

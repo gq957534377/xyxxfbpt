@@ -30,7 +30,25 @@ class PictureOrganizController extends Controller
      */
     public function carousel ()
     {
-        return view('admin.webadminstrtion.carouselorganiz');
+        $res = self::$pictureservice->getCarousel();
+
+        if ($res['StatusCode'] == 200) {
+
+            return view('admin.webadminstrtion.carouselorganiz', ['data' => $res['ResultData']]);
+        } else {
+            return view('admin.webadminstrtion.carouselorganiz')->with('error', $res['ResultData']);
+        }
+    }
+
+    /**
+     * 轮播图管理
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @author 王通
+     */
+    public function carouselAjax ()
+    {
+        $res = self::$pictureservice->getCarousel();
+        return response()->json($res);
     }
 
     /**
@@ -53,10 +71,8 @@ class PictureOrganizController extends Controller
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['state' => 400,'result' => $validator->errors()->all()]);
 
-        self::$pictureservice->saveCarousel($request);
-
-
-
+        $res = self::$pictureservice->saveCarousel($request);
+        return response()->json(['state' => 200, 'result' => '成功']);
     }
     /**
      * Display a listing of the resource.

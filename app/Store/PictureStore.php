@@ -24,7 +24,22 @@ class PictureStore
      */
     public function savePicture ($data)
     {
-        return false;
+        if (empty($data)) return false;
+        return DB::table(self::$table)->insert($data);
+    }
+
+    /**
+     * 得到指定类型的数据
+     * @param $where
+     * @return bool
+     * @author 王通
+     */
+    public function getPicture ($where)
+    {
+        if (empty($where)) return false;
+        return DB::table(self::$table)
+            ->where($where)
+            ->get();
     }
 
 }

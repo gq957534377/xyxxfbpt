@@ -88,7 +88,7 @@ class WebAdminstrationController extends Controller
     public function uploadLogo (Request $request)
     {
         //数据验证过滤
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
         ],[
             'avatar_file.required' => '上传文件为空!',
@@ -97,15 +97,15 @@ class WebAdminstrationController extends Controller
         ]);
 
         // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['state' => 400,'result' => $validator->errors()->all()]);
+        if ($validator->fails()) return response()->json(['state' => 400, 'result' => $validator->errors()->all()]);
 
         $info = self::$webAdmin->uploadImg($request, 'logo');
 
         // 判断上传是否成功
         if ($info['status'] == '200') {
-            return response()->json(['state' => 200,'result' => $info['msg']]);
+            return response()->json(['state' => 200, 'result' => $info['msg']]);
         } else {
-            return response()->json(['state' => 400,'result' => $info['msg']]);
+            return response()->json(['state' => 400, 'result' => $info['msg']]);
         }
 
     }
