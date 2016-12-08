@@ -17,7 +17,7 @@
                 <div class="panel-body">
                     <div class="media-main">
                         <a class="pull-left" href="#">
-                            @include('admin.webadminstrtion.picturecarousel')
+                            @include('admin.webadminstrtion.picture_carousel')
                         </a>
                     </div>
                     <div class="info">
@@ -29,6 +29,8 @@
             </div> <!-- panel -->
         </div> <!-- end col -->
 </div>
+
+
 
 @endsection
 @section('script')

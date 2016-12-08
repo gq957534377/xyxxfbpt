@@ -30,7 +30,7 @@ class PictureOrganizController extends Controller
      */
     public function carousel ()
     {
-        return view('admin.webadminstrtion.carouselorganiz');
+        return view('admin.webadminstrtion.carousel_organiz');
     }
 
     /**
@@ -40,7 +40,7 @@ class PictureOrganizController extends Controller
      */
     public function carouselAjax ()
     {
-        $res = self::$pictureservice->getCarousel();
+        $res = self::$pictureservice->getPicture(2);
         return response()->json($res);
     }
 
@@ -129,14 +129,15 @@ class PictureOrganizController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return self::$pictureservice->updatePicture($id, $request->all());
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 删除指定id数据
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function destroy($id)
     {

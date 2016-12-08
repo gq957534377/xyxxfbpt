@@ -59,14 +59,17 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/web_admins_seo', 'WebAdminsSeoController');
 
         // 合作机构管理
-        Route::resource('/web_Cooper_organiz', 'WebCooperOrganizController');
+        Route::resource('/web_cooper_organiz', 'WebCooperOrganizController');
 
         // 投资机构管理
         Route::resource('/web_invest_organiz', 'WebInvestOrganizController');
 
         // 图片内容管理
         Route::resource('/picture/carousel', 'PictureOrganizController@carousel');
+
+        // 轮播图管理
         Route::resource('/picture/carouselajax', 'PictureOrganizController@carouselAjax');
+
         Route::resource('/picture/uploadcarousel', 'PictureOrganizController@uploadCarousel');
         Route::resource('/picture', 'PictureOrganizController');
     });
