@@ -31,7 +31,7 @@ class WebAdminsSeoController extends Controller
     {
         // 得到界面显示数据
         $res = self::$webAdmin->getAllWebConf();
-        return view('admin.webadminstrtion.webadminseo', ['info' => $res['msg']]);
+        return view('admin.webadminstrtion.web_admin_seo', ['info' => $res['msg']]);
     }
 
     /**

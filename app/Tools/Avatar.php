@@ -65,7 +65,7 @@ class Avatar{
      * @param $data
      * @return array|\Illuminate\Http\JsonResponse
      */
-    public static function carousel($data)
+    public static function carousel($data, $width, $height)
     {
 
         //判断上传文件是否存在
@@ -95,7 +95,7 @@ class Avatar{
         $img = Image::make($tmpFile)
             ->rotate(-$rotate)
             ->crop($cropW,$cropH,$cropX,$cropY)
-            ->resize(1920, 600)
+            ->resize($width, $height)
             ->save($path .$newFilename);
 
         if( !$img) return ['status' => '400','msg' => '图片保存失败'];

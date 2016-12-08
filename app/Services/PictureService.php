@@ -32,7 +32,7 @@ class PictureService
      */
     public function saveCarousel ($data)
     {
-        $res = Avatar::carousel($data);
+        $res = Avatar::carousel($data, 1920, 600);
         // 判断是否上传成功
         if ($res['status'] == '200') {
             // 判断图片信息是否保存成功
@@ -44,12 +44,60 @@ class PictureService
     }
 
     /**
+     * 保存合作机构所有信息
+     * @param $data
+     * @return array
+     * @author 王通
+     */
+    public function saveCooper ($data)
+    {
+        $res = Avatar::carousel($data, 224, 153);
+        // 判断是否上传成功
+        if ($res['status'] == '200') {
+            // 判断图片信息是否保存成功
+            if (self::$picturestore->savePicture([
+                'url' => $res['msg'],
+                'state' => 3,
+                'pointurl' => $data['coopurl'],
+                'name' => $data['coopname']
+            ])) {
+                return ['StatusCode' => '200', 'ResultData' => '合作机构保存成功'];
+            }
+        }
+        return ['StatusCode' => '400', 'ResultData' => '合作机构保存失败'];
+    }
+
+    /**
+     * 保存投资机构所有信息
+     * @param $data
+     * @return array
+     * @author 王通
+     */
+    public function saveInvest ($data)
+    {
+        $res = Avatar::carousel($data, 224, 153);
+        // 判断是否上传成功
+        if ($res['status'] == '200') {
+            // 判断图片信息是否保存成功
+            if (self::$picturestore->savePicture([
+                'url' => $res['msg'],
+                'state' => 5,
+                'pointurl' => $data['coopurl'],
+                'name' => $data['coopname']
+            ])) {
+                return ['StatusCode' => '200', 'ResultData' => '合作机构保存成功'];
+            }
+        }
+        return ['StatusCode' => '400', 'ResultData' => '合作机构保存失败'];
+    }
+
+    /**
      * 得到所有轮播图
      * @author 王通
      */
-    public function getCarousel ()
+    public function getPicture ($val)
     {
-        $res = self::$picturestore->getPicture(['state' => 2]);
+        $res = self::$picturestore->getPicture(['state' => $val]);
         if (empty($res)) {
             return ['StatusCode' => '201', 'ResultData' => '没有数据'];
         } else {
@@ -69,6 +117,21 @@ class PictureService
             return ['StatusCode' => '200', 'ResultData' => '删除成功'];
         } else {
             return ['StatusCode' => '400', 'ResultData' => '删除失败'];
+        }
+    }
+
+    /**
+     * 更新指定ID的图片
+     * @param $id
+     * @author 王通
+     */
+    public function updatePicture ($id, $data)
+    {
+        $res = self::$picturestore->updatePic(['id' => $id], ['name' => $data['name'], 'pointurl' => $data['url']]);
+        if ($res) {
+            return ['StatusCode' => '200', 'ResultData' => '更新成功'];
+        } else {
+            return ['StatusCode' => '400', 'ResultData' => '更新失败'];
         }
     }
 }
