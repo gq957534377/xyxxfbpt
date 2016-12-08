@@ -176,8 +176,8 @@ class UserController extends Controller
         $data = $request->all();
         // 将验证后的数据交给Server层
         $info = self::$userServer->updataUserInfo(['guid' => $id],$data);
-        if($info['status'] == '400') return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
-        return response()->json(['StatusCode' => '200','ResultData' => $info['msg']]);
+
+        return $info;
     }
 
     /**
@@ -207,11 +207,11 @@ class UserController extends Controller
 
         ]);
         // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['state' => 400,'result' => $validator->errors()->all()]);
+        if ($validator->fails()) return response()->json(['StatusCode' => 400,'ResultData' => $validator->errors()->all()]);
         //上传
         $info = Avatar::avatar($request);
        
-        if ($info['status'] == '400') return response()->json(['state' => 400,'result' => '文件上传失败!']);
+        if ($info['status'] == '400') return response()->json(['StatusCode' => 400,'ResultData' => '文件上传失败!']);
         $avatarName = $info['msg'];
 
         $guid = $request->all()['guid'];
@@ -219,14 +219,7 @@ class UserController extends Controller
         $info = self::$userServer->avatar($guid,$avatarName);
 
         // 返回状态信息
-        switch ($info['status']){
-            case '400':
-                return response()->json(['state' => 400,'result' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['state' => 200,'result' => $avatarName]);
-                break;
-        }
+        return $info;
     }
 
     /**
@@ -322,6 +315,12 @@ class UserController extends Controller
 
     }
 
+    /**
+     * 申请成为英雄会会员
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
     public function applyHeroMemeber(Request $request)
     {
         // 获取数据

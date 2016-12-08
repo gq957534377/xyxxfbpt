@@ -1,7 +1,7 @@
 <div class="" id="crop-avatar">
 
     <!-- Current avatar -->
-    <div class="avatar-view" title="修改logo" style="width: 100%;height: 100%;">
+    <div class="avatar-view" title="增加投资机构" style="width: 100%;height: 100%;">
         <img id="headpic" class="thumb-lg" src="{{ url('/admin/images/jiahao.jpg') }}" alt="Avatar"/>
     </div>
 
@@ -9,21 +9,37 @@
     <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form class="avatar-form" action="{{ url('/picture/uploadcarousel') }}" enctype="multipart/form-data" method="post">
+                <form class="avatar-form" action="{{ url('/web_invest_organiz') }}" enctype="multipart/form-data" method="post">
                     {{ csrf_field() }}
                     <input type="hidden" name="guid" value="http://img1.imgtn.bdimg.com/it/u=3387611966,1108989621&fm=21&gp=0.jpg">
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">&times;</button>
-                        <h4 class="modal-title" id="avatar-modal-label">更改logo</h4>
+                        <h4 class="modal-title" id="avatar-modal-label">添加投资机构</h4>
                     </div>
                     <div class="modal-body">
                         <div class="avatar-body">
-
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" data-method="invesname" name="invesname" placeholder="name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">url</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="invesurl" placeholder="url">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
                             <!-- Upload image and data -->
                             <div class="avatar-upload">
                                 <input class="avatar-src" name="avatar_src" type="hidden"/>
                                 <input class="avatar-data" name="avatar_data" type="hidden"/>
-                                <label  for="avatarInput">logo上传</label>
+                                <label  for="avatarInput">机构logo上传</label>
                                 <input class="avatar-input" id="avatarInput" name="avatar_file" type="file"/>
                             </div>
 
@@ -47,9 +63,10 @@
                                     <div class="btn-group">
                                         <button class="btn btn-info" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees">向右转</button>
                                     </div>
+
                                 </div>
                                 <div class="col-md-3">
-                                    <button id="uploadimg" class="btn btn-info btn-block avatar-save" type="submit">更换</button>
+                                    <button id="uploadimg" class="btn btn-info btn-block avatar-save" type="submit">上传</button>
                                 </div>
                             </div>
                         </div>

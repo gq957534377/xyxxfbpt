@@ -31,7 +31,7 @@ class WebAdminstrationController extends Controller
     {
         // 取出界面数据
         $res = self::$webAdmin->getAllWebConf();
-        return view('admin.webadminstrtion.webadmin', ['info' => $res['msg']]);
+        return view('admin.webadminstrtion.web_admin', ['info' => $res['msg']]);
     }
 
     /**

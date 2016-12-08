@@ -12,6 +12,9 @@ body {
 /*公共类开始*/
 
 /*高度*/
+.ht-4 {
+    height: 4em !important;
+}
 .ht-8 {
     height: 8em !important;
 }
@@ -44,6 +47,25 @@ body {
 }
 
 /*颜色*/
+.bgc-1 {
+    background-color: #fafafa;
+}
+.bgc-2 {
+    background-color:#ff9035;
+}
+.bgc-3{
+    background-color: rgba(22, 155, 213, 1);
+}
+
+
+/*边框*/
+.bb-1 {
+    border-bottom: 2px solid #e3e3e3;
+}
+/*宽度*/
+.wid-1 {
+    max-width: 44%;
+}
 
 /*字体大小*/
 .fs-12 {
@@ -51,6 +73,9 @@ body {
 }
 .fs-14 {
     font-size: 14px;
+}
+.fs-15 {
+    font-size: 15px;
 }
 .fs-16 {
     font-size: 16px;
@@ -64,6 +89,22 @@ body {
 .fs-24 {
     font-size: 24px;
 }
+/*字体加粗*/
+.fw-1{
+    font-weight: bold;
+}
+/*字体颜色*/
+.fs-c-1 {
+    color: #ffffff !important;
+}
+/*div li 超出文本用省略号*/
+.ellipse {
+    display:block;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
 /*padding*/
 .pad-cl {
     padding-left: 0 !important;
@@ -75,7 +116,36 @@ body {
     padding-left: 0;
     padding-right: 0;
 }
-
+.pad-b5{
+    padding-bottom: 5px;
+}
+.pad-b7{
+    padding-bottom: 7px;
+}
+.pad-r10{
+    padding-right: 10px;
+}
+.pad-eml6 {
+    padding-left: 6em;
+}
+.pad-1 {
+    padding: 3.5% 4.5% 3.5% 4.5%;
+}
+.pad-2 {
+    padding: 4% 2.5% 4% 2.5%;
+}
+.pad-3 {
+    padding: 2% 0;
+}
+.pad-4 {
+    padding: 30% 0 30% 0;
+}
+.pad-5 {
+    padding: 8%;
+}
+.pad-6 {
+    padding: 4% 0;
+}
 /*align*/
 .h-align {
     text-align: center !important;
@@ -93,8 +163,36 @@ body {
 .mar-b10 {
     margin-bottom: 10px !important;
 }
+.mar-b5 {
+    margin-bottom: 5px !important;
+}
 .mar-r5{
     margin-right: 5px !important;
+}
+.mar-eml2{
+    margin-left: 2em !important;
+}
+.mar-emt03{
+    margin-top: .3em !important;
+}
+.mar-emt05{
+    margin-top: .5em !important;
+}
+.mar-emt1{
+    margin-top: 1em !important;
+}
+.mar-emt15{
+    margin-top: 1.5em !important;
+}
+.mar-1 {
+    margin: 10% auto;
+}
+.mar-2 {
+    margin: 5% auto;
+}
+/*边框*/
+.border-no {
+    border: none;
 }
 
 /*resize*/
@@ -117,23 +215,66 @@ body {
     vertical-align: -3px;
     /*margin-left: -15px;*/
 }
-
-/*select控件背景*/
-.se-bg-1 {
+/*清楚控件默认样式*/
+.chr-c {
     -moz-appearance:none; /* Firefox */
     -webkit-appearance:none; /* Safari 和 Chrome */
+}
+/*select控件背景*/
+.bg-1 {
     background: #ffffff url(../img/icon-downarrow.png) no-repeat 98% 7px;
 }
-.se-bg-2 {
-    -moz-appearance:none; /* Firefox */
-    -webkit-appearance:none; /* Safari 和 Chrome */
+.bg-2 {
     background: #ffffff url(../img/icon-downarrow.png) no-repeat 97% 7px;
 }
 
 /*button样式*/
 #btn-1:hover {
-    color: #ffffff;
-    background: #ff9035;
+    background-color: #ff9035;
+}
+#btn-2:hover {
+    background-color: rgba(22, 155, 213, 1);
+}
+/*自定义复选框*/
+.checkbox-1 > input {
+    visibility: hidden;
+    margin: 0;
+}
+.checkbox-1 {
+    position: relative;
+    cursor: pointer;
+    margin: 0 1em 0 0;
+    width: 1em;
+    height: 1em;
+    top: 4px;
+    left: 0;
+    background: #ffffff;
+    border:1px solid #ddd;
+}
+.checkbox-1:after {
+    opacity: 0;
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 5px;
+    background: transparent;
+    top: 3px;
+    left: 2px;
+    border: 2px solid #333;
+    border-top: none;
+    border-right: none;
+
+    -webkit-transform: rotate(-50deg);
+    -moz-transform: rotate(-50deg);
+    -o-transform: rotate(-50deg);
+    -ms-transform: rotate(-50deg);
+    transform: rotate(-50deg);
+}
+.opacity-0:after {
+    opacity: 0;
+}
+.opacity-1:after {
+    opacity: 1;
 }
 
 /*选项卡 start*/
@@ -148,28 +289,40 @@ body {
     /*padding: 8px 15px;*/
     position: relative;
 }
-.tab-info-top > a:hover {
-    background-color: #ff9035;
-    color: white;
-}
-.tab-info-top > a:hover > span {
-    display: block;
-    /*定位*/
-    position: absolute;
-    top: 100%;
-    left: 44%;
-    right: 45%;
-    z-index: 999;
-}
+/*.tab-info-top > a:hover {*/
+    /*background-color: #ff9035;*/
+    /*color: white;*/
+/*}*/
+/*.tab-info-top > a:hover > span {*/
+    /*display: block;*/
+    /*!*定位*!*/
+    /*position: absolute;*/
+    /*top: 100%;*/
+    /*left: 44%;*/
+    /*right: 45%;*/
+    /*z-index: 999;*/
+/*}*/
+/*!*画三角形*!*/
+/*.triangle-down {*/
+/*width: 12px;*/
+/*height: 6px;*/
+/*border-top: 7px solid #ff9035;*/
+/*border-right: 6px solid transparent;*/
+/*border-left: 6px solid transparent;*/
+/*display: none;*/
+/*}*/
 /*画三角形*/
-.triangle-down {
-    width: 12px;
-    height: 6px;
-    border-top: 7px solid #ff9035;
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-    display: none;
+.tab-info-top .active:after{
+    content: "▼";
+    position: absolute;
+    bottom: -15px;
+    color: #FF9035;
+    left: 42%;
 }
+.tab-info-top .active{
+    background:#FF9035;
+}
+
 /*选项卡 end*/
 
 /*position定位*/
@@ -185,6 +338,16 @@ body {
 .left-4 {
     left: 46% !important;
 }
+.pos-1 {
+    position: relative;
+}
+
+/*阻止鼠标双击时文本被选中*/
+/*例子*/
+/*<div onselectstart="return false;" style="-moz-user-select:none;">*/
+
+
+
 
 /*公共类结束*/
 
@@ -199,6 +362,12 @@ body {
     .mar-b10-xs {
         margin-bottom: 10px;
     }
+    .mar-emt03-xs{
+        margin-top: .3em !important;
+    }
+    .mar-eml2-xs{
+        margin-left: 1em !important;
+    }
     .pad-clr-xs{
         padding-left: 0;
         padding-right: 0;
@@ -211,6 +380,21 @@ body {
     }
     .pad-tab-top-info-xs {
         padding: 8px .9% !important;
+    }
+    .wid-1-xs {
+        max-width: 70%;
+    }
+    .pad-cl-xs {
+        padding-left: 0;
+    }
+    .pad-emt6-xs {
+        padding-top: 6em;
+    }
+}
+/*991px以下的样式*/
+@media (min-width: 768px) and (max-width: 991px) {
+    .wid-1-sm {
+        max-width: 80% !important;
     }
 }
 

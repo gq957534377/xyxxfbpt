@@ -59,7 +59,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/web_admins_seo', 'WebAdminsSeoController');
 
         // 合作机构管理
-        Route::resource('/web_Cooper_organiz', 'WebCooperOrganizController');
+        Route::resource('/web_cooper_organiz', 'WebCooperOrganizController');
 
         // 投资机构管理
         Route::resource('/web_invest_organiz', 'WebInvestOrganizController');
@@ -73,7 +73,12 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
 
 
 
+
+
+        // 轮播图管理
+
         Route::resource('/picture/carouselajax', 'PictureOrganizController@carouselAjax');
+
         Route::resource('/picture/uploadcarousel', 'PictureOrganizController@uploadCarousel');
         Route::resource('/picture', 'PictureOrganizController');
 
@@ -103,6 +108,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         //获取角色信息
         Route::get('/roleinfo/{id}','UserController@roleInfo');
+        // 用户角色
+        Route::resource('/identity','RoleController');
         // 申请角色视图
         Route::get('/user/apply/{param}','UserController@apply');
         // 修改头像

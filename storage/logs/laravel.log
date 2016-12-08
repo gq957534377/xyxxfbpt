@@ -1,0 +1,23 @@
+[2016-12-08 09:18:30] local.ERROR: Symfony\Component\Debug\Exception\FatalThrowableError: Parse error: syntax error, unexpected '<<' (T_SL) in /vagrant/test1/Hero/app/Http/routes.php:69
+Stack trace:
+#0 [internal function]: App\Providers\RouteServiceProvider->App\Providers\{closure}(Object(Illuminate\Routing\Router))
+#1 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Routing/Router.php(354): call_user_func(Object(Closure), Object(Illuminate\Routing\Router))
+#2 /vagrant/test1/Hero/app/Providers/RouteServiceProvider.php(42): Illuminate\Routing\Router->group(Array, Object(Closure))
+#3 [internal function]: App\Providers\RouteServiceProvider->map(Object(Illuminate\Routing\Router))
+#4 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Container/Container.php(507): call_user_func_array(Array, Array)
+#5 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Support/Providers/RouteServiceProvider.php(72): Illuminate\Container\Container->call(Array)
+#6 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Support/Providers/RouteServiceProvider.php(31): Illuminate\Foundation\Support\Providers\RouteServiceProvider->loadRoutes()
+#7 /vagrant/test1/Hero/app/Providers/RouteServiceProvider.php(29): Illuminate\Foundation\Support\Providers\RouteServiceProvider->boot(Object(Illuminate\Routing\Router))
+#8 [internal function]: App\Providers\RouteServiceProvider->boot(Object(Illuminate\Routing\Router))
+#9 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Container/Container.php(507): call_user_func_array(Array, Array)
+#10 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(734): Illuminate\Container\Container->call(Array)
+#11 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(717): Illuminate\Foundation\Application->bootProvider(Object(App\Providers\RouteServiceProvider))
+#12 [internal function]: Illuminate\Foundation\Application->Illuminate\Foundation\{closure}(Object(App\Providers\RouteServiceProvider), 17)
+#13 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(718): array_walk(Array, Object(Closure))
+#14 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Bootstrap/BootProviders.php(17): Illuminate\Foundation\Application->boot()
+#15 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(203): Illuminate\Foundation\Bootstrap\BootProviders->bootstrap(Object(Illuminate\Foundation\Application))
+#16 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(222): Illuminate\Foundation\Application->bootstrapWith(Array)
+#17 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(117): Illuminate\Foundation\Http\Kernel->bootstrap()
+#18 /vagrant/test1/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(87): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
+#19 /vagrant/test1/Hero/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
+#20 {main}  
