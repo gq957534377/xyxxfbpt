@@ -66,7 +66,9 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
 
         // 图片内容管理
         Route::resource('/picture/carousel', 'PictureOrganizController@carousel');
+        Route::resource('/picture/carouselajax', 'PictureOrganizController@carouselAjax');
         Route::resource('/picture/uploadcarousel', 'PictureOrganizController@uploadCarousel');
+        Route::resource('/picture', 'PictureOrganizController');
     });
 });
 

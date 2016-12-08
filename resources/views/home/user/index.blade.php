@@ -39,7 +39,7 @@
                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
                     <aside class="hidden-xs">
                         <ul class="list-unstyled">
-                            <li><a href="#">个人资料</a></li>
+                            <li><a href="{{ route('') }}">个人资料</a></li>
                             <li><a href="#">我的身份</a></li>
                             <li><a href="#">创业大赛报名</a></li>
                             <li><a href="#">参加的活动</a></li>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="company-info">
                         <span>公司信息</span>
-                        <a href="#" class="pull-right">编辑</a>
+                        <a href="#" id="editCompanyBtn" class="pull-right">编辑</a>
                         <ul class="list-unstyled">
                             <li>在职公司<span>XXXXXXXXXX</span></li>
                             <li>职位<span>XXXXXXXXXX</span></li>
@@ -108,7 +108,7 @@
                                 <label class="col-md-2 control-label mar-b10">性别</label>
                                 <div class="col-md-6">
                                     <label class="radio-1">
-                                        <input type="radio" name="sex" id="male" class="mar-r5" value="1" checked>男
+                                        <input type="radio" name="sex" id="male" class="mar-r5" value="1">男
                                     </label>
                                     <label class="radio-1">
                                         <input type="radio" name="sex" id="female" class="mar-r5" value="2">女
@@ -141,8 +141,42 @@
                         </form>
                     </div>
                 </div>
-                <!--基本信息编辑结束-->
-
+                <!--基本信息编辑隐藏 结束-->
+                <!--公司信息编辑隐藏 开始-->
+                <div id="editCompanyInfo" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 personal-data" style="display: none;">
+                    <div class="basic-info">
+                        <span>公司信息</span>
+                        <a href="#" class="pull-right">保存</a>
+                        <form class="form-horizontal personal-data-edit" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
+                            <div class="form-group mar-b30 mar-b15-xs">
+                                <label for="work-company" class="col-md-2 control-label mar-b10">在职公司</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="work-company" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group mar-b30 mar-b15-xs">
+                                <label for="work-position" class="col-md-2 control-label mar-b10">职位</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-title" id="work-position" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group mar-b30 mar-b15-xs">
+                                <span class="col-md-2 control-label mar-b10 dis-in-bl">所在城市</span>
+                                <div class="col-md-8">
+                                    <div id="companyAddress" class="col-md-9 pad-cl" class="citys">
+                                        <p>
+                                            <select class="form-control form-title" name="province"></select> <br>
+                                            <select class="form-control" name="city"></select> <br>
+                                            <select class="form-control" name="area"></select>
+                                        </p>
+                                        <input id="place" class="form-control" name="hometown" value="" type="text" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!--公司信息编辑隐藏 结束-->
             </div>
         </div>
     </section>
@@ -161,6 +195,17 @@
     <script src="{{asset('cropper/js/main.js')}}"></script>
     <script src="{{asset('home/js/ajaxRequire.js')}}"></script>
     {{--用户中心--}}
-    <script src="home/js/user/index.js"></script>
+    <script src="{{ asset('home/js/user/index.js') }}"></script>
+
+    <script type="text/javascript">
+        $('#companyAddress').citys({
+            required:false,
+            nodata:'disabled',
+            onChange:function(data){
+                var text = data['direct']?'(直辖市)':'';
+                $('#place').val(data['province']+text+' '+data['city']+' '+data['area']);
+            }
+        });
+    </script>
 
 @endsection

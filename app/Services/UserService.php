@@ -403,12 +403,13 @@ class UserService {
     public function updataUserInfo($where,$data)
     {
         // 检验条件
-       if (empty($where) || empty($data)) return ['status' => '400','msg' => '缺少数据'];
+       if (empty($where) || empty($data)) return response()->json(['StatusCode' => '400','ResultData' => '缺少数据']);
         // 提交数据给store层
         $info = self::$userStore->updateUserInfo($where,$data);
 
-        if(!$info) return ['status'=> '400','msg' => '修改失败，您并没有做什么修改！'];
-        return ['status' => '200','msg' => '修改成功！'];
+        if(!$info) return response()->json(['StatusCode' => '400','ResultData' => '修改失败，您并没有做什么修改！']);
+
+        return response()->json(['StatusCode' => '200','ResultData' => '更新成功!']);
     }
 
     /**
@@ -422,11 +423,14 @@ class UserService {
     public function avatar($guid,$avatarName)
     {
         // 检验数据
-        if(empty($guid) || empty($avatarName)) return ['status' => '400','msg' => '缺少数据！'];
+        if(empty($guid) || empty($avatarName)) return response()->json(['StatusCode' => '400','ResultData' => '缺少数据']);
         //转交store层
         $info = self::$userStore->updateUserInfo(['guid' => $guid],['headpic' => $avatarName]);
 
-        if(!$info) return ['status' => '400','msg' => '保存失败!'];
+        if(!$info) {
+            Log::error('头像上传失败',$info);
+            return response()->json(['StatusCode' => '400','ResultData' => '保存失败']);
+        }
 
         //成功后再进行数据重组，转存到session中
         $temp = self::$homeStore->getOneData(['guid' => $guid]);
@@ -437,7 +441,8 @@ class UserService {
         $temp->headpic = $userInfo->headpic;
 
         Session::put('user',$temp);
-        return ['status' => '200','msg' => '保存成功'];
+
+        return response()->json(['StatusCode' => '200','ResultData' => $avatarName]);
 
     }
 
@@ -480,9 +485,6 @@ class UserService {
      */
     public function applyMemeber($data)
     {
-        // 检验数据
-        if(empty($data)) return ['status' => '400', 'msg' => '请填写完整信息！'];
-
         // 获取当前用户是否存在
         $result = self::$roleStore->getOneData(['guid' => $data['guid']]);
 

@@ -1,8 +1,8 @@
 <div class="" id="crop-avatar">
 
     <!-- Current avatar -->
-    <div class="avatar-view">
-        <img id="head-pic" class="img-circle" src="{{asset('cropper/img/picture.jpg')}}" alt="Avatar" style="width: 71px;"/>
+    <div class="avatar-view" title="更换头像">
+        <img id="head-pic" class="img-circle" src="{{asset('cropper/img/picture.jpg')}}" alt="Avatar" style="width: 71px;" />
     </div>
 
     <!-- Cropping modal -->

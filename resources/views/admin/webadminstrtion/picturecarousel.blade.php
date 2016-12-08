@@ -2,7 +2,7 @@
 
     <!-- Current avatar -->
     <div class="avatar-view" title="修改logo" style="width: 100%;height: 100%;">
-        <img id="headpic" class="thumb-lg" src="http://ogd29n56i.bkt.clouddn.com/98668910-b28a-3ed9-8c05-b7302919f4fb.jpg" alt="Avatar"/>
+        <img id="headpic" class="thumb-lg" src="{{ url('/admin/images/jiahao.jpg') }}" alt="Avatar"/>
     </div>
 
     <!-- Cropping modal -->

@@ -44,7 +44,10 @@ $(document).ready(function (){
 
                     hide_avatar.attr('src',msg.ResultData.msg.headpic);
                     hide_realname.empty().val(msg.ResultData.msg.realname);
-                    hide_sex.empty().val(msg.ResultData.msg.sex);
+                    if (hide_sex.val() == msg.ResultData.msg.sex) {
+                        this.attr('ckecked', true);
+                    }
+                    // hide_sex.empty().val(msg.ResultData.msg.sex);
                     hide_birthday.empty().val(msg.ResultData.msg.birthday);
 
                     $(".loading").hide();
@@ -68,14 +71,39 @@ $(document).ready(function (){
 
     });
 
+    $('#editCompanyBtn').click(function(){
+        $('#userinfo').hide();
+        $('#editCompanyInfo').show();
+    });
+
     // 编辑保存用户信息
     $("#editSubmit").click(function(){
         var data = {
             'realname' : $('input[name="realname"]').val(),
             'birthday' : $('input[name="birthday"]').val(),
-            'sex':  $('input:radio[name="user_sex"]:checked').val()
+            'sex':  $('input:radio[name="sex"]:checked').val()
         };
         ajaxRequire('user/'+guid,'PUT',data,$("#editUserInfo"),2);
+
+        user_name.html($('input[name="realname"]').val());
+
+        var sex ='';
+        if ( $('input:radio[name="sex"]:checked').val() == 1) {
+            sex = '男';
+        } else if(msg.ResultData.msg.sex == 2) {
+            sex = '女';
+        } else{
+            sex = '保密';
+        }
+
+        user_sex.html(sex);
+        user_birthday.html($('input[name="birthday"]').val());
+        user_webchat.html('无');
+        user_info.html('无');
+
+        $('#userinfo').show();
+        $('#editUserInfo').hide();
+
     });
 
 });
