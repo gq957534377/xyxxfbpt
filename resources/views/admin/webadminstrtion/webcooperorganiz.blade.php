@@ -7,104 +7,119 @@
 @endsection
 <div class="wraper container-fluid">
     <div class="page-title">
-        <h3 class="title">网站管理</h3>
+        <h3 class="title">合作机构管理</h3>
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="field-5" class="control-label">缩略图</label>
-                <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" name="banner" disabled="true">
-                <input id="file_upload" name="file_upload" type="file" multiple="true">
-                <img src="" id="article_thumb_img" style="max-width: 350px;max-height: 110px;">
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="form-group">
-                <label for="field-1" class="control-label">文章来源</label>
-                <input type="text" class="form-control" id="source" name="source" placeholder="article source...">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="panel panel-default">
-                <div class="panel-heading"><h3 class="panel-title">文字管理</h3></div>
+    <div id="carousel">
+        <div class="col-sm-6">
+            <div class="panel">
                 <div class="panel-body">
-                    <div class=" form p-20">
-
-                        <form class="cmxform form-horizontal tasi-form" id="textfrom" method="get" action="#">
-                            <div class="form-group ">
-                                <label for="cemail" class="control-label col-lg-2">客服电话：</label>
-                                <div class="col-lg-10">
-                                    <input class="form-control " id="tel" type="text" name="tel" required="" aria-required="true" value="{{ $info['tel'] or ''}}">
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label for="cemail" class="control-label col-lg-2">客服邮箱：</label>
-                                <div class="col-lg-10">
-                                    <input class="form-control " id="cemail" type="email" name="email" required="" aria-required="true" value="{{ $info['email'] or ''}}">
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label for="cemail" class="control-label col-lg-2">工作时间：</label>
-                                <div class="col-lg-10">
-                                    <input class="form-control " id="time" type="text" name="time" required="" aria-required="true" value="{{ $info['time'] or ''}}" >
-                                </div>
-                            </div>
-                            <div class="form-group ">
-                                <label for="curl" class="control-label col-lg-2">备案内容：</label>
-                                <div class="col-lg-10">
-                                    <input class="form-control " id="record" type="text" name="record" value="{{ $info['record'] or '' }}">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-lg-offset-2 col-lg-10">
-                                    <button class="btn btn-success" type="submit">Save</button>
-                                    <button class="btn btn-default" type="button">Cancel</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div> <!-- .form -->
+                    <div class="media-main">
+                        <a class="pull-left" href="#">
+                            <img class="thumb-lg img-circle bx-s" src="picture/avatar-2.jpg" alt="">
+                        </a>
+                        <div class="pull-right btn-group-sm">
+                            <a href="#" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">
+                                <i class="fa fa-close"></i>
+                            </a>
+                        </div>
+                        <div class="info">
+                            <h4>Jonathan Smith</h4>
+                            <p class="text-muted">Graphics Designer</p>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr/>
+                    <ul class="social-links list-inline p-b-10">
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="LinkedIn"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
+                        </li>
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Message"><i class="fa fa-envelope-o"></i></a>
+                        </li>
+                    </ul>
                 </div> <!-- panel-body -->
             </div> <!-- panel -->
-        </div> <!-- col -->
-    </div> <!-- End row -->
-
-
-
-
+        </div> <!-- end col -->
+        <div class="col-sm-6">
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="media-main">
+                        <a class="pull-left" href="#">
+                            <img class="thumb-lg img-circle bx-s" src="picture/avatar-2.jpg" alt="">
+                        </a>
+                        <div class="pull-right btn-group-sm">
+                            <a href="#" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">
+                                <i class="fa fa-pencil"></i>
+                            </a>
+                            <a href="#" class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">
+                                <i class="fa fa-close"></i>
+                            </a>
+                        </div>
+                        <div class="info">
+                            <h4>Jonathan Smith</h4>
+                            <p class="text-muted">Graphics Designer</p>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <hr/>
+                    <ul class="social-links list-inline p-b-10">
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
+                        </li>
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="LinkedIn"><i class="fa fa-linkedin"></i></a>
+                        </li>
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
+                        </li>
+                        <li>
+                            <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Message"><i class="fa fa-envelope-o"></i></a>
+                        </li>
+                    </ul>
+                </div> <!-- panel-body -->
+            </div> <!-- panel -->
+        </div> <!-- end col -->
+    </div>
+    <div class="col-sm-10">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="media-main">
+                    <a class="pull-left" href="#">
+                        @include('admin.webadminstrtion.picturecarousel')
+                    </a>
+                </div>
+                <div class="info">
+                    <h4>添加图片</h4>
+                    <p class="text-muted">Graphics Designer</p>
+                </div>
+                <div class="clearfix"></div>
+            </div> <!-- panel-body -->
+        </div> <!-- panel -->
+    </div> <!-- end col -->
 </div>
-@include("Tool.Ajax")
-@include("admin.validator.webAdminValidator")
-
 
 @endsection
 @section('script')
-    {{--<script src="http://apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>--}}
-    <script src="{{url('uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
-    <script type="text/javascript">
-        <?php $timestamp = time();?>
-        //发布文章-图片上传
-        $(function() {
-            $('#file_upload').uploadify({
-                'buttonText':'选择图片',
-                'formData'     : {
-                    'timestamp' : '<?php echo $timestamp;?>',
-                    '_token'     : "{{csrf_token()}}",
-                },
-                'swf'      : '{{url('uploadify/uploadify.swf')}}',
-                'uploader' : '{{url('/upload')}}',
-                'onUploadSuccess':function (file,data,response) {
-                    var data = JSON.parse(data);
-                    $('#banner').val(data.res);
-                    $('#article_thumb_img').attr('src',data.res);
-                },
-                'onUploadError' : function(file, errorCode, errorMsg, errorString) {
-                    alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
-                }
-            });
-        });
-    </script>
+
+    @include("admin.validator.webAdminValidator")
+    <script src="{{ asset('/admin/js/cooperorganiz.js') }}"></script>
+    <script src="{{asset('/cropper/js/cropper.min.js')}}"></script>
+    <script src="{{asset('/cropper/js/carousel.js')}}"></script>
 @endsection
+
+
