@@ -184,30 +184,106 @@
     {{--</script>--}}
 
     <script>
-        //定义用户角色表格相关按钮事件  待审核、审核失败
+        
+        /**
+         *  获取不同类型用户的列表点击事件
+         *  
+         * @return  mixed   用户的列表
+         * */
         $('.user_role_list').click(function(){
+            //用户列表title
             $('#user_title').html($(this).attr('title'));
 
             return;
-            var memeber = $(this).attr('memeber'), status = $(this).attr('status'), role = $(this).attr('role');
-            $.ajax({
-                url:'/user_role/list',
-                type:'get',
-                data:{
-                    status:status,
-                    role:role,
-                    memeber:memeber
-                },
-                success:function(data){
-                    if (data.data.length==0) return $('#data').html('暂无数据哦');
+            //获取参数
+            var url = $(this).attr('memeber');  //请求url
+            var status = $(this).attr('status');
+            var role = $(this).attr('role');
 
+            //初始化请求参数
+            var queryString = {
+                status : '',
+                role   : ''
+            };
+
+            //执行ajax请求
+            doAjax(url,queryString,'get');
+
+        });
+
+        
+        /** ajax请求，通过参数返回不同类型用户的列表
+         *
+         * @param   var url           string    请求url
+         * @param   var querystring   json      请求参数，需要提前拼装为json格式
+         * @param   var type          string    请求类型（get or post ...）
+         *
+         * @return  data              json      接口响应的json格式数据
+         * */
+        function doAjax(url,queryString,type) {
+            //如果为非GET请求  携带 csrf _token 做请求验证
+            if(type == post || type == put || type == delete){
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+            }
+            //ajax请求
+            $.ajax({
+                url:url,
+                type:type,
+                data:queryString,
+                success:function(data){
+                    //没有该类型用户数据返回提示
+                    if (data.status == 400) return $('#data').html('暂无数据哦');
+
+                    //有数据，遍历数据进行DOM操作
+                    $('').html(htmlStr(data));
 
 
                 }
             })
-        });
+        }
+        
+        /**
+         *  HtmlStr() 用户列表标签拼装
+         * 
+         * @param var data      json        ajax请求返回的json格式数组
+         *
+         * @return var str      string      返回拼装遍历好的html标签
+         * */
+        function htmlStr(data) {
+            //初始化变量
+            var str = '';
 
+            //公共表格头
+            str +=  '<div class="panel-body">' +
+                    '<table class="table table-bordered table-striped">' +
+                    '<thead>' +
+                    '<tr>' +
+                    '<th>item</th>' +
+                    '<th>昵称</th>' +
+                    '<th>姓名</th>' +
+                    '<th>性别</th>' +
+                    '<th>生日</th>' +
+                    '<th>手机</th>' +
+                    '<th>邮箱</th>' +
+                    '<th>用户状态</th>' +
+                    '<th>操作</th>' +
+                    '</tr>' +
+                    '</thead>'+
+                    '<tbody>';
 
+            //
+            return str;
+        }
+        /**
+         *
+         *
+         *
+         *
+         * */
 
     </script>
 

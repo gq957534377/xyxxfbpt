@@ -83,7 +83,7 @@ class ArticleService
     {
         //数据初始化
         $data = $request->all();
-        $forPages = 5;//一页的数据条数
+        $forPages = 2;//一页的数据条数
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         $status = $data["status"];//文章状态：开始前 进行中  结束
         $type = $data["type"];//获取文章类型

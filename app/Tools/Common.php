@@ -163,7 +163,7 @@ class Common {
      * @return mixed(array | false)
      * @author 张洵之
      */
-    public static function getPageUrls($data, $table, $url, $n,$filed,$where)
+    public static function  getPageUrls($data, $table, $url, $n,$filed,$where)
     {
         if(empty($table) || empty($url)) return false;
         $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;

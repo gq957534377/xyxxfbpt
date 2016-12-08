@@ -64,17 +64,19 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         // 投资机构管理
         Route::resource('/web_invest_organiz', 'WebInvestOrganizController');
 
-        // 图片内容管理
-        Route::resource('/picture/carousel', 'PictureOrganizController@carousel');
-<<<<<<< HEAD
-
         // 用户管理bate
         Route::resource('/test','TestController');
-=======
+
+        // 图片内容管理
+        Route::resource('/picture/carousel', 'PictureOrganizController@carousel');
+
+
+
+
         Route::resource('/picture/carouselajax', 'PictureOrganizController@carouselAjax');
         Route::resource('/picture/uploadcarousel', 'PictureOrganizController@uploadCarousel');
         Route::resource('/picture', 'PictureOrganizController');
->>>>>>> origin/master
+
     });
 });
 
