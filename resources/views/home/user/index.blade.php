@@ -79,13 +79,13 @@
                                 <label class="col-md-2 control-label mar-b10">性别</label>
                                 <div class="col-md-6">
                                     <label class="radio-1">
-                                        <input type="radio" name="sex" id="male" class="mar-r5" value="1">男
+                                        <input type="radio" name="sex" id="male" class="mar-r5" value="1" data-sex="1">男
                                     </label>
                                     <label class="radio-1">
-                                        <input type="radio" name="sex" id="female" class="mar-r5" value="2">女
+                                        <input type="radio" name="sex" id="female" class="mar-r5" value="2" data-sex="2">女
                                     </label>
                                     <label class="radio-1">
-                                        <input type="radio" name="sex" id="other-sex" class="mar-r5" value="3">保密
+                                        <input type="radio" name="sex" id="other-sex" class="mar-r5" value="3" data-sex="3">保密
                                     </label>
                                 </div>
                             </div>

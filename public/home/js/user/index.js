@@ -44,10 +44,7 @@ $(document).ready(function (){
 
                     hide_avatar.attr('src',msg.ResultData.msg.headpic);
                     hide_realname.empty().val(msg.ResultData.msg.realname);
-                    if (hide_sex.val() == msg.ResultData.msg.sex) {
-                        this.attr('ckecked', true);
-                    }
-                    // hide_sex.empty().val(msg.ResultData.msg.sex);
+
                     hide_birthday.empty().val(msg.ResultData.msg.birthday);
 
                     $(".loading").hide();
