@@ -315,6 +315,12 @@ class UserController extends Controller
 
     }
 
+    /**
+     * 申请成为英雄会会员
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
     public function applyHeroMemeber(Request $request)
     {
         // 获取数据

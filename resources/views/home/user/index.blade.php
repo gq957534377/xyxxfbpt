@@ -3,7 +3,6 @@
 @section('title','用户中心')
 
 @section('style')
-    <link href="{{ asset('home/css/user_center_aside.css') }}" rel="stylesheet">
     <link href="{{ asset('home/css/user_center_personal_data.css') }}" rel="stylesheet">
     <link href="{{asset('dateTime/jquery.datetimepicker.css')}}" rel="stylesheet">
     <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
@@ -16,42 +15,14 @@
 
 @section('content')
     <!--移动设备menu开始-->
-    <div class="container-fluid mobile-aside navbar-fixed-top">
-        <span class="dropdown-toggle" data-toggle="dropdown"></span>
-        <ul class="list-unstyled dropdown-menu" role="menu">
-            <li><a href="#">个人资料</a></li>
-            <li><a href="#">我的身份</a></li>
-            <li><a href="#">创业大赛报名</a></li>
-            <li><a href="#">参加的活动</a></li>
-            <li><a href="#">我的投稿</a></li>
-            <li><a href="#">我的需求</a></li>
-            <li><a href="#">我的收藏</a></li>
-            <li><a href="#">账号设置</a></li>
-            <li><a href="#">点赞和评论</a></li>
-        </ul>
-    </div>
+     @include('home.user.mobileSidebar')
     <!--移动设备menu结束-->
 
     <!--用户中心基本信息开始-->
     <section class="container-fluid">
         <div class="container">
             <div class="row user-center">
-                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
-                    <aside class="hidden-xs">
-                        <ul class="list-unstyled">
-                            <li><a href="{{ route('') }}">个人资料</a></li>
-                            <li><a href="#">我的身份</a></li>
-                            <li><a href="#">创业大赛报名</a></li>
-                            <li><a href="#">参加的活动</a></li>
-                            <li><a href="#">我的投稿</a></li>
-                            <li><a href="#">我的需求</a></li>
-                            <li><a href="#">我的收藏</a></li>
-                            <li><a href="#">账号设置</a></li>
-                            <li><a href="#">点赞和评论</a></li>
-                        </ul>
-                    </aside>
-                </div>
-
+                @include('home.user.pcSideBar')
                 <!--基本信息开始-->
                 <div id="userinfo" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 personal-data">
                     <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
@@ -196,16 +167,5 @@
     <script src="{{asset('home/js/ajaxRequire.js')}}"></script>
     {{--用户中心--}}
     <script src="{{ asset('home/js/user/index.js') }}"></script>
-
-    <script type="text/javascript">
-        $('#companyAddress').citys({
-            required:false,
-            nodata:'disabled',
-            onChange:function(data){
-                var text = data['direct']?'(直辖市)':'';
-                $('#place').val(data['province']+text+' '+data['city']+' '+data['area']);
-            }
-        });
-    </script>
 
 @endsection

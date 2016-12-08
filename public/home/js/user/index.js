@@ -90,7 +90,7 @@ $(document).ready(function (){
         var sex ='';
         if ( $('input:radio[name="sex"]:checked').val() == 1) {
             sex = '男';
-        } else if(msg.ResultData.msg.sex == 2) {
+        } else if( $('input:radio[name="sex"]:checked').val() == 2) {
             sex = '女';
         } else{
             sex = '保密';
@@ -104,6 +104,15 @@ $(document).ready(function (){
         $('#userinfo').show();
         $('#editUserInfo').hide();
 
+    });
+
+    $('#companyAddress').citys({
+        required:false,
+        nodata:'disabled',
+        onChange:function(data){
+            var text = data['direct']?'(直辖市)':'';
+            $('#place').val(data['province']+text+' '+data['city']+' '+data['area']);
+        }
     });
 
 });
