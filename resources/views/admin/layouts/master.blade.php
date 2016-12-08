@@ -42,6 +42,5 @@
 </body>
 
 @include('admin.public.script')
-@include("admin.public.croppersquare")
 @yield('script')
 </html>

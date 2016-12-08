@@ -1,4 +1,4 @@
-@extends('admin.layouts.master_logo')
+@extends('admin.layouts.master')
 
 @section('content')
 @section('title', '网站管理')
@@ -66,15 +66,10 @@
 
 
 </div>
-@include("Tool.Ajax")
-@include("admin.validator.webAdminValidator")
-
 
 
 @endsection
 @section('script')
-    <script>
-
-    </script>
+    @include("admin.validator.webAdminValidator")
 
 @endsection

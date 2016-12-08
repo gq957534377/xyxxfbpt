@@ -29,7 +29,7 @@ class LoginController extends Controller
     public function index()
     {
         if (!empty(session('user'))) return redirect('/');
-        return view('heroHome.login');
+        return view('home.login');
     }
 
     /**

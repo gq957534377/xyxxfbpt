@@ -46,9 +46,9 @@ class ProjectController extends Controller
 
         if (!$res['status']) {
             $projects = [];
-            return view('heroHome.projects.index', compact('projects'));
+            return view('home.projects.index', compact('projects'));
         } else {
-            return view('heroHome.projects.index', compact('projects'));
+            return view('home.projects.index', compact('projects'));
         }
 
     }
@@ -112,7 +112,7 @@ class ProjectController extends Controller
         $userinfo->headpic = $headpic;
 
 //        return view('home.project.pro_details')->with('data',$res['data']);
-        return view('heroHome.projects.details', compact('project_details', 'userinfo'));
+        return view('home.projects.details', compact('project_details', 'userinfo'));
     }
 
     /**

@@ -16,21 +16,21 @@
   function CropAvatar($element) {
     this.$container = $element;
 
-    this.$avatarView = this.$container.find('.avatar-view');
-    this.$avatar = this.$avatarView.find('img');
-    this.$avatarModal = this.$container.find('#avatar-modal');
-    this.$loading = this.$container.find('.loading');
+    this.$avatarView = this.$container.find('.avatar-view');//头像视图
+    this.$avatar = this.$avatarView.find('img');//头像
+    this.$avatarModal = this.$container.find('#avatar-modal');//模态框
+    this.$loading = this.$container.find('.loading');//加载时菊花
 
-    this.$avatarForm = this.$avatarModal.find('.avatar-form');
-    this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
-    this.$avatarSrc = this.$avatarForm.find('.avatar-src');
-    this.$avatarData = this.$avatarForm.find('.avatar-data');
-    this.$avatarInput = this.$avatarForm.find('.avatar-input');
-    this.$avatarSave = this.$avatarForm.find('.avatar-save');
-    this.$avatarBtns = this.$avatarForm.find('.avatar-btns');
+    this.$avatarForm = this.$avatarModal.find('.avatar-form');//提交表单
+    this.$avatarUpload = this.$avatarForm.find('.avatar-upload');//上传图片最外层div
+    this.$avatarSrc = this.$avatarForm.find('.avatar-src');// 拖拽上传时图片的地址，这里没用
+    this.$avatarData = this.$avatarForm.find('.avatar-data');//截取图片相关数据
+    this.$avatarInput = this.$avatarForm.find('.avatar-input');//上传头像的input表单
+    this.$avatarSave = this.$avatarForm.find('.avatar-save');//跟换头像按钮
+    this.$avatarBtns = this.$avatarForm.find('.avatar-btns');//旋转按钮最外层div
 
-    this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');
-    this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
+    this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');//模态框显示图片div
+    this.$avatarPreview = this.$avatarModal.find('.avatar-preview');//右侧三小框
 
     this.init();
     console.log(this);
@@ -112,7 +112,7 @@
 
             _this.submitDone(data);
           } else {
-            _this.submitFail('图片上传失败!');
+            _this.submitFail('Image upload failed!');
           }
 
           _this.submitEnd();
@@ -202,12 +202,12 @@
           strict: false,
           crop: function (data) {
             var json = [
-                  '{"x":' + data.x,
-                  '"y":' + data.y,
-                  '"height":' + data.height,
-                  '"width":' + data.width,
-                  '"rotate":' + data.rotate + '}'
-                ].join();
+              '{"x":' + data.x,
+              '"y":' + data.y,
+              '"height":' + data.height,
+              '"width":' + data.width,
+              '"rotate":' + data.rotate + '}'
+            ].join();
 
             _this.$avatarData.val(json);
           }
@@ -284,7 +284,7 @@
           this.alert(data.message);
         }
       } else {
-        this.alert(data.result);
+        this.alert('Failed to response');
       }
     },
 
@@ -299,18 +299,17 @@
     cropDone: function () {
       this.$avatarForm.get(0).reset();
       this.$avatar.attr('src', this.url);
-      $("#head_pic").attr('src',this.url);
       this.stopCropper();
       this.$avatarModal.modal('hide');
     },
 
     alert: function (msg) {
       var $alert = [
-            '<div class="alert alert-danger avater-alert">',
-              '<button type="button" class="close" data-dismiss="alert">&times;</button>',
-              msg,
-            '</div>'
-          ].join('');
+        '<div class="alert alert-danger avater-alert">',
+        '<button type="button" class="close" data-dismiss="alert">&times;</button>',
+        msg,
+        '</div>'
+      ].join('');
 
       this.$avatarUpload.after($alert);
     }
@@ -319,4 +318,5 @@
   $(function () {
     return new CropAvatar($('#crop-avatar'));
   });
+
 });
