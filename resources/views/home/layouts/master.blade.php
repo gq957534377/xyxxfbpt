@@ -22,6 +22,5 @@
 @include('home.public.script')
 
 @yield('script')
-{{--sa--}}
 </body>
 </html>
