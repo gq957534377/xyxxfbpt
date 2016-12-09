@@ -1,0 +1,129 @@
+/*公用*/
+.identity-info {
+    padding: 0;
+}
+
+/*我是创业者*/
+.auth-entre {
+    background: url("../img/demoimg/161205.jpg") no-repeat left top;
+}
+.auth-entre-btn:hover {
+    background-color: #ff9035;
+    color: #ffffff;
+}
+.authentication-entrepreneur {
+    background-color: #fafafa;
+    padding: 3% 0 0 0;
+}
+.authentication-entrepreneur span {
+    display: block;
+    font-size: 16px;
+    background: url("../img/vertical_bar.jpg") no-repeat left center;
+    padding-left: 1em;
+    margin: 0 0 5% 3%;
+    color: #000000;
+    font-weight: 900;
+}
+
+.authentication-entrepreneur a {
+    display: block;
+    width: 10em;
+    color: #000000;
+    margin: 8% auto 2% auto;
+    background: url("../img/upload_normal.jpg") no-repeat left center /  1.2em 1.2em;
+    padding-left: 1.9em;
+}
+.authentication-entrepreneur a:hover {
+    background-image: url("../img/upload_active.jpg");
+    text-decoration: none;
+    color: #ff9035;
+}
+.authentication-entrepreneur p {
+    font-size: 15px;
+    width: 45%;
+    color: #ba3d3b;
+    margin: 0 auto;
+    padding: 2% 0 7% 0;
+}
+
+.upload-project {
+    background-color: #fafafa;
+    padding: 3% 0 0 0;
+}
+.upload-project span {
+    display: block;
+    font-size: 16px;
+    background: url("../img/vertical_bar.jpg") no-repeat left center;
+    padding-left: 1em;
+    margin: 0 0 5% 3%;
+    color: #000000;
+    font-weight: 900;
+}
+
+.upload-project a {
+    display: block;
+    width: 10em;
+    color: #000000;
+    margin: 8% auto 2% auto;
+    background: url("../img/upload_normal.jpg") no-repeat left center / 1.2em 1.2em;
+    padding-left: 1.9em;
+}
+.upload-project a:hover {
+    background-image: url("../img/upload_active.jpg");
+    text-decoration: none;
+    color: #ff9035;
+}
+.upload-project p {
+    font-size: 15px;
+    width: 45%;
+    color: #ba3d3b;
+    margin: 0 auto;
+    padding: 2% 0 7% 0;
+}
+
+/*我是投资人*/
+.investor {
+    background-color: #fafafa;
+    padding: 3.5% 4.5% 2% 4.5%;
+}
+.investor > div > span {
+    background: url("../img/vertical_bar.jpg") no-repeat left center;
+    padding-left: 15px;
+    color: #000000;
+    font-weight: 900;
+    font-size: 16px;
+}
+.form-investor {
+    padding-top: 2em;
+    font-size: 15px;
+}
+.form-horizontal .control-label {
+    text-align: left;
+    font-weight: normal;
+}
+
+@media (max-width: 767px) {
+    /*我是创业者*/
+    .identity-info {
+        padding: 0;
+    }
+    .authentication-entrepreneur span {
+        font-size: 15px;
+    }
+    .authentication-entrepreneur p {
+        width: 80%;
+    }
+    .upload-project span {
+        font-size: 15px;
+    }
+    .upload-project p {
+        width: 80%;
+    }
+    /*我是投资人*/
+
+}
+/*屏幕宽度大于等于768px,bootstrap row容器宽度750px*/
+@media (min-width: 768px) {
+}
+
+

@@ -1,0 +1,93 @@
+header {
+    font-size: 1.1em;
+    padding: 0.5em 0;
+    box-shadow:0 1px 1px #f0f0f0;
+    background-color: #ffffff;
+}
+.top-left {
+    padding-left: 1em;
+    float: left;
+}
+.top-left > a {
+    display: block;
+}
+.top-left > a > img {
+    display: block;
+    width: 100%;
+}
+.top-right {
+    padding-right: 1em;
+    margin: 9px 0;
+    float: right;
+}
+.top-right > a {
+    /*display: inline-block;*/
+    margin-left: 1.5em;
+    float: right;
+    text-decoration: none;
+    color: #000000;
+}
+.top-right > a:nth-child(2) {
+    line-height: 3em;
+    padding-left: 1.8em;
+    background: url("../img/icon_message.png") no-repeat 0 50%;
+}
+.top-right > a:nth-child(2):hover {
+    color: #ff9035;
+}
+.top-right > a:last-child {
+    padding: .5em 1em;
+    margin-top: .3em;
+    /*background-image: url("../img/icon_user.png");*/
+}
+.top-right > a:last-child:hover {
+    color: #ffffff;
+    background-size: 20%;
+    background-color: #ff9035;
+    background-repeat: no-repeat;
+}
+.top-right > a:first-child img {
+    display: block;
+    max-width: 3em;
+}
+
+/** 登录后的头像样式  刘峻廷
+************/
+.top-right > ul:first-child {
+    padding-left:5px;
+    margin-bottom:0;
+}
+.top-right > ul > li:first-child > a:first-child img {
+    display: inline-block;
+    max-width: 3em;
+}
+
+
+/*这里的媒体查询为top私有*/
+@media (max-width: 767px) {
+    header {
+        font-size: 1em;
+        padding: 0.6em 0;
+    }
+    .top-left > a > img {
+        display: block;
+        max-width: 18em;
+    }
+    .top-right > a:nth-child(3) {
+        display: none;
+    }
+    .top-right > a:nth-child(2) {
+        display: none;
+    }
+    .top-right {
+        margin: 0 1em 0 0;
+        padding: 0;
+    }
+    .top-right > a:first-child {
+        margin: 0;
+    }
+}
+/*768px以上的样式，最大宽度为1200px*/
+@media (min-width: 768px) {
+    /*所有媒体查询之外的样式，都可以视为属于此*/
+}

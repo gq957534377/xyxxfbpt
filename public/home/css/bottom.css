@@ -1,0 +1,22 @@
+.bottom {
+    font-size: 0.15em;
+    background-color: #000000;
+}
+
+.bottom > p {
+    font-size: 12px;
+    padding: 1.5em 0;
+    color: #9a9a9a;
+    margin: 0;
+}
+
+/*768px以下的样式，最小宽度为320px*/
+@media (max-width: 767px) {
+    .bottom > p {
+        padding: 1em 0;
+    }
+}
+/*768px以上的样式，最大宽度为1200px*/
+@media (min-width: 768px) {
+    /*所有媒体查询之外的样式，都可以视为属于此*/
+}

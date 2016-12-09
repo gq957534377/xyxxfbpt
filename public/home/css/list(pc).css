@@ -1,0 +1,133 @@
+/******搜索行样式开始******/
+.selected{
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.selected li{
+  height: 28px;
+  cursor: pointer;
+}
+.selected li:nth-child(1),.selected li:nth-child(2){
+  line-height: 30px;
+  position:relative;
+}
+.selected li:nth-child(1){
+  min-width: 90px;
+}
+.selected li:nth-child(2){
+  padding-right: 30px;
+  min-width: 110px;
+}
+.selected li:nth-child(2)::after{
+  content: "▼";
+  color:#cccccc;
+  position: absolute;
+  right: 15px;
+}
+.selected li:nth-child(3){
+  min-width:142px;
+  border: 1px solid #e4e4e4;
+  cursor: text;
+  border-radius:14px;
+  height: 28px;
+}
+.selected li:nth-child(3) input{
+  height: 100%;
+  width: 100%;
+}
+.selected li:nth-child(4){
+  min-width: 80px;
+}
+.selected li:nth-child(4) button{
+  width: 66px;
+  height: 100%;
+  background-color: #f48d42;
+  color: #ffffff;
+  border: 0;
+  border-radius: 13px;
+}
+/******搜索行样式结束******/
+/******主题内容样式开始******/
+.content{
+  max-width: 1200px;
+  margin: 0 auto 30px;
+}
+.content >li{
+  padding: 0;
+  margin-top: 15px;
+}
+.content-block{
+  width: 95%;
+  max-width: 268px;
+  max-height: 310px;
+  border: 1px solid #eeeeee;
+}
+.content-block>a>img{
+  width: 100%;
+}
+.content-block>div{
+  padding: 8px 6%;
+}
+.content-block>div>h3>a{
+  color: #000000;
+}
+.content-block>div>h3>a:hover{
+  text-decoration: none;
+  color: #FF9036;
+}
+.content-block>div>p{
+  font-size: 14px;
+  color: #d3d3d3;
+  padding-bottom: 5%;
+  margin: 0;
+  max-height: 80px;
+  overflow: hidden;
+}
+.content-block>div>div>span{
+  display: inline-block;
+  width: 45%;
+}
+.content-block>div>div>span:nth-child(1){
+    color: #ff6400;
+}
+.content-block>div>div>span:nth-child(2){
+  text-align: right;
+  background: url(../img/eye.jpg) no-repeat 50%;
+  color:#999999;
+}
+@media screen and (max-width: 1200px){
+  .content-block>div>div>span:nth-child(2){
+    background-position: 45%;
+  }
+}
+@media screen and (max-width: 1000px){
+  .content-block>div>div>span:nth-child(2){
+    background-position: 35%;
+  }
+}
+@media screen and (max-width: 895px){
+  .content-block>div>div>span:nth-child(2){
+    background-position: 25%;
+  }
+  .content-block>div>div>span:nth-child(1):before,.content-block>div>div>span{
+    font-size: 12px;
+  }
+}
+@media screen and (max-width:581px){
+    .hang .content .col-xs-6{
+      width: 100%;
+    }
+    .content-block{
+      float: none;
+      margin: 0 auto;
+    }
+    .hang .content{
+      padding: 0 15px;
+      margin-bottom: 0px;
+    }
+}
+.content-block>div>div>span:nth-child(1):before{
+  content: "点赞数：";
+  color:#999999;
+}
+/******主题内容样式结束******/
