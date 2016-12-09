@@ -32,16 +32,16 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a  class="user_role_list"  onclick="getInfo(1)" title="普通用户">普通用户</a>
+                    <a  class="user_role_list"   title="普通用户">普通用户</a>
                 </li>
                 <li>
-                    <a  class="user_role_list"  onclick="getInfo(2)" title="创业者用户">创业者用户</a>
+                    <a  class="user_role_list"   title="创业者用户">创业者用户</a>
                 </li>
                 <li>
-                    <a  class="user_role_list"  onclick="getInfo(3)" title="投资者用户">投资者用户</a>
+                    <a  class="user_role_list"   title="投资者用户">投资者用户</a>
                 </li>
                 <li>
-                    <a  class="user_role_list"  onclick="getInfo(4)" title="英雄会成员">英雄会成员</a>
+                    <a  class="user_role_list"   title="英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -96,25 +96,25 @@
                 </li>
             </ul>
         </div>
-        <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">已停用
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a  class="user_role_list" title="已停用普通用户" >普通用户</a>
-                </li>
-                <li>
-                    <a  class="user_role_list" title="已停用创业者用户" >创业者</a>
-                </li>
-                <li>
-                    <a  class="user_role_list" title="已停用投资者用户" >投资者</a>
-                </li>
-                <li>
-                    <a class="user_role_list"  title="已停用英雄会成员">英雄会成员</a>
-                </li>
-            </ul>
-        </div>
+        {{--<div class="btn-group">--}}
+            {{--<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">已停用--}}
+                {{--<span class="caret"></span>--}}
+            {{--</button>--}}
+            {{--<ul class="dropdown-menu" role="menu">--}}
+                {{--<li>--}}
+                    {{--<a  class="user_role_list" title="已停用普通用户" >普通用户</a>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a  class="user_role_list" title="已停用创业者用户" >创业者</a>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a  class="user_role_list" title="已停用投资者用户" >投资者</a>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                    {{--<a class="user_role_list"  title="已停用英雄会成员">英雄会成员</a>--}}
+                {{--</li>--}}
+            {{--</ul>--}}
+        {{--</div>--}}
     </div>
 
     {{--<img src="{{asset('admin/images/load.gif')}}" class="loading">--}}
@@ -192,22 +192,23 @@
          * */
         $('.user_role_list').click(function(){
             //用户列表title
-            $('#user_title').html($(this).attr('title'));
+            var title = $(this).attr('title');
+            $('#user_title').html('<h3>' + title + '</h3>');
 
-            return;
+            //$('#data').html(htmlStr(data));
+
+
             //获取参数
-            var url = $(this).attr('memeber');  //请求url
-            var status = $(this).attr('status');
-            var role = $(this).attr('role');
+            var url = '/test/show';  //请求url
+
 
             //初始化请求参数
             var queryString = {
-                status : '',
-                role   : ''
+                key : title
             };
 
             //执行ajax请求
-            doAjax(url,queryString,'get');
+            execAjax( url, queryString, 'get');
 
         });
 
@@ -220,9 +221,9 @@
          *
          * @return  data              json      接口响应的json格式数据
          * */
-        function doAjax(url,queryString,type) {
+        function execAjax( url, queryString, type) {
             //如果为非GET请求  携带 csrf _token 做请求验证
-            if(type == post || type == put || type == delete){
+            if(type == 'post' || type == 'put' || type == 'delete'){
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -231,15 +232,16 @@
             }
             //ajax请求
             $.ajax({
-                url:url,
-                type:type,
-                data:queryString,
-                success:function(data){
-                    //没有该类型用户数据返回提示
-                    if (data.status == 400) return $('#data').html('暂无数据哦');
+                url : url,
+                type : type,
 
+                data : queryString,
+                success : function(msg){
+                    //没有该类型用户数据返回提示
+                    //if (data.status == 400) return $('#data').html('暂无数据');
+                    alert(msg.role);
                     //有数据，遍历数据进行DOM操作
-                    $('').html(htmlStr(data));
+                    $('#data').html(msg);
 
 
                 }
@@ -253,7 +255,7 @@
          *
          * @return var str      string      返回拼装遍历好的html标签
          * */
-        function htmlStr(data) {
+        function htmlStr( data) {
             //初始化变量
             var str = '';
 
@@ -276,7 +278,28 @@
                     '<tbody>';
 
             //
-            return str;
+
+            $.each(data, function (i, e) {
+
+                str += '<tr class="gradeX">'+
+                        '<td>' + + '</td>'+
+                        '<td>' + + '</td>'+
+                        '<td>' + + '</td>'+
+                        '<td>' + + '</td>'+
+                        '<td>' + + '</td>'+
+                        '<td>' + + '</td>'+
+                        '<td>' + + '</td>'+
+                        '<td>' + + '</td>'+
+                        '<td><a href="javascript:;" data-name="' +  + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a></td></tr>';
+            });
+            str += '</tbody>' +
+                    '</table>' +
+                    '</div>' +
+                    '<div class="row">' +
+                    '<div class="col-sm-8"></div>' +
+                    '<div class="col-sm-4" id="page"></div>' +
+                    '</div>';
+
         }
         /**
          *

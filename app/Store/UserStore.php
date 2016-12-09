@@ -92,4 +92,22 @@ class UserStore {
         return DB::table(self::$table)->where($condition)->delete();
     }
 
+    /**
+     * 获取分页数据
+     * @param $where
+     * @param $page
+     * @param $tolPage
+     *
+     * @return mixed
+     */
+    public function forPage($page, $tolPage, $where)
+    {
+        if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
+        return DB::table(self::$table)
+            ->where($where)
+            ->orderBy("time","desc")
+            ->forPage($page,$tolPage)
+            ->get();
+    }
+
 }
