@@ -406,7 +406,7 @@ vjs.MediaTechController.prototype.setPoster = function(){};
 
 vjs.MediaTechController.prototype['featuresVolumeControl'] = true;
 
-// Resizing plugins using request fullscreen reloads the plugin
+// Resizing plugins using Request fullscreen reloads the plugin
 vjs.MediaTechController.prototype['featuresFullscreenResize'] = false;
 vjs.MediaTechController.prototype['featuresPlaybackRate'] = false;
 

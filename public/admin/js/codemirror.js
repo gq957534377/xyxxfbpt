@@ -827,7 +827,7 @@ window.CodeMirror = (function() {
     function add(left, top, width, bottom) {
       if (top < 0) top = 0;
       fragment.appendChild(elt("div", null, "CodeMirror-selected", "position: absolute; left: " + left +
-                               "px; top: " + top + "px; width: " + (width == null ? rightSide - left : width) +
+                               "px; Top: " + top + "px; width: " + (width == null ? rightSide - left : width) +
                                "px; height: " + (bottom - top) + "px"));
     }
 
@@ -851,7 +851,7 @@ window.CodeMirror = (function() {
           right = rightPos.right;
         }
         if (fromArg == null && from == 0) left = leftSide;
-        if (rightPos.top - leftPos.top > 3) { // Different lines, draw top part
+        if (rightPos.top - leftPos.top > 3) { // Different lines, draw Top part
           add(left, leftPos.top, null, leftPos.bottom);
           left = leftSide;
           if (leftPos.bottom < rightPos.top) add(left, leftPos.bottom, null, rightPos.top);
@@ -1954,7 +1954,7 @@ window.CodeMirror = (function() {
     // Use dummy image instead of default browsers image.
     // Recent Safari (~6.0.2) have a tendency to segfault when this happens, so we don't do it there.
     if (e.dataTransfer.setDragImage && !safari) {
-      var img = elt("img", null, null, "position: fixed; left: 0; top: 0;");
+      var img = elt("img", null, null, "position: fixed; left: 0; Top: 0;");
       img.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
       if (opera) {
         img.width = img.height = 1;
@@ -2229,7 +2229,7 @@ window.CodeMirror = (function() {
 
     var oldCSS = display.input.style.cssText;
     display.inputDiv.style.position = "absolute";
-    display.input.style.cssText = "position: fixed; width: 30px; height: 30px; top: " + (e.clientY - 5) +
+    display.input.style.cssText = "position: fixed; width: 30px; height: 30px; Top: " + (e.clientY - 5) +
       "px; left: " + (e.clientX - 5) + "px; z-index: 1000; background: transparent; outline: none;" +
       "border-width: 0; outline: none; overflow: hidden; opacity: .05; -ms-opacity: .05; filter: alpha(opacity=5);";
     focusInput(cm);
@@ -2682,7 +2682,7 @@ window.CodeMirror = (function() {
     if (coords.top + box.top < 0) doScroll = true;
     else if (coords.bottom + box.top > (window.innerHeight || document.documentElement.clientHeight)) doScroll = false;
     if (doScroll != null && !phantom) {
-      var scrollNode = elt("div", "\u200b", null, "position: absolute; top: " +
+      var scrollNode = elt("div", "\u200b", null, "position: absolute; Top: " +
                            (coords.top - display.viewOffset) + "px; height: " +
                            (coords.bottom - coords.top + scrollerCutOff) + "px; left: " +
                            coords.left + "px; width: 2px;");

@@ -1156,7 +1156,7 @@ vjs.createTimeRange = function(start, end){
 };
 
 /**
- * Simple http request for retrieving external files (e.g. text tracks)
+ * Simple http Request for retrieving external files (e.g. text tracks)
  * @param  {String} url           URL of resource
  * @param  {Function=} onSuccess  Success callback
  * @param  {Function=} onError    Error callback
@@ -5034,7 +5034,7 @@ vjs.MediaTechController.prototype.onTap = function(){
 vjs.MediaTechController.prototype.features = {
   'volumeControl': true,
 
-  // Resizing plugins using request fullscreen reloads the plugin
+  // Resizing plugins using Request fullscreen reloads the plugin
   'fullscreenResize': false,
 
   // Optional events that we can manually mimic with timers
@@ -5458,7 +5458,7 @@ vjs.Flash = vjs.MediaTechController.extend({
     // I tried mulitple ways of setting the iframe src attribute but couldn't find a src that worked well. Tried a real/fake source, in/out of domain.
     // Also tried a method from stackoverflow that caused a security error in all browsers. http://stackoverflow.com/questions/2486901/how-to-set-document-domain-for-a-dynamically-generated-iframe
     // In the end the solution I found to work was setting the iframe window.location.href right before doing a document.write of the Flash object.
-    // The only downside of this it seems to trigger another http request to the original page (no matter what's put in the href). Not sure why that is.
+    // The only downside of this it seems to trigger another http Request to the original page (no matter what's put in the href). Not sure why that is.
 
     // NOTE (2012-01-29): Cannot get Firefox to load the remote hosted SWF into a dynamically created iFrame
     // Firefox 9 throws a security error, unleess you call location.href right before doc.write.

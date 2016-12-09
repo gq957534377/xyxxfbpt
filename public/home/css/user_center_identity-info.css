@@ -101,14 +101,6 @@
     text-align: left;
     font-weight: normal;
 }
-#upload-button {
-    width: 10.07em;
-    height: 10.07em;
-    border: hidden;
-    /*border-radius: 5px;*/
-    /*border: 2px dashed #999;*/
-    background: #fafafa url("../img/upload-card.png") no-repeat center center;
-}
 
 @media (max-width: 767px) {
     /*我是创业者*/

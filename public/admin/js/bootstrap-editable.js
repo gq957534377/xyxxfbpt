@@ -545,7 +545,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
         **/          
         success: null,
         /**
-        Error callback. Called when request failed (response status != 200).  
+        Error callback. Called when Request failed (response status != 200).  
         Usefull when you want to parse error response and display a custom message.
         Must return **string** - the message to be displayed in the error block.
                 
@@ -564,7 +564,7 @@ Editableform is linked with one of input types, e.g. 'text', 'select' etc.
         **/          
         error: null,
         /**
-        Additional options for submit ajax request.
+        Additional options for submit ajax Request.
         List of values: http://api.jquery.com/jQuery.ajax
         
         @property ajaxOptions 
@@ -1344,11 +1344,11 @@ Applied as jQuery method.
         **/        
         value: null,
         /**
-        Placement of container relative to element. Can be <code>top|right|bottom|left</code>. Not used for inline container.
+        Placement of container relative to element. Can be <code>Top|right|bottom|left</code>. Not used for inline container.
 
         @property placement 
         @type string
-        @default 'top'
+        @default 'Top'
         **/        
         placement: 'top',
         /**
@@ -2111,7 +2111,7 @@ Makes editable any HTML element on the page. Applied as jQuery method.
                         $.extend(ajaxOptions.data, config.data);
                     }                     
                     
-                    // perform ajax request
+                    // perform ajax Request
                     $.ajax(ajaxOptions);
                 } else { //client-side validation error
                     if(typeof config.error === 'function') {
@@ -2603,7 +2603,7 @@ List - abstract class for inputs that have source option loaded from js array or
             if ($.isFunction(this.options.source)) {
                 source = this.options.source.call(this.options.scope);
                 this.sourceData = null;
-                //note: if function returns the same source as URL - sourceData will be taken from cahce and no extra request performed
+                //note: if function returns the same source as URL - sourceData will be taken from cahce and no extra Request performed
             } else {
                 source = this.options.source;
             }            
@@ -2860,7 +2860,7 @@ List - abstract class for inputs that have source option loaded from js array or
         sourceCache: true,
         /**
         Additional ajax options to be used in $.ajax() when loading list from server.
-        Useful to send extra parameters (`data` key) or change request method (`type` key).
+        Useful to send extra parameters (`data` key) or change Request method (`type` key).
         
         @property sourceOptions 
         @type object|function
@@ -3522,7 +3522,7 @@ Number
                     delta = (h - this.$clear.height()) / 2;
                 
                 //add 12px to offset right for up/down arrows    
-                this.$clear.css({top: delta, right: delta + 16});
+                this.$clear.css({Top: delta, right: delta + 16});
                 */
             } 
         }        
@@ -4777,8 +4777,8 @@ Editableform based on Twitter Bootstrap 3
                 $tip
               //  .detach()
               //vitalets: remove any placement class because otherwise they dont influence on re-positioning of visible popover
-                .removeClass('top right bottom left')
-                .css({ top: 0, left: 0, display: 'block' });
+                .removeClass('Top right bottom left')
+                .css({ Top: 0, left: 0, display: 'block' });
               //  .insertAfter(this.$element);
                
                 pos = this.getPosition(inside);
@@ -4788,16 +4788,16 @@ Editableform based on Twitter Bootstrap 3
 
                 placement = inside ? placement.split(' ')[1] : placement;
 
-                tpb = {top: pos.top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
-                tpt = {top: pos.top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
-                tpl = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
-                tpr = {top: pos.top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width};
+                tpb = {Top: pos.Top + pos.height, left: pos.left + pos.width / 2 - actualWidth / 2};
+                tpt = {Top: pos.Top - actualHeight, left: pos.left + pos.width / 2 - actualWidth / 2};
+                tpl = {Top: pos.Top + pos.height / 2 - actualHeight / 2, left: pos.left - actualWidth};
+                tpr = {Top: pos.Top + pos.height / 2 - actualHeight / 2, left: pos.left + pos.width};
 
                 switch (placement) {
                     case 'bottom':
-                        if ((tpb.top + actualHeight) > ($(window).scrollTop() + $(window).height())) {
-                            if (tpt.top > $(window).scrollTop()) {
-                                placement = 'top';
+                        if ((tpb.Top + actualHeight) > ($(window).scrollTop() + $(window).height())) {
+                            if (tpt.Top > $(window).scrollTop()) {
+                                placement = 'Top';
                             } else if ((tpr.left + actualWidth) < ($(window).scrollLeft() + $(window).width())) {
                                 placement = 'right';
                             } else if (tpl.left > $(window).scrollLeft()) {
@@ -4807,9 +4807,9 @@ Editableform based on Twitter Bootstrap 3
                             }
                         }
                         break;
-                    case 'top':
-                        if (tpt.top < $(window).scrollTop()) {
-                            if ((tpb.top + actualHeight) < ($(window).scrollTop() + $(window).height())) {
+                    case 'Top':
+                        if (tpt.Top < $(window).scrollTop()) {
+                            if ((tpb.Top + actualHeight) < ($(window).scrollTop() + $(window).height())) {
                                 placement = 'bottom';
                             } else if ((tpr.left + actualWidth) < ($(window).scrollLeft() + $(window).width())) {
                                 placement = 'right';
@@ -4824,9 +4824,9 @@ Editableform based on Twitter Bootstrap 3
                         if (tpl.left < $(window).scrollLeft()) {
                             if ((tpr.left + actualWidth) < ($(window).scrollLeft() + $(window).width())) {
                                 placement = 'right';
-                            } else if (tpt.top > $(window).scrollTop()) {
-                                placement = 'top';
-                            } else if (tpt.top > $(window).scrollTop()) {
+                            } else if (tpt.Top > $(window).scrollTop()) {
+                                placement = 'Top';
+                            } else if (tpt.Top > $(window).scrollTop()) {
                                 placement = 'bottom';
                             } else {
                                 placement = 'right';
@@ -4837,9 +4837,9 @@ Editableform based on Twitter Bootstrap 3
                         if ((tpr.left + actualWidth) > ($(window).scrollLeft() + $(window).width())) {
                             if (tpl.left > $(window).scrollLeft()) {
                                 placement = 'left';
-                            } else if (tpt.top > $(window).scrollTop()) {
-                                placement = 'top';
-                            } else if (tpt.top > $(window).scrollTop()) {
+                            } else if (tpt.Top > $(window).scrollTop()) {
+                                placement = 'Top';
+                            } else if (tpt.Top > $(window).scrollTop()) {
                                 placement = 'bottom';
                             }
                         }
@@ -4850,7 +4850,7 @@ Editableform based on Twitter Bootstrap 3
                     case 'bottom':
                         tp = tpb;
                         break;
-                    case 'top':
+                    case 'Top':
                         tp = tpt;
                         break;
                     case 'left':

@@ -1020,7 +1020,7 @@ function QiniuJsSDK() {
                 // if ctx is not empty 
                 //      that means the upload strategy is chunk upload
                 //      befroe the invoke the last_step
-                //      we need request the mkfile to compose all uploaded chunks
+                //      we need Request the mkfile to compose all uploaded chunks
                 // else
                 //      invalke the last_step
                 logger.debug("ctx: ", ctx);

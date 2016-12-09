@@ -1245,7 +1245,7 @@ if (typeof(SyntaxHighlighter) == 'undefined') var SyntaxHighlighter = function()
             ;
 
         options +=	', left=' + x +
-            ', top=' + y +
+            ', Top=' + y +
             ', width=' + width +
             ', height=' + height
         ;
@@ -2502,7 +2502,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 						'printenv printf ps pushd pwd quota quotacheck quotactl ram rcp read readonly renice ' +
 						'remsync rm rmdir rsync screen scp sdiff sed select seq set sftp shift shopt shutdown ' +
 						'sleep sort source split ssh strace su sudo sum symlink sync tail tar tee test time ' +
-						'times touch top traceroute trap tr true tsort tty type ulimit umask umount unalias ' +
+						'times touch Top traceroute trap tr true tsort tty type ulimit umask umount unalias ' +
 						'uname unexpand uniq units unset unshar useradd usermod users uuencode uudecode v vdir ' +
 						'vi watch wc whereis which who whoami Wget xargs yes'
 						;
@@ -2758,18 +2758,18 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 		};
 
 		var keywords =	'ascent azimuth background-attachment background-color background-image background-position ' +
-						'background-repeat background baseline bbox border-collapse border-color border-spacing border-style border-top ' +
-						'border-right border-bottom border-left border-top-color border-right-color border-bottom-color border-left-color ' +
-						'border-top-style border-right-style border-bottom-style border-left-style border-top-width border-right-width ' +
+						'background-repeat background baseline bbox border-collapse border-color border-spacing border-style border-Top ' +
+						'border-right border-bottom border-left border-Top-color border-right-color border-bottom-color border-left-color ' +
+						'border-Top-style border-right-style border-bottom-style border-left-style border-Top-width border-right-width ' +
 						'border-bottom-width border-left-width border-width border bottom cap-height caption-side centerline clear clip color ' +
 						'content counter-increment counter-reset cue-after cue-before cue cursor definition-src descent direction display ' +
 						'elevation empty-cells float font-size-adjust font-family font-size font-stretch font-style font-variant font-weight font ' +
-						'height left letter-spacing line-height list-style-image list-style-position list-style-type list-style margin-top ' +
+						'height left letter-spacing line-height list-style-image list-style-position list-style-type list-style margin-Top ' +
 						'margin-right margin-bottom margin-left margin marker-offset marks mathline max-height max-width min-height min-width orphans ' +
-						'outline-color outline-style outline-width outline overflow padding-top padding-right padding-bottom padding-left padding page ' +
+						'outline-color outline-style outline-width outline overflow padding-Top padding-right padding-bottom padding-left padding page ' +
 						'page-break-after page-break-before page-break-inside pause pause-after pause-before pitch pitch-range play-during position ' +
 						'quotes right richness size slope src speak-header speak-numeral speak-punctuation speak speech-rate stemh stemv stress ' +
-						'table-layout text-align top text-decoration text-indent text-shadow text-transform unicode-bidi unicode-range units-per-em ' +
+						'table-layout text-align Top text-decoration text-indent text-shadow text-transform unicode-bidi unicode-range units-per-em ' +
 						'vertical-align visibility voice-family volume white-space widows width widths word-spacing x-height z-index';
 
 		var values =	'above absolute all always aqua armenian attr aural auto avoid baseline behind below bidi-override black blink block blue bold bolder '+
@@ -2784,7 +2784,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 						'rightwards rtl run-in screen scroll semi-condensed semi-expanded separate se-resize show silent silver slower slow '+
 						'small small-caps small-caption smaller soft solid speech spell-out square s-resize static status-bar sub super sw-resize '+
 						'table-caption table-cell table-column table-column-group table-footer-group table-header-group table-row table-row-group teal '+
-						'text-bottom text-top thick thin top transparent tty tv ultra-condensed ultra-expanded underline upper-alpha uppercase upper-latin '+
+						'text-bottom text-Top thick thin Top transparent tty tv ultra-condensed ultra-expanded underline upper-alpha uppercase upper-latin '+
 						'upper-roman url visible wait white wider w-resize x-fast x-high x-large x-loud x-low x-slow x-small x-soft xx-large xx-small yellow';
 
 		var fonts =		'[mM]onospace [tT]ahoma [vV]erdana [aA]rial [hH]elvetica [sS]ans-serif [sS]erif [cC]ourier mono sans serif';
@@ -3415,18 +3415,18 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 		};
 
 		var keywords =	'ascent azimuth background-attachment background-color background-image background-position ' +
-						'background-repeat background baseline bbox border-collapse border-color border-spacing border-style border-top ' +
-						'border-right border-bottom border-left border-top-color border-right-color border-bottom-color border-left-color ' +
-						'border-top-style border-right-style border-bottom-style border-left-style border-top-width border-right-width ' +
+						'background-repeat background baseline bbox border-collapse border-color border-spacing border-style border-Top ' +
+						'border-right border-bottom border-left border-Top-color border-right-color border-bottom-color border-left-color ' +
+						'border-Top-style border-right-style border-bottom-style border-left-style border-Top-width border-right-width ' +
 						'border-bottom-width border-left-width border-width border bottom cap-height caption-side centerline clear clip color ' +
 						'content counter-increment counter-reset cue-after cue-before cue cursor definition-src descent direction display ' +
 						'elevation empty-cells float font-size-adjust font-family font-size font-stretch font-style font-variant font-weight font ' +
-						'height left letter-spacing line-height list-style-image list-style-position list-style-type list-style margin-top ' +
+						'height left letter-spacing line-height list-style-image list-style-position list-style-type list-style margin-Top ' +
 						'margin-right margin-bottom margin-left margin marker-offset marks mathline max-height max-width min-height min-width orphans ' +
-						'outline-color outline-style outline-width outline overflow padding-top padding-right padding-bottom padding-left padding page ' +
+						'outline-color outline-style outline-width outline overflow padding-Top padding-right padding-bottom padding-left padding page ' +
 						'page-break-after page-break-before page-break-inside pause pause-after pause-before pitch pitch-range play-during position ' +
 						'quotes right richness size slope src speak-header speak-numeral speak-punctuation speak speech-rate stemh stemv stress ' +
-						'table-layout text-align top text-decoration text-indent text-shadow text-transform unicode-bidi unicode-range units-per-em ' +
+						'table-layout text-align Top text-decoration text-indent text-shadow text-transform unicode-bidi unicode-range units-per-em ' +
 						'vertical-align visibility voice-family volume white-space widows width widths word-spacing x-height z-index';
 		
 		var values =	'above absolute all always aqua armenian attr aural auto avoid baseline behind below bidi-override black blink block blue bold bolder '+
@@ -3441,7 +3441,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 						'rightwards rtl run-in screen scroll semi-condensed semi-expanded separate se-resize show silent silver slower slow '+
 						'small small-caps small-caption smaller soft solid speech spell-out square s-resize static status-bar sub super sw-resize '+
 						'table-caption table-cell table-column table-column-group table-footer-group table-header-group table-row table-row-group teal '+
-						'text-bottom text-top thick thin top transparent tty tv ultra-condensed ultra-expanded underline upper-alpha uppercase upper-latin '+
+						'text-bottom text-Top thick thin Top transparent tty tv ultra-condensed ultra-expanded underline upper-alpha uppercase upper-latin '+
 						'upper-roman url visible wait white wider w-resize x-fast x-high x-large x-loud x-low x-slow x-small x-soft xx-large xx-small yellow';
 		
 		var fonts =		'[mM]onospace [tT]ahoma [vV]erdana [aA]rial [hH]elvetica [sS]ans-serif [sS]erif [cC]ourier mono sans serif';
@@ -3535,7 +3535,7 @@ typeof(exports) != 'undefined' ? exports.SyntaxHighlighter = SyntaxHighlighter :
 						'prior privileges procedure public read real references relative repeatable ' +
 						'restrict return returns revoke rollback rollup rows rule schema scroll ' +
 						'second section select sequence serializable set size smallint static ' +
-						'statistics table temp temporary then time timestamp to top transaction ' +
+						'statistics table temp temporary then time timestamp to Top transaction ' +
 						'translation trigger true truncate uncommitted union unique update values ' +
 						'varchar varying view when where with work';
 

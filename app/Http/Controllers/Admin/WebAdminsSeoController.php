@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\WebAdminService;
+use App\TaoBaoSdk\fileTest;
 
 class WebAdminsSeoController extends Controller
 {
@@ -29,9 +30,8 @@ class WebAdminsSeoController extends Controller
      */
     public function index()
     {
-        // 得到界面显示数据
-        $res = self::$webAdmin->getAllWebConf();
-        return view('admin.webadminstrtion.web_admin_seo', ['info' => $res['msg']]);
+        $test = new fileTest();
+        return $test;
     }
 
     /**

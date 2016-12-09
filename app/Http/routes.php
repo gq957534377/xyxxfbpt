@@ -55,8 +55,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/web_admins/uploadqrcode', 'WebAdminstrationController@uploadQRcode');
         Route::resource('/web_admins', 'WebAdminstrationController');
 
-        // SEO 优化管理
-        Route::resource('/web_admins_seo', 'WebAdminsSeoController');
 
         // 合作机构管理
         Route::resource('/web_cooper_organiz', 'WebCooperOrganizController');
@@ -81,6 +79,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
 
         Route::resource('/picture/uploadcarousel', 'PictureOrganizController@uploadCarousel');
         Route::resource('/picture', 'PictureOrganizController');
+
 
     });
 });
@@ -135,6 +134,11 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         //投稿管理
         Route::resource('/send', 'SendController');
         Route::resource('/upload','ActionController@upload');
+
+
+        // openIM 阿里云旺
+        Route::resource('/openim', 'OpenIMController');
+
     });
 
 

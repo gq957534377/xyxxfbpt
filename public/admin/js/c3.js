@@ -143,8 +143,8 @@
 
         $$.isLegendRight = config.legend_position === 'right';
         $$.isLegendInset = config.legend_position === 'inset';
-        $$.isLegendTop = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'top-right';
-        $$.isLegendLeft = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'bottom-left';
+        $$.isLegendTop = config.legend_inset_anchor === 'Top-left' || config.legend_inset_anchor === 'Top-right';
+        $$.isLegendLeft = config.legend_inset_anchor === 'Top-left' || config.legend_inset_anchor === 'bottom-left';
         $$.legendStep = 0;
         $$.legendItemWidth = 0;
         $$.legendItemHeight = 0;
@@ -382,7 +382,7 @@
             bottom: $$.getHorizontalAxisHeight('y') + legendHeightForBottom + $$.getCurrentPaddingBottom(),
             left: subchartHeight + (hasArc ? 0 : $$.getCurrentPaddingLeft())
         } : {
-            top: 4 + $$.getCurrentPaddingTop(), // for top tick text
+            top: 4 + $$.getCurrentPaddingTop(), // for Top tick text
             right: hasArc ? 0 : $$.getCurrentPaddingRight(),
             bottom: xAxisHeight + subchartHeight + legendHeightForBottom + $$.getCurrentPaddingBottom(),
             left: hasArc ? 0 : $$.getCurrentPaddingLeft()
@@ -1084,7 +1084,7 @@
             legend_show: true,
             legend_hide: false,
             legend_position: 'bottom',
-            legend_inset_anchor: 'top-left',
+            legend_inset_anchor: 'Top-left',
             legend_inset_x: 10,
             legend_inset_y: 0,
             legend_inset_step: undefined,
@@ -4314,13 +4314,13 @@
         };
     };
     Axis.prototype.getXAxisLabelPosition = function getXAxisLabelPosition() {
-        return this.getLabelPosition('x', this.owner.config.axis_rotated ? 'inner-top' : 'inner-right');
+        return this.getLabelPosition('x', this.owner.config.axis_rotated ? 'inner-Top' : 'inner-right');
     };
     Axis.prototype.getYAxisLabelPosition = function getYAxisLabelPosition() {
-        return this.getLabelPosition('y', this.owner.config.axis_rotated ? 'inner-right' : 'inner-top');
+        return this.getLabelPosition('y', this.owner.config.axis_rotated ? 'inner-right' : 'inner-Top');
     };
     Axis.prototype.getY2AxisLabelPosition = function getY2AxisLabelPosition() {
-        return this.getLabelPosition('y2', this.owner.config.axis_rotated ? 'inner-right' : 'inner-top');
+        return this.getLabelPosition('y2', this.owner.config.axis_rotated ? 'inner-right' : 'inner-Top');
     };
     Axis.prototype.getLabelPositionById = function getLabelPositionById(id) {
         return id === 'y2' ? this.getY2AxisLabelPosition() : id === 'y' ? this.getYAxisLabelPosition() : this.getXAxisLabelPosition();

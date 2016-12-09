@@ -6,9 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>琦立英雄会--@yield('title','用户中心')</title>
 
-    @include('home.public.style')
+    @include('home.public.userStyle')
     <link href="{{ asset('home/css/user_center_aside.css') }}" rel="stylesheet">
     @yield('style')
+
 </head>
 <body>
 

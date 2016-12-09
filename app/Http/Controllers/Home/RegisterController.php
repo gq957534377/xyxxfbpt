@@ -147,7 +147,7 @@ class RegisterController extends Controller
 //        // 校验短信验证码
 //        if($data['code']!= Session::get('sms')['smsCode'])  return response()->json(['StatusCode'=>'400','ResultData' => '短信验证码错误！']);
 //        // 对数据再次校验
-//        $this->validate($request, [
+//        $this->validate($Request, [
 //            'email' => 'required|email',
 //            'nickname' => 'required|min:2',
 //            'password' => 'required|min:6',
@@ -156,7 +156,7 @@ class RegisterController extends Controller
 //            'code'=> 'required'
 //        ]);
 //        // 获取客户端IP
-//        $data['ip'] = $request->getClientIp();
+//        $data['ip'] = $Request->getClientIp();
 //        // 提交数据到业务层，检验用户是否存在
 //        $info = self::$userServer->addUser($data);
 //        //返回视图成状态码

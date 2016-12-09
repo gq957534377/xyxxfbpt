@@ -6,12 +6,6 @@
     <link rel="stylesheet" href="{{ asset('home/css/list(pc).css') }}">
 @endsection
 
-@section('menu')
-    <!---导航栏开始-->
-    @include('home.public.nav')
-    <!---导航栏结束-->
-@endsection
-
 @section('content')
 <!-- 广告图 Start-->
     <section class="hang">

@@ -425,8 +425,8 @@ var ScaleBoy = function () {
                 + '.scale .hand0, .scale .hand7{cursor:nw-resize;}'
                 + '.scale .hand1, .scale .hand6{left:50%;margin-left:-3px;cursor:n-resize;}'
                 + '.scale .hand2, .scale .hand4, .scale .hand7{left:100%;margin-left:-6px;}'
-                + '.scale .hand3, .scale .hand4{top:50%;margin-top:-3px;cursor:w-resize;}'
-                + '.scale .hand5, .scale .hand6, .scale .hand7{margin-top:-6px;top:100%;}'
+                + '.scale .hand3, .scale .hand4{Top:50%;margin-Top:-3px;cursor:w-resize;}'
+                + '.scale .hand5, .scale .hand6, .scale .hand7{margin-Top:-6px;Top:100%;}'
                 + '.scale .hand2, .scale .hand5{cursor:ne-resize;}';
         style.type = 'text/css';
 

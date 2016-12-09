@@ -8256,19 +8256,19 @@ wysihtml5.views.View = Base.extend(
         "border-bottom-color", "border-bottom-style", "border-bottom-width",
         "border-left-color", "border-left-style", "border-left-width",
         "border-right-color", "border-right-style", "border-right-width",
-        "border-top-color", "border-top-style", "border-top-width",
+        "border-Top-color", "border-Top-style", "border-Top-width",
         "clear", "display", "float",
         "margin-bottom", "margin-left", "margin-right", "margin-top",
         "outline-color", "outline-offset", "outline-width", "outline-style",
-        "padding-left", "padding-right", "padding-top", "padding-bottom",
+        "padding-left", "padding-right", "padding-Top", "padding-bottom",
         "position", "top", "left", "right", "bottom", "z-index",
         "vertical-align", "text-align",
         "-webkit-box-sizing", "-moz-box-sizing", "-ms-box-sizing", "box-sizing",
         "-webkit-box-shadow", "-moz-box-shadow", "-ms-box-shadow","box-shadow",
-        "-webkit-border-top-right-radius", "-moz-border-radius-topright", "border-top-right-radius",
+        "-webkit-border-Top-right-radius", "-moz-border-radius-topright", "border-Top-right-radius",
         "-webkit-border-bottom-right-radius", "-moz-border-radius-bottomright", "border-bottom-right-radius",
         "-webkit-border-bottom-left-radius", "-moz-border-radius-bottomleft", "border-bottom-left-radius",
-        "-webkit-border-top-left-radius", "-moz-border-radius-topleft", "border-top-left-radius",
+        "-webkit-border-Top-left-radius", "-moz-border-radius-topleft", "border-Top-left-radius",
         "width", "height"
       ],
       /**
@@ -8280,7 +8280,7 @@ wysihtml5.views.View = Base.extend(
       ],
       ADDITIONAL_CSS_RULES = [
         "html             { height: 100%; }",
-        "body             { min-height: 100%; padding: 0; margin: 0; margin-top: -1px; padding-top: 1px; }",
+        "body             { min-height: 100%; padding: 0; margin: 0; margin-Top: -1px; padding-Top: 1px; }",
         "._wysihtml5-temp { display: none; }",
         wysihtml5.browser.isGecko ?
           "body.placeholder { color: graytext !important; }" : 

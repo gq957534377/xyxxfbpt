@@ -804,7 +804,7 @@ var utils = UE.utils = {
      * @example
      * ```javascript
      *
-     * var str = 'border-top';
+     * var str = 'border-Top';
      *
      * //output: borderTop
      * console.log( UE.utils.cssStyleToDomStyle( str ) );
@@ -2516,7 +2516,7 @@ var domUtils = dom.domUtils = {
      * 获取元素element相对于viewport的位置坐标
      * @method getXY
      * @param { Node } element 需要计算位置的节点对象
-     * @return { Object } 返回形如{x:left,y:top}的一个key-value映射对象， 其中键x代表水平偏移距离，
+     * @return { Object } 返回形如{x:left,y:Top}的一个key-value映射对象， 其中键x代表水平偏移距离，
      *                          y代表垂直偏移距离。
      *
      * @example
@@ -3344,7 +3344,7 @@ var domUtils = dom.domUtils = {
      */
     getComputedStyle:function (element, styleName) {
         //一下的属性单独处理
-        var pros = 'width height top left';
+        var pros = 'width height Top left';
 
         if(pros.indexOf(styleName) > -1){
             return element['offset' + styleName.replace(/^\w/,function(s){return s.toUpperCase()})] + 'px';
@@ -3935,12 +3935,12 @@ var domUtils = dom.domUtils = {
      * 移动元素使得该元素的位置移动指定的偏移量的距离
      * @method setViewportOffset
      * @param { Element } element 需要设置偏移量的元素
-     * @param { Object } offset 偏移量， 形如{ left: 100, top: 50 }的一个键值对， 表示该元素将在
+     * @param { Object } offset 偏移量， 形如{ left: 100, Top: 50 }的一个键值对， 表示该元素将在
      *                                  现有的位置上向水平方向偏移offset.left的距离， 在竖直方向上偏移
      *                                  offset.top的距离
      * @example
      * ```html
-     * <div id="test" style="top: 100px; left: 50px; position: absolute;"></div>
+     * <div id="test" style="Top: 100px; left: 50px; position: absolute;"></div>
      *
      * <script>
      *
@@ -3948,10 +3948,10 @@ var domUtils = dom.domUtils = {
      *
      *     UE.dom.domUtils.setViewportOffset( testNode, {
      *         left: 200,
-     *         top: 50
+     *         Top: 50
      *     } );
      *
-     *     //output: top: 300px; left: 100px; position: absolute;
+     *     //output: Top: 300px; left: 100px; position: absolute;
      *     console.log( testNode.style.cssText );
      *
      * </script>
@@ -6890,7 +6890,7 @@ var fillCharReg = new RegExp(domUtils.fillChar, 'g');
                 container.style.width = /%$/.test(options.initialFrameWidth) ?  '100%' : options.initialFrameWidth-
                     getStyleValue("padding-left")- getStyleValue("padding-right") +'px';
                 container.style.height = /%$/.test(options.initialFrameHeight) ?  '100%' : options.initialFrameHeight -
-                    getStyleValue("padding-top")- getStyleValue("padding-bottom") +'px';
+                    getStyleValue("padding-Top")- getStyleValue("padding-bottom") +'px';
 
                 container.style.zIndex = options.zIndex;
 
@@ -8311,7 +8311,7 @@ UE.ajax = function() {
         /**
          * 根据给定的参数项，向指定的url发起一个ajax请求。 ajax请求完成后，会根据请求结果调用相应回调： 如果请求
          * 成功， 则调用onsuccess回调， 失败则调用 onerror 回调
-         * @method request
+         * @method Request
          * @param { URLString } url ajax请求的url地址
          * @param { Object } ajaxOptions ajax请求选项的键值对，支持的选项如下：
          * @example
@@ -8350,7 +8350,7 @@ UE.ajax = function() {
         /**
          * 根据给定的参数项发起一个ajax请求， 参数项里必须包含一个url地址。 ajax请求完成后，会根据请求结果调用相应回调： 如果请求
          * 成功， 则调用onsuccess回调， 失败则调用 onerror 回调。
-         * @method request
+         * @method Request
          * @warning 如果在参数项里未提供一个key为“url”的地址值，则该请求将直接退出。
          * @param { Object } ajaxOptions ajax请求选项的键值对，支持的选项如下：
          * @example
@@ -8488,12 +8488,12 @@ var filterWord = UE.filterWord = function () {
 
                             switch ( name ) {
                                 case "mso-padding-alt":
-                                case "mso-padding-top-alt":
+                                case "mso-padding-Top-alt":
                                 case "mso-padding-right-alt":
                                 case "mso-padding-bottom-alt":
                                 case "mso-padding-left-alt":
                                 case "mso-margin-alt":
-                                case "mso-margin-top-alt":
+                                case "mso-margin-Top-alt":
                                 case "mso-margin-right-alt":
                                 case "mso-margin-bottom-alt":
                                 case "mso-margin-left-alt":
@@ -9360,7 +9360,7 @@ var filterWord = UE.filterWord = function () {
  */
 
 var htmlparser = UE.htmlparser = function (htmlstr,ignoreBlank) {
-    //todo 原来的方式  [^"'<>\/] 有\/就不能配对上 <TD vAlign=top background=../AAA.JPG> 这样的标签了
+    //todo 原来的方式  [^"'<>\/] 有\/就不能配对上 <TD vAlign=Top background=../AAA.JPG> 这样的标签了
     //先去掉了，加上的原因忘了，这里先记录
     var re_tag = /<(?:(?:\/([^>]+)>)|(?:!--([\S|\s]*?)-->)|(?:([^\s\/<>]+)\s*((?:(?:"[^"]*")|(?:'[^']*')|[^"'<>])*)\/?>))/g,
         re_attr = /([\w\-:.]+)(?:(?:\s*=\s*(?:(?:"([^"]*)")|(?:'([^']*)')|([^\s>]+)))|(?=\s|$))/g;
@@ -13030,7 +13030,7 @@ UE.commands['time'] = UE.commands["date"] = {
  * @param { String } dir 间距位置，top或bottom，分别表示段前和段后
  * @example
  * ```javascript
- * editor.execCommand( 'rowspacing', '10', 'top' );
+ * editor.execCommand( 'rowspacing', '10', 'Top' );
  * ```
  */
 
@@ -14501,7 +14501,7 @@ UE.plugins['paste'] = function () {
         //trace:717 隐藏的span不能得到top
         //bk.start.innerHTML = '&nbsp;';
         bk.start.style.display = '';
-        pastebin.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;left:-1000px;white-space:nowrap;top:" +
+        pastebin.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;left:-1000px;white-space:nowrap;Top:" +
             //要在现在光标平行的位置加入，否则会出现跳动的问题
             domUtils.getXY(bk.start).y + 'px';
 
@@ -16188,8 +16188,8 @@ UE.plugins['list'] = function () {
                 lineWrapping:true
             });
             var dom = codeEditor.getWrapperElement();
-            dom.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;font-family:consolas,"Courier new",monospace;font-size:13px;';
-            codeEditor.getScrollerElement().style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;';
+            dom.style.cssText = 'position:absolute;left:0;Top:0;width:100%;height:100%;font-family:consolas,"Courier new",monospace;font-size:13px;';
+            codeEditor.getScrollerElement().style.cssText = 'position:absolute;left:0;Top:0;width:100%;height:100%;';
             codeEditor.refresh();
             return {
                 getCodeMirror:function(){
@@ -16268,7 +16268,7 @@ UE.plugins['list'] = function () {
                     }
 
                     bakCssText = me.iframe.style.cssText;
-                    me.iframe.style.cssText += 'position:absolute;left:-32768px;top:-32768px;';
+                    me.iframe.style.cssText += 'position:absolute;left:-32768px;Top:-32768px;';
 
 
                     me.fireEvent('beforegetcontent');
@@ -16358,7 +16358,7 @@ UE.plugins['list'] = function () {
                     if(browser.gecko){
 
                         var input = document.createElement('input');
-                        input.style.cssText = 'position:absolute;left:0;top:-32768px';
+                        input.style.cssText = 'position:absolute;left:0;Top:-32768px';
 
                         document.body.appendChild(input);
 
@@ -16846,7 +16846,7 @@ UE.plugins['fiximgclick'] = (function () {
 
     (function () {
         var rect = [
-            //[left, top, width, height]
+            //[left, Top, width, height]
             [0, 0, -1, -1],
             [0, 0, 0, -1],
             [0, 0, 1, -1],
@@ -16891,14 +16891,14 @@ UE.plugins['fiximgclick'] = (function () {
             initStyle: function () {
                 utils.cssRule('imagescale', '.edui-editor-imagescale{display:none;position:absolute;border:1px solid #38B2CE;cursor:hand;-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;}' +
                     '.edui-editor-imagescale span{position:absolute;width:6px;height:6px;overflow:hidden;font-size:0px;display:block;background-color:#3C9DD0;}'
-                    + '.edui-editor-imagescale .edui-editor-imagescale-hand0{cursor:nw-resize;top:0;margin-top:-4px;left:0;margin-left:-4px;}'
-                    + '.edui-editor-imagescale .edui-editor-imagescale-hand1{cursor:n-resize;top:0;margin-top:-4px;left:50%;margin-left:-4px;}'
-                    + '.edui-editor-imagescale .edui-editor-imagescale-hand2{cursor:ne-resize;top:0;margin-top:-4px;left:100%;margin-left:-3px;}'
-                    + '.edui-editor-imagescale .edui-editor-imagescale-hand3{cursor:w-resize;top:50%;margin-top:-4px;left:0;margin-left:-4px;}'
-                    + '.edui-editor-imagescale .edui-editor-imagescale-hand4{cursor:e-resize;top:50%;margin-top:-4px;left:100%;margin-left:-3px;}'
-                    + '.edui-editor-imagescale .edui-editor-imagescale-hand5{cursor:sw-resize;top:100%;margin-top:-3px;left:0;margin-left:-4px;}'
-                    + '.edui-editor-imagescale .edui-editor-imagescale-hand6{cursor:s-resize;top:100%;margin-top:-3px;left:50%;margin-left:-4px;}'
-                    + '.edui-editor-imagescale .edui-editor-imagescale-hand7{cursor:se-resize;top:100%;margin-top:-3px;left:100%;margin-left:-3px;}');
+                    + '.edui-editor-imagescale .edui-editor-imagescale-hand0{cursor:nw-resize;Top:0;margin-Top:-4px;left:0;margin-left:-4px;}'
+                    + '.edui-editor-imagescale .edui-editor-imagescale-hand1{cursor:n-resize;Top:0;margin-Top:-4px;left:50%;margin-left:-4px;}'
+                    + '.edui-editor-imagescale .edui-editor-imagescale-hand2{cursor:ne-resize;Top:0;margin-Top:-4px;left:100%;margin-left:-3px;}'
+                    + '.edui-editor-imagescale .edui-editor-imagescale-hand3{cursor:w-resize;Top:50%;margin-Top:-4px;left:0;margin-left:-4px;}'
+                    + '.edui-editor-imagescale .edui-editor-imagescale-hand4{cursor:e-resize;Top:50%;margin-Top:-4px;left:100%;margin-left:-3px;}'
+                    + '.edui-editor-imagescale .edui-editor-imagescale-hand5{cursor:sw-resize;Top:100%;margin-Top:-3px;left:0;margin-left:-4px;}'
+                    + '.edui-editor-imagescale .edui-editor-imagescale-hand6{cursor:s-resize;Top:100%;margin-Top:-3px;left:50%;margin-left:-4px;}'
+                    + '.edui-editor-imagescale .edui-editor-imagescale-hand7{cursor:se-resize;Top:100%;margin-Top:-3px;left:100%;margin-left:-3px;}');
             },
             initEvents: function () {
                 var me = this;
@@ -19547,7 +19547,7 @@ UE.plugins['video'] = function (){
                 var averageHeight, rowNum, sumHeight = 0,
                     tb = ut.table,
                     tbAttr = getDefaultValue(me, tb),
-                    tdpadding = parseInt(domUtils.getComputedStyle(tb.getElementsByTagName('td')[0], "padding-top"));
+                    tdpadding = parseInt(domUtils.getComputedStyle(tb.getElementsByTagName('td')[0], "padding-Top"));
 
                 if (ut.isFullCol()) {
                     var captionArr = domUtils.getElementsByTagName(tb, "caption"),
@@ -19936,8 +19936,8 @@ UE.plugins['table'] = function () {
                 'table{margin-bottom:10px;border-collapse:collapse;display:table;}' +
                 'td,th{padding: 5px 10px;border: 1px solid #DDD;}' +
                 'caption{border:1px dashed #DDD;border-bottom:0;padding:3px;text-align:center;}' +
-                'th{border-top:1px solid #BBB;background-color:#F7F7F7;}' +
-                'table tr.firstRow th{border-top-width:2px;}' +
+                'th{border-Top:1px solid #BBB;background-color:#F7F7F7;}' +
+                'table tr.firstRow th{border-Top-width:2px;}' +
                 '.ue-table-interlace-color-single{ background-color: #fcfcfc; } .ue-table-interlace-color-double{ background-color: #f7faff; }' +
                 'td p{margin:0;padding:0;}', me.document);
 
@@ -20670,7 +20670,7 @@ UE.plugins['table'] = function () {
         dragButton = doc.createElement("div");
         dragButton.contentEditable = false;
         dragButton.innerHTML = "";
-        dragButton.style.cssText = "width:15px;height:15px;background-image:url(" + editor.options.UEDITOR_HOME_URL + "dialogs/table/dragicon.png);position: absolute;cursor:move;top:" + (pos.y - 15) + "px;left:" + (pos.x) + "px;";
+        dragButton.style.cssText = "width:15px;height:15px;background-image:url(" + editor.options.UEDITOR_HOME_URL + "dialogs/table/dragicon.png);position: absolute;cursor:move;Top:" + (pos.y - 15) + "px;left:" + (pos.x) + "px;";
         domUtils.unSelectable(dragButton);
         dragButton.onmouseover = function (evt) {
             dragOver = true;
@@ -21603,11 +21603,11 @@ UE.plugins['table'] = function () {
             cellPos = domUtils.getXY(cell), css;
         switch (state) {
             case "h":
-                css = 'height:' + height + 'px;top:' + (tablePos.y + (caption.length > 0 ? caption[0].offsetHeight : 0)) + 'px;left:' + (cellPos.x + cell.offsetWidth);
+                css = 'height:' + height + 'px;Top:' + (tablePos.y + (caption.length > 0 ? caption[0].offsetHeight : 0)) + 'px;left:' + (cellPos.x + cell.offsetWidth);
                 dragLine.style.cssText = css + 'px;position: absolute;display:block;background-color:blue;width:1px;border:0; color:blue;opacity:.3;filter:alpha(opacity=30)';
                 break;
             case "v":
-                css = 'width:' + width + 'px;left:' + tablePos.x + 'px;top:' + (cellPos.y + cell.offsetHeight );
+                css = 'width:' + width + 'px;left:' + tablePos.x + 'px;Top:' + (cellPos.y + cell.offsetHeight );
                 //必须加上border:0和color:blue，否则低版ie不支持背景色显示
                 dragLine.style.cssText = css + 'px;overflow:hidden;position: absolute;display:block;background-color:blue;height:1px;border:0;color:blue;opacity:.2;filter:alpha(opacity=20)';
                 break;
@@ -24413,7 +24413,7 @@ UE.plugin.register('simpleupload', function (){
         var w = containerBtn.offsetWidth || 20,
             h = containerBtn.offsetHeight || 20,
             btnIframe = document.createElement('iframe'),
-            btnStyle = 'display:block;width:' + w + 'px;height:' + h + 'px;overflow:hidden;border:0;margin:0;padding:0;position:absolute;top:0;left:0;filter:alpha(opacity=0);-moz-opacity:0;-khtml-opacity: 0;opacity: 0;cursor:pointer;';
+            btnStyle = 'display:block;width:' + w + 'px;height:' + h + 'px;overflow:hidden;border:0;margin:0;padding:0;position:absolute;Top:0;left:0;filter:alpha(opacity=0);-moz-opacity:0;-khtml-opacity: 0;opacity: 0;cursor:pointer;';
 
         domUtils.on(btnIframe, 'load', function(){
 
@@ -25229,7 +25229,7 @@ UE.ui = baidu.editor.ui = {};
         getHtmlTpl: function (){
             return '<div id="##" class="edui-popup %%" onmousedown="return false;">' +
                 ' <div id="##_body" class="edui-popup-body">' +
-                ' <iframe style="position:absolute;z-index:-1;left:0;top:0;background-color: transparent;" frameborder="0" width="100%" height="100%" src="about:blank"></iframe>' +
+                ' <iframe style="position:absolute;z-index:-1;left:0;Top:0;background-color: transparent;" frameborder="0" width="100%" height="100%" src="about:blank"></iframe>' +
                 ' <div class="edui-shadow"></div>' +
                 ' <div id="##_content" class="edui-popup-content">' +
                 this.getContentHtmlTpl() +
@@ -25497,7 +25497,7 @@ UE.ui = baidu.editor.ui = {};
             '<div unselectable="on" class="edui-colorpicker-nocolor" onclick="$$._onPickNoColor(event, this);">'+ noColorText +'</div>' +
             '</div>' +
             '<table  class="edui-box" style="border-collapse: collapse;" onmouseover="$$._onTableOver(event, this);" onmouseout="$$._onTableOut(event, this);" onclick="return $$._onTableClick(event, this);" cellspacing="0" cellpadding="0">' +
-            '<tr style="border-bottom: 1px solid #ddd;font-size: 13px;line-height: 25px;color:#39C;padding-top: 2px"><td colspan="10">'+editor.getLang("themeColor")+'</td> </tr>'+
+            '<tr style="border-bottom: 1px solid #ddd;font-size: 13px;line-height: 25px;color:#39C;padding-Top: 2px"><td colspan="10">'+editor.getLang("themeColor")+'</td> </tr>'+
             '<tr class="edui-colorpicker-tablefirstrow" >';
         for (var i=0; i<COLORS.length; i++) {
             if (i && i%10 === 0) {
@@ -26201,8 +26201,8 @@ UE.ui = baidu.editor.ui = {};
         UIBase = baidu.editor.ui.UIBase;
 
     /**
-     * 该参数将新增一个参数： selected， 参数类型为一个Object， 形如{ 'align': 'center', 'valign': 'top' }， 表示单元格的初始
-     * 对齐状态为： 竖直居上，水平居中; 其中 align的取值为：'center', 'left', 'right'; valign的取值为: 'top', 'middle', 'bottom'
+     * 该参数将新增一个参数： selected， 参数类型为一个Object， 形如{ 'align': 'center', 'valign': 'Top' }， 表示单元格的初始
+     * 对齐状态为： 竖直居上，水平居中; 其中 align的取值为：'center', 'left', 'right'; valign的取值为: 'Top', 'middle', 'bottom'
      * @update 2013/4/2 hancong03@baidu.com
      */
     var CellAlignPicker = baidu.editor.ui.CellAlignPicker = function (options) {
@@ -27425,7 +27425,7 @@ UE.ui = baidu.editor.ui = {};
                 if (offset.top < 0) {
                     offset.top = 0;
                 }
-                el.style.cssText = "position:absolute;left:" + offset.left + "px;top:" + offset.top + "px;";
+                el.style.cssText = "position:absolute;left:" + offset.left + "px;Top:" + offset.top + "px;";
             }
 
             function setPosByCxtMenu (menu) {
@@ -27568,7 +27568,7 @@ UE.ui = baidu.editor.ui = {};
             return '<div id="##" class="edui-message %%">' +
             ' <div id="##_closer" class="edui-message-closer">×</div>' +
             ' <div id="##_body" class="edui-message-body edui-message-type-info">' +
-            ' <iframe style="position:absolute;z-index:-1;left:0;top:0;background-color: transparent;" frameborder="0" width="100%" height="100%" src="about:blank"></iframe>' +
+            ' <iframe style="position:absolute;z-index:-1;left:0;Top:0;background-color: transparent;" frameborder="0" width="100%" height="100%" src="about:blank"></iframe>' +
             ' <div class="edui-shadow"></div>' +
             ' <div id="##_content" class="edui-message-content">' +
             '  </div>' +
@@ -28992,7 +28992,7 @@ UE.ui = baidu.editor.ui = {};
         _updateFullScreen:function () {
             if (this._fullscreen) {
                 var vpRect = uiUtils.getViewportRect();
-                this.getDom().style.cssText = 'border:0;position:absolute;left:0;top:' + (this.editor.options.topOffset || 0) + 'px;width:' + vpRect.width + 'px;height:' + vpRect.height + 'px;z-index:' + (this.getDom().style.zIndex * 1 + 100);
+                this.getDom().style.cssText = 'border:0;position:absolute;left:0;Top:' + (this.editor.options.topOffset || 0) + 'px;width:' + vpRect.width + 'px;height:' + vpRect.height + 'px;z-index:' + (this.getDom().style.zIndex * 1 + 100);
                 uiUtils.setViewportOffset(this.getDom(), { left:0, top:this.editor.options.topOffset || 0 });
                 this.editor.setHeight(vpRect.height - this.getDom('toolbarbox').offsetHeight - this.getDom('bottombar').offsetHeight - (this.editor.options.topOffset || 0),true);
                 //不手动调一下，会导致全屏失效
@@ -29059,7 +29059,7 @@ UE.ui = baidu.editor.ui = {};
                     minEditorHeight = editor.options.minFrameHeight + toolbarBox.offsetHeight + bottombar.offsetHeight;
                 }
 
-                scalelayer.style.cssText = "position:absolute;left:0;display:;top:0;background-color:#41ABFF;opacity:0.4;filter: Alpha(opacity=40);width:" + editorHolder.offsetWidth + "px;height:"
+                scalelayer.style.cssText = "position:absolute;left:0;display:;Top:0;background-color:#41ABFF;opacity:0.4;filter: Alpha(opacity=40);width:" + editorHolder.offsetWidth + "px;height:"
                     + editorHolder.offsetHeight + "px;z-index:" + (editor.options.zIndex + 1);
 
                 domUtils.on(doc, "mousemove", move);

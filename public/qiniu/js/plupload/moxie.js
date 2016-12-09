@@ -2271,7 +2271,7 @@ define('moxie/runtime/Runtime', [
 			return_response_type: false,
 			// return http status code of the response
 			return_status_code: true,
-			// send custom http header with the request
+			// send custom http header with the Request
 			send_custom_headers: false,
 			// pick up the files from a dialog
 			select_file: false,
@@ -2281,7 +2281,7 @@ define('moxie/runtime/Runtime', [
 			select_multiple: true,
 			// send raw binary data, that is generated after image resizing or manipulation of other kind
 			send_binary_string: false,
-			// send cookies with http request and therefore retain session
+			// send cookies with http Request and therefore retain session
 			send_browser_cookies: true,
 			// send data formatted as multipart/form-data
 			send_multipart: true,
@@ -2294,7 +2294,7 @@ define('moxie/runtime/Runtime', [
 			// upload file of specific size, size should be passed as argument
 			// e.g. runtime.can('upload_filesize', '500mb')
 			upload_filesize: true,
-			// initiate http request with specific http method, method should be passed as argument
+			// initiate http Request with specific http method, method should be passed as argument
 			// e.g. runtime.can('use_http_method', 'put')
 			use_http_method: true
 		}, caps);
@@ -3287,7 +3287,7 @@ define('moxie/file/FileInput', [
 		'mouseleave',
 
 		/**
-		Dispatched when functional mouse button is pressed on top of file-picker area.
+		Dispatched when functional mouse button is pressed on Top of file-picker area.
 
 		@event mousedown
 		@param {Object} event
@@ -3295,7 +3295,7 @@ define('moxie/file/FileInput', [
 		'mousedown',
 
 		/**
-		Dispatched when functional mouse button is released on top of file-picker area.
+		Dispatched when functional mouse button is released on Top of file-picker area.
 
 		@event mouseup
 		@param {Object} event
@@ -3810,7 +3810,7 @@ define('moxie/file/FileReader', [
 		'error', 
 
 		/** 
-		Dispatched when the request has completed (either in success or failure).
+		Dispatched when the Request has completed (either in success or failure).
 
 		@event loadend
 		@param {Object} event
@@ -4460,7 +4460,7 @@ define("moxie/xhr/XMLHttpRequest", [
 			// this (together with _p() @see below) is here to gracefully upgrade to setter/getter syntax where possible
 			props = {
 				/**
-				The amount of milliseconds a request can take before being terminated. Initially zero. Zero means there is no timeout.
+				The amount of milliseconds a Request can take before being terminated. Initially zero. Zero means there is no timeout.
 
 				@property timeout
 				@type Number
@@ -4474,7 +4474,7 @@ define("moxie/xhr/XMLHttpRequest", [
 				The object has been constructed.
 
 				OPENED (numeric value 1)
-				The open() method has been successfully invoked. During this state request headers can be set using setRequestHeader() and the request can be made using the send() method.
+				The open() method has been successfully invoked. During this state Request headers can be set using setRequestHeader() and the Request can be made using the send() method.
 
 				HEADERS_RECEIVED (numeric value 2)
 				All redirects (if any) have been followed and all HTTP headers of the final response have been received. Several response members of the object are now available.
@@ -4491,8 +4491,8 @@ define("moxie/xhr/XMLHttpRequest", [
 				readyState: XMLHttpRequest.UNSENT,
 
 				/**
-				True when user credentials are to be included in a cross-origin request. False when they are to be excluded
-				in a cross-origin request and when cookies are to be ignored in its response. Initially false.
+				True when user credentials are to be included in a cross-origin Request. False when they are to be excluded
+				in a cross-origin Request and when cookies are to be ignored in its response. Initially false.
 
 				@property withCredentials
 				@type Boolean
@@ -4606,7 +4606,7 @@ define("moxie/xhr/XMLHttpRequest", [
 			
 
 			/**
-			Sets the request method, request URL, synchronous flag, request username, and request password.
+			Sets the Request method, Request URL, synchronous flag, Request username, and Request password.
 
 			Throws a "SyntaxError" exception if one of the following is true:
 
@@ -4623,9 +4623,9 @@ define("moxie/xhr/XMLHttpRequest", [
 
 
 			@method open
-			@param {String} method HTTP method to use on request
-			@param {String} url URL to request
-			@param {Boolean} [async=true] If false request will be done in synchronous manner. Asynchronous by default.
+			@param {String} method HTTP method to use on Request
+			@param {String} url URL to Request
+			@param {Boolean} [async=true] If false Request will be done in synchronous manner. Asynchronous by default.
 			@param {String} [user] Username to use in HTTP authentication process on server-side
 			@param {String} [password] Password to use in HTTP authentication process on server-side
 			*/
@@ -4698,8 +4698,8 @@ define("moxie/xhr/XMLHttpRequest", [
 			},
 			
 			/**
-			Appends an header to the list of author request headers, or if header is already
-			in the list of author request headers, combines its value with value.
+			Appends an header to the list of author Request headers, or if header is already
+			in the list of author Request headers, combines its value with value.
 
 			Throws an "InvalidStateError" exception if the state is not OPENED or if the send() flag is set.
 			Throws a "SyntaxError" exception if header is not a valid HTTP header field name or if value
@@ -4713,8 +4713,8 @@ define("moxie/xhr/XMLHttpRequest", [
 				var uaHeaders = [ // these headers are controlled by the user agent
 						"accept-charset",
 						"accept-encoding",
-						"access-control-request-headers",
-						"access-control-request-method",
+						"access-control-Request-headers",
+						"access-control-Request-method",
 						"connection",
 						"content-length",
 						"cookie",
@@ -4853,8 +4853,8 @@ define("moxie/xhr/XMLHttpRequest", [
 			},
 			
 			/**
-			Initiates the request. The optional argument provides the request entity body.
-			The argument is ignored if request method is GET or HEAD.
+			Initiates the Request. The optional argument provides the Request entity body.
+			The argument is ignored if Request method is GET or HEAD.
 
 			Throws an "InvalidStateError" exception if the state is not OPENED or if the send() flag is set.
 
@@ -4997,7 +4997,7 @@ define("moxie/xhr/XMLHttpRequest", [
 					throw new x.DOMException(x.DOMException.INVALID_ACCESS_ERR);
 				}
 
-				// timeout still should be measured relative to the start time of request
+				// timeout still should be measured relative to the start time of Request
 				_timeoutset_time = (new Date).getTime();
 
 				_p('timeout', value);
@@ -6453,7 +6453,7 @@ define("moxie/runtime/html5/file/FileInput", [
 					}, comp.uid);
 				}
 
-				/* Since we have to place input[type=file] on top of the browse_button for some browsers,
+				/* Since we have to place input[type=file] on Top of the browse_button for some browsers,
 				browse_button loses interactivity, so we restore it here */
 				top = I.can('summon_file_dialog') ? browseButton : shimContainer;
 
@@ -6974,14 +6974,14 @@ define("moxie/runtime/html5/xhr/XMLHttpRequest", [
 				}
 				
 
-				// set request headers
+				// set Request headers
 				if (!Basic.isEmptyObj(meta.headers)) {
 					Basic.each(meta.headers, function(value, header) {
 						_xhr.setRequestHeader(header, value);
 					});
 				}
 
-				// request response type
+				// Request response type
 				if ("" !== meta.responseType && 'responseType' in _xhr) {
 					if ('json' === meta.responseType && !Env.can('return_response_type', 'json')) { // we can fake this one
 						_xhr.responseType = 'text';
@@ -7468,12 +7468,12 @@ define("moxie/runtime/html5/image/ExifParser", [
 				/*
 				The image orientation viewed in terms of rows and columns.
 
-				1 = The 0th row is at the visual top of the image, and the 0th column is the visual left-hand side.
-				2 = The 0th row is at the visual top of the image, and the 0th column is the visual right-hand side.
+				1 = The 0th row is at the visual Top of the image, and the 0th column is the visual left-hand side.
+				2 = The 0th row is at the visual Top of the image, and the 0th column is the visual right-hand side.
 				3 = The 0th row is at the visual bottom of the image, and the 0th column is the visual right-hand side.
 				4 = The 0th row is at the visual bottom of the image, and the 0th column is the visual left-hand side.
-				5 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual top.
-				6 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual top.
+				5 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual Top.
+				6 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual Top.
 				7 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual bottom.
 				8 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual bottom.
 				*/
@@ -8743,12 +8743,12 @@ define("moxie/runtime/html5/image/Image", [
 			}
 
 			/**
-			1 = The 0th row is at the visual top of the image, and the 0th column is the visual left-hand side.
-			2 = The 0th row is at the visual top of the image, and the 0th column is the visual right-hand side.
+			1 = The 0th row is at the visual Top of the image, and the 0th column is the visual left-hand side.
+			2 = The 0th row is at the visual Top of the image, and the 0th column is the visual right-hand side.
 			3 = The 0th row is at the visual bottom of the image, and the 0th column is the visual right-hand side.
 			4 = The 0th row is at the visual bottom of the image, and the 0th column is the visual left-hand side.
-			5 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual top.
-			6 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual top.
+			5 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual Top.
+			6 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual Top.
 			7 = The 0th row is the visual right-hand side of the image, and the 0th column is the visual bottom.
 			8 = The 0th row is the visual left-hand side of the image, and the 0th column is the visual bottom.
 			*/
@@ -10268,7 +10268,7 @@ define("moxie/runtime/html4/file/FileInput", [
 						shimContainer.style.zIndex = zIndex - 1;
 					}
 
-					/* Since we have to place input[type=file] on top of the browse_button for some browsers,
+					/* Since we have to place input[type=file] on Top of the browse_button for some browsers,
 					browse_button loses interactivity, so we restore it here */
 					top = I.can('summon_file_dialog') ? browseButton : shimContainer;
 
@@ -10423,7 +10423,7 @@ define("moxie/runtime/html4/xhr/XMLHttpRequest", [
 				form = null;
 			}
 
-			// without timeout, request is marked as canceled (in console)
+			// without timeout, Request is marked as canceled (in console)
 			setTimeout(function() {
 				Events.removeEvent(_iframe, 'load', target.uid);
 				if (_iframe.parentNode) { // #382

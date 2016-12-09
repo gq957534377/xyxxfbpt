@@ -1438,7 +1438,7 @@ plupload.Uploader = function(options) {
 				xhr = null;
 			};
 
-			// Build multipart request
+			// Build multipart Request
 			if (up.settings.multipart && features.multipart) {
 
 				args.name = file.target_name || file.name;
@@ -1806,7 +1806,7 @@ plupload.Uploader = function(options) {
 
 
 		/**
-		 * Disables/enables browse button on request.
+		 * Disables/enables browse button on Request.
 		 *
 		 * @method disableBrowse
 		 * @param {Boolean} disable Whether to disable or enable (default: true)

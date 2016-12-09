@@ -564,7 +564,7 @@ if (!document.createElement('canvas').getContext) {
                   'px 0;filter:progid:DXImageTransform.Microsoft.Matrix(',
                   filter.join(''), ", sizingmethod='clip');")
     } else {
-      vmlStr.push('top:', mr(d.y / Z), 'px;left:', mr(d.x / Z), 'px;');
+      vmlStr.push('Top:', mr(d.y / Z), 'px;left:', mr(d.x / Z), 'px;');
     }
 
     vmlStr.push(' ">' ,

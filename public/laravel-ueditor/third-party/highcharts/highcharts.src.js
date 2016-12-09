@@ -4624,7 +4624,7 @@ Highcharts.VMLElement = VMLElement = {
 	 */
 	setSpanRotation: function (rotation, sintheta, costheta) {
 		// Adjust for alignment and rotation. Rotation of useHTML content is not yet implemented
-		// but it can probably be implemented for Firefox 3.5+ on user request. FF3.5+
+		// but it can probably be implemented for Firefox 3.5+ on user Request. FF3.5+
 		// has support for CSS3 transform. The getBBox method also needs to be updated
 		// to compensate for the rotation, like it currently does for SVG.
 		// Test case: http://highcharts.com/tests/?file=text-rotation
@@ -6652,7 +6652,7 @@ Axis.prototype = {
 	
 		axis.opposite = userOptions.opposite; // needed in setOptions
 		axis.side = axis.horiz ?
-				(axis.opposite ? 0 : 2) : // top : bottom
+				(axis.opposite ? 0 : 2) : // Top : bottom
 				(axis.opposite ? 1 : 3);  // right : left
 	
 		axis.setOptions(userOptions);

@@ -56,7 +56,7 @@ class TestController extends Controller
     {   //数据初始化
         $data = $request->all();  //where条件参数
         $pageNums = 2;  //一页的数据条数
-        $nowPage = isset($data['nowPage']) ? (int)$data['nowPage']:1;   //获取当前页
+        $nowPage = isset($data['nowPage']) ? (int)$data['nowPage'] : 1;   //获取当前页
 
         //参数规则
         $roles = [

@@ -74,7 +74,7 @@ vjs.xhr = function(options, callback){
   }
 
   request = new XHR();
-  // Store a reference to the url on the request instance
+  // Store a reference to the url on the Request instance
   request.uri = options.uri;
 
   urlInfo = vjs.parseUrl(options.uri);
@@ -140,7 +140,7 @@ vjs.xhr = function(options, callback){
     request.responseType = options.responseType;
   }
 
-  // send the request
+  // send the Request
   try {
     request.send();
   } catch(err) {

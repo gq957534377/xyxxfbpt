@@ -31,10 +31,10 @@ function carouselHtml (data) {
         html += '<img  class="thumb-lg bx-s" src="'+ value.url +'" alt="" style="width: 146%;">';
         html += '</a>';
         html += '<div class="pull-right btn-group-sm">';
-        html += '<a data-id="'+ value.id +'" href="" class="btn btn-success tooltips" data-placement="top" data-toggle="modal" data-target="#custom-width-modal" data-original-title="Edit">';
+        html += '<a data-id="'+ value.id +'" href="" class="btn btn-success tooltips" data-placement="Top" data-toggle="modal" data-target="#custom-width-modal" data-original-title="Edit">';
         html += '<i class="fa fa-pencil"></i>';
         html += '</a>';
-        html += '<a id="'+ value.id +'"  class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">';
+        html += '<a id="'+ value.id +'"  class="btn btn-danger tooltips" data-placement="Top" data-toggle="tooltip" data-original-title="Delete">';
         html += '<i class="fa fa-close"></i>';
         html += '</a>';
         html += '</div>';
