@@ -26,7 +26,7 @@ class ActivityController extends Controller
     {
         //获取用户id，取得所有活动id
         $guid = session('user')->guid;
-        $where = ['user_id'=>$guid,'status'=>'1'];
+        $where = ['user_id' => $guid,'status' => '1'];
         $tmp = self::$actionService->getActivityId($where);
 
         //如果数据为空，返回空数组
@@ -39,6 +39,7 @@ class ActivityController extends Controller
             $res = self::$actionService->getData($v);
             array_push($data,$res['msg']);
         }
+
 
         if (empty($data)) return view('home.user.activity.activity')->with('data',[]);
         return view('home.user.activity.activity')->with('data',$data);

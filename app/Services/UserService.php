@@ -230,6 +230,8 @@ class UserService {
         $temp->headpic = $userInfo->headpic;
         //获取用户昵称
         $temp->nickname = $userInfo->nickname;
+        //获取用户的Memeber状态
+        $temp->memeber = $userInfo->memeber;
 
         Session::put('user',$temp);
         return ['status' => '200','msg' => '登录成功！'];
