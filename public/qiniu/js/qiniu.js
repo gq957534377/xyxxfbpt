@@ -556,7 +556,7 @@ function QiniuJsSDK() {
         }
 
         if (!op.domain) {
-            throw 'domain setting in options is required!';
+            throw 'Domain setting in options is required!';
         }
 
         if (!op.browse_button) {
@@ -1009,7 +1009,7 @@ function QiniuJsSDK() {
                                 }
                             }
                         };
-                        ajax_downtoken.send('key=' + that.parseJSON(info).key + '&domain=' + op.domain);
+                        ajax_downtoken.send('key=' + that.parseJSON(info).key + '&Domain=' + op.domain);
                     } else if (_FileUploaded_Handler) {
                         _FileUploaded_Handler(up, file, info);
                     }
@@ -1020,7 +1020,7 @@ function QiniuJsSDK() {
                 // if ctx is not empty 
                 //      that means the upload strategy is chunk upload
                 //      befroe the invoke the last_step
-                //      we need request the mkfile to compose all uploaded chunks
+                //      we need Request the mkfile to compose all uploaded chunks
                 // else
                 //      invalke the last_step
                 logger.debug("ctx: ", ctx);

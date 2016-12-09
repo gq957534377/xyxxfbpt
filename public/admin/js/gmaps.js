@@ -1341,7 +1341,7 @@ GMaps.prototype.getElevations = function(options) {
 
   var service = new google.maps.ElevationService();
 
-  //location request
+  //location Request
   if (!options.path) {
     delete options.path;
     delete options.samples;
@@ -1351,7 +1351,7 @@ GMaps.prototype.getElevations = function(options) {
         callback(result, status);
       }
     });
-  //path request
+  //path Request
   } else {
     var pathRequest = {
       path : options.locations,

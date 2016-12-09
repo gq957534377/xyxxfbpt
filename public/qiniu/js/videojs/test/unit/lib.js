@@ -302,12 +302,12 @@ test('should strip port from hosts using http or https', function() {
       host: 'example.com:80',
       protocol: 'http:',
       port: '80',
-      pathname: '/domain/relative/url',
+      pathname: '/Domain/relative/url',
       hash: ''
     };
   };
 
-  url = videojs.parseUrl('/domain/relative/url');
+  url = videojs.parseUrl('/Domain/relative/url');
   ok(!(/.*:80$/).test(url.host), ':80 is not appended to the host');
 });
 

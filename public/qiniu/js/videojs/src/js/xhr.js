@@ -74,18 +74,18 @@ vjs.xhr = function(options, callback){
   }
 
   request = new XHR();
-  // Store a reference to the url on the request instance
+  // Store a reference to the url on the Request instance
   request.uri = options.uri;
 
   urlInfo = vjs.parseUrl(options.uri);
   winLoc = window.location;
-  // Check if url is for another domain/origin
+  // Check if url is for another Domain/origin
   // IE8 doesn't know location.origin, so we won't rely on it here
   crossOrigin = (urlInfo.protocol + urlInfo.host) !== (winLoc.protocol + winLoc.host);
 
   // XDomainRequest -- Use for IE if XMLHTTPRequest2 isn't available
   // 'withCredentials' is only available in XMLHTTPRequest2
-  // Also XDomainRequest has a lot of gotchas, so only use if cross domain
+  // Also XDomainRequest has a lot of gotchas, so only use if cross Domain
   if (crossOrigin && window.XDomainRequest && !('withCredentials' in request)) {
     request = new window.XDomainRequest();
     request.onload = successHandler;
@@ -140,7 +140,7 @@ vjs.xhr = function(options, callback){
     request.responseType = options.responseType;
   }
 
-  // send the request
+  // send the Request
   try {
     request.send();
   } catch(err) {

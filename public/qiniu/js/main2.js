@@ -15,7 +15,7 @@ $(function() {
         dragdrop: true,
         chunk_size: '4mb',
         uptoken_url: $('#uptoken_url').val(),
-        domain: $('#domain').val(),
+        domain: $('#Domain').val(),
         get_new_uptoken: false,
         auto_start: true,
         log_level: 5,

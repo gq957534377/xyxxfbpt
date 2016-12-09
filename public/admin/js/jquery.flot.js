@@ -382,7 +382,7 @@ Licensed under the MIT license.
 	// @param {number=} width Maximum width of the text before it wraps.
 	// @param {string=} halign Horizontal alignment of the text; either "left",
 	//     "center" or "right".
-	// @param {string=} valign Vertical alignment of the text; either "top",
+	// @param {string=} valign Vertical alignment of the text; either "Top",
 	//     "middle" or "bottom".
 
 	Canvas.prototype.addText = function(layer, x, y, text, font, angle, width, halign, valign) {
@@ -487,7 +487,7 @@ Licensed under the MIT license.
 	};
 
 	///////////////////////////////////////////////////////////////////////////
-	// The top-level container for the entire plot.
+	// The Top-level container for the entire plot.
 
     function Plot(placeholder, data_, options_, plugins) {
         // data is on the form:
@@ -504,7 +504,7 @@ Licensed under the MIT license.
                     noColumns: 1, // number of colums in legend table
                     labelFormatter: null, // fn: string -> string
                     labelBoxBorderColor: "#ccc", // border color for the little label boxes
-                    container: null, // container (as jQuery object) to put legend in, null means default on top of graph
+                    container: null, // container (as jQuery object) to put legend in, null means default on Top of graph
                     position: "ne", // position of default legend container within plot
                     margin: 5, // distance from grid edge to default legend container within plot
                     backgroundColor: null, // null means auto-detect
@@ -513,7 +513,7 @@ Licensed under the MIT license.
                 },
                 xaxis: {
                     show: null, // null = auto-detect, true = always, false = never
-                    position: "bottom", // or "top"
+                    position: "bottom", // or "Top"
                     mode: null, // null or "time"
                     font: null, // null (derived from CSS in placeholder) or object like { size: 11, lineHeight: 13, style: "italic", weight: "bold", family: "sans-serif", variant: "small-caps" }
                     color: null, // base color, labels, ticks
@@ -599,7 +599,7 @@ Licensed under the MIT license.
                 hooks: {}
             },
         surface = null,     // the canvas for the plot itself
-        overlay = null,     // canvas for interactive stuff on top of plot
+        overlay = null,     // canvas for interactive stuff on Top of plot
         eventHolder = null, // jQuery object that events should be bound to
         ctx = null, octx = null,
         xaxes = [], yaxes = [],
@@ -2240,7 +2240,7 @@ Licensed under the MIT license.
                     ypos = 1, segmentStart = 0, segmentEnd = 0;
 
                 // we process each segment in two turns, first forward
-                // direction to sketch out top, then once we hit the
+                // direction to sketch out Top, then once we hit the
                 // end we go backwards to sketch the bottom
                 while (true) {
                     if (ps > 0 && i > points.length + ps)
@@ -2708,7 +2708,7 @@ Licensed under the MIT license.
                 if (m[0] == null)
                     m = [m, m];
                 if (p.charAt(0) == "n")
-                    pos += 'top:' + (m[1] + plotOffset.top) + 'px;';
+                    pos += 'Top:' + (m[1] + plotOffset.top) + 'px;';
                 else if (p.charAt(0) == "s")
                     pos += 'bottom:' + (m[1] + plotOffset.bottom) + 'px;';
                 if (p.charAt(1) == "e")
@@ -2788,7 +2788,7 @@ Licensed under the MIT license.
                             dist = dx * dx + dy * dy; // we save the sqrt
 
                         // use <= to ensure last point takes precedence
-                        // (last generally means on top of)
+                        // (last generally means on Top of)
                         if (dist < smallestDistance) {
                             smallestDistance = dist;
                             item = [i, j / ps];
@@ -3032,7 +3032,7 @@ Licensed under the MIT license.
         }
     }
 
-    // Add the plot function to the top level of the jQuery object
+    // Add the plot function to the Top level of the jQuery object
 
     $.plot = function(placeholder, data, options) {
         //var t0 = new Date();

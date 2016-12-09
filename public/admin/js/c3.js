@@ -143,8 +143,8 @@
 
         $$.isLegendRight = config.legend_position === 'right';
         $$.isLegendInset = config.legend_position === 'inset';
-        $$.isLegendTop = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'top-right';
-        $$.isLegendLeft = config.legend_inset_anchor === 'top-left' || config.legend_inset_anchor === 'bottom-left';
+        $$.isLegendTop = config.legend_inset_anchor === 'Top-left' || config.legend_inset_anchor === 'Top-right';
+        $$.isLegendLeft = config.legend_inset_anchor === 'Top-left' || config.legend_inset_anchor === 'bottom-left';
         $$.legendStep = 0;
         $$.legendItemWidth = 0;
         $$.legendItemHeight = 0;
@@ -233,7 +233,7 @@
         $$.subY.domain($$.y.domain());
         $$.subY2.domain($$.y2.domain());
 
-        // Save original x domain for zoom update
+        // Save original x Domain for zoom update
         $$.orgXDomain = $$.x.domain();
 
         // Set initialized scales to brush and zoom
@@ -382,7 +382,7 @@
             bottom: $$.getHorizontalAxisHeight('y') + legendHeightForBottom + $$.getCurrentPaddingBottom(),
             left: subchartHeight + (hasArc ? 0 : $$.getCurrentPaddingLeft())
         } : {
-            top: 4 + $$.getCurrentPaddingTop(), // for top tick text
+            top: 4 + $$.getCurrentPaddingTop(), // for Top tick text
             right: hasArc ? 0 : $$.getCurrentPaddingRight(),
             bottom: xAxisHeight + subchartHeight + legendHeightForBottom + $$.getCurrentPaddingBottom(),
             left: hasArc ? 0 : $$.getCurrentPaddingLeft()
@@ -569,7 +569,7 @@
         xForText = $$.generateXYForText(areaIndices, barIndices, lineIndices, true);
         yForText = $$.generateXYForText(areaIndices, barIndices, lineIndices, false);
 
-        // Update sub domain
+        // Update sub Domain
         if (withY) {
             $$.subY.domain($$.getYDomain(targetsToShow, 'y'));
             $$.subY2.domain($$.getYDomain(targetsToShow, 'y2'));
@@ -1084,7 +1084,7 @@
             legend_show: true,
             legend_hide: false,
             legend_position: 'bottom',
-            legend_inset_anchor: 'top-left',
+            legend_inset_anchor: 'Top-left',
             legend_inset_x: 10,
             legend_inset_y: 0,
             legend_inset_step: undefined,
@@ -1270,7 +1270,7 @@
         scale.orgDomain = function () {
             return _scale.domain();
         };
-        // define custom domain() for categorized axis
+        // define custom Domain() for categorized axis
         if ($$.isCategorized()) {
             scale.domain = function (domain) {
                 if (!arguments.length) {
@@ -1411,11 +1411,11 @@
             showHorizontalDataLabel = $$.hasDataLabel() && config.axis_rotated,
             showVerticalDataLabel = $$.hasDataLabel() && !config.axis_rotated;
 
-        // MEMO: avoid inverting domain unexpectedly
+        // MEMO: avoid inverting Domain unexpectedly
         yDomainMin = isValue(yMin) ? yMin : isValue(yMax) ? (yDomainMin < yMax ? yDomainMin : yMax - 10) : yDomainMin;
         yDomainMax = isValue(yMax) ? yMax : isValue(yMin) ? (yMin < yDomainMax ? yDomainMax : yMin + 10) : yDomainMax;
 
-        if (yTargets.length === 0) { // use current domain if target of axisId is none
+        if (yTargets.length === 0) { // use current Domain if target of axisId is none
             return axisId === 'y2' ? $$.y2.domain() : $$.y.domain();
         }
         if (isNaN(yDomainMin)) { // set minimum to zero when not number
@@ -1517,7 +1517,7 @@
             firstX = xDomain[0], lastX = xDomain[1],
             padding = $$.getXDomainPadding(xDomain),
             min = 0, max = 0;
-        // show center of x domain if min and max are the same
+        // show center of x Domain if min and max are the same
         if ((firstX - lastX) === 0 && !$$.isCategorized()) {
             if ($$.isTimeSeries()) {
                 firstX = new Date(firstX.getTime() * 0.5);
@@ -1550,7 +1550,7 @@
             if (config.zoom_enabled) { $$.zoom.scale($$.x).updateScaleExtent(); }
         }
 
-        // Trim domain when too big by zoom mousemove event
+        // Trim Domain when too big by zoom mousemove event
         if (withTrim) { $$.x.domain($$.trimXDomain($$.x.orgDomain())); }
 
         return $$.x.domain();
@@ -3334,7 +3334,7 @@
         } else {
             xPos = $$.hasType('bar') ? (points[2][0] + points[0][0]) / 2 : points[0][0];
         }
-        // show labels regardless of the domain if value is null
+        // show labels regardless of the Domain if value is null
         if (d.value === null) {
             if (xPos > $$.width) {
                 xPos = $$.width - box.width;
@@ -3364,7 +3364,7 @@
                 yPos += $$.isBarType(d) ? -3 : -6;
             }
         }
-        // show labels regardless of the domain if value is null
+        // show labels regardless of the Domain if value is null
         if (d.value === null && !$$.config.axis_rotated) {
             if (yPos < box.height) {
                 yPos = box.height;
@@ -4314,13 +4314,13 @@
         };
     };
     Axis.prototype.getXAxisLabelPosition = function getXAxisLabelPosition() {
-        return this.getLabelPosition('x', this.owner.config.axis_rotated ? 'inner-top' : 'inner-right');
+        return this.getLabelPosition('x', this.owner.config.axis_rotated ? 'inner-Top' : 'inner-right');
     };
     Axis.prototype.getYAxisLabelPosition = function getYAxisLabelPosition() {
-        return this.getLabelPosition('y', this.owner.config.axis_rotated ? 'inner-right' : 'inner-top');
+        return this.getLabelPosition('y', this.owner.config.axis_rotated ? 'inner-right' : 'inner-Top');
     };
     Axis.prototype.getY2AxisLabelPosition = function getY2AxisLabelPosition() {
-        return this.getLabelPosition('y2', this.owner.config.axis_rotated ? 'inner-right' : 'inner-top');
+        return this.getLabelPosition('y2', this.owner.config.axis_rotated ? 'inner-right' : 'inner-Top');
     };
     Axis.prototype.getLabelPositionById = function getLabelPositionById(id) {
         return id === 'y2' ? this.getY2AxisLabelPosition() : id === 'y' ? this.getYAxisLabelPosition() : this.getXAxisLabelPosition();
@@ -6123,7 +6123,7 @@
             length = args.length;
         }
 
-        // If only one data, update the domain to flow from left edge of the chart
+        // If only one data, update the Domain to flow from left edge of the chart
         if (!orgDataCount) {
             if ($$.isTimeSeries()) {
                 if (baseTarget.values.length > 1) {
@@ -6206,7 +6206,7 @@
                 d.values.splice(0, flowLength);
             });
 
-            // update x domain to generate axis elements for flow
+            // update x Domain to generate axis elements for flow
             domain = $$.updateXDomain(targets, true, true);
             // update elements related to x scale
             if ($$.updateXGrid) { $$.updateXGrid(true); }

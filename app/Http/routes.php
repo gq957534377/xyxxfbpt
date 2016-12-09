@@ -15,7 +15,7 @@
  * 后台入口
  */
 //路由组中指定域名，命名空间
-Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
+Route::group(['Domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
     //补充资源控制器
     Route::get('/code/captcha/{tmp}','LoginController@captcha');
     // 后台登录页
@@ -56,7 +56,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/web_admins', 'WebAdminstrationController');
 
         // SEO 优化管理
-        Route::resource('/web_admins_seo', 'WebAdminsSeoController');
+        Route::resource('/test', 'WebAdminsSeoController');
 
         // 合作机构管理
         Route::resource('/web_cooper_organiz', 'WebCooperOrganizController');
@@ -72,6 +72,8 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
 
         Route::resource('/picture/uploadcarousel', 'PictureOrganizController@uploadCarousel');
         Route::resource('/picture', 'PictureOrganizController');
+
+
     });
 });
 
@@ -79,7 +81,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
  * 前台入口
  */
 
-Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
+Route::group(['Domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 验证码
@@ -123,5 +125,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         //投稿管理
         Route::resource('/send', 'SendController');
         Route::resource('/upload','ActionController@upload');
+
+        // openIM 阿里云旺
+        Route::resource('/openim', 'OpenIMController');
     });
 });

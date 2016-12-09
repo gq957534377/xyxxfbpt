@@ -34,7 +34,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * Get a validator for an incoming registration Request.
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
