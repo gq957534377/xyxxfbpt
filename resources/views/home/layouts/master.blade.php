@@ -13,9 +13,7 @@
 
 @include('home.public.header')
 
-@section('menu')
-    @include('home.public.menu')
-@show
+@include('home.public.nav')
 
 @yield('content')
 

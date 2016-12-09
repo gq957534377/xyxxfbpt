@@ -2,11 +2,23 @@
 li{
   list-style: none;
 }
+.bannerimg img{
+  min-height: 168px;
+}
+body{
+	padding-top: 129.6px
+}
 input{
   border: 0px;
 }
+.nav-fixd{
+  display: inline-block;
+  width: 100%;
+  position: fixed;
+  z-index: 2;
+  top: 79.6px;
+}
 .naves{
-  margin-top: 78.6px;
   background: #ff9036;
 }
 .icon-bar{
@@ -28,7 +40,7 @@ input{
 }
 .naves .nav>li{
   float: none;
-  padding: 0 0.6%;
+  padding: 0 0.5%;
   font-size: 0;
   text-align: left;
 }
@@ -41,6 +53,17 @@ input{
   .naves .nav>li{
     text-align: center;
     display: inline-block;
+  }
+}
+@media screen and (max-width:767px) {
+  .nav-fixd{
+    top: 50.4px;
+  }
+  .bannerimg{
+    display: none;
+  }
+  body{
+  	padding-top: 100.4px
   }
 }
 .naves .nav>li>a{

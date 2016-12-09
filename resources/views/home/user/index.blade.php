@@ -9,10 +9,6 @@
     <link href="{{asset('cropper/css/main.css')}}" rel="stylesheet"/>
 @endsection
 
-@section('menu')
-
-@endsection
-
 @section('content')
     <!--移动设备menu开始-->
      @include('home.user.mobileSidebar')

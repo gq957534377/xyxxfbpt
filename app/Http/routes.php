@@ -125,5 +125,9 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         //投稿管理
         Route::resource('/send', 'SendController');
         Route::resource('/upload','ActionController@upload');
+        //zxz的测试路由，开发期间请保留，O(∩_∩)O谢谢~
+        Route::get("zxz",function (){
+            phpinfo();
+        });
     });
 });

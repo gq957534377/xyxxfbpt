@@ -9,17 +9,70 @@
 @endsection
 
 @section('content')
+    <div class=" container-fluid" >
+        <div class="row">
+            <nav id="NavigationBar" class="font-size">
+                <div id="carousel-example-generic" class="carousel slide animated rotateInUpLeft" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                    </ol>
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <img src="{{ asset('home/img/demoimg/index_nav_img.jpg') }}" alt="...">
+                            <div class="carousel-caption">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img src="{{ asset('home/img/demoimg/banner.png') }}" alt="...">
+                            <div class="carousel-caption">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img src="{{ asset('home/img/demoimg/index_nav_img.jpg') }}" alt="...">
+                            <div class="carousel-caption">
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img src="{{ asset('home/img/demoimg/banner.png') }}" alt="...">
+                            <div class="carousel-caption">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <ul>
+                    <li><a href="#">项目投资</a></li>
+                    <li><a href="#">找投资人</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <!-- 精选项目 Start -->
     <div class=" container-fluid" style="background-color: #F7F7F7;">
         <div id="section1">
             <div class="container" style="max-width: 1200px;width:100%;">
                 <div style="max-width: 1200px;width:100%; margin:0 auto;" class=" row">
-                    <div class="col-sm-7" style="padding-left:0;">
+                    <div class="col-sm-7 col-xs-3" style="padding-left:0;">
                         <h2 class="jx-tit">精选项目</h2>
                     </div>
-                    <div class="col-sm-5" style="padding-right:0;">
-                        <li style="float: right;padding: 5px 30px 0 29px;"><a class="ckgd" href="#">查看更多</a></li>
-                        <li style="float: right;"><a class="wysjx" href="#">我要上精选！</a></li>
+                    <div class="col-sm-5 col-xs-9 jxxm" style="padding-right:0;">
+                        <li><a class="ckgd" href="#">查看更多</a></li>
+                        <li><a class="wysjx" href="#">我要上精选！</a></li>
                     </div>
                 </div>
                 <ul class="row">
@@ -79,7 +132,7 @@
                     <a href="#">
                         <div class="section2_img col-sm-3">
                             <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
-                            <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
+                            <img class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
                         </div>
                         <div class="section2_center col-sm-6">
                             <div class="section2_center_title">
@@ -101,7 +154,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="section2_evaluate col-sm-3">
+                        <div class="hidden-767 section2_evaluate col-sm-3">
                             <p>
                                 <span></span>
                                 <span>跟投人评价：</span>
@@ -114,7 +167,7 @@
                     <a href="#">
                         <div class="section2_img col-sm-3">
                             <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
-                            <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
+                            <img class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
                         </div>
                         <div class="section2_center col-sm-6">
                             <div class="section2_center_title">
@@ -136,7 +189,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="section2_evaluate col-sm-3">
+                        <div class="hidden-767 section2_evaluate col-sm-3">
                             <p>
                                 <span></span>
                                 <span>跟投人评价：</span>
@@ -149,7 +202,7 @@
                     <a href="#">
                         <div class="section2_img col-sm-3">
                             <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
-                            <img src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
+                            <img class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
                         </div>
                         <div class="section2_center col-sm-6">
                             <div class="section2_center_title">
@@ -171,7 +224,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="section2_evaluate col-sm-3">
+                        <div class="hidden-767 section2_evaluate col-sm-3">
                             <p>
                                 <span></span>
                                 <span>跟投人评价：</span>
@@ -187,6 +240,10 @@
         <!-- 路演活动 Start -->
         <section id="section3" class="font-size">
             <div class="section_title">
+                <h2>路演活动</h2>
+                <a href="#">查看全部</a>
+            </div>
+            <div class="section_titles">
                 <h2>路演活动</h2>
                 <a href="#">查看全部</a>
             </div>
@@ -228,6 +285,10 @@
                 <h2>创业大赛</h2>
                 <a href="#">查看全部</a>
             </div>
+            <div class="section_titles">
+                <h2>创业大赛</h2>
+                <a href="#">查看全部</a>
+            </div>
             <ul class="row">
                 @foreach($sybs as $syb)
                     <li class="col-sm-4">
@@ -266,6 +327,10 @@
                 <h2>英雄学院</h2>
                 <a href="#">查看全部</a>
             </div>
+            <div class="section_titles">
+                <h2>英雄学院</h2>
+                <a href="#">查看全部</a>
+            </div>
             <ul class="row">
                 @foreach($trains as $train)
                     <li class="col-sm-6">
@@ -301,7 +366,7 @@
     <!-- 英雄众筹 Start-->
     <div class=" container-fluid" style="background-color: #F6F6F6;">
         <section id="section5" class="font-size">
-            <div class="section_title">
+            <div class="section_titles section_title">
                 <h2>英雄众筹</h2>
             </div>
             <div id="section5_content">
@@ -493,7 +558,11 @@
             <div id="section6_bottom">
                 <ul id="section6_left" class="row">
                     <li class="col-sm-6">
-                        <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
+                        <div class="bg-mg">
+                            <div class="bg-mg-f">
+                                <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
+                            </div>
+                        </div>
                         <div>
                             <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
                             <p>Posted on 2016/11/11 10:44:05</p>
@@ -501,7 +570,11 @@
                         </div>
                     </li>
                     <li class="col-sm-6">
-                        <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
+                        <div class="bg-mg">
+                            <div class="bg-mg-f">
+                                <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
+                            </div>
+                        </div>
                         <div>
                             <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
                             <p>Posted on 2016/11/11 10:44:05</p>
@@ -509,7 +582,11 @@
                         </div>
                     </li>
                     <li class="col-sm-6">
-                        <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
+                        <div class="bg-mg">
+                            <div class="bg-mg-f">
+                                <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
+                            </div>
+                        </div>
                         <div>
                             <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
                             <p>Posted on 2016/11/11 10:44:05</p>
@@ -517,7 +594,11 @@
                         </div>
                     </li>
                     <li class="col-sm-6">
-                        <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
+                        <div class="bg-mg">
+                            <div class="bg-mg-f">
+                                <img src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
+                            </div>
+                        </div>
                         <div>
                             <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
                             <p>Posted on 2016/11/11 10:44:05</p>
@@ -588,11 +669,7 @@
 
     <!-- 英雄会顶级投资机构联盟 Start-->
     <div class=" container-fluid" style="padding: 0px">
-        <section id="section8" class="font-size">
-            <img src="{{ asset('home/img/demoimg/test3.jpg') }}"/>
-        </section>
     </div>
-
     <div class=" container-fluid" style="background: #F2F3F7;">
         <section id="section9" class="font-size">
             <h2>英雄会顶级投资机构联盟</h2>
@@ -637,8 +714,6 @@
                         </div>
                     </a>
                 </li>
-            </ul>
-            <ul class="row">
                 <li class="col-sm-2">
                     <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
                     <a href="#">

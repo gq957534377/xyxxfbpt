@@ -1,54 +1,71 @@
 /*公共部分*/
-.contribute {
-    background-color: #fafafa;
-    padding: 3.5% 4.5% 2% 4.5%;
-}
-.contribute > div > span {
-    background: url("../img/vertical_bar.jpg") no-repeat left center;
+.contribute-title {
+    background: url("../img/vertical_bar.jpg") no-repeat;
     padding-left: 15px;
     color: #000000;
     font-weight: 900;
     font-size: 16px;
 }
+/*投稿*/
 .form-contribute {
     padding-top: 2em;
     font-size: 15px;
-}
-.form-group {
-    margin-bottom: 30px;
-}
-.form-star {
-    color: #ff4861;
-    padding-right: 5px;
-    line-height: inherit;
-    vertical-align: -3px;
-    /*margin-left: -15px;*/
 }
 .form-horizontal .control-label {
     text-align: left;
     font-weight: normal;
 }
-#introduction {
+.form-introduction {
     height: 8em;
     line-height: 1.8em;
     resize: none;
 }
-#content {
+.form-content {
     height: 16em;
     line-height: 1.8em;
     resize: none;
     background: url("../img/demoimg/fuwenben.jpg") no-repeat center;
 }
 
+/*已发表 审核中 已退稿 草稿箱 */
+
+.a-style-1 {
+    color: #000000;
+    text-decoration: none;
+}
+.a-style-1:hover {
+    text-decoration: none;
+    color: #ff9035;
+}
+.bg-area {
+    cursor: pointer;
+    width: 1em;
+    height: 1em;
+    margin-top: 3px;
+    margin-left: 1em;
+}
+.bg-read {
+     background: url("../img/read.png") no-repeat center;
+ }
+.bg-write {
+    background: url("../img/write.png") no-repeat center;
+}
+.bg-del {
+    background: url("../img/del.png") no-repeat center;
+}
+
+.bg-read:hover {
+    background: url("../img/read-org.png") no-repeat center;
+}
+.bg-write:hover {
+    background: url("../img/write-org.png") no-repeat center;
+}
+.bg-del:hover {
+    background: url("../img/del-org.png") no-repeat center;
+}
+
 @media (max-width: 767px) {
 }
 /*屏幕宽度大于等于768px小于992px时,bootstrap row容器宽度750px*/
-@media (min-width: 768px) and (max-width: 992px) {
-}
-/*屏幕宽度大于等于992px小于1200px时,bootstrap row容器宽度970px*/
-@media (min-width: 992px) and (max-width: 1200px) {
-}
-/*屏幕宽度大于等于1200px时,bootstrap row容器宽度1170px*/
-@media (min-width: 1200px) {
-    /*所有不在媒体查询之内的样式都可视为在此之内*/
+@media (min-width: 768px) {
 }

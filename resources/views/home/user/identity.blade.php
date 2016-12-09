@@ -6,10 +6,6 @@
     <link href="{{ asset('home/css/user_center_identity-info.css') }}" rel="stylesheet">
 @endsection
 
-@section('menu')
-
-@endsection
-
 @section('content')
     <!--移动设备menu开始-->
     @include('home.user.mobileSidebar')
