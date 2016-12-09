@@ -6,12 +6,6 @@
     <link rel="stylesheet" href="{{ asset('home/css/content(pc).css') }}">
 @endsection
 
-@section('menu')
-    <!---导航栏开始-->
-    @include('home.public.nav')
-    <!---导航栏结束-->
-@endsection
-
 @section('content')
     <section class="container-fluid hang">
         <div class="row vidio_block">

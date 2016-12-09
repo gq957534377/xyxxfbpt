@@ -119,7 +119,7 @@
   position: relative;
 }
 .top_right_5 span:nth-child(1){
-  margin-right: 3%;
+  margin-right: 2%;
 }
 .top_right_5 span:nth-child(1)::before{
   position: absolute;
@@ -196,16 +196,16 @@
   text-align: left;
 }
 .csrxx-1 span:nth-child(1){
-  /*max-width: 90px;*/
+  max-width: 90px;
   max-height: 40px;
   font-size: 30px;
   font-weight: 500;
 }
 .csrxx-1 span:nth-child(2){
-  position: absolute;
   bottom: 0;
   padding-left: 5px;
   color: #666666;
+  white-space: nowrap;
 }
 .csrxx-2 span{
   color: #666666;
@@ -271,19 +271,27 @@
   padding: 3% 0 3% 40px;
   background: url(../img/glass.jpg) no-repeat;
 }
-.subpinglun{
-  margin-top: 20px;
-  margin-bottom: 10px;
-  color: #fe9901;
-  float: right;
+/**************评论样式开始********************/
+.pl-block >div{
   text-align: right;
 }
-.subpinglun:hover{
-  color: red;
-  text-decoration: none;
+.pl-block >h2{
+  margin: 0;
+  font-size: 17px;
+  padding: 0;
+}
+.inputs textarea{
+  width: 90%;
+  min-height: 90px;
+  margin: 2%;
+  resize: none;
+  border: 1px solid #dfdfdf;
+  border-radius: 6px;
 }
 .user-img{
   padding: 20px 0;
+  max-width: 30px;
+  margin-left: 5px;
 }
 .user-img .user-img-bgs{
   width: 100%;
@@ -298,13 +306,32 @@
   top: 0;
 }
 .pl-block{
-  padding: 0 15px
+  padding: 15px 0px;
+  background: #F0F1F6;
+  margin: 20px 0;
+  border-radius: 5px;
+}
+.inputs{
+  text-align: center;
+}
+.inputs .btn-warning{
+  background: #ff9035;
+}
+.inputs .btn-warning:hover{
+  background: #ff9035
+}
+.subbtn{
+  display: inline-block;
+  margin: 0 auto 10px;
 }
 .pl-block>ul{
   background: #ffffff;
+  padding: 0;
+  margin-top: 20px;
+  border-radius: 3px;
 }
 .pl-block>ul>li{
-  margin: 0 15px;
+  margin: 0;
   border-bottom:1px dashed #ededed;
 }
 .user-say1{
@@ -314,7 +341,7 @@
   padding-left: 10px;
 }
 .user-say1 span:nth-child(1){
-  color: #5ea0f7;
+  color: #FF9036;
 }
 .user-say1 span:nth-child(2){
   color: #d5d5d5;
@@ -328,11 +355,12 @@
 }
 @media screen and (max-width: 991px) {
   .user-say{
-    padding-left: 30px;
+    padding-left: 3%;
     padding-right: 0px;
   }
-  .gdxx .kuang .gdxx-content:before{
-    left: 40%;
+  .user-img{
+      margin-left: 5%;
   }
 }
+/**************评论样式结束********************/
 /*******详情页面主要信息样式结束******/

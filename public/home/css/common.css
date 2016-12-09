@@ -3,6 +3,9 @@
 * {
     font-family: "微软雅黑";
 }
+li{
+    list-style: none;
+}
 body {
     /*font-family: 'Lantinghei SC', 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;*/
     font-family: "Microsoft YaHei UI",Helvetica,Arial,sans-serif;
@@ -65,6 +68,16 @@ header {
 }
 .top-right > a:first-child img {
     display: block;
+    max-width: 3em;
+}
+/** 登录后的头像样式  刘峻廷
+************/
+.top-right > ul:first-child {
+    padding-left:5px;
+    margin-bottom:0;
+}
+.top-right > ul > li:first-child > a:first-child img {
+    display: inline-block;
     max-width: 3em;
 }
 /*top样式 结束*/
@@ -224,8 +237,21 @@ footer {
     border: none;
 }
 .bb-1 {
-    border-bottom: 2px solid #e3e3e3;
+    border-bottom: 1px solid #e3e3e3;
 }
+.bb-2 {
+    border-bottom: 1px solid #cccccc;
+}
+.bb-3 {
+    border-bottom: 1px dotted #cccccc;
+}
+.b-all-1 {
+    border: 1px solid #333333;
+}
+.br-1 {
+    border-right: 1px solid #f3f3f3;
+}
+
 .bb-2 {
     border-bottom: 1px solid #cccccc;
 }
@@ -280,6 +306,11 @@ footer {
 .fs-c-2 {
     color: #c7254e !important;
 }
+
+.fs-c-3 {
+    color: red;
+}
+
 /*div li 超出文本用省略号*/
 .ellipse {
     display:block;
@@ -489,6 +520,11 @@ footer {
 .btn-2:hover {
     background-color: rgba(22, 155, 213, 1);
 }
+
+.zxz:focus{
+    outline: none;
+}
+
 /*自定义复选框*/
 .checkbox-1 > input {
     visibility: hidden;
@@ -543,28 +579,18 @@ footer {
     /*padding: 8px 15px;*/
     position: relative;
 }
-.tab-info-top > a:hover {
-    background-color: #ff9035;
-    color: white;
-}
-.tab-info-top > a:hover > span {
-    display: block;
-    /*定位*/
+.tab-info-top > .active:after{
+    content: '▼';
     position: absolute;
-    top: 100%;
-    left: 44%;
-    right: 45%;
-    z-index: 999;
+    left:42%;
+    bottom: -15px;
+    color: #ff9035;
 }
-/*画三角形*/
-.triangle-down {
-    width: 12px;
-    height: 6px;
-    border-top: 7px solid #ff9035;
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-    display: none;
+.tab-info-top > .active {
+    background: #ff9035;
+    color: #fff;
 }
+
 /*选项卡 end*/
 
 /*position定位*/
@@ -837,6 +863,41 @@ footer {
     .text-l-lg {
         text-align: center !important;
     }
+
+}
+/*1200px以下的样式*/
+@media (min-width: 992px) and (max-width: 1199px) {
+    /*footer 媒体查询 开始*/
+    .change-row-margin {
+        margin-left: -15px;
+    }
+    .footer-right {
+        margin-top: 3.2em;
+        padding: 2.1em 0 2.7em 9em;
+        background: url("../img/demoimg/erweima_18.jpg") no-repeat 15% 20% / 90px 90px;
+    }
+    /*footer 媒体查询 结束*/
+
+    .ellipse-md {
+        display:block;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+    }
+    .pad-clr-md{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .text-l-md {
+        text-align: left !important;
+    }
+    .pad-l30-md {
+        padding-left: 30px;
+    }
 }
 
-
+@media (min-width: 1200px) {
+    .text-l-lg {
+        text-align: center !important;
+    }
+}
