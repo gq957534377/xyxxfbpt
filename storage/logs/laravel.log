@@ -559,3 +559,4 @@ Stack trace:
 #18 /vagrant/Hero/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(87): Illuminate\Foundation\Http\Kernel->sendRequestThroughRouter(Object(Illuminate\Http\Request))
 #19 /vagrant/Hero/public/index.php(53): Illuminate\Foundation\Http\Kernel->handle(Object(Illuminate\Http\Request))
 #20 {main}  
+[2016-12-09 18:57:19] local.ERROR: 数据登录信息没有更新! {"_token":"WaHhTnihVdPkrpGLmvdYmAtTGCW4eYqC6dyQkTd8","email":"1@qq.com","password":"111111","captcha":"3csh","ip":"192.168.33.1"} 

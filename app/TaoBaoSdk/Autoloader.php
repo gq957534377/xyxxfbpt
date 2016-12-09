@@ -26,7 +26,7 @@ class Autoloader{
             return;
         }
 
-        $filename = TOP_AUTOLOADER_PATH."/Top/Domain/".$name.".php";
+        $filename = TOP_AUTOLOADER_PATH."/Top/domain/".$name.".php";
         if(is_file($filename)) {
             include $filename;
             return;
@@ -44,7 +44,7 @@ class Autoloader{
             return;
         }
 
-        $filename = TOP_AUTOLOADER_PATH."/aliyun/Domain/".$name.".php";
+        $filename = TOP_AUTOLOADER_PATH."/aliyun/domain/".$name.".php";
         if(is_file($filename)) {
             include $filename;
             return;

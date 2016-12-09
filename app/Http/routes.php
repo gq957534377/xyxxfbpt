@@ -15,7 +15,7 @@
  * 后台入口
  */
 //路由组中指定域名，命名空间
-Route::group(['Domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
+Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
     //补充资源控制器
     Route::get('/code/captcha/{tmp}','LoginController@captcha');
     // 后台登录页
@@ -81,7 +81,7 @@ Route::group(['Domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
  * 前台入口
  */
 
-Route::group(['Domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
+Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 验证码

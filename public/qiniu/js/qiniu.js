@@ -556,7 +556,7 @@ function QiniuJsSDK() {
         }
 
         if (!op.domain) {
-            throw 'Domain setting in options is required!';
+            throw 'domain setting in options is required!';
         }
 
         if (!op.browse_button) {
@@ -1009,7 +1009,7 @@ function QiniuJsSDK() {
                                 }
                             }
                         };
-                        ajax_downtoken.send('key=' + that.parseJSON(info).key + '&Domain=' + op.domain);
+                        ajax_downtoken.send('key=' + that.parseJSON(info).key + '&domain=' + op.domain);
                     } else if (_FileUploaded_Handler) {
                         _FileUploaded_Handler(up, file, info);
                     }
