@@ -1,0 +1,26 @@
+/*公共部分*/
+.my-project-upload {
+    background-color: #fafafa;
+    padding: 2% 4.5%;
+}
+.my-project-upload > div {
+    padding-top: 15px;
+}
+.my-project-upload > div > span {
+    background: url("../img/vertical_bar.jpg") no-repeat left center;
+    padding-left: 15px;
+    color: #000000;
+    font-weight: 900;
+    font-size: 16px;
+}
+.form-horizontal .control-label {
+    padding-top: 0;
+    text-align: left;
+    font-weight: normal;
+}
+
+@media (max-width: 767px) {
+}
+/*屏幕宽度大于等于768px*/
+@media (min-width: 768px) {
+}

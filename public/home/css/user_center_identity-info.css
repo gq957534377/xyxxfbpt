@@ -1,36 +1,15 @@
+/*公用*/
 .identity-info {
     padding: 0;
 }
-.identity-info-top {
-    background-color: #f3f3f3;
+
+/*我是创业者*/
+.auth-entre {
+    background: url("../img/demoimg/161205.jpg") no-repeat left top;
 }
-.identity-info-top > a {
-    display: inline-block;
-    text-decoration: none;
-    color: #000000;
-    padding: 10px 15px;
-    position: relative;
-}
-.identity-info-top > a:hover {
+.auth-entre-btn:hover {
     background-color: #ff9035;
-    color: white;
-}
-.identity-info-top > a:hover > span {
-    display: block;
-    /*定位*/
-    position: absolute;
-    top: 100%;
-    left: 45%;
-    z-index: 999;
-}
-/*画三角形*/
-.triangle-down {
-    width: 14px;
-    height: 7px;
-    border-top: 9px solid #ff9035;
-    border-right: 7px solid transparent;
-    border-left: 7px solid transparent;
-    display: none;
+    color: #ffffff;
 }
 .authentication-entrepreneur {
     background-color: #fafafa;
@@ -102,7 +81,29 @@
     padding: 2% 0 7% 0;
 }
 
+/*我是投资人*/
+.investor {
+    background-color: #fafafa;
+    padding: 3.5% 4.5% 2% 4.5%;
+}
+.investor > div > span {
+    background: url("../img/vertical_bar.jpg") no-repeat left center;
+    padding-left: 15px;
+    color: #000000;
+    font-weight: 900;
+    font-size: 16px;
+}
+.form-investor {
+    padding-top: 2em;
+    font-size: 15px;
+}
+.form-horizontal .control-label {
+    text-align: left;
+    font-weight: normal;
+}
+
 @media (max-width: 767px) {
+    /*我是创业者*/
     .identity-info {
         padding: 0;
     }
@@ -118,15 +119,11 @@
     .upload-project p {
         width: 80%;
     }
+    /*我是投资人*/
+
 }
-/*屏幕宽度大于等于768px小于992px时,bootstrap row容器宽度750px*/
-@media (min-width: 768px) and (max-width: 992px) {
+/*屏幕宽度大于等于768px,bootstrap row容器宽度750px*/
+@media (min-width: 768px) {
 }
-/*屏幕宽度大于等于992px小于1200px时,bootstrap row容器宽度970px*/
-@media (min-width: 992px) and (max-width: 1200px) {
-}
-/*屏幕宽度大于等于1200px时,bootstrap row容器宽度1170px*/
-@media (min-width: 1200px) {
-    /*所有不在媒体查询之内的样式都可视为在此之内*/
-}
+
 

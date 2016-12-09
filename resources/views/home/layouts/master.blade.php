@@ -14,7 +14,7 @@
 @include('home.public.header')
 
 @section('menu')
-    @include('home.public.menu')
+    @include('home.public.nav')
 @show
 
 @yield('content')
@@ -24,6 +24,5 @@
 @include('home.public.script')
 
 @yield('script')
-
 </body>
 </html>

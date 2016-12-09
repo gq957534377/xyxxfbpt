@@ -100,6 +100,8 @@ Route::group(['Domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         //获取角色信息
         Route::get('/roleinfo/{id}','UserController@roleInfo');
+        // 用户角色
+        Route::resource('/identity','RoleController');
         // 申请角色视图
         Route::get('/user/apply/{param}','UserController@apply');
         // 修改头像
@@ -126,7 +128,9 @@ Route::group(['Domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/send', 'SendController');
         Route::resource('/upload','ActionController@upload');
 
+
         // openIM 阿里云旺
         Route::resource('/openim', 'OpenIMController');
+
     });
 });

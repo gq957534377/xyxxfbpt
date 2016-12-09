@@ -26,11 +26,12 @@ class ActivityController extends Controller
     {
         //获取用户id，取得所有活动id
         $guid = session('user')->guid;
-        $where = ['user_id'=>$guid,'status'=>'1'];
+        $where = ['user_id' => $guid,'status' => '1'];
+
         $tmp = self::$actionService->getActivityId($where);
 
         //如果数据为空，返回空数组
-        if (!$tmp['status']) return view('home.user.activity.activity')->with('data',[]);
+        if (!$tmp['status']) return view('home.user.activity.index')->with('data',[]);
         $actionguid = $tmp['data'];
 
         //拼接活动信息数据
@@ -40,8 +41,10 @@ class ActivityController extends Controller
             array_push($data,$res['msg']);
         }
 
-        if (empty($data)) return view('home.user.activity.activity')->with('data',[]);
-        return view('home.user.activity.activity')->with('data',$data);
+        // 活动类型数据处理，划分三个组
+
+        if (empty($data)) return view('home.user.activity.index')->with('data',[]);
+        return view('home.user.activity.index')->with('data',$data);
     }
 
     /**
