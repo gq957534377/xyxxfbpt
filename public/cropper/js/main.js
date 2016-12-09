@@ -164,6 +164,7 @@
     submit: function () {
       // 提交数据不为空，一处为空都false
       if (!this.$avatarSrc.val() && !this.$avatarInput.val()) {
+        this.alert('请选择文件！');
         return false;
       }
       // 将整个表单数据formData格式上传
