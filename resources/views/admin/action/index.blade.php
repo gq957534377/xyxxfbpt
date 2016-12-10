@@ -510,12 +510,93 @@
     <script src="JsService/Model/action/actionAjaxErrorModel.js" type="text/javascript"></script>
     <!--alertInfo end-->
     <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
-    <!--引用ajax模块-->
-    <!--alertInfo end-->
+    {{--富文本--}}
+    <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
+    <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
+    {{--图片上传--}}
     <script src="{{url('uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
     <script type="text/javascript">
         {{--全局变量的设置--}}
+        var toolbra     = {
+                    toolbars : [
+                        [
+//                'anchor', //锚点
+//                'undo', //撤销
+//                'redo', //重做
+                            'bold', //加粗
+                            'indent', //首行缩进
+                            'italic', //斜体
+                            'underline', //下划线
+//                'strikethrough', //删除线
+//                'subscript', //下标
+//                'fontborder', //字符边框
+//                'superscript', //上标
+//                'source', //源代码
+                            'blockquote', //引用
+                            'pasteplain', //纯文本粘贴模式
+//                'selectall', //全选
+                            'horizontal', //分隔线
+                            'removeformat', //清除格式
+//                'time', //时间
+//                'date', //日期
+                            'unlink', //取消链接
+//                'insertrow', //前插入行
+//                'insertcol', //前插入列
+                            'mergeright', //右合并单元格
+                            'mergedown', //下合并单元格
+                            'deleterow', //删除行
+                            'deletecol', //删除列
+                            'inserttitle', //插入标题
+                            'mergecells', //合并多个单元格
+                            'deletetable', //删除表格
+                            'cleardoc', //清空文档
+                            'insertparagraphbeforetable', //"表格前插入行"
+//                'insertcode', //代码语言
+                            'fontfamily', //字体
+                            'fontsize', //字号
+                            'paragraph', //段落格式
+                            'simpleupload', //单图上传
+                            'insertimage', //多图上传
+                            'edittable', //表格属性
+                            'edittd', //单元格属性
+                            'link', //超链接
+                            'spechars', //特殊字符
+//                'searchreplace', //查询替换
+//                'gmap', //Google地图
+//                'insertvideo', //视频
+                            'justifyleft', //居左对齐
+                            'justifyright', //居右对齐
+                            'justifycenter', //居中对齐
+                            'forecolor', //字体颜色
+                            'backcolor', //背景色
+//                'directionalityltr', //从左向右输入
+//                'directionalityrtl', //从右向左输入
+//                'rowspacingtop', //段前距
+//                'rowspacingbottom', //段后距
+                            'pagebreak', //分页
+//                'insertframe', //插入Iframe
+//                'imagenone', //默认
+//                'imageleft', //左浮动
+//                'imageright', //右浮动
+                            'attachment', //附件
+                            'imagecenter', //居中
+                            'lineheight', //行间距
+//                'customstyle', //自定义标题
+//                'autotypeset', //自动排版
+//                'webapp', //百度应用
+                            'background', //背景
+//                'template', //模板
+//                'scrawl', //涂鸦
+//                'music', //音乐
+                            'inserttable', //插入表格
+//                'charts', // 图表
+                        ]
+                    ],
+                    initialFrameWidth : '100%',
+                };
+        var ue          = UE.getEditor('UE', toolbra);
+        var ue1         = UE.getEditor('UE1', toolbra);
         var token       = $('meta[name="csrf-token"]').attr('content');
         var list_type   = null;//活动类型：1：路演 2：大赛 3：学习
         var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
@@ -654,8 +735,9 @@
 
         //列表活动类型设置
         function listType(type, status) {
-            list_type = type;
+            list_type   = type;
             list_status = status;
+
             list(type, status);
         }
 
@@ -665,7 +747,7 @@
         });
 
         {{--修改活动--}}
-                !function ($) {
+        !function ($) {
             "use strict";
             var FormValidator = function () {
                 this.$signupForm = $("#yz_xg");
@@ -678,12 +760,12 @@
                     submitHandler: function () {
                         $.ajaxSetup({
                             headers: {
-                                'X-CSRF-TOKEN': token
+                                'X-CSRF-TOKEN' : token
                             }
                         });
 
                         var data  = new FormData();
-                        var id    = $('input[name=id]').val();
+                        var id = $('#xg_id').val();
                         var resul = {
                             type       : $('#yz_xg').find('select[name=action]').val(),
                             title      : $('#yz_xg').find('input[name=title]').val(),
@@ -696,7 +778,7 @@
                             limit      : $('#yz_xg').find('input[name=limit]').val(),
                             start_time : $('#yz_xg').find('input[name=start_time]').val(),
                             brief      : $('#yz_xg').find('textarea[name=brief]').val(),
-                            describe   : ue1.getContent(),
+                            describe   : ue1.getContent()
                         };
 
                         data.append("title", resul.title);
@@ -709,19 +791,17 @@
                         data.append("end_time", resul.end_time);
                         data.append("address", resul.address);
                         data.append("limit", resul.limit);
-                        var id = $('#xg_id').val();
 
                         $.ajax({
-                            url: '/action/' + id,
-                            type: 'put',
-                            data: resul,
-                            before: ajaxBeforeNoHiddenModel,
-                            success: check,
-                            error: ajaxErrorModel
+                            url     : '/action/' + id,
+                            type    : 'put',
+                            data    : resul,
+                            before  : ajaxBeforeNoHiddenModel,
+                            success : check,
+                            error   : ajaxErrorModel
                         });
 
                         function check(data) {
-                            console.log(data);
                             $('.loading').hide();
                             $('#myModal').modal('show');
                             $('#alert-form').html('');
@@ -730,6 +810,7 @@
                                 if (data.StatusCode == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>活动修改成功!</p>');
+
                                     list(resul.type, 1);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
@@ -744,20 +825,19 @@
                     rules    : rules,
                     messages : messages
                 });
-
             },
                     //init
-                    $.FormValidator = new FormValidator,
-                    $.FormValidator.Constructor = FormValidator
+            $.FormValidator              = new FormValidator,
+            $.FormValidator.Constructor  = FormValidator
         }(window.jQuery),
-                function ($) {
-                    "use strict";
-                    $.FormValidator.init()
-                }(window.jQuery);
+        function ($) {
+            "use strict";
+            $.FormValidator.init()
+        }(window.jQuery);
         //发布
         !function ($) {
             "use strict";
-            var FormValidator = function () {
+            var FormValidator    = function () {
                 this.$signupForm = $("#yz_fb");
             };
 
@@ -765,28 +845,28 @@
             FormValidator.prototype.init = function () {
                 //插件验证完成执行操作 可以不写
                 $.validator.setDefaults({
-                    submitHandler: function () {
+                    submitHandler : function () {
                         $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': token
+                            headers : {
+                                'X-CSRF-TOKEN' : token
                             }
                         });
-                        var data = new FormData();
+                        var data  = new FormData();
                         var resul = {
-                            type: $('select[name=action]').val(),
-                            title: $('input[name=title]').val(),
-                            author: $('input[name=author]').val(),
-                            group: $('select[name=group]').val(),
-                            banner: $('input[name=banner]').val(),
-                            end_time: $('input[name=end_time]').val(),
-                            deadline: $('input[name=deadline]').val(),
-                            address: $('input[name=address]').val(),
-                            limit: $('input[name=limit]').val(),
-                            start_time: $('input[name=start_time]').val(),
-                            brief: $('textarea[name=brief]').val(),
-                            describe: $('textarea[name=describe]').val(),
+                            type       : $('select[name=action]').val(),
+                            title      : $('input[name=title]').val(),
+                            author     : $('input[name=author]').val(),
+                            group      : $('select[name=group]').val(),
+                            banner     : $('input[name=banner]').val(),
+                            end_time   : $('input[name=end_time]').val(),
+                            deadline   : $('input[name=deadline]').val(),
+                            address    : $('input[name=address]').val(),
+                            limit      : $('input[name=limit]').val(),
+                            start_time : $('input[name=start_time]').val(),
+                            brief      : $('textarea[name=brief]').val(),
+                            describe   : $('textarea[name=describe]').val(),
                         };
-                        console.log(resul);
+
                         data.append("type", resul.type);
                         data.append("title", resul.title);
                         data.append("author", resul.author);
@@ -799,8 +879,7 @@
                         data.append("start_time", resul.start_time);
                         data.append("address", resul.address);
                         data.append("limit", resul.limit);
-                        $('#alert-info').html();
-                        console.log(resul);
+
                         $.ajax({
                             url: '/action',
                             type: 'post',
@@ -809,27 +888,27 @@
                             success: check,
                             error: ajaxErrorModel
                         });
+
                         function check(data) {
                             $('.loading').hide();
                             $('#myModal').modal('show');
                             $('#alert-form').html('');
                             $('.modal-title').html('提示');
-                            console.log(data);
                             if (data) {
                                 if (data.StatusCode == 200) {
                                     $('#con-close-modal').modal('hide');
                                     $('#alert-info').html('<p>活动发布成功!</p>');
-                                    $('#yz_fb').find('input[name=title]').val('');
-                                    $('#yz_fb').find('input[name=end_time]').val('');
-                                    $('#yz_fb').find('input[name=deadline]').val('');
-                                    $('#yz_fb').find('input[name=address]').val('');
-                                    $('#yz_fb').find('input[name=limit]').val('');
-                                    $('#yz_fb').find('input[name=author]').val('');
-                                    $('#yz_fb').find('input[name=banner]').val('');
+                                    $('#yz_fb').find('input[name    = title]').val('');
+                                    $('#yz_fb').find('input[name    = end_time]').val('');
+                                    $('#yz_fb').find('input[name    = deadline]').val('');
+                                    $('#yz_fb').find('input[name    = address]').val('');
+                                    $('#yz_fb').find('input[name    = limit]').val('');
+                                    $('#yz_fb').find('input[name    = author]').val('');
+                                    $('#yz_fb').find('input[name    = banner]').val('');
+                                    $('#yz_fb').find('select[name   = group]').val('');
+                                    $('#yz_fb').find('input[name    = start_time]').val('');
+                                    $('#yz_fb').find('textarea[name = brief]').val('');
                                     $('#action_thumb_img').attr('src', '');
-                                    $('#yz_fb').find('select[name=group]').val('');
-                                    $('#yz_fb').find('input[name=start_time]').val('');
-                                    $('#yz_fb').find('textarea[name=brief]').val('');
                                     ue.setContent('');
                                     list(resul.type, 1);
                                 } else {
@@ -843,29 +922,30 @@
                     }
                 });
                 this.$signupForm.validate({
-                    rules: rules,
-                    messages: messages
+                    rules    : rules,
+                    messages : messages
                 });
 
             },
-                    $.FormValidator = new FormValidator;
-                    $.FormValidator.Constructor = FormValidator;
+            $.FormValidator             = new FormValidator;
+            $.FormValidator.Constructor = FormValidator;
         }(window.jQuery),
-                function ($) {
-                    "use strict";
-                    $.FormValidator.init()
-                }(window.jQuery);
+        function ($) {
+            "use strict";
+            $.FormValidator.init()
+        }(window.jQuery);
 
         //修改活动信息展示旧的信息
         function updateRoad() {
             $('.charge-road').click(function () {
                 $('.loading').hide();
                 var ajax = new ajaxController();
+                var url  = '/action/' + $(this).data('name')
                 ajax.ajax({
-                    url: '/action/' + $(this).data('name'),
-                    before: ajaxBeforeNoHiddenModel,
-                    success: date,
-                    error: ajaxErrorModel
+                    url     : url,
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : date,
+                    error   : ajaxErrorModel
                 });
             });
         }
@@ -874,11 +954,12 @@
         function showInfo() {
             $('.info').click(function () {
                 var ajax = new ajaxController();
+                var url  = '/action/' + $(this).data('name');
                 ajax.ajax({
-                    url: '/action/' + $(this).data('name'),
-                    before: ajaxBeforeNoHiddenModel,
-                    success: showInfoList,
-                    error: ajaxErrorModel
+                    url     : url,
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : showInfoList,
+                    error   : ajaxErrorModel
                 });
             });
         }
@@ -887,12 +968,13 @@
         function modifyStatus() {
             $('.status').click(function () {
                 var _this = $(this);
-                var ajax = new ajaxController();
+                var ajax  = new ajaxController();
+                var url   = '/action/' + $(this).data('name') + '/edit/?status=' + $(this).data('status');
                 ajax.ajax({
-                    url: '/action/' + $(this).data('name') + '/edit/?status=' + $(this).data('status'),
-                    before: ajaxBeforeNoHiddenModel,
-                    success: checkStatus,
-                    error: ajaxErrorModel
+                    url     : url,
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : checkStatus,
+                    error   : ajaxErrorModel
                 });
 
                 function checkStatus(data) {
@@ -922,23 +1004,24 @@
                 }
             });
         }
+
         //修改报名信息状态
         function actionStatus() {
             $('.action_status').click(function () {
-                var _this = $(this);
-                var ajax = new ajaxController();
+                var _this  = $(this);
+                var ajax   = new ajaxController();
                 var status = $(this).data('status');
                 if (status.data) {
                     status = status.data;
                 }
-                var url = '/action/'+ $(this).data('name') + '/edit/?status=' + status;
+                var url = '/action/' + $(this).data('name') + '/edit/?status=' + status;
                 ajax.ajax({
                     url     : url,
                     before  : ajaxBeforeNoHiddenModel,
                     success : action_status,
                     error   : ajaxErrorModel
                 });
-                function action_status(data){
+                function action_status(data) {
                     $('.loading').hide();
                     $('#myModal').modal('show');
                     $('.modal-title').html('提示');
@@ -967,13 +1050,13 @@
                     }
                 });
                 var ajax = new ajaxController();
-                var url = '/action/' + $(this).data('name');
+                var url  = '/action/' + $(this).data('name');
                 ajax.ajax({
-                    url: url,
-                    type: 'delete',
-                    before: ajaxBeforeNoHiddenModel,
-                    success: actionOrder,
-                    error: ajaxErrorModel
+                    url     : url,
+                    type    : 'delete',
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : actionOrder,
+                    error   : ajaxErrorModel
                 });
             });
         }
@@ -981,11 +1064,12 @@
         // 页面加载时触发事件请求分页数据
         function list(type, status) {
             var ajax = new ajaxController();
+            var url  = '/action/create?type=' + type + '&status=' + status;
             ajax.ajax({
-                url: '/action/create?type=' + type + '&status=' + status,
-                before: ajaxBeforeModel,
-                success: getInfoList,
-                error: ajaxErrorModel,
+                url     : url,
+                before  : ajaxBeforeModel,
+                success : getInfoList,
+                error   : ajaxErrorModel,
             });
         }
         list(list_type, list_status);
