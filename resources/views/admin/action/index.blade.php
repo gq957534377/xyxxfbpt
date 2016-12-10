@@ -203,7 +203,7 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="id">
+                    <input type="hidden" id="xg_id" name="id">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -664,63 +664,7 @@
             listType($('#xz_type').val(), 1);
         });
 
-        function formCheck(domId, result, url, type, rules, messages) {
-            !function ($) {
-                "use strict";
-                var FormValidator = function () {
-                    this.$signupForm = $(domId);
-                };
-                //初始化
-                FormValidator.prototype.init = function () {
-                    //插件验证完成执行操作 可以不写
-                    $.validator.setDefaults({
-                        submitHandler: function () {
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': token
-                                }
-                            });
-
-                            var data = new FormData();
-
-                            data.append("title", result.title);
-                            data.append("author", result.author);
-                            data.append("group", result.group);
-                            data.append("start_time", result.start_time);
-                            data.append("brief", result.brief);
-                            data.append("describe", result.describe);
-                            data.append("banner", result.banner);
-                            data.append("end_time", result.end_time);
-                            data.append("address", result.address);
-                            data.append("limit", result.limit);
-
-                            $.ajax({
-                                url: url,
-                                type: type,
-                                data: result,
-                                before: ajaxBeforeNoHiddenModel,
-                                success: check,
-                                error: ajaxErrorModel
-                            });
-                        }
-                    });
-                    this.$signupForm.validate({
-                        rules: rules,
-                        messages: messages
-                    });
-
-                },
-                        //init
-                        $.FormValidator = new FormValidator;
-                $.FormValidator.Constructor = FormValidator;
-            }(window.jQuery),
-                    function ($) {
-                        "use strict";
-                        $.FormValidator.init()
-                    }(window.jQuery);
-        }
         {{--修改活动--}}
-
                 !function ($) {
             "use strict";
             var FormValidator = function () {
@@ -765,6 +709,7 @@
                         data.append("end_time", resul.end_time);
                         data.append("address", resul.address);
                         data.append("limit", resul.limit);
+                        var id = $('#xg_id').val();
 
                         $.ajax({
                             url: '/action/' + id,
@@ -899,13 +844,12 @@
                 });
                 this.$signupForm.validate({
                     rules: rules,
-                    //提示信息
                     messages: messages
                 });
 
             },
-                    $.FormValidator = new FormValidator,
-                    $.FormValidator.Constructor = FormValidator
+                    $.FormValidator = new FormValidator;
+                    $.FormValidator.Constructor = FormValidator;
         }(window.jQuery),
                 function ($) {
                     "use strict";
@@ -987,23 +931,20 @@
                 if (status.data) {
                     status = status.data;
                 }
-                console.log(status);
+                var url = '/action/'+ $(this).data('name') + '/edit/?status=' + status;
                 ajax.ajax({
-                    url: '/action/' + $(this).data('name') + '/edit/?status=' + status,
-                    before: ajaxBeforeNoHiddenModel,
-                    success: action_status,
-                    error: ajaxErrorModel
+                    url     : url,
+                    before  : ajaxBeforeNoHiddenModel,
+                    success : action_status,
+                    error   : ajaxErrorModel
                 });
-                function action_status(data) {
+                function action_status(data){
                     $('.loading').hide();
                     $('#myModal').modal('show');
                     $('.modal-title').html('提示');
                     if (data) {
                         if (data.StatusCode == 200) {
-                            var code = data.ResultData;
                             $('#alert-form').hide();
-                            checkAction();
-                            $('.bm').click();
                             $('#alert-info').html('<p>状态修改成功!</p>');
                         } else {
                             $('#alert-form').hide();
@@ -1026,8 +967,9 @@
                     }
                 });
                 var ajax = new ajaxController();
+                var url = '/action/' + $(this).data('name');
                 ajax.ajax({
-                    url: '/action/' + $(this).data('name'),
+                    url: url,
                     type: 'delete',
                     before: ajaxBeforeNoHiddenModel,
                     success: actionOrder,
