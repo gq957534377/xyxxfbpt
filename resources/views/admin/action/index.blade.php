@@ -516,33 +516,155 @@
     {{--图片上传--}}
     <script src="{{url('uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
+    {{--时间插件--}}
+    <script src="/dateTime/build/jquery.datetimepicker.full.js"></script>
     <script type="text/javascript">
         {{--全局变量的设置--}}
+        //时间插件的配置
+        $.datetimepicker.setLocale('en');
+        $('#datetimepicker_format').datetimepicker({value:'2015/04/15 05:03', format: $("#datetimepicker_format_value").val()});
+        console.log($('#datetimepicker_format').datetimepicker('getValue'));
+
+        $("#datetimepicker_format_change").on("click", function(e){
+            $("#datetimepicker_format").data('xdsoft_datetimepicker').setOptions({format: $("#datetimepicker_format_value").val()});
+        });
+        $("#datetimepicker_format_locale").on("change", function(e){
+            $.datetimepicker.setLocale($(e.currentTarget).val());
+        });
+
+        $('#datetimepicker').datetimepicker({
+            dayOfWeekStart : 1,
+            lang:'en',
+            disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
+            startDate:	'1986/01/05'
+        });
+        $('#datetimepicker').datetimepicker({value:'2015/04/15 05:03',step:10});
+
+        $('.some_class').datetimepicker();
+
+        $('#default_datetimepicker').datetimepicker({
+            formatTime:'H:i',
+            formatDate:'d.m.Y',
+            //defaultDate:'8.12.1986', // it's my birthday
+            defaultDate:'+03.01.1970', // it's my birthday
+            defaultTime:'10:00',
+            timepickerScrollbar:false
+        });
+
+        $('#datetimepicker10').datetimepicker({
+            step:5,
+            inline:true
+        });
+        $('#datetimepicker_mask').datetimepicker({
+            mask:'9999/19/39 29:59'
+        });
+
+        $('#datetimepicker1').datetimepicker({
+            datepicker:false,
+            format:'H:i',
+            step:5
+        });
+        $('#datetimepicker2').datetimepicker({
+            yearOffset:222,
+            lang:'ch',
+            timepicker:false,
+            format:'d/m/Y',
+            formatDate:'Y/m/d',
+            minDate:'-1970/01/02', // yesterday is minimum date
+            maxDate:'+1970/01/02' // and tommorow is maximum date calendar
+        });
+        $('#datetimepicker3').datetimepicker({
+            inline:true
+        });
+        $('#datetimepicker4').datetimepicker();
+        $('#open').click(function(){
+            $('#datetimepicker4').datetimepicker('show');
+        });
+        $('#close').click(function(){
+            $('#datetimepicker4').datetimepicker('hide');
+        });
+        $('#reset').click(function(){
+            $('#datetimepicker4').datetimepicker('reset');
+        });
+        $('#datetimepicker5').datetimepicker({
+            datepicker:false,
+            allowTimes:['12:00','13:00','15:00','17:00','17:05','17:20','19:00','20:00'],
+            step:5
+        });
+        $('#datetimepicker6').datetimepicker();
+        $('#destroy').click(function(){
+            if( $('#datetimepicker6').data('xdsoft_datetimepicker') ){
+                $('#datetimepicker6').datetimepicker('destroy');
+                this.value = 'create';
+            }else{
+                $('#datetimepicker6').datetimepicker();
+                this.value = 'destroy';
+            }
+        });
+        var logic = function( currentDateTime ){
+            if (currentDateTime && currentDateTime.getDay() == 6){
+                this.setOptions({
+                    minTime:'11:00'
+                });
+            }else
+                this.setOptions({
+                    minTime:'8:00'
+                });
+        };
+        $('#datetimepicker7').datetimepicker({
+            onChangeDateTime:logic,
+            onShow:logic
+        });
+        $('#datetimepicker8').datetimepicker({
+            onGenerate:function( ct ){
+                $(this).find('.xdsoft_date')
+                        .toggleClass('xdsoft_disabled');
+            },
+            minDate:'-1970/01/2',
+            maxDate:'+1970/01/2',
+            timepicker:false
+        });
+        $('#datetimepicker9').datetimepicker({
+            onGenerate:function( ct ){
+                $(this).find('.xdsoft_date.xdsoft_weekend')
+                        .addClass('xdsoft_disabled');
+            },
+            weekends:['01.01.2014','02.01.2014','03.01.2014','04.01.2014','05.01.2014','06.01.2014'],
+            timepicker:false
+        });
+        var dateToDisable = new Date();
+        dateToDisable.setDate(dateToDisable.getDate() + 2);
+        $('#datetimepicker11').datetimepicker({
+            beforeShowDay: function(date) {
+                if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
+                    return [false, ""]
+                }
+
+                return [true, ""];
+            }
+        });
+        $('#datetimepicker12').datetimepicker({
+            beforeShowDay: function(date) {
+                if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
+                    return [true, "custom-date-style"];
+                }
+
+                return [true, ""];
+            }
+        });
+        $('#datetimepicker_dark').datetimepicker({theme:'dark'})
+        //富文本配置
         var toolbra     = {
                     toolbars : [
                         [
-//                'anchor', //锚点
-//                'undo', //撤销
-//                'redo', //重做
                             'bold', //加粗
                             'indent', //首行缩进
                             'italic', //斜体
                             'underline', //下划线
-//                'strikethrough', //删除线
-//                'subscript', //下标
-//                'fontborder', //字符边框
-//                'superscript', //上标
-//                'source', //源代码
                             'blockquote', //引用
                             'pasteplain', //纯文本粘贴模式
-//                'selectall', //全选
                             'horizontal', //分隔线
                             'removeformat', //清除格式
-//                'time', //时间
-//                'date', //日期
-                            'unlink', //取消链接
-//                'insertrow', //前插入行
-//                'insertcol', //前插入列
                             'mergeright', //右合并单元格
                             'mergedown', //下合并单元格
                             'deleterow', //删除行
@@ -552,7 +674,6 @@
                             'deletetable', //删除表格
                             'cleardoc', //清空文档
                             'insertparagraphbeforetable', //"表格前插入行"
-//                'insertcode', //代码语言
                             'fontfamily', //字体
                             'fontsize', //字号
                             'paragraph', //段落格式
@@ -562,46 +683,34 @@
                             'edittd', //单元格属性
                             'link', //超链接
                             'spechars', //特殊字符
-//                'searchreplace', //查询替换
-//                'gmap', //Google地图
-//                'insertvideo', //视频
+                            'insertvideo', //视频
                             'justifyleft', //居左对齐
                             'justifyright', //居右对齐
                             'justifycenter', //居中对齐
                             'forecolor', //字体颜色
                             'backcolor', //背景色
-//                'directionalityltr', //从左向右输入
-//                'directionalityrtl', //从右向左输入
-//                'rowspacingtop', //段前距
-//                'rowspacingbottom', //段后距
                             'pagebreak', //分页
-//                'insertframe', //插入Iframe
-//                'imagenone', //默认
-//                'imageleft', //左浮动
-//                'imageright', //右浮动
                             'attachment', //附件
                             'imagecenter', //居中
                             'lineheight', //行间距
-//                'customstyle', //自定义标题
-//                'autotypeset', //自动排版
-//                'webapp', //百度应用
+                            'autotypeset', //自动排版
                             'background', //背景
-//                'template', //模板
-//                'scrawl', //涂鸦
-//                'music', //音乐
+                            'music', //音乐
                             'inserttable', //插入表格
-//                'charts', // 图表
                         ]
                     ],
                     initialFrameWidth : '100%',
                 };
         var ue          = UE.getEditor('UE', toolbra);
         var ue1         = UE.getEditor('UE1', toolbra);
+
+        //全局变量参数的设置
         var token       = $('meta[name="csrf-token"]').attr('content');
         var list_type   = null;//活动类型：1：路演 2：大赛 3：学习
         var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
         var swf         = 'uploadify/uploadify.swf';//图片上传
         var uploader    = '/upload';//图片上传请求路由
+        //验证规则
         var rules       = {
             type: {
                 required: true
@@ -646,6 +755,7 @@
                 required: true
             }
         };
+        //提示信息
         var messages    = {
             type: {
                 required: '请选择活动类型'
