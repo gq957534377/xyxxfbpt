@@ -18,8 +18,5 @@
 <!-- skycons -->
 <script src="http://cdn.rooyun.com/js/skycons.min.js" type="text/javascript"></script>
 
-<!-- Dashboard -->
-<script src="http://cdn.rooyun.com/js/jquery.dashboard.js"></script>
-
 
 
