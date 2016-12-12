@@ -66,4 +66,18 @@ class WebAdminStore
             ->where('state', '<>', 4)
             ->get();
     }
+
+
+    /**
+     * 查询网站基本信息
+     * @return mixed
+     * @author 王通
+     */
+    public function getWebInfo ()
+    {
+        return DB::table(self::$table)
+            ->where('state', 1)
+            ->whereIn('name',['tel', 'time', 'email', 'record'])
+            ->get();
+    }
 }

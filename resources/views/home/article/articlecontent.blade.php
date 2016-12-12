@@ -82,7 +82,7 @@
               <!--评论区域开始-->
               <div class="row pl-block">
                 <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">评论</h2>
-                <ul class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <!---循环遍历开始-->
                   <li class="row inputs">
                       <form id="comment" method = 'post'>
@@ -98,7 +98,7 @@
                             <li class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                     <div class="user-img-bgs">
-                                        <img src="{{ asset('home/img/test11.jpg') }}">
+                                        <img src="{{ $val->headpic }}">
                                     </div>
                                 </div>
                                 <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
@@ -113,7 +113,7 @@
                             </li>
 
                         @endforeach
-                            <li class="row">
+                            <div class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                     <div class="user-img-bgs">
 
@@ -126,7 +126,7 @@
                                         <p><a href="#">更多</a></p>
                                     </div>
                                 </div>
-                            </li>
+                            </div>
                     @else
                         <li class="row">
                             <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">

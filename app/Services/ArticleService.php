@@ -301,7 +301,7 @@ class ArticleService
     {
         $data["time"] = date("Y-m-d H:i:s", time());
         $result = self::$commentStore->addData($data);
-        if($result) return ['StatusCode' => '200', 'ResultData' => $result];
+        if($result) return ['StatusCode' => '200', 'ResultData' => $data];
 
         return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
 

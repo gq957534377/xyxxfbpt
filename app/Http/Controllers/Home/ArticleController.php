@@ -171,6 +171,13 @@ class ArticleController extends Controller
 
     }
 
+    /**
+     * 新增评论
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     * @author 王通
+     */
     public function setComment (Request $request)
     {
         // 验证参数
@@ -190,6 +197,14 @@ class ArticleController extends Controller
 
         $data['user_id'] = session('user')->guid;
         $result = self::$articleServer->comment($data);
+        $comment = self::$articleServer->getComment($data['action_id'], 1);
+        // 判断有没有请求道评论数据
+        if ($comment['StatusCode'] == '200') {
+            $result['ResultData'] = $comment['ResultData'][0];
+        } else {
+            return response()->json(['StatusCode' => '201', 'ResultData' => '数据出错']);
+        }
+
         return response()->json($result);
     }
 }
