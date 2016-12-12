@@ -48,7 +48,7 @@ class ArticleController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *向文章表插入数据
+     * 向文章表插入数据
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * @author 郭庆
@@ -169,5 +169,24 @@ class ArticleController extends Controller
     public function destroy($id)
     {
 
+    }
+
+    public function setComment (Request $request)
+    {
+        // 验证参数
+        $validator = Validator::make($request->all(), [
+            'comment' => 'required|max:150',
+            'articleid' => 'required',
+        ], [
+            'comment.required' => '评论内容不能为空',
+            'articleid.required' => '非法请求',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        }
+        $data = $request->all();
+        $result = self::$articleServer->comment($data);
+        return response()->json($result);
     }
 }

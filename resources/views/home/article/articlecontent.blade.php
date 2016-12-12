@@ -30,9 +30,15 @@
                 <div class="fwb col-lg-12 col-md-12 col-sm-12 col-xs-12">{!! $ResultData->describe !!}</div>
               </div>
               <div class="row article-bottom">
-                <span id="like" data-id="{{ $ResultData->guid }}" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
-                    点赞
-                </span>
+                  @if($ResultData->likenum)
+                        <span id="like" data-id="{{ $ResultData->guid }}" class="taoxin col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
+                            点赞 {{ $ResultData->likenum or 0 }}
+                        </span>
+                  @else
+                      <span id="like" data-id="{{ $ResultData->guid }}" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
+                            点赞 {{ $ResultData->likenum or 0 }}
+                        </span>
+                  @endif
                 <span class="col-lg-10 col-md-10 col-sm-10 col-xs-12 fenxiang">
                   <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
 <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
@@ -79,43 +85,61 @@
                 <ul class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <!---循环遍历开始-->
                   <li class="row inputs">
-                    <textarea>
-                    </textarea>
-                    <button class="subbtn btn btn-warning" >提交</button>
+                      <form id="comment" method = 'post'>
+                            <input name="articleid" value="{{ $ResultData->guid }}" hidden>
+                            <textarea name="comment" required>
+                            </textarea>
+                            <button type="submit" class="subbtn btn btn-warning" >提交</button>
+                      </form>
+
                   </li>
-                  <li class="row">
-                    <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                      <div class="user-img-bgs">
-                        <img src="{{ asset('home/img/test11.jpg') }}">
-                      </div>
-                    </div>
-                    <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                      <div class="row user-say1">
-                        <span>Paloma</span>
-                        <span>2016-11-24 16:26</span>
-                      </div>
-                      <div class="row user-say2">
-                        <p>这个项目很有意思,我很喜欢,赞一个</p>
-                      </div>
-                    </div>
-                  </li>
-                  <!---循环遍历结束-->
-                  <li class="row">
-                    <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                      <div class="user-img-bgs">
-                        <img src="{{ asset('home/img/test11.jpg') }}">
-                      </div>
-                    </div>
-                    <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                      <div class="row user-say1">
-                        <span>Paloma</span>
-                        <span>2016-11-24 16:26</span>
-                      </div>
-                      <div class="row user-say2">
-                        <p>这个项目很有意思,我很喜欢,赞一个</p>
-                      </div>
-                    </div>
-                  </li>
+                    @if(!empty($ResultData->comment))
+                        @foreach($ResultData->comment as $val)
+                            <li class="row">
+                                <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <div class="user-img-bgs">
+                                        <img src="{{ asset('home/img/test11.jpg') }}">
+                                    </div>
+                                </div>
+                                <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <div class="row user-say1">
+                                        <span>{{ $val->user_name }}</span>
+                                        <span>{{ $val->time }}</span>
+                                    </div>
+                                        <div class="row user-say2">
+                                        <p>{{ $val->content }}</p>
+                                    </div>
+                                </div>
+                            </li>
+
+                        @endforeach
+                            <li class="row">
+                                <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <div class="user-img-bgs">
+
+                                    </div>
+                                </div>
+                                <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <div class="row user-say1">
+                                    </div>
+                                    <div class="row user-say2">
+                                        <p><a href="#">更多</a></p>
+                                    </div>
+                                </div>
+                            </li>
+                    @else
+                        <li class="row">
+                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
+                            </div>
+                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+
+                                <div class="row user-say2">
+                                    <p>暂无评论</p>
+                                </div>
+                            </div>
+                        </li>
+                    @endif
                 </ul>
               </div>
               <!--评论区域开始-->
@@ -125,47 +149,7 @@
 @endsection
 
 @section('script')
-    <script>
-        $('#like').on('click', function () {
-            var me = $(this);
-            var id = me.data('id');
 
-             $.ajaxSetup({
-                 headers: {
-                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                 }
-             });
-             $.ajax({
-                 type : 'get',
-                 url: '/article/' + id + '/edit',
-                 processData: false, // 告诉jQuery不要去处理发送的数据
-                 contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-                 async: true,
-                 success: function(msg){
-
-                     switch (msg.StatusCode){
-                         case '400':
-                             alert(msg.ResultData);
-                             break;
-                         case "200":
-                             me.html('点赞  ' + msg.ResultData[0]);
-                             me.toggleClass('taoxin');
-                             break;
-                         default:
-
-                             alert('请先登录');
-                             location.href = "http://www.hero.app/login";
-                             break;
-                     }
-                 },
-                 error: function(XMLHttpRequest){
-                     var number = XMLHttpRequest.status;
-                     var msg = "Error: "+number+",数据异常！";
-                     alert(msg);
-                 }
-
-             });
-        });
-    </script>
+    <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script src="{{ asset('home/js/article.js') }}"></script>
 @endsection
