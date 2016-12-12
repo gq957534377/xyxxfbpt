@@ -163,16 +163,38 @@
                 data:{user_id:"{{session('user')->guid}}",action_id:"{{$data->guid}}"},
                 success:function (data) {
                     switch (data.StatusCode){
-                        case 200:obj.html("已报名").css({background:"#3E8CE6"}).unbind("click");break;
-                        case 400:alert(data.ResultData);break;
+                        case '200':obj.html("已报名").css({background:"#3E8CE6"}).unbind("click");break;
+                        case '400':alert(data.ResultData);break;
+                    }
+                }
+            })
+        });
+        $('.collect').click(function () {
+            var obj = $(this);
+            $.ajax({
+                type:"get",
+                url:"/article/{{$data->guid}}/edit",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success:function (data) {
+                    switch (data.StatusCode){
+                        case '200':obj.html("已收藏").unbind("click").parent('p').addClass('taoxin');break;
+                        case '400':alert(data.ResultData);break;
                     }
                 }
             })
         })
         @else
             $('#js_enroll').click(function(){
-                window.location.href = "{{route('login.index')}}"
-        })
+                login();
+        });
+            $('.collect').click(function () {
+                    login()
+            });
         @endif
+        function login() {
+            window.location.href = "{{route('login.index')}}"
+        }
     </script>
 @endsection

@@ -1,13 +1,15 @@
-<footer class="container-fluid">
-    <div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-full">
-            <div class="modal-content">
+<div class="zxz-footer">
+    <footer class="container-fluid">
+        <div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-full">
+                <div class="modal-content">
 
-                <div class="demo" id="J_demo" style="width: 700px;height: 470px;"></div>
+                    <div class="demo" id="J_demo" style="width: 700px;height: 470px;"></div>
 
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
 
     <div class="container">
         <div class="row change-row-margin">
@@ -22,11 +24,15 @@
             <div class="footer-right col-xs-12  col-sm-4 col-md-4 col-lg-4">
                 <span>关注奇立英雄会微信号</span>
                 <p class="text-left">随时随地查看项目<br>进度及时推送</p>
+
+                </div>
+
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
 
-<div class="container-fluid bottom">
-    <p class="text-center">{{ $record }}</p>
+    <div class="container-fluid bottom">
+        <p class="text-center">{{ $record }}</p>
+    </div>
+
 </div>
