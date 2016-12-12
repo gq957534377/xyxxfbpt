@@ -103,7 +103,11 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/action', 'ActionController');
     //文章内容页
     Route::resource('/article', 'ArticleController');
+
     Route::resource('/article/setcomment', 'ArticleController@setComment');
+
+    //学院内容页
+    Route::resource('/school', 'SchoolController');
 
     // 市场咨询
     Route::resource('/market', 'MarketController');
