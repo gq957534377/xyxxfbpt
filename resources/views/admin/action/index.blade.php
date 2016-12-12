@@ -1,17 +1,45 @@
 @extends('admin.layouts.master')
+@section('style')
 <style>
-    .loading{z-index:999;position:absolute;display: none;}
-    #alert-info{padding-left:10px;}
-    table{font-size:14px;}
-    .table button{margin-right:15px;}
-    #fabu{
-        width: 80%;
-        height:80%;
+    .loading {
+        z-index: 999;
+        position: absolute;
+        display: none;
     }
-    .uploadify{display:inline-block;}
-    .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
-    table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
+
+    #alert-info {
+        padding-left: 10px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    .table button {
+        margin-right: 15px;
+    }
+
+    #fabu {
+        width: 80%;
+        height: 80%;
+    }
+
+    .uploadify {
+        display: inline-block;
+    }
+
+    .uploadify-button {
+        border: none;
+        border-radius: 5px;
+        margin-top: 8px;
+    }
+
+    table.add_tab tr td span.uploadify-button-text {
+        color: #FFF;
+        margin: 0;
+    }
 </style>
+@endsection
 @section('content')
 @section('title', '活动管理')
 {{-- 弹出表单开始 --}}
@@ -31,10 +59,11 @@
 @endsection
 {{-- 弹出表单结束 --}}
 {{--发布活动表单--}}
-<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="display: none;">
     <div class="modal-dialog" id="fabu">
         <div class="modal-content">
-            <form data-name="" role="form" id="yz_fb"  onsubmit="return false">
+            <form data-name="" role="form" id="yz_fb" onsubmit="return false">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="road_title">发布活动</h4>
@@ -58,7 +87,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="field-1" class="control-label">活动主题</label>
-                                <input type="text" class="form-control" id="title" name="title" placeholder="action title...">
+                                <input type="text" class="form-control" id="title" name="title"
+                                       placeholder="action title...">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -110,7 +140,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">缩略图</label>
-                                <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" name="banner" disabled="true">
+                                <input type="text" size="50" style="width: 150px;" class="lg" id="banner" name="banner"
+                                       disabled="true">
                                 <input id="file_upload" name="file_upload" type="file" multiple="true">
                                 <img src="" id="action_thumb_img" style="max-width: 350px;max-height: 110px;">
                             </div>
@@ -126,7 +157,9 @@
                         <div class="col-md-12">
                             <div class="form-group no-margin">
                                 <label for="field-7" class="control-label">活动简述</label>
-                                <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about action" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                                <textarea class="form-control autogrow" id="brief" name="brief"
+                                          placeholder="Write something about action"
+                                          style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
                             </div>
                         </div>
                     </div>
@@ -136,8 +169,6 @@
                             <textarea id="UE" name="describe" class="describe"></textarea>
                         </div>
                     </div>
-                    <meta name="csrf-token" content="{{ csrf_token() }}">
-
                 </div>
                 <div class="modal-footer" id="caozuo">
                     <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
@@ -148,7 +179,8 @@
     </div>
 </div><!-- /.modal -->
 {{--修改活动表单--}}
-<div class="modal fade bs-example-modal-lg" id="xg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal fade bs-example-modal-lg" id="xg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+     aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -156,7 +188,7 @@
                 <h4 class="modal-title" id="myLargeModalLabel">修改活动</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg"  onsubmit="return false">
+                <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg" onsubmit="return false">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -171,18 +203,20 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="id">
+                    <input type="hidden" id="xg_id" name="id">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="field-1" class="control-label">活动主题</label>
-                                <input type="text" class="form-control" id="xg_title" name="title" placeholder="action title...">
+                                <input type="text" class="form-control" id="xg_title" name="title"
+                                       placeholder="action title...">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="field-2" class="control-label">负责人</label>
-                                <input type="text" class="form-control" id="xg_author" name="author" placeholder="Author">
+                                <input type="text" class="form-control" id="xg_author" name="author"
+                                       placeholder="Author">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -227,7 +261,8 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">缩略图</label>
-                                <input type="text" size="50" style="width: 150px;" class="lg" name="banner" id="charge_banner" disabled="true">
+                                <input type="text" size="50" style="width: 150px;" class="lg" name="banner"
+                                       id="charge_banner" disabled="true">
                                 <input id="file_charge" name="file_upload" type="file" multiple="true">
                                 <img src="" id="charge_thumb_img" style="max-width: 350px;max-height: 110px;">
                             </div>
@@ -243,7 +278,9 @@
                         <div class="col-md-12">
                             <div class="form-group no-margin">
                                 <label for="field-7" class="control-label">活动简述</label>
-                                <textarea class="form-control autogrow" id="xg_brief" name="brief" placeholder="Write something about action" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                                <textarea class="form-control autogrow" id="xg_brief" name="brief"
+                                          placeholder="Write something about action"
+                                          style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
                             </div>
                         </div>
                     </div>
@@ -253,15 +290,17 @@
                             <textarea id="UE1" name="describe" class="describe"></textarea>
                         </div>
                     </div>
-                    <meta name="csrf-token" content="{{ csrf_token() }}">
-                    <center><button type="submit" class="btn btn-success m-l-10">修改</button></center>
+                    <center>
+                        <button type="submit" class="btn btn-success m-l-10">修改</button>
+                    </center>
                 </form>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 {{--活动详情--}}
-<div id="tabs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="tabs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content p-0">
             <ul class="nav nav-tabs nav-justified">
@@ -327,22 +366,26 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-2" class="control-label">活动状态</label>
-                                <input type="text" class="form-control" id="xq_status" placeholder="Doe" disabled="true">
+                                <input type="text" class="form-control" id="xq_status" placeholder="Doe"
+                                       disabled="true">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-4">
                                     <label for="field-3" class="control-label">活动开始时间</label>
-                                    <input type="text" class="some_class form-control " id="xq_start_time" placeholder="start time..." disabled="true">
+                                    <input type="text" class="some_class form-control " id="xq_start_time"
+                                           placeholder="start time..." disabled="true">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="field-3" class="control-label">活动结束时间</label>
-                                    <input type="text" class="some_class form-control" id="xq_end_time" placeholder="end time..." disabled="true">
+                                    <input type="text" class="some_class form-control" id="xq_end_time"
+                                           placeholder="end time..." disabled="true">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="field-3" class="control-label">报名截止</label>
-                                    <input type="text" class="some_class form-control" id="xq_deadline" placeholder="end time..." disabled="true">
+                                    <input type="text" class="some_class form-control" id="xq_deadline"
+                                           placeholder="end time..." disabled="true">
                                 </div>
                             </div>
                         </div>
@@ -351,7 +394,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">活动地址</label>
-                                <input type="text" class="form-control" id="xq_address" placeholder="United States" disabled="true">
+                                <input type="text" class="form-control" id="xq_address" placeholder="United States"
+                                       disabled="true">
                             </div>
                         </div>
                     </div>
@@ -359,19 +403,22 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">目前参与人数</label>
-                                <input type="text" class="form-control" id="xq_population" placeholder="United States" disabled="true">
+                                <input type="text" class="form-control" id="xq_population" placeholder="United States"
+                                       disabled="true">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">限报人数</label>
-                                <input type="text" class="form-control" id="xq_limit" placeholder="United States" disabled="true">
+                                <input type="text" class="form-control" id="xq_limit" placeholder="United States"
+                                       disabled="true">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="field-5" class="control-label">活动信息发布时间</label>
-                                <input type="text" class="some_class form-control" id="xq_time" placeholder="United States" disabled="true">
+                                <input type="text" class="some_class form-control" id="xq_time"
+                                       placeholder="United States" disabled="true">
                             </div>
                         </div>
                     </div>
@@ -395,7 +442,8 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 {{--报名表--}}
-<div id="baoming" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="baoming" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -405,16 +453,16 @@
             <div class="modal-body">
                 <table class="table table-bordered table-striped">
                     <thead>
-                        <tr>
-                            <th>用户id</th>
-                            <th>报名时间</th>
-                            <th>操作</th>
-                        </tr>
+                    <tr>
+                        <th>用户id</th>
+                        <th>报名时间</th>
+                        <th>操作</th>
+                    </tr>
                     </thead>
-                    <tbody id = "list_baoming">
+                    <tbody id="list_baoming">
 
                     </tbody>
-                    </table>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -455,129 +503,415 @@
 </div>
 @endsection
 @section('script')
-    <!--alertInfo JS-->
-    <script src="http://cdn.rooyun.com/js/classie.js"></script>
-    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <!--引用ajax模块-->
     <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
     <script src="JsService/Model/action/actionAjaxBeforeModel.js" type="text/javascript"></script>
     <script src="JsService/Model/action/actionAjaxSuccessModel.js" type="text/javascript"></script>
     <script src="JsService/Model/action/actionAjaxErrorModel.js" type="text/javascript"></script>
-    <script src="http://cdn.rooyun.com/js/classie.js"></script>
-    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <!--alertInfo end-->
     <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
-    <!--引用ajax模块-->
-    <!--alertInfo end-->
+    {{--富文本--}}
+    <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
+    <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
+    {{--图片上传--}}
     <script src="{{url('uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
+    {{--时间插件--}}
+    <script src="/dateTime/build/jquery.datetimepicker.full.js"></script>
     <script type="text/javascript">
-        <?php $timestamp = time();?>
-        //发布活动-图片上传
-        $(function() {
+        {{--全局变量的设置--}}
+        //时间插件的配置
+        $.datetimepicker.setLocale('en');
+        $('#datetimepicker_format').datetimepicker({value:'2015/04/15 05:03', format: $("#datetimepicker_format_value").val()});
+        console.log($('#datetimepicker_format').datetimepicker('getValue'));
+
+        $("#datetimepicker_format_change").on("click", function(e){
+            $("#datetimepicker_format").data('xdsoft_datetimepicker').setOptions({format: $("#datetimepicker_format_value").val()});
+        });
+        $("#datetimepicker_format_locale").on("change", function(e){
+            $.datetimepicker.setLocale($(e.currentTarget).val());
+        });
+
+        $('#datetimepicker').datetimepicker({
+            dayOfWeekStart : 1,
+            lang:'en',
+            disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
+            startDate:	'1986/01/05'
+        });
+        $('#datetimepicker').datetimepicker({value:'2015/04/15 05:03',step:10});
+
+        $('.some_class').datetimepicker();
+
+        $('#default_datetimepicker').datetimepicker({
+            formatTime:'H:i',
+            formatDate:'d.m.Y',
+            //defaultDate:'8.12.1986', // it's my birthday
+            defaultDate:'+03.01.1970', // it's my birthday
+            defaultTime:'10:00',
+            timepickerScrollbar:false
+        });
+
+        $('#datetimepicker10').datetimepicker({
+            step:5,
+            inline:true
+        });
+        $('#datetimepicker_mask').datetimepicker({
+            mask:'9999/19/39 29:59'
+        });
+
+        $('#datetimepicker1').datetimepicker({
+            datepicker:false,
+            format:'H:i',
+            step:5
+        });
+        $('#datetimepicker2').datetimepicker({
+            yearOffset:222,
+            lang:'ch',
+            timepicker:false,
+            format:'d/m/Y',
+            formatDate:'Y/m/d',
+            minDate:'-1970/01/02', // yesterday is minimum date
+            maxDate:'+1970/01/02' // and tommorow is maximum date calendar
+        });
+        $('#datetimepicker3').datetimepicker({
+            inline:true
+        });
+        $('#datetimepicker4').datetimepicker();
+        $('#open').click(function(){
+            $('#datetimepicker4').datetimepicker('show');
+        });
+        $('#close').click(function(){
+            $('#datetimepicker4').datetimepicker('hide');
+        });
+        $('#reset').click(function(){
+            $('#datetimepicker4').datetimepicker('reset');
+        });
+        $('#datetimepicker5').datetimepicker({
+            datepicker:false,
+            allowTimes:['12:00','13:00','15:00','17:00','17:05','17:20','19:00','20:00'],
+            step:5
+        });
+        $('#datetimepicker6').datetimepicker();
+        $('#destroy').click(function(){
+            if( $('#datetimepicker6').data('xdsoft_datetimepicker') ){
+                $('#datetimepicker6').datetimepicker('destroy');
+                this.value = 'create';
+            }else{
+                $('#datetimepicker6').datetimepicker();
+                this.value = 'destroy';
+            }
+        });
+        var logic = function( currentDateTime ){
+            if (currentDateTime && currentDateTime.getDay() == 6){
+                this.setOptions({
+                    minTime:'11:00'
+                });
+            }else
+                this.setOptions({
+                    minTime:'8:00'
+                });
+        };
+        $('#datetimepicker7').datetimepicker({
+            onChangeDateTime:logic,
+            onShow:logic
+        });
+        $('#datetimepicker8').datetimepicker({
+            onGenerate:function( ct ){
+                $(this).find('.xdsoft_date')
+                        .toggleClass('xdsoft_disabled');
+            },
+            minDate:'-1970/01/2',
+            maxDate:'+1970/01/2',
+            timepicker:false
+        });
+        $('#datetimepicker9').datetimepicker({
+            onGenerate:function( ct ){
+                $(this).find('.xdsoft_date.xdsoft_weekend')
+                        .addClass('xdsoft_disabled');
+            },
+            weekends:['01.01.2014','02.01.2014','03.01.2014','04.01.2014','05.01.2014','06.01.2014'],
+            timepicker:false
+        });
+        var dateToDisable = new Date();
+        dateToDisable.setDate(dateToDisable.getDate() + 2);
+        $('#datetimepicker11').datetimepicker({
+            beforeShowDay: function(date) {
+                if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
+                    return [false, ""]
+                }
+
+                return [true, ""];
+            }
+        });
+        $('#datetimepicker12').datetimepicker({
+            beforeShowDay: function(date) {
+                if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
+                    return [true, "custom-date-style"];
+                }
+
+                return [true, ""];
+            }
+        });
+        $('#datetimepicker_dark').datetimepicker({theme:'dark'})
+        //富文本配置
+        var toolbra     = {
+                    toolbars : [
+                        [
+                            'bold', //加粗
+                            'indent', //首行缩进
+                            'italic', //斜体
+                            'underline', //下划线
+                            'blockquote', //引用
+                            'pasteplain', //纯文本粘贴模式
+                            'horizontal', //分隔线
+                            'removeformat', //清除格式
+                            'mergeright', //右合并单元格
+                            'mergedown', //下合并单元格
+                            'deleterow', //删除行
+                            'deletecol', //删除列
+                            'inserttitle', //插入标题
+                            'mergecells', //合并多个单元格
+                            'deletetable', //删除表格
+                            'cleardoc', //清空文档
+                            'insertparagraphbeforetable', //"表格前插入行"
+                            'fontfamily', //字体
+                            'fontsize', //字号
+                            'paragraph', //段落格式
+                            'simpleupload', //单图上传
+                            'insertimage', //多图上传
+                            'edittable', //表格属性
+                            'edittd', //单元格属性
+                            'link', //超链接
+                            'spechars', //特殊字符
+                            'insertvideo', //视频
+                            'justifyleft', //居左对齐
+                            'justifyright', //居右对齐
+                            'justifycenter', //居中对齐
+                            'forecolor', //字体颜色
+                            'backcolor', //背景色
+                            'pagebreak', //分页
+                            'attachment', //附件
+                            'imagecenter', //居中
+                            'lineheight', //行间距
+                            'autotypeset', //自动排版
+                            'background', //背景
+                            'music', //音乐
+                            'inserttable', //插入表格
+                        ]
+                    ],
+                    initialFrameWidth : '100%',
+                };
+        var ue          = UE.getEditor('UE', toolbra);
+        var ue1         = UE.getEditor('UE1', toolbra);
+
+        //全局变量参数的设置
+        var token       = $('meta[name="csrf-token"]').attr('content');
+        var list_type   = null;//活动类型：1：路演 2：大赛 3：学习
+        var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
+        var swf         = 'uploadify/uploadify.swf';//图片上传
+        var uploader    = '/upload';//图片上传请求路由
+        //验证规则
+        var rules       = {
+            type: {
+                required: true
+            },
+            title: {
+                required: true,
+                maxlength: 50
+            },
+            end_time: {
+                required: true
+            },
+            deadline: {
+                required: true
+            },
+            address: {
+                required: true,
+                maxlength: 30
+            },
+            limit: {
+                digits: true,
+                required: true
+            },
+            author: {
+                required: true,
+                maxlength: 5
+            },
+            group: {
+                required: true
+            },
+            start_time: {
+                required: true
+            },
+            brief: {
+                required: true,
+                rangelength: [40, 100]
+            },
+            describe: {
+                required: true,
+                minlength: 50
+            },
+            banner: {
+                required: true
+            }
+        };
+        //提示信息
+        var messages    = {
+            type: {
+                required: '请选择活动类型'
+            },
+            title: {
+                required: '请输入活动主题',
+                maxlength: '标题最多50个字符'
+            },
+            author: {
+                required: '请输入负责人',
+                maxlength: '负责人最多5个字符'
+
+            },
+            group: {
+                required: '组织机构必选'
+            },
+            start_time: {
+                required: '请输入活动开始时间'
+            },
+            brief: {
+                required: '请输入活动简述',
+                rangelength: '请输入40-100个字符作为简述'
+            },
+            end_time: {
+                required: '请输入活动结束时间'
+            },
+            deadline: {
+                required: '请输入报名截止日期'
+            },
+            address: {
+                required: '请输入活动地址',
+                maxlength: '地址最多30个字符'
+            },
+            limit: {
+                digits: '人数限制必须为整数',
+                required: '请输入报名限制人数'
+            },
+            describe: {
+                required: '请输入活动详情',
+                minlength: '详情长度最少50个字符'
+            },
+            banner: {
+                required: '缩略图不能为空'
+            }
+        };
+
+        //图片上传
+        $(function () {
+            //发布活动图片上传
             $('#file_upload').uploadify({
-                'buttonText':'选择图片',
-                'formData'     : {
-                    'timestamp' : '<?php echo $timestamp;?>',
-                    '_token'     : "{{csrf_token()}}",
+                'buttonText'      : '选择图片',
+                'formData'        : {
+                    'timestamp': new Date().getTime(),
+                    '_token'   : token
                 },
-                'swf'      : '{{url('uploadify/uploadify.swf')}}',
-                'uploader' : '{{url('/upload')}}',
-                'onUploadSuccess':function (file,data,response) {
+                'swf'             : swf,
+                'uploader'        : uploader,
+                'onUploadSuccess' : function (file, data, response) {
                     var data = JSON.parse(data);
                     $('#banner').val(data.res);
-                    $('#action_thumb_img').attr('src',data.res);
+                    $('#action_thumb_img').attr('src', data.res);
                 },
-                'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+                'onUploadError'   : function (file, errorCode, errorMsg, errorString) {
                     alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
                 }
             });
             //修改活动-图片上传
             $('#file_charge').uploadify({
-                'buttonText':'修改图片',
-                'formData'     : {
-                    'timestamp' : '<?php echo $timestamp;?>',
-                    '_token'     : "{{csrf_token()}}",
+                'buttonText'      : '修改图片',
+                'formData'        : {
+                    'timestamp' : new Date().getTime(),
+                    '_token'    : token
                 },
-                'swf'      : '{{url('uploadify/uploadify.swf')}}',
-                'uploader' : '{{url('/upload')}}',
-                'onUploadSuccess':function (file,data,response) {
+                'swf'             : swf,
+                'uploader'        : uploader,
+                'onUploadSuccess' : function (file, data, response) {
                     var data = JSON.parse(data);
                     $('#charge_banner').val(data.res);
-                    $('#charge_thumb_img').attr('src',data.res);
+                    $('#charge_thumb_img').attr('src', data.res);
                 },
-                'onUploadError' : function(file, errorCode, errorMsg, errorString) {
+                'onUploadError'   : function (file, errorCode, errorMsg, errorString) {
                     alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
                 }
             });
         });
-    </script>
-    <script>
-        var list_type = null;
-        var list_status = 1;
+
+
         //列表活动类型设置
-        function listType(type,status) {
-            list_type = type;
+        function listType(type, status) {
+            list_type   = type;
             list_status = status;
-            list(type,status);
+
+            list(type, status);
         }
+
         //分类查看数据
-        $('#chakan').click(function(){
-            listType($('#xz_type').val(),1);
+        $('#chakan').click(function () {
+            listType($('#xz_type').val(), 1);
         });
-        {{--修改--}}
-                !function($) {
+
+        {{--修改活动--}}
+        !function ($) {
             "use strict";
-            var FormValidator = function() {
+            var FormValidator = function () {
                 this.$signupForm = $("#yz_xg");
             };
 
             //初始化
-            FormValidator.prototype.init = function() {
+            FormValidator.prototype.init = function () {
                 //插件验证完成执行操作 可以不写
                 $.validator.setDefaults({
-                    submitHandler: function() {
+                    submitHandler: function () {
                         $.ajaxSetup({
                             headers: {
-                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                                'X-CSRF-TOKEN' : token
                             }
                         });
-                        var data = new FormData();
-                        var resul={
-                            type:$('#yz_xg').find('select[name=action]').val(),
-                            title:$('#yz_xg').find('input[name=title]').val(),
-                            author:$('#yz_xg').find('input[name=author]').val(),
-                            group:$('#yz_xg').find('select[name=group]').val(),
-                            banner:$('#yz_xg').find('input[name=banner]').val(),
-                            end_time:$('#yz_xg').find('input[name=end_time]').val(),
-                            deadline:$('#yz_xg').find('input[name=deadline]').val(),
-                            address:$('#yz_xg').find('input[name=address]').val(),
-                            limit:$('#yz_xg').find('input[name=limit]').val(),
-                            start_time:$('#yz_xg').find('input[name=start_time]').val(),
-                            brief:$('#yz_xg').find('textarea[name=brief]').val(),
-                            describe:ue1.getContent(),
+
+                        var data  = new FormData();
+                        var id = $('#xg_id').val();
+                        var resul = {
+                            type       : $('#yz_xg').find('select[name=action]').val(),
+                            title      : $('#yz_xg').find('input[name=title]').val(),
+                            author     : $('#yz_xg').find('input[name=author]').val(),
+                            group      : $('#yz_xg').find('select[name=group]').val(),
+                            banner     : $('#yz_xg').find('input[name=banner]').val(),
+                            end_time   : $('#yz_xg').find('input[name=end_time]').val(),
+                            deadline   : $('#yz_xg').find('input[name=deadline]').val(),
+                            address    : $('#yz_xg').find('input[name=address]').val(),
+                            limit      : $('#yz_xg').find('input[name=limit]').val(),
+                            start_time : $('#yz_xg').find('input[name=start_time]').val(),
+                            brief      : $('#yz_xg').find('textarea[name=brief]').val(),
+                            describe   : ue1.getContent()
                         };
-                        console.log(resul);
-                        data.append( "title"      , resul.title);
-                        data.append( "author"     , resul.author);
-                        data.append( "group"       ,resul.group);
-                        data.append( "start_time"     , resul.start_time);
-                        data.append( "brief"   , resul.brief);
-                        data.append( "describe", resul.describe);
-                        data.append( "banner", resul.banner);
-                        data.append( "end_time", resul.end_time);
-                        data.append( "address", resul.address);
-                        data.append( "limit", resul.limit);
+
+                        data.append("title", resul.title);
+                        data.append("author", resul.author);
+                        data.append("group", resul.group);
+                        data.append("start_time", resul.start_time);
+                        data.append("brief", resul.brief);
+                        data.append("describe", resul.describe);
+                        data.append("banner", resul.banner);
+                        data.append("end_time", resul.end_time);
+                        data.append("address", resul.address);
+                        data.append("limit", resul.limit);
+
                         $.ajax({
-                            url     : '/action/' + $('input[name=id]').val(),
-                            type:'put',
-                            data:resul,
+                            url     : '/action/' + id,
+                            type    : 'put',
+                            data    : resul,
                             before  : ajaxBeforeNoHiddenModel,
                             success : check,
                             error   : ajaxErrorModel
                         });
-                        function check(data){
-                            console.log(data);
+
+                        function check(data) {
                             $('.loading').hide();
                             $('#myModal').modal('show');
                             $('#alert-form').html('');
@@ -586,7 +920,8 @@
                                 if (data.StatusCode == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>活动修改成功!</p>');
-                                    list(resul.type,1);
+
+                                    list(resul.type, 1);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -597,166 +932,95 @@
                     }
                 });
                 this.$signupForm.validate({
-                    rules: {
-                        title: {
-                            required: true,
-                        },
-                        end_time: {
-                            required: true
-                        },
-                        deadline: {
-                            required: true
-                        },
-                        address: {
-                            required: true
-                        },
-                        limit: {
-                            required: true
-                        },
-                        author:{
-                            required: true,
-                        },
-                        group:{
-                            required: true
-                        },
-                        start_time:{
-                            required: true
-                        },
-                        brief:{
-                            required: true
-                        },
-                        describe:{
-                            required: true,
-                        },
-                        banner:{
-                            required: true,
-                        }
-                    },
-                    //提示信息
-                    messages: {
-                        title: {
-                            required: '请输入活动主题'
-                        },
-                        author:{
-                            required: '请输入主讲人'
-                        },
-                        group:{
-                            required: '组织机构必选'
-                        },
-                        start_time:{
-                            required:'请输入活动时间'
-                        },
-                        brief:{
-                            required: '请输入活动简述'
-                        },
-                        end_time:{
-                            required: '请输入活动结束时间'
-                        },
-                        deadline:{
-                            required: '请输入报名截止日期'
-                        },
-                        address:{
-                            required: '请输入活动地址'
-                        },
-                        limit:{
-                            required: '请输入报名限制人数'
-                        },
-                        describe:{
-                            required: '请输入活动详情'
-                        },
-                        banner:{
-                            required: '缩略图不能为空'
-                        }
-                    }
+                    rules    : rules,
+                    messages : messages
                 });
-
             },
                     //init
-                    $.FormValidator = new FormValidator,
-                    $.FormValidator.Constructor = FormValidator
+            $.FormValidator              = new FormValidator,
+            $.FormValidator.Constructor  = FormValidator
         }(window.jQuery),
-                function($) {
-                    "use strict";
-                    $.FormValidator.init()
-                }(window.jQuery);
-        //发布
-        !function($) {
+        function ($) {
             "use strict";
-            var FormValidator = function() {
+            $.FormValidator.init()
+        }(window.jQuery);
+        //发布
+        !function ($) {
+            "use strict";
+            var FormValidator    = function () {
                 this.$signupForm = $("#yz_fb");
             };
 
             //初始化
-            FormValidator.prototype.init = function() {
+            FormValidator.prototype.init = function () {
                 //插件验证完成执行操作 可以不写
                 $.validator.setDefaults({
-                    submitHandler: function() {
+                    submitHandler : function () {
                         $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                            headers : {
+                                'X-CSRF-TOKEN' : token
                             }
                         });
-                        var data = new FormData();
-                        var resul={
-                            type:$('select[name=action]').val(),
-                            title:$('input[name=title]').val(),
-                            author:$('input[name=author]').val(),
-                            group:$('select[name=group]').val(),
-                            banner:$('input[name=banner]').val(),
-                            end_time:$('input[name=end_time]').val(),
-                            deadline:$('input[name=deadline]').val(),
-                            address:$('input[name=address]').val(),
-                            limit:$('input[name=limit]').val(),
-                            start_time:$('input[name=start_time]').val(),
-                            brief:$('textarea[name=brief]').val(),
-                            describe:$('textarea[name=describe]').val(),
+                        var data  = new FormData();
+                        var resul = {
+                            type       : $('select[name=action]').val(),
+                            title      : $('input[name=title]').val(),
+                            author     : $('input[name=author]').val(),
+                            group      : $('select[name=group]').val(),
+                            banner     : $('input[name=banner]').val(),
+                            end_time   : $('input[name=end_time]').val(),
+                            deadline   : $('input[name=deadline]').val(),
+                            address    : $('input[name=address]').val(),
+                            limit      : $('input[name=limit]').val(),
+                            start_time : $('input[name=start_time]').val(),
+                            brief      : $('textarea[name=brief]').val(),
+                            describe   : $('textarea[name=describe]').val(),
                         };
-                        console.log(resul);
-                        data.append( "type"      , resul.type);
-                        data.append( "title"      , resul.title);
-                        data.append( "author"     , resul.author);
-                        data.append( "group"       ,resul.group);
-                        data.append( "start_time"     , resul.start_time);
-                        data.append( "brief"   , resul.brief);
-                        data.append( "describe", resul.describe);
-                        data.append( "banner", resul.banner);
-                        data.append( "end_time", resul.end_time);
-                        data.append( "start_time", resul.start_time);
-                        data.append( "address", resul.address);
-                        data.append( "limit", resul.limit);
-                        $('#alert-info').html();
-                        console.log(resul);
+
+                        data.append("type", resul.type);
+                        data.append("title", resul.title);
+                        data.append("author", resul.author);
+                        data.append("group", resul.group);
+                        data.append("start_time", resul.start_time);
+                        data.append("brief", resul.brief);
+                        data.append("describe", resul.describe);
+                        data.append("banner", resul.banner);
+                        data.append("end_time", resul.end_time);
+                        data.append("start_time", resul.start_time);
+                        data.append("address", resul.address);
+                        data.append("limit", resul.limit);
+
                         $.ajax({
-                            url     : '/action',
-                            type:'post',
-                            data:resul,
-                            before  : ajaxBeforeNoHiddenModel,
-                            success : check,
-                            error   : ajaxErrorModel
+                            url: '/action',
+                            type: 'post',
+                            data: resul,
+                            before: ajaxBeforeNoHiddenModel,
+                            success: check,
+                            error: ajaxErrorModel
                         });
-                        function check(data){
+
+                        function check(data) {
                             $('.loading').hide();
                             $('#myModal').modal('show');
                             $('#alert-form').html('');
                             $('.modal-title').html('提示');
-                            console.log(data);
                             if (data) {
                                 if (data.StatusCode == 200) {
                                     $('#con-close-modal').modal('hide');
                                     $('#alert-info').html('<p>活动发布成功!</p>');
-                                    $('#yz_fb').find('input[name=title]').val('');
-                                    $('#yz_fb').find('input[name=end_time]').val('');
-                                    $('#yz_fb').find('input[name=deadline]').val('');
-                                    $('#yz_fb').find('input[name=address]').val('');
-                                    $('#yz_fb').find('input[name=limit]').val('');
-                                    $('#yz_fb').find('input[name=author]').val('');
-                                    $('#yz_fb').find('input[name=banner]').val('');
-                                    $('#action_thumb_img').attr('src','');
-                                    $('#yz_fb').find('select[name=group]').val('');
-                                    $('#yz_fb').find('input[name=start_time]').val('');
-                                    $('#yz_fb').find('textarea[name=brief]').val('');
+                                    $('#yz_fb').find('input[name    = title]').val('');
+                                    $('#yz_fb').find('input[name    = end_time]').val('');
+                                    $('#yz_fb').find('input[name    = deadline]').val('');
+                                    $('#yz_fb').find('input[name    = address]').val('');
+                                    $('#yz_fb').find('input[name    = limit]').val('');
+                                    $('#yz_fb').find('input[name    = author]').val('');
+                                    $('#yz_fb').find('input[name    = banner]').val('');
+                                    $('#yz_fb').find('select[name   = group]').val('');
+                                    $('#yz_fb').find('input[name    = start_time]').val('');
+                                    $('#yz_fb').find('textarea[name = brief]').val('');
+                                    $('#action_thumb_img').attr('src', '');
                                     ue.setContent('');
-                                    list(resul.type,1);
+                                    list(resul.type, 1);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '</p>');
                                 }
@@ -768,114 +1032,27 @@
                     }
                 });
                 this.$signupForm.validate({
-                    rules: {
-                        type: {
-                            required: true,
-                        },
-                        title: {
-                            required: true,
-                            maxlength:50
-                        },
-                        end_time: {
-                            required: true
-                        },
-                        deadline: {
-                            required: true
-                        },
-                        address: {
-                            required: true,
-                            maxlength:30
-                        },
-                        limit: {
-                            digits:true,
-                            required: true
-                        },
-                        author:{
-                            required: true,
-                            maxlength:5
-                        },
-                        group:{
-                            required: true
-                        },
-                        start_time:{
-                            required: true
-                        },
-                        brief:{
-                            required: true,
-                            rangelength:[40,100]
-                        },
-                        describe:{
-                            required: true,
-                            minlength:50
-                        },
-                        banner:{
-                            required: true,
-                        }
-                    },
-                    //提示信息
-                    messages: {
-                        type: {
-                            required: '请选择活动类型',
-                        },
-                        title: {
-                            required: '请输入活动主题',
-                            maxlength:'标题最多50个字符'
-                        },
-                        author:{
-                            required: '请输入负责人',
-                            maxlength:'负责人最多5个字符'
-
-                        },
-                        group:{
-                            required: '组织机构必选'
-                        },
-                        start_time:{
-                            required:'请输入活动开始时间'
-                        },
-                        brief:{
-                            required: '请输入活动简述',
-                            rangelength:'请输入40-100个字符作为简述'
-                        },
-                        end_time:{
-                            required: '请输入活动结束时间'
-                        },
-                        deadline:{
-                            required: '请输入报名截止日期'
-                        },
-                        address:{
-                            required: '请输入活动地址',
-                            maxlength:'地址最多30个字符'
-                        },
-                        limit:{
-                            digits:'人数限制必须为整数',
-                            required: '请输入报名限制人数'
-                        },
-                        describe:{
-                            required: '请输入活动详情',
-                            minlength:'详情长度最少50个字符'
-                        },
-                        banner:{
-                            required: '缩略图不能为空'
-                        }
-                    }
+                    rules    : rules,
+                    messages : messages
                 });
 
             },
-                    $.FormValidator = new FormValidator,
-                    $.FormValidator.Constructor = FormValidator
+            $.FormValidator             = new FormValidator;
+            $.FormValidator.Constructor = FormValidator;
         }(window.jQuery),
-                function($) {
-                    "use strict";
-                    $.FormValidator.init()
-                }(window.jQuery);
+        function ($) {
+            "use strict";
+            $.FormValidator.init()
+        }(window.jQuery);
 
         //修改活动信息展示旧的信息
         function updateRoad() {
             $('.charge-road').click(function () {
                 $('.loading').hide();
                 var ajax = new ajaxController();
+                var url  = '/action/' + $(this).data('name')
                 ajax.ajax({
-                    url     : '/action/' + $(this).data('name'),
+                    url     : url,
                     before  : ajaxBeforeNoHiddenModel,
                     success : date,
                     error   : ajaxErrorModel
@@ -887,8 +1064,9 @@
         function showInfo() {
             $('.info').click(function () {
                 var ajax = new ajaxController();
+                var url  = '/action/' + $(this).data('name');
                 ajax.ajax({
-                    url     : '/action/' + $(this).data('name'),
+                    url     : url,
                     before  : ajaxBeforeNoHiddenModel,
                     success : showInfoList,
                     error   : ajaxErrorModel
@@ -900,15 +1078,16 @@
         function modifyStatus() {
             $('.status').click(function () {
                 var _this = $(this);
-                var ajax = new ajaxController();
+                var ajax  = new ajaxController();
+                var url   = '/action/' + $(this).data('name') + '/edit/?status=' + $(this).data('status');
                 ajax.ajax({
-                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status'),
+                    url     : url,
                     before  : ajaxBeforeNoHiddenModel,
                     success : checkStatus,
                     error   : ajaxErrorModel
                 });
 
-                function checkStatus(data){
+                function checkStatus(data) {
                     $('.loading').hide();
                     $('#myModal').modal('show');
                     $('.modal-title').html('提示');
@@ -923,7 +1102,7 @@
                                 _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
                             }
                             $('#alert-info').html('<p>状态修改成功!</p>');
-                            list(list_type,list_status);
+                            list(list_type, list_status);
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>状态修改失败！</p>');
@@ -935,32 +1114,30 @@
                 }
             });
         }
+
         //修改报名信息状态
         function actionStatus() {
             $('.action_status').click(function () {
-                var _this = $(this);
-                var ajax = new ajaxController();
+                var _this  = $(this);
+                var ajax   = new ajaxController();
                 var status = $(this).data('status');
                 if (status.data) {
                     status = status.data;
                 }
-                console.log(status);
+                var url = '/action/' + $(this).data('name') + '/edit/?status=' + status;
                 ajax.ajax({
-                    url     : '/action/'+ $(this).data('name') + '/edit/?status=' + status,
+                    url     : url,
                     before  : ajaxBeforeNoHiddenModel,
                     success : action_status,
                     error   : ajaxErrorModel
                 });
-                function action_status(data){
+                function action_status(data) {
                     $('.loading').hide();
                     $('#myModal').modal('show');
                     $('.modal-title').html('提示');
                     if (data) {
                         if (data.StatusCode == 200) {
-                            var code = data.ResultData;
                             $('#alert-form').hide();
-                            checkAction();
-                            $('.bm').click();
                             $('#alert-info').html('<p>状态修改成功!</p>');
                         } else {
                             $('#alert-form').hide();
@@ -973,19 +1150,20 @@
                 }
             });
         }
-        
+
         //查看报名情况
-        function checkAction(){
+        function checkAction() {
             $('.bm').click(function () {
                 $.ajaxSetup({
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        'X-CSRF-TOKEN': token
                     }
                 });
                 var ajax = new ajaxController();
+                var url  = '/action/' + $(this).data('name');
                 ajax.ajax({
-                    url     : '/action/' + $(this).data('name'),
-                    type:'delete',
+                    url     : url,
+                    type    : 'delete',
                     before  : ajaxBeforeNoHiddenModel,
                     success : actionOrder,
                     error   : ajaxErrorModel
@@ -994,15 +1172,16 @@
         }
 
         // 页面加载时触发事件请求分页数据
-        function list(type,status) {
+        function list(type, status) {
             var ajax = new ajaxController();
+            var url  = '/action/create?type=' + type + '&status=' + status;
             ajax.ajax({
-                url     : '/action/create?type='+type+'&status='+status,
+                url     : url,
                 before  : ajaxBeforeModel,
                 success : getInfoList,
                 error   : ajaxErrorModel,
             });
         }
-        list(list_type,list_status);
+        list(list_type, list_status);
     </script>
 @endsection
