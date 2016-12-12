@@ -86,8 +86,8 @@
                   <!---循环遍历开始-->
                   <li class="row inputs">
                       <form id="comment" method = 'post'>
-                            <input name="articleid" value="{{ $ResultData->guid }}" hidden>
-                            <textarea name="comment" required>
+                            <input name="action_id" value="{{ $ResultData->guid }}" hidden>
+                            <textarea name="content" required>
                             </textarea>
                             <button type="submit" class="subbtn btn btn-warning" >提交</button>
                       </form>

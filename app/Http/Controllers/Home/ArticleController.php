@@ -175,17 +175,20 @@ class ArticleController extends Controller
     {
         // 验证参数
         $validator = Validator::make($request->all(), [
-            'comment' => 'required|max:150',
-            'articleid' => 'required',
+            'content' => 'required|max:150',
+            'action_id' => 'required',
         ], [
-            'comment.required' => '评论内容不能为空',
-            'articleid.required' => '非法请求',
+            'content.required' => '评论内容不能为空',
+            'action_id.required' => '非法请求',
+            'content.max' => '评论过长',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
         }
         $data = $request->all();
+
+        $data['user_id'] = session('user')->guid;
         $result = self::$articleServer->comment($data);
         return response()->json($result);
     }

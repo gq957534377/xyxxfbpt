@@ -26,15 +26,15 @@
                 });
                 //与正常form不同，通过下面这样来获取需要验证的字段
                 var data = new FormData();
-                data.append( "comment", $("textarea[name= 'comment']").val());
+                data.append( "content", $("textarea[name= 'content']").val());
                 //开始正常的ajax
                 // 异步登录
                 $.ajax({
                     type: "POST",
                     url: '/article/setcomment',
                     data: {
-                        'comment': $("textarea[name= 'comment']").val(),
-
+                        'content': $("textarea[name= 'content']").val(),
+                        'action_id': $("input[name= 'action_id']").val()
                     },
                     success:function(data){
                         switch (data.StatusCode){
@@ -43,7 +43,7 @@
                                 alert('警告',data.ResultData);
                                 break;
                             case '200':
-                                window.location = '/';
+                                
                                 break;
                         }
                     }
@@ -54,14 +54,14 @@
         this.$signOnForm.validate({
             // 验证规则
             rules: {
-                comment: {
+                content: {
                     required: true,
                     minlength: 15
                 }
             },
             // 提示信息
             messages: {
-                comment: {
+                content: {
                     required: "请输入评论内容！",
                     minlength: "评论最少为15字"
                 }
