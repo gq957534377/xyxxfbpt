@@ -1,6 +1,6 @@
 /**
- * Theme: Velonic Admin Template
- * Author: Coderthemes
+ * Theme: 登录验证
+ * Author:
  * Form Validator
  */
 // 文档地址 http://www.runoob.com/jquery/jquery-plugin-validate.html
