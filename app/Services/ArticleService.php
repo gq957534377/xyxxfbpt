@@ -13,6 +13,7 @@ use App\Store\CommentStore;
 use App\Store\LikeStore;
 use App\Store\SendStore;
 use App\Tools\Common;
+use App\Services\UserService as UserServer;
 
 class ArticleService
 {
@@ -24,17 +25,20 @@ class ArticleService
     protected static $common;
     protected static $likeStore;
     protected static $sendStore;
+    protected static $userServer;
 
     public function __construct(
         ArticleStore $articleStore,
         CommentStore $commentStore,
         LikeStore $likeStore,
-        SendStore $sendStore
+        SendStore $sendStore,
+        UserServer $userServer
     ){
         self::$articleStore = $articleStore;
         self::$commentStore = $commentStore;
         self::$likeStore = $likeStore;
         self::$sendStore = $sendStore;
+        self::$userServer = $userServer;
     }
 
     /**
@@ -133,8 +137,15 @@ class ArticleService
     public function getData($guid)
     {
         $data = self::$sendStore->getOneData(["guid" => $guid]);
-        dd($this->getLikeNum($guid));
-        if($data) return ['StatusCode' => '200', 'ResultData' => $data];
+
+
+        if ($data) {
+            $likenum = $this->getLikeNum($guid)['msg'][0];
+            $data->likenum = $likenum;
+            $data->like = $this->getLike(session('user')->guid, $guid)['status'];
+            return ['StatusCode' => '200', 'ResultData' => $data];
+        }
+
 
         return ['StatusCode' => '201', 'ResultData' => '文章信息获取失败'];
 
@@ -201,11 +212,25 @@ class ArticleService
      * @return array
      * @author 郭庆
      */
-    public static function getComment($id)
+    public static function getComment($id, $limit)
     {
-        $comment = self::$commentStore->getSomeData(['article_id' => $id]);
-        if(!$comment) return ['status' => false, 'msg' => '获取评论信息失败'];
-        return ['status' => true, 'msg' => $comment];
+        $comment = self::$commentStore->getSomeData(['action_id' => $id], $limit);
+        if(!$comment) return ['StatusCode' => '201', 'ResultData' => '暂无评论'];
+        // return ['status' => true, 'msg' => $comment];
+
+            foreach ($comment as $v)
+            {
+                $res = self::$userServer->userInfo(['guid' => $v->user_id]);
+                if($res['status']){
+                    $v->user_name = $res['msg']->nickname;
+                    $v->headpic = $res['msg']->headpic;
+                }else{
+                    $v->user_name = '无名英雄';
+                    $v->headpic = '';
+                }
+            }
+
+        return ['StatusCode' => '200', 'ResultData' => $comment];
     }
 
     /**
@@ -276,8 +301,10 @@ class ArticleService
     {
         $data["time"] = date("Y-m-d H:i:s", time());
         $result = self::$commentStore->addData($data);
-        if($result) return ['status' => true, 'msg' => $result];
-        return ['status' => false, 'msg' => '存储数据发生错误'];
+        if($result) return ['StatusCode' => '200', 'ResultData' => $data];
+
+        return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
+
     }
 
     /**

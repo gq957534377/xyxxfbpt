@@ -9,6 +9,33 @@ li{
 body {
     /*font-family: 'Lantinghei SC', 'Open Sans', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;*/
     font-family: "Microsoft YaHei UI",Helvetica,Arial,sans-serif;
+    min-height: 1200px;
+    position: relative;
+}
+@media (min-width: 1200px){
+    body{
+        padding-bottom: 264.1px;
+    }
+}
+@media (max-width: 1200px){
+    body{
+        padding-bottom: 278.1px;
+    }
+}
+@media (max-width: 991px){
+    body{
+        padding-bottom: 221px;
+    }
+}
+@media (max-width: 767px){
+    body{
+        padding-bottom: 396.1px;
+    }
+}
+.zxz-footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 img {
     max-width: 100%;

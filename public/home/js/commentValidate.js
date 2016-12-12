@@ -1,24 +1,18 @@
 /**
- * Theme: 登录验证
- * Author:
- * Form Validator
+ * Created by wangt on 2016/12/12.
  */
+
 // 文档地址 http://www.runoob.com/jquery/jquery-plugin-validate.html
 !(function ($) {
     "use strict";//使用严格标准
     // 获取表单元素
     var FormValidator = function(){
-        this.$signOnForm = $("#signOnForm");
+        this.$signOnForm = $("#comment");
     };
 
     // 初始化
     FormValidator.prototype.init = function() {
-        // 自定义手机验证规则
-        $.validator.addMethod("isMobile", function(value, element) {
-            var length = value.length;
-            var mobile = /^1[34578]\d{9}$/;
-            return this.optional(element) || (length == 11 && mobile.test(value));
-        }, "请正确填写您的手机号码");
+
 
         // ajax 异步
         $.validator.setDefaults({
@@ -32,16 +26,15 @@
                 });
                 //与正常form不同，通过下面这样来获取需要验证的字段
                 var data = new FormData();
-                data.append( "tel"      , $("input[name= 'tel']").val());
-                data.append( "password"       , $("input[name= 'password']").val());
+                data.append( "content", $("textarea[name= 'content']").val());
                 //开始正常的ajax
                 // 异步登录
                 $.ajax({
                     type: "POST",
-                    url: '/login',
+                    url: '/article/setcomment',
                     data: {
-                        'tel': $("input[name= 'tel']").val(),
-                        'password': $("input[name= 'password']").val(),
+                        'content': $("textarea[name= 'content']").val(),
+                        'action_id': $("input[name= 'action_id']").val()
                     },
                     success:function(data){
                         switch (data.StatusCode){
@@ -50,7 +43,24 @@
                                 alert('警告',data.ResultData);
                                 break;
                             case '200':
-                                window.location = '/';
+                                var html = '<li class="row">';
+                                html += '<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">';
+                                html += '<div class="user-img-bgs">';
+                                html += '<img src="'+ data.ResultData.headpic +'">';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '<div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">';
+                                html += '<div class="row user-say1">';
+                                html += '<span>'+ data.ResultData.user_name +'</span>';
+                                html += '<span>'+ data.ResultData.time +'</span>';
+                                html += '</div>';
+                                html += '<div class="row user-say2">';
+                                html += '<p>'+ data.ResultData.content +'</p>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</li>';
+                                $('#commentlist').find('li').eq(0).after(html);
+                                $('#commentlist').find('li').eq(4).remove();
                                 break;
                         }
                     }
@@ -61,24 +71,16 @@
         this.$signOnForm.validate({
             // 验证规则
             rules: {
-                tel: {
+                content: {
                     required: true,
-                    isMobile: true
-                },
-                password: {
-                    required: true,
-                    minlength:6
+                    minlength: 15
                 }
             },
             // 提示信息
             messages: {
-                tel: {
-                    required: "请输入手机号！",
-                    isMobile: "手机号格式不对"
-                },
-                password: {
-                    required: "请输入密码",
-                    minlength: "密码长度不对"
+                content: {
+                    required: "请输入评论内容！",
+                    minlength: "评论最少为15字"
                 }
             }
         });
@@ -91,12 +93,5 @@
         $.FormValidator.init();
     }(window.jQuery);
 
-// 验证码点击更换
-var captcha = document.getElementById('captcha');
-captcha.onclick = function(){
-        $url = "{{url('/code/captcha')}}";
-        $url = $url + "/" + Math.random();
-        this.src = $url;
-    }
 
 
