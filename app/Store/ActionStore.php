@@ -73,10 +73,7 @@ class ActionStore
      */
     public static function getListData($type)
     {
-            return DB::table(self::$table)
-                ->where(['type' => $type])
-                ->where('status', '!=', '4')
-                ->get();
+        return DB::table(self::$table)->where(['type' => $type])->where('status', '!=', '4')->get();
     }
 
     /**

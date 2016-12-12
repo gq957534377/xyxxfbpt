@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
-use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
 use App\Services\UserService as UserServer;
@@ -28,10 +27,12 @@ class ActionController extends Controller
      */
     public function index(Request $request)
     {
-        $type = $request['type'];
-        $result = self::$actionServer->selectByType($type);
-        if($result["status"]){
-            foreach ($result['msg'] as $v){
+        // 获取活动类型 -> 活动类型的所有数据
+        $type = $request->type;
+        $result = self::$actionServer->actionTypeData($type);
+
+        if($result["StatusCode"] == '200'){
+            foreach ($result['ResultData'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
@@ -44,9 +45,9 @@ class ActionController extends Controller
                     }
                 }
             }
-            return view('home.action.index', ['msg' => $result['msg']]);
+            return view('home.action.index', ['actions' => $result['ResultData']]);
         }
-        return view('home.action.index', ['msg' => $result['msg']]);
+        return view('home.action.index', ['actions' => $result['ResultData']]);
     }
 
     /**
@@ -84,7 +85,7 @@ class ActionController extends Controller
      * @param $id
      * @author 郭庆
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         //所需要数据的获取
         $data = self::$actionServer->getData($id);//活动详情
@@ -105,7 +106,7 @@ class ActionController extends Controller
         }
 
         //返回详情页
-        return view("home.action.xiangqing", [
+        return view("home.action.details", [
             "data" => $data["msg"],
             'isLogin' => $isLogin,
             'isHas' => $isHas,

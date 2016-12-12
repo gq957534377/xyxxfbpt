@@ -25,8 +25,8 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">路演活动<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">路演活动</a></li>
-                        <li><a href="#">创业大赛</a></li>
+                        <li><a href="{{ route('action.index', ['type' => '1']) }}">路演活动</a></li>
+                        <li><a href="{{ route('action.index', ['type' => '2']) }}">创业大赛</a></li>
                     </ul>
                 </li>
             </ul>
