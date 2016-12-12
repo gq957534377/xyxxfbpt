@@ -74,8 +74,8 @@ class ActionController extends Controller
     {
         $data = $request->all();
         $result = self::$actionServer->actionOrder($data);
-        if(!$result['status']) return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
+        if(!$result['status']) return response()->json(['StatusCode' => '400', 'ResultData' => $result['msg']]);
+        return response()->json(['StatusCode' => '200', 'ResultData' => $result['msg']]);
     }
 
     /**
