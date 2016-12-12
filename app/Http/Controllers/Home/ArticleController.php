@@ -106,22 +106,29 @@ class ArticleController extends Controller
     public function edit(Request $request, $id)
     {
         $support = $request -> all();
-        $user_id = $request -> session() -> get('user')->guid;
+        if (empty(session('user'))) {
+            return view('home.login');
+        }
+        $user_id = session('user')->guid;
 
         //判断是否点赞了
-        $isHas = self::$articleServer->getLike($user_id,$id);
-        if($isHas['status']) {
-            if ($isHas['msg']->support == $support['support']) return ['StatusCode' => 400,  'ResultData' => '已经参与'];
-            $setLike = self::$articleServer->chargeLike($user_id, $id, $support);
+        $isHas = self::$articleServer->getLike($user_id, $id);
 
-            if ($setLike) return ['StatusCode' => 200,  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
-            return ['StatusCode' => 400,  'ResultData' => '点赞失败'];
+        if($isHas['status']) {
+            if ($isHas['msg']->support == 1) {
+                $setLike = self::$articleServer->chargeLike($user_id, $id, ['support' => 2]);
+            } else {
+                $setLike = self::$articleServer->chargeLike($user_id, $id, ['support' => 1]);
+            }
+
+            if ($setLike) return ['StatusCode' => '200',  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
+            return ['StatusCode' => '400',  'ResultData' => '点赞失败'];
         }else{
 
             //没有点赞则加一条新记录
-            $result = self::$articleServer -> setLike(['support' => $support['support'], 'article_id' => $id, 'user_id' => $user_id]);
-            if($result['status']) return ['StatusCode' => 200,  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
-            return ['StatusCode' => 400, 'ResultData' => '点赞失败'];
+            $result = self::$articleServer -> setLike(['support' => 1, 'action_id' => $id, 'user_id' => $user_id]);
+            if($result['status']) return ['StatusCode' => '200',  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
+            return ['StatusCode' => '400', 'ResultData' => '点赞失败'];
         }
     }
 

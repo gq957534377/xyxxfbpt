@@ -42,17 +42,16 @@ class ArticleService
      * @param $type
      * @return array
      * @author 郭庆
+     * @modify 王通
      */
     public static function selectByType($type)
     {
-        if ($type == 3){
-            $data = self::$sendStore->getData(['status' => 1]);
-        }else{
-            $data = self::$articleStore->getData(['type' => $type, 'status' => 1]);
-        }
 
-        if($data) return ['status' => true, 'msg' => $data];
-        return ['status' => false, 'msg' => '暂时没有本文章信息'];
+        $data = self::$sendStore->getData(['type' => $type, 'status' => 1]);
+
+        if($data) return ['StatusCode' => '200', 'ResultData' => $data];
+        return ['StatusCode' => '201', 'ResultData' => '暂时没有本文章信息'];
+
     }
 
     /**
@@ -131,19 +130,14 @@ class ArticleService
      * @return array
      * author 郭庆
      */
-    public function getData($guid,$user)
+    public function getData($guid)
     {
-        if(!is_string($guid)){
-            return ['status' => false, 'msg' => "参数有误！"];
-        }
-        //查询一条数据文章信息
-        if ($user == 1) {
-            $data = self::$articleStore->getOneData(["guid" => $guid]);
-        }else{
-            $data = self::$sendStore->getOneData(["guid" => $guid]);
-        }
-        if($data) return ['status' => true, 'msg' => $data];
-        return ['status' => false, 'msg' => "文章信息获取失败！"];
+        $data = self::$sendStore->getOneData(["guid" => $guid]);
+
+        if($data) return ['StatusCode' => '200', 'ResultData' => $data];
+
+        return ['StatusCode' => '201', 'ResultData' => '文章信息获取失败'];
+
     }
 
     /**
@@ -223,7 +217,7 @@ class ArticleService
      */
     public static function getLike($user_id, $article_id)
     {
-        $result = self::$likeStore->getOneData(['article_id' => $article_id, 'user_id' => $user_id]);
+        $result = self::$likeStore->getOneData(['action_id' => $article_id, 'user_id' => $user_id]);
         if (!$result) return ['status' => false, 'msg' => '还未点赞'];
         return ['status' => true, 'msg' => $result];
     }
@@ -267,7 +261,7 @@ class ArticleService
      */
     public static function chargeLike($user_id, $article_id, $data)
     {
-        $result = self::$likeStore->updateData(['user_id' => $user_id, 'article_id' => $article_id], $data);
+        $result = self::$likeStore->updateData(['user_id' => $user_id, 'action_id' => $article_id], $data);
         if ($result) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '操作失败'];
     }
