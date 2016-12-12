@@ -133,7 +133,7 @@ class ArticleService
     public function getData($guid)
     {
         $data = self::$sendStore->getOneData(["guid" => $guid]);
-
+        dd($this->getLikeNum($guid));
         if($data) return ['StatusCode' => '200', 'ResultData' => $data];
 
         return ['StatusCode' => '201', 'ResultData' => '文章信息获取失败'];
