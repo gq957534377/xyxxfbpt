@@ -457,8 +457,6 @@ class UserService {
      */
     public function applyRole($data)
     {
-        // 检验数据
-        if(empty($data)) return ['status' => '400','msg' => '请填写完整信息！'];
         // 查看该用户是否已申请
         $info= self::$roleStore->getRole(['guid' => $data['guid']]);
         // 查询不为空
