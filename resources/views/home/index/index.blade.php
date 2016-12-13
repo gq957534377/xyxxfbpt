@@ -15,34 +15,36 @@
                 <div id="carousel-example-generic" class="carousel slide animated rotateInUpLeft" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                        @foreach($cooper as $key => $val)
+                            @if($key == 0)
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            @else
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            @endif
+                        @endforeach
                     </ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <img src="{{ asset('home/img/demoimg/index_nav_img.jpg') }}" alt="...">
-                            <div class="carousel-caption">
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{ asset('home/img/demoimg/banner.png') }}" alt="...">
-                            <div class="carousel-caption">
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{ asset('home/img/demoimg/index_nav_img.jpg') }}" alt="...">
-                            <div class="carousel-caption">
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{ asset('home/img/demoimg/banner.png') }}" alt="...">
-                            <div class="carousel-caption">
-                            </div>
-                        </div>
+
+
+                        @foreach($cooper as $key => $val)
+                            @if($key == 0)
+                                <div class="item active">
+                                    <img src="{{ $val->url }}" alt="...">
+                                    <div class="carousel-caption">
+                                    </div>
+                                </div>
+                            @else
+                                <div class="item">
+                                    <img src="{{ $val->url }}" alt="...">
+                                    <div class="carousel-caption">
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+
+
                     </div>
 
                     <!-- Controls -->

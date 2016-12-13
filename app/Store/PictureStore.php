@@ -41,6 +41,18 @@ class PictureStore
             ->where($where)
             ->get();
     }
+    /**
+     * 得到所有未删除的数据
+     * @param $where
+     * @return bool
+     * @author 王通
+     */
+    public function getPictureAll ()
+    {
+        return DB::table(self::$table)
+            ->where('state', '<>', 4)
+            ->get();
+    }
 
     /**
      * 删除指定ID的数据
