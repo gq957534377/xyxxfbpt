@@ -33,7 +33,7 @@ class PolicyController extends Controller
     public function index()
     {
         $res = self::$articleServer->selectByType(2);
-        return view('home.article.market', $res);
+        return view('home.article.index', $res);
     }
 
 
