@@ -6,7 +6,6 @@
         position: absolute;
         display: none;
     }
-
     #alert-info {
         padding-left: 10px;
     }
@@ -24,20 +23,11 @@
         height: 80%;
     }
 
-    .uploadify {
-        display: inline-block;
+    .btn {
+        border-radius: 7px;
+        padding: 6px 16px;
     }
 
-    .uploadify-button {
-        border: none;
-        border-radius: 5px;
-        margin-top: 8px;
-    }
-
-    table.add_tab tr td span.uploadify-button-text {
-        color: #FFF;
-        margin: 0;
-    }
 </style>
 <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
 <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
@@ -499,7 +489,8 @@
             </div>
             <div class="col-md-4">
                 <select class="form-control" id="xz_type" name="xz_type">
-                    <option value="1">路演</option>
+                    <option value="null">所有</option>
+                    <option value="1">路演活动</option>
                     <option value="2">比赛</option>
                     <option value="3">学习</option>
                 </select>
@@ -511,11 +502,12 @@
 
 
         <br>
-        <button class="btn-primary" onclick="listType(list_type,1)">报名中</button>
-        <button class="btn-danger" onclick="listType(list_type,2)">活动进行中...</button>
-        <button class="btn-primary" onclick="listType(list_type,3)">往期回顾</button>
-        <button class="btn-primary" onclick="listType(list_type,4)">回收站</button>
-        <button class="btn-primary" onclick="listType(list_type,5)">报名截止，等待开始</button>
+        <button class="btn btn-success status1" data-status="1">报名中</button>
+        <button class="btn btn-default status1" data-status="2">活动进行中...</button>
+        <button class="btn btn-default status1" data-status="3">往期回顾</button>
+        <button class="btn btn-default status1" data-status="4">回收站</button>
+        <button class="btn btn-default status1" data-status="5">报名截止，等待开始</button>
+        <center><h1 id="list_title">报名中</h1></center>
     </div>
     <div class="panel" id="data"></div>
 </div>
@@ -820,7 +812,13 @@
             }
         };
 
-
+        //活动状态选择
+        $('.status1').off('click').on('click', function () {
+            $('.status1').removeClass('btn-success').addClass('btn-default');
+            $(this).addClass('btn-success');
+            $('#list_title').html($(this).html());
+            listType(list_type, $(this).data('status'));
+        });
 
 
         //列表活动类型设置
@@ -833,7 +831,7 @@
 
         //分类查看数据
         $('#chakan').click(function () {
-            listType($('#xz_type').val(), 1);
+            listType($('#xz_type').val(), list_status);
         });
 
         {{--修改活动--}}
