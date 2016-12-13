@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use Illuminate\Support\Facades\Input;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
@@ -51,7 +48,13 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $data['user'] = 1;
+        $data['status'] = 1;
+        $data['author'] = session('manager')->email;
+        $data['headPic'] = "/admin/images/logo.jpg";
+
         $result = self::$articleServer->insertData($data);
+
         if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
     }
@@ -65,7 +68,7 @@ class ArticleController extends Controller
     public function show(Request $request, $id)
     {
         $user = $request->input('user');
-        $result = self::$articleServer->getData($id,$user);
+        $result = self::$articleServer->getData($id);
         if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
     }
@@ -106,15 +109,13 @@ class ArticleController extends Controller
     }
 
     /**
-     * 获取报名情况表信息
+     *
      *
      * @return array
      * @author 郭庆
      */
     public function destroy($id)
     {
-        $result = self::$articleServer->getOrderInfo($id);
-        if($result["status"]) return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+
     }
 }
