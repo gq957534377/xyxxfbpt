@@ -49,7 +49,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/upload','ActionController@upload');
         //内容管理
         Route::resource('/article', 'ArticleController');
-
+        Route::resource('/banner','ArticleController@bannerpic');
         // 网站管理
         Route::resource('/web_admins/uploadlogo', 'WebAdminstrationController@uploadLogo');
         Route::resource('/web_admins/uploadqrcode', 'WebAdminstrationController@uploadQRcode');

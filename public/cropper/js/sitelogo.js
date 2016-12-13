@@ -310,9 +310,10 @@
     cropDone: function () {
       this.$avatarForm.get(0).reset();
       this.$avatar.attr('src', this.url);
-      $('input[name="syb_card_pic"]').val(this.url);
+      $('input[name="banner"]').val(this.url);
       this.stopCropper();
       this.$avatarModal.modal('hide');
+        $('.modal').css('overflow-y', 'auto');
     },
 
     alert: function (msg) {
@@ -326,7 +327,14 @@
       this.$avatarUpload.after($alert);
     }
   };
-
+    $('.close').click(function(){
+        $('.modal').css('overflow-y', 'auto');
+    });
+    $(document).keydown(function (event) {
+        if (event.keyCode == 27) {
+            $('.modal').css('overflow-y', 'auto');
+        }
+    });
   $(function () {
     return new CropAvatar($('#crop-avatar'));
   });

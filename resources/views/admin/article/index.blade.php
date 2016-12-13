@@ -13,6 +13,8 @@
     .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
     table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
 </style>
+<link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
+<link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
     @endsection
 @section('content')
 @section('title', '内容管理')
@@ -62,17 +64,25 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="field-5" class="control-label">缩略图</label>
-                                <input type="text" size="50" style="width: 150px;" class="lg"  id="banner" name="banner" disabled="true">
-                                <input id="file_upload" name="file_upload" type="file" multiple="true">
-                                <img src="" id="article_thumb_img" style="max-width: 350px;max-height: 110px;">
+                        <div class="col-md-12">
+                            <div class="form-group mar-b30">
+                                <label for="inputfile" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>缩略图</label>
+                                <input type="hidden" name="banner">
+                                <div class="col-md-5">
+                                    <div class="ibox-content">
+                                        <div class="row">
+                                            <div id="crop-avatar" class="col-md-6">
+                                                <div class="avatar-view" title="">
+                                                    <img src="{{ asset('home/img/upload-card.png') }}" id="article_thumb_img" alt="Logo" style="width: 200px;height: 150px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="field-1" class="control-label">文章来源</label>
                                 <input type="text" class="form-control" id="source" name="source" placeholder="article source...">
@@ -133,18 +143,27 @@
                                 <input type="text" class="form-control" id="xg_title" name="title" placeholder="article title...">
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="form-group mar-b30">
+                                <label for="inputfile" class="col-md-2 pad-cr"><span class="form-star">*</span>缩略图</label>
+                                <input type="hidden" name="banner">
+                                <div class="col-md-10">
+                                    <div class="ibox-content">
+                                        <div class="row">
+                                            <div id="crop-avatar2" class="col-md-12">
+                                                <div class="avatar-view" title="">
+                                                    <img src="{{ asset('home/img/upload-card.png') }}" id="charge_thumb_img" alt="Logo" style="width: 200px;height: 150px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="field-5" class="control-label">缩略图</label>
-                                <input type="text" size="50" style="width: 150px;" class="lg" name="banner" id="charge_banner" disabled="true">
-                                <input id="file_charge" name="file_upload" type="file" multiple="true">
-                                <img src="" id="charge_thumb_img" style="max-width: 350px;max-height: 110px;">
-                            </div>
-                        </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="field-1" class="control-label">文章来源</label>
                                 <input type="text" class="form-control" id="xg_source" name="source" placeholder="article source...">
@@ -277,7 +296,7 @@
     </div>
     <div class="panel" id="data"></div>
 </div>
-
+@include('admin.public.banner')
 @endsection
 @section('script')
     <!--引用ajax模块-->
@@ -290,9 +309,9 @@
     {{--富文本--}}
     <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
     <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
-    {{--图片上传--}}
-    <script src="{{url('uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
+    {{--图片剪切--}}
+    <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
+    <script src="{{asset('cropper/js/sitelogo.js')}}"></script>
     <script type="text/javascript">
         //富文本配置
         var toolbra     = {
@@ -351,8 +370,6 @@
         var list_status = 1;//文章状态：1：已发布 2：待审核 3：已下架
         var list_user = 1;//用户类型：1：管理员  2：普通用户
 
-        var swf         = 'uploadify/uploadify.swf';//图片上传
-        var uploader    = '/upload';//图片上传请求路由
         //验证规则
         var rules       = {
             type: {
@@ -400,45 +417,6 @@
             }
         };
 
-        //图片上传
-        $(function () {
-            //发布活动图片上传
-            $('#file_upload').uploadify({
-                'buttonText'      : '选择图片',
-                'formData'        : {
-                    'timestamp': new Date().getTime(),
-                    '_token'   : token
-                },
-                'swf'             : swf,
-                'uploader'        : uploader,
-                'onUploadSuccess' : function (file, data, response) {
-                    var data = JSON.parse(data);
-                    $('#banner').val(data.res);
-                    $('#action_thumb_img').attr('src', data.res);
-                },
-                'onUploadError'   : function (file, errorCode, errorMsg, errorString) {
-                    alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
-                }
-            });
-            //修改活动-图片上传
-            $('#file_charge').uploadify({
-                'buttonText'      : '修改图片',
-                'formData'        : {
-                    'timestamp' : new Date().getTime(),
-                    '_token'    : token
-                },
-                'swf'             : swf,
-                'uploader'        : uploader,
-                'onUploadSuccess' : function (file, data, response) {
-                    var data = JSON.parse(data);
-                    $('#charge_banner').val(data.res);
-                    $('#charge_thumb_img').attr('src', data.res);
-                },
-                'onUploadError'   : function (file, errorCode, errorMsg, errorString) {
-                    alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
-                }
-            });
-        });
         //列表文章类型设置
         function listType(type,status,user) {
             list_type = type;
@@ -602,7 +580,7 @@
                                     $('#yz_fb').find('input[name=title]').val('');
                                     $('#yz_fb').find('input[name=source]').val('');
                                     $('#yz_fb').find('input[name=banner]').val('');
-                                    $('#article_thumb_img').attr('src','');
+                                    $('#article_thumb_img').attr('src','home/img/upload-card.png');
                                     $('#yz_fb').find('textarea[name=brief]').val('');
                                     ue.setContent('');
                                     list(resul.type,list_status,list_user);

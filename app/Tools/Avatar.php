@@ -108,6 +108,4 @@ class Avatar{
 
         return ['status' => '200','msg' => $info['url']];
     }
-
-
 }

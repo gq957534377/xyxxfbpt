@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Tools\Avatar;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
-use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
 
@@ -117,5 +118,31 @@ class ArticleController extends Controller
     public function destroy($id)
     {
 
+    }
+
+    /**
+     * 上传图片到七牛
+     * @param $request
+     * @return array
+     * @author 郭庆
+     */
+    public function bannerPic(Request $request)
+    {
+        //数据验证过滤
+        $validator = \Validator::make($request->all(),[
+            'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
+        ],[
+            'avatar_file.required' => '上传文件为空!',
+            'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
+
+        ]);
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        //上传
+        $info = Avatar::avatar($request);
+        if ($info['status'] == '400') return response()->json(['StatusCode' => '400','ResultData' => '文件上传失败!']);
+        $avatarName = $info['msg'];
+
+        return response()->json(['StatusCode' => '200','ResultData' => $avatarName]);
     }
 }
