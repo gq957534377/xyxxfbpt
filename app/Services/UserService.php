@@ -458,9 +458,9 @@ class UserService {
     public function applyRole($data)
     {
         // 查看该用户是否已申请
-        $info= self::$roleStore->getRole(['guid' => $data['guid']]);
+//        $info= self::$roleStore->getRole(['guid' => $data['guid']]);
         // 查询不为空
-        if(!empty($info)) return ['status' => '400','msg' => '已申请'];
+//        if(!empty($info)) return ['status' => '400','msg' => '已申请'];
         //提交数据
         $result = self::$roleStore->addRole($data);
         // 返回信息处理
@@ -469,9 +469,7 @@ class UserService {
         // 申请成功后，根据新的用户信息对data_user_info表进行一次数据覆盖更新
         $user = [];
         $user['realname'] = $data['realname'];
-        $user['birthday'] = $data['birthday'];
-        $user['sex'] = $data['sex'];
-        $user['hometown'] = $data['hometown'];
+
         $result = self::$userStore->updateUserInfo(['guid' => $data['guid']],$user);
         
         return ['status' => '200','msg' => '申请成功，请等待管理员的审核！'];

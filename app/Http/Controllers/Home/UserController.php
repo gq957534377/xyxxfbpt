@@ -210,7 +210,7 @@ class UserController extends Controller
         if ($validator->fails()) return response()->json(['StatusCode' => 400,'ResultData' => $validator->errors()->all()]);
         //上传
         $info = Avatar::avatar($request);
-       
+        dd($info);
         if ($info['status'] == '400') return response()->json(['StatusCode' => 400,'ResultData' => '文件上传失败!']);
         $avatarName = $info['msg'];
 

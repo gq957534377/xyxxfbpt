@@ -4,6 +4,8 @@
 
 @section('style')
     <link href="{{ asset('home/css/user_center_identity-info.css') }}" rel="stylesheet">
+    <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
 @endsection
 
 @section('content')
@@ -92,9 +94,17 @@
                     </div>
                     <div class="form-group mar-b30">
                         <label for="inputfile" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>上传身份证（正面）</label>
+                        <input type="hidden" name="syb_card_pic">
                         <div class="col-md-5">
-                            <input type="button" onclick="inputfileSyb.click()" id="upload-button-1" class="upload-button zxz">
-                            <input name="syb_card_pic" type="file" id="inputfileSyb" class="hidden">
+                            <div class="ibox-content">
+                                <div class="row">
+                                    <div id="crop-avatar" class="col-md-6">
+                                        <div class="avatar-view" title="">
+                                            <img src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -167,8 +177,18 @@
                     <div class="form-group mar-b30">
                         <label for="inputfile" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>上传名片</label>
                         <div class="col-md-5">
-                            <input type="button" onclick="inputfile.click()" id="upload-button" class="upload-button zxz">
-                            <input type="file" id="inputfile" class="hidden">
+                            <input type="hidden" name="syb_card_pic">
+                            <div class="col-md-5">
+                                <div class="ibox-content">
+                                    <div class="row">
+                                        <div id="crop-avatar2" class="col-md-6">
+                                            <div class="avatar-view" title="">
+                                                <img src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -182,12 +202,15 @@
         </div>
         <!--申请成为投资者表单结束-->
 
+        @include('home.public.card')
     </div>
     <!--我的身份结束-->
 @endsection
 
 @section('script')
     <script src="{{ asset('home/js/user/applySybValidate.js') }}"></script>
+    <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
+    <script src="{{asset('cropper/js/sitelogo.js')}}"></script>
 <script>
     // tabs 切换
     $('.tabs_btn').click(function(){
