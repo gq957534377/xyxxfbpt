@@ -658,11 +658,9 @@
         <section id="section7" class="font-size">
             <h2>英雄会合作机构</h2>
             <ul class="row">
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
+                @foreach($carousel as $val)
+                <li class="col-sm-2"><a href="{{ $val->pointurl }}"><img src="{{ $val->url }}"></a></li>
+                @endforeach
             </ul>
         </section>
         <!----英雄会友情机构结束----->
@@ -676,86 +674,18 @@
         <section id="section9" class="font-size">
             <h2>英雄会顶级投资机构联盟</h2>
             <ul class="row">
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
+                @foreach($invest as $val)
+                    <li class="col-sm-2">
+                        <img src="{{ $val->url }}"/>
+                        <a href="{{ $val->pointurl }}">
+                            <div>
+                                <img src="{{ asset('home/img/cross.png') }}"/>
+                            </div>
+                        </a>
+                    </li>
+                @endforeach
+
+
             </ul>
         </section>
     </div>

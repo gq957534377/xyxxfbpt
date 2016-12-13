@@ -296,6 +296,7 @@ class ArticleService
      * @param $data
      * @return array
      * @author 郭庆
+     * @modify 王通
      */
     public static function comment($data)
     {
@@ -308,17 +309,54 @@ class ArticleService
     }
 
     /**
+     * 分页查询 得到指定类型的数据
+     * @param $request
+     * @return array
+     * @author 王通
+     */
+    public function selectTypeData($data)
+    {
+
+
+        $forPages = 10;          // 每页数据数
+        $where = $data;
+        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
+        unset($where['nowPage']);
+        unset($where['totalPage']);
+        $creatPage = Common::getPageUrlsUN($data, "data_send_info", "/send", $forPages, null, $where);
+        if(isset($creatPage)){
+            $result["pages"] = $creatPage['pages'];
+        }else{
+            return ['StatusCode' => '403', 'ResultData' => '生成分页样式发生错误'];
+        }
+
+        $Data = self::$sendStore->forPage($nowPage, $forPages, $where);
+        // 判断有没有分页数据
+        if(!empty($Data)){
+            $result["data"] = $Data;
+            return ['StatusCode' => '200', 'ResultData' => $result];
+        }else{
+            return ['StatusCode' => '200', 'ResultData' => $result];
+        }
+    }
+
+    /**
      * 获取指定用户所发表的所有文章
      * @param $id
      * @param $status
      * @return array
      * @author 郭庆
+     * @modify 王通
      */
     public static function getArticleByUser($id, $status)
     {
         $result = self::$sendStore->getData(['user_id' => $id, 'status' => $status]);
-        if($result) return ['status' => true, 'msg' => $result];
-        return ['status' => false, 'msg' => $result];
+        if($result) {
+            return ['StatusCode' => '200', 'ResultData' => $result];
+        } else {
+            return ['StatusCode' => '201', 'ResultData' => '没有数据'];
+        }
+
     }
 
     /**
