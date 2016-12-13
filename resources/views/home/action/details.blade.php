@@ -19,12 +19,19 @@
         <p class="mar-emt60 mar-b15">已报名{{ $data->people }}人</p>
 
         <!--两个按钮按照情况只显示一个-->
-        <button type="button" class="btn btn-primary bgc-2 b-n btn-1">我要报名</button>
-        <button type="button" class="btn btn-info b-n disabled">报名结束</button>
-
+        @if($data->status == 1)
+            @if(!$isHas)
+        <button id="js_enroll" type="button" class="btn btn-primary bgc-2 b-n btn-1">我要报名</button>
+            @else
+                <button style="background: #3E8CE6;" type="button" class="btn btn-primary bgc-2 b-n btn-1">已报名</button>
+            @endif
+        @elseif($data->status == 5)
+            <button type="button" class="btn btn-info b-n disabled">报名截止</button>
+        @elseif($data->status == 2)
+            <button type="button" class="btn btn-info b-n disabled">活动已开始</button>
+        @endif
     </section>
     <!--活动详情banner 结束-->
-
     <!--活动说明 & 评论 开始-->
     <section class="container">
         <span class="content-bar dis-in-bl mar-5 fs-18">活动说明</span>
@@ -92,7 +99,6 @@
                 </div>
             </div>
             <!--活动说明 结束-->
-
             <!--活动评论 开始-->
             <div class="col-md-3 col-lg-3 road-comment road-banner pl-block">
                 <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">评论</h2>
@@ -143,7 +149,52 @@
     </section>
     <!--活动说明 & 评论 结束-->
 @endsection
-
 @section('script')
-
+    <script>
+        @if($isLogin)
+        $('#js_enroll').click(function(){
+            var obj = $(this);
+            $.ajax({
+                type:'post',
+                url:"{{route('action.store')}}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{user_id:"{{session('user')->guid}}",action_id:"{{$data->guid}}"},
+                success:function (data) {
+                    switch (data.StatusCode){
+                        case '200':obj.html("已报名").css({background:"#3E8CE6"}).unbind("click");break;
+                        case '400':alert(data.ResultData);break;
+                    }
+                }
+            })
+        });
+        $('.collect').click(function () {
+            var obj = $(this);
+            $.ajax({
+                type:"get",
+                url:"/article/{{$data->guid}}/edit",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success:function (data) {
+                    switch (data.StatusCode){
+                        case '200':obj.html("已收藏").unbind("click").parent('p').addClass('taoxin');break;
+                        case '400':alert(data.ResultData);break;
+                    }
+                }
+            })
+        })
+        @else
+            $('#js_enroll').click(function(){
+                login();
+        });
+            $('.collect').click(function () {
+                    login()
+            });
+        @endif
+        function login() {
+            window.location.href = "{{route('login.index')}}"
+        }
+    </script>
 @endsection

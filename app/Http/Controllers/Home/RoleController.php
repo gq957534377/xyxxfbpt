@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Services\UserService as UserServer;
 use App\Services\UploadService as UploadServer;
+use App\Tools\Avatar;
 
 class RoleController extends Controller
 {
@@ -82,6 +83,7 @@ class RoleController extends Controller
 
         // 提交数据到业务服务层
         $info = self::$userServer->applyRole($data);
+        dd($info);
         // 返回状态信息
         switch ($info['status']){
             case '400':
@@ -136,5 +138,31 @@ class RoleController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * 上传图片文件
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
+    public function cardPic(Request $request)
+    {
+        //数据验证过滤
+        $validator = Validator::make($request->all(),[
+            'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
+        ],[
+            'avatar_file.required' => '上传文件为空!',
+            'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
+
+        ]);
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        //上传
+        $info = Avatar::avatar($request);
+        if ($info['status'] == '400') return response()->json(['StatusCode' => '400','ResultData' => '文件上传失败!']);
+        $avatarName = $info['msg'];
+
+        return response()->json(['StatusCode' => '200','ResultData' => $avatarName]);
     }
 }

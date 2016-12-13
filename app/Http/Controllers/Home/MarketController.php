@@ -40,14 +40,15 @@ class MarketController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * 添加评论
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
@@ -61,7 +62,16 @@ class MarketController extends Controller
     public function show($id)
     {
         $res = self::$articleServer->getData($id);
-
+        // 判断有没有文章信息
+        if ($res['StatusCode'] == '200') {
+            $comment = self::$articleServer->getComment($id, 3);
+            // 判断有没有评论信息
+            if ($comment['StatusCode'] == '201') {
+                $res['ResultData']->comment = [];
+            } else {
+                $res['ResultData']->comment = $comment['ResultData'];
+            }
+        }
         return view('home.article.articlecontent', $res);
     }
 

@@ -56,8 +56,6 @@
                                                 路演活动
                                             @elseif($action->type == 2)
                                                 创业大赛
-                                            @else
-                                                英雄学院
                                             @endif
                                         </li>
                                         <li class="col-lg-6 col-md-6 col-sm-6 col-xs-9">{{ $action->author }}</li>

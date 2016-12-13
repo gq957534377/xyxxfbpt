@@ -4,7 +4,7 @@
 
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form class="avatar-form" action="/headpic" enctype="multipart/form-data" method="post">
+            <form class="avatar-form" action="/cardpic" enctype="multipart/form-data" method="post">
 
                 <div class="modal-header">
                     <button class="close" data-dismiss="modal" type="button">&times;</button>

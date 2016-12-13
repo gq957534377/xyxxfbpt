@@ -23,7 +23,7 @@ return [
 
         'mode'=>'local',//上传方式,local 为本地   qiniu 为七牛
 		
-		'baseurl'=>'http://localhost/laravel/public',// 设置网站的根路由(可访问到index.php的路由)
+		'baseurl'=>'',// 设置网站的根路由(可访问到index.php的路由)
 
         //七牛配置,若mode='qiniu',以下为必填.
         'qiniu'=>[
