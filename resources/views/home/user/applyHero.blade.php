@@ -34,5 +34,11 @@
 @endsection
 
 @section('script')
-
+    <script src="{{asset('home/js/ajaxRequire.js')}}"></script>
+    <script>
+        $('#toggle-popup').click(function(){
+            var guid = $('#topAvatar').data('id');
+            ajaxRequire();
+        });
+    </script>
 @endsection
