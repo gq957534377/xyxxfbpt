@@ -18,9 +18,12 @@
 <!-- skycons -->
 <script src="http://cdn.rooyun.com/js/skycons.min.js" type="text/javascript"></script>
 
+<!--Morris Chart-->
+<script src="http://cdn.rooyun.com/js/morris.min.js"></script>
+<script src="http://cdn.rooyun.com/js/raphael.min.js"></script>
 
-<!--引用ajax模块-->
-<script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
-<script src="JsService/Model/action/actionAjaxBeforeModel.js" type="text/javascript"></script>
-<script src="JsService/Model/action/actionAjaxSuccessModel.js" type="text/javascript"></script>
-<script src="JsService/Model/action/actionAjaxErrorModel.js" type="text/javascript"></script>
+<script src="http://cdn.rooyun.com/js/jquery.app.js"></script>
+
+<!-- Dashboard -->
+<script src="http://cdn.rooyun.com/js/jquery.dashboard.js"></script>
+
