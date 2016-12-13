@@ -82,8 +82,8 @@ class PictureService
             if (self::$picturestore->savePicture([
                 'url' => $res['msg'],
                 'state' => 5,
-                'pointurl' => $data['coopurl'],
-                'name' => $data['coopname']
+                'pointurl' => $data['invesurl'],
+                'name' => $data['invesname']
             ])) {
                 return ['StatusCode' => '200', 'ResultData' => '合作机构保存成功'];
             }
@@ -92,12 +92,28 @@ class PictureService
     }
 
     /**
-     * 得到所有轮播图
+     * 得到所有指定类型图片
      * @author 王通
      */
     public function getPicture ($val)
     {
         $res = self::$picturestore->getPicture(['state' => $val]);
+        // 判断有没有请求道数据
+        if (empty($res)) {
+            return ['StatusCode' => '201', 'ResultData' => '没有数据'];
+        } else {
+            return ['StatusCode' => '200', 'ResultData' => $res];
+        }
+    }
+
+    /**
+     * 得到所有图片
+     * @author 王通
+     */
+    public function getPictureAll ()
+    {
+        $res = self::$picturestore->getPictureAll();
+        // 判断有没有请求道数据
         if (empty($res)) {
             return ['StatusCode' => '201', 'ResultData' => '没有数据'];
         } else {

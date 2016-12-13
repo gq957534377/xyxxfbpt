@@ -15,34 +15,36 @@
                 <div id="carousel-example-generic" class="carousel slide animated rotateInUpLeft" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+                        @foreach($cooper as $key => $val)
+                            @if($key == 0)
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                            @else
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                            @endif
+                        @endforeach
                     </ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <img src="{{ asset('home/img/demoimg/index_nav_img.jpg') }}" alt="...">
-                            <div class="carousel-caption">
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{ asset('home/img/demoimg/banner.png') }}" alt="...">
-                            <div class="carousel-caption">
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{ asset('home/img/demoimg/index_nav_img.jpg') }}" alt="...">
-                            <div class="carousel-caption">
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="{{ asset('home/img/demoimg/banner.png') }}" alt="...">
-                            <div class="carousel-caption">
-                            </div>
-                        </div>
+
+
+                        @foreach($cooper as $key => $val)
+                            @if($key == 0)
+                                <div class="item active">
+                                    <img src="{{ $val->url }}" alt="...">
+                                    <div class="carousel-caption">
+                                    </div>
+                                </div>
+                            @else
+                                <div class="item">
+                                    <img src="{{ $val->url }}" alt="...">
+                                    <div class="carousel-caption">
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+
+
                     </div>
 
                     <!-- Controls -->
@@ -656,11 +658,9 @@
         <section id="section7" class="font-size">
             <h2>英雄会合作机构</h2>
             <ul class="row">
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
-                <li class="col-sm-2"><a href="#"><img src="{{ asset('home/img/demoimg/test2.jpg') }}"></a></li>
+                @foreach($carousel as $val)
+                <li class="col-sm-2"><a href="{{ $val->pointurl }}"><img src="{{ $val->url }}"></a></li>
+                @endforeach
             </ul>
         </section>
         <!----英雄会友情机构结束----->
@@ -674,86 +674,18 @@
         <section id="section9" class="font-size">
             <h2>英雄会顶级投资机构联盟</h2>
             <ul class="row">
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
-                <li class="col-sm-2">
-                    <img src="{{ asset('home/img/demoimg/test4.jpg') }}"/>
-                    <a href="#">
-                        <div>
-                            <img src="{{ asset('home/img/cross.png') }}"/>
-                        </div>
-                    </a>
-                </li>
+                @foreach($invest as $val)
+                    <li class="col-sm-2">
+                        <img src="{{ $val->url }}"/>
+                        <a href="{{ $val->pointurl }}">
+                            <div>
+                                <img src="{{ asset('home/img/cross.png') }}"/>
+                            </div>
+                        </a>
+                    </li>
+                @endforeach
+
+
             </ul>
         </section>
     </div>
