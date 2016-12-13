@@ -44,13 +44,12 @@ function listHtml(data){
         html += '<td>' + status(e.status)+'</td>';
         html += '<td>' + e.source+'</td>';
         html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#full-width-modal" style="margin-bottom: 6px">详情</button></a>';
-        if(!e.author){
+        if(e.user == 1){
             html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改文章</button>';
-        }else{
         }
-        if (e.status == 1) {
+        if (e.status == 1 && e.status != 2) {
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="3" class="status"><button class="btn-danger">禁用</button></a>';
-        } else if (e.status == 3) {
+        } else if (e.status == 3 && e.status != 2) {
             html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="1" class="status"><button class="btn-primary">启用</button></a>';
         }
         if (e.status == 2){
@@ -96,7 +95,7 @@ function type(type) {
             res = '政策';
             break;
         default:
-            res = '用户来稿';
+            res = '未知';
             break;
     }
     return res;

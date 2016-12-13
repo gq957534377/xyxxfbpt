@@ -20,13 +20,13 @@
             </li>
 
             <li class="has-submenu">
-                <a href="{{url('project_approval')}}"><i class="fa fa-dollar"></i> <span class="nav-label">众筹管理</span><span class="menu-arrow"></span></a>
+                <a href="{{url('project_approval')}}"><i class="fa fa-dollar"></i> <span class="nav-label">众筹管理</span></a>
             </li>
 
-            <li class="has-submenu"><a href="{{asset('/action')}}"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">活动管理</span><span class="menu-arrow"></span></a>
+            <li class="has-submenu"><a href="{{asset('/action')}}"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span class="nav-label">活动管理</span></a>
             </li>
 
-            <li class="has-submenu"><a href="{{asset('/article')}}"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">内容管理</span><span class="menu-arrow"></span></a>
+            <li class="has-submenu"><a href="{{asset('/article')}}"><i class="ion-android-book" aria-hidden="true"></i> <span class="nav-label">内容管理</span></a>
             </li>
             {{--项目发布--}}
             <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">项目发布管理</span><span class="menu-arrow"></span></a>
