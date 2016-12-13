@@ -207,4 +207,14 @@ class ArticleController extends Controller
 
         return response()->json($result);
     }
+
+    /**
+     * 评论详情页
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * author 张洵之
+     */
+    public function commentShow()
+    {
+        return view('home.comment.index');
+    }
 }
