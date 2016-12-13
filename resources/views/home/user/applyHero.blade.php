@@ -8,7 +8,7 @@
 
 @section('content')
     <!--琦立英雄会报名 开始-->
-    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 pad-clr bgc-1 pos-1">
+    <div id="applyHeroMemeberBox" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 pad-clr bgc-1 pos-1">
         <div class="center-block pad-5 text-center">
             <div class="banner-img text-center">
                 banner 图片<br>
@@ -38,7 +38,10 @@
     <script>
         $('#toggle-popup').click(function(){
             var guid = $('#topAvatar').data('id');
-            ajaxRequire();
+            var data = {
+                'role' : '4'
+            };
+            ajaxRequire('/identity/'+guid, 'PUT', data, $("#applyHeroMemeberBox"), 2);
         });
     </script>
 @endsection
