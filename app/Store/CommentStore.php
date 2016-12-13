@@ -49,9 +49,13 @@ class CommentStore{
      * @return mixed
      * @author 郭庆
      */
-    public static function getSomeData($where)
+    public static function getSomeData($where, $limit = 10)
     {
-        return DB::table(self::$table)->where($where)->get();
+        return DB::table(self::$table)
+            ->where($where)
+            ->orderBy('time', 'desc')
+            ->limit($limit)
+            ->get();
     }
     /**
      * 查询所有数据

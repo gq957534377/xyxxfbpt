@@ -23,4 +23,3 @@
 <script src="/admin/js/raphael.min.js"></script>
 
 <script src="/admin/js/jquery.app.js"></script>
-

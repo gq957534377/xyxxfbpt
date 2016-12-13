@@ -40,7 +40,15 @@ class ActionService
      * @param $type
      * @return array
      * @author 郭庆
+     * @modify 刘峻廷
      */
+    public function actionTypeData($type)
+    {
+        $data = self::$actionStore->getListData($type);
+
+        if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有本活动信息'];
+        return ['StatusCode' => '200', 'ResultData' => $data];
+    }
     public static function selectByType($type)
     {
         $data = self::$actionStore->getListData($type);

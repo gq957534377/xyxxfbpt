@@ -48,7 +48,7 @@ class ArticleController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *向文章表插入数据
+     * 向文章表插入数据
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * @author 郭庆
@@ -106,22 +106,29 @@ class ArticleController extends Controller
     public function edit(Request $request, $id)
     {
         $support = $request -> all();
-        $user_id = $request -> session() -> get('user')->guid;
+        if (empty(session('user'))) {
+            return view('home.login');
+        }
+        $user_id = session('user')->guid;
 
         //判断是否点赞了
-        $isHas = self::$articleServer->getLike($user_id,$id);
-        if($isHas['status']) {
-            if ($isHas['msg']->support == $support['support']) return ['StatusCode' => 400,  'ResultData' => '已经参与'];
-            $setLike = self::$articleServer->chargeLike($user_id, $id, $support);
+        $isHas = self::$articleServer->getLike($user_id, $id);
 
-            if ($setLike) return ['StatusCode' => 200,  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
-            return ['StatusCode' => 400,  'ResultData' => '点赞失败'];
+        if($isHas['status']) {
+            if ($isHas['msg']->support == 1) {
+                $setLike = self::$articleServer->chargeLike($user_id, $id, ['support' => 2]);
+            } else {
+                $setLike = self::$articleServer->chargeLike($user_id, $id, ['support' => 1]);
+            }
+
+            if ($setLike) return ['StatusCode' => '200',  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
+            return ['StatusCode' => '400',  'ResultData' => '点赞失败'];
         }else{
 
             //没有点赞则加一条新记录
-            $result = self::$articleServer -> setLike(['support' => $support['support'], 'article_id' => $id, 'user_id' => $user_id]);
-            if($result['status']) return ['StatusCode' => 200,  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
-            return ['StatusCode' => 400, 'ResultData' => '点赞失败'];
+            $result = self::$articleServer -> setLike(['support' => 1, 'action_id' => $id, 'user_id' => $user_id]);
+            if($result['status']) return ['StatusCode' => '200',  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
+            return ['StatusCode' => '400', 'ResultData' => '点赞失败'];
         }
     }
 
@@ -162,5 +169,42 @@ class ArticleController extends Controller
     public function destroy($id)
     {
 
+    }
+
+    /**
+     * 新增评论
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     * @author 王通
+     */
+    public function setComment (Request $request)
+    {
+        // 验证参数
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|max:150',
+            'action_id' => 'required',
+        ], [
+            'content.required' => '评论内容不能为空',
+            'action_id.required' => '非法请求',
+            'content.max' => '评论过长',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        }
+        $data = $request->all();
+
+        $data['user_id'] = session('user')->guid;
+        $result = self::$articleServer->comment($data);
+        $comment = self::$articleServer->getComment($data['action_id'], 1);
+        // 判断有没有请求道评论数据
+        if ($comment['StatusCode'] == '200') {
+            $result['ResultData'] = $comment['ResultData'][0];
+        } else {
+            return response()->json(['StatusCode' => '201', 'ResultData' => '数据出错']);
+        }
+
+        return response()->json($result);
     }
 }

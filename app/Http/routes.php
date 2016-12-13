@@ -103,11 +103,26 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/action', 'ActionController');
     //文章内容页
     Route::resource('/article', 'ArticleController');
+
+    Route::resource('/article/setcomment', 'ArticleController@setComment');
+
+    //学院内容页
+    Route::resource('/school', 'SchoolController');
+
+    // 市场咨询
+    Route::resource('/market', 'MarketController');
+    // 创业政策
+    Route::resource('/policy', 'PolicyController');
+
+    // openIM 阿里云旺
+    Route::resource('/openim', 'OpenIMController');
+
     //中间件，检验是否登录
     Route::group(['middleware'=>'HomeMiddleware'],function(){
         //获取角色信息
         Route::get('/roleinfo/{id}','UserController@roleInfo');
         // 用户角色
+        Route::resource('/cardpic','RoleController@cardpic');
         Route::resource('/identity','RoleController');
         // 申请角色视图
         Route::get('/user/apply/{param}','UserController@apply');
@@ -136,8 +151,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/upload','ActionController@upload');
 
 
-        // openIM 阿里云旺
-        Route::resource('/openim', 'OpenIMController');
+
 
     });
 

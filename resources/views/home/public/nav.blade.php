@@ -19,14 +19,14 @@
                         <li><a href="#">众筹项目</a></li>
                     </ul>
                 </li>
-                <li><a href="#">英雄学院</a></li>
-                <li><a href="#">市场咨询</a></li>
-                <li><a href="#">创业政策</a></li>
+                <li><a href="{{route('school.index')}}">英雄学院</a></li>
+                <li><a href="/market">市场咨询</a></li>
+                <li><a href="/policy">创业政策</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">路演活动<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">路演活动</a></li>
-                        <li><a href="#">创业大赛</a></li>
+                        <li><a href="{{ route('action.index', ['type' => '1']) }}">路演活动</a></li>
+                        <li><a href="{{ route('action.index', ['type' => '2']) }}">创业大赛</a></li>
                     </ul>
                 </li>
             </ul>

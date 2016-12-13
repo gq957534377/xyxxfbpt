@@ -4,22 +4,20 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use App\Services\OpenIMService;
+use App\Services\ActionService as ActionServer;
+use App\Services\UserService as UserServer;
 
-class OpenIMController extends Controller
+class SchoolController extends Controller
 {
-
-    protected static $openim;
-    /**
-     * 单例引入
-     * OpenIMService constructor.
-     * @param OpenIMStore $openim
-     */
-    public function __construct(OpenIMService $openim)
+    protected  static $actionServer;
+    protected  static $userServer;
+    public function __construct(ActionServer $actionServer, UserServer $userServer)
     {
-        self::$openim = $openim;
+        self::$actionServer = $actionServer;
+        self::$userServer = $userServer;
     }
     /**
      * Display a listing of the resource.
@@ -28,20 +26,25 @@ class OpenIMController extends Controller
      */
     public function index()
     {
-        if (!empty(session('user')->guid)) {
-            $uid = session('user')->guid;
-            $nick = session('user')->nickname ? session('user')->nickname : session('user')->tel;
-            $icon_url = session('user')->headpic ? session('user')->headpic : null;
-            $mobile = session('user')->tel;
-        } else {
-            $uid = time() . '' . mt_rand(1,1000);
-            $nick = '游客';
-            $icon_url =  null;
-            $mobile = null;
+        $type = 3;
+        $result = self::$actionServer->actionTypeData($type);
+        if($result["StatusCode"] == '200'){
+            foreach ($result['ResultData'] as $v){
+                $status = self::$actionServer->setStatusByTime($v);
+                if ($status['status']){
+                    if (!is_string($status['msg'])){
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        if (!$chage['status']){
+                            Log::info("普通用户第一次请求更改活动状态失败".$v->guid.':'.$chage['msg']);
+                        }else{
+                            $v->status = $status['msg'];
+                        }
+                    }
+                }
+            }
+            return view('home.school.index', ['schooldata' => $result['ResultData']]);
         }
-
-        $res = self::$openim->getOpenIM($uid, $nick, $icon_url, $mobile);
-        return response()->json($res);
+        return view('home.school.index');
     }
 
     /**

@@ -46,7 +46,7 @@ class OpenIMService
      * @param $id
      * @return array
      */
-    public function getOpenIM ($uid)
+    public function getOpenIM ($uid, $nick, $icon_url, $mobile)
     {
 
         $res = self::$openim->getInfo(['user' => md5($uid)]);
@@ -66,7 +66,7 @@ class OpenIMService
             $res = self::$openim->insertInfo(['user' => $userid, 'password' => $pwd]);
             // 判断是否插入成功
             if (!empty($res)) {
-                $rest = $this->userToIM($userid, $pwd);
+                $rest = $this->userToIM($userid, $pwd, $nick, $icon_url, $mobile);
                 // 判断是否写入IM服务器成功
                 if (!empty($rest->code)) {
                     return ['StatusCode' => '400', 'ResultData' =>$rest->sub_msg];
@@ -82,16 +82,16 @@ class OpenIMService
      * 把用户信息写入到IMservice
      *
      */
-    public function userToIM ($userid, $password)
+    public function userToIM ($userid, $password, $nick, $icon_url, $mobile)
     {
         $c = new TopClient;
         $c->appkey = '23560564';
         $c->secretKey = '46c48f104f5a2a516e2b5e0ae2a3cac8';
         $req = new OpenimUsersAddRequest;
         $userinfos = new Userinfos;
-        $userinfos->nick = session('user')->nickname ? session('user')->nickname : session('user')->tel;
-        $userinfos->icon_url = session('user')->headpic ? session('user')->headpic : null;
-        $userinfos->mobile = session('user')->tel;
+        $userinfos->nick = $nick;
+        $userinfos->icon_url = $icon_url;
+        $userinfos->mobile = $mobile;
 
         $userinfos->userid = $userid;
         $userinfos->password = $password;

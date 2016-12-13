@@ -117,4 +117,15 @@ class WebAdminService
             return ['status' => '200','msg' => $info['msg']];
         }
     }
+
+    public function getWebInfo ()
+    {
+        $obj = self::$webAdminStore->getWebInfo();
+
+        if (!empty($obj)) {
+            return ['StatusCode' => '200', 'ResultData' => $obj];
+        } else {
+            return ['StatusCode' => '400', 'ResultData' => '查询失败'];
+        }
+    }
 }

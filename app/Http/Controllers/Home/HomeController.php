@@ -8,12 +8,14 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\ProjectService as ProjectServer;
 use App\Services\ActionService as ActionServer;
+use App\Services\WebAdminService;
 
 
 class HomeController extends Controller
 {
     protected static $projectServer = null;
     protected static $actionServer = null;
+    protected static $webAdmin = null;
 
     /**
      * 构造函数注入
@@ -21,10 +23,11 @@ class HomeController extends Controller
      * @param ProjectService $projectServer
      * @ author 刘峻廷
      */
-    public function __construct(ProjectServer $projectServer, ActionServer $actionServer)
+    public function __construct(ProjectServer $projectServer, ActionServer $actionServer, WebAdminService $webAdmin)
     {
         self::$projectServer = $projectServer;
         self::$actionServer = $actionServer;
+        self::$webAdmin = $webAdmin;
     }
 
     /**
@@ -47,6 +50,9 @@ class HomeController extends Controller
         // 学习培训活动
         $trainResult = self::$actionServer->takeActions(3, null, 2);
         self::$actionServer->wordLimit($trainResult['msg'], 'brief',60);
+
+        // 轮播图，投资合作管理，
+        $webAdminResult = self::$webAdmin->getAllWebConf();
 
         $projects = $projectResult['msg'];
         $roadShows  = $roadShowResult['msg'];
