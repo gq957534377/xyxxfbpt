@@ -41,7 +41,7 @@ img {
     max-width: 100%;
 }
 
-.change-row-margin {
+body .change-row-margin {
     margin-left: -30px;
     margin-right: -30px;
 }
@@ -97,6 +97,7 @@ header {
     display: block;
     max-width: 3em;
 }
+
 /** 登录后的头像样式  刘峻廷
 ************/
 .top-right > ul:first-child {
@@ -257,7 +258,23 @@ footer {
 .bgc-5 {
     background-color: #F0F1F6;
 }
+.bgc-6 {
+    background-color: #f3f3f3;
+}
+.bgc-7 {
+    background-color: rgb(244, 67, 0);
+}
 
+/*消息消息提示框样式 开始*/
+.message-box {}
+.message-box .modal-dialog {
+    max-width: 400px;
+    margin: 300px auto 0 auto;
+}
+.message-box .modal-content {
+    border-radius: 0;
+}
+/*消息消息提示框样式 结束*/
 
 /*边框*/
 .b-n {
@@ -273,24 +290,20 @@ footer {
     border-bottom: 1px dotted #cccccc;
 }
 .b-all-1 {
-    border: 1px solid #333333;
+    border: 1px solid #e3e3e3;
+}
+.b-all-2 {
+    border: 1px solid #8f8f8f;
 }
 .br-1 {
     border-right: 1px solid #f3f3f3;
 }
-
-.bb-2 {
-    border-bottom: 1px solid #cccccc;
+/*分页按钮样式 开始*/
+body .list-inline > li {
+    padding: 2px 9px;
+    border: 1px solid #e3e3e3;
 }
-.bb-3 {
-    border-bottom: 1px dotted #cccccc;
-}
-.b-all-1 {
-    border: 1px solid #333333;
-}
-.br-1 {
-    border-right: 1px solid #f3f3f3;
-}
+/*分页按钮样式 结束*/
 
 /*宽度*/
 .wid-1 {
@@ -298,6 +311,12 @@ footer {
 }
 .wid-2 {
     width: 90px;
+}
+.wid-3 {
+    width: 120px;
+}
+.wid-4 {
+    width: 75px;
 }
 
 /*字体大小*/
@@ -323,21 +342,50 @@ footer {
     font-size: 24px;
 }
 /*字体加粗*/
-.fw-1{
+.fw-0{
+    font-weight: normal;
+}
+.fw-1 {
     font-weight: bold;
 }
+.fw-900 {
+    font-weight: 900;
+}
+.fw-800 {
+    font-weight: 800;
+}
+.fw-700 {
+    font-weight: 700;
+}
+.fw-600 {
+    font-weight: 600;
+}
+.fw-500 {
+    font-weight: 500;
+}
 /*字体颜色*/
+.fs-c-0 {
+    color: #333333;
+}
 .fs-c-1 {
     color: #ffffff !important;
 }
 .fs-c-2 {
     color: #c7254e !important;
 }
-
 .fs-c-3 {
     color: red;
 }
-
+.fs-c-4 {
+    color: #8f8f8f;
+}
+.fs-c-5 {
+    color: #d3d3d3;
+}
+.fs-c-6 {
+    color: #ff9035;
+    vertical-align: top;
+}
 /*div li 超出文本用省略号*/
 .ellipse {
     display:block;
@@ -349,6 +397,9 @@ footer {
 /*padding*/
 .pad-cl {
     padding-left: 0 !important;
+}
+.pad-ct {
+    padding-top: 0;
 }
 .pad-cr {
     padding-right: 0 !important;
@@ -362,6 +413,9 @@ footer {
 }
 .pad-b7{
     padding-bottom: 7px;
+}
+.pad-emb5{
+    padding-bottom: 5em;
 }
 .pad-r10{
     padding-right: 10px;
@@ -393,6 +447,12 @@ footer {
 .pad-8 {
     padding: 1%;
 }
+.pad-9 {
+    padding: 1% 2.5% 4% 2.5%;
+}
+.pad-10 {
+    padding: 7px;
+}
 .pad-l2 {
     padding-left: 2px;
 }
@@ -406,6 +466,12 @@ footer {
 .h-align {
     text-align: center !important;
 }
+.h-align-1 {
+    text-align: left;
+}
+.h-align-2 {
+    text-align: right;
+}
 /*margin*/
 .mar-cb {
     margin-bottom: 0;
@@ -416,6 +482,9 @@ footer {
 .mar-clr {
     margin-left: 0;
     margin-right: 0;
+}
+.mar-b120 {
+    margin-bottom: 120px;
 }
 .mar-b30 {
     margin-bottom: 30px;
@@ -498,7 +567,7 @@ footer {
 }
 /*边框*/
 .border-no {
-    border: none;
+    border: none !important;
 }
 
 /*resize*/
@@ -541,17 +610,19 @@ footer {
 #btn-2:hover {
     background-color: rgba(22, 155, 213, 1);
 }
+.btn-0:hover {
+    background-color: #ffffff;
+    color: #8f8f8f;
+}
 .btn-1:hover {
     background-color: #ff9035;
 }
 .btn-2:hover {
     background-color: rgba(22, 155, 213, 1);
 }
-
 .zxz:focus{
     outline: none;
 }
-
 /*自定义复选框*/
 .checkbox-1 > input {
     visibility: hidden;
@@ -617,6 +688,27 @@ footer {
     background: #ff9035;
     color: #fff;
 }
+
+/* .tab-info-top > a:hover {
+    background-color: #ff9035;
+    color: white;
+}
+.tab-info-top > a:hover > span {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 44%;
+    right: 45%;
+    z-index: 999;
+}
+.triangle-down {
+    width: 12px;
+    height: 6px;
+    border-top: 7px solid #ff9035;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    display: none;
+} */
 
 /*选项卡 end*/
 
@@ -770,6 +862,9 @@ footer {
     .pad-emt6-xs {
         padding-top: 6em;
     }
+    .pad-emt05-xs {
+        padding-top: .5em;
+    }
     .ellipse-xs {
         display:block;
         white-space:nowrap;
@@ -890,7 +985,6 @@ footer {
     .text-l-lg {
         text-align: center !important;
     }
-
 }
 /*1200px以下的样式*/
 @media (min-width: 992px) and (max-width: 1199px) {
