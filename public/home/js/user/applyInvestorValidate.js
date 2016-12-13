@@ -23,7 +23,16 @@
         $.validator.addMethod("isIdCardNo", function(value, element) {
             return this.optional(element) || idCardNoUtil.checkIdCardNo(value);
         }, "请正确输入您的身份证号码");
-
+        // 验证图片的大小
+        $.validator.addMethod("checkPicSize", function(value,element) {
+            var fileSize=element.files[0].size;
+            var maxSize = 5*1024*1024;
+            if(fileSize > maxSize){
+                return false;
+            }else{
+                return true;
+            }
+        }, "请上传大小在5M以下的图片");
         // ajax 异步
         $.validator.setDefaults({
             // 提交触发事件
@@ -36,13 +45,13 @@
                 });
                 //与正常form不同，通过下面这样来获取需要验证的字段
                 var data = new FormData();
-                data.append( "syb_realname"      , $("input[name= 'syb_realname']").val());
-                data.append( "syb_subject"      , $("#syb_subject").val());
-                data.append( "syb_tel"      , $("input[name= 'syb_tel']").val());
-                data.append( "syb_card"       , $("input[name= 'syb_card']").val());
-                data.append( "syb_field"       , $("#syb_field").val());
-                data.append( "syb_stage"       , $("#syb_stage").val());
-                data.append( "syb_card_pic"       , $("input[name= 'syb_card_pic']").val());
+                data.append( "investor_realname"      , $("input[name= 'investor_realname']").val());
+                data.append( "investor_subject"      , $("#investor_subject").val());
+                data.append( "investor_tel"      , $("input[name= 'investor_tel']").val());
+                data.append( "investor_card"       , $("input[name= 'investor_card']").val());
+                data.append( "investor_field"       , $("#investor_field").val());
+                data.append( "investor_realname"       , $("#investor_stage").val());
+                data.append( "investor_card_pic"       , $("input[name= 'investor_card_pic']").val());
                 //开始正常的ajax
                 // 异步登录
                 $.ajax({
@@ -50,23 +59,28 @@
                     url: '/identity',
                     data: {
                         "guid": $("#topAvatar").data('id'),
-                        "role": $("input[name= 'role']").val(),
-                        'realname': $("input[name= 'syb_realname']").val(),
-                        'subject': $("#syb_subject").val(),
-                        'tel': $("input[name= 'syb_tel']").val(),
-                        'card_number': $("input[name= 'syb_card']").val(),
-                        'field': $("#syb_field").val(),
-                        'stage': $("#syb_stage").val(),
-                        'card_pic_a': $("input[name= 'syb_card_pic']").val()
+                        "role": $("input[name= 'investor_role']").val(),
+                        'realname': $("input[name= 'investor_realname']").val(),
+                        'subject': $("#investor_subject").val(),
+                        'tel': $("input[name= 'investor_tel']").val(),
+                        'card_number': $("input[name= 'investor_card']").val(),
+                        'field': $("#investor_field").val(),
+                        'stage': $("#investor_stage").val(),
+                        'card_pic_a': $("input[name= 'investor_card_pic']").val()
+                    },
+                    beforeSend:function(){
+                        $(".loading").css({'width':'80px','height':'80px'}).show();
                     },
                     success:function(data){
                         switch (data.StatusCode){
                             case '400':
                                 // promptBoxHandle('警告',data.ResultData);
+                                $(".loading").hide();
                                 alert('警告,'+data.ResultData);
                                 break;
                             case '200':
-                                window.location = '/';
+                                $(".loading").hide();
+                                alert('提示,'+data.ResultData);
                                 break;
                         }
                     }
@@ -74,53 +88,59 @@
             }
         });
         // 验证规则和提示信息
-        this.$applySybForm.validate({
+        this.$applyInvestorForm.validate({
             // 验证规则
             rules: {
-                syb_realname: {
+                investor_realname: {
                     required: true,
                 },
-                syb_subject: {
+                investor_subject: {
                     required: true,
                 }
                 ,
-                syb_tel: {
+                investor_tel: {
                     required: true,
                     isMobile: true
                 },
-                syb_card: {
+                investor_card: {
                     required: true,
                     isIdCardNo: true
                 },
-                syb_field: {
+                investor_field: {
                     required: true,
                 },
-                syb_stage: {
+                investor_stage: {
                     required: true,
+                },
+                investor_card_pic: {
+                    required: true
                 }
             },
             // 提示信息
             messages: {
-                syb_realname: {
-                    required: "请输入手机号！",
+                investor_realname: {
+                    required: "请填写您的真实姓名！",
                 },
-                syb_subject: {
+                investor_subject: {
                     required: "请选择创业主体！",
                 },
-                syb_tel: {
+                investor_tel: {
                     required: "请输入手机号！",
                     isMobile: "手机号格式不对"
                 },
-                syb_card: {
+                investor_card: {
                     required: "请输入身份证号！",
                     isIdCardNo: "请正确输入您的身份证号码"
                 },
-                syb_field: {
+                investor_field: {
                     required: "请选择创业领域"
                 },
-                syb_stage: {
+                investor_stage: {
                     required: "请选择创业阶段",
                 },
+                investor_card_pic: {
+                    required: "请上传身份证件照"
+                }
             }
         });
     };

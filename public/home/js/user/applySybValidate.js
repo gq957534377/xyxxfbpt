@@ -48,6 +48,9 @@
                 $.ajax({
                     type: "POST",
                     url: '/identity',
+                    beforeSend:function(){
+                        $(".loading").css({'width':'80px','height':'80px'}).show();
+                    },
                     data: {
                         "guid": $("#topAvatar").data('id'),
                         "role": $("input[name= 'role']").val(),
@@ -63,10 +66,12 @@
                         switch (data.StatusCode){
                             case '400':
                                 // promptBoxHandle('警告',data.ResultData);
+                                $(".loading").hide();
                                 alert('警告,'+data.ResultData);
                                 break;
                             case '200':
-                                window.location = '/';
+                                $(".loading").hide();
+                                alert('提示,'+data.ResultData);
                                 break;
                         }
                     }
@@ -97,12 +102,15 @@
                 },
                 syb_stage: {
                     required: true,
+                },
+                syb_card_pic: {
+                    required: true
                 }
             },
             // 提示信息
             messages: {
                 syb_realname: {
-                    required: "请输入手机号！",
+                    required: "请填写您的真实姓名！",
                 },
                 syb_subject: {
                     required: "请选择创业主体！",
@@ -121,6 +129,9 @@
                 syb_stage: {
                     required: "请选择创业阶段",
                 },
+                syb_card_pic: {
+                    required: "请上传身份证证件照"
+                }
             }
         });
     };

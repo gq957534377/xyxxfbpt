@@ -27,9 +27,14 @@ class RoleController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 刘峻廷
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home.user.identity');
+        if (isset($request->identity)) {
+            return view('home.user.applyHero');
+        } else {
+            return view('home.user.identity');
+        }
+
     }
 
     /**
@@ -83,16 +88,9 @@ class RoleController extends Controller
 
         // 提交数据到业务服务层
         $info = self::$userServer->applyRole($data);
-        dd($info);
+
         // 返回状态信息
-        switch ($info['status']){
-            case '400':
-                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['StatusCode' => '200','ResultData' => $info['msg']]);
-                break;
-        }
+        return response()->json($info);
     }
 
     /**

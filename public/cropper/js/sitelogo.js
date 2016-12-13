@@ -311,6 +311,7 @@
       this.$avatarForm.get(0).reset();
       this.$avatar.attr('src', this.url);
       $('input[name="syb_card_pic"]').val(this.url);
+      $('input[name="investor_card_pic"]').val(this.url);
       this.stopCropper();
       this.$avatarModal.modal('hide');
     },

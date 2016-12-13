@@ -124,8 +124,6 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         // 用户角色
         Route::resource('/cardpic','RoleController@cardpic');
         Route::resource('/identity','RoleController');
-        // 申请角色视图
-        Route::get('/user/apply/{param}','UserController@apply');
         // 修改头像
         Route::resource('/headpic','UserController@headpic');
         // 申请投资者

@@ -223,30 +223,6 @@ class UserController extends Controller
     }
 
     /**
-     * 申请角色视图
-     * @param $param
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @author 刘峻廷
-     */
-    public function apply($param)
-    {
-        switch ($param) {
-            case 'syb':
-                return view('home.user.syb');
-                break;
-            case 'investor':
-                return view('home.user.investor');
-                break;
-            case 'change':
-                return view('home.user.change');
-
-            case 'memeber':
-                return view('home.user.memeber');
-                break;
-        }
-    }
-
-    /**
      * 申请成为投资者
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
