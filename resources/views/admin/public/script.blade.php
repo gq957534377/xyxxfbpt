@@ -18,5 +18,12 @@
 <!-- skycons -->
 <script src="http://cdn.rooyun.com/js/skycons.min.js" type="text/javascript"></script>
 
+<!--Morris Chart-->
+<script src="http://cdn.rooyun.com/js/morris.min.js"></script>
+<script src="http://cdn.rooyun.com/js/raphael.min.js"></script>
 
+<script src="http://cdn.rooyun.com/js/jquery.app.js"></script>
+
+<!-- Dashboard -->
+<script src="http://cdn.rooyun.com/js/jquery.dashboard.js"></script>
 

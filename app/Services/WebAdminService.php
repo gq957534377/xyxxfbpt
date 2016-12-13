@@ -118,6 +118,11 @@ class WebAdminService
         }
     }
 
+    /**
+     * 得到页面基本信息
+     * @return array
+     * @author 王通
+     */
     public function getWebInfo ()
     {
         $obj = self::$webAdminStore->getWebInfo();

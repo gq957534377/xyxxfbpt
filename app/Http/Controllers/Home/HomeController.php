@@ -8,14 +8,14 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\ProjectService as ProjectServer;
 use App\Services\ActionService as ActionServer;
-use App\Services\WebAdminService;
+use App\Services\PictureService;
 
 
 class HomeController extends Controller
 {
     protected static $projectServer = null;
     protected static $actionServer = null;
-    protected static $webAdmin = null;
+    protected static $pictureService = null;
 
     /**
      * 构造函数注入
@@ -23,11 +23,11 @@ class HomeController extends Controller
      * @param ProjectService $projectServer
      * @ author 刘峻廷
      */
-    public function __construct(ProjectServer $projectServer, ActionServer $actionServer, WebAdminService $webAdmin)
+    public function __construct(ProjectServer $projectServer, ActionServer $actionServer, PictureService $pictureService)
     {
         self::$projectServer = $projectServer;
         self::$actionServer = $actionServer;
-        self::$webAdmin = $webAdmin;
+        self::$pictureService = $pictureService;
     }
 
     /**
@@ -52,14 +52,20 @@ class HomeController extends Controller
         self::$actionServer->wordLimit($trainResult['msg'], 'brief',60);
 
         // 轮播图，投资合作管理，
-        $webAdminResult = self::$webAdmin->getAllWebConf();
+        $cooperResult = self::$pictureService->getPicture(2);
+        $carouselResult = self::$pictureService->getPicture(3);
+        $investResult = self::$pictureService->getPicture(5);
 
+        $cooper = $cooperResult['ResultData'];
+
+        $carousel = $carouselResult['ResultData'];
+        $invest = $investResult['ResultData'];
         $projects = $projectResult['msg'];
         $roadShows  = $roadShowResult['msg'];
         $sybs = $sybResult['msg'];
         $trains = $trainResult['msg'];
 
-        return view('home.index.index', compact('projects', 'roadShows', 'sybs', 'trains'));
+        return view('home.index.index', compact('projects', 'roadShows', 'sybs', 'trains', 'cooper', 'carousel', 'invest'));
     }
 
     /**
