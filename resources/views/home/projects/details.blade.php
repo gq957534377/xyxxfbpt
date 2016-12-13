@@ -193,20 +193,19 @@
                         @if(session('user')->role != 3)
                             <div class="gdxx-content"></div>
                         @else
-                            <a href="{{ $project_details->file }}">项目详细资料</a>
+                            <a style="position: absolute;top: 50%;left: 36%;" href="{{ $project_details->file }}">项目详细资料</a>
                         @endif
                     </div>
                 </li>
-
-                <li class="row content_title">
-                    <h3 class="col-lg-3 col-md-3 col-sm-3">评论</h3>
-                    <a href="#" class="col-lg-5 col-md-5 col-sm-5 subpinglun">发表评论</a>
-                </li>
-
                 <!--用户评论开始-->
-                <li class="row pl-block">
-                    <ul class=" col-lg-12 col-md-12 col-sm-12">
-                        <!--循环遍历开始-->
+                <div class="row pl-block">
+                    <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">评论</h2>
+                    <ul class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <li class="row inputs">
+                            <textarea>                    </textarea>
+                            <button class="subbtn btn btn-warning">提交</button>
+                        </li>
+                        <!---循环遍历开始-->
                         <li class="row">
                             <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                 <div class="user-img-bgs">
@@ -223,7 +222,6 @@
                                 </div>
                             </div>
                         </li>
-                        <!--循环遍历结束-->
                         <li class="row">
                             <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                 <div class="user-img-bgs">
@@ -240,8 +238,42 @@
                                 </div>
                             </div>
                         </li>
+                        <li class="row">
+                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <div class="user-img-bgs">
+                                    <img src="{{ asset('home/img/demoimg/test11.jpg') }}">
+                                </div>
+                            </div>
+                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                <div class="row user-say1">
+                                    <span>Paloma</span>
+                                    <span>2016-11-24 16:26</span>
+                                </div>
+                                <div class="row user-say2">
+                                    <p>这个项目很有意思,我很喜欢,赞一个</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="row">
+                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <div class="user-img-bgs">
+                                    <img src="{{ asset('home/img/demoimg/test11.jpg') }}">
+                                </div>
+                            </div>
+                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                <div class="row user-say1">
+                                    <span>Paloma</span>
+                                    <span>2016-11-24 16:26</span>
+                                </div>
+                                <div class="row user-say2">
+                                    <p>这个项目很有意思,我很喜欢,赞一个</p>
+                                </div>
+                            </div>
+                        </li>
+                        <!---循环遍历结束-->
+
                     </ul>
-                </li>
+                </div>
                 <!--用户评论结束-->
             </ul>
         </div>
