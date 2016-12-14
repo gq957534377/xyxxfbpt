@@ -469,4 +469,9 @@ class UserController extends Controller
         }
 
     }
+
+    public function commentAndLike()
+    {
+        return view('home.user.commentAndLike');
+    }
 }
