@@ -84,4 +84,15 @@ class SendStore
     {
         return DB::table(self::$table)->where($where)->increment($field, $data);
     }
+
+    /**
+     * 得到指定状态的数量
+     * @param $where
+     * @return mixed
+     * @author 王通
+     */
+    public function getCount ($where)
+    {
+        return DB::table(self::$table)->where($where)->count();
+    }
 }

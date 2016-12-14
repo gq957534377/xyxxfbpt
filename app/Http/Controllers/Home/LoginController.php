@@ -10,6 +10,7 @@ use App\Services\UserService as UserServer;
 use App\Tools\Common;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use App\Tools\Safety;
 
 class LoginController extends Controller
 {
@@ -53,12 +54,6 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
-        // 先校验验证码
-//        if($data['captcha'] != Session::get('code'))
-//        {
-//            return response()->json(['StatusCode' => '400','ResultData' => ['验证错误!']]);
-//        }
 
         //验证数据
         $this->validate($request,[
@@ -136,8 +131,18 @@ class LoginController extends Controller
      * @return \Gregwar\Captcha\PhraseBuilder|null|string
      * @author 刘峻廷
      */
-    public function captcha($tmp)
+    public function captcha($tmp, Request $request)
     {
+
+//        $res4 = Safety::PreventFastRefresh(config('safety.PREVEN_TFAST_REFRESH') . $request->getClientIp());
+//
+//        $res1 = Safety::checkIpBlackList(config('safety.BLACKLIST') . $request->getClientIp());
+//        $res2 = Safety::number($request->getClientIp(), 100, '图片验证码接口');
+//        $res3 = Safety::session_number($tmp);
+//        dd($res4);
+//        if ($res1 || $res2 || $res3 || $res4) {
+//            return view('welcome');
+//        }
         return Common::captcha($tmp);
     }
 

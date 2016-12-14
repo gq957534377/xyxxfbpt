@@ -145,6 +145,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/activity', 'ActivityController');
         //投稿管理
         Route::resource('/send', 'SendController');
+
         Route::resource('/upload','ActionController@upload');
 
 

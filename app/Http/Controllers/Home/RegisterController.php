@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Validator;
+use App\Redis\BaseRedis;
 
 
 class RegisterController extends Controller
@@ -33,7 +34,8 @@ class RegisterController extends Controller
     public function index()
     {
         if (!empty(session('user'))) return redirect('/');
-        return view('home.register');
+        $val = session()->getId();
+        return view('home.register', ['sesid' => $val]);
     }
 
     /**
