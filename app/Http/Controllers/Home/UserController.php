@@ -98,7 +98,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $result = self::$userServer->userInfo(['guid' => $id ]);
-        dd($result);
+//        dd($result);
         return view('home.user.accountSettings.index');
     }
 
