@@ -9,7 +9,7 @@
             <li><a href="{{ route('activity.index') }}">参加的活动</a></li>
             <li><a href="{{ route('send.index') }}">我的投稿</a></li>
             <li><a href="#">点赞和评论</a></li>
-            <li><a href="{{  }}">账号设置</a></li>
+            <li><a href="{{ route('user.edit', ['id' => session('user')->guid]) }}">账号设置</a></li>
         </ul>
     </aside>
 </div>
