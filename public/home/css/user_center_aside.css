@@ -15,7 +15,10 @@ aside ul > li > a:hover {
     color: #ff9035;
     text-decoration: none;
 }
-
+aside ul > li > a.active {
+    color: #ff9035;
+    text-decoration: none;
+}
 aside ul > li {
     margin-bottom: 1.2em;
 }
@@ -75,7 +78,33 @@ aside ul li:nth-child(8) > a:hover {
 aside ul li:nth-child(9) > a:hover {
     background-image: url("../img/ic-set-org.png");
 }
-
+aside ul li:first-child > a.active {
+    background-image: url("../img/ic-txt-org.png");
+}
+aside ul li:nth-child(2) > a.active {
+    background-image: url("../img/ic-status-org.png");
+}
+aside ul li:nth-child(3) > a.active {
+    background-image: url("../img/ic-show-org.png");
+}
+aside ul li:nth-child(4) > a.active {
+    background-image: url("../img/ic-flag-org.png");
+}
+aside ul li:nth-child(5) > a.active {
+    background-image: url("../img/ic-pen-org.png");
+}
+aside ul li:nth-child(6) > a.active {
+    background-image: url("../img/ic-book-org.png");
+}
+aside ul li:nth-child(7) > a.active {
+    background-image: url("../img/ic-col-org.png");
+}
+aside ul li:nth-child(8) > a.active {
+    background-image: url("../img/ic-set-org.png");
+}
+aside ul li:nth-child(9) > a.active {
+    background-image: url("../img/ic-set-org.png");
+}
 
 /*移动端菜单*/
 .mobile-aside {

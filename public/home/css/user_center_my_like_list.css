@@ -55,4 +55,18 @@
 /*屏幕宽度大于等于768px小于992px时,bootstrap row容器宽度750px*/
 @media (min-width: 768px) {
 }
-.zxz-style
+.zxz-none{
+    display: none;
+}
+.zxz-styled >div.active:nth-child(n){
+    display: block;
+}
+.zxz-comment{
+    color: #999999;
+    white-space: normal;
+    word-break: break-all;
+}
+.page-style{
+    width: 100%;
+    text-align: center;
+}
