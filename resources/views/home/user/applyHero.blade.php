@@ -39,9 +39,11 @@
         $('#toggle-popup').click(function(){
             var guid = $('#topAvatar').data('id');
             var data = {
-                'role' : '4'
+                'guid' : guid,
+                'role' : '4',
+                'memeber' : true
             };
-            ajaxRequire('/identity/'+guid, 'PUT', data, $("#applyHeroMemeberBox"), 2);
+            ajaxRequire('/identity', 'POST', data, $("#applyHeroMemeberBox"), 2);
         });
     </script>
 @endsection

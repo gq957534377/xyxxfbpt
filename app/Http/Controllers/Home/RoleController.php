@@ -57,6 +57,9 @@ class RoleController extends Controller
     {
         // 获取数据
         $data = $request->all();
+        if (isset($request->role) && $request->role ==4 ) {
+            $result = self::$userServer->applyMemeber($data);
+        }
         //验证数据
         $validator = Validator::make($request->all(),[
             'guid' => 'required',
@@ -124,7 +127,6 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
 
     }
 
