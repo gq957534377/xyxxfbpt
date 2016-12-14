@@ -28,11 +28,7 @@ class SendController extends Controller
         // 判断有没有传递参数
         $data = [];
         $data = $request->all();
-        if (!empty($request['type'])) {
-            $data["type"] = $request["type"];//获取文章类型
-        } else {
-            $data["type"] = 1;
-        }
+
         if (empty($request['status']) || $request['status'] >= 5) {
             $data["status"] = 1;
         } else {
@@ -41,8 +37,13 @@ class SendController extends Controller
         $data["user_id"] =  session('user')->guid;//获取文章类型
 
         $result = self::$articleServer->selectTypeData($data);
-//        dd($result);
-        return view('home.user.contribution.index', $result);
+
+        if ($data['status'] <= 2) {
+            return view('home.user.contribution.indexRelease', $result);
+        } else {
+            return view('home.user.contribution.indexRejection', $result);
+        }
+
     }
 
     /**
@@ -155,5 +156,10 @@ class SendController extends Controller
         $result = self::$articleServer->changeStatus($id, 5, 2);
         if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
         return ['StatusCode' => 400, 'ResultData' => '删除失败！'];
+    }
+
+    public function selUserArticleList ()
+    {
+
     }
 }

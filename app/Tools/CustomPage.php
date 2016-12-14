@@ -39,7 +39,18 @@ class CustomPage
      */
     public static function getPageLinkWrapper($url, $page)
     {
-        return '<li><a href="' . $url . '">' . $page . '</a></li>';
+        return '<li><a href="' . $url . '" >' . $page . '</a></li>';
+    }
+
+    /**
+     * 获取非当前页按钮的页面样式
+     * @param $url
+     * @param $page
+     * @return string
+     */
+    public static function getPageLinkWrapperAjax($url, $page)
+    {
+        return '<li><a href="javascript:void(0);" data-url="' . $url . '">' . $page . '</a></li>';
     }
 
 
@@ -113,7 +124,7 @@ class CustomPage
      * @param $search   搜索
      * @return string
      */
-    public static function getSelfPageViewUN($nowPage, $totalPage, $baseUrl, $search)
+    public static function getSelfPageViewAjax($nowPage, $totalPage, $baseUrl, $search)
     {
 
         $pagePre = '<ul class=" pagination">';
@@ -137,7 +148,7 @@ class CustomPage
             $search['nowPage'] = $lastPage;
             $lastSearchStr = self::arrayToSearchStr($search);
             $url = $baseUrl . '?' . $lastSearchStr;
-            $pageLastStr = self::getPageLinkWrapper($url, '«');
+            $pageLastStr = self::getPageLinkWrapperAjax($url, '上一页');
         }
 
 
@@ -146,7 +157,7 @@ class CustomPage
             $search['nowPage'] = $pageNext;
             $lastSearchStr = self::arrayToSearchStr($search);
             $url = $baseUrl . '?' . $lastSearchStr;
-            $pageNextStr = self::getPageLinkWrapper($url, '»');
+            $pageNextStr = self::getPageLinkWrapperAjax($url, '下一页');
         }
 
 
@@ -160,7 +171,7 @@ class CustomPage
             if ($page == $nowPage) {
                 $pageTemp .= self::getActivePageLinkWrapper($url, $page);
             } else {
-                $pageTemp .= self::getPageLinkWrapper($url, $page);
+                $pageTemp .= self::getPageLinkWrapperAjax($url, $page);
             }
         }
         $pageTemp .= $pageNextStr;

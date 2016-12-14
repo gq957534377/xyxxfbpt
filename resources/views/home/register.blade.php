@@ -26,7 +26,7 @@
                     </li>
                     <li>
                         <input class="code" name="code" type="text"  placeholder="请输入验证码" />
-                        <img id="captcha" src="{{url('/code/captcha/1')}}">
+                        <img id="captcha" data-sesid="{{ $sesid }}" src="{{url('/code/captcha/' . $sesid)}}">
                     </li>
                 </ul>
                 <div class="input_block_2">

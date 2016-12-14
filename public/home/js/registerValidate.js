@@ -244,9 +244,9 @@ function delayer(){
 // 验证码点击更换
 var captcha = document.getElementById('captcha');
 captcha.onclick = function(){
-        $url = "{{url('/code/captcha')}}";
-        $url = $url + "/" + Math.random();
-        this.src = $url;
+        var url = '/code/captcha/';
+        url = url + $(this).data('sesid') + Math.ceil(Math.random()*100);;
+        this.src = url;
     }
 
 

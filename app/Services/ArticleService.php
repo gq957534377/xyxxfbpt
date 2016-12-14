@@ -133,6 +133,7 @@ class ArticleService
      * @param $user
      * @return array
      * author 郭庆
+     * @modify 王通
      */
     public function getData($guid)
     {
@@ -142,7 +143,18 @@ class ArticleService
         if ($data) {
             $likenum = $this->getLikeNum($guid)['msg'][0];
             $data->likenum = $likenum;
-            $data->like = $this->getLike(session('user')->guid, $guid)['status'];
+            // 如果登录，则判断点赞记录
+            if (!empty(session('user'))) {
+                $res = $this->getLike(session('user')->guid, $guid);
+                if (!empty($res['msg']->support) && $res['msg']->support == 1) {
+                    $data->like = true;
+                } else {
+                    $data->like = false;
+                }
+            } else {
+                $data->like = false;
+            }
+
             return ['StatusCode' => '200', 'ResultData' => $data];
         }
 
@@ -323,7 +335,7 @@ class ArticleService
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         unset($where['nowPage']);
         unset($where['totalPage']);
-        $creatPage = Common::getPageUrlsUN($data, "data_send_info", "/send", $forPages, null, $where);
+        $creatPage = Common::getPageUrls($data, "data_send_info", "/send", $forPages, null, $where);
         if(isset($creatPage)){
             $result["pages"] = $creatPage['pages'];
         }else{
@@ -331,6 +343,15 @@ class ArticleService
         }
 
         $Data = self::$sendStore->forPage($nowPage, $forPages, $where);
+        $trailNum = self::$sendStore->getCount(['status' => 1,'user_id' => $data['user_id']]);
+        $releaseNum = self::$sendStore->getCount(['status' => 2,'user_id' => $data['user_id']]);
+        $notNum = self::$sendStore->getCount(['status' => 3,'user_id' => $data['user_id']]);
+        $draftNum = self::$sendStore->getCount(['status' => 4,'user_id' => $data['user_id']]);
+
+        $result['trailNum'] = $trailNum;
+        $result['releaseNum'] = $releaseNum;
+        $result['notNum'] = $notNum;
+        $result['draftNum'] = $draftNum;
         // 判断有没有分页数据
         if(!empty($Data)){
             $result["data"] = $Data;
