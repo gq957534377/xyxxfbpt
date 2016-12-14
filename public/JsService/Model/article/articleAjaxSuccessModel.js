@@ -43,18 +43,18 @@ function listHtml(data){
         html += '<td>' + e.time+'</td>';
         html += '<td>' + status(e.status)+'</td>';
         html += '<td>' + e.source+'</td>';
-        html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#full-width-modal" style="margin-bottom: 6px">详情</button></a>';
+        html += '<td><a class="info btn btn-sm btn-success tooltips" style="border-radius: 6px;" data-name="' + e.guid + '" href="javascript:;"><i class="fa" data-toggle="modal" data-target="#full-width-modal" style="margin-bottom: 6px">详情</i></a>&nbsp';
         if(e.user == 1){
-            html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改文章</button>';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
         }
         if (e.status == 1 && e.status != 2) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="3" class="status"><button class="btn-danger">禁用</button></a>';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 3 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
         } else if (e.status == 3 && e.status != 2) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="1" class="status"><button class="btn-primary">启用</button></a>';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 1 + '" class="status ion ion-checkmark-round" style="margin-bottom: 6px"></i></a>&nbsp';
         }
         if (e.status == 2){
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="1" class="status"><button class="btn-success">通过</button></a>';
-            html += '<button class="btn-danger" id="pass" data-name="' + e.guid + '" data-status="3" data-toggle="modal" data-target="#panel-modal">否决</button>';
+            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 1 + '" class="status" style="margin-bottom: 6px">通过</i></a>&nbsp';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i id="pass" data-name="' + e.guid + '" data-status="' + 3 + '" style="margin-bottom: 6px" data-toggle="modal" data-target="#panel-modal">否决</i></a>&nbsp';
         }
         html += '</td>';
     });
