@@ -40,8 +40,7 @@
             var guid = $('#topAvatar').data('id');
             var data = {
                 'guid' : guid,
-                'role' : '4',
-                'memeber' : true
+                'role' : '4'
             };
             ajaxRequire('/identity', 'POST', data, $("#applyHeroMemeberBox"), 2);
         });

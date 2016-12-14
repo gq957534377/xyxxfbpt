@@ -127,10 +127,6 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/identity','RoleController');
         // 修改头像
         Route::resource('/headpic','UserController@headpic');
-        // 申请投资者
-        Route::resource('/user/apply','UserController@applyRole');
-        // 申请英雄会会员
-        Route::resource('/user/apply/memeber','UserController@applyHeroMemeber');
         // 修改账号绑定信息
         Route::resource('/user/change/email','UserController@changeEmail');
         Route::resource('/user/change/phone','UserController@changeTel');
