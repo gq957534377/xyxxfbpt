@@ -69,7 +69,7 @@ class ArticleService
         $data["guid"] = Common::getUuid();
         $data["time"] = date("Y-m-d H:i:s", time());
 
-        $result = self::$articleStore->insertData($data);
+        $result = self::$sendStore->insertData($data);
 
         //判断插入是否成功，并返回结果
         if(isset($result)) return ['status' => true, 'msg' => $result];
@@ -86,25 +86,27 @@ class ArticleService
     {
         //数据初始化
         $data = $request->all();
-        $forPages = 2;//一页的数据条数
+        $forPages = 5;//一页的数据条数
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        $status = $data["status"];//文章状态：开始前 进行中  结束
+        $status = $data["status"];//文章状态：已发布 待审核 已下架
         $type = $data["type"];//获取文章类型
+        $user = $data["user"];//用户类型
+
         $where = [];
         if($status){
             $where["status"] = $status;
         }
         if($type!="null"){
-            $where["type"] = $type;
+            if ($type != 3){
+                $where["type"] = $type;
+            }
+        }
+        if ($user){
+            $where['user'] = $user;
         }
 
-        if ($data['user'] == 2) {
-            //创建分页
-            unset($where['type']);
-            $creatPage = Common::getPageUrls($data, "data_send_info", "/article/create", $forPages, null, $where);
-        }else{
-            $creatPage = Common::getPageUrls($data, "data_article_info", "/article/create", $forPages, null, $where);
-        }
+        //创建分页
+        $creatPage = Common::getPageUrls($data, "data_send_info", "/article/create", $forPages, null, $where);
         if(isset($creatPage)){
             $result["pages"] = $creatPage['pages'];
         }else{
@@ -112,43 +114,31 @@ class ArticleService
         }
 
         //获取对应页的数据
-        if ($data['user'] == 2) {
-            unset($where['type']);
-            $Data = self::$sendStore->forPage($nowPage, $forPages, $where);
-        }else{
-            $Data = self::$articleStore->forPage($nowPage, $forPages, $where);
-        }
+        $res = self::$sendStore->forPage($nowPage, $forPages, $where);
 
-        if($Data || empty($Data)){
-            $result["data"] = $Data;
+        if($res || empty($res)){
+            $result['data'] = $res;
             return ['status' => true, 'msg' => $result];
         }else{
-            return ['status' => false, 'msg' => "数据参数有误！"];
+            return ['status' => false, 'msg' => "获取分页数据失败！"];
         }
     }
 
     /**
      * 查询相关文章信息
      * @param $guid
-     * @param $user
      * @return array
      * author 郭庆
      */
     public function getData($guid)
     {
-        $data = self::$sendStore->getOneData(["guid" => $guid]);
-
-
-        if ($data) {
-            $likenum = $this->getLikeNum($guid)['msg'][0];
-            $data->likenum = $likenum;
-            $data->like = $this->getLike(session('user')->guid, $guid)['status'];
-            return ['StatusCode' => '200', 'ResultData' => $data];
+        if(!$guid){
+            return ['status' => false, 'msg' => "参数有误！"];
         }
-
-
-        return ['StatusCode' => '201', 'ResultData' => '文章信息获取失败'];
-
+        //查询一条数据文章信息
+        $data = self::$sendStore->getOneData(["guid" => $guid]);
+        if($data) return ['status' => true, 'msg' => $data];
+        return ['status' => false, 'msg' => "文章信息获取失败！"];
     }
 
     /**
@@ -165,11 +155,7 @@ class ArticleService
             return ['status' => false, 'msg' => "参数有误 ！"];
         }
 
-        if ($user == 1) {
-            $Data = self::$articleStore->upload(["guid" => $guid], ["status" => $status]);
-        }else{
-            $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
-        }
+        $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
 
         //判断修改结果并返回
         if($Data){
@@ -190,14 +176,7 @@ class ArticleService
     public function upDta($where, $data)
     {
         $data["time"] = date("Y-m-d H:i:s", time());
-        if ($data['user'] == 1){
-            unset($data['user']);
-            $Data = self::$articleStore->upload($where, $data);
-        }else{
-            unset($data['user']);
-            unset($data['type']);
-            $Data = self::$sendStore->upload($where, $data);
-        }
+        $Data = self::$sendStore->upload($where, $data);
         if($Data){
             $result["data"] = $Data;
             return ['status' => true, 'msg' => $result];

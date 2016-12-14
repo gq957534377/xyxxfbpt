@@ -43,8 +43,6 @@
                                 </div>
                             @endif
                         @endforeach
-
-
                     </div>
 
                     <!-- Controls -->

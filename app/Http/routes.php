@@ -49,7 +49,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/upload','ActionController@upload');
         //内容管理
         Route::resource('/article', 'ArticleController');
-
+        Route::resource('/banner','ArticleController@bannerpic');
         // 网站管理
         Route::resource('/web_admins/uploadlogo', 'WebAdminstrationController@uploadLogo');
         Route::resource('/web_admins/uploadqrcode', 'WebAdminstrationController@uploadQRcode');
@@ -123,9 +123,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         //获取角色信息
         Route::get('/roleinfo/{id}','UserController@roleInfo');
         // 用户角色
+        Route::resource('/cardpic','RoleController@cardpic');
         Route::resource('/identity','RoleController');
-        // 申请角色视图
-        Route::get('/user/apply/{param}','UserController@apply');
         // 修改头像
         Route::resource('/headpic','UserController@headpic');
         // 申请投资者
