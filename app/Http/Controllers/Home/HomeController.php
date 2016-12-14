@@ -53,7 +53,10 @@ class HomeController extends Controller
 
         // 轮播图，投资合作管理，
         $cooperResult = self::$pictureService->getPicture(2);
+        // 合作机构
         $carouselResult = self::$pictureService->getPicture(3);
+
+        // 投资机构
         $investResult = self::$pictureService->getPicture(5);
 
         $cooper = $cooperResult['ResultData'];

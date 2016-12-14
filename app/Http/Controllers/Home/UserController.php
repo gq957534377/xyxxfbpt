@@ -207,43 +207,19 @@ class UserController extends Controller
 
         ]);
         // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => 400,'ResultData' => $validator->errors()->all()]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
         //上传
         $info = Avatar::avatar($request);
-       
-        if ($info['status'] == '400') return response()->json(['StatusCode' => 400,'ResultData' => '文件上传失败!']);
+        if ($info['status'] == '400') return response()->json(['StatusCode' => '400','ResultData' => '文件上传失败!']);
         $avatarName = $info['msg'];
 
         $guid = $request->all()['guid'];
-        //转交service 层，存储
+//        转交service 层，存储
         $info = self::$userServer->avatar($guid,$avatarName);
 
-        // 返回状态信息
+//         返回状态信息
         return $info;
-    }
-
-    /**
-     * 申请角色视图
-     * @param $param
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @author 刘峻廷
-     */
-    public function apply($param)
-    {
-        switch ($param) {
-            case 'syb':
-                return view('home.user.syb');
-                break;
-            case 'investor':
-                return view('home.user.investor');
-                break;
-            case 'change':
-                return view('home.user.change');
-
-            case 'memeber':
-                return view('home.user.memeber');
-                break;
-        }
+        return response()->json(['StatusCode' => '200','ResultData' => $avatarName]);
     }
 
     /**

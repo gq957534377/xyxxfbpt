@@ -49,7 +49,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/upload','ActionController@upload');
         //内容管理
         Route::resource('/article', 'ArticleController');
-
+        Route::resource('/banner','ArticleController@bannerpic');
         // 网站管理
         Route::resource('/web_admins/uploadlogo', 'WebAdminstrationController@uploadLogo');
         Route::resource('/web_admins/uploadqrcode', 'WebAdminstrationController@uploadQRcode');
@@ -103,9 +103,10 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/action', 'ActionController');
     //文章内容页
     Route::resource('/article', 'ArticleController');
-
+    //写评论
     Route::resource('/article/setcomment', 'ArticleController@setComment');
-
+    //显示评论详情页
+    Route::resource('/comment', 'ArticleController@commentShow');
     //学院内容页
     Route::resource('/school', 'SchoolController');
 
@@ -122,9 +123,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         //获取角色信息
         Route::get('/roleinfo/{id}','UserController@roleInfo');
         // 用户角色
+        Route::resource('/cardpic','RoleController@cardpic');
         Route::resource('/identity','RoleController');
-        // 申请角色视图
-        Route::get('/user/apply/{param}','UserController@apply');
         // 修改头像
         Route::resource('/headpic','UserController@headpic');
         // 申请投资者

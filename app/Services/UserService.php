@@ -460,21 +460,43 @@ class UserService {
         // 查看该用户是否已申请
         $info= self::$roleStore->getRole(['guid' => $data['guid']]);
         // 查询不为空
-        if(!empty($info)) return ['status' => '400','msg' => '已申请'];
-        //提交数据
-        $result = self::$roleStore->addRole($data);
-        // 返回信息处理
-        if(!$result) return ['status' => '400','msg' => '申请失败'];
+        if(!empty($info)) {
+            // 判断审批状态
+            if ($info->status == '1') {
+                return ['StatusCode' => '400', 'ResultData' => '已申请，正在审核中...'];
+            } else if ($info->status == '2') {
+                return ['StatusCode' => '400', 'ResultData' => '已申请成功，无需再次申请。'];
+            }
+        };
 
-        // 申请成功后，根据新的用户信息对data_user_info表进行一次数据覆盖更新
-        $user = [];
-        $user['realname'] = $data['realname'];
-        $user['birthday'] = $data['birthday'];
-        $user['sex'] = $data['sex'];
-        $user['hometown'] = $data['hometown'];
-        $result = self::$userStore->updateUserInfo(['guid' => $data['guid']],$user);
-        
-        return ['status' => '200','msg' => '申请成功，请等待管理员的审核！'];
+        // 事务处理
+        DB::beginTransaction();
+        try {
+            $result = self::$roleStore->addRole($data);
+
+            // 返回信息处理
+            if(!$result) {
+                Log::error('申请角色失败', $result);
+                return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
+            };
+            // 申请成功后，根据新的用户信息对data_user_info表进行一次数据覆盖更新
+            $user = [];
+            $user['realname'] = $data['realname'];
+            $user['tel'] = $data['tel'];
+
+            $result = self::$userStore->updateUserInfo(['guid' => $data['guid']], $user);
+//            // 更新用户信息失败，回滚
+//            if (!$result) {
+//                DB::rollback();
+//                return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
+//            }
+
+            DB::commit();
+            return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
+        } catch (Exception $e) {
+            DB::rollback();
+            return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
+        }
     }
 
     /**

@@ -184,6 +184,34 @@ class Common {
     }
 
     /**
+     * new获取分页URL 不包括页码
+     * @param  object $data 把$request传进来
+     * @param  string $table 把表名传进来
+     * @param  string $url 把主URL传进来
+     * @return mixed(array | false)
+     * @author 张洵之
+     */
+    public static function  getPageUrlsUN($data, $table, $url, $n,$filed,$where)
+    {
+        if(empty($table) || empty($url)) return false;
+        $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
+        if($filed){
+            $count = DB::table($table)->whereIn($filed,$where)->count();
+        }else{
+            $count = DB::table($table)->where($where)->count();
+        }
+        $totalPage = ceil($count / $n);
+        $baseUrl   = url($url);
+        if($nowPage <= 0) $nowPage = 1;
+        if($nowPage > $totalPage) $nowPage = $totalPage;
+        return [
+            'nowPage' => $nowPage,
+            'pages'   => CustomPage::getSelfPageViewUN($nowPage, $totalPage, $baseUrl,null),
+        ];
+
+    }
+
+    /**
      * 返回七牛upToken
      * @return mixed
      * @author 贾济林
