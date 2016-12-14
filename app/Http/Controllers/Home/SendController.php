@@ -18,22 +18,31 @@ class SendController extends Controller
     }
 
     /**
-     * 展示用户来稿列表页
+     * 展示我的投稿页面
      *
      * @return
-     * @author 郭庆
+     * @author 王通
      */
     public function index(Request $request)
     {
-        if ($request['status']){
-            $status = $request['status'];
-        }else{
-            $status = 1;
+        // 判断有没有传递参数
+        $data = [];
+        $data = $request->all();
+        if (!empty($request['type'])) {
+            $data["type"] = $request["type"];//获取文章类型
+        } else {
+            $data["type"] = 1;
         }
-        $user_id = session('user')->guid;
-        $result = self::$articleServer->getArticleByUser($user_id, $status);
-        if ($result['status'] || empty($result['msg'])) return view('home.article.grzx', ['article' => $result['msg'], 'status' => $status]);
-        return view('home.article.grzx')->withErrors('获取文稿信息失败');
+        if (empty($request['status']) || $request['status'] >= 5) {
+            $data["status"] = 1;
+        } else {
+            $data["status"] = $request["status"];//文章状态：开始前 进行中  结束
+        }
+        $data["user_id"] =  session('user')->guid;//获取文章类型
+
+        $result = self::$articleServer->selectTypeData($data);
+//        dd($result);
+        return view('home.user.contribution.index', $result);
     }
 
     /**

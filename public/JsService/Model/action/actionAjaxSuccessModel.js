@@ -46,22 +46,22 @@ function listHtml(data){
         html += '<td>' + e.deadline+'</td>';
         html += '<td>' + e.limit+'</td>';
         html += '<td>' + e.people+'</td>';
-        html += '<td><a class="info" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#tabs-modal" style="margin-bottom: 6px">详情</button></a>';
+        html += '<td><a class="info btn btn-sm btn-success tooltips" style="border-radius: 6px;" data-name="' + e.guid + '" href="javascript:;"><i class="fa" data-toggle="modal" data-target="#tabs-modal" style="margin-bottom: 6px">详情</i></a>&nbsp';
         if (e.status == 1) {
-            html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改</button>';
-            html += '<a class="bm" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#baoming">报名详情</button></a>';
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + 4 + '" class="status"><button class="btn-danger">禁用</button></a>';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" class="bm" data-toggle="modal" data-target="#baoming">报名详情</i></a>&nbsp';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
         } else if (e.status == 4) {
-            html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改</button>';
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + 1 + '" class="status"><button class="btn-primary">启用</button></a>';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 1 + '" class="status ion ion-checkmark-round" style="margin-bottom: 6px"></i></a>&nbsp';
         }else if (e.status == 2) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + 4 + '" class="status"><button class="btn-danger">禁用</button></a>';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
         }else if (e.status == 3) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + 4 + '" class="status"><button class="btn-danger">禁用</button></a>';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
         }else if (e.status == 5) {
-            html += '<a href="javascript:;" data-name="' + e.guid + '" data-status="' + 4 + '" class="status"><button class="btn-danger">禁用</button></a>';
-            html += '<a class="bm" data-name="' + e.guid + '" href="javascript:;"><button class="btn-primary" data-toggle="modal" data-target="#baoming">报名详情</button></a>';
-            html += '<button data-name="' + e.guid + '" class="charge-road btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">修改</button>';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" class="bm" data-toggle="modal" data-target="#baoming">报名详情</i></a>&nbsp';
+            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
         }
         html += '</td>';
     });

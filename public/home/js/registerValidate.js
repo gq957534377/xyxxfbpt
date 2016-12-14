@@ -205,7 +205,7 @@ $("#signUpForm").on('click','#sendCode',function(){
             switch (data.StatusCode){
                 case '400':
                     // promptBoxHandle('警告',data.ResultData);
-                    alert('警告',data.ResultData);
+                    alert('警告,'+ data.ResultData);
                     setTime($("#sendCode"));
                     break;
 

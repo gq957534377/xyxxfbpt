@@ -6,7 +6,6 @@
         position: absolute;
         display: none;
     }
-
     #alert-info {
         padding-left: 10px;
     }
@@ -24,21 +23,14 @@
         height: 80%;
     }
 
-    .uploadify {
-        display: inline-block;
+    .btn {
+        border-radius: 7px;
+        padding: 6px 16px;
     }
 
-    .uploadify-button {
-        border: none;
-        border-radius: 5px;
-        margin-top: 8px;
-    }
-
-    table.add_tab tr td span.uploadify-button-text {
-        color: #FFF;
-        margin: 0;
-    }
 </style>
+<link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
+<link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
 @endsection
 @section('content')
 @section('title', '活动管理')
@@ -137,16 +129,24 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="field-5" class="control-label">缩略图</label>
-                                <input type="text" size="50" style="width: 150px;" class="lg" id="banner" name="banner"
-                                       disabled="true">
-                                <input id="file_upload" name="file_upload" type="file" multiple="true">
-                                <img src="" id="action_thumb_img" style="max-width: 350px;max-height: 110px;">
+                        <div class="col-md-12">
+                            <div class="form-group mar-b30">
+                                <label for="inputfile" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>缩略图</label>
+                                <input type="hidden" id="banner" name="banner">
+                                <div class="col-md-5">
+                                    <div class="ibox-content">
+                                        <div class="row">
+                                            <div id="crop-avatar" class="col-md-6">
+                                                <div class="avatar-view" title="">
+                                                    <img src="{{ asset('home/img/upload-card.png') }}" id="action_thumb_img" alt="Logo" style="width: 200px;height: 150px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-10">
                             <div class="form-group">
                                 <label for="field-4" class="control-label">活动地址：</label>
                                 <input type="text" class="form-control" id="address" name="address">
@@ -258,16 +258,24 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="field-5" class="control-label">缩略图</label>
-                                <input type="text" size="50" style="width: 150px;" class="lg" name="banner"
-                                       id="charge_banner" disabled="true">
-                                <input id="file_charge" name="file_upload" type="file" multiple="true">
-                                <img src="" id="charge_thumb_img" style="max-width: 350px;max-height: 110px;">
+                        <div class="col-md-12">
+                            <div class="form-group mar-b30">
+                                <label for="inputfile" class="col-md-2 pad-cr"><span class="form-star">*</span>缩略图</label>
+                                <input type="hidden" name="banner" id="charge_banner">
+                                <div class="col-md-10">
+                                    <div class="ibox-content">
+                                        <div class="row">
+                                            <div id="crop-avatar2" class="col-md-12">
+                                                <div class="avatar-view" title="">
+                                                    <img src="{{ asset('home/img/upload-card.png') }}" id="charge_thumb_img" alt="Logo" style="width: 200px;height: 150px;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-10">
                             <div class="form-group">
                                 <label for="field-4" class="control-label">活动地址：</label>
                                 <input type="text" class="form-control" id="xg_address" name="address">
@@ -481,26 +489,26 @@
             </div>
             <div class="col-md-4">
                 <select class="form-control" id="xz_type" name="xz_type">
-                    <option value="1">路演</option>
+                    <option value="null">所有</option>
+                    <option value="1">路演活动</option>
                     <option value="2">比赛</option>
                     <option value="3">学习</option>
                 </select>
-            </div>
-            <div class="col-md-4">
-                <button class="btn-primary" id="chakan">查看</button>
             </div>
         </div>
 
 
         <br>
-        <button class="btn-primary" onclick="listType(list_type,1)">报名中</button>
-        <button class="btn-danger" onclick="listType(list_type,2)">活动进行中...</button>
-        <button class="btn-primary" onclick="listType(list_type,3)">往期回顾</button>
-        <button class="btn-primary" onclick="listType(list_type,4)">回收站</button>
-        <button class="btn-primary" onclick="listType(list_type,5)">报名截止，等待开始</button>
+        <button class="btn btn-success status1" data-status="1">报名中</button>
+        <button class="btn btn-default status1" data-status="2">活动进行中...</button>
+        <button class="btn btn-default status1" data-status="3">往期回顾</button>
+        <button class="btn btn-default status1" data-status="4">回收站</button>
+        <button class="btn btn-default status1" data-status="5">报名截止，等待开始</button>
+        <center><h1 id="list_title">报名中</h1></center>
     </div>
     <div class="panel" id="data"></div>
 </div>
+@include('admin.public.banner')
 @endsection
 @section('script')
     <!--引用ajax模块-->
@@ -513,9 +521,9 @@
     {{--富文本--}}
     <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
     <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
-    {{--图片上传--}}
-    <script src="{{url('uploadify/jquery.uploadify.min.js')}}" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="{{url('uploadify/uploadify.css')}}">
+    {{--图片剪切--}}
+    <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
+    <script src="{{asset('cropper/js/sitelogo.js')}}"></script>
     {{--时间插件--}}
     <script src="/dateTime/build/jquery.datetimepicker.full.js"></script>
     <script type="text/javascript">
@@ -708,8 +716,7 @@
         var token       = $('meta[name="csrf-token"]').attr('content');
         var list_type   = null;//活动类型：1：路演 2：大赛 3：学习
         var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
-        var swf         = 'uploadify/uploadify.swf';//图片上传
-        var uploader    = '/upload';//图片上传请求路由
+
         //验证规则
         var rules       = {
             type: {
@@ -802,44 +809,12 @@
             }
         };
 
-        //图片上传
-        $(function () {
-            //发布活动图片上传
-            $('#file_upload').uploadify({
-                'buttonText'      : '选择图片',
-                'formData'        : {
-                    'timestamp': new Date().getTime(),
-                    '_token'   : token
-                },
-                'swf'             : swf,
-                'uploader'        : uploader,
-                'onUploadSuccess' : function (file, data, response) {
-                    var data = JSON.parse(data);
-                    $('#banner').val(data.res);
-                    $('#action_thumb_img').attr('src', data.res);
-                },
-                'onUploadError'   : function (file, errorCode, errorMsg, errorString) {
-                    alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
-                }
-            });
-            //修改活动-图片上传
-            $('#file_charge').uploadify({
-                'buttonText'      : '修改图片',
-                'formData'        : {
-                    'timestamp' : new Date().getTime(),
-                    '_token'    : token
-                },
-                'swf'             : swf,
-                'uploader'        : uploader,
-                'onUploadSuccess' : function (file, data, response) {
-                    var data = JSON.parse(data);
-                    $('#charge_banner').val(data.res);
-                    $('#charge_thumb_img').attr('src', data.res);
-                },
-                'onUploadError'   : function (file, errorCode, errorMsg, errorString) {
-                    alert('The file ' + file.name + ' could not be uploaded: ' + errorString);
-                }
-            });
+        //活动状态选择
+        $('.status1').off('click').on('click', function () {
+            $('.status1').removeClass('btn-success').addClass('btn-default');
+            $(this).addClass('btn-success');
+            $('#list_title').html($(this).html());
+            listType(list_type, $(this).data('status'));
         });
 
 
@@ -852,8 +827,8 @@
         }
 
         //分类查看数据
-        $('#chakan').click(function () {
-            listType($('#xz_type').val(), 1);
+        $('#xz_type').change(function () {
+            listType($('#xz_type').val(), list_status);
         });
 
         {{--修改活动--}}
@@ -1018,7 +993,7 @@
                                     $('#yz_fb').find('select[name   = group]').val('');
                                     $('#yz_fb').find('input[name    = start_time]').val('');
                                     $('#yz_fb').find('textarea[name = brief]').val('');
-                                    $('#action_thumb_img').attr('src', '');
+                                    $('#action_thumb_img').attr('src', 'home/img/upload-card.png');
                                     ue.setContent('');
                                     list(resul.type, 1);
                                 } else {

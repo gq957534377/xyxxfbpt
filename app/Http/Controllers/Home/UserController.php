@@ -43,71 +43,9 @@ class UserController extends Controller
 
     }
 
-    /**
-     * 申请成为创业者
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
-     */
     public function store(Request $request)
     {
-        // 获取数据
-        $data = $request->all();
-        //验证数据
-        $validator = Validator::make($request->all(),[
-            'guid' => 'required',
-            'realname' => 'required|min:2',
-            'card_number' => 'required|min:16|max:18',
-            'hometown' => 'required|min:2',
-            'birthday' => 'required',
-            'sex' => 'required',
-            'tel' => 'required|min:11',
-            'card_pic_a' => 'required',
-            'card_pic_b' => 'required',
-        ],[
-            'guid.required' => '非法操作!<br>',
-            'realname.required' => '请填写您的真实姓名<br>',
-            'realname.min' => '真实姓名最少两位<br>',
-            'card_number.required' => '请填写您的真实身份证件号<br>',
-            'card_number.min' => '身份证件号16-18位<br>',
-            'card_number.max' => '身份证件号16-18位<br>',
-            'hometown.required' => '请填写您的籍贯<br>',
-            'hometown.min' => '籍贯最少两位<br>',
-            'birthday.required' => '请填写您的出身年月<br>',
-            'sex.required' => '请选择您的性别<br>',
-            'tel.required' => '请填写您的手机号码<br>',
-            'tel.min' => '手机号码标准11位<br>',
-            'card_pic_a.required' => '请上传您的出身份证正面照<br>',
-            'card_pic_b.required' => '请上传您的出身份证反面照',
-        ]);
-        // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => '404','ResultData' => $validator->errors()->all()]);
 
-        //将申请者的提交数据转发到service层
-        // 提取想要的数据
-        $picInfo_a = self::$uploadServer->uploadFile($request->file('card_pic_a'));
-        if($picInfo_a['status'] =='400') return response()->json(['StatusCode' => '400','ResultData' => '图片上传失败']);
-        $picInfo_b = self::$uploadServer->uploadFile($request->file('card_pic_b'));
-        if($picInfo_b['status'] =='400') return response()->json(['StatusCode' => '400','ResultData' => '图片上传失败']);
-        $data['card_pic_a'] = $picInfo_a['msg'];
-        $data['card_pic_b'] = $picInfo_b['msg'];
-        $data['role'] = '2';
-        unset($data['province']);
-        unset($data['city']);
-        unset($data['area']);
-
-        // 提交数据到业务服务层
-        $info = self::$userServer->applyRole($data);
-
-        // 返回状态信息
-        switch ($info['status']){
-            case '400':
-                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['StatusCode' => '200','ResultData' => $info['msg']]);
-                break;
-        }
     }
 
     /**
@@ -154,12 +92,13 @@ class UserController extends Controller
     }
 
     /**
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 显示修改账号页面
+     * @param $id
+     * @author 刘峻廷
      */
     public function edit($id)
     {
-
+        return view('home.user.accountSettings.index');
     }
 
     /**
@@ -207,182 +146,18 @@ class UserController extends Controller
 
         ]);
         // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => 400,'ResultData' => $validator->errors()->all()]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
         //上传
         $info = Avatar::avatar($request);
-       
-        if ($info['status'] == '400') return response()->json(['StatusCode' => 400,'ResultData' => '文件上传失败!']);
+        if ($info['status'] == '400') return response()->json(['StatusCode' => '400','ResultData' => '文件上传失败!']);
         $avatarName = $info['msg'];
 
         $guid = $request->all()['guid'];
-        //转交service 层，存储
+        // 转交service 层，存储
         $info = self::$userServer->avatar($guid,$avatarName);
 
         // 返回状态信息
-        return $info;
-    }
-
-    /**
-     * 申请角色视图
-     * @param $param
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @author 刘峻廷
-     */
-    public function apply($param)
-    {
-        switch ($param) {
-            case 'syb':
-                return view('home.user.syb');
-                break;
-            case 'investor':
-                return view('home.user.investor');
-                break;
-            case 'change':
-                return view('home.user.change');
-
-            case 'memeber':
-                return view('home.user.memeber');
-                break;
-        }
-    }
-
-    /**
-     * 申请成为投资者
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
-     */
-    public function applyRole(Request $request)
-    {
-        $data = $request->all();
-        //验证数据
-        $validator = Validator::make($request->all(),[
-            'guid' => 'required',
-            'realname' => 'required|min:2',
-            'sex' => 'required',
-            'birthday' => 'required',
-            'hometown' => 'required',
-            'tel' => 'required|min:11|max:11',
-            'card_number' => 'required|min:16|max:18',
-            'orgname' => 'required',
-            'orglocation' => 'required',
-            'fundsize' => 'required',
-            'field' => 'required',
-            'orgdesc' => 'required|max:500',
-            'workyear' => 'required|min:2',
-            'scale' => 'required',
-//            'card_pic_a' => 'required',
-//            'card_pic_b' => 'required',
-        ],[
-            'guid.required' => '非法操作!<br>',
-            'realname.required' => '请填写您的真实姓名<br>',
-            'realname.min' => '真实姓名最少两位<br>',
-            'card_number.required' => '请填写您的真实身份证件号<br>',
-            'card_number.min' => '身份证件号16-18位<br>',
-            'card_number.max' => '身份证件号16-18位<br>',
-            'hometown.required' => '请填写您的籍贯<br>',
-            'birthday.required' => '请填写您的出身年月<br>',
-            'sex.required' => '请选择您的性别<br>',
-            'tel.required' => '请填写您的手机号码<br>',
-            'tel.min' => '手机号码标准11位<br>',
-            'tel.max' => '手机号码标准11位<br>',
-            'orgname.required' => '请填写机构名称<br>',
-            'orglocation.required' => '请填写机构所在地<br>',
-            'fundsize.required' => '请填写资金规模<br>',
-            'field.required' => '请填写行业领域<br>',
-            'orgdesc.required' => '请填写行业描述<br>',
-            'workyear.required' => '请填写从业年限<br>',
-            'workyear.max' => '2位内<br>',
-            'scale.required' => '请填写投资规模<br>',
-//            'card_pic_a.required' => '请上传您的出身份证正面照<br>',
-//            'card_pic_b.required' => '请上传您的出身份证反面照',
-        ]);
-        if ($validator->fails()) return response()->json(['StatusCode' => '404','ResultData' => $validator->errors()->all()]);
-        unset($data['province']);
-        unset($data['city']);
-        unset($data['area']);
-        // 转交
-        $info = self::$userServer->applyRole($data);
-        // 返回状态信息
-        switch ($info['status']){
-            case '400':
-                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['StatusCode' => '200','ResultData' => $info['msg']]);
-                break;
-        }
-
-    }
-
-    /**
-     * 申请成为英雄会会员
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
-     */
-    public function applyHeroMemeber(Request $request)
-    {
-        // 获取数据
-        $data = $request->all();
-        //验证数据
-        $validator = Validator::make($request->all(),[
-            'guid' => 'required',
-            'realname' => 'required|min:2',
-            'card_number' => 'required|min:16|max:18',
-            'hometown' => 'required|min:2',
-            'birthday' => 'required',
-            'sex' => 'required',
-            'tel' => 'required|min:11',
-            'card_pic_a' => 'required',
-            'card_pic_b' => 'required',
-        ],[
-            'guid.required' => '非法操作!<br>',
-            'realname.required' => '请填写您的真实姓名<br>',
-            'realname.min' => '真实姓名最少两位<br>',
-            'card_number.required' => '请填写您的真实身份证件号<br>',
-            'card_number.min' => '身份证件号16-18位<br>',
-            'card_number.max' => '身份证件号16-18位<br>',
-            'hometown.required' => '请填写您的籍贯<br>',
-            'hometown.min' => '籍贯最少两位<br>',
-            'birthday.required' => '请填写您的出身年月<br>',
-            'sex.required' => '请选择您的性别<br>',
-            'tel.required' => '请填写您的手机号码<br>',
-            'tel.min' => '手机号码标准11位<br>',
-            'card_pic_a.required' => '请上传您的出身份证正面照<br>',
-            'card_pic_b.required' => '请上传您的出身份证反面照',
-        ]);
-        // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => '404','ResultData' => $validator->errors()->all()]);
-
-        //将申请者的提交数据转发到service层
-        // 提取想要的数据
-        $picInfo_a = self::$uploadServer->uploadFile($request->file('card_pic_a'));
-        if($picInfo_a['status'] =='400') return response()->json(['StatusCode' => '400','ResultData' => '图片上传失败']);
-        $picInfo_b = self::$uploadServer->uploadFile($request->file('card_pic_b'));
-        if($picInfo_b['status'] =='400') return response()->json(['StatusCode' => '400','ResultData' => '图片上传失败']);
-        $data['card_pic_a'] = $picInfo_a['msg'];
-        $data['card_pic_b'] = $picInfo_b['msg'];
-
-        unset($data['province']);
-        unset($data['city']);
-        unset($data['area']);
-
-        // 提交数据到业务服务层
-        $info = self::$userServer->applyMemeber($data);
-
-        // 返回状态信息
-        switch ($info['status']){
-            case '400':
-                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['StatusCode' => '200','ResultData' => $info['msg']]);
-                break;
-        }
-
-
-
+        return response()->json($info);
     }
 
     /**

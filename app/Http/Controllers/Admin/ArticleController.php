@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Tools\Avatar;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use Illuminate\Support\Facades\Input;
-use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
 
@@ -51,7 +49,13 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $data['user'] = 1;
+        $data['status'] = 1;
+        $data['author'] = session('manager')->email;
+        $data['headPic'] = "/admin/images/logo.jpg";
+
         $result = self::$articleServer->insertData($data);
+
         if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
     }
@@ -65,7 +69,7 @@ class ArticleController extends Controller
     public function show(Request $request, $id)
     {
         $user = $request->input('user');
-        $result = self::$articleServer->getData($id,$user);
+        $result = self::$articleServer->getData($id);
         if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
         return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
     }
@@ -106,15 +110,39 @@ class ArticleController extends Controller
     }
 
     /**
-     * 获取报名情况表信息
+     *
      *
      * @return array
      * @author 郭庆
      */
     public function destroy($id)
     {
-        $result = self::$articleServer->getOrderInfo($id);
-        if($result["status"]) return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+
+    }
+
+    /**
+     * 上传图片到七牛
+     * @param $request
+     * @return array
+     * @author 郭庆
+     */
+    public function bannerPic(Request $request)
+    {
+        //数据验证过滤
+        $validator = \Validator::make($request->all(),[
+            'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
+        ],[
+            'avatar_file.required' => '上传文件为空!',
+            'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
+
+        ]);
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        //上传
+        $info = Avatar::avatar($request);
+        if ($info['status'] == '400') return response()->json(['StatusCode' => '400','ResultData' => '文件上传失败!']);
+        $avatarName = $info['msg'];
+
+        return response()->json(['StatusCode' => '200','ResultData' => $avatarName]);
     }
 }
