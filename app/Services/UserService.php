@@ -45,9 +45,9 @@ class UserService {
     {
         $result = self::$userStore->getOneData($where);
         //返回错误状态信息
-        if(!$result) return ['status' => false,'msg' => '没有找到'];
+        if(!$result) return ['StatusCode' => '400','ResultData' => '没有找到该用户信息!'];;
         //返回数据
-        return  ['status' => true,'msg' => $result];
+        return ['StatusCode' => '200','ResultData' => $result];
     }
 
     /**

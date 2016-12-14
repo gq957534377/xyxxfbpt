@@ -60,8 +60,7 @@ class UserController extends Controller
         if(empty($id)) return response()->json(['StatusCode' => '500','ResultData' => '服务器数据异常']);
       // 获取到用户的id，返回数据
         $info = self::$userServer->userInfo(['guid'=>$id]);
-        if(!$info['status']) return response()->json(['StatusCode' => '404','ResultData' => '未查询到数据']);
-        return response()->json(['StatusCode' => '200','ResultData' => $info]);
+        return response()->json($info);
     }
 
     /**
@@ -98,6 +97,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $result = self::$userServer->userInfo(['guid' => $id ]);
+        dd($result);
         return view('home.user.accountSettings.index');
     }
 
