@@ -251,7 +251,7 @@ class UserService {
         $sms = Session::get('sms');
         $name = '英雄,';
         $number = mt_rand(100000, 999999);
-        $content = ['name'=>$name,'number'=>$number];
+        $content = ['name' => $name,'number' => $number];
 
         //校验
         if($sms['phone']==$phone){
@@ -268,7 +268,8 @@ class UserService {
 
             return ['status' => '200','msg' => '发送成功，请注意查收！'];
         }else{
-            $resp =  Common::sendSms($phone,$content,'兄弟会','SMS_25700502');
+            $resp =  Common::sendSms($phone, $content, '兄弟会', 'SMS_25700502');
+
             // 发送失败
             if(!$resp) return ['status' => '400','msg' => '短信发送失败，请重新发送！'];
             $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
@@ -622,6 +623,23 @@ class UserService {
         } else {
             return ['status' => '200', 'msg' => '更改手机号绑定成功!'];
         }
+
+    }
+
+    /**
+     * 获取账号信息
+     * @param $where
+     * @return array
+     * @author 刘峻廷
+     */
+    public function accountInfo($where)
+    {
+        $result = self::$homeStore->getOneData($where);
+
+        // 判断数据
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '账号不存在'];
+
+        return ['StatusCode' => '200', 'ResultData' => $result];
 
     }
 }

@@ -97,14 +97,26 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $result = self::$userServer->userInfo(['guid' => $id ]);
-//        dd($result);
-        return view('home.user.accountSettings.index');
+        // 获取账号信息
+        $result = self::$userServer->accountInfo(['guid' => $id ]);
+
+        if ($result['StatusCode'] == '400') {
+            return view('home.user.accountSettings.index');
+        };
+
+        // 数据处理
+        $tel = substr_replace(trim($result['ResultData']->tel), '****', 3, 4);
+        $email = substr_replace(trim($result['ResultData']->email), '****', 2, 4);
+
+        $accountInfo = $result['ResultData'];
+        $accountInfo->tel = $tel;
+        $accountInfo->email = $email;
+
+        return view('home.user.accountSettings.index', compact('accountInfo'));
     }
 
     /**
      * 更改用户信息
-     *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -244,5 +256,16 @@ class UserController extends Controller
                 break;
         }
 
+    }
+
+    public function sendSms($guid)
+    {
+        if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
+
+        $tel = self::$userServer->accountInfo(['guid' => $guid])['ResultData']->tel;
+
+        $info = self::$userServer->sendSmsCode($tel);
+
+        dd($info);
     }
 }

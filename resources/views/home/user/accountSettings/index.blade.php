@@ -41,8 +41,8 @@
         <div class="binding col-xs-12 bb-1 pad-clr">
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pad-clr binding-tel">
                 <p class="col-xs-12 col-sm-12 col-md-3 col-lg-2 pad-clr">安全手机</p>
-                <p class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr binded">已绑定</p>
-                <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">185****6307</p>
+                <p class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ isset($accountInfo->tel) ? 'binded' : 'unbinded'}}">{{ isset($accountInfo->tel) ? '已绑定' : '未绑定'}}</p>
+                <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ isset($accountInfo->tel) ? $accountInfo->tel : ''}}</p>
                 <p class="col-xs-12 col-sm-12 pad-clr fs-c-5">安全手机将可用于登录和修改密码</p>
             </div>
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 pad-clr">
@@ -52,8 +52,9 @@
         <div class="binding col-xs-12 bb-1 pad-clr">
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pad-clr binding-email">
                 <p class="col-xs-12 col-sm-12 col-md-3 col-lg-2 pad-clr">安全邮箱</p>
-                <p class="col-xs-4 col-sm-4 col-md-4 col-lg-3 pad-cr unbinded">未绑定</p>
-                <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr hidden">185****6307</p>
+                <p class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ isset($accountInfo->email) ? 'binded' : 'unbinded'}}">{{ isset($accountInfo->email) ? '已绑定' : '未绑定'}}</p>
+                <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ isset($accountInfo->email) ? $accountInfo->email : ''}}</p>
+                <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr"></p>
                 <p class="col-xs-12 col-sm-12 pad-clr fs-c-5">安全邮箱将可用于登录和修改密码</p>
             </div>
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 pad-clr">
@@ -84,10 +85,10 @@
                     <div class="modal-body tel-step-one">
                         <p class="fs-c-0 fw-1">为了账号安全，需要验证手机有效性</p>
                         <!--发送提示    &    验证错误提示  开始-->
-                        <div class="alert alert-danger">验证码验证失败！</div>
+                        <div class="alert alert-danger hidden">验证码验证失败！</div>
                         <!--////////////////////-->
                         <p class="fs-c-5 hidden">一条包含有验证码的短信已发送至手机：</p>
-                        <p class="fs-c-6 hidden">185****6307</p>
+                        <p class="fs-c-6 hidden">{{ isset($accountInfo->tel) ? $accountInfo->tel : ''}}</p>
                         <!--发送提示    &    验证错误提示  结束-->
 
                         <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -97,7 +98,7 @@
                                 </div>
                                 <label for="captcha" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
                                 <div class="col-sm-3 control-label line-h-1">
-                                    <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha">重新发送</button>
+                                    <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha">发送</button>
                                 </div>
                             </div>
                         </form>
@@ -181,7 +182,7 @@
                                 </div>
                                 <label for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
                                 <div class="col-sm-3 control-label line-h-1">
-                                    <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_">重新发送</button>
+                                    <button type="btn" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_">重新发送</button>
                                 </div>
                             </div>
                         </form>
@@ -465,6 +466,18 @@
             });
 //        更换密码 结束
 
+        });
+
+        $("#resend_captcha").click(function() {
+            var guid = $("#topAvatar").data('id');
+            // 异步发送短信
+            $.ajax({
+                url  : '/user/sendsms/'+guid,
+                type : 'GET',
+                success: function(msg){
+
+                }
+            });
         });
     </script>
 @endsection

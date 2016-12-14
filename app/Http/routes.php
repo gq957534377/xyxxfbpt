@@ -131,6 +131,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/user/change/email','UserController@changeEmail');
         Route::resource('/user/change/phone','UserController@changeTel');
         // 个人中心页
+           // 发送短信
+        Route::resource('/user/sendsms','UserController@sendSms');
         Route::resource('/user','UserController');
         // 前台登出
         Route::get('/logout','LoginController@logout');
