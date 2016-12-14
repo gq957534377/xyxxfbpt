@@ -8,15 +8,19 @@ use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
 use App\Services\UserService as UserServer;
+use App\Services\CommentAndLikeService as CommentServer;
 
 class ArticleController extends Controller
 {
     protected  static $articleServer;
     protected  static $userServer;
-    public function __construct(ArticleServer $articleServer, UserServer $userServer)
+    protected  static $commentServer;
+
+    public function __construct(ArticleServer $articleServer, UserServer $userServer, CommentServer $commentServer)
     {
         self::$articleServer = $articleServer;
         self::$userServer = $userServer;
+        self::$commentServer = $commentServer;
     }
     /**
      * 根据所选文章类型导航，返回相应的列表页+数据.
@@ -215,6 +219,6 @@ class ArticleController extends Controller
      */
     public function commentShow()
     {
-        return view('home.comment.index');
+       return view('home.comment.index');
     }
 }

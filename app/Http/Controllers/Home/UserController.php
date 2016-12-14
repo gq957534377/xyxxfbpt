@@ -11,16 +11,19 @@ use App\Services\UserService as UserServer;
 use App\Services\UploadService as UploadServer;
 use Illuminate\Support\Facades\Validator;
 use App\Tools\Avatar;
+use App\Services\CommentAndLikeService as CommentServer;
 
 class UserController extends Controller
 {
     protected static $userServer = null;
     protected static $uploadServer = null;
+    protected  static $commentServer = null;
 
-    public function __construct(UserServer $userServer, UploadServer $uploadServer)
+    public function __construct(UserServer $userServer, UploadServer $uploadServer, CommentServer $commentServer)
     {
         self::$userServer = $userServer;
         self::$uploadServer = $uploadServer;
+        self::$commentServer = $commentServer;
     }
     /**
      * 显示个人中心页
@@ -258,6 +261,7 @@ class UserController extends Controller
 
     }
 
+
     public function sendSms($guid)
     {
         if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
@@ -267,5 +271,25 @@ class UserController extends Controller
         $info = self::$userServer->sendSmsCode($tel);
 
         dd($info);
+    }
+
+     /**
+     * 用户中心的点赞与评论
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * author 张洵之
+     */
+    public function commentAndLike(Request $request)
+    {
+        //获得第一页的评论数据与被之被评论内容标题
+        $nowPage = (int)$request->input('nowPage');
+        $result = self::$commentServer->getCommentsTitles($nowPage,$request);
+        if($result['StatusCode'] == '200') {
+            //分页样式与数据分离
+            $pageData = $result['ResultData']['pageData'];
+            unset($result['ResultData']['pageData']);
+            return view('home.user.commentAndLike',['data' => $result['ResultData'], 'pageData' => $pageData]);
+        }else{
+            return view('home.user.commentAndLike',['errinfo' => $result['ResultData']]);
+        }
     }
 }

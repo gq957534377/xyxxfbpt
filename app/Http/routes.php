@@ -130,6 +130,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         // 修改账号绑定信息
         Route::resource('/user/change/email','UserController@changeEmail');
         Route::resource('/user/change/phone','UserController@changeTel');
+        // 评论和赞
+        Route::get('/user/commentandlike','UserController@commentAndLike')->name('commentlike');
         // 个人中心页
            // 发送短信
         Route::resource('/user/sendsms','UserController@sendSms');
@@ -147,10 +149,6 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/send', 'SendController');
 
         Route::resource('/upload','ActionController@upload');
-
-
-
-
     });
 
 

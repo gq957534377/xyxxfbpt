@@ -134,11 +134,11 @@ class LoginController extends Controller
     public function captcha($tmp, Request $request)
     {
 
-//        $res4 = Safety::PreventFastRefresh(config('safety.PREVEN_TFAST_REFRESH') . $request->getClientIp());
-//
-//        $res1 = Safety::checkIpBlackList(config('safety.BLACKLIST') . $request->getClientIp());
-//        $res2 = Safety::number($request->getClientIp(), 100, '图片验证码接口');
-//        $res3 = Safety::session_number($tmp);
+        $res4 = Safety::PreventFastRefresh(config('safety.PREVEN_TFAST_REFRESH') . $request->getClientIp());
+
+        $res1 = Safety::checkIpBlackList(config('safety.BLACKLIST') . $request->getClientIp());
+        $res2 = Safety::number($request->getClientIp(), 100, '图片验证码接口');
+        $res3 = Safety::session_number($tmp);
 //        dd($res4);
 //        if ($res1 || $res2 || $res3 || $res4) {
 //            return view('welcome');

@@ -13,6 +13,7 @@
   max-width: 779px;
   max-height: 379px;
   margin: 0 auto;
+  overflow: hidden;
 }
 @media screen and (max-width: 991px) {
   .hang .top_left{
@@ -279,6 +280,10 @@
   margin: 0;
   font-size: 17px;
   padding: 0;
+}
+.pl-block>a{
+  color: #8b8b8b;
+  text-align: right;
 }
 .inputs textarea{
   width: 90%;

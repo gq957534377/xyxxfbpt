@@ -15,7 +15,7 @@ $(function(){
 	})
 	//鼠标离开banner高清图
 	$("#NavigationBar_img").mouseleave(function(){
-		time1 = setInterval("autoBannerImg()",3000);
+		// time1 = setInterval("autoBannerImg()",3000);
 	})
 	//众筹上下按钮点击事件
 	$("#js_btn2 li").click(function(){
@@ -31,21 +31,9 @@ $(function(){
 		$(this).addClass("active");
 		$("#section5_content_bottom ul"). toggleClass("active")
 	})
-	time1 = setInterval("autoBannerImg()",3000);
+	// time1 = setInterval("autoBannerImg()",3000);
 	
 })
-//banner图切换方法
-function bannerImg(num){
-	$("#js_img1 .active").removeClass("active");
-	$("#js_img1 li").eq(num).addClass("active");
-}
-//banner图自动切换方法
-function autoBannerImg(){
-	if(BannerImgNum>=$("#js_btn1 li").length){
-		BannerImgNum = 0
-	}
-	$("#js_btn1 li").eq(BannerImgNum).trigger("click");
-}
 //众筹上下按钮触发动画方法
 function moveBiao(tops,imgTop){
 	$("#js_btn2_biao").animate({top:tops})

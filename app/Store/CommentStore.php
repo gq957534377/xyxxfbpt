@@ -90,5 +90,22 @@ class CommentStore{
     {
         return DB::table(self::$table)->where($where)->update($data);
     }
+
+    /**
+     * 获取指定页码与指定字段的数据
+     * @param int $nowPage
+     * @param array $where
+     * @param string $field
+     * @return mixed
+     * author 张洵之
+     */
+    public function getPageLists($nowPage,$where,$field)
+    {
+        return DB::table(self::$table)
+            ->where($where)
+            ->forPage($nowPage, PAGENUM)
+            ->orderBy('time','desc')
+            ->lists($field);
+    }
 }
 
