@@ -167,14 +167,8 @@ class RegisterController extends Controller
         // 真，发送短信
         $info = self::$userServer->sendSmsCode($id);
 
-        switch ($info['status']){
-            case '400':
-                return response()->json(['StatusCode'=>'400','ResultData' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['StatusCode'=>'200','ResultData' => $info['msg']]);
-                break;
-        }
+        return response()->json($info);
+
     }
 
     /**

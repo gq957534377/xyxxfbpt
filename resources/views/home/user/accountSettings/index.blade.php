@@ -81,34 +81,37 @@
                         <h4 class="modal-title">修改手机号</h4>
                     </div>
                     <!--每次只出现其中之一-->
-                    <!--第一步 获取验证码-->
+                    <!--第一步 获取验证码 开始-->
                     <div class="modal-body tel-step-one">
                         <p class="fs-c-0 fw-1">为了账号安全，需要验证手机有效性</p>
                         <!--发送提示    &    验证错误提示  开始-->
-                        <div class="alert alert-danger hidden">验证码验证失败！</div>
+                        <div id="errorBox" class="alert alert-danger hidden">验证码验证失败！</div>
                         <!--////////////////////-->
-                        <p class="fs-c-5 hidden">一条包含有验证码的短信已发送至手机：</p>
-                        <p class="fs-c-6 hidden">{{ isset($accountInfo->tel) ? $accountInfo->tel : ''}}</p>
+                        <p id="sendSmsSuccess" class="fs-c-5 hidden">
+                            一条包含有验证码的短信已发送至手机：
+                            <span class="fs-c-6">{{ isset($accountInfo->tel) ? $accountInfo->tel : ''}}</span>
+                        </p>
+
                         <!--发送提示    &    验证错误提示  结束-->
 
-                        <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                            <div class="form-group mar-cb">
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control form-title" id="captcha" placeholder="验证码">
-                                </div>
-                                <label for="captcha" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
-                                <div class="col-sm-3 control-label line-h-1">
-                                    <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha">发送</button>
-                                </div>
+                        <div class="form-group mar-cb">
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-title" id="captcha" placeholder="输入验证码">
                             </div>
-                        </form>
+                            <label for="captcha" id="resend_captcha_label" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
+                            <div class="col-sm-3 control-label line-h-1">
+                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha">发送</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer border-no h-align-1">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="step_one">下一步</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
                     </div>
-                    <!--第二步 填写新手机号-->
+                    <!--第一步 获取验证码 结束-->
+
+                    <!--第二步 填写新手机号 开始-->
                     <div class="modal-body tel-step-two hidden">
                         <div class="my-progress-bar mar-b15">
                             <div>
@@ -126,30 +129,32 @@
                                 </div>
                             </div>
                         </div>
+
                         <p class="fs-c-0 fw-1">请输入新的手机号</p>
 
-                        <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label class="col-xs-12 control-label">
-                                    <select class="form-control chr-c bg-1">
-                                        <option value="+86">中国大陆(+86)</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-xs-12 control-label">
-                                    <input type="text" class="form-control form-title"  placeholder="手机号">
-                                </label>
-                            </div>
-                        </form>
+                        <!-- 错误提示 Start-->
+                        <div id='errorBox2' class="alert alert-danger hidden">验证码验证失败！</div>
+                        <!-- 错误提示 End-->
+
+                        <div class="form-group">
+                            <label class="col-xs-12 control-label">
+                                <select class="form-control chr-c bg-1">
+                                    <option value="+86">中国大陆(+86)</option>
+                                </select>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-xs-12 control-label">
+                                <input id="newTel" type="text" class="form-control form-title"  placeholder="手机号">
+                            </label>
+                        </div>
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
-                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_two">下一步</button>
+                        <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_two">下一步</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                     </div>
+                    <!--第二步 填写新手机号 结束-->
+
                     <!--第三步 验证新手机号-->
                     <div class="modal-body tel-step-three hidden">
                         <div class="my-progress-bar mar-b15">
@@ -340,6 +345,7 @@
 @section('script')
     <script>
         $(function () {
+            var guid = $("#topAvatar").data('id');
 //        测量 滚动条宽度的函数 开始
             function measure() { // thx walsh
                 this.$body = $(document.body);
@@ -371,17 +377,86 @@
 //            处理模态框显示时的问题 结束
             });
             $('#step_one').on('click', function () {
-                $('.tel-step-one').addClass('hidden');
-                $('.tel-step-one + div').addClass('hidden');
-                $('.tel-step-two').removeClass('hidden');
-                $('.tel-step-two + div').removeClass('hidden');
+                // 发送成功后，验证输入框不为空执行下一步
+                if ($.trim($("#captcha").val()) == '') {
+                    $('#errorBox').html('请输入短信验证码').removeClass('hidden');
+                    return false;
+                }
+
+                // 输入验证码后，异步发送到后台匹配验证码
+                var data = {
+                    'captcha' : $.trim($("#captcha").val()),
+                    'step'    : '1'
+                };
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url  : '/user/change/phone/' + guid,
+                    type : 'PUT',
+                    data : data,
+                    success: function(msg){
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            alert(msg.ResultData);
+                            $('#sendSmsSuccess').addClass('hidden');
+                            $('.tel-step-one').addClass('hidden');
+                            $('.tel-step-one + div').addClass('hidden');
+                            $('.tel-step-two').removeClass('hidden');
+                            $('.tel-step-two + div').removeClass('hidden');
+                        } else {
+                            $('#errorBox').html(msg.ResultData).removeClass('hidden');
+                        }
+                    }
+                });
+
             });
             $('#step_two').on('click', function () {
-                $('.tel-step-two').addClass('hidden');
-                $('.tel-step-two + div').addClass('hidden');
-                $('.tel-step-three').removeClass('hidden');
-                $('.tel-step-three + div').removeClass('hidden');
+                // 发送成功后，验证输入框不为空执行下一步
+                if ($.trim($("#newTel").val()) == '') {
+                    $('#errorBox2').html('请输入新手机号').removeClass('hidden');
+                    return false;
+                } else {
+                    var pattern = /^1[34578]\d{9}$/;
+                    if (pattern.test($.trim($("#newTel").val())) == false) {
+                        $('#errorBox2').html('请输入正确的手机号').removeClass('hidden');
+                    }
+                };
+
+                // 输入验证码后，异步发送到后台匹配验证码
+                var data = {
+                    'tel' : $.trim($("#newTel").val()),
+                    'step'    : '2'
+                };
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url  : '/user/change/phone/' + guid,
+                    type : 'PUT',
+                    data : data,
+                    success: function(msg){
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            alert(msg.ResultData);
+                            $('.tel-step-two').addClass('hidden');
+                            $('.tel-step-two + div').addClass('hidden');
+                            $('.tel-step-three').removeClass('hidden');
+                            $('.tel-step-three + div').removeClass('hidden');
+                        } else {
+                            $('#errorBox2').html(msg.ResultData).removeClass('hidden');
+                        }
+                    }
+                });
+
             });
+
             $('#step_three').on('click', function () {
                 $('.tel-step-three').addClass('hidden');
                 $('.tel-step-three + div').addClass('hidden');
@@ -466,18 +541,50 @@
             });
 //        更换密码 结束
 
-        });
 
-        $("#resend_captcha").click(function() {
-            var guid = $("#topAvatar").data('id');
-            // 异步发送短信
-            $.ajax({
-                url  : '/user/sendsms/'+guid,
-                type : 'GET',
-                success: function(msg){
 
-                }
+
+            // 手机改绑，点击更换事件
+            $("#resend_captcha").click(function() {
+                // 异步发送短信
+                $.ajax({
+                    url  : '/user/sendsms/'+guid,
+                    type : 'GET',
+                    success: function(msg){
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            // 成功后显示
+                            $('#sendSmsSuccess').removeClass('hidden');
+                            // 成功后60秒内禁止再次发送
+                            setTime($("#resend_captcha"), $("#resend_captcha_label"));
+
+                        } else {
+                            alert(msg.ResultData);
+                        }
+                    }
+                });
             });
+
+            // 短信验证发送后计时器
+            var countdown = 10;
+            function setTime(obj, objLabel) {
+                if (countdown == 0) {
+                    obj.show();
+                    objLabel.addClass('hidden');
+                    countdown = 10;
+                    return;
+                } else {
+                    obj.hide();
+                    objLabel.removeClass('hidden');
+                    objLabel.text('重新发送'+ countdown + '秒');
+                    countdown --;
+                }
+                setTimeout(function() {
+                    setTime(obj, objLabel);
+                },1000);
+
+            }
         });
+
     </script>
 @endsection
