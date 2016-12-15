@@ -34,7 +34,7 @@ class RegisterController extends Controller
     public function index()
     {
         if (!empty(session('user'))) return redirect('/');
-        $val = session()->getId();
+        $val = md5(session()->getId());
         return view('home.register', ['sesid' => $val]);
     }
 
@@ -144,35 +144,6 @@ class RegisterController extends Controller
         return response()->json(['StatusCode'=>'403','ResultData' => '未知响应吗！']);
 
 
-//        // 校验两次密码
-//        if ($data['password'] != $data['confirm_password'])  return response()->json(['StatusCode'=>'400','ResultData' =>'两次密码不一致！']);
-//        // 校验短信验证码
-//        if($data['code']!= Session::get('sms')['smsCode'])  return response()->json(['StatusCode'=>'400','ResultData' => '短信验证码错误！']);
-//        // 对数据再次校验
-//        $this->validate($Request, [
-//            'email' => 'required|email',
-//            'nickname' => 'required|min:2',
-//            'password' => 'required|min:6',
-//            'confirm_password' => 'required|min:6',
-//            'phone'=> 'required|min:11|max:11',
-//            'code'=> 'required'
-//        ]);
-//        // 获取客户端IP
-//        $data['ip'] = $Request->getClientIp();
-//        // 提交数据到业务层，检验用户是否存在
-//        $info = self::$userServer->addUser($data);
-//        //返回视图成状态码
-//        switch ($info['status']) {
-//            case '500':
-//                return response()->json(['StatusCode'=>'500','ResultData' => $info['msg']]);
-//                break;
-//            case '400':
-//                return response()->json(['StatusCode'=>'400','ResultData' => $info['msg']]);
-//                break;
-//            case '200':
-//                return response()->json(['StatusCode'=>'200','ResultData' => $info['msg']]);
-//                break;
-//        }
     }
 
     /**

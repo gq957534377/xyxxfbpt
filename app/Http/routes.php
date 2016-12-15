@@ -101,19 +101,18 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/crowd_funding', 'CrowdFundingController');
     //活动内容页
     Route::resource('/action', 'ActionController');
-    //文章内容页
+
+    // 点赞
+    Route::resource('/article/like', 'ArticleController@like');
+    //文章内容页 创业政策 市场咨询
     Route::resource('/article', 'ArticleController');
+
     //写评论
     Route::resource('/article/setcomment', 'ArticleController@setComment');
     //显示评论详情页
     Route::resource('/comment', 'ArticleController@commentShow');
     //学院内容页
     Route::resource('/school', 'SchoolController');
-
-    // 市场咨询
-    Route::resource('/market', 'MarketController');
-    // 创业政策
-    Route::resource('/policy', 'PolicyController');
 
     // openIM 阿里云旺
     Route::resource('/openim', 'OpenIMController');

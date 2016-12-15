@@ -107,5 +107,22 @@ class CommentStore{
             ->orderBy('time','desc')
             ->lists($field);
     }
+
+    /**
+     * 得到该用户最近插入的一条数据
+     * @param $action_id
+     * @param $user_id
+     * @return mixed
+     * @author 王通
+     */
+    public function getCommentTime ($action_id, $user_id)
+    {
+        return DB::table(self::$table)
+            ->where('action_id', $action_id)
+            ->where('user_id', $user_id)
+            ->orderBy('time', 'desc')
+            ->limit(1)
+            ->get();
+    }
 }
 

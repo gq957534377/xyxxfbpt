@@ -93,4 +93,9 @@ class BaseRedis
     {
         return Redis::Expire($key, $time);
     }
+
+    public static function addSet ()
+    {
+
+    }
 }

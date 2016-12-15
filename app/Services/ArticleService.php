@@ -104,7 +104,6 @@ class ArticleService
         if ($user){
             $where['user'] = $user;
         }
-
         //创建分页
         $creatPage = Common::getPageUrls($data, "data_send_info", "/article/create", $forPages, null, $where);
         if(isset($creatPage)){
@@ -134,8 +133,7 @@ class ArticleService
     public function getData($guid)
     {
         $data = self::$sendStore->getOneData(["guid" => $guid]);
-
-
+        // 判断有没有取到数据
         if ($data) {
             $likenum = $this->getLikeNum($guid)['msg'][0];
             $data->likenum = $likenum;
@@ -150,14 +148,13 @@ class ArticleService
             } else {
                 $data->like = false;
             }
-
             return ['StatusCode' => '200', 'ResultData' => $data];
 
         }
         //查询一条数据文章信息
         $data = self::$sendStore->getOneData(["guid" => $guid]);
-        if($data) return ['status' => true, 'msg' => $data];
-        return ['status' => false, 'msg' => "文章信息获取失败！"];
+        if($data) return ['StatusCode' => true, 'ResultData' => $data];
+        return ['StatusCode' => '201', 'ResultData' => "没有该文章信息！"];
     }
 
     /**
@@ -213,15 +210,15 @@ class ArticleService
     public static function getComment($id, $limit)
     {
         $comment = self::$commentStore->getSomeData(['action_id' => $id], $limit);
+
         if(!$comment) return ['StatusCode' => '201', 'ResultData' => '暂无评论'];
-        // return ['status' => true, 'msg' => $comment];
 
             foreach ($comment as $v)
             {
                 $res = self::$userServer->userInfo(['guid' => $v->user_id]);
-                if($res['status']){
-                    $v->user_name = $res['msg']->nickname;
-                    $v->headpic = $res['msg']->headpic;
+                if($res['StatusCode'] == '200'){
+                    $v->user_name = $res['ResultData']->nickname;
+                    $v->headpic = $res['ResultData']->headpic;
                 }else{
                     $v->user_name = '无名英雄';
                     $v->headpic = '';
@@ -299,8 +296,20 @@ class ArticleService
     public static function comment($data)
     {
         $data["time"] = date("Y-m-d H:i:s", time());
+
+
+        // 判断两次评论之间的时间间隔
+        $oldTime = self::getUserCommentTime ($data['action_id'], session('user')->guid);
+        if (($oldTime + config('safety.COMMENT_TIME')) > time()) {
+            return ['StatusCode' => '400', 'ResultData' => '两次评论间隔过短，请稍后重试'];
+        };
+
         $result = self::$commentStore->addData($data);
-        if($result) return ['StatusCode' => '200', 'ResultData' => $data];
+        if($result) {
+            // 获取评论信息
+            $comment = self::getComment($data['action_id'], 1);
+            return ['StatusCode' => '200', 'ResultData' => $comment['ResultData'][0]];
+        }
 
         return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
 
@@ -382,5 +391,21 @@ class ArticleService
         //判断插入是否成功，并返回结果
         if(isset($result)) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '存储数据发生错误'];
+    }
+
+    /**
+     * 得到该用户上次评论同文章的时间
+     * @param $acricle_id   文章ID
+     * @param $user_id  用户ID
+     * @return $time  时间戳
+     */
+    public static function getUserCommentTime ($acricle_id, $user_id)
+    {
+        $res = self::$commentStore->getCommentTime($acricle_id, $user_id);
+        if (empty($res)) {
+            return 0;
+        } else {
+            return strtotime($res[0]->time);
+        }
     }
 }
