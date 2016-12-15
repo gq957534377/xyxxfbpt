@@ -333,7 +333,8 @@ class UserController extends Controller
             unset($commentResult['ResultData']['pageData']);
             $commentData = $commentResult['ResultData'];
         }else{
-            $commentData =false;
+            $commentData = false;
+            $commentPage = false;
         }
 
         if ($likeResult['StatusCode'] == '200') {
@@ -342,6 +343,7 @@ class UserController extends Controller
             $likeData = $likeResult['ResultData'];
         }else{
             $likeData = false;
+            $likePage = false;
         }
 
         return view('home.user.commentAndLike',['commentData' => $commentData, 'likeData'  => $likeData, 'commentPage' => $commentPage, 'likePage' => $likePage]);
