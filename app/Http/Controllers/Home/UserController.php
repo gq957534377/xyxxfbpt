@@ -230,7 +230,6 @@ class UserController extends Controller
     {
         if (!isset($request->step)) return response()->json(['StatusCode' => '400','ResultData' => '数据缺失！']);
 
-        $newTel = '';
         switch ($request->step) {
             case '1':
                 // 验证过滤数据
@@ -246,51 +245,36 @@ class UserController extends Controller
                 // Session::get('sms')
                 if ($request->captcha != '342766475') return response()->json(['StatusCode' => '400','ResultData' => '输入的验证码错误！']);
 
-                return response()->json(['StatusCode' => '200','ResultData' => '短信验证通过...']);
+                // 看是否是第三步 验证新手机的验证码
+                if (isset($request->tel)) {
+                    $result = self::$userServer->changeAccountInfo(['guid' => $guid], ['tel' => $request->tel], 'tel');
+
+                    if (!$result) return response()->json(['StatusCode' => '400','ResultData' => '手机号改绑失败！']);
+
+                    return response()->json(['StatusCode' => '200','ResultData' => '手机号改绑成功，请重新登录!']);
+
+                } else {
+                    return response()->json(['StatusCode' => '200','ResultData' => '短信验证通过...']);
+                }
 
             break;
             case '2':
                 //验证数据，手机号校验
                 $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
                 if(!preg_match($preg,$request->tel)) return response()->json(['StatusCode' => '400','ResultData' => '请输入正确的手机号!']);
-                $newTel = $request->tel;
+
+                // 判断该手机是否已经存在
+                $result = self::$userServer->checkUser(['tel' => $request->tel]);
+
+                if ($result) return response()->json(['StatusCode' => '400','ResultData' => '该号码已存在！']);
+
+                return response()->json(['StatusCode' => '200','ResultData' => $request->tel]);
+            break;
+            case '3':
+
             break;
 
         }
-
-
-        //
-
-//        // 验证过滤数据
-//        $validator = Validator::make($request->all(),[
-//            'tel' => 'required|min:11|regex:/^1[34578][0-9]{9}$/',
-//            'newTel' => 'required|min:11|regex:/^1[34578][0-9]{9}$/',
-//            'password' => 'required',
-//        ],[
-//            'tel.required' => '请填写您的原始手机号<br>',
-//            'tel.min' => '确认手机不能小于11个字符<br>',
-//            'tel.regex' => '请正确填写您的手机号码<br>',
-//            'newTel.required' => '请填写您的新手机号<br>',
-//            'newTel.min' => '确认手机不能小于11个字符<br>',
-//            'newTel.regex' => '请正确填写您的新手机号码<br>',
-//            'password.required' => '请输入您的密码',
-//
-//        ]);
-//
-//        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
-//
-//        // 简单数据验证后，提交给业务层
-//        $info = self::$userServer->changeTel($data,$guid);
-//
-//        // 返回状态信息
-//        switch ($info['status']){
-//            case '400':
-//                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
-//                break;
-//            case '200':
-//                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Tel' => $data['newTel']]);
-//                break;
-//        }
 
     }
 
@@ -300,8 +284,15 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @author 刘峻廷
      */
-    public function sendSms($guid)
+    public function sendSms(Request $request, $guid)
     {
+        if (isset($request->phone)) {
+            // 发送短信
+            return ['StatusCode' => '200', 'ResultData' => 'OK'];
+            $info = self::$userServer->sendSmsCode($request->phone);
+        }
+
+        // 发送直接返回
         return ['StatusCode' => '200', 'ResultData' => 'OK'];
 
         if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);

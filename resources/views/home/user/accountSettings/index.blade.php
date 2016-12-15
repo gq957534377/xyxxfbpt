@@ -174,23 +174,24 @@
                             </div>
                         </div>
 
+                        <p class="fs-c-0 fw-1">请输入验证码</p>
                         <!--发送提示    &    验证错误提示  开始-->
-                        <div class="alert alert-danger">验证码验证失败！</div>
+                        <div id="errorBox3" class="alert alert-danger hidden">验证码验证失败！</div>
                         <!--////////////////////-->
-                        <p class="fs-c-0 fw-1 hidden">我们向<span>15110313915</span>发送了验证短信<br>请你输入短信中的验证码</p>
+                        <p id="sendSmsSuccessTwo" class="fs-c-5 hidden" style="margin-top: 25px;">
+                            含有验证码的短信已发送至手机：
+                            <span id="newSmsBox" class="fs-c-6"></span>
+                        </p>
                         <!--发送提示    &    验证错误提示  结束-->
-
-                        <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                            <div class="form-group mar-cb">
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control form-title" id="captcha_" placeholder="验证码">
-                                </div>
-                                <label for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
-                                <div class="col-sm-3 control-label line-h-1">
-                                    <button type="btn" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_">重新发送</button>
-                                </div>
+                        <div class="form-group mar-cb">
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-title" id="captcha_two" placeholder="验证码">
                             </div>
-                        </form>
+                            <label id="resend_captcha_laravel_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
+                            <div class="col-sm-3 control-label line-h-1">
+                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_two">重新发送</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_three">下一步</button>
@@ -445,6 +446,7 @@
                         console.log(msg);
                         if (msg.StatusCode == '200') {
                             alert(msg.ResultData);
+                            $("#newSmsBox").text(msg.ResultData);
                             $('.tel-step-two').addClass('hidden');
                             $('.tel-step-two + div').addClass('hidden');
                             $('.tel-step-three').removeClass('hidden');
@@ -456,12 +458,44 @@
                 });
 
             });
-
             $('#step_three').on('click', function () {
-                $('.tel-step-three').addClass('hidden');
-                $('.tel-step-three + div').addClass('hidden');
-                $('.tel-step-four').removeClass('hidden');
-                $('.tel-step-four + div').removeClass('hidden');
+                // 发送成功后，验证输入框不为空执行下一步
+                if ($.trim($("#captcha_two").val()) == '') {
+                    $('#errorBox3').html('请输入短信验证码').removeClass('hidden');
+                    return false;
+                };
+
+                // 输入验证码后，异步发送到后台匹配验证码
+                var data = {
+                    'captcha' : $.trim($("#captcha_two").val()),
+                    'step'    : '1',
+                    'tel'     : $("#newSmsBox").text()
+                };
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url  : '/user/change/phone/' + guid,
+                    type : 'PUT',
+                    data : data,
+                    success: function(msg){
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            alert(msg.ResultData);
+                            $('.tel-step-three').addClass('hidden');
+                            $('.tel-step-three + div').addClass('hidden');
+                            $('.tel-step-four').removeClass('hidden');
+                            $('.tel-step-four + div').removeClass('hidden');
+                            window.location.href = '/logout';
+                        } else {
+                            $('#errorBox3').html(msg.ResultData).removeClass('hidden');
+                        }
+                    }
+                });
+
             });
             $('#step_four').on('click', function () {
                 $('.tel-step-four').addClass('hidden');
@@ -557,6 +591,26 @@
                             $('#sendSmsSuccess').removeClass('hidden');
                             // 成功后60秒内禁止再次发送
                             setTime($("#resend_captcha"), $("#resend_captcha_label"));
+
+                        } else {
+                            alert(msg.ResultData);
+                        }
+                    }
+                });
+            });
+
+            $("#resend_captcha_two").click(function() {
+                // 异步发送短信
+                $.ajax({
+                    url  : '/user/sendsms/'+ guid + '?phone=' + $('#newSmsBox').text(),
+                    type : 'GET',
+                    success: function(msg){
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            // 成功后显示
+                            $('#sendSmsSuccessTwo').removeClass('hidden');
+                            // 成功后60秒内禁止再次发送
+                            setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
 
                         } else {
                             alert(msg.ResultData);

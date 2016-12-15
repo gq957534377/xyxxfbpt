@@ -642,4 +642,32 @@ class UserService {
         return ['StatusCode' => '200', 'ResultData' => $result];
 
     }
+
+    /**
+     * 账号改绑
+     * @param array  $where  条件
+     * @param array  $data   修改数据
+     * @param string $type   类型
+     * @return array
+     * @author 刘峻廷
+     */
+    public function changeAccountInfo($where, $data, $type)
+    {
+        switch ($type)
+        {
+            case 'tel':
+                $result = self::$homeStore->updateData($where, $data);
+                if (!$result) {
+                    Log::error('用户账号手机绑定修改失败', $data);
+                    return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
+                } else {
+                    return ['StatusCode' => '400', 'ResultData' => '手机改绑成功，请重新登录!'];
+                }
+                break;
+            case 'email':
+                break;
+            case 'password':
+                break;
+        }
+    }
 }
