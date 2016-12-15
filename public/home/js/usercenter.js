@@ -1,4 +1,5 @@
 /**
+ * 用户中心js公共方法
  * Created by Administrator on 2016/12/14.
  * author：张洵之
  */
@@ -22,5 +23,7 @@ function getPathname() {
     var urlArr = window.location.href.split("/");
     var pathname = urlArr[urlArr.length-1];
     var pathnames = pathname.split("?")[0];
+    var temp  = pathname.split("?")[1]
+    if(temp == "identity=hero") return pathname;
     return pathnames;
 }

@@ -282,14 +282,40 @@ class UserController extends Controller
     {
         //获得第一页的评论数据与被之被评论内容标题
         $nowPage = (int)$request->input('nowPage');
-        $result = self::$commentServer->getCommentsTitles($nowPage,$request);
-        if($result['StatusCode'] == '200') {
-            //分页样式与数据分离
-            $pageData = $result['ResultData']['pageData'];
-            unset($result['ResultData']['pageData']);
-            return view('home.user.commentAndLike',['data' => $result['ResultData'], 'pageData' => $pageData]);
+        $commentResult = self::$commentServer->getCommentsTitles($nowPage,$request);
+        //去除评论干扰项
+        unset($request['nowPage']);
+        $likeResult = self::$commentServer->getLikesTitles(1,$request);
+
+        if ($commentResult['StatusCode'] == '200') {
+            $commentPage = $commentResult['ResultData']['pageData'];
+            unset($commentResult['ResultData']['pageData']);
+            $commentData = $commentResult['ResultData'];
         }else{
-            return view('home.user.commentAndLike',['errinfo' => $result['ResultData']]);
+            $commentData =false;
         }
+
+        if ($likeResult['StatusCode'] == '200') {
+            $likePage = $likeResult['ResultData']['pageData'];
+            unset($likeResult['ResultData']['pageData']);
+            $likeData = $likeResult['ResultData'];
+        }else{
+            $likeData = false;
+        }
+
+        return view('home.user.commentAndLike',['commentData' => $commentData, 'likeData'  => $likeData, 'commentPage' => $commentPage, 'likePage' => $likePage]);
+    }
+
+    /**
+     * 我的点赞ajax数据请求接口
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * author 张洵之
+     */
+    public function getLike(Request $request)
+    {
+        $nowPage = $request->input('nowPage');
+        $likeResult = self::$commentServer->getLikesTitles($nowPage,$request);
+        return response()->json($likeResult);
     }
 }
