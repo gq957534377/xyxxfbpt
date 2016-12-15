@@ -93,4 +93,21 @@ class BaseRedis
     {
         return Redis::Expire($key, $time);
     }
+
+    /**
+     * 添加集合
+     * @param $key 集合的键值
+     * @param $value  集合的值
+     * @return mixed 返回0，表示失败，1表示成功
+     * @author 王通
+     */
+    public static function addSet ($key, $value)
+    {
+        return Redis::Sadd($key, $value);
+    }
+
+    public static function checkSet ($key, $value)
+    {
+        return Redis::SISMEMBER($key, $value);
+    }
 }

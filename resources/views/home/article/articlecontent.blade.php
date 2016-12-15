@@ -9,9 +9,10 @@
 @endsection
 
 @section('content')
+    @if(!empty($StatusCode) && $StatusCode == '200')
         <section class="container-fluid">
           <div class="row content">
-              @if(!empty($StatusCode) && $StatusCode == '200')
+
             <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 content-left">
               <div class="row article-title">
                 <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ $ResultData->title }}</h2>
@@ -45,7 +46,8 @@
                 </span>
               </div>
             </div>
-            @endif
+
+
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 content-right">
               <div class="guangao row">
                 <a href="#"><img class="col-lg-12 col-md-12" src="{{ asset('home/img/test13.jpg') }}"></a>
@@ -86,7 +88,7 @@
                   <!---循环遍历开始-->
                   <li class="row inputs">
                       <form id="comment" method = 'post'>
-                            <input name="action_id" value="{{ $ResultData->guid }}" hidden>
+                            <input name="action_id" value="{{ $ResultData->guid or 0 }}" hidden>
                             <textarea name="content" required>
                             </textarea>
                             <button type="submit" class="subbtn btn btn-warning" >提交</button>
@@ -146,6 +148,8 @@
             </div>
           </div>
         </section>
+
+    @endif
 @endsection
 
 @section('script')

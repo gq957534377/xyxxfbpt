@@ -20,8 +20,8 @@
                     </ul>
                 </li>
                 <li><a href="{{route('school.index')}}">英雄学院</a></li>
-                <li><a href="/market">市场咨询</a></li>
-                <li><a href="/policy">创业政策</a></li>
+                <li><a href="/article?type=1">市场咨询</a></li>
+                <li><a href="/article?type=2">创业政策</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">路演活动<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
