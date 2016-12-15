@@ -37,18 +37,18 @@
     padding-left: 3em;
     background: url("../img/ic-col-gray.png") no-repeat 1.5% 30% / 18px 18px;
 }
-.my-like-box > p:nth-child(2)::before {
-    content: "[";
-    position: absolute;
-    top: -2px;
-    left: 38px;
-}
-.my-like-box > p:nth-child(2)::after {
-    content: "]";
-    position: absolute;
-    top: -2px;
-    left: 173px;
-}
+/*.my-like-box > p:nth-child(2)::before {*/
+    /*content: "[";*/
+    /*position: absolute;*/
+    /*top: -2px;*/
+    /*left: 38px;*/
+/*}*/
+/*.my-like-box > p:nth-child(2)::after {*/
+    /*content: "]";*/
+    /*position: absolute;*/
+    /*top: -2px;*/
+    /*left: 173px;*/
+/*}*/
 
 @media (max-width: 767px) {
 }

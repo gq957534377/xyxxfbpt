@@ -132,6 +132,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/user/change/phone','UserController@changeTel');
         // 评论和赞
         Route::get('/user/commentandlike','UserController@commentAndLike')->name('commentlike');
+        Route::post('/user/commentandlike','UserController@getLike')->name('getLike');
         // 个人中心页
            // 发送短信
         Route::resource('/user/sendsms','UserController@sendSms');

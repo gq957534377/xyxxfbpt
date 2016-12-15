@@ -160,6 +160,9 @@ class Common {
      * @param  object $data 把$request传进来
      * @param  string $table 把表名传进来
      * @param  string $url 把主URL传进来
+     * @param  int $n 一页的数据条数
+     * @param  (string|null) $filed 要做集合查询的字段
+     * @param  array $where 被查询的集合||查询条件
      * @return mixed(array | false)
      * @author 张洵之
      */
