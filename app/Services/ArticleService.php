@@ -43,7 +43,7 @@ class ArticleService
 
     /**
      * 查询对应文章类型的所有文章数据
-     * @param $type
+     * @param $type 文章类型
      * @return array
      * @author 郭庆
      * @modify 王通
@@ -126,7 +126,7 @@ class ArticleService
     /**
      * 查询相关文章信息
      * @param $guid
-     * @return array
+     * @return array  文章的信息，数组格式
      * author 郭庆
      * @modify 王通
      */
@@ -288,7 +288,7 @@ class ArticleService
 
     /**
      * 发表评论
-     * @param $data
+     * @param $data  数组，['action_id' => '文章ID', 'user_id' => '用户ID', 'count '评论内容']
      * @return array
      * @author 郭庆
      * @modify 王通
@@ -336,17 +336,17 @@ class ArticleService
         }else{
             return ['StatusCode' => '403', 'ResultData' => '生成分页样式发生错误'];
         }
-
+        // 得到分页数据
         $Data = self::$sendStore->forPage($nowPage, $forPages, $where);
-        $trailNum = self::$sendStore->getCount(['status' => 1,'user_id' => $data['user_id']]);
-        $releaseNum = self::$sendStore->getCount(['status' => 2,'user_id' => $data['user_id']]);
-        $notNum = self::$sendStore->getCount(['status' => 3,'user_id' => $data['user_id']]);
-        $draftNum = self::$sendStore->getCount(['status' => 4,'user_id' => $data['user_id']]);
+        // 得到已发表的数量
+        $result['trailNum'] = self::$sendStore->getCount(['status' => 1,'user_id' => $data['user_id']]);
+        // 得到审核中的数量
+        $result['releaseNum'] = self::$sendStore->getCount(['status' => 2,'user_id' => $data['user_id']]);
+        // 得到已退稿的数量
+        $result['notNum'] = self::$sendStore->getCount(['status' => 3,'user_id' => $data['user_id']]);
+        // 得到草稿箱的数量
+        $result['draftNum'] = self::$sendStore->getCount(['status' => 4,'user_id' => $data['user_id']]);
 
-        $result['trailNum'] = $trailNum;
-        $result['releaseNum'] = $releaseNum;
-        $result['notNum'] = $notNum;
-        $result['draftNum'] = $draftNum;
         // 判断有没有分页数据
         if(!empty($Data)){
             $result["data"] = $Data;
