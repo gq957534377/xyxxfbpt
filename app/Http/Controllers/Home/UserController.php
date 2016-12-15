@@ -12,6 +12,7 @@ use App\Services\UploadService as UploadServer;
 use Illuminate\Support\Facades\Validator;
 use App\Tools\Avatar;
 use App\Services\CommentAndLikeService as CommentServer;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -227,50 +228,90 @@ class UserController extends Controller
      */
     public function changeTel(Request $request,$guid)
     {
-        $data = $request->all();
-        // 验证过滤数据
-        $validator = Validator::make($request->all(),[
-            'tel' => 'required|min:11|regex:/^1[34578][0-9]{9}$/',
-            'newTel' => 'required|min:11|regex:/^1[34578][0-9]{9}$/',
-            'password' => 'required',
-        ],[
-            'tel.required' => '请填写您的原始手机号<br>',
-            'tel.min' => '确认手机不能小于11个字符<br>',
-            'tel.regex' => '请正确填写您的手机号码<br>',
-            'newTel.required' => '请填写您的新手机号<br>',
-            'newTel.min' => '确认手机不能小于11个字符<br>',
-            'newTel.regex' => '请正确填写您的新手机号码<br>',
-            'password.required' => '请输入您的密码',
+        if (!isset($request->step)) return response()->json(['StatusCode' => '400','ResultData' => '数据缺失！']);
 
-        ]);
+        $newTel = '';
+        switch ($request->step) {
+            case '1':
+                // 验证过滤数据
+                $validator = Validator::make($request->all(),[
+                    'captcha' => 'required',
+                ],[
+                    'captcha.required' => '请输入验证码',
+                ]);
 
-        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+                if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 
-        // 简单数据验证后，提交给业务层
-        $info = self::$userServer->changeTel($data,$guid);
+                // 验证码比对
+                // Session::get('sms')
+                if ($request->captcha != '342766475') return response()->json(['StatusCode' => '400','ResultData' => '输入的验证码错误！']);
 
-        // 返回状态信息
-        switch ($info['status']){
-            case '400':
-                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Tel' => $data['newTel']]);
-                break;
+                return response()->json(['StatusCode' => '200','ResultData' => '短信验证通过...']);
+
+            break;
+            case '2':
+                //验证数据，手机号校验
+                $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
+                if(!preg_match($preg,$request->tel)) return response()->json(['StatusCode' => '400','ResultData' => '请输入正确的手机号!']);
+                $newTel = $request->tel;
+            break;
+
         }
+
+
+        //
+
+//        // 验证过滤数据
+//        $validator = Validator::make($request->all(),[
+//            'tel' => 'required|min:11|regex:/^1[34578][0-9]{9}$/',
+//            'newTel' => 'required|min:11|regex:/^1[34578][0-9]{9}$/',
+//            'password' => 'required',
+//        ],[
+//            'tel.required' => '请填写您的原始手机号<br>',
+//            'tel.min' => '确认手机不能小于11个字符<br>',
+//            'tel.regex' => '请正确填写您的手机号码<br>',
+//            'newTel.required' => '请填写您的新手机号<br>',
+//            'newTel.min' => '确认手机不能小于11个字符<br>',
+//            'newTel.regex' => '请正确填写您的新手机号码<br>',
+//            'password.required' => '请输入您的密码',
+//
+//        ]);
+//
+//        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+//
+//        // 简单数据验证后，提交给业务层
+//        $info = self::$userServer->changeTel($data,$guid);
+//
+//        // 返回状态信息
+//        switch ($info['status']){
+//            case '400':
+//                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
+//                break;
+//            case '200':
+//                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Tel' => $data['newTel']]);
+//                break;
+//        }
 
     }
 
-
+    /**
+     * 修改绑定手机，发送短信验证
+     * @param $guid
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
     public function sendSms($guid)
     {
+        return ['StatusCode' => '200', 'ResultData' => 'OK'];
+
         if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
 
+        // 拿到给用户的手机号
         $tel = self::$userServer->accountInfo(['guid' => $guid])['ResultData']->tel;
-
+        // 发送短信
         $info = self::$userServer->sendSmsCode($tel);
 
-        dd($info);
+        return response()->json($info);
     }
 
      /**

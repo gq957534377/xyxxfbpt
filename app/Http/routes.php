@@ -152,9 +152,6 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     });
 
 
-
-
-
 });
 
 

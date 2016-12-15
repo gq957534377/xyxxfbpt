@@ -307,6 +307,7 @@
     cropDone: function () {
       this.$avatarForm.get(0).reset();
       this.$avatar.attr('src', this.url);
+      $('.user_avatar').attr('src', this.url);
       $('#topAvatar').attr('src', this.url);
       this.stopCropper();
       this.$avatarModal.modal('hide');
