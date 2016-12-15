@@ -37,10 +37,12 @@
                         'action_id': $("input[name= 'action_id']").val()
                     },
                     success:function(data){
+                        console.log(data);
                         switch (data.StatusCode){
                             case '400':
                                 // promptBoxHandle('警告',data.ResultData);
-                                alert('警告',data.ResultData);
+                                alert('警告:' + data.ResultData);
+
                                 break;
                             case '200':
                                 var html = '<li class="row">';

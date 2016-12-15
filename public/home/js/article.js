@@ -2,14 +2,20 @@
  * Created by wangt on 2016/12/11.
  */
 
-
+/**
+ * 点赞的方法，
+ * @author 王通
+ */
 $('#like').on('click', function () {
     var me = $(this);
     var id = me.data('id');
     $.ajax({
         type : 'get',
-        url: '/article/' + id + '/edit',
-        processData: false, // 告诉jQuery不要去处理发送的数据
+        url: '/article/like',
+        data: {
+            'art_guid': id,
+        },
+
         contentType: false, // 告诉jQuery不要去设置Content-Type请求头
         async: true,
         success: function(msg){
@@ -23,7 +29,6 @@ $('#like').on('click', function () {
                     me.toggleClass('taoxin');
                     break;
                 default:
-
                     alert('请先登录');
                     location.href = "http://www.hero.app/login";
                     break;

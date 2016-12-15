@@ -23,7 +23,7 @@
                     <img src="{{ $val->banner }}">
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">
-                    <h3><a href="/market/{{ $val->guid }}">{{ $val->title }}</a></h3>
+                    <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>
                     <p>{{ $val->brief }}</p>
                     <div class="row list-font-bottom">
                       <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">2016-12-31 15:04</span>
