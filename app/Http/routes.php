@@ -127,14 +127,14 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/identity','RoleController');
         // 修改头像
         Route::resource('/headpic','UserController@headpic');
-        // 申请投资者
-        Route::resource('/user/apply','UserController@applyRole');
-        // 申请英雄会会员
-        Route::resource('/user/apply/memeber','UserController@applyHeroMemeber');
         // 修改账号绑定信息
         Route::resource('/user/change/email','UserController@changeEmail');
         Route::resource('/user/change/phone','UserController@changeTel');
+        // 评论和赞
+        Route::get('/user/commentandlike','UserController@commentAndLike')->name('commentlike');
         // 个人中心页
+           // 发送短信
+        Route::resource('/user/sendsms','UserController@sendSms');
         Route::resource('/user','UserController');
         // 前台登出
         Route::get('/logout','LoginController@logout');
@@ -147,11 +147,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/activity', 'ActivityController');
         //投稿管理
         Route::resource('/send', 'SendController');
+
         Route::resource('/upload','ActionController@upload');
-
-
-
-
     });
 
 

@@ -27,9 +27,10 @@ class MarketController extends Controller
 
     }
     /**
-     * Display a listing of the resource.
+     * 文章列表页
      *
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function index()
     {

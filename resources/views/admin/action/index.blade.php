@@ -495,9 +495,6 @@
                     <option value="3">学习</option>
                 </select>
             </div>
-            <div class="col-md-4">
-                <button class="btn-primary" id="chakan">查看</button>
-            </div>
         </div>
 
 
@@ -830,7 +827,7 @@
         }
 
         //分类查看数据
-        $('#chakan').click(function () {
+        $('#xz_type').change(function () {
             listType($('#xz_type').val(), list_status);
         });
 

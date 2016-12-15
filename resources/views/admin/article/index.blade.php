@@ -261,9 +261,6 @@
                     <option value="2">政策</option>
                 </select>
             </div>
-            <div class="col-md-4">
-                <button class="btn-primary" id="chakan">查看</button>
-            </div>
         </div>
         <div class="btn-group-vertical">
             <div class="btn-group-vertical">
@@ -425,7 +422,7 @@
             list(type,status,user);
         }
         //分类查看数据
-        $('#chakan').click(function(){
+        $('#xz_type').change(function(){
             listType($('#xz_type').val(),list_status,list_user);
         });
 

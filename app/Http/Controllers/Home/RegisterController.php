@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Validator;
+use App\Redis\BaseRedis;
 
 
 class RegisterController extends Controller
@@ -33,7 +34,8 @@ class RegisterController extends Controller
     public function index()
     {
         if (!empty(session('user'))) return redirect('/');
-        return view('home.register');
+        $val = session()->getId();
+        return view('home.register', ['sesid' => $val]);
     }
 
     /**
@@ -188,7 +190,9 @@ class RegisterController extends Controller
         if(!preg_match($preg,$id)) return response()->json(['StatusCode'=>'200','ResultData' =>'请输入正确的手机号！']);
         // 查询该手机是否已注册
         $info = self::$userServer->userInfo(['tel'=>$id]);
-        if($info['status']) return response()->json(['StatusCode'=>'400','ResultData' => '此手机号已被注册！']);
+
+        if($info['StatusCode'] == '200') return response()->json(['StatusCode'=>'400','ResultData' => '此手机号已被注册！']);
+
         // 真，发送短信
         $info = self::$userServer->sendSmsCode($id);
 

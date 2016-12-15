@@ -26,37 +26,38 @@ $(document).ready(function (){
             switch(msg.StatusCode){
                 case '200':
                     console.log(msg.ResultData);
-                    user_avatar.attr('src',msg.ResultData.msg.headpic);
-                    user_name.html(msg.ResultData.msg.realname);
+
+                    user_avatar.attr('src',msg.ResultData.headpic);
+                    user_name.html(msg.ResultData.realname);
 
                     var sex ='';
-                    if (msg.ResultData.msg.sex == 1) {
+                    if (msg.ResultData.sex == 1) {
                         sex = '男';
-                    } else if(msg.ResultData.msg.sex == 2) {
+                    } else if(msg.ResultData.sex == 2) {
                         sex = '女';
                     } else{
                         sex = '保密';
                     }
 
                     user_sex.html(sex);
-                    user_birthday.html(msg.ResultData.msg.birthday);
+                    user_birthday.html(msg.ResultData.birthday);
                     user_webchat.html('无');
                     user_info.html('无');
 
-                    hide_avatar.attr('src',msg.ResultData.msg.headpic);
-                    hide_realname.empty().val(msg.ResultData.msg.realname);
+                    hide_avatar.attr('src',msg.ResultData.headpic);
+                    hide_realname.empty().val(msg.ResultData.realname);
 
-                    if (msg.ResultData.msg.sex == 1)
+                    if (msg.ResultData.sex == 1)
                     {
                        $('#male').attr('checked',true);
-                    } else if(msg.ResultData.msg.sex == 2)
+                    } else if(msg.ResultData.sex == 2)
                     {
                         $('#female').attr('checked',true);
                     } else {
                         $('#other-sex').attr('checked',true);
                     }
 
-                    hide_birthday.empty().val(msg.ResultData.msg.birthday);
+                    hide_birthday.empty().val(msg.ResultData.birthday);
 
                     $(".loading").hide();
                     break;

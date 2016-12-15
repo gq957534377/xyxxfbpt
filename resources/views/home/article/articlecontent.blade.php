@@ -30,7 +30,7 @@
                 <div class="fwb col-lg-12 col-md-12 col-sm-12 col-xs-12">{!! $ResultData->describe !!}</div>
               </div>
               <div class="row article-bottom">
-                  @if($ResultData->likenum)
+                  @if($ResultData->like)
                         <span id="like" data-id="{{ $ResultData->guid }}" class="taoxin col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
                             点赞 {{ $ResultData->likenum or 0 }}
                         </span>

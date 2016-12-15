@@ -45,9 +45,9 @@ class UserService {
     {
         $result = self::$userStore->getOneData($where);
         //返回错误状态信息
-        if(!$result) return ['status' => false,'msg' => '没有找到'];
+        if(!$result) return ['StatusCode' => '400','ResultData' => '没有找到该用户信息!'];;
         //返回数据
-        return  ['status' => true,'msg' => $result];
+        return ['StatusCode' => '200','ResultData' => $result];
     }
 
     /**
@@ -251,7 +251,7 @@ class UserService {
         $sms = Session::get('sms');
         $name = '英雄,';
         $number = mt_rand(100000, 999999);
-        $content = ['name'=>$name,'number'=>$number];
+        $content = ['name' => $name,'number' => $number];
 
         //校验
         if($sms['phone']==$phone){
@@ -268,7 +268,8 @@ class UserService {
 
             return ['status' => '200','msg' => '发送成功，请注意查收！'];
         }else{
-            $resp =  Common::sendSms($phone,$content,'兄弟会','SMS_25700502');
+            $resp =  Common::sendSms($phone, $content, '兄弟会', 'SMS_25700502');
+
             // 发送失败
             if(!$resp) return ['status' => '400','msg' => '短信发送失败，请重新发送！'];
             $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
@@ -425,13 +426,13 @@ class UserService {
     public function avatar($guid,$avatarName)
     {
         // 检验数据
-        if(empty($guid) || empty($avatarName)) return response()->json(['StatusCode' => '400','ResultData' => '缺少数据']);
+        if(empty($guid) || empty($avatarName)) return ['StatusCode' => '400','ResultData' => '缺少数据'];
         //转交store层
         $info = self::$userStore->updateUserInfo(['guid' => $guid],['headpic' => $avatarName]);
 
         if(!$info) {
             Log::error('头像上传失败',$info);
-            return response()->json(['StatusCode' => '400','ResultData' => '保存失败']);
+            return ['StatusCode' => '400','ResultData' => '保存失败'];
         }
 
         //成功后再进行数据重组，转存到session中
@@ -444,26 +445,43 @@ class UserService {
 
         Session::put('user',$temp);
 
-        return response()->json(['StatusCode' => '200','ResultData' => $avatarName]);
+        return ['StatusCode' => '200','ResultData' => $avatarName];
 
     }
 
 
     /**
-     * 申请成为创业者
+     * 申请成为创业者 或 投资者
      * @param $data
      * @return array
      * @author 刘峻廷
      */
     public function applyRole($data)
     {
-        // 查看该用户是否已申请
-        $info= self::$roleStore->getRole(['guid' => $data['guid']]);
+        // 校验当前用户的角色
+        $userInfo = self::$userStore->getOneData(['guid' => $data['guid']]);
+
+        if ($data['role'] == 4) {
+            if ($userInfo->memeber == 4)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
+            // 查看该用户是否已申请
+            $info= self::$roleStore->getRole(['guid' => $data['guid'], 'role' => '4']);
+
+        } else {
+            if ($userInfo->role == 2) {
+                return ['StatusCode' => '400', 'ResultData' => '您已是创业者！'];
+            } else if ($userInfo->role == 3) {
+                return ['StatusCode' => '400', 'ResultData' => '您已是投资者！'];
+            }
+            // 查看该用户是否已申请
+            $info= self::$roleStore->getRole(['guid' => $data['guid']]);
+        }
+
+
         // 查询不为空
         if(!empty($info)) {
             // 判断审批状态
             if ($info->status == '1') {
-                return ['StatusCode' => '400', 'ResultData' => '已申请，正在审核中...'];
+                return ['StatusCode' => '400', 'ResultData' => '您已有申请项，正在审核中，请耐心等待...'];
             } else if ($info->status == '2') {
                 return ['StatusCode' => '400', 'ResultData' => '已申请成功，无需再次申请。'];
             }
@@ -472,6 +490,10 @@ class UserService {
         // 事务处理
         DB::beginTransaction();
         try {
+            if ($data['role'] == 4) {
+                $data['realname'] = $userInfo->realname;
+                $data['tel'] = $userInfo->tel;
+            }
             $result = self::$roleStore->addRole($data);
 
             // 返回信息处理
@@ -481,15 +503,12 @@ class UserService {
             };
             // 申请成功后，根据新的用户信息对data_user_info表进行一次数据覆盖更新
             $user = [];
+            // 申请会员的
             $user['realname'] = $data['realname'];
             $user['tel'] = $data['tel'];
 
-            $result = self::$userStore->updateUserInfo(['guid' => $data['guid']], $user);
-//            // 更新用户信息失败，回滚
-//            if (!$result) {
-//                DB::rollback();
-//                return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
-//            }
+
+            self::$userStore->updateUserInfo(['guid' => $data['guid']], $user);
 
             DB::commit();
             return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
@@ -497,62 +516,6 @@ class UserService {
             DB::rollback();
             return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
         }
-    }
-
-    /**
-     * 申请英雄会会会员
-     * @param $data
-     * @return array
-     * @author 刘峻廷
-     */
-    public function applyMemeber($data)
-    {
-        // 获取当前用户是否存在
-        $result = self::$roleStore->getOneData(['guid' => $data['guid']]);
-
-        if (!$result) {
-            // 新增
-            $result = self::$roleStore->addRole($data);
-
-            if ($result) return ['status' => '200', 'msg' => '申请会员成功，请等待审核！'];
-
-            Log::error('申请英雄会会员',$result);
-            return ['status' => '400', 'msg' => '申请会员失败，数据异常'];
-        } else {
-            // 判断用户是否已申请
-
-            switch ($result->memeber) {
-                case 1:
-                    // 修改字段
-                    DB::transaction(function () use($data) {
-                        $result = self::$roleStore->updateUserInfo(['guid' => $data['guid']], ['memeber' => 2]);
-                        $resultUser = self::$userStore->updateUserInfo(['guid' => $data['guid']], ['memeber' => 2]);
-                    });
-
-                    if ($result) return ['status' => '200', 'msg' => '申请会员成功，请等待审核！'];
-
-                    Log::error('申请英雄会会员',$data);
-                    return ['status' => '400', 'msg' => '申请会员失败，修改失败'];
-                    break;
-                case 2:
-                    return ['status' => '400', 'msg' => '已申请会员，请等待管理员审核'];
-                    break;
-                case 3:
-                    return ['status' => '400', 'msg' => '已是英雄会会员，无需再申请'];
-                    break;
-                case 4:
-                    // 修改字段
-                    $result = self::$roleStore->updateUserInfo(['guid' => $data['guid']], ['memeber' => 2]);
-
-                    if ($result) return ['status' => '200', 'msg' => '申请会员成功，请等待审核！'];
-
-                    Log::error('申请英雄会会员',$data);
-                    return ['status' => '400', 'msg' => '申请会员失败，修改失败'];
-                    break;
-            }
-
-        }
-
     }
 
     /**
@@ -660,6 +623,23 @@ class UserService {
         } else {
             return ['status' => '200', 'msg' => '更改手机号绑定成功!'];
         }
+
+    }
+
+    /**
+     * 获取账号信息
+     * @param $where
+     * @return array
+     * @author 刘峻廷
+     */
+    public function accountInfo($where)
+    {
+        $result = self::$homeStore->getOneData($where);
+
+        // 判断数据
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '账号不存在'];
+
+        return ['StatusCode' => '200', 'ResultData' => $result];
 
     }
 }

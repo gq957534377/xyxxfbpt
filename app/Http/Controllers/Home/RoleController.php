@@ -48,7 +48,7 @@ class RoleController extends Controller
     }
 
     /**
-     *申请角色
+     * 申请角色
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @author 刘峻廷
@@ -57,6 +57,10 @@ class RoleController extends Controller
     {
         // 获取数据
         $data = $request->all();
+        if (isset($request->role) && $request->role ==4 ) {
+            $result = self::$userServer->applyRole($data);
+            return response()->json($result);
+        }
         //验证数据
         $validator = Validator::make($request->all(),[
             'guid' => 'required',
@@ -124,7 +128,6 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
 
     }
 

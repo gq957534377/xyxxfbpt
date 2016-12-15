@@ -191,7 +191,7 @@ class Common {
      * @return mixed(array | false)
      * @author 张洵之
      */
-    public static function  getPageUrlsUN($data, $table, $url, $n,$filed,$where)
+    public static function  getPageUrlsAjax($data, $table, $url, $n,$filed,$where)
     {
         if(empty($table) || empty($url)) return false;
         $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
@@ -206,7 +206,7 @@ class Common {
         if($nowPage > $totalPage) $nowPage = $totalPage;
         return [
             'nowPage' => $nowPage,
-            'pages'   => CustomPage::getSelfPageViewUN($nowPage, $totalPage, $baseUrl,null),
+            'pages'   => CustomPage::getSelfPageViewAjax($nowPage, $totalPage, $baseUrl,null),
         ];
 
     }
@@ -268,7 +268,7 @@ class Common {
     {
         foreach($words as $word){
             $content = trim($word->$filed);
-            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';;
+            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
             $word->$filed = $content;
         }
 

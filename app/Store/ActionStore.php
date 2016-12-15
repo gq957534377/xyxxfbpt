@@ -107,9 +107,7 @@ class ActionStore
      */
     public function takeActions($where,$number)
     {
-        return DB::table(self::$table)
-            ->where($where)
-            ->take($number)
-            ->get();
+        return DB::table(self::$table)->where($where)->take($number)->get();
     }
+
 }
