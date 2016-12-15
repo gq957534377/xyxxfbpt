@@ -135,7 +135,7 @@ class LoginController extends Controller
     {
         // 短信验证码次数验证
         $res5 = Safety::checkIpSMSCode($request->getClientIp(), 1111);
-        dd($res5);
+//        dd($res5);
         // 检查IP有没有被加入黑名单
         $res1 = Safety::checkIpBlackList(config('safety.BLACKLIST') . $request->getClientIp());
         // 防止快速刷新
@@ -145,9 +145,9 @@ class LoginController extends Controller
         // 请求数量，以及通过sessionID验证
         $res3 = Safety::session_number($tmp);
 
-        if ($res1 || $res2 || $res3 || $res4) {
-            return view('welcome');
-        }
+//        if ($res1 || $res2 || $res3 || $res4) {
+//            return view('welcome');
+//        }
         return Common::captcha($tmp);
     }
 
