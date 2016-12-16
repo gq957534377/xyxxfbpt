@@ -100,12 +100,12 @@
                             <li class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                     <div class="user-img-bgs">
-                                        <img src="{{ $val->headpic }}">
+                                        <img src="{{ $val->userImg }}">
                                     </div>
                                 </div>
                                 <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                     <div class="row user-say1">
-                                        <span>{{ $val->user_name }}</span>
+                                        <span>{{ $val->nikename }}</span>
                                         <span>{{ $val->time }}</span>
                                     </div>
                                         <div class="row user-say2">

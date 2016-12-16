@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Home;
 use App\Services\ProjectService;
 use App\Services\UserRoleService;
 use App\Services\UserService;
+use App\Services\CommentAndLikeService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,17 +18,19 @@ class ProjectController extends Controller
     protected static $projectServer = null;
     protected static $userRoleServer = null;
     protected static $userServer = null;
+    protected static $commentServer = null;
 
 
     /**单例引入projectService
      * ProjectController constructor.
      * @param ProjectService $projectService
      */
-    public function __construct(ProjectService $projectService, UserService $userServer, UserRoleService $userRoleServer)
+    public function __construct(ProjectService $projectService, UserService $userServer, UserRoleService $userRoleServer, CommentAndLikeService $commentServer)
     {
         self::$projectServer = $projectService;
         self::$userServer = $userServer;
         self::$userRoleServer = $userRoleServer;
+        self::$commentServer = $commentServer;
     }
 
     /**返回项目列表页
@@ -111,9 +114,9 @@ class ProjectController extends Controller
         if (!$userResult['StatusCode'] == '400') return response()->json(['status'=>'500','msg'=>'查询失败']);
         $userinfo = $userResult['ResultData'];
         $userinfo->headpic = $headpic;
-
+        $commentData = self::$commentServer->getComent($id,1);
 //        return view('home.project.pro_details')->with('data',$res['data']);
-        return view('home.projects.details', compact('project_details', 'userinfo'));
+        return view('home.projects.details', compact('project_details', 'userinfo', 'commentData', 'id'));
     }
 
     /**

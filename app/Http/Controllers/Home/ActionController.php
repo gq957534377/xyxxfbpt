@@ -9,15 +9,18 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
 use App\Services\UserService as UserServer;
+use App\Services\CommentAndLikeService as CommentServer;
 
 class ActionController extends Controller
 {
     protected  static $actionServer;
     protected  static $userServer;
-    public function __construct(ActionServer $actionServer, UserServer $userServer)
+    protected  static $commentServer;
+    public function __construct(ActionServer $actionServer, UserServer $userServer ,CommentServer $commentServer)
     {
         self::$actionServer = $actionServer;
         self::$userServer = $userServer;
+        self::$commentServer = $commentServer;
     }
     /**
      * 根据所选活动类型导航，返回相应的列表页+数据.
@@ -90,7 +93,7 @@ class ActionController extends Controller
         //所需要数据的获取
         $data = self::$actionServer->getData($id);//活动详情
         $likeNum = self::$actionServer-> getLikeNum($id);//支持/不支持人数
-
+        $commentData = self::$commentServer->getComent($id,1);
         //$isHas（是否已经报名参加）的设置
         if (!isset(session('user')->guid)){
             $isLogin = false;
@@ -110,7 +113,9 @@ class ActionController extends Controller
             "data" => $data["msg"],
             'isLogin' => $isLogin,
             'isHas' => $isHas,
-            'likeNum' => $likeNum['msg']
+            'likeNum' => $likeNum['msg'],
+            'comment' => $commentData,
+            'contentId' => $id
         ]);
     }
 

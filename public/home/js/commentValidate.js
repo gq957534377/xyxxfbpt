@@ -61,7 +61,7 @@
                                 html += '</div>';
                                 html += '</li>';
                                 $('#commentlist').find('li').eq(0).after(html);
-                                $('#commentlist').find('li').eq(4).remove();
+                                $('#commentlist').find('li').eq(6).remove();
                                 break;
                         }
                     }

@@ -69,10 +69,20 @@ class CommentAndLikeService
     {
         //被评论的内容数据
         switch ($type){
-            case 1 : $data = self::$sendStore->getOneDatas(['guid' => $id]);break;
-            case 2 : $data = self::$projectStore->getOneData(['project_id' => $id]);break;
-            default: $data = self::$actionStore->getOneData(['guid' => $id]);
+
+            case 1 :
+                $data = self::$sendStore->getOneDatas(['guid' => $id]);
+                break;
+
+            case 2 :
+                $data = self::$projectStore->getOneData(['project_id' => $id]);
+                break;
+
+            default :
+                $data = self::$actionStore->getOneData(['guid' => $id]);
+
         }
+
         if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有相关内容信息'];
 
         return ['StatusCode' => '200', 'ResultData' => $data];
@@ -246,7 +256,7 @@ class CommentAndLikeService
     }
 
     /**
-     * 评论成功后返回的数据
+     * 拼装评论成功后返回的数据
      * @param string $time 评论发布日期
      * @param string $content   评论内容
      * @return array
@@ -264,11 +274,38 @@ class CommentAndLikeService
         ];
     }
 
-    public function getComent($contentId)
+    /**
+     * 获取该内容下的评论
+     * @param int|string $contentId 内容ID
+     * @param int $page 页码
+     * @return array
+     * author 张洵之
+     */
+    public function getComent($contentId, $page)
     {
-        $commentData = $this->getForPageUserComment(['action_id' => $contentId],1);
+        $commentData = $this->getForPageUserComment(['action_id' => $contentId], $page);
 
-        if(!$commentData) return ['StatusCode' => '400', 'ResultData' => '暂无评论'];
+        if($commentData['StatusCode'] == '400') return $commentData;
 
+        $commentData = $this->addUserInfo($this->openData($commentData));
+
+        return $commentData;
+    }
+
+    /**
+     * 添加用户数据
+     * @param array $commentData 评论表数据
+     * @return array
+     * author 张洵之
+     */
+    public function addUserInfo($commentData)
+    {
+        foreach ($commentData as $data) {
+            $userInfoData = self::$userStore->getOneData(['guid' => $data->user_id]);
+            if (empty($userInfoData)) return ['StatusCode' => '400', 'ResultData' => $data->user_id];
+            $data->userImg = $userInfoData->headpic;//添加用户头像
+            $data->nikename = $userInfoData->nickname;//添加用户昵称
+        }
+        return ['StatusCode' => '200', 'ResultData' => $commentData];
     }
 }

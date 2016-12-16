@@ -85,7 +85,7 @@ class ArticleController extends Controller
         // 判断有没有文章信息
         if ($res['StatusCode'] == '200') {
             // 获取评论表+like表中某一个文章的评论
-            $comment = self::$articleServer->getComment($id, 3);
+            $comment = self::$commentServer->getComent($id,1);
             // 判断有没有评论信息
             if ($comment['StatusCode'] == '201') {
                 $res['ResultData']->comment = [];
