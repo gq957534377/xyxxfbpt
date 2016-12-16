@@ -135,7 +135,7 @@
             for (var data in likeData) {
                 html += "<div class='my-like-box pad-3 bb-1'>";
                 html +=     "<p class='col-xs-12'>";
-                html +=         "<a href="+likeData[data]['action_id']+"><span>活动</span>";
+                html +=         "<a href='{{route('action.show', null)}}/"+likeData[data]['action_id']+"'><span>活动</span>";
                 html +=             likeData[data]['contentTitle'];
                 html +=         "</a></p>";
                 html +=     "<p class='col-xs-12 mar-cb'>";

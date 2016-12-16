@@ -89,11 +89,11 @@
                   <li class="row inputs">
                       <form id="comment" method = 'post'>
                             <input name="action_id" value="{{ $ResultData->guid or 0 }}" hidden>
+                            <input name="type" value="1" hidden>
                             <textarea name="content" required>
                             </textarea>
                             <button type="submit" class="subbtn btn btn-warning" >提交</button>
                       </form>
-
                   </li>
                     @if(!empty($ResultData->comment))
                         @foreach($ResultData->comment as $val)
@@ -113,7 +113,6 @@
                                     </div>
                                 </div>
                             </li>
-
                         @endforeach
                             <div class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">

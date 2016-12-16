@@ -32,6 +32,7 @@ class CommentAndLikeService
 
     /**
      * 分页获得当前用户的评论信息
+     * @param array $where 查询条件
      * @param int $page 页码
      * @return array
      * author 张洵之
@@ -182,5 +183,76 @@ class CommentAndLikeService
 
         $likeDatas['pageData'] = $pageData;
         return ['StatusCode' => '200', 'ResultData' => $likeDatas];
+    }
+
+    /**
+     * 发表评论
+     * @param $data 前台数据
+     * @return array
+     * @author 郭庆
+     * @modify 王通
+     * @modify 张洵之
+     */
+    public  function comment($data)
+    {
+        $data["time"] = date("Y-m-d H:i:s", time());
+
+        // 判断两次评论之间的时间间隔
+        $oldTime = $this->getUserCommentTime ($data['action_id'], session('user')->guid);
+
+//        if (($oldTime + config('safety.COMMENT_TIME')) > time()) {
+//            return ['StatusCode' => '400', 'ResultData' => '两次评论间隔过短，请稍后重试'];
+//        };
+
+        $result = self::$commentStore->addData($data);
+        if($result) {
+            $userData = $this->getUserCommentData($data['time'], $data['content']);
+            return ['StatusCode' => '200', 'ResultData' => $userData];
+        }
+
+        return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
+
+    }
+
+    /**
+     * 得到该用户上次评论同文章的时间
+     * @param $acricle_id   文章ID
+     * @param $user_id  用户ID
+     * @return $time  时间戳
+     * @author 王通
+     */
+    public  function getUserCommentTime ($acricle_id, $user_id)
+    {
+        $res = self::$commentStore->getCommentTime($acricle_id, $user_id);
+        if (empty($res)) {
+            return 0;
+        } else {
+            return strtotime($res[0]->time);
+        }
+    }
+
+    /**
+     * 评论成功后返回的数据
+     * @param string $time 评论发布日期
+     * @param string $content   评论内容
+     * @return array
+     * author 张洵之
+     */
+    public function getUserCommentData($time,$content)
+    {
+        $userImg = session('user')->headpic;
+        $nikename = session('user')->nickname;
+        return [
+            'userImg' => $userImg,
+            'nikename' => $nikename,
+            'time' => $time,
+            'content' => $content
+        ];
+    }
+
+    public function getComent($contentId)
+    {
+        $comentData = $this->getForPageUserComment(['action_id' => $contentId],1);
+        if(!$commentData) return ['StatusCode' => '201', 'ResultData' => '暂无评论'];
     }
 }

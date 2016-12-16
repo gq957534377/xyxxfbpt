@@ -198,6 +198,7 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author 王通
+     * @modify 张洵之
      */
     public function setComment (Request $request)
     {
@@ -205,9 +206,11 @@ class ArticleController extends Controller
         $validator = Validator::make($request->all(), [
             'content' => 'required|max:150',
             'action_id' => 'required',
+            'type' => 'required'
         ], [
             'content.required' => '评论内容不能为空',
             'action_id.required' => '非法请求',
+            'type.required' => '缺少重要参数',
             'content.max' => '评论过长',
         ]);
 
@@ -216,10 +219,10 @@ class ArticleController extends Controller
         }
         $data = $request->all();
 
-        $data['user_id'] = usession('user')->gid;
+        $data['user_id'] = session('user')->guid;
 
         // 保存评论
-        $result = self::$articleServer->comment($data);
+        $result = self::$commentServer->comment($data);
 
         return response()->json($result);
     }

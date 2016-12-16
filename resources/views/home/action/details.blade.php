@@ -105,8 +105,13 @@
                 <ul class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <!---循环遍历开始-->
                     <li class="row inputs">
-                        <textarea></textarea>
-                        <button class="subbtn btn btn-warning bgc-2" >提交</button>
+                        <form id="comment" method = 'post'>
+                            <input name="action_id" value="{{ $ResultData->guid or 0 }}" hidden>
+                            <input name="type" value="3" hidden>
+                            <textarea name="content" required>
+                            </textarea>
+                            <button type="submit" class="subbtn btn btn-warning" >提交</button>
+                        </form>
                     </li>
                     <li class="row">
                         <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
@@ -150,6 +155,7 @@
     <!--活动说明 & 评论 结束-->
 @endsection
 @section('script')
+    <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script>
         @if($isLogin)
         $('#js_enroll').click(function(){
