@@ -286,7 +286,7 @@
                     str += '<td>英雄会员</td>';
                 }
 
-                if(v.sex==0 ){
+                if(v.sex == 0){
                     str += '<td>男</td>';
                 }else{
                     str +=  '<td>女</td>';

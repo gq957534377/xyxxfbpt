@@ -85,14 +85,20 @@ class TestController extends Controller
         if(count($where) > 1){
             $table = 'data_role_info';
             $count = \DB::table($table)->where('status', $where['status'])->where('role', $where['role'])->count();
-            //dd($count);
+
+
         }else{
             $table = 'data_user_info';
             $count = \DB::table($table)->where('role', $where['role'])->count();
-            //dd(234);
+
         }
 
-        $pageNums = 5;  //一页的数据条数
+        //没有数据返回400
+        if ($count == 0){
+            return response()->json(['StatusCode' => 400]);
+        }
+
+        $pageNums = 1;  //一页的数据条数
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;   //获取当前页
         //总页数
         $totalPage = ceil($count / $pageNums);
@@ -124,10 +130,8 @@ class TestController extends Controller
             $Data = \DB::table($table)->where('role', $where['role'])->forPage($nowPage, $pageNums)->get();
         }
 
-        //没有数据返回400
-        if (!$Data){
-            return response()->json(['StatusCode' => 400]);
-        }
+
+
 
         //有则返回200和用户列表信息
         return response()->json(['StatusCode' => 200, 'ResultData' => [$pageStr,$Data]]);
