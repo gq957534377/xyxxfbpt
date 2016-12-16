@@ -43,7 +43,7 @@ class ArticleService
 
     /**
      * 查询对应文章类型的所有文章数据
-     * @param $type
+     * @param $type 文章类型
      * @return array
      * @author 郭庆
      * @modify 王通
@@ -104,7 +104,6 @@ class ArticleService
         if ($user){
             $where['user'] = $user;
         }
-
         //创建分页
         $creatPage = Common::getPageUrls($data, "data_send_info", "/article/create", $forPages, null, $where);
         if(isset($creatPage)){
@@ -127,15 +126,14 @@ class ArticleService
     /**
      * 查询相关文章信息
      * @param $guid
-     * @return array
+     * @return array  文章的信息，数组格式
      * author 郭庆
      * @modify 王通
      */
     public function getData($guid)
     {
         $data = self::$sendStore->getOneData(["guid" => $guid]);
-
-
+        // 判断有没有取到数据
         if ($data) {
             $likenum = $this->getLikeNum($guid)['msg'][0];
             $data->likenum = $likenum;
@@ -150,14 +148,13 @@ class ArticleService
             } else {
                 $data->like = false;
             }
-
             return ['StatusCode' => '200', 'ResultData' => $data];
 
         }
         //查询一条数据文章信息
         $data = self::$sendStore->getOneData(["guid" => $guid]);
-        if($data) return ['status' => true, 'msg' => $data];
-        return ['status' => false, 'msg' => "文章信息获取失败！"];
+        if($data) return ['StatusCode' => true, 'ResultData' => $data];
+        return ['StatusCode' => '201', 'ResultData' => "没有该文章信息！"];
     }
 
     /**
@@ -213,15 +210,15 @@ class ArticleService
     public static function getComment($id, $limit)
     {
         $comment = self::$commentStore->getSomeData(['action_id' => $id], $limit);
+
         if(!$comment) return ['StatusCode' => '201', 'ResultData' => '暂无评论'];
-        // return ['status' => true, 'msg' => $comment];
 
             foreach ($comment as $v)
             {
                 $res = self::$userServer->userInfo(['guid' => $v->user_id]);
-                if($res['status']){
-                    $v->user_name = $res['msg']->nickname;
-                    $v->headpic = $res['msg']->headpic;
+                if($res['StatusCode'] == '200'){
+                    $v->user_name = $res['ResultData']->nickname;
+                    $v->headpic = $res['ResultData']->headpic;
                 }else{
                     $v->user_name = '无名英雄';
                     $v->headpic = '';
@@ -291,7 +288,7 @@ class ArticleService
 
     /**
      * 发表评论
-     * @param $data
+     * @param $data  数组，['action_id' => '文章ID', 'user_id' => '用户ID', 'count '评论内容']
      * @return array
      * @author 郭庆
      * @modify 王通
@@ -299,8 +296,20 @@ class ArticleService
     public static function comment($data)
     {
         $data["time"] = date("Y-m-d H:i:s", time());
+
+
+        // 判断两次评论之间的时间间隔
+        $oldTime = self::getUserCommentTime ($data['action_id'], session('user')->guid);
+        if (($oldTime + config('safety.COMMENT_TIME')) > time()) {
+            return ['StatusCode' => '400', 'ResultData' => '两次评论间隔过短，请稍后重试'];
+        };
+
         $result = self::$commentStore->addData($data);
-        if($result) return ['StatusCode' => '200', 'ResultData' => $data];
+        if($result) {
+            // 获取评论信息
+            $comment = self::getComment($data['action_id'], 1);
+            return ['StatusCode' => '200', 'ResultData' => $comment['ResultData'][0]];
+        }
 
         return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
 
@@ -327,17 +336,17 @@ class ArticleService
         }else{
             return ['StatusCode' => '403', 'ResultData' => '生成分页样式发生错误'];
         }
-
+        // 得到分页数据
         $Data = self::$sendStore->forPage($nowPage, $forPages, $where);
-        $trailNum = self::$sendStore->getCount(['status' => 1,'user_id' => $data['user_id']]);
-        $releaseNum = self::$sendStore->getCount(['status' => 2,'user_id' => $data['user_id']]);
-        $notNum = self::$sendStore->getCount(['status' => 3,'user_id' => $data['user_id']]);
-        $draftNum = self::$sendStore->getCount(['status' => 4,'user_id' => $data['user_id']]);
+        // 得到已发表的数量
+        $result['trailNum'] = self::$sendStore->getCount(['status' => 1,'user_id' => $data['user_id']]);
+        // 得到审核中的数量
+        $result['releaseNum'] = self::$sendStore->getCount(['status' => 2,'user_id' => $data['user_id']]);
+        // 得到已退稿的数量
+        $result['notNum'] = self::$sendStore->getCount(['status' => 3,'user_id' => $data['user_id']]);
+        // 得到草稿箱的数量
+        $result['draftNum'] = self::$sendStore->getCount(['status' => 4,'user_id' => $data['user_id']]);
 
-        $result['trailNum'] = $trailNum;
-        $result['releaseNum'] = $releaseNum;
-        $result['notNum'] = $notNum;
-        $result['draftNum'] = $draftNum;
         // 判断有没有分页数据
         if(!empty($Data)){
             $result["data"] = $Data;
@@ -382,5 +391,21 @@ class ArticleService
         //判断插入是否成功，并返回结果
         if(isset($result)) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '存储数据发生错误'];
+    }
+
+    /**
+     * 得到该用户上次评论同文章的时间
+     * @param $acricle_id   文章ID
+     * @param $user_id  用户ID
+     * @return $time  时间戳
+     */
+    public static function getUserCommentTime ($acricle_id, $user_id)
+    {
+        $res = self::$commentStore->getCommentTime($acricle_id, $user_id);
+        if (empty($res)) {
+            return 0;
+        } else {
+            return strtotime($res[0]->time);
+        }
     }
 }

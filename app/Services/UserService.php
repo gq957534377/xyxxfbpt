@@ -256,26 +256,26 @@ class UserService {
         //校验
         if($sms['phone']==$phone){
             // 两分之内，不在发短信
-            if(($sms['time'] + 60)> $nowTime ) return ['status' => '400','msg' => '短信已发送，请等待两分钟！'];
+            if(($sms['time'] + 60)> $nowTime ) return ['StatusCode' => '400','ResultData' => '短信已发送，请等待两分钟！'];
             // 两分钟之后，可以再次发送
             $resp = Common::sendSms($phone,$content,'兄弟会','SMS_25700502');
 
             // 发送失败
-            if(!$resp) return ['status' => '400','msg' => '短信发送失败，请重新发送！'];
+            if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送！'];
             // 成功，保存信息到session里，为了下一次校验
             $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
             Session::put('sms',$arr);
 
-            return ['status' => '200','msg' => '发送成功，请注意查收！'];
+            return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];
         }else{
             $resp =  Common::sendSms($phone, $content, '兄弟会', 'SMS_25700502');
 
             // 发送失败
-            if(!$resp) return ['status' => '400','msg' => '短信发送失败，请重新发送！'];
+            if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送！'];
             $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
             Session::put('sms',$arr);
 
-            return ['status' => '200','msg' => '发送成功，请注意查收！'];
+            return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];
         }
     }
 

@@ -133,13 +133,18 @@ class LoginController extends Controller
      */
     public function captcha($tmp, Request $request)
     {
-
-        $res4 = Safety::PreventFastRefresh(config('safety.PREVEN_TFAST_REFRESH') . $request->getClientIp());
-
+        // 短信验证码次数验证
+        $res5 = Safety::checkIpSMSCode($request->getClientIp(), 1111);
+//        dd($res5);
+        // 检查IP有没有被加入黑名单
         $res1 = Safety::checkIpBlackList(config('safety.BLACKLIST') . $request->getClientIp());
+        // 防止快速刷新
+        $res4 = Safety::PreventFastRefresh($request->getClientIp());
+        // 通过IP请求数量验证
         $res2 = Safety::number($request->getClientIp(), 100, '图片验证码接口');
+        // 请求数量，以及通过sessionID验证
         $res3 = Safety::session_number($tmp);
-//        dd($res4);
+
 //        if ($res1 || $res2 || $res3 || $res4) {
 //            return view('welcome');
 //        }

@@ -27,9 +27,14 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      * @author 郭庆
+     * @modify 王通
      */
     public function index(Request $request)
     {
+        if (!empty($request['type'])) {
+            $res = self::$articleServer->selectByType($request['type']);
+            return view('home.article.index', $res);
+        }
         $type = $request['type'];
         $result = self::$articleServer -> selectByType($type);
         if ($result['status']) return view('home.article.index', ['msg' => $result['msg'], 'type' => $type]);
@@ -66,38 +71,30 @@ class ArticleController extends Controller
     }
 
     /**
-     * 详情页.
-     * 传入： 文章详情$datas 登录状态$isLogin 点赞数量$likeNum
+     * 显示文章详情
+     * Display the specified resource.
+     *
      * @param  int  $id
-     * @author 郭庆
+     * @return \Illuminate\Http\Response
+     * @author 王通
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        //所需要数据的获取
-        $session = $request -> session() -> all();
-        if($request->input('type')==3) {
-            $user = 2;
-        }else{
-            $user = 1;
-        }
-        $data = self::$articleServer -> getData($id,$user);//文章详情
-        $likeNum = self::$articleServer-> getLikeNum($id);//支持/不支持人数
-        //$isHas（是否已经登陆参加）的设置
-        if (!isset($session['user'])){
-            $isLogin = false;
-        }else{
-            $isLogin = $session['user']->guid;
-        }
+        $res = self::$articleServer->getData($id);
 
-        //$datas文章详情设置
-        $datas = $data["msg"];
+        // 判断有没有文章信息
+        if ($res['StatusCode'] == '200') {
+            // 获取评论表+like表中某一个文章的评论
+            $comment = self::$articleServer->getComment($id, 3);
+            // 判断有没有评论信息
+            if ($comment['StatusCode'] == '201') {
+                $res['ResultData']->comment = [];
+            } else {
+                $res['ResultData']->comment = $comment['ResultData'];
+            }
 
-        //返回详情页
-        return view("home.article.xiangqing", [
-            "data" => $data["msg"],
-            'isLogin' => $isLogin,
-            'likeNum' => $likeNum['msg']
-        ]);
+        }
+        return view('home.article.articlecontent', $res);
     }
 
     /**
@@ -107,9 +104,8 @@ class ArticleController extends Controller
      * @return array
      * @author 郭庆
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
-        $support = $request -> all();
         if (empty(session('user'))) {
             return view('home.login');
         }
@@ -145,23 +141,7 @@ class ArticleController extends Controller
      */
     public function update($id)
     {
-        $result = self::$articleServer -> getComment($id);
-        if (!$result['status']){
-            return ['StatusCode' => 400, 'ResultData' => $result['msg']];
-        }else{
-            foreach ($result['msg'] as $v)
-            {
-                $res = self::$userServer -> userInfo(['guid' => $v -> user_id]);
-                if($res['status']){
-                    $v -> user_name = $res['msg'] -> nickname;
-                    $v -> headpic = $res['msg'] -> headpic;
-                }else{
-                    $v -> user_name = '无名英雄';
-                    $v -> headpic = '';
-                }
-            }
-        }
-        return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+
     }
 
     /**
@@ -173,6 +153,43 @@ class ArticleController extends Controller
     public function destroy($id)
     {
 
+    }
+
+    /**
+     * 点赞
+     * @param $request
+     * @param $id
+     * @return array
+     * @author 郭庆
+     * @modify 王通
+     */
+    public function like (Request $request)
+    {
+        if (empty(session('user')) || empty($request['art_guid'])) {
+            return view('home.login');
+        }
+        $id = $request['art_guid'];
+        $user_id = session('user')->guid;
+
+        //判断是否点赞了
+        $isHas = self::$articleServer->getLike($user_id, $id);
+
+        if($isHas['status']) {
+            if ($isHas['msg']->support == 1) {
+                $setLike = self::$articleServer->chargeLike($user_id, $id, ['support' => 2]);
+            } else {
+                $setLike = self::$articleServer->chargeLike($user_id, $id, ['support' => 1]);
+            }
+
+            if ($setLike) return ['StatusCode' => '200',  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
+            return ['StatusCode' => '400',  'ResultData' => '点赞失败'];
+        }else{
+
+            //没有点赞则加一条新记录
+            $result = self::$articleServer -> setLike(['support' => 1, 'action_id' => $id, 'user_id' => $user_id]);
+            if($result['status']) return ['StatusCode' => '200',  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
+            return ['StatusCode' => '400', 'ResultData' => '点赞失败'];
+        }
     }
 
     /**
@@ -199,15 +216,10 @@ class ArticleController extends Controller
         }
         $data = $request->all();
 
-        $data['user_id'] = session('user')->guid;
+        $data['user_id'] = usession('user')->gid;
+
+        // 保存评论
         $result = self::$articleServer->comment($data);
-        $comment = self::$articleServer->getComment($data['action_id'], 1);
-        // 判断有没有请求道评论数据
-        if ($comment['StatusCode'] == '200') {
-            $result['ResultData'] = $comment['ResultData'][0];
-        } else {
-            return response()->json(['StatusCode' => '201', 'ResultData' => '数据出错']);
-        }
 
         return response()->json($result);
     }

@@ -102,13 +102,14 @@ class ProjectController extends Controller
 
         // 获取项目属于者具体信息
         $userResult =self::$userServer->userInfo(['guid' => $project_details->guid]);
-        if (!$userResult['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
-        $headpic = $userResult['msg']->headpic;
+
+        if (!$userResult['StatusCode'] == '400') return response()->json(['status'=>'500','msg'=>'查询失败']);
+        $headpic = $userResult['ResultData']->headpic;
 
         $roleResult = self::$userRoleServer->userInfo(['guid' => $project_details->guid]);
 
-        if (!$userResult['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
-        $userinfo = $userResult['msg'];
+        if (!$userResult['StatusCode'] == '400') return response()->json(['status'=>'500','msg'=>'查询失败']);
+        $userinfo = $userResult['ResultData'];
         $userinfo->headpic = $headpic;
 
 //        return view('home.project.pro_details')->with('data',$res['data']);

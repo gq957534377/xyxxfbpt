@@ -35,7 +35,10 @@ class SendStore
      */
     public function getOneData($where)
     {
-        return DB::table(self::$table)->where($where)->first();
+        return DB::table(self::$table)
+            ->where($where)
+            ->where('status', '<>', 5)
+            ->first();
     }
     /**
      * 分页查询数据
