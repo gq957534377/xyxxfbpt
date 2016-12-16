@@ -237,15 +237,16 @@
                     <!--每次只出现其中之一-->
                     <!--第一步 填写新邮箱-->
                     <div class="modal-body email-step-one">
-                        <p class="fs-c-0 fw-1">请输入新的邮箱</p>
+                        <p class="fs-c-0 fw-1">{{ isset($accountInfo->email) ? '请输入新的邮箱' : '请输入绑定邮箱' }}</p>
+                        <!--Email 错误提示 Start-->
+                        <div id="errorEmailBox_one" class="alert alert-danger hidden">验证码验证失败！</div>
+                        <!--Email 错误提示 End-->
+                        <div class="form-group">
+                            <label class="col-xs-12 control-label">
+                                <input id="newEmail" type="email" class="form-control form-title"  placeholder="邮箱">
+                            </label>
+                        </div>
 
-                        <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label class="col-xs-12 control-label">
-                                    <input type="text" class="form-control form-title"  placeholder="邮箱">
-                                </label>
-                            </div>
-                        </form>
                     </div>
                     <div class="modal-footer border-no h-align-1">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_one">下一步</button>
@@ -256,7 +257,7 @@
                         <!--发送提示    &    验证错误提示  开始-->
                         <div class="alert alert-danger hidden">验证码验证失败！</div>
                         <!--////////////////////-->
-                        <p class="fs-c-0 fw-1">我们向<span>15110313915@qq.com</span>发送了验证邮件<br>请你输入邮箱中的验证码</p>
+                        <p class="fs-c-0 fw-1">我们向: <span id="toEmail" style="color: #ff9035;">15110313915@qq.com</span>发送了验证邮件<br>请你输入邮箱中的验证码</p>
                         <!--发送提示    &    验证错误提示  结束-->
 
                         <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -458,7 +459,6 @@
                 });
 
             });
-
             $('#step_three').on('click', function () {
                 // 发送成功后，验证输入框不为空执行下一步
                 if ($.trim($("#captcha_two").val()) == '') {
@@ -525,10 +525,44 @@
 //            处理模态框显示时的问题 结束
             });
             $('#email_step_one').on('click', function () {
-                $('.email-step-one').addClass('hidden');
-                $('.email-step-one + div').addClass('hidden');
-                $('.email-step-two').removeClass('hidden');
-                $('.email-step-two + div').removeClass('hidden');
+                var newEmail = $('#newEmail').val();
+                // 判断输入框是否为空
+                if ($.trim(newEmail) == '') {
+                    $("#errorEmailBox_one").html('请输入您的邮箱').removeClass('hidden');
+                    return false;
+                }
+
+                // 验证邮箱是否正确
+                var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+                if (!reg.test(newEmail)) {
+                    $("#errorEmailBox_one").html('请输入正确的邮箱').removeClass('hidden');
+                    return false;
+                }
+
+                // 异步将新邮箱、用户ID
+                var data = {
+                    'guid'     : guid,
+                    'newEmail' : newEmail,
+                };
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url     : '/user/sendemail',
+                    type    : 'POST',
+                    data    : data,
+                    success : function(msg){
+                        console.log(msg);
+                        $('#toEmail').html(newEmail);
+
+                        $('.email-step-one').addClass('hidden');
+                        $('.email-step-one + div').addClass('hidden');
+                        $('.email-step-two').removeClass('hidden');
+                        $('.email-step-two + div').removeClass('hidden');
+                    }
+                });
             });
             $('#email_step_two').on('click', function () {
                 $('.email-step-two').addClass('hidden');
@@ -640,6 +674,8 @@
                 },1000);
 
             }
+
+
         });
 
     </script>

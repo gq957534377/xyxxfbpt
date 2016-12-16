@@ -127,7 +127,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         // 修改头像
         Route::resource('/headpic','UserController@headpic');
         // 修改账号绑定信息
-        Route::resource('/user/change/email/send','UserController@sendEmail');
+        Route::resource('/user/sendemail','UserController@sendEmail');
         Route::resource('/user/change/email','UserController@changeEmail');
         Route::resource('/user/change/phone','UserController@changeTel');
         // 评论和赞
