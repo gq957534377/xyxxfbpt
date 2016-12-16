@@ -9,18 +9,21 @@ use App\Http\Controllers\Controller;
 use App\Services\WebAdminService;
 use Validator;
 use App\Tools\Avatar;
+use App\Services\PictureService;
 
 class WebAdminstrationController extends Controller
 {
     protected static $webAdmin;
+    protected static $pictureService;
     /** 单例引入
      *
      * @param WebAdminService $webAdminService
      * @author 王通
      */
-    public function __construct(WebAdminService $webAdminService)
+    public function __construct(WebAdminService $webAdminService, PictureService $pictureService)
     {
         self::$webAdmin = $webAdminService;
+        self::$pictureService = $pictureService;
     }
     /**
      * 网站管理页面
@@ -33,52 +36,50 @@ class WebAdminstrationController extends Controller
         if (empty($request['type'])) {
             return response()->json(['StatusCode' => '400','ResultData' => '参数错误']);
         }
-        switch ($request['type'])
-        {
-            case '1':
-                // 取出界面数据
-                $res = self::$webAdmin->getAllWebConf();
-                return view('admin.webadminstrtion.index', ['info' => $res['msg']]);
-                break;
-            case '2':       // 合作机构管理界面
-                return view('admin.webadminstrtion.web_cooper_organiz');
-                break;
-            case '3':
-                // 投资机构
-                return view('admin.webadminstrtion.web_investment_organiz');
-                break;
-            case '4':
-                // 轮播图管理
-                return view('admin.webadminstrtion.carousel_organiz');
-                break;
-            default:
+        // 取出界面数据
+        return view('admin.webadminstrtion.index');
 
-                break;
-        }
 
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 请求界面数据
      *
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function create(Request $request)
     {
         if (empty($request['type'])) {
             return response()->json(['StatusCode' => '400','ResultData' => '参数错误']);
         }
-        // 合作机构Ajax请求
-        $res = self::$pictureservice->getPicture(3);
-        return response()->json($res);
+        switch ($request['type'])
+        {
+            case '1':
+                // 取出界面数据
+                $result = self::$webAdmin->getAllWebConf();
+                return response()->json($result);
+                break;
+            case '2':
+                // 合作机构Ajax请求
+                $result = self::$pictureService->getPicture(3);
+                return response()->json($result);
+                break;
+            case '3':
+                // 投资机构Ajax请求
+                $result = self::$pictureService->getPicture(5);
+                return response()->json($result);
+                break;
+            case '4':
+                // 轮播图管理Ajax请求
+                $result = self::$pictureService->getPicture(2);
+                break;
+            default:
 
-        // 投资机构Ajax请求
-        $res = self::$pictureservice->getPicture(5);
-        return response()->json($res);
+                break;
+        }
 
-        // 轮播图管理Ajax请求
-        $res = self::$pictureservice->getPicture(2);
-        return response()->json($res);
+        return response()->json($result);
     }
 
     /**

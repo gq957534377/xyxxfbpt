@@ -172,7 +172,7 @@ class ArticleController extends Controller
         $user_id = session('user')->guid;
 
         $result = self::$articleServer->like($user_id, $id);
-        return response() -> json($result);
+        return response()->json($result);
 
     }
 
