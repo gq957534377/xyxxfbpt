@@ -34,7 +34,8 @@
                     url: '/article/setcomment',
                     data: {
                         'content': $("textarea[name= 'content']").val(),
-                        'action_id': $("input[name= 'action_id']").val()
+                        'action_id': $("input[name= 'action_id']").val(),
+                        'type': $("input[name= 'type']").val()
                     },
                     success:function(data){
                         switch (data.StatusCode){
@@ -46,12 +47,12 @@
                                 var html = '<li class="row">';
                                 html += '<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">';
                                 html += '<div class="user-img-bgs">';
-                                html += '<img src="'+ data.ResultData.headpic +'">';
+                                html += '<img src="'+ data.ResultData.userImg +'">';
                                 html += '</div>';
                                 html += '</div>';
                                 html += '<div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">';
                                 html += '<div class="row user-say1">';
-                                html += '<span>'+ data.ResultData.user_name +'</span>';
+                                html += '<span>'+ data.ResultData.nikename +'</span>';
                                 html += '<span>'+ data.ResultData.time +'</span>';
                                 html += '</div>';
                                 html += '<div class="row user-say2">';
@@ -60,7 +61,7 @@
                                 html += '</div>';
                                 html += '</li>';
                                 $('#commentlist').find('li').eq(0).after(html);
-                                $('#commentlist').find('li').eq(4).remove();
+                                $('#commentlist').find('li').eq(6).remove();
                                 break;
                         }
                     }

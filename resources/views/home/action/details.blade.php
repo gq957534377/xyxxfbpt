@@ -102,45 +102,65 @@
             <!--活动评论 开始-->
             <div class="col-md-3 col-lg-3 road-comment road-banner pl-block">
                 <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">评论</h2>
-                <ul class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <!---循环遍历开始-->
                     <li class="row inputs">
-                        <textarea></textarea>
-                        <button class="subbtn btn btn-warning bgc-2" >提交</button>
+                        <form id="comment" method = 'post'>
+                            <input name="action_id" value="{{ $contentId}}" hidden>
+                            <input name="type" value="3" hidden>
+                            <textarea name="content" required>
+                            </textarea>
+                            <button type="submit" class="subbtn btn btn-warning" >提交</button>
+                        </form>
                     </li>
-                    <li class="row">
-                        <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <div class="user-img-bgs">
-                                <img src="{{ asset('home/img/demoimg/test11.jpg') }}">
+                    @if($comment['StatusCode'] == 200)
+                        @foreach($comment['ResultData'] as $datas)
+                            <li class="row">
+                                <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                    <div class="user-img-bgs">
+                                        <img src="{{ $datas->userImg }}">
+                                    </div>
+                                </div>
+                                <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                    <div class="row user-say1">
+                                        <span>{{ $datas->nikename }}</span>
+                                        <span>{{ $datas->time }}</span>
+                                    </div>
+                                    <div class="row user-say2">
+                                        <p>{{ $datas->content }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                        <div class="row">
+                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <div class="user-img-bgs">
+
+                                </div>
+                            </div>
+                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                <div class="row user-say1">
+                                </div>
+                                <div class="row user-say2">
+                                    <p><a href="#">更多</a></p>
+                                </div>
                             </div>
                         </div>
-                        <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                            <div class="row user-say1">
-                                <span>Paloma</span>
-                                <span>2016-11-24 16:26</span>
+                    @else
+                        <li class="row">
+                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
                             </div>
-                            <div class="row user-say2">
-                                <p>这个项目很有意思,我很喜欢,赞一个</p>
+                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+
+                                <div class="row user-say2">
+                                    <p>暂无评论</p>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
+                @endif
                     <!---循环遍历结束-->
-                    <li class="row">
-                        <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                            <div class="user-img-bgs">
-                                <img src="{{ asset('home/img/demoimg/test11.jpg') }}">
-                            </div>
-                        </div>
-                        <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                            <div class="row user-say1">
-                                <span>Paloma</span>
-                                <span>2016-11-24 16:26</span>
-                            </div>
-                            <div class="row user-say2">
-                                <p>这个项目很有意思,我很喜欢,赞一个</p>
-                            </div>
-                        </div>
-                    </li>
+
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -150,6 +170,7 @@
     <!--活动说明 & 评论 结束-->
 @endsection
 @section('script')
+    <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script>
         @if($isLogin)
         $('#js_enroll').click(function(){

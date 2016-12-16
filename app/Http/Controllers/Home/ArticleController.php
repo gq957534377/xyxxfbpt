@@ -85,7 +85,7 @@ class ArticleController extends Controller
         // 判断有没有文章信息
         if ($res['StatusCode'] == '200') {
             // 获取评论表+like表中某一个文章的评论
-            $comment = self::$articleServer->getComment($id, 3);
+            $comment = self::$commentServer->getComent($id,1);
             // 判断有没有评论信息
             if ($comment['StatusCode'] == '201') {
                 $res['ResultData']->comment = [];
@@ -182,6 +182,7 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author 王通
+     * @modify 张洵之
      */
     public function setComment (Request $request)
     {
@@ -190,9 +191,11 @@ class ArticleController extends Controller
         $validator = Validator::make($data, [
             'content' => 'required|max:150',
             'action_id' => 'required',
+            'type' => 'required'
         ], [
             'content.required' => '评论内容不能为空',
             'action_id.required' => '非法请求',
+            'type.required' => '缺少重要参数',
             'content.max' => '评论过长',
         ]);
         if ($validator->fails()) {
@@ -200,10 +203,10 @@ class ArticleController extends Controller
         }
 
 
-        $data['user_id'] = usession('user')->gid;
+        $data['user_id'] = session('user')->guid;
 
         // 保存评论
-        $result = self::$articleServer->comment($data);
+        $result = self::$commentServer->comment($data);
 
         return response()->json($result);
     }

@@ -89,23 +89,23 @@
                   <li class="row inputs">
                       <form id="comment" method = 'post'>
                             <input name="action_id" value="{{ $ResultData->guid or 0 }}" hidden>
+                            <input name="type" value="1" hidden>
                             <textarea name="content" required>
                             </textarea>
                             <button type="submit" class="subbtn btn btn-warning" >提交</button>
                       </form>
-
                   </li>
                     @if(!empty($ResultData->comment))
                         @foreach($ResultData->comment as $val)
                             <li class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                     <div class="user-img-bgs">
-                                        <img src="{{ $val->headpic }}">
+                                        <img src="{{ $val->userImg }}">
                                     </div>
                                 </div>
                                 <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                     <div class="row user-say1">
-                                        <span>{{ $val->user_name }}</span>
+                                        <span>{{ $val->nikename }}</span>
                                         <span>{{ $val->time }}</span>
                                     </div>
                                         <div class="row user-say2">
@@ -113,7 +113,6 @@
                                     </div>
                                 </div>
                             </li>
-
                         @endforeach
                             <div class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
