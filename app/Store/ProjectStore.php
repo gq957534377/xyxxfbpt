@@ -84,5 +84,14 @@ class ProjectStore {
         return $result;
     }
 
-
+    /**
+     * 获取一条数据
+     *@param array $where
+     * @return \Illuminate\Http\Response
+     * @author 张洵之
+     */
+    public function getOneData($where)
+    {
+        return DB::table(self::$table)->where($where)->first();
+    }
 }

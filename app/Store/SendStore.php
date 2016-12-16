@@ -98,4 +98,15 @@ class SendStore
     {
         return DB::table(self::$table)->where($where)->count();
     }
+
+    /**
+     * 获取一条数据
+     *@param array $where
+     * @return \Illuminate\Http\Response
+     * @author 张洵之
+     */
+    public function getOneDatas($where)
+    {
+        return DB::table(self::$table)->where($where)->first();
+    }
 }

@@ -11,7 +11,10 @@ namespace App\Services;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
 use App\Store\ActionStore;
+use App\Store\ProjectStore;
+use App\Store\SendStore;
 use App\Tools\Common;
+use App\Store\UserStore;
 use Illuminate\Contracts\Logging\Log;
 
 class CommentAndLikeService
@@ -19,15 +22,24 @@ class CommentAndLikeService
     protected static $actionStore;
     protected static $commentStore;
     protected static $likeStore;
+    protected static $userStore;
+    protected static $projectStore;
+    protected static $sendStore;
 
     public function __construct(
         ActionStore $actionStore,
         CommentStore $commentStore,
-        LikeStore $likeStore
+        LikeStore $likeStore,
+        UserStore $userStore,
+        ProjectStore $projectStore,
+        SendStore $sendStore
     ){
         self::$actionStore = $actionStore;
         self::$commentStore = $commentStore;
         self::$likeStore = $likeStore;
+        self::$userStore = $userStore;
+        self::$projectStore = $projectStore;
+        self::$sendStore = $sendStore;
     }
 
     /**
@@ -53,12 +65,14 @@ class CommentAndLikeService
      * @return array
      * author 张洵之
      */
-    public function getContentInContentId($id)
+    public function getContentInContentId($id,$type)
     {
         //被评论的内容数据
-        $where = ['guid' => $id];
-        $data = self::$actionStore->getOneData($where);
-
+        switch ($type){
+            case 1 : $data = self::$sendStore->getOneDatas(['guid' => $id]);break;
+            case 2 : $data = self::$projectStore->getOneData(['project_id' => $id]);break;
+            default: $data = self::$actionStore->getOneData(['guid' => $id]);
+        }
         if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有相关内容信息'];
 
         return ['StatusCode' => '200', 'ResultData' => $data];
@@ -100,8 +114,7 @@ class CommentAndLikeService
     {
         foreach ($datas as $data) {
             //活动内容表数据
-            $contentData = $this->openData($this->getContentInContentId($data->action_id));
-
+            $contentData = $this->openData($this->getContentInContentId($data->action_id,$data->type));
             if (empty($contentData)) return ['StatusCode' => '400', 'ResultData' => $data->action_id];
 
             $data->contentTitle = $contentData ->title;
@@ -135,6 +148,7 @@ class CommentAndLikeService
         $commentdata = $this->openData($this->getContents($commentdata));
         //拼装分页样式
         $commentdata['pageData'] = $pageData;
+
         return ['StatusCode' => '200', 'ResultData' => $commentdata];
     }
 
@@ -252,7 +266,9 @@ class CommentAndLikeService
 
     public function getComent($contentId)
     {
-        $comentData = $this->getForPageUserComment(['action_id' => $contentId],1);
-        if(!$commentData) return ['StatusCode' => '201', 'ResultData' => '暂无评论'];
+        $commentData = $this->getForPageUserComment(['action_id' => $contentId],1);
+
+        if(!$commentData) return ['StatusCode' => '400', 'ResultData' => '暂无评论'];
+
     }
 }
