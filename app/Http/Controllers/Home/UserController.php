@@ -308,14 +308,21 @@ class UserController extends Controller
     }
 
     /**
-     * Email 发送 验证码
+     * Send Email for user
      * @author 刘峻廷
      */
-    public function sendEmail()
+    public function sendEmail(Request $request)
     {
-//        Mail::send('email', $data, function ($message) use ($data) {
-//            $message->to('957534377@qq.com', $data['name'])->subject('你好啊');
-//        });
+        dd($request->all());
+       if (empty($request->all())) return response()->json(['StatusCode' => '400', '缺少数据信息']);
+
+       $userInfo = self::$userServer->accountInfo(['guid' => $request->guid]);
+
+       if ($userInfo['StatusCode'] == '400') {
+           \Log::error('查询账户信息失败', $userInfo);
+           return response()->json(['StatusCode' => '400', 'ResultData' => '当前账号不存在!']);
+       }
+
        Mail::raw('琦力英雄会，账户重置密码验证码:', function($message){
             $message->subject('重置密码邮件');
             $message->to('342766475@qq.com');
