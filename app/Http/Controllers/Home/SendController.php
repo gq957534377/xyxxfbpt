@@ -26,16 +26,15 @@ class SendController extends Controller
     public function index(Request $request)
     {
         // 判断有没有传递参数
-        $data = [];
         $data = $request->all();
-
+        // 判断有没有传过来数据
         if (empty($request['status']) || $request['status'] >= 5) {
             $data["status"] = 1;
         } else {
-            $data["status"] = $request["status"];//文章状态：开始前 进行中  结束
+            $data["status"] = $request["status"];// 文章状态：开始前 进行中  结束
         }
-        $data["user_id"] =  session('user')->guid;//获取文章类型
-
+        $data["user_id"] =  session('user')->guid;// 获取文章类型
+        // 分页查询 得到指定类型的数据
         $result = self::$articleServer->selectTypeData($data);
 
         if ($data['status'] <= 2) {

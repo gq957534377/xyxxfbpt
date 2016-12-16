@@ -18,6 +18,7 @@ class Safety
     /**
      * 请求数量，以及通过sessionID验证
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @author 王通
      */
     public static function session_number ($tmp)
     {
@@ -31,7 +32,7 @@ class Safety
     /**
      * 通过IP请求数量验证
      * @param $ip
-     * @return bool
+     * @return bool  false代表可以请求，true代表疑似攻击，不能请求
      * @author 王通
      */
     public static function number ($ip, $num, $name = '接口名')
@@ -40,7 +41,7 @@ class Safety
         $k = BaseRedis::incrRedis($ip . date('Y-m-d'));
 
         if ($k > $num) {
-            BaseRedis::setRedis(config('safety.BLACKLIST') . $ip, time());
+            self::addIpBlackList($ip);
             Log::warning('!!!' . $name . '来自于'. $ip .'请求次数达到警戒线，'. $num  . '次！！');
             return true;
         } else {
@@ -50,38 +51,36 @@ class Safety
 
     /**
      * 检查IP有没有被加入黑名单
-     * @param $ip
-     * @return bool
+     * @param $ip 要判断的ip
+     * @return bool    true 代表已经被加入黑名单，false，没有被加入黑名单
      * @author 王通
      */
     public static function checkIpBlackList ($ip)
     {
-        if (empty(BaseRedis::getRedis($ip))) {
-            return false;
-        } else {
+        $date = config('safety.BLACKLIST') . date('Y-m-D',time());
+        if (BaseRedis::checkSet($date, $ip)) {
             return true;
+        } else {
+            return false;
         }
     }
 
     /**
      * 把IP加入黑名单
      * @param $ip
-     * @return bool
+     * @return bool false代表写入失败，黑名单中已存在，true代表成功
      * @author 王通
      */
     public static function addIpBlackList ($ip)
     {
-        if (empty(BaseRedis::getRedis($ip))) {
-            return false;
-        } else {
-            return true;
-        }
+        $date = config('safety.BLACKLIST') . date('Y-m-D',time());
+        return BaseRedis::addSet($date, $ip);
     }
 
     /**
      * 防止快速刷新
      * @param $ip
-     * @return bool
+     * @return bool  false代表可以请求，true代表疑似攻击，不能请求
      * @author 王通
      */
     public static function PreventFastRefresh ($ip)
@@ -104,8 +103,11 @@ class Safety
 
         } else {
             $num = BaseRedis::incrRedis($key);
+            // 判断请求数量有没有超过要求
             if ((BaseRedis::getRedis($time_key) + $num_n) < (BaseRedis::getRedis($time_key) + $num)) {
                 Log::warning('!!! 在'.$time_n . '秒内，来自于' . $ip .'请求次数达到超过警戒线，'. $num_n .'，'. $num  . '次！！');
+                // 加入黑名单
+                self::addIpBlackList($ip);
                 header(sprintf('Location:%s', 'http://127.0.0.1'));
                 exit('Access Denied');
             }
@@ -118,15 +120,20 @@ class Safety
      * 检查手机验证码请求是否合法
      * @param $ip
      * @param $code
-     * @return bool
+     * @return bool  false代表可以请求，true代表疑似攻击，不能请求
      * @author 王通
      */
     public static function checkIpSMSCode ($ip, $code)
     {
+        // 某IP的请求验证码
         $SMSVal = config('safety.PREVEN_TFAST_REFRESH_SMS_VAL') . $ip;
+        // 某IP的请求验证码次数
         $SMSNum = config('safety.PREVEN_TFAST_REFRESH_SMS_NUM') . $ip;
+        // 验证码超时时间
         $overtime = config('safety.SMS_OVERTIME');
-        $reqTime = config('safety.SMS_REQUEST_TIME');
+        // 限制三次验证码时间
+        $requestTime = config('safety.SMS_REQUEST_TIME');
+        // 限制验证码输出次数
         $smsLimitNum =config('safety.SMS_LIMIT_NUM');
 
         // 判断固定IP指定时间段内，请求次数有没有达到限制
@@ -135,7 +142,7 @@ class Safety
             // 当前验证码
             BaseRedis::setexRedis($SMSVal, $code, $overtime);
             // 这是累加键，判断访问次数
-            BaseRedis::setexRedis($SMSNum, 1, $reqTime);
+            BaseRedis::setexRedis($SMSNum, 1, $requestTime);
             return false;
         } else {
             // 判断一分钟之内，有没有请求过验证码
@@ -151,7 +158,8 @@ class Safety
                 BaseRedis::incrRedis($SMSNum);
                 return false;
             } else {
-                Log::warning('!!! 在'.$reqTime . '秒内，来自于' . $ip .'请求次数达到超过警戒线，'. $smsLimitNum .'次！！');
+                Log::warning('!!! 在'.$requestTime . '秒内，来自于' . $ip .'请求次数达到超过警戒线，'. $smsLimitNum .'次！！');
+                self::addIpBlackList($ip);
                 return true;
             }
 
