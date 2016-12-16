@@ -40,10 +40,14 @@
 
             <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">网站管理</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="{{ url('/web_admins') }}">联系方式及备案管理</a></li>
-                    <li><a href="{{url('/web_cooper_organiz')}}">合作机构管理</a></li>
-                    <li><a href="{{url('/web_invest_organiz')}}">投资机构管理</a></li>
-                    <li><a href="{{url('/picture/carousel')}}">轮播图管理</a></li>
+                    {{--<li><a href="{{ url('/web_admins') }}">联系方式及备案管理</a></li>--}}
+                    {{--<li><a href="{{url('/web_cooper_organiz')}}">合作机构管理</a></li>--}}
+                    {{--<li><a href="{{url('/web_invest_organiz')}}">投资机构管理</a></li>--}}
+                    {{--<li><a href="{{url('/picture/carousel')}}">轮播图管理</a></li>--}}
+                    <li><a href="{{ url('/web_admins?type=1') }}">联系方式及备案管理</a></li>
+                    <li><a href="{{ url('/web_admins?type=2') }}">合作机构管理</a></li>
+                    <li><a href="{{ url('/web_admins?type=3') }}">投资机构管理</a></li>
+                    <li><a href="{{ url('/web_admins?type=4') }}">轮播图管理</a></li>
 
                 </ul>
             </li>

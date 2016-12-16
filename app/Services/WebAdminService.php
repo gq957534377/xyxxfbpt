@@ -35,13 +35,10 @@ class WebAdminService
 
         // 获取所有未删除数据
         $obj = self::$webAdminStore->getConfig();
-
         // 验证是否正确取出数据
         if (empty($obj)) {
             return ['status'=>'201','msg'=>[]];
         }
-
-
         // 把取到的数据，格式化成['name' => 'value'] 格式 并且返回
         foreach ($obj as $val) {
             $arr[$val->name] = $val->value;

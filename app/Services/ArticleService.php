@@ -408,4 +408,33 @@ class ArticleService
             return strtotime($res[0]->time);
         }
     }
+
+    /**
+     * 点赞
+     * @return array
+     * @author 王通
+     */
+    public function like($user_id, $id)
+    {
+        //判断是否点赞了
+        $isHas = self::getLike($user_id, $id);
+
+        if($isHas['status']) {
+            // 如果已经点赞，则修改状态为取消，如果是取消点赞，则修改为点赞
+            if ($isHas['msg']->support == 1) {
+                $setLike = self::chargeLike($user_id, $id, ['support' => 2]);
+            } else {
+                $setLike = self::chargeLike($user_id, $id, ['support' => 1]);
+            }
+
+            if ($setLike) return ['StatusCode' => '200',  'ResultData' => self::getLikeNum($id)['msg']];
+            return ['StatusCode' => '400',  'ResultData' => '点赞失败'];
+        }else{
+
+            //没有点赞则加一条新记录
+            $result = self::setLike(['support' => 1, 'action_id' => $id, 'user_id' => $user_id]);
+            if($result['status']) return ['StatusCode' => '200',  'ResultData' => self::getLikeNum($id)['msg']];
+            return ['StatusCode' => '400', 'ResultData' => '点赞失败'];
+        }
+    }
 }

@@ -171,25 +171,9 @@ class ArticleController extends Controller
         $id = $request['art_guid'];
         $user_id = session('user')->guid;
 
-        //判断是否点赞了
-        $isHas = self::$articleServer->getLike($user_id, $id);
+        $result = self::$articleServer->like($user_id, $id);
+        return response() -> json($result);
 
-        if($isHas['status']) {
-            if ($isHas['msg']->support == 1) {
-                $setLike = self::$articleServer->chargeLike($user_id, $id, ['support' => 2]);
-            } else {
-                $setLike = self::$articleServer->chargeLike($user_id, $id, ['support' => 1]);
-            }
-
-            if ($setLike) return ['StatusCode' => '200',  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
-            return ['StatusCode' => '400',  'ResultData' => '点赞失败'];
-        }else{
-
-            //没有点赞则加一条新记录
-            $result = self::$articleServer -> setLike(['support' => 1, 'action_id' => $id, 'user_id' => $user_id]);
-            if($result['status']) return ['StatusCode' => '200',  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
-            return ['StatusCode' => '400', 'ResultData' => '点赞失败'];
-        }
     }
 
     /**
@@ -201,8 +185,9 @@ class ArticleController extends Controller
      */
     public function setComment (Request $request)
     {
+        $data = $request->all();
         // 验证参数
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($data, [
             'content' => 'required|max:150',
             'action_id' => 'required',
         ], [
@@ -210,11 +195,10 @@ class ArticleController extends Controller
             'action_id.required' => '非法请求',
             'content.max' => '评论过长',
         ]);
-
         if ($validator->fails()) {
             return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
         }
-        $data = $request->all();
+
 
         $data['user_id'] = usession('user')->gid;
 

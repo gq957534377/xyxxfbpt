@@ -65,19 +65,8 @@ class LoginController extends Controller
         $data['ip'] = $request->getClientIp();
         // 校验邮箱和账号,拿到状态码
         $info = self::$userServer->loginCheck($data);
+        return response()->json($info);
 
-        switch ($info['status']){
-            case '400':
-                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
-                break;
-            case '500':
-                Log::error($info['msg'],$data);
-                return response()->json(['StatusCode' => '500','ResultData' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['StatusCode' => '200','ResultData' => $info['msg']]);
-                break;
-        }
     }
 
     /**
@@ -134,6 +123,8 @@ class LoginController extends Controller
     public function captcha($tmp, Request $request)
     {
         // 短信验证码次数验证
+        $res5 = Safety::checkSqlNum($request->getClientIp(), 1111, 1111);
+        dd($res5);
         $res5 = Safety::checkIpSMSCode($request->getClientIp(), 1111);
 //        dd($res5);
         // 检查IP有没有被加入黑名单

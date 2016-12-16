@@ -27,11 +27,35 @@ class WebAdminstrationController extends Controller
      *
      * @author 王通
      */
-    public function index()
+    public function index(Request $request)
     {
-        // 取出界面数据
-        $res = self::$webAdmin->getAllWebConf();
-        return view('admin.webadminstrtion.web_admin', ['info' => $res['msg']]);
+
+        if (empty($request['type'])) {
+            return response()->json(['StatusCode' => '400','ResultData' => '参数错误']);
+        }
+        switch ($request['type'])
+        {
+            case '1':
+                // 取出界面数据
+                $res = self::$webAdmin->getAllWebConf();
+                return view('admin.webadminstrtion.index', ['info' => $res['msg']]);
+                break;
+            case '2':       // 合作机构管理界面
+                return view('admin.webadminstrtion.web_cooper_organiz');
+                break;
+            case '3':
+                // 投资机构
+                return view('admin.webadminstrtion.web_investment_organiz');
+                break;
+            case '4':
+                // 轮播图管理
+                return view('admin.webadminstrtion.carousel_organiz');
+                break;
+            default:
+
+                break;
+        }
+
     }
 
     /**
@@ -41,6 +65,20 @@ class WebAdminstrationController extends Controller
      */
     public function create(Request $request)
     {
+        if (empty($request['type'])) {
+            return response()->json(['StatusCode' => '400','ResultData' => '参数错误']);
+        }
+        // 合作机构Ajax请求
+        $res = self::$pictureservice->getPicture(3);
+        return response()->json($res);
+
+        // 投资机构Ajax请求
+        $res = self::$pictureservice->getPicture(5);
+        return response()->json($res);
+
+        // 轮播图管理Ajax请求
+        $res = self::$pictureservice->getPicture(2);
+        return response()->json($res);
     }
 
     /**

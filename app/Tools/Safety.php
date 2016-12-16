@@ -11,6 +11,7 @@ namespace App\Tools;
 use App\Redis\BaseRedis;
 use Faker\Provider\Base;
 use Illuminate\Support\Facades\Log;
+use Storage;
 
 class Safety
 {
@@ -20,7 +21,7 @@ class Safety
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 王通
      */
-    public static function session_number ($tmp)
+    public static function session_number($tmp)
     {
         if (md5(session()->getId()) != substr($tmp, 0, 32)) {
             return true;
@@ -35,7 +36,7 @@ class Safety
      * @return bool  false代表可以请求，true代表疑似攻击，不能请求
      * @author 王通
      */
-    public static function number ($ip, $num, $name = '接口名')
+    public static function number($ip, $num, $name = '接口名')
     {
 
         $k = BaseRedis::incrRedis($ip . date('Y-m-d'));
@@ -55,7 +56,7 @@ class Safety
      * @return bool    true 代表已经被加入黑名单，false，没有被加入黑名单
      * @author 王通
      */
-    public static function checkIpBlackList ($ip)
+    public static function checkIpBlackList($ip)
     {
         $date = config('safety.BLACKLIST') . date('Y-m-D',time());
         if (BaseRedis::checkSet($date, $ip)) {
@@ -71,7 +72,7 @@ class Safety
      * @return bool false代表写入失败，黑名单中已存在，true代表成功
      * @author 王通
      */
-    public static function addIpBlackList ($ip)
+    public static function addIpBlackList($ip)
     {
         $date = config('safety.BLACKLIST') . date('Y-m-D',time());
         return BaseRedis::addSet($date, $ip);
@@ -83,7 +84,7 @@ class Safety
      * @return bool  false代表可以请求，true代表疑似攻击，不能请求
      * @author 王通
      */
-    public static function PreventFastRefresh ($ip)
+    public static function PreventFastRefresh($ip)
     {
         $key = config('safety.PREVEN_TFAST_REFRESH') . $ip;
         // 当前时间
@@ -123,7 +124,7 @@ class Safety
      * @return bool  false代表可以请求，true代表疑似攻击，不能请求
      * @author 王通
      */
-    public static function checkIpSMSCode ($ip, $code)
+    public static function checkIpSMSCode($ip, $code)
     {
         // 某IP的请求验证码
         $SMSVal = config('safety.PREVEN_TFAST_REFRESH_SMS_VAL') . $ip;
@@ -163,6 +164,29 @@ class Safety
                 return true;
             }
 
+        }
+    }
+
+
+    /**
+     * 监视SQL语句执行的数量
+     * @param $key          请求接口的名称
+     * @param $content      请求的内容
+     * @param $number       限制请求的数量
+     * @author 王通
+     */
+    public static function checkSqlNum($key, $content, $number)
+    {
+        $result = BaseRedis::incrRedis($key);
+
+        if ($result > $number) {
+            Storage::append($key . '.log', ': >>>' .$content . '<<<');
+            if ($result % 1000 ) {
+                Log::warnige($key . '接口请求超过' . $result . '次');
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 }
