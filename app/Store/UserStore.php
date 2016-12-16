@@ -99,6 +99,7 @@ class UserStore {
      * @param $tolPage
      *
      * @return mixed
+     * @author lw
      */
     public function forPage($page, $tolPage, $where)
     {
