@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Tools\Avatar;
 use App\Services\CommentAndLikeService as CommentServer;
 use Illuminate\Support\Facades\Session;
+use Mail;
 
 class UserController extends Controller
 {
@@ -305,6 +306,22 @@ class UserController extends Controller
 
         return response()->json($info);
     }
+
+    /**
+     * Email 发送 验证码
+     * @author 刘峻廷
+     */
+    public function sendEmail()
+    {
+//        Mail::send('email', $data, function ($message) use ($data) {
+//            $message->to('957534377@qq.com', $data['name'])->subject('你好啊');
+//        });
+       Mail::raw('琦力英雄会，账户重置密码验证码:', function($message){
+            $message->subject('重置密码邮件');
+            $message->to('342766475@qq.com');
+       });
+    }
+
 
      /**
      * 用户中心的点赞与评论
