@@ -33,6 +33,7 @@ class ActionController extends Controller
      * @param
      * @return array
      * @author 张洵之
+     * @modify 郭庆
      */
     public function create(Request $request)
     {
@@ -61,6 +62,7 @@ class ActionController extends Controller
      * @param
      * @return array
      * @author 张洵之
+     * @modifif 郭庆
      */
     public function store(Request $request)
     {
@@ -72,7 +74,7 @@ class ActionController extends Controller
 
     /**
      * 拿取一条活动信息详情
-     * @param
+     * @param $id 活动id
      * @return array
      * @author 张洵之
      */
@@ -118,25 +120,5 @@ class ActionController extends Controller
         $result = self::$actionServer -> getOrderInfo($id);
         if($result["status"]) return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
         return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-    }
-
-    /**
-     * 上传图片
-     *
-     * @return \Illuminate\Http\Response
-     * @author 郭庆
-     */
-    public function upload()
-    {
-        $file = Input::file('Filedata');
-        if($file->isValid()){
-            $realPath = $file->getRealPath();//临时文件的绝对路径
-            $extension = $file->getClientOriginalName();//上传文件的后缀
-            $hz = explode('.', $extension)[1];
-            $newName = date('YmdHis').mt_rand(100,999).'.'.$hz;
-            $path = $file->move(public_path('uploads/image/admin/road'), $newName);
-            $result = 'uploads/image/admin/road/'.$newName;
-            return response()->json(['res' => $result]);
-        }
     }
 }

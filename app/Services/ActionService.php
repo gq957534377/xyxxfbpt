@@ -204,6 +204,7 @@ class ActionService
      * @param $request
      * @return array
      * author 张洵之
+     * @modify 郭庆
      */
     public function selectData($request)
     {
@@ -274,8 +275,8 @@ class ActionService
 
     /**
      * 修改活动/报名状态
-     * @param $guid
-     * @param $status
+     * @param $guid 所要修改的id
+     * @param $status 改为的状态
      * @return array
      * author 郭庆
      */

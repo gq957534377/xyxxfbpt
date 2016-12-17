@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Tools\Avatar;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
@@ -66,12 +65,10 @@ class ArticleController extends Controller
      * @return array
      * @author 郭庆
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        $user = $request->input('user');
         $result = self::$articleServer->getData($id);
-        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        return response()->json($result);
     }
 
     /**
