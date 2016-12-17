@@ -187,7 +187,7 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
 {{--否决理由表单--}}
 <div id="panel-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
@@ -240,7 +240,7 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
 
 <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">文章发布</button>
 {{--大菊花转转转--}}
@@ -477,7 +477,7 @@
                         data.append( "describe", resul.describe);
                         data.append( "banner", resul.banner);
                         data.append( "source", resul.source);
-                        var url = '/article/' + $('input[name=id]').val() + '?user='+list_user;
+                        var url = '/article/' + $('input[name=id]').val();
                         $.ajax({
                             url     : url,
                             type:'put',
@@ -689,8 +689,9 @@
         // 页面加载时触发事件请求分页数据
         function list(type,status,user) {
             var ajax = new ajaxController();
+            var url = '/article/create?type='+type+'&status='+status+'&user='+user;
             ajax.ajax({
-                url     : '/article/create?type='+type+'&status='+status+'&user='+user,
+                url     : url,
                 before  : ajaxBeforeModel,
                 success : getInfoList,
                 error   : ajaxErrorModel

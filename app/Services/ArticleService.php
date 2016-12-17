@@ -72,8 +72,8 @@ class ArticleService
         $result = self::$sendStore->insertData($data);
 
         //判断插入是否成功，并返回结果
-        if(isset($result)) return ['status' => true, 'msg' => $result];
-        return ['status' => false, 'msg' => '存储数据发生错误'];
+        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => '发布成功'];
+        return ['StatusCode' => '500', 'ResultData' => '文章发布失败'];
     }
 
     /**
@@ -109,7 +109,7 @@ class ArticleService
         if(isset($creatPage)){
             $result["pages"] = $creatPage['pages'];
         }else{
-            return ['status' => false, 'msg' => '生成分页样式发生错误'];
+            return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
         }
 
         //获取对应页的数据
@@ -117,9 +117,9 @@ class ArticleService
 
         if($res || empty($res)){
             $result['data'] = $res;
-            return ['status' => true, 'msg' => $result];
+            return ['StatusCode' => 200,'ResultData' => $result];
         }else{
-            return ['status' => false, 'msg' => "获取分页数据失败！"];
+            return ['StatusCode' => 500,'ResultData' => '获取分页数据失败！'];
         }
     }
 
@@ -168,18 +168,14 @@ class ArticleService
     public function changeStatus($guid, $status, $user)
     {
         if(!(isset($guid) && isset($status))){
-            return ['status' => false, 'msg' => "参数有误 ！"];
+            return ['StatusCode'=> 400,'ResultData' => "数据参数有误"];
         }
 
         $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
 
         //判断修改结果并返回
-        if($Data){
-            $result["data"] = $Data;
-            return ['status' => true, 'msg' => $result];
-        }else{
-            return ['status' => false, 'msg' => "数据参数有误！"];
-        }
+        if($Data) return ['StatusCode'=> 200,'ResultData' => "修改状态成功"];
+        return ['StatusCode'=> 500,'ResultData' => "服务器忙，修改失败"];
     }
 
     /**
@@ -194,10 +190,9 @@ class ArticleService
         $data["time"] = date("Y-m-d H:i:s", time());
         $Data = self::$sendStore->upload($where, $data);
         if($Data){
-            $result["data"] = $Data;
-            return ['status' => true, 'msg' => $result];
+            return ['StatusCode'=> 200,'ResultData' => "修改成功"];
         }else{
-            return ['status' => false, 'msg' => "数据参数有误！"];
+            return ['StatusCode'=> 400,'ResultData' => "服务器忙,修改失败"];
         }
     }
 

@@ -18,7 +18,7 @@ function listHtml(data){
         html += '<td><a class="info btn btn-sm btn-success tooltips" style="border-radius: 6px;" data-name="' + e.guid + '" href="javascript:;"><i class="fa" data-toggle="modal" data-target="#tabs-modal" style="margin-bottom: 6px">详情</i></a>&nbsp';
         if (e.status == 1) {
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
-            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" class="bm" data-toggle="modal" data-target="#baoming">报名详情</i></a>&nbsp';
+            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
         } else if (e.status == 4) {
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
@@ -29,7 +29,7 @@ function listHtml(data){
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
         }else if (e.status == 5) {
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
-            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" class="bm" data-toggle="modal" data-target="#baoming">报名详情</i></a>&nbsp';
+            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
         }
         html += '</td>';
@@ -136,7 +136,7 @@ function showInfoList(data){
             $('#xq_describe').html(data.describe);
         } else {
             $('#alert-form').hide();
-            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
         }
     } else {
         $('#alert-form').hide();
@@ -147,7 +147,6 @@ function showInfoList(data){
 //展示活动报名情况表
 function actionOrder(data) {
     $('.loading').hide();
-    console.log(data);
     if (data) {
         if (data.StatusCode == 200) {
             $('#list_baoming').html('');
@@ -166,7 +165,7 @@ function actionOrder(data) {
         } else {
             $('#baoming').modal('hide');
             $('#myModal').modal('show');
-            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
         }
     } else {
         $('#myModal').modal('show');

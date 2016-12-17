@@ -762,10 +762,9 @@
                                 if (data.StatusCode == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>活动修改成功!</p>');
-
                                     list(resul.type, 1);
                                 } else {
-                                    $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                                    $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
                                 }
                             } else {
                                 $('#alert-info').html('<p>未知的错误</p>');
@@ -864,7 +863,7 @@
                                     ue.setContent('');
                                     list(resul.type, 1);
                                 } else {
-                                    $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                                    $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
                                 }
                             } else {
                                 $('#alert-info').html('<p>未知的错误</p>');
@@ -947,7 +946,7 @@
                             list(list_type, list_status);
                         } else {
                             $('#alert-form').hide();
-                            $('#alert-info').html('<p>状态修改失败！</p>');
+                            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
                         }
                     } else {
                         $('#alert-form').hide();
@@ -962,11 +961,12 @@
             $('.action_status').click(function () {
                 var _this  = $(this);
                 var ajax   = new ajaxController();
-                var status = $(this).data('status');
+                var status = _this.data('status');
+                alert(status);
                 if (status.data) {
                     status = status.data;
                 }
-                var url = '/action/' + $(this).data('name') + '/edit/?status=' + status;
+                var url = '/action/' + _this.data('name') + '/edit/?status=' + status;
                 ajax.ajax({
                     url     : url,
                     before  : ajaxBeforeNoHiddenModel,
@@ -981,9 +981,15 @@
                         if (data.StatusCode == 200) {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>状态修改成功!</p>');
+                            if (status == 1) {
+                                _this.html('<a href="javascript:;" data-name="3" data-status="3" class="action_status"><button class="btn-danger">禁用</button></a>');
+                            }else {
+                                _this.html('<a href="javascript:;" data-name="1" data-status="1" class="action_status"><button class="btn-primary">启用</button></a>');
+                            }
+                            actionStatus();
                         } else {
                             $('#alert-form').hide();
-                            $('#alert-info').html('<p>状态修改失败！</p>');
+                            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
                         }
                     } else {
                         $('#alert-form').hide();
@@ -996,20 +1002,26 @@
         //查看报名情况
         function checkAction() {
             $('.bm').click(function () {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': token
-                    }
-                });
-                var ajax = new ajaxController();
-                var url  = '/action/' + $(this).data('name');
-                ajax.ajax({
-                    url     : url,
-                    type    : 'delete',
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : actionOrder,
-                    error   : ajaxErrorModel
-                });
+                if ($(this).data('num') == 0){
+                    $('#myModal').modal('show');
+                    $('#alert-info').html('<p>暂无报名情况</p>');
+                }else{
+                    $('#baoming').modal('show');
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': token
+                        }
+                    });
+                    var ajax = new ajaxController();
+                    var url  = '/action/' + $(this).data('name');
+                    ajax.ajax({
+                        url     : url,
+                        type    : 'delete',
+                        before  : ajaxBeforeNoHiddenModel,
+                        success : actionOrder,
+                        error   : ajaxErrorModel
+                    });
+                }
             });
         }
 

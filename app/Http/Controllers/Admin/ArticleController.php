@@ -35,8 +35,7 @@ class ArticleController extends Controller
     public function create(Request $request)
     {
         $result = self::$articleServer->selectData($request);
-        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => 400,'ResultData' => $result['msg']]);
+        return response()->json($result);
     }
 
     /**
@@ -55,8 +54,7 @@ class ArticleController extends Controller
 
         $result = self::$articleServer->insertData($data);
 
-        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        return response()->json($result);
     }
 
     /**
@@ -87,8 +85,7 @@ class ArticleController extends Controller
         }else{
             $result = self::$articleServer->changeStatus($id,$status,$user);
         }
-        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        return response()->json($result);
     }
 
     /**
@@ -102,8 +99,7 @@ class ArticleController extends Controller
         $data = $request->all();
         $where = ["guid" => $id];
         $result = self::$articleServer->upDta($where, $data);
-        if($result["status"]) return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+        return response()->json($result);
     }
 
     /**
