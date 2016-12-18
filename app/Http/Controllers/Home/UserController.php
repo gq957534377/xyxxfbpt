@@ -21,8 +21,11 @@ class UserController extends Controller
     protected static $uploadServer = null;
     protected  static $commentServer = null;
 
-    public function __construct(UserServer $userServer, UploadServer $uploadServer, CommentServer $commentServer)
-    {
+    public function __construct(
+        UserServer $userServer,
+        UploadServer $uploadServer,
+        CommentServer $commentServer
+    ){
         self::$userServer = $userServer;
         self::$uploadServer = $uploadServer;
         self::$commentServer = $commentServer;
@@ -178,6 +181,33 @@ class UserController extends Controller
         return response()->json($info);
     }
 
+    /**
+     * 修改账号密码
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'guid' => 'required',
+            'password' => 'required',
+            'new_password' => 'required',
+        ],[
+            'guid' => '缺少数据信息',
+            'password' => '请输入原始密码',
+            'new_password' => '请输入新密码',
+
+        ]);
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        // 提交数据给业务层
+        $result = self::$userServer->changePassword($request);
+
+        return response()->json($result);
+
+    }
     /**
      * 更换邮箱绑定
      * @param Request $request

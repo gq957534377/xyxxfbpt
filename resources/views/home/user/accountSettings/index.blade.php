@@ -299,25 +299,28 @@
                         <h4 class="modal-title">修改密码</h4>
                     </div>
                     <!--每次只出现其中之一-->
+                    <!--Email 错误提示 Start-->
+                    <div id="errorPasswordBox_one" class="alert alert-danger hidden"></div>
+                    <!--Email 错误提示 End-->
                     <!--第一步 填写-->
                     <div class="modal-body key-step-one">
                         <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="key_old" class="col-xs-12 control-label mar-b5">输入旧密码</label>
                                 <div class="col-xs-12">
-                                    <input type="text" class="form-control form-title"  placeholder="旧密码" id="key_old">
+                                    <input type="password" class="form-control form-title"  placeholder="旧密码" id="key_old">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="key_old" class="col-xs-12 control-label mar-b5">输入新密码</label>
                                 <div class="col-xs-12">
-                                    <input type="text" class="form-control form-title"  placeholder="新密码" id="key_new">
+                                    <input type="password" class="form-control form-title"  placeholder="新密码" id="key_new">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="key_old" class="col-xs-12 control-label mar-b5">重复新密码</label>
                                 <div class="col-xs-12">
-                                    <input type="text" class="form-control form-title"  placeholder="新密码" id="key_new_">
+                                    <input type="password" class="form-control form-title"  placeholder="新密码" id="key_new_two">
                                 </div>
                             </div>
                         </form>
@@ -627,10 +630,58 @@
 //            处理模态框显示时的问题 结束
             });
             $('#key_step_one').on('click', function () {
-                $('.key-step-one').addClass('hidden');
-                $('.key-step-one + div').addClass('hidden');
-                $('.key-step-two').removeClass('hidden');
-                $('.key-step-two + div').removeClass('hidden');
+                var key_old = $('#key_old').val();
+                var key_new = $('#key_new').val();
+                var key_new_two = $('#key_new_two').val();
+
+                if ($.trim(key_old) == '') {
+                    $("#errorPasswordBox_one").html('请输入原始密码').removeClass('hidden');
+                    return false;
+                }
+
+                if($.trim(key_new) =='') {
+                    $("#errorPasswordBox_one").html('请输入新密码').removeClass('hidden');
+                    return false;
+                }
+
+                if($.trim(key_new_two) =='') {
+                    $("#errorPasswordBox_one").html('请再次输入新密码').removeClass('hidden');
+                    return false;
+                }
+
+                if($.trim(key_new) != $.trim(key_new_two) ) {
+                    $("#errorPasswordBox_one").html('请确认新密码').removeClass('hidden');
+                    return false;
+                }
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url     : '/user/change/password',
+                    type    : 'POST',
+                    data    : {
+                        'guid' : guid,
+                        'password' : key_old,
+                        'new_password' : key_new,
+                    },
+                    success : function(msg){
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            $("#errorPasswordBox_one").html('').addClass('hidden');
+                            $('.key-step-one').addClass('hidden');
+                            $('.key-step-one + div').addClass('hidden');
+                            $('.key-step-two').removeClass('hidden');
+                            $('.key-step-two + div').removeClass('hidden');
+                            window.location.href = '/logout';
+                        } else {
+                            $("#errorPasswordBox_one").html(msg.ResultData).removeClass('hidden');
+                        }
+
+                    }
+                });
             });
             $('#key_step_two').on('click', function () {
                 $('.key-step-two').addClass('hidden');
@@ -639,7 +690,6 @@
                 $('.key-step-one + div').removeClass('hidden');
             });
 //        更换密码 结束
-
 
 
 

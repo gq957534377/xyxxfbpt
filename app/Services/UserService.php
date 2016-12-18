@@ -547,6 +547,43 @@ class UserService {
     }
 
     /**
+     * 账号密码修改
+     * @param object $request
+     * @return array
+     * @author 刘峻廷
+     */
+    public function changePassword($request)
+    {
+        // 查询用户的信息
+        $result = self::$homeStore->getOneData(['guid' => $request->guid]);
+
+        // 判断数据
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '账号不存在'];
+
+        //加密密码
+        $pass = Common::cryptString($result->email, $request->password, 'hero');
+
+        if  ($result->password != $pass) return ['StatusCode' => '400', 'ResultData' => '原始密码错误'];
+
+        // 对新密码进行加密，然后与旧密码进行对比
+        $new_pass = Common::cryptString($result->email, $request->new_password, 'hero');
+
+        if ($pass == $new_pass) return ['StatusCode' => '400', 'ResultData' => '原始密码与新密码相同，请更换密码'];
+
+        // 更新密码
+
+        $result = self::$homeStore->updateData(['guid' => $request->guid], ['password' => $new_pass]);
+
+        if (!$result) {
+            \Log::error('前端用户修改密码失败', $result);
+            return ['StatusCode' => '400', 'ResultData' => '修改密码失败'];
+        } else {
+            return ['StatusCode' => '200', 'ResultData' => '修改密码成功'];
+        }
+
+    }
+
+    /**
      * 更改邮箱绑定
      * @param $data
      * @param $guid
