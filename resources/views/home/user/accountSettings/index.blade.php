@@ -53,7 +53,7 @@
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pad-clr binding-email">
                 <p class="col-xs-12 col-sm-12 col-md-3 col-lg-2 pad-clr">安全邮箱</p>
                 <p class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ isset($accountInfo->email) ? 'binded' : 'unbinded'}}">{{ isset($accountInfo->email) ? '已绑定' : '未绑定'}}</p>
-                <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ isset($accountInfo->email) ? $accountInfo->email : ''}}</p>
+                <p id='email' class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ isset($accountInfo->email) ? $accountInfo->email : ''}}</p>
                 <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr"></p>
                 <p class="col-xs-12 col-sm-12 pad-clr fs-c-5">安全邮箱将可用于登录和修改密码</p>
             </div>
@@ -255,22 +255,23 @@
                     <!--第二步 验证新邮箱-->
                     <div class="modal-body email-step-two hidden">
                         <!--发送提示    &    验证错误提示  开始-->
-                        <div class="alert alert-danger hidden">验证码验证失败！</div>
+                        <!--Email 错误提示 Start-->
+                        <div id="errorEmailBox_two" class="alert alert-danger hidden">验证码验证失败！</div>
+                        <!--Email 错误提示 End-->
                         <!--////////////////////-->
                         <p class="fs-c-0 fw-1">我们向: <span id="toEmail" style="color: #ff9035;">15110313915@qq.com</span>发送了验证邮件<br>请你输入邮箱中的验证码</p>
                         <!--发送提示    &    验证错误提示  结束-->
 
-                        <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                            <div class="form-group mar-cb">
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control form-title" id="captcha_email" placeholder="验证码">
-                                </div>
-                                <label for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
-                                <div class="col-sm-3 control-label line-h-1">
-                                    <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_email">重新发送</button>
-                                </div>
+                        <div class="form-group mar-cb">
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-title" id="captcha_email" placeholder="验证码">
                             </div>
-                        </form>
+                            <label id="resend_email_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
+                            <div class="col-sm-3 control-label line-h-1">
+                                <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_email">重新发送</button>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_two">下一步</button>
@@ -565,10 +566,39 @@
                 });
             });
             $('#email_step_two').on('click', function () {
-                $('.email-step-two').addClass('hidden');
-                $('.email-step-two + div').addClass('hidden');
-                $('.email-step-three').removeClass('hidden');
-                $('.email-step-three + div').removeClass('hidden');
+
+                var captcha_email = $("#captcha_email").val();
+                if ($.trim(captcha_email) == '') {
+                    $("#errorEmailBox_two").html('请输入验证码').removeClass('hidden');
+                    return false;
+                }
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url     : '/user/change/email',
+                    type    : 'POST',
+                    data    : {
+                        'guid' : guid,
+                        'captcha_email' : captcha_email,
+                    },
+                    success : function(msg){
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            $("#email").html(msg.ResultData);
+                            $('.email-step-two').addClass('hidden');
+                            $('.email-step-two + div').addClass('hidden');
+                            $('.email-step-three').removeClass('hidden');
+                            $('.email-step-three + div').removeClass('hidden');
+                        } else {
+                            $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
+                        }
+
+                    }
+                });
+
             });
             $('#email_step_three').on('click', function () {
                 $('.email-step-three').addClass('hidden');
@@ -655,6 +685,34 @@
 
             });
 
+            // 再次发送Email
+            $("#resend_captcha_email").click(function(){
+                var newEmail = $('#newEmail').val();
+                // 异步将新邮箱、用户ID
+                var data = {
+                    'guid'     : guid,
+                    'newEmail' : newEmail,
+                };
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '/user/sendemail',
+                    type: 'POST',
+                    data: data,
+                    success: function (msg) {
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            setTime($("#resend_captcha_email"), $('#resend_email_two'));
+                        } else {
+                            $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
+                            setTime($("#resend_captcha_email"), $('#resend_email_two'));
+                        }
+                    }
+                });
+            });
             // 短信验证发送后计时器
             var countdown = 10;
             function setTime(obj, objLabel) {

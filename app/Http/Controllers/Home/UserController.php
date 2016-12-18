@@ -185,37 +185,28 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @author 刘峻廷
      */
-    public function changeEmail(Request $request,$guid)
+    public function changeEmail(Request $request)
     {
-        $data = $request->all();
         // 验证过滤数据
         $validator = Validator::make($request->all(),[
-            'email' => 'required|email',
-            'newEmail' => 'required|email',
-            'password' => 'required',
+            'captcha_email' => 'required',
         ],[
-            'email.requried' => '请填写您的原始邮箱!<br>',
-            'email.email' => '您输入的邮箱格式不正确<br>',
-            'newEmail.requried' => '请填写您的新邮箱<br>',
-            'newEmail.email' => '您输入的新邮箱格式不正确<br>',
-            'password.requried' => '请输入您的密码',
-
+            'captcha_email.requried' => '请输入验证码!',
         ]);
 
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 
+        // 获取要更改的数据
+        $newEmail = Session::get('email');
+
+        // 数据判断
+        if (trim($request->captcha_email) != $newEmail['code']  ) return response()->json(['StatusCode' => '400', 'RsultData' => '验证码错误']);
+
         // 简单数据验证后，提交给业务层
-        $info = self::$userServer->changeEmail($data,$guid);
+        $info = self::$userServer->changeEmail($request->guid, $newEmail['email']);
 
         // 返回状态信息
-        switch ($info['status']){
-            case '400':
-                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Email' => $data['newEmail']]);
-                break;
-        }
+        return response()->json($info);
 
     }
 
@@ -313,20 +304,46 @@ class UserController extends Controller
      */
     public function sendEmail(Request $request)
     {
-        dd($request->all());
        if (empty($request->all())) return response()->json(['StatusCode' => '400', '缺少数据信息']);
 
-       $userInfo = self::$userServer->accountInfo(['guid' => $request->guid]);
+       // 确认当前用户是否存在
+       $userAccount = self::$userServer->accountInfo(['guid' => $request->guid]);
 
-       if ($userInfo['StatusCode'] == '400') {
-           \Log::error('查询账户信息失败', $userInfo);
+       if ($userAccount['StatusCode'] == '400') {
+           \Log::error('查询账户信息失败', $userAccount);
            return response()->json(['StatusCode' => '400', 'ResultData' => '当前账号不存在!']);
        }
+       $userInfo = self::$userServer->userInfo(['guid' => $request->guid]);
 
-       Mail::raw('琦力英雄会，账户重置密码验证码:', function($message){
-            $message->subject('重置密码邮件');
-            $message->to('342766475@qq.com');
-       });
+       // 给新邮箱发送邮件
+       $name = $userInfo['ResultData']->nickname;
+       $content = strtolower(str_random(4));
+       $to = $request->newEmail;
+
+       //先判断当前账号是否已经发过Email了
+        // 获取当前时间戳
+        $nowTime = $_SERVER['REQUEST_TIME'];
+        $email = Session::get('email');
+
+        if (isset($email) && $email['email'] == $to) {
+
+            // 60秒内不能再次发送Email
+            if (($email['time'] + 60) > $nowTime) return response()->json(['StatusCode' => '400', 'ResultData' => '邮箱已经发送了，请等待60秒!']);
+        }
+
+        // 发送Email
+        $flag = Mail::send('home.email.emails', ['name' => $name, 'content' => $content], function($message) use ($to){
+            $message->to($to)->subject('琦力英雄会，邮箱改绑');
+        });
+
+        if(!$flag) return response()->json(['StatusCode' => '400', 'ResultData' => '邮件发送失败！']);
+
+        // 发送成功，向Session 里存值，当前发送邮箱账号、请求时间、验证码
+        $arr = ['email' => $to, 'time' => $_SERVER['REQUEST_TIME'], 'code' => $content];
+        Session::put('email', $arr);
+
+        return response()->json(['StatusCode' => '200', 'ResultData' => '邮件发送成功！']);
+
     }
 
 

@@ -27,8 +27,12 @@ class UserService {
      * @param UserStore $userStore
      * @param RoleStore $roleStore
      */
-    public function __construct(HomeStore $homeStore, UserStore $userStore, RoleStore $roleStore, UploadServer $uploadServer)
-    {
+    public function __construct(
+        HomeStore $homeStore,
+        UserStore $userStore,
+        RoleStore $roleStore,
+        UploadServer $uploadServer
+    ){
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$roleStore = $roleStore;
@@ -549,37 +553,35 @@ class UserService {
      * @return array
      * @author 刘峻廷
      */
-    public function changeEmail($data,$guid)
+    public function changeEmail($where, $data)
     {
         // 检验数据
-        if (!is_array($data) || empty($guid)) return ['status' => '400','msg' => '缺少数据！'];
+        if (empty($where) || empty($data)) return ['StatusCode' => '400', 'ResultData' => '缺少数据信息'];
 
-       // 输入信息和数据进行比对
-        $result = self::$userStore->getOneData(['guid' => $guid, 'email' => $data['email']]);
+       // 判断当前用户的邮箱和更新的邮箱进行比对
+        $result = self::$homeStore->getOneData(['guid' => $where]);
 
-        if (!$result) ['status'=> '400', 'msg' => '原始邮箱错误，请重新输入。'];
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '当前用户不存在！'];
 
-        // 再次进行新邮箱和原始邮箱是否一样
-        if ($result->email == $data['newEmail']) return ['status'=> '400', 'msg' => '原始邮箱与新邮箱相同，请更换一个。'];
+        // 原始邮箱和新邮箱是否一样
+        if ($result->email == $data) return ['StatusCode' => '400', 'ResultData' => '原始邮箱与新邮箱相同，请更换一个。'];
 
-        // 再次进行 新邮箱是否存在数据表中
-        $result = self::$userStore->getOneData(['email' => $data['newEmail']]);
-        if ($result) return ['status' => '400', 'msg' => '您输入的新邮箱已存在，请更换一个!'];
+        // 新改绑的邮箱是否已经存在
 
-        // 确认密码是否正确,先对密码加密
-        $result = self::$homeStore->getOneData(['guid' => $guid]);
-        $pass = Common::cryptString($result->email, $data['password'], 'hero');
+        $result = self::$homeStore->getOneData(['email' => $data]);
 
-        if ($result->password != $pass) return ['status' => '400', 'msg' => '账号密码错误!'];
+        if ($result) ['StatusCode' => '400', 'ResultData' => '您输入的新邮箱已存在，请更换一个!'];
 
-        // 进行更新邮箱
-        $result = self::$userStore->updateUserInfo(['guid' => $guid], ['email' => $data['newEmail']]);
+        // 更新邮箱
+
+        $result = self::$homeStore->updateData(['guid' => $where], ['email' => $data]);
 
         if (!$result) {
-            Log::error('更换邮箱错误',$result);
-            return ['status' => '400', 'msg' => '数据更新失败!'];
+            Log::error('更换邮箱错误', $result);
+            return['StatusCode' => '400', 'ResultData' => '绑定邮箱失败!'];
         } else {
-            return ['status' => '200', 'msg' => '更改邮箱绑定成功!'];
+            $email = substr_replace(trim($data), '****', 2, 4);
+            return ['StatusCode' => '200', 'ResultData' => $email];
         }
 
     }
