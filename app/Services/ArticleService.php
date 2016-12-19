@@ -11,9 +11,9 @@ namespace App\Services;
 use App\Store\ArticleStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
-use App\Store\SendStore;
 use App\Tools\Common;
 use App\Services\UserService as UserServer;
+use App\Tools\CustomPage;
 
 class ArticleService
 {
@@ -24,20 +24,18 @@ class ArticleService
     protected static $commentStore;
     protected static $common;
     protected static $likeStore;
-    protected static $sendStore;
     protected static $userServer;
 
     public function __construct(
         ArticleStore $articleStore,
         CommentStore $commentStore,
         LikeStore $likeStore,
-        SendStore $sendStore,
         UserServer $userServer
     ){
         self::$articleStore = $articleStore;
         self::$commentStore = $commentStore;
         self::$likeStore = $likeStore;
-        self::$sendStore = $sendStore;
+        self::$articleStore = $articleStore;
         self::$userServer = $userServer;
     }
 
@@ -51,7 +49,7 @@ class ArticleService
     public static function selectByType($type)
     {
 
-        $data = self::$sendStore->getData(['type' => $type, 'status' => 1]);
+        $data = self::$articleStore->getData(['type' => $type, 'status' => 1]);
 
         if($data) return ['StatusCode' => '200', 'ResultData' => $data];
         return ['StatusCode' => '201', 'ResultData' => '暂时没有本文章信息'];
@@ -67,9 +65,9 @@ class ArticleService
     public function insertData($data)
     {
         $data["guid"] = Common::getUuid();
-        $data["time"] = date("Y-m-d H:i:s", time());
+        $data["addtime"] = time();
 
-        $result = self::$sendStore->insertData($data);
+        $result = self::$articleStore->insertData($data);
 
         //判断插入是否成功，并返回结果
         if(isset($result)) return ['StatusCode' => '200', 'ResultData' => '发布成功'];
@@ -78,45 +76,39 @@ class ArticleService
 
     /**
      * 分页查询
-     * @param $request
+     * @param array $where 查询条件
+     * @param int $nowPage  当前页
+     * @param int $forPages 一页获取的数量
+     * @param string $url 请求的路由url
+     * @param boolean $disPlay 是否需要分页样式
      * @return array
      * author 郭庆
      */
-    public function selectData($request)
+    public function selectData($where, $nowPage, $forPages, $url, $disPlay=true)
     {
-        //数据初始化
-        $data = $request->all();
-        $forPages = 5;//一页的数据条数
-        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        $status = $data["status"];//文章状态：已发布 待审核 已下架
-        $type = $data["type"];//获取文章类型
-        $user = $data["user"];//用户类型
-
-        $where = [];
-        if($status){
-            $where["status"] = $status;
+        $count = self::$articleStore->getCount($where);
+        if (!$count) {
+            if ($count == 0) return ['StatusCode' => '201', 'ResultData' => []];
+            return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
         }
-        if($type!="null"){
-            if ($type != 3){
-                $where["type"] = $type;
-            }
-        }
-        if ($user){
-            $where['user'] = $user;
-        }
-        //创建分页
-        $creatPage = Common::getPageUrls($data, "data_send_info", "/article/create", $forPages, null, $where);
-        if(isset($creatPage)){
-            $result["pages"] = $creatPage['pages'];
-        }else{
-            return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
-        }
+        $totalPage = ceil($count / $forPages);
 
         //获取对应页的数据
-        $res = self::$sendStore->forPage($nowPage, $forPages, $where);
+        $res = self::$articleStore->forPage($nowPage, $forPages, $where);
+        if($res){
+            if ($disPlay) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
 
-        if($res || empty($res)){
-            $result['data'] = $res;
+                if($creatPage){
+                    $result["pages"] = $creatPage;
+                }else{
+                    return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
+                }
+                $result['data'] = $res;
+            }else{
+                $result = $res;
+            }
             return ['StatusCode' => 200,'ResultData' => $result];
         }else{
             return ['StatusCode' => 500,'ResultData' => '获取分页数据失败！'];
@@ -132,7 +124,7 @@ class ArticleService
      */
     public function getData($guid)
     {
-        $data = self::$sendStore->getOneData(["guid" => $guid]);
+        $data = self::$articleStore->getOneData(["guid" => $guid]);
         // 判断有没有取到数据
         if ($data) {
             // 如果登录，则判断点赞记录
@@ -150,7 +142,7 @@ class ArticleService
 
         }
         //查询一条数据文章信息
-        $data = self::$sendStore->getOneData(["guid" => $guid]);
+        $data = self::$articleStore->getOneData(["guid" => $guid]);
         if($data) return ['StatusCode' => true, 'ResultData' => $data];
         return ['StatusCode' => '201', 'ResultData' => "没有该文章信息！"];
     }
@@ -166,32 +158,22 @@ class ArticleService
     public function changeStatus($guid, $status, $user = 1)
     {
         if(!(isset($guid) && isset($status))){
-<<<<<<< HEAD
-            return ['StatusCode'=> 400,'ResultData' => "数据参数有误"];
-=======
             return ['StatusCode'=> '400', 'ResultData' => "数据参数有误"];
         }
         if ($user = 1) {
-            $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
+            $Data = self::$articleStore->upload(["guid" => $guid], ["status" => $status]);
         } else {
-            $result = self::$sendStore->getOneData(['guid' => $guid]);
+            $result = self::$articleStore->getOneData(['guid' => $guid]);
             if (empty($result) || ($result->user_id != session('user')->guid)) {
                 return ['StatusCode'=> '400', 'ResultData' => "没有权限"];
             } else {
-                $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
+                $Data = self::$articleStore->upload(["guid" => $guid], ["status" => $status]);
             }
->>>>>>> origin/master
         }
 
-
         //判断修改结果并返回
-<<<<<<< HEAD
-        if($Data) return ['StatusCode'=> 200,'ResultData' => "修改状态成功"];
-        return ['StatusCode'=> 500,'ResultData' => "服务器忙，修改失败"];
-=======
         if($Data) return ['StatusCode'=> '200', 'ResultData' => "修改状态成功"];
         return ['StatusCode'=> '500', 'ResultData' => "服务器忙，修改失败"];
->>>>>>> origin/master
     }
 
     /**
@@ -204,14 +186,14 @@ class ArticleService
     public function userChangeStatus($guidAll, $status)
     {
         if ($user = 1) {
-            $Data = self::$sendStore->updataAll(["guid" => $guidAll], ["status" => $status]);
+            $Data = self::$articleStore->updataAll(["guid" => $guidAll], ["status" => $status]);
         } else {
-            $result = self::$sendStore->getAllData(['guid' => $guidAll]);
+            $result = self::$articleStore->getAllData(['guid' => $guidAll]);
             dd($result);
             if (empty($result) || ($result->user_id != session('user')->guid)) {
                 return ['StatusCode'=> '400', 'ResultData' => "没有权限"];
             } else {
-                $Data = self::$sendStore->updataAll(["guid" => $guidAll], ["status" => $status]);
+                $Data = self::$articleStore->updataAll(["guid" => $guidAll], ["status" => $status]);
             }
         }
 
@@ -230,7 +212,7 @@ class ArticleService
     public function upDta($where, $data)
     {
         $data["time"] = date("Y-m-d H:i:s", time());
-        $Data = self::$sendStore->upload($where, $data);
+        $Data = self::$articleStore->upload($where, $data);
         if($Data){
             return ['StatusCode'=> 200,'ResultData' => "修改成功"];
         }else{
@@ -367,22 +349,22 @@ class ArticleService
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         unset($where['nowPage']);
         unset($where['totalPage']);
-        $creatPage = Common::getPageUrls($data, "data_send_info", "/send", $forPages, null, $where);
+        $creatPage = Common::getPageUrls($data, "data_article_info", "/article", $forPages, null, $where);
         if(isset($creatPage)){
             $result["pages"] = $creatPage['pages'];
         }else{
             return ['StatusCode' => '403', 'ResultData' => '生成分页样式发生错误'];
         }
         // 得到分页数据
-        $Data = self::$sendStore->forPage($nowPage, $forPages, $where);
+        $Data = self::$articleStore->forPage($nowPage, $forPages, $where);
         // 得到已发表的数量
-        $result['trailNum'] = self::$sendStore->getCount(['status' => 1,'user_id' => $data['user_id']]);
+        $result['trailNum'] = self::$articleStore->getCount(['status' => 1,'user_id' => $data['user_id']]);
         // 得到审核中的数量
-        $result['releaseNum'] = self::$sendStore->getCount(['status' => 2,'user_id' => $data['user_id']]);
+        $result['releaseNum'] = self::$articleStore->getCount(['status' => 2,'user_id' => $data['user_id']]);
         // 得到已退稿的数量
-        $result['notNum'] = self::$sendStore->getCount(['status' => 3,'user_id' => $data['user_id']]);
+        $result['notNum'] = self::$articleStore->getCount(['status' => 3,'user_id' => $data['user_id']]);
         // 得到草稿箱的数量
-        $result['draftNum'] = self::$sendStore->getCount(['status' => 4,'user_id' => $data['user_id']]);
+        $result['draftNum'] = self::$articleStore->getCount(['status' => 4,'user_id' => $data['user_id']]);
 
         // 判断有没有分页数据
         if(!empty($Data)){
@@ -403,7 +385,7 @@ class ArticleService
      */
     public static function getArticleByUser($id, $status)
     {
-        $result = self::$sendStore->getData(['user_id' => $id, 'status' => $status]);
+        $result = self::$articleStore->getData(['user_id' => $id, 'status' => $status]);
         if($result) {
             return ['StatusCode' => '200', 'ResultData' => $result];
         } else {
@@ -418,12 +400,12 @@ class ArticleService
      * @return array
      * @author 郭庆
      */
-    public static function addSend($data)
+    public static function addArticle($data)
     {
         $data["guid"] = Common::getUuid();
         $data["time"] = date("Y-m-d H:i:s", time());
 
-        $result = self::$sendStore->insertData($data);
+        $result = self::$articleStore->insertData($data);
 
         //判断插入是否成功，并返回结果
         if(isset($result)) return ['status' => true, 'msg' => $result];

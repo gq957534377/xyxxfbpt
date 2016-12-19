@@ -986,11 +986,6 @@
                             }else {
                                 _this.html('<a href="javascript:;" data-name="1" data-status="1" class="action_status"><button class="btn-primary">启用</button></a>');
                             }
-<<<<<<< HEAD
-//                            actionStatus();
-=======
-                            actionStatus();
->>>>>>> origin/master
                         } else {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
