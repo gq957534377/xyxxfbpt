@@ -12,7 +12,7 @@ use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use App\Tools\CropAvatar as Crop;
+use Mail;
 
 
 class UserService {
@@ -27,8 +27,12 @@ class UserService {
      * @param UserStore $userStore
      * @param RoleStore $roleStore
      */
-    public function __construct(HomeStore $homeStore, UserStore $userStore, RoleStore $roleStore, UploadServer $uploadServer)
-    {
+    public function __construct(
+        HomeStore $homeStore,
+        UserStore $userStore,
+        RoleStore $roleStore,
+        UploadServer $uploadServer
+    ){
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$roleStore = $roleStore;
@@ -56,13 +60,17 @@ class UserService {
      * @return array
      * @author 刘峻廷
      */
-    public function roleInfo($where)
+    public function roleInfo($where, $model = null)
     {
-        $result = self::$roleStore->getRole($where);
+        if (isset($model)) {
+            $result = self::$roleStore->getRole($where);
+        } else {
+            $result = self::$roleStore->getOneRoleDate($where);
+        }
         //返回错误状态信息
-        if(!$result) return ['status' => false,'msg' => '没有找到'];
+        if(!$result) return ['StatusCode' => '400', 'ResultData' => '没有找到'];
         //返回数据
-        return  ['status' => true,'msg' => $result];
+        return  ['StatusCode' => '200', 'ResultData' => $result];
     }
 
     /**
@@ -406,16 +414,16 @@ class UserService {
      * @return array
      * @author 刘峻廷
      */
-    public function updataUserInfo($where,$data)
+    public function updataUserInfo($where, $data)
     {
         // 检验条件
-       if (empty($where) || empty($data)) return response()->json(['StatusCode' => '400','ResultData' => '缺少数据']);
+       if (empty($where) || empty($data)) return ['StatusCode' => '400','ResultData' => '缺少数据'];
         // 提交数据给store层
-        $info = self::$userStore->updateUserInfo($where,$data);
+        $info = self::$userStore->updateUserInfo($where, $data);
 
-        if(!$info) return response()->json(['StatusCode' => '400','ResultData' => '修改失败，您并没有做什么修改！']);
+        if(!$info) return ['StatusCode' => '400','ResultData' => '修改失败，您并没有做什么修改！'];
 
-        return response()->json(['StatusCode' => '200','ResultData' => '更新成功!']);
+        return ['StatusCode' => '200','ResultData' => '更新成功!'];
     }
 
     /**
@@ -478,7 +486,6 @@ class UserService {
             // 查看该用户是否已申请
             $info= self::$roleStore->getRole(['guid' => $data['guid']]);
         }
-
 
         // 查询不为空
         if(!empty($info)) {
@@ -546,43 +553,118 @@ class UserService {
     }
 
     /**
+     * 账号密码修改
+     * @param object $request
+     * @return array
+     * @author 刘峻廷
+     */
+    public function changePassword($request)
+    {
+        // 查询用户的信息
+        $result = self::$homeStore->getOneData(['guid' => $request->guid]);
+
+        // 判断数据
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '账号不存在'];
+
+        //加密密码
+        $pass = Common::cryptString($result->email, $request->password, 'hero');
+
+        if  ($result->password != $pass) return ['StatusCode' => '400', 'ResultData' => '原始密码错误'];
+
+        // 对新密码进行加密，然后与旧密码进行对比
+        $new_pass = Common::cryptString($result->email, $request->new_password, 'hero');
+
+        if ($pass == $new_pass) return ['StatusCode' => '400', 'ResultData' => '原始密码与新密码相同，请更换密码'];
+
+        // 更新密码
+
+        $result = self::$homeStore->updateData(['guid' => $request->guid], ['password' => $new_pass]);
+
+        if (!$result) {
+            \Log::error('前端用户修改密码失败', $result);
+            return ['StatusCode' => '400', 'ResultData' => '修改密码失败'];
+        } else {
+            return ['StatusCode' => '200', 'ResultData' => '修改密码成功'];
+        }
+
+    }
+
+    /**
+     * 发送Email
+     * @param object $request
+     * @return array
+     * @author 刘峻廷
+     */
+     public function sendEmail($request)
+     {
+         $userInfo = self::$userStore->getOneData(['guid' => $request->guid]);
+
+         // 给新邮箱发送邮件
+         $name = $userInfo->nickname;
+         $content = strtolower(str_random(4));
+         $to = $request->newEmail;
+
+         //先判断当前账号是否已经发过Email了
+         // 获取当前时间戳
+         $nowTime = $_SERVER['REQUEST_TIME'];
+         $email = Session::get('email');
+
+         if (isset($email) && $email['email'] == $to) {
+
+             // 60秒内不能再次发送Email
+             if (($email['time'] + 60) > $nowTime) return ['StatusCode' => '400', 'ResultData' => '邮箱已经发送了，请等待60秒!'];
+         }
+
+         // 发送Email
+         $flag = Mail::send('home.email.emails', ['name' => $name, 'content' => $content], function($message) use ($to){
+             $message->to($to)->subject('琦力英雄会，邮箱改绑');
+         });
+
+         if(!$flag) return ['StatusCode' => '400', 'ResultData' => '邮件发送失败！'];
+
+         // 发送成功，向Session 里存值，当前发送邮箱账号、请求时间、验证码
+         $arr = ['email' => $to, 'time' => $_SERVER['REQUEST_TIME'], 'code' => $content];
+         Session::put('email', $arr);
+
+         return ['StatusCode' => '200', 'ResultData' => '邮件发送成功！'];
+     }
+
+    /**
      * 更改邮箱绑定
      * @param $data
      * @param $guid
      * @return array
      * @author 刘峻廷
      */
-    public function changeEmail($data,$guid)
+    public function changeEmail($where, $data)
     {
         // 检验数据
-        if (!is_array($data) || empty($guid)) return ['status' => '400','msg' => '缺少数据！'];
+        if (empty($where) || empty($data)) return ['StatusCode' => '400', 'ResultData' => '缺少数据信息'];
 
-       // 输入信息和数据进行比对
-        $result = self::$userStore->getOneData(['guid' => $guid, 'email' => $data['email']]);
+       // 判断当前用户的邮箱和更新的邮箱进行比对
+        $result = self::$homeStore->getOneData(['guid' => $where]);
 
-        if (!$result) ['status'=> '400', 'msg' => '原始邮箱错误，请重新输入。'];
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '当前用户不存在！'];
 
-        // 再次进行新邮箱和原始邮箱是否一样
-        if ($result->email == $data['newEmail']) return ['status'=> '400', 'msg' => '原始邮箱与新邮箱相同，请更换一个。'];
+        // 原始邮箱和新邮箱是否一样
+        if ($result->email == $data) return ['StatusCode' => '400', 'ResultData' => '原始邮箱与新邮箱相同，请更换一个。'];
 
-        // 再次进行 新邮箱是否存在数据表中
-        $result = self::$userStore->getOneData(['email' => $data['newEmail']]);
-        if ($result) return ['status' => '400', 'msg' => '您输入的新邮箱已存在，请更换一个!'];
+        // 新改绑的邮箱是否已经存在
 
-        // 确认密码是否正确,先对密码加密
-        $result = self::$homeStore->getOneData(['guid' => $guid]);
-        $pass = Common::cryptString($result->email, $data['password'], 'hero');
+        $result = self::$homeStore->getOneData(['email' => $data]);
 
-        if ($result->password != $pass) return ['status' => '400', 'msg' => '账号密码错误!'];
+        if ($result) ['StatusCode' => '400', 'ResultData' => '您输入的新邮箱已存在，请更换一个!'];
 
-        // 进行更新邮箱
-        $result = self::$userStore->updateUserInfo(['guid' => $guid], ['email' => $data['newEmail']]);
+        // 更新邮箱
+
+        $result = self::$homeStore->updateData(['guid' => $where], ['email' => $data]);
 
         if (!$result) {
-            Log::error('更换邮箱错误',$result);
-            return ['status' => '400', 'msg' => '数据更新失败!'];
+            \Log::error('更换邮箱错误', $result);
+            return['StatusCode' => '400', 'ResultData' => '绑定邮箱失败!'];
         } else {
-            return ['status' => '200', 'msg' => '更改邮箱绑定成功!'];
+            $email = substr_replace(trim($data), '****', 2, 4);
+            return ['StatusCode' => '200', 'ResultData' => $email];
         }
 
     }
@@ -594,39 +676,16 @@ class UserService {
      * @return array
      * @author 刘峻廷
      */
-    public function changeTel($data,$guid)
+    public function changeTel($guid, $data)
     {
-        // 检验数据
-        if (!is_array($data) || empty($guid)) return ['status' => '400','msg' => '缺少数据！'];
-     
-        // 输入信息和数据进行比对
-        $result = self::$userStore->getOneData(['guid' => $guid, 'tel' => $data['tel']]);
-
-        if (!$result) return ['status'=> '400', 'msg' => '原始手机号错误，请重新输入。'];
-
-        // 再次进行新邮箱和原始邮箱是否一样
-        if ($result->tel == $data['newTel']) return ['status'=> '400', 'msg' => '原始手机号与新手机号相同，请更换一个。'];
-
-        // 再次进行 新邮箱是否存在数据表中
-        $result = self::$userStore->getOneData(['tel' => $data['newTel']]);
-        if ($result) return ['status' => '400', 'msg' => '您输入的新手机号已存在，请更换一个!'];
-
-        // 确认密码是否正确,先对密码加密
-        $result = self::$homeStore->getOneData(['guid' => $guid]);
-        $pass = Common::cryptString($result->email, $data['password'], 'hero');
-
-        if ($result->password != $pass) return ['status' => '400', 'msg' => '账号密码错误!'];
-
-        // 进行更新邮箱
-        $result = self::$userStore->updateUserInfo(['guid' => $guid], ['tel' => $data['newTel']]);
+        $result = self::$homeStore->updateData(['guid' => $guid], ['tel' => $data]);
 
         if (!$result) {
-            Log::error('更换手机号错误',$result);
-            return ['status' => '400', 'msg' => '数据更新失败!'];
+            Log::error('用户账号手机绑定修改失败', $data);
+            return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
         } else {
-            return ['status' => '200', 'msg' => '更改手机号绑定成功!'];
+            return ['StatusCode' => '400', 'ResultData' => '手机改绑成功，请重新登录!'];
         }
-
     }
 
     /**
@@ -646,31 +705,4 @@ class UserService {
 
     }
 
-    /**
-     * 账号改绑
-     * @param array  $where  条件
-     * @param array  $data   修改数据
-     * @param string $type   类型
-     * @return array
-     * @author 刘峻廷
-     */
-    public function changeAccountInfo($where, $data, $type)
-    {
-        switch ($type)
-        {
-            case 'tel':
-                $result = self::$homeStore->updateData($where, $data);
-                if (!$result) {
-                    Log::error('用户账号手机绑定修改失败', $data);
-                    return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
-                } else {
-                    return ['StatusCode' => '400', 'ResultData' => '手机改绑成功，请重新登录!'];
-                }
-                break;
-            case 'email':
-                break;
-            case 'password':
-                break;
-        }
-    }
 }

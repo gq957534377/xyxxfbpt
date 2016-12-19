@@ -110,5 +110,17 @@ class LikeStore{
     {
         return DB::table(self::$table)->where(['action_id' => $action_id , 'support' => 2])->count();
     }
+
+    /**
+     * 返回某字段信息
+     * @param array $where  查询条件
+     * @param string $field 字段名
+     * @return mixed
+     * author 张洵之
+     */
+    public function getLikeStatus($where, $field)
+    {
+        return DB::table(self::$table)->where($where)->lists($field);
+    }
 }
 

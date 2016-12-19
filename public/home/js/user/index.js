@@ -4,6 +4,7 @@ $(document).ready(function (){
     // 个人资料
     var user_avatar = $(".user_avatar");
     var user_name = $(".user_name");
+    var user_nickname = $(".user_nickname");
     var user_sex = $(".user_sex");
     var user_birthday = $(".user_birthday");
     var user_webchat = $(".user_webchat");
@@ -11,7 +12,7 @@ $(document).ready(function (){
     // 隐藏个人信息表单
     var hide_avatar = $('#head-pic');
     var hide_realname = $('input[name = "realname"]');
-    var hide_sex = $('input[name = "sex"]');
+    var hide_nickname = $('input[name = "nickname"]');
     var hide_birthday = $('input[name = "birthday"]');
 
     // 异步获取用户数据
@@ -19,7 +20,7 @@ $(document).ready(function (){
         type: "GET",
         url: '/user/'+guid,
         beforeSend:function(){
-            $(".loading").css({'width':'80px','height':'80px'}).show();
+            $(".loading").show();
         },
         success: function(msg){
             // 将传过json格式转换为json对象
@@ -28,6 +29,7 @@ $(document).ready(function (){
                     console.log(msg.ResultData);
 
                     user_avatar.attr('src',msg.ResultData.headpic);
+                    user_nickname.html(msg.ResultData.nickname);
                     user_name.html(msg.ResultData.realname);
 
                     var sex ='';
@@ -41,11 +43,12 @@ $(document).ready(function (){
 
                     user_sex.html(sex);
                     user_birthday.html(msg.ResultData.birthday);
-                    user_webchat.html('无');
-                    user_info.html('无');
+                    // user_webchat.html('无');
+                    user_info.html(msg.ResultData.introduction);
 
                     hide_avatar.attr('src',msg.ResultData.headpic);
                     hide_realname.empty().val(msg.ResultData.realname);
+                    hide_nickname.empty().val(msg.ResultData.nickname);
 
                     if (msg.ResultData.sex == 1)
                     {
@@ -88,9 +91,12 @@ $(document).ready(function (){
     // 编辑保存用户信息
     $("#editSubmit").click(function(){
         var data = {
+            'nickname' : $('input[name="nickname"]').val(),
             'realname' : $('input[name="realname"]').val(),
             'birthday' : $('input[name="birthday"]').val(),
-            'sex':  $('input:radio[name="sex"]:checked').val()
+            'sex':  $('input:radio[name="sex"]:checked').val(),
+            // 'wechat':  $('input[name="wechat"]').val(),
+            'introduction':  $('textarea[name="introduction"]').val(),
         };
         ajaxRequire('user/'+guid, 'PUT', data, $("#editUserInfo"), 2);
 
@@ -107,8 +113,8 @@ $(document).ready(function (){
 
         user_sex.html(sex);
         user_birthday.html($('input[name="birthday"]').val());
-        user_webchat.html('无');
-        user_info.html('无');
+        // user_webchat.html('无');
+        user_info.html($('textarea[name="introduction"]').val());
 
         $('#userinfo').show();
         $('#editUserInfo').hide();

@@ -1,11 +1,10 @@
 <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
 
-    <img class="loading"  src="{{ asset('home/img/loading.gif') }}" style="position: absolute;left: 43%;top: 30%;"/>
+    <img class="loading"  src="{{ asset('home/img/load.gif') }}" style="position: absolute;left: 43%;top: 30%;"/>
 
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form class="avatar-form" action="/cardpic" enctype="multipart/form-data" method="post">
-
+            <form class="avatar-form" action="{{url('/cardpic')}}" enctype="multipart/form-data" method="post">
                 <div class="modal-header">
                     <button class="close" data-dismiss="modal" type="button">&times;</button>
                     <h4 class="modal-title" id="avatar-modal-label">上传身份证证件照</h4>

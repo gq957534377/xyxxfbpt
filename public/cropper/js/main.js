@@ -14,26 +14,27 @@
   var console = window.console || { log: function () {} };
 
   function CropAvatar($element) {
-    this.$container = $element;
 
-    this.$avatarView = this.$container.find('.avatar-view');//头像视图
-    this.$avatar = this.$avatarView.find('img');//头像
-    this.$avatarModal = this.$container.find('#avatar-modal');//模态框
-    this.$loading = this.$container.find('.loading');//加载时菊花
+      this.$container = $element;
 
-    this.$avatarForm = this.$avatarModal.find('.avatar-form');//提交表单
-    this.$avatarUpload = this.$avatarForm.find('.avatar-upload');//上传图片最外层div
-    this.$avatarSrc = this.$avatarForm.find('.avatar-src');// 拖拽上传时图片的地址，这里没用
-    this.$avatarData = this.$avatarForm.find('.avatar-data');//截取图片相关数据
-    this.$avatarInput = this.$avatarForm.find('.avatar-input');//上传头像的input表单
-    this.$avatarSave = this.$avatarForm.find('.avatar-save');//跟换头像按钮
-    this.$avatarBtns = this.$avatarForm.find('.avatar-btns');//旋转按钮最外层div
+      this.$avatarView = this.$container.find('.avatar-view');
+      this.$avatar = this.$avatarView.find('img');
+      this.$avatarModal = $("body").find('#avatar-modal');
+      this.$loading = this.$avatarModal.find('.loading');
 
-    this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');//模态框显示图片div
-    this.$avatarPreview = this.$avatarModal.find('.avatar-preview');//右侧三小框
+      this.$avatarForm = this.$avatarModal.find('.avatar-form');
+      this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
+      this.$avatarScale = this.$avatarForm.find('.avatar-scale').val();
+      this.$avatarSrc = this.$avatarForm.find('.avatar-src');
+      this.$avatarData = this.$avatarForm.find('.avatar-data');
+      this.$avatarInput = this.$avatarForm.find('.avatar-input');
+      this.$avatarSave = this.$avatarForm.find('.avatar-save');
+      this.$avatarBtns = this.$avatarForm.find('.avatar-btns');
 
-    this.init();// 初始化
-    console.log(this);
+      this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');
+      this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
+
+      this.init();
   }
 
   // 对象添加属性和方法
@@ -237,6 +238,12 @@
           data = new FormData(this.$avatarForm[0]),
           _this = this;
 
+      $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
       $.ajax(url, {
         type: 'post',
         data: data,
@@ -253,7 +260,10 @@
         },
 
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-          _this.submitFail(textStatus || errorThrown);
+            var number = XMLHttpRequest.status;
+            var info = "错误号:"+number+",文件上传失败";
+            _this.submitFail(info);
+          // _this.submitFail(textStatus || errorThrown);
         },
 
         complete: function () {

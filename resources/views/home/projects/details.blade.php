@@ -39,7 +39,11 @@
                     <span class="col-lg-4 col-md-4 col-sm-4 col-xs-4">跨境管理系统</span>
                 </div>
                 <div class="row top_right_5">
-                    <span class="col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（345）</span>
+                    @if($likeStatus == 1)
+                    <span id="like"  data-id="{{$project_details->project_id}}" class="bang col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>
+                    @else
+                        <span id="like"  data-id="{{$project_details->project_id}}" class="col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>
+                    @endif
                     <span class="col-lg-6 col-md-6 col-sm-6 col-xs-5">12723人看过</span>
                 </div>
             </div>
@@ -231,20 +235,6 @@
                                     </div>
                                 </li>
                             @endforeach
-                            <div class="row">
-                                <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <div class="user-img-bgs">
-
-                                    </div>
-                                </div>
-                                <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                    <div class="row user-say1">
-                                    </div>
-                                    <div class="row user-say2">
-                                        <p><a href="#">更多</a></p>
-                                    </div>
-                                </div>
-                            </div>
                         @else
                             <li class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
@@ -269,6 +259,35 @@
 @endsection
 @section('script')
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
+    <script>
+        $('#like').click(function () {
+            var temp = $(this).is('.bang')?-1:1;
+            var str = $(this).is('.bang')?"点赞":"已赞";
+            var num = parseInt($('#likeNum').html());
+            var nowLikeNum = temp+num;
+            var contentId = $(this).data('id');
+            $.ajax({
+                type:'get',
+                url:'/action/'+contentId+'/edit',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{type:2},
+                success:function (data) {
+                    switch (data.StatusCode){
+                        case '200':$('#like').toggleClass('bang').html(str+"（<span id='likeNum'>"+nowLikeNum+"</span>）");break;
+                        case '400':alert(data.ResultData);break;
+                        case '401':alert(data.ResultData);window.location.href = "{{route('login.index')}}";break;
+                    }
+                },
+                error: function(XMLHttpRequest){
+                    var number = XMLHttpRequest.status;
+                    var msg = "Error: "+number+",数据异常！";
+                    alert(msg);
+                }
+            })
+        })
+    </script>
 @endsection
 
 

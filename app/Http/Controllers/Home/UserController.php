@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Tools\Avatar;
 use App\Services\CommentAndLikeService as CommentServer;
 use Illuminate\Support\Facades\Session;
-use Mail;
+
 
 class UserController extends Controller
 {
@@ -21,8 +21,11 @@ class UserController extends Controller
     protected static $uploadServer = null;
     protected  static $commentServer = null;
 
-    public function __construct(UserServer $userServer, UploadServer $uploadServer, CommentServer $commentServer)
-    {
+    public function __construct(
+        UserServer $userServer,
+        UploadServer $uploadServer,
+        CommentServer $commentServer
+    ){
         self::$userServer = $userServer;
         self::$uploadServer = $uploadServer;
         self::$commentServer = $commentServer;
@@ -62,37 +65,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if(empty($id)) return response()->json(['StatusCode' => '500','ResultData' => '服务器数据异常']);
+        if(empty($id)) return response()->json(['StatusCode' => '400','ResultData' => '服务器数据异常']);
       // 获取到用户的id，返回数据
         $info = self::$userServer->userInfo(['guid'=>$id]);
         return response()->json($info);
-    }
-
-    /**
-     * 获取角色信息
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
-     */
-    public function roleInfo($id)
-    {
-        if(empty($id)) return response()->json(['StatusCode' => '500','ResultData' => '服务器数据异常']);
-
-        // 获取当前用的角色，判断该查那张表
-        $userInfo = self::$userServer->userInfo(['guid' => $id]);
-
-        // 判断当前用户的数据
-        if (!$userInfo['status']) return response()->json(['StatusCode' => '400','ResultData' => '未查询到数据']);
-
-        if ($userInfo['msg']->role == 1) {
-            if(!$userInfo['status']) return response()->json(['StatusCode' => '400','ResultData' => '未查询到数据']);
-            return response()->json(['StatusCode' => '200','ResultData' => $userInfo]);
-        }else{
-            // 获取到用户的id，返回数据
-            $info = self::$userServer->roleInfo(['guid' => $id]);
-            if(!$info['status']) return response()->json(['StatusCode' => '400','ResultData' => '未查询到数据']);
-            return response()->json(['StatusCode' => '200','ResultData' => $info]);
-        }
     }
 
     /**
@@ -131,10 +107,30 @@ class UserController extends Controller
     {
         // 获取修改数据
         $data = $request->all();
-        // 将验证后的数据交给Server层
-        $info = self::$userServer->updataUserInfo(['guid' => $id],$data);
+        //数据验证过滤
+        $validator = Validator::make($request->all(),[
+            'nickname' => 'string',
+            'realname' => 'string',
+            'birthday' => 'string',
+            'sex' => 'integer',
+            'introduction' => 'string|min:50|max:100',
+        ],[
+            'nickname.string' => '请输入正确的格式',
+            'realname.string' => '请输入正确的格式',
+            'birthday.string' => '请输入正确的格式',
+            'sex.integer' => '验证字段必须是整型',
+            'introduction.string' => '请输入正确的格式',
+            'introduction.min' => '请输入50个字符以上',
+            'introduction.max' => '输入字符最大长度100个字符',
 
-        return $info;
+        ]);
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        // 将验证后的数据交给Server层
+        $info = self::$userServer->updataUserInfo(['guid' => $id], $data);
+
+        return response()->json($info);
     }
 
     /**
@@ -179,43 +175,61 @@ class UserController extends Controller
     }
 
     /**
+     * 修改账号密码
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(),[
+            'guid' => 'required',
+            'password' => 'required',
+            'new_password' => 'required',
+        ],[
+            'guid' => '缺少数据信息',
+            'password' => '请输入原始密码',
+            'new_password' => '请输入新密码',
+
+        ]);
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        // 提交数据给业务层
+        $result = self::$userServer->changePassword($request);
+
+        return response()->json($result);
+
+    }
+    /**
      * 更换邮箱绑定
      * @param Request $request
      * @param $guid
      * @return \Illuminate\Http\JsonResponse
      * @author 刘峻廷
      */
-    public function changeEmail(Request $request,$guid)
+    public function changeEmail(Request $request)
     {
-        $data = $request->all();
         // 验证过滤数据
         $validator = Validator::make($request->all(),[
-            'email' => 'required|email',
-            'newEmail' => 'required|email',
-            'password' => 'required',
+            'captcha_email' => 'required',
         ],[
-            'email.requried' => '请填写您的原始邮箱!<br>',
-            'email.email' => '您输入的邮箱格式不正确<br>',
-            'newEmail.requried' => '请填写您的新邮箱<br>',
-            'newEmail.email' => '您输入的新邮箱格式不正确<br>',
-            'password.requried' => '请输入您的密码',
-
+            'captcha_email.requried' => '请输入验证码!',
         ]);
 
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 
+        // 获取要更改的数据
+        $newEmail = Session::get('email');
+
+        // 数据判断
+        if (trim($request->captcha_email) != $newEmail['code']  ) return response()->json(['StatusCode' => '400', 'RsultData' => '验证码错误']);
+
         // 简单数据验证后，提交给业务层
-        $info = self::$userServer->changeEmail($data,$guid);
+        $info = self::$userServer->changeEmail($request->guid, $newEmail['email']);
 
         // 返回状态信息
-        switch ($info['status']){
-            case '400':
-                return response()->json(['StatusCode' => '400','ResultData' => $info['msg']]);
-                break;
-            case '200':
-                return response()->json(['StatusCode' => '200','ResultData' => $info['msg'] ,'Email' => $data['newEmail']]);
-                break;
-        }
+        return response()->json($info);
 
     }
 
@@ -227,7 +241,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @author 刘峻廷
      */
-    public function changeTel(Request $request,$guid)
+    public function changeTel(Request $request, $guid)
     {
         if (!isset($request->step)) return response()->json(['StatusCode' => '400','ResultData' => '数据缺失！']);
 
@@ -248,7 +262,7 @@ class UserController extends Controller
 
                 // 看是否是第三步 验证新手机的验证码
                 if (isset($request->tel)) {
-                    $result = self::$userServer->changeAccountInfo(['guid' => $guid], ['tel' => $request->tel], 'tel');
+                    $result = self::$userServer->changeTel($guid, $request->tel);
 
                     if (!$result) return response()->json(['StatusCode' => '400','ResultData' => '手机号改绑失败！']);
 
@@ -271,10 +285,6 @@ class UserController extends Controller
 
                 return response()->json(['StatusCode' => '200','ResultData' => $request->tel]);
             break;
-            case '3':
-
-            break;
-
         }
 
 
@@ -313,20 +323,20 @@ class UserController extends Controller
      */
     public function sendEmail(Request $request)
     {
-        dd($request->all());
-       if (empty($request->all())) return response()->json(['StatusCode' => '400', '缺少数据信息']);
+       if (!isset($request->guid) || !isset($request->newEmail)) return response()->json(['StatusCode' => '400', '缺少数据信息']);
 
-       $userInfo = self::$userServer->accountInfo(['guid' => $request->guid]);
 
-       if ($userInfo['StatusCode'] == '400') {
-           \Log::error('查询账户信息失败', $userInfo);
+       // 确认当前用户是否存在
+       $userAccount = self::$userServer->accountInfo(['guid' => $request->guid]);
+
+       if ($userAccount['StatusCode'] == '400') {
+           \Log::error('查询账户信息失败', $userAccount);
            return response()->json(['StatusCode' => '400', 'ResultData' => '当前账号不存在!']);
        }
 
-       Mail::raw('琦力英雄会，账户重置密码验证码:', function($message){
-            $message->subject('重置密码邮件');
-            $message->to('342766475@qq.com');
-       });
+        $result = self::$userServer->sendEmail($request);
+
+        return response()->json($result);
     }
 
 

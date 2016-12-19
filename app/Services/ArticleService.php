@@ -135,8 +135,6 @@ class ArticleService
         $data = self::$sendStore->getOneData(["guid" => $guid]);
         // 判断有没有取到数据
         if ($data) {
-            $likenum = $this->getLikeNum($guid)['msg'][0];
-            $data->likenum = $likenum;
             // 如果登录，则判断点赞记录
             if (!empty(session('user'))) {
                 $res = $this->getLike(session('user')->guid, $guid);

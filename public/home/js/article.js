@@ -5,15 +5,18 @@
 /**
  * 点赞的方法，
  * @author 王通
+ * @modify 张洵之
  */
 $('#like').on('click', function () {
     var me = $(this);
     var id = me.data('id');
+    var temp = $(this).is('.taoxin')?-1:1;
+    var num = parseInt($('#likeNum').html());
     $.ajax({
         type : 'get',
-        url: '/article/like',
+        url: "/action/"+id+"/edit",
         data: {
-            'art_guid': id,
+            'type': 1,
         },
 
         contentType: false, // 告诉jQuery不要去设置Content-Type请求头
@@ -25,7 +28,7 @@ $('#like').on('click', function () {
                     alert(msg.ResultData);
                     break;
                 case "200":
-                    me.html('点赞  ' + msg.ResultData[0]);
+                    $('#likeNum').html(num+temp);
                     me.toggleClass('taoxin');
                     break;
                 default:
