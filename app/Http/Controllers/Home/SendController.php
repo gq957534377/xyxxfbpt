@@ -25,6 +25,7 @@ class SendController extends Controller
      */
     public function index(Request $request)
     {
+
         // 判断有没有传递参数
         $data = $request->all();
         // 判断有没有传过来数据

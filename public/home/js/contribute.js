@@ -143,11 +143,15 @@ $('#delete').on('click', function () {
 
 function getAllGuid()
 {
+
     var num = $('.checkbox-contri').size();
-
+    var guidArr = [];
     for (var i = 0; i < num; i++) {
+        if ($('.checkbox-contri:eq('+i+')').is(':checked')) {
+            guidArr[i] = $('.checkbox-contri:eq('+i+')').attr('id');
+        };
+        alert(guidArr[i]);
 
-        alert($('.checkbox-contri ep('+ i  +')').attr('id'));
     }
 }
 
