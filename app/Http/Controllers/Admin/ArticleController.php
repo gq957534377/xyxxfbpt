@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Tools\Avatar;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
@@ -36,8 +35,7 @@ class ArticleController extends Controller
     public function create(Request $request)
     {
         $result = self::$articleServer->selectData($request);
-        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => 400,'ResultData' => $result['msg']]);
+        return response()->json($result);
     }
 
     /**
@@ -56,8 +54,7 @@ class ArticleController extends Controller
 
         $result = self::$articleServer->insertData($data);
 
-        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        return response()->json($result);
     }
 
     /**
@@ -66,12 +63,10 @@ class ArticleController extends Controller
      * @return array
      * @author 郭庆
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        $user = $request->input('user');
         $result = self::$articleServer->getData($id);
-        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        return response()->json($result);
     }
 
     /**
@@ -88,10 +83,9 @@ class ArticleController extends Controller
         if ($status == 3 && $user == 2){
             $result = self::$articleServer->upDta(['guid'=>$id], ['status' => 3, 'reason' => $request["reason"], 'user'=>2]);
         }else{
-            $result = self::$articleServer->changeStatus($id,$status,$user);
+            $result = self::$articleServer->changeStatus($id, $status);
         }
-        if($result["status"]) return response()->json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        return response()->json($result);
     }
 
     /**
@@ -105,8 +99,7 @@ class ArticleController extends Controller
         $data = $request->all();
         $where = ["guid" => $id];
         $result = self::$articleServer->upDta($where, $data);
-        if($result["status"]) return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+        return response()->json($result);
     }
 
     /**

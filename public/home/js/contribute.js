@@ -45,8 +45,11 @@ $(function () {
     });
 
 });
-
+/**
+ * 删除单条记录
+ */
 $('.bg-del').on('click', function () {
+    me = $(this);
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -57,7 +60,7 @@ $('.bg-del').on('click', function () {
     };
     $.ajax({
         type: 'DELETE',
-        url: '/send/' + $(this).data('delete'),
+        url: '/send/' + me.data('delete'),
         data: data,
 
         contentType: false, // 告诉jQuery不要去设置Content-Type请求头
@@ -74,6 +77,7 @@ $('.bg-del').on('click', function () {
                     break;
                 case '200':
                     $(".loading").hide();
+                    me.parent().parent().remove();
                     alert(msg.ResultData);
                     break;
             }

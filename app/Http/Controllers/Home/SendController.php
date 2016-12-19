@@ -166,8 +166,8 @@ class SendController extends Controller
 
         }
         $result = self::$articleServer->changeStatus($id, 5, 2);
-        if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
-        return ['StatusCode' => 400, 'ResultData' => '删除失败！'];
+        if ($result['StatusCode'] == '200') return ['StatusCode' => '200', 'ResultData' => $result['ResultData']];
+        return ['StatusCode' => '400', 'ResultData' => '删除失败！'];
     }
 
     public function selUserArticleList ()

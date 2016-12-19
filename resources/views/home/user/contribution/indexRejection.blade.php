@@ -22,7 +22,7 @@
 
         <div class="contribute-box-head bb-1 pad-b5">
           <a href="javascript:void(0)" class="pad-r10 a-style-1" id="checkAll" name="checkAll" onclick="checkAllSwitch()">全选</a>
-          <a href="javascript:void(0)" class="a-style-1">删除</a>
+          <a id="delete" href="javascript:void(0)" class="a-style-1">删除</a>
 
         </div>
 

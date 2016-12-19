@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -33,6 +32,7 @@ class ActionController extends Controller
      * @param
      * @return array
      * @author 张洵之
+     * @modify 郭庆
      */
     public function create(Request $request)
     {
@@ -43,8 +43,8 @@ class ActionController extends Controller
                 if ($status['status']){
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
-                        if (!$chage['status']){
-                            Log::info("普通用户第一次请求更改活动状态失败".$v->guid.':'.$chage['msg']);
+                        if ($chage['StatusCode'] != 200){
+                            Log::info("普通用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
                             $v->status = $status['msg'];
                         }
@@ -58,85 +58,66 @@ class ActionController extends Controller
 
     /**
      * 获取分页数据
-     * @param
+     * @param $request
      * @return array
      * @author 张洵之
+     * @modifif 郭庆
      */
     public function store(Request $request)
     {
         $data = $request -> all();
         $result = self::$actionServer -> insertData($data);
-        if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        return response() -> json($result);
     }
 
     /**
      * 拿取一条活动信息详情
-     * @param
+     * @param $id 活动id
      * @return array
      * @author 张洵之
      */
     public function show($id)
     {
         $result = self::$actionServer -> getData($id);
-        if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        return response() -> json($result);
     }
 
     /**
      * 修改活动+报名状态
-     *
+     * @param $request
+     * @param $id 活动id/报名记录id
      * @author 活动：张洵之 报名：郭庆
      */
     public function edit(Request $request, $id)
     {
         $status = $request -> input("status");
         $result = self::$actionServer -> changeStatus($id,$status);
-        if($result["status"]) return response() -> json(['StatusCode' => 200,'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode'=> 400,'ResultData' => $result['msg']]);
+        return response() -> json($result);
     }
 
     /**
      * 更改活动信息内容
-     * author 张洵之
+     * @param $request
+     * @param $id 所要修改的活动id
+     * author 郭庆
      */
     public function update(Request $request, $id)
     {
         $data = $request -> all();
         $where = ["guid" => $id];
         $result = self::$actionServer -> upDta($where, $data);
-        if($result["status"]) return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+        return response() -> json($result);
     }
 
     /**
      * 获取报名情况表信息
-     * author 张洵之
+     * @param $id 活动id
+     * @return array
+     * author 郭庆
      */
     public function destroy($id)
     {
         $result = self::$actionServer -> getOrderInfo($id);
-        if($result["status"]) return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-    }
-
-    /**
-     * 上传图片
-     *
-     * @return \Illuminate\Http\Response
-     * @author 郭庆
-     */
-    public function upload()
-    {
-        $file = Input::file('Filedata');
-        if($file->isValid()){
-            $realPath = $file->getRealPath();//临时文件的绝对路径
-            $extension = $file->getClientOriginalName();//上传文件的后缀
-            $hz = explode('.', $extension)[1];
-            $newName = date('YmdHis').mt_rand(100,999).'.'.$hz;
-            $path = $file->move(public_path('uploads/image/admin/road'), $newName);
-            $result = 'uploads/image/admin/road/'.$newName;
-            return response()->json(['res' => $result]);
-        }
+        return response() -> json($result);
     }
 }

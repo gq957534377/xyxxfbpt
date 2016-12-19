@@ -9,9 +9,6 @@
         width: 80%;
         height:80%;
     }
-    .uploadify{display:inline-block;}
-    .uploadify-button{border:none; border-radius:5px; margin-top:8px;}
-    table.add_tab tr td span.uploadify-button-text{color: #FFF; margin:0;}
 </style>
 <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
 <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
@@ -190,8 +187,8 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+</div>
+{{--否决理由表单--}}
 <div id="panel-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content p-0 b-0">
@@ -243,11 +240,13 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
 
 <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">文章发布</button>
-<img src="/admin/images/load.gif" class="loading">
+{{--大菊花转转转--}}
+<img src="{{asset('/admin/images/load.gif')}}" class="loading">
 
+{{--总按钮--}}
 <div class="wraper container-fluid">
     <div class="page-title">
         <div class="row">
@@ -297,12 +296,13 @@
 @endsection
 @section('script')
     <!--引用ajax模块-->
-    <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
-    <script src="JsService/Model/article/articleAjaxBeforeModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/article/articleAjaxSuccessModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/article/articleAjaxErrorModel.js" type="text/javascript"></script>
+    <script src="{{asset('JsService/Controller/ajaxController.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/ajaxBeforeModel.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/article/articleAjaxSuccessModel.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/ajaxErrorModel.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/pageList.js')}}" type="text/javascript"></script>
     <!--alertInfo end-->
-    <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
+    <script src="{{asset('/admin/js/jquery.validate.min.js')}}"></script>
     {{--富文本--}}
     <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
     <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
@@ -365,7 +365,7 @@
         var token       = $('meta[name="csrf-token"]').attr('content');
         var list_type   = null;//活动类型：1：市场资讯 2：政策 3：所有
         var list_status = 1;//文章状态：1：已发布 2：待审核 3：已下架
-        var list_user = 1;//用户类型：1：管理员  2：普通用户
+        var list_user   = 1;//用户类型：1：管理员  2：普通用户
 
         //验证规则
         var rules       = {
@@ -416,10 +416,10 @@
 
         //列表文章类型设置
         function listType(type,status,user) {
-            list_type = type;
+            list_type   = type;
             list_status = status;
-            list_user = user;
-            list(type,status,user);
+            list_user   = user;
+            list(type, status, user);
         }
         //分类查看数据
         $('#xz_type').change(function(){
@@ -477,7 +477,7 @@
                         data.append( "describe", resul.describe);
                         data.append( "banner", resul.banner);
                         data.append( "source", resul.source);
-                        var url = '/article/' + $('input[name=id]').val() + '?user='+list_user;
+                        var url = '/article/' + $('input[name=id]').val();
                         $.ajax({
                             url     : url,
                             type:'put',
@@ -487,7 +487,6 @@
                             error   : ajaxErrorModel
                         });
                         function check(data){
-                            console.log(data);
                             $('.loading').hide();
                             $('#myModal').modal('show');
                             $('#alert-form').html('');
@@ -569,7 +568,6 @@
                             $('#myModal').modal('show');
                             $('#alert-form').html('');
                             $('.modal-title').html('提示');
-                            console.log(data);
                             if (data) {
                                 if (data.StatusCode == 200) {
                                     $('#con-close-modal').modal('hide');
@@ -607,7 +605,7 @@
                 }(window.jQuery);
 
         //修改文章信息展示旧的信息
-        function updateArticle() {
+        function updates() {
             $('.charge-road').click(function () {
                 $('.loading').hide();
                 var ajax = new ajaxController();
@@ -626,7 +624,7 @@
             $('.info').click(function () {
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url     : '/article/' + $(this).data('name') + '?user=' + list_user,
+                    url     : '/article/' + $(this).data('name'),
                     before  : ajaxBeforeNoHiddenModel,
                     success : showInfoList,
                     error   : ajaxErrorModel
@@ -684,14 +682,16 @@
                 $('#pass_form').attr('data-status',$(this).data('status'));
             });
 
-
         }
+
+        function checkAction(){}
 
         // 页面加载时触发事件请求分页数据
         function list(type,status,user) {
             var ajax = new ajaxController();
+            var url = '/article/create?type='+type+'&status='+status+'&user='+user;
             ajax.ajax({
-                url     : '/article/create?type='+type+'&status='+status+'&user='+user,
+                url     : url,
                 before  : ajaxBeforeModel,
                 success : getInfoList,
                 error   : ajaxErrorModel
