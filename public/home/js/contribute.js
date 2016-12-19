@@ -144,10 +144,10 @@ $('#delete').on('click', function () {
 function getAllGuid()
 {
     var num = $('.checkbox-contri').size();
-    alert(num);
-    for (var i; i < num; i++) {
-        alert('asdfasdf');
-        // alert($('.checkbox-contri').attr('id'));
+
+    for (var i = 0; i < num; i++) {
+
+        alert($('.checkbox-contri ep('+ i  +')').attr('id'));
     }
 }
 
