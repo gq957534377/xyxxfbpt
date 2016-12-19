@@ -1,8 +1,7 @@
 <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
 
-    <img class="loading"  src="{{ asset('home/img/load.gif') }}" style="position: absolute;left: 43%;top: 30%;"/>
-
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg" style="position: relative;">
+        <img id="loading_card" class="loading_card"  src="{{ asset('home/img/load.gif') }}" style="position: absolute;left:43%;top:43%;z-index: 9999;display: none;"/>
         <div class="modal-content">
             <form class="avatar-form" action="{{url('/cardpic')}}" enctype="multipart/form-data" method="post">
                 <div class="modal-header">

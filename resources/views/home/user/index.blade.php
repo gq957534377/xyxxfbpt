@@ -96,7 +96,7 @@
                 <div class="form-group mar-b15">
                     <span class="col-md-2 control-label mar-b10 dis-in-bl">生日</span>
                       <div class="col-md-4">
-                          <input type="text" name="birthday" class="form-control pad-clr-xs date-time" id="birthday-year"></div>
+                          <input type="text" name="birthday" class="form-control pad-clr-xs text-center date-time" id="birthday-year"></div>
                 </div>
                 {{--<div class="form-group mar-b30">--}}
                     {{--<label for="wechat-num" class="col-md-2 control-label mar-b10">微信</label>--}}

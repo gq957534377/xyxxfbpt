@@ -79,6 +79,7 @@
                                 alert('警告,'+data.ResultData);
                                 break;
                             case '200':
+                                loadAjax();
                                 $(".loading").hide();
                                 alert('提示,'+data.ResultData);
                                 break;
@@ -341,3 +342,4 @@ var idCardNoUtil = {
         }
     }
 };
+
