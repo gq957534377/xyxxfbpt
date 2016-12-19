@@ -60,29 +60,19 @@ class UserService {
      * @return array
      * @author 刘峻廷
      */
-    public function roleInfo($where)
+    public function roleInfo($where, $model = null)
     {
-        $result = self::$roleStore->getRole(['guid' => $where]);
-        //返回错误状态信息
-        if(!$result) return ['status' => false,'msg' => '没有找到'];
-        //返回数据
-        return  ['status' => true,'msg' => $result];
-    }
-
-    /**
-     * 获取不是英雄会会员的角色信息
-     * @param $where
-     * @return array
-     * @author 刘峻廷
-     */
-    public function getRoleInfo($where)
-    {
-        $result = self::$roleStore->getOneRoleDate(['guid' => $where]);
+        if (isset($model)) {
+            $result = self::$roleStore->getRole($where);
+        } else {
+            $result = self::$roleStore->getOneRoleDate($where);
+        }
         //返回错误状态信息
         if(!$result) return ['StatusCode' => '400', 'ResultData' => '没有找到'];
         //返回数据
         return  ['StatusCode' => '200', 'ResultData' => $result];
     }
+
     /**
      * 注册用户
      * @param $data
@@ -421,16 +411,16 @@ class UserService {
      * @return array
      * @author 刘峻廷
      */
-    public function updataUserInfo($where,$data)
+    public function updataUserInfo($where, $data)
     {
         // 检验条件
-       if (empty($where) || empty($data)) return response()->json(['StatusCode' => '400','ResultData' => '缺少数据']);
+       if (empty($where) || empty($data)) return ['StatusCode' => '400','ResultData' => '缺少数据'];
         // 提交数据给store层
-        $info = self::$userStore->updateUserInfo($where,$data);
+        $info = self::$userStore->updateUserInfo($where, $data);
 
-        if(!$info) return response()->json(['StatusCode' => '400','ResultData' => '修改失败，您并没有做什么修改！']);
+        if(!$info) return ['StatusCode' => '400','ResultData' => '修改失败，您并没有做什么修改！'];
 
-        return response()->json(['StatusCode' => '200','ResultData' => '更新成功!']);
+        return ['StatusCode' => '200','ResultData' => '更新成功!'];
     }
 
     /**

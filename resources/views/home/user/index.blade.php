@@ -62,16 +62,6 @@
             <span>基本信息</span>
             <a href="#" class="pull-right" id="editSubmit">保存</a>
 
-            {{--<div class="mar-b30 col-md-12 col-sm-12" style="padding: 0;margin-top: 30px;">--}}
-                {{--<label for="inputfile" class="col-md-2 control-label line-h hidden-xs hidden-sm" style="padding: 0;font-weight: unset;">头像</label>--}}
-                {{--<div class="col-md-2">--}}
-                    {{--@include('home.public.avatar')--}}
-                {{--</div>--}}
-                {{--<div class="col-md-2">--}}
-                    {{--<span>点击头像进行更换</span>--}}
-                {{--</div>--}}
-            {{--</div>--}}
-
             <form class="form-horizontal personal-data-edit" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
 
                 <div class="form-group mar-b30">
@@ -106,7 +96,7 @@
                 <div class="form-group mar-b15">
                     <span class="col-md-2 control-label mar-b10 dis-in-bl">生日</span>
                       <div class="col-md-4">
-                          <input type="text" name="birthday" class="form-control pad-clr-xs text-center date-time" id="birthday-year"></div>
+                          <input type="text" name="birthday" class="form-control pad-clr-xs date-time" id="birthday-year"></div>
                 </div>
                 {{--<div class="form-group mar-b30">--}}
                     {{--<label for="wechat-num" class="col-md-2 control-label mar-b10">微信</label>--}}

@@ -9,6 +9,9 @@
 @section('content')
     <!--琦立英雄会报名 开始-->
     <div id="applyHeroMemeberBox" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 pad-clr bgc-1 pos-1">
+
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+
         <div class="center-block pad-5 text-center">
             <div class="banner-img text-center">
                 banner 图片<br>
@@ -36,13 +39,76 @@
 @section('script')
     <script src="{{asset('home/js/ajaxRequire.js')}}"></script>
     <script>
+        var guid = $('#topAvatar').data('id');
+        // 异步先获取信息
+        $.ajax({
+            url     : '/identity/' + guid,
+            type    : 'GET',
+            data    : {
+                role : 'memeber',
+            },
+            beforeSend: function(){
+                $('.loading').show();
+            },
+            success : function(msg){
+                console.log(msg);
+                if (msg.StatusCode == '200') {
+                    console.log(msg.ResultData);
+                    switch (msg.ResultData.status) {
+                        case 1:
+                          $('#toggle-popup').html('待审核').attr('disabled', 'true').unbind('click');
+                          break;
+                        case 2:
+                          $('#toggle-popup').html('英雄会会员').attr('disabled', 'true').unbind('click');
+                          break;
+                        case 3:
+                            $('#toggle-popup').html('审核失败，请重新申请');
+                          break;
+                    }
+                }
+                $('.loading').hide();
+            }
+        });
+
         $('#toggle-popup').click(function(){
             var guid = $('#topAvatar').data('id');
             var data = {
                 'guid' : guid,
                 'role' : '4'
             };
-            ajaxRequire('/identity', 'POST', data, $("#applyHeroMemeberBox"), 2);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                type:'POST',
+                url:'/identity',
+                data:data,
+                beforeSend : function(){
+                    $(".loading").show();
+                },
+                success: function(msg){
+                    switch (msg.StatusCode){
+                        case '400':
+                            $(".loading").hide();
+                            alert(msg.ResultData);
+                            break;
+                        case '200':
+                            $('#toggle-popup').html('待审核').attr('disabled', 'true').unbind('click');
+                            $(".loading").hide();
+                            alert(msg.ResultData);
+                            break;
+                    }
+                },
+                error: function(XMLHttpRequest){
+                    var number = XMLHttpRequest.status;
+                    var msg = "Error: "+number+",数据异常！";
+                    alert(msg);
+                }
+
+            });
         });
     </script>
 @endsection

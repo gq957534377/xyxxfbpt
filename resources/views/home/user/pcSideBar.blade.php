@@ -3,7 +3,7 @@
         <ul id="js_zxz" class="list-unstyled">
             <li><a zxz-data="user" href="{{ route('user.index') }}">个人资料</a></li>
             <li><a zxz-data="identity" href="{{ route('identity.index') }}">我的身份</a></li>
-            <li><a zxz-data="identity?identity=hero" href="{{ route('identity.index',['identity' => 'hero']) }}">奇立英雄会报名</a></li>
+            <li><a zxz-data="identity?identity=hero" href="{{ route('identity.index',['identity' => 'hero']) }}">英雄会报名</a></li>
             <li><a href="">我的项目</a></li>
             <li><a href="">创业大赛报名</a></li>
             <li><a zxz-data="activity" href="{{ route('activity.index') }}">参加的活动</a></li>

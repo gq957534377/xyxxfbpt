@@ -103,11 +103,15 @@ class RoleController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @author 刘峻廷
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         if (empty($id)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
 
-        $result = self::$userServer->getRoleInfo($id);
+        if (isset($request->role)) {
+            $result = self::$userServer->roleInfo(['guid' => $id, 'role' => '4'], 'memeber');
+        } else {
+            $result = self::$userServer->roleInfo(['guid' => $id]);
+        }
 
         return response()->json($result);
     }

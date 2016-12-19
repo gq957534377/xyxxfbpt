@@ -112,14 +112,13 @@ class UserController extends Controller
             'nickname' => 'string',
             'realname' => 'string',
             'birthday' => 'string',
-            'sex' => 'integer|max:1',
+            'sex' => 'integer',
             'introduction' => 'string|min:50|max:100',
         ],[
             'nickname.string' => '请输入正确的格式',
             'realname.string' => '请输入正确的格式',
             'birthday.string' => '请输入正确的格式',
             'sex.integer' => '验证字段必须是整型',
-            'sex.max' => '最大为1个字符',
             'introduction.string' => '请输入正确的格式',
             'introduction.min' => '请输入50个字符以上',
             'introduction.max' => '输入字符最大长度100个字符',
@@ -129,9 +128,9 @@ class UserController extends Controller
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 
         // 将验证后的数据交给Server层
-        $info = self::$userServer->updataUserInfo(['guid' => $id],$data);
+        $info = self::$userServer->updataUserInfo(['guid' => $id], $data);
 
-        return $info;
+        return response()->json($info);
     }
 
     /**
