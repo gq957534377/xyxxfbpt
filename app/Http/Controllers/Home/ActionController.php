@@ -87,18 +87,21 @@ class ActionController extends Controller
      * @param $request
      * @param $id
      * @author 郭庆
+     *@modify 张洵之
      */
     public function show($id)
     {
         //所需要数据的获取
         $data = self::$actionServer->getData($id);//活动详情
-        $likeNum = self::$actionServer-> getLikeNum($id);//支持/不支持人数
-        $commentData = self::$commentServer->getComent($id,1);
+        $likeNum = self::$commentServer->likeCount($id);//点赞人数
+        $commentData = self::$commentServer->getComent($id,1);//评论数据
         //$isHas（是否已经报名参加）的设置
         if (!isset(session('user')->guid)){
             $isLogin = false;
             $isHas = false;
+            $likeStatus = 2;
         }else{
+            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
             $action = self::$actionServer->getAction(session('user')->guid);//当前用户报名参加的所有活动
             $isLogin = session('user')->guid;
             if ($action['status']){
@@ -113,7 +116,8 @@ class ActionController extends Controller
             "data" => $data["msg"],
             'isLogin' => $isLogin,
             'isHas' => $isHas,
-            'likeNum' => $likeNum['msg'],
+            'likeNum' => $likeNum,
+            'likeStatus' => $likeStatus,
             'comment' => $commentData,
             'contentId' => $id
         ]);
@@ -125,28 +129,15 @@ class ActionController extends Controller
      * @param $id
      * @return array
      *
-     * @author 郭庆
+     * @author 张洵之
      */
-    public function edit(Request $request, $id)
+    public function edit($id,Request $request)
     {
-        $support = $request->all();
-        $user_id = session('user')->guid;
+        if(! isset(session('user')->guid)) return response()->json(['StatusCode' => '401', 'ResultData' => '用户未登录']);
 
-        //判断是否点赞了
-        $isHas = self::$actionServer->getLike($user_id,$id);
-        if($isHas['status']) {
-            if ($isHas['msg']->support == $support['support']) return ['StatusCode' => 400,  'ResultData' => '已经参与'];
-            $setLike = self::$actionServer->chargeLike($user_id, $id, $support);
-
-            if ($setLike) return ['StatusCode' => 200,  'ResultData' => self::$actionServer-> getLikeNum($id)['msg']];
-            return ['StatusCode' => 400,  'ResultData' => '点赞失败'];
-        }else{
-
-            //没有点赞则加一条新记录
-            $result = self::$actionServer->setLike(['support' => $support['support'], 'action_id' => $id, 'user_id' => $user_id]);
-            if($result['status']) return ['StatusCode' => 200,  'ResultData' => self::$actionServer-> getLikeNum($id)['msg']];
-            return ['StatusCode' => 400, 'ResultData' => '点赞失败'];
-        }
+        $type = $request->input('type');
+        $result = self::$commentServer->changeLike($id,$type);
+        return response()->json($result);
     }
 
     /**

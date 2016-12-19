@@ -53,7 +53,7 @@
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pad-clr binding-email">
                 <p class="col-xs-12 col-sm-12 col-md-3 col-lg-2 pad-clr">安全邮箱</p>
                 <p class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ isset($accountInfo->email) ? 'binded' : 'unbinded'}}">{{ isset($accountInfo->email) ? '已绑定' : '未绑定'}}</p>
-                <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ isset($accountInfo->email) ? $accountInfo->email : ''}}</p>
+                <p id='email' class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ isset($accountInfo->email) ? $accountInfo->email : ''}}</p>
                 <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr"></p>
                 <p class="col-xs-12 col-sm-12 pad-clr fs-c-5">安全邮箱将可用于登录和修改密码</p>
             </div>
@@ -255,22 +255,23 @@
                     <!--第二步 验证新邮箱-->
                     <div class="modal-body email-step-two hidden">
                         <!--发送提示    &    验证错误提示  开始-->
-                        <div class="alert alert-danger hidden">验证码验证失败！</div>
+                        <!--Email 错误提示 Start-->
+                        <div id="errorEmailBox_two" class="alert alert-danger hidden">验证码验证失败！</div>
+                        <!--Email 错误提示 End-->
                         <!--////////////////////-->
                         <p class="fs-c-0 fw-1">我们向: <span id="toEmail" style="color: #ff9035;">15110313915@qq.com</span>发送了验证邮件<br>请你输入邮箱中的验证码</p>
                         <!--发送提示    &    验证错误提示  结束-->
 
-                        <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
-                            <div class="form-group mar-cb">
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control form-title" id="captcha_email" placeholder="验证码">
-                                </div>
-                                <label for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
-                                <div class="col-sm-3 control-label line-h-1">
-                                    <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_email">重新发送</button>
-                                </div>
+                        <div class="form-group mar-cb">
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control form-title" id="captcha_email" placeholder="验证码">
                             </div>
-                        </form>
+                            <label id="resend_email_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
+                            <div class="col-sm-3 control-label line-h-1">
+                                <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_email">重新发送</button>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_two">下一步</button>
@@ -298,25 +299,28 @@
                         <h4 class="modal-title">修改密码</h4>
                     </div>
                     <!--每次只出现其中之一-->
+                    <!--Email 错误提示 Start-->
+                    <div id="errorPasswordBox_one" class="alert alert-danger hidden"></div>
+                    <!--Email 错误提示 End-->
                     <!--第一步 填写-->
                     <div class="modal-body key-step-one">
                         <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="key_old" class="col-xs-12 control-label mar-b5">输入旧密码</label>
                                 <div class="col-xs-12">
-                                    <input type="text" class="form-control form-title"  placeholder="旧密码" id="key_old">
+                                    <input type="password" class="form-control form-title"  placeholder="旧密码" id="key_old">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="key_old" class="col-xs-12 control-label mar-b5">输入新密码</label>
                                 <div class="col-xs-12">
-                                    <input type="text" class="form-control form-title"  placeholder="新密码" id="key_new">
+                                    <input type="password" class="form-control form-title"  placeholder="新密码" id="key_new">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="key_old" class="col-xs-12 control-label mar-b5">重复新密码</label>
                                 <div class="col-xs-12">
-                                    <input type="text" class="form-control form-title"  placeholder="新密码" id="key_new_">
+                                    <input type="password" class="form-control form-title"  placeholder="新密码" id="key_new_two">
                                 </div>
                             </div>
                         </form>
@@ -565,10 +569,39 @@
                 });
             });
             $('#email_step_two').on('click', function () {
-                $('.email-step-two').addClass('hidden');
-                $('.email-step-two + div').addClass('hidden');
-                $('.email-step-three').removeClass('hidden');
-                $('.email-step-three + div').removeClass('hidden');
+
+                var captcha_email = $("#captcha_email").val();
+                if ($.trim(captcha_email) == '') {
+                    $("#errorEmailBox_two").html('请输入验证码').removeClass('hidden');
+                    return false;
+                }
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url     : '/user/change/email',
+                    type    : 'POST',
+                    data    : {
+                        'guid' : guid,
+                        'captcha_email' : captcha_email,
+                    },
+                    success : function(msg){
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            $("#email").html(msg.ResultData);
+                            $('.email-step-two').addClass('hidden');
+                            $('.email-step-two + div').addClass('hidden');
+                            $('.email-step-three').removeClass('hidden');
+                            $('.email-step-three + div').removeClass('hidden');
+                        } else {
+                            $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
+                        }
+
+                    }
+                });
+
             });
             $('#email_step_three').on('click', function () {
                 $('.email-step-three').addClass('hidden');
@@ -597,10 +630,58 @@
 //            处理模态框显示时的问题 结束
             });
             $('#key_step_one').on('click', function () {
-                $('.key-step-one').addClass('hidden');
-                $('.key-step-one + div').addClass('hidden');
-                $('.key-step-two').removeClass('hidden');
-                $('.key-step-two + div').removeClass('hidden');
+                var key_old = $('#key_old').val();
+                var key_new = $('#key_new').val();
+                var key_new_two = $('#key_new_two').val();
+
+                if ($.trim(key_old) == '') {
+                    $("#errorPasswordBox_one").html('请输入原始密码').removeClass('hidden');
+                    return false;
+                }
+
+                if($.trim(key_new) =='') {
+                    $("#errorPasswordBox_one").html('请输入新密码').removeClass('hidden');
+                    return false;
+                }
+
+                if($.trim(key_new_two) =='') {
+                    $("#errorPasswordBox_one").html('请再次输入新密码').removeClass('hidden');
+                    return false;
+                }
+
+                if($.trim(key_new) != $.trim(key_new_two) ) {
+                    $("#errorPasswordBox_one").html('请确认新密码').removeClass('hidden');
+                    return false;
+                }
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url     : '/user/change/password',
+                    type    : 'POST',
+                    data    : {
+                        'guid' : guid,
+                        'password' : key_old,
+                        'new_password' : key_new,
+                    },
+                    success : function(msg){
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            $("#errorPasswordBox_one").html('').addClass('hidden');
+                            $('.key-step-one').addClass('hidden');
+                            $('.key-step-one + div').addClass('hidden');
+                            $('.key-step-two').removeClass('hidden');
+                            $('.key-step-two + div').removeClass('hidden');
+                            window.location.href = '/logout';
+                        } else {
+                            $("#errorPasswordBox_one").html(msg.ResultData).removeClass('hidden');
+                        }
+
+                    }
+                });
             });
             $('#key_step_two').on('click', function () {
                 $('.key-step-two').addClass('hidden');
@@ -609,7 +690,6 @@
                 $('.key-step-one + div').removeClass('hidden');
             });
 //        更换密码 结束
-
 
 
 
@@ -655,6 +735,34 @@
 
             });
 
+            // 再次发送Email
+            $("#resend_captcha_email").click(function(){
+                var newEmail = $('#newEmail').val();
+                // 异步将新邮箱、用户ID
+                var data = {
+                    'guid'     : guid,
+                    'newEmail' : newEmail,
+                };
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '/user/sendemail',
+                    type: 'POST',
+                    data: data,
+                    success: function (msg) {
+                        console.log(msg);
+                        if (msg.StatusCode == '200') {
+                            setTime($("#resend_captcha_email"), $('#resend_email_two'));
+                        } else {
+                            $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
+                            setTime($("#resend_captcha_email"), $('#resend_email_two'));
+                        }
+                    }
+                });
+            });
             // 短信验证发送后计时器
             var countdown = 10;
             function setTime(obj, objLabel) {

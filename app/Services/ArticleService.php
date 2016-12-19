@@ -135,8 +135,6 @@ class ArticleService
         $data = self::$sendStore->getOneData(["guid" => $guid]);
         // 判断有没有取到数据
         if ($data) {
-            $likenum = $this->getLikeNum($guid)['msg'][0];
-            $data->likenum = $likenum;
             // 如果登录，则判断点赞记录
             if (!empty(session('user'))) {
                 $res = $this->getLike(session('user')->guid, $guid);
@@ -165,19 +163,63 @@ class ArticleService
      * @return array
      * author 郭庆
      */
-    public function changeStatus($guid, $status, $user)
+    public function changeStatus($guid, $status, $user = 1)
     {
         if(!(isset($guid) && isset($status))){
+<<<<<<< HEAD
             return ['StatusCode'=> 400,'ResultData' => "数据参数有误"];
+=======
+            return ['StatusCode'=> '400', 'ResultData' => "数据参数有误"];
+        }
+        if ($user = 1) {
+            $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
+        } else {
+            $result = self::$sendStore->getOneData(['guid' => $guid]);
+            if (empty($result) || ($result->user_id != session('user')->guid)) {
+                return ['StatusCode'=> '400', 'ResultData' => "没有权限"];
+            } else {
+                $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
+            }
+>>>>>>> origin/master
         }
 
-        $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
 
         //判断修改结果并返回
+<<<<<<< HEAD
         if($Data) return ['StatusCode'=> 200,'ResultData' => "修改状态成功"];
         return ['StatusCode'=> 500,'ResultData' => "服务器忙，修改失败"];
+=======
+        if($Data) return ['StatusCode'=> '200', 'ResultData' => "修改状态成功"];
+        return ['StatusCode'=> '500', 'ResultData' => "服务器忙，修改失败"];
+>>>>>>> origin/master
     }
 
+    /**
+     * 批量修改文章状态
+     * @param $guidAll
+     * @param $status
+     * @return array
+     * $author 王通
+     */
+    public function userChangeStatus($guidAll, $status)
+    {
+        if ($user = 1) {
+            $Data = self::$sendStore->updataAll(["guid" => $guidAll], ["status" => $status]);
+        } else {
+            $result = self::$sendStore->getAllData(['guid' => $guidAll]);
+            dd($result);
+            if (empty($result) || ($result->user_id != session('user')->guid)) {
+                return ['StatusCode'=> '400', 'ResultData' => "没有权限"];
+            } else {
+                $Data = self::$sendStore->updataAll(["guid" => $guidAll], ["status" => $status]);
+            }
+        }
+
+
+        //判断修改结果并返回
+        if($Data) return ['StatusCode'=> '200', 'ResultData' => "修改状态成功"];
+        return ['StatusCode'=> '500', 'ResultData' => "服务器忙，修改失败"];
+    }
     /**
      * 修改文章内容
      * @param $where

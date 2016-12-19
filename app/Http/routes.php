@@ -53,6 +53,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         // 网站管理
         Route::resource('/web_admins/uploadlogo', 'WebAdminstrationController@uploadLogo');
         Route::resource('/web_admins/uploadqrcode', 'WebAdminstrationController@uploadQRcode');
+        Route::resource('/web_admins/uploadorganizpic', 'WebAdminstrationController@uploadOrganizPic');
         Route::resource('/web_admins', 'WebAdminstrationController');
 
 
@@ -130,6 +131,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/user/sendemail','UserController@sendEmail');
         Route::resource('/user/change/email','UserController@changeEmail');
         Route::resource('/user/change/phone','UserController@changeTel');
+        Route::resource('/user/change/password','UserController@changePassword');
         // 评论和赞
         Route::get('/user/commentandlike','UserController@commentAndLike')->name('commentlike');
         Route::post('/user/commentandlike','UserController@getLike')->name('getLike');

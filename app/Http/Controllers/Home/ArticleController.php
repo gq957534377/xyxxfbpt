@@ -77,22 +77,18 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author 王通
+     * @modify 张洵之
      */
     public function show($id)
     {
         $res = self::$articleServer->getData($id);
-
+        $res['ResultData']->likeNum = self::$commentServer->likeCount($id);
         // 判断有没有文章信息
         if ($res['StatusCode'] == '200') {
             // 获取评论表+like表中某一个文章的评论
             $comment = self::$commentServer->getComent($id,1);
             // 判断有没有评论信息
-            if ($comment['StatusCode'] == '201') {
-                $res['ResultData']->comment = [];
-            } else {
-                $res['ResultData']->comment = $comment['ResultData'];
-            }
-
+            $res['ResultData']->comment = $comment;
         }
         return view('home.article.articlecontent', $res);
     }
@@ -163,7 +159,7 @@ class ArticleController extends Controller
      * @author 郭庆
      * @modify 王通
      */
-    public function like (Request $request)
+    public function like(Request $request)
     {
         if (empty(session('user')) || empty($request['art_guid'])) {
             return view('home.login');
@@ -184,7 +180,7 @@ class ArticleController extends Controller
      * @author 王通
      * @modify 张洵之
      */
-    public function setComment (Request $request)
+    public function setComment(Request $request)
     {
         $data = $request->all();
         // 验证参数

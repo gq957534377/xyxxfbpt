@@ -29,19 +29,28 @@ class SendController extends Controller
         $data = $request->all();
         // 判断有没有传过来数据
         if (empty($request['status']) || $request['status'] >= 5) {
-            $data["status"] = 1;
+            $data["status"] = 5;
         } else {
             $data["status"] = $request["status"];// 文章状态：开始前 进行中  结束
         }
-        $data["user_id"] =  session('user')->guid;// 获取文章类型
+        $data["user_id"] =  session('user')->guid;
         // 分页查询 得到指定类型的数据
         $result = self::$articleServer->selectTypeData($data);
 
-        if ($data['status'] <= 2) {
-            return view('home.user.contribution.indexRelease', $result);
-        } else {
-            return view('home.user.contribution.indexRejection', $result);
+        switch ($data['status'])
+        {
+            case 1: case 2:
+                return view('home.user.contribution.indexRelease', $result);
+                break;
+            case 3:case 4:
+                return view('home.user.contribution.indexRejection', $result);
+                break;
+            default:
+                $result['sesid'] = md5(session()->getId());
+                return view('home.user.contribution.index', $result);
+                break;
         }
+
 
     }
 
@@ -66,6 +75,7 @@ class SendController extends Controller
     {
 
         $data = $request->all();
+
         $data['user_id'] = session('user')->guid;
         $res = self::$userServer->userInfo(['guid' => $data['user_id']]);
         if ($res['status']){
@@ -150,11 +160,14 @@ class SendController extends Controller
      * @return array
      * @author 郭庆
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        if ($request['type'] == 'one') {
+
+        }
         $result = self::$articleServer->changeStatus($id, 5, 2);
-        if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
-        return ['StatusCode' => 400, 'ResultData' => '删除失败！'];
+        if ($result['StatusCode'] == '200') return ['StatusCode' => '200', 'ResultData' => $result['ResultData']];
+        return ['StatusCode' => '400', 'ResultData' => '删除失败！'];
     }
 
     public function selUserArticleList ()
