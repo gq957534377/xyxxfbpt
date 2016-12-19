@@ -84,7 +84,7 @@ class Safety
      * @return bool  false代表可以请求，true代表疑似攻击，不能请求
      * @author 王通
      */
-    public static function PreventFastRefresh($ip)
+    public static function preventFastRefresh($ip)
     {
         $key = config('safety.PREVEN_TFAST_REFRESH') . $ip;
         // 当前时间

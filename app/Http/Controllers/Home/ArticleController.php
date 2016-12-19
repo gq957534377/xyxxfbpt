@@ -163,7 +163,7 @@ class ArticleController extends Controller
      * @author 郭庆
      * @modify 王通
      */
-    public function like (Request $request)
+    public function like(Request $request)
     {
         if (empty(session('user')) || empty($request['art_guid'])) {
             return view('home.login');
@@ -184,7 +184,7 @@ class ArticleController extends Controller
      * @author 王通
      * @modify 张洵之
      */
-    public function setComment (Request $request)
+    public function setComment(Request $request)
     {
         $data = $request->all();
         // 验证参数

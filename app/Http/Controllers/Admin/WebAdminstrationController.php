@@ -126,10 +126,12 @@ class WebAdminstrationController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @author 王通
      */
-    public function uploadLogo (Request $request)
+    public function uploadOrganizPic (Request $request)
     {
+        $data = $request->all();
+
         //数据验证过滤
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($data, [
             'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
         ],[
             'avatar_file.required' => '上传文件为空!',
@@ -139,14 +141,30 @@ class WebAdminstrationController extends Controller
 
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['state' => 400, 'result' => $validator->errors()->all()]);
+        switch ($data['organiz-type'])
+        {
 
-        $info = self::$webAdmin->uploadImg($request, 'logo');
+            case 2:
+                // 合作机构图片上传
+                $result = self::$pictureService->saveCooper($request);
+                break;
+            case 3:
+                // 投资机构图片上传
+                $result = self::$pictureService->saveInvest($request);
+                break;
+            case 4:
+                // 轮播图管理图片上传
+                $result = self::$pictureService->saveCarousel($request);
+                break;
+
+        }
+
 
         // 判断上传是否成功
-        if ($info['status'] == '200') {
-            return response()->json(['state' => 200, 'result' => $info['msg']]);
+        if ($result['StatusCode'] == '200') {
+            return response()->json(['StatusCode' => 200, 'ResultData' => $result['ResultData']]);
         } else {
-            return response()->json(['state' => 400, 'result' => $info['msg']]);
+            return response()->json(['StatusCode' => 400, 'ResultData' => $result['ResultData']]);
         }
 
     }
@@ -187,13 +205,14 @@ class WebAdminstrationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 删除指定id数据
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function destroy($id)
     {
-        //
+        return self::$pictureService->delPicture($id);
     }
 }

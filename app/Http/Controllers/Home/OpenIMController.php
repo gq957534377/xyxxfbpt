@@ -22,12 +22,14 @@ class OpenIMController extends Controller
         self::$openim = $openim;
     }
     /**
-     * Display a listing of the resource.
+     * OpenIM 阿里云旺+千牛聊天工具
      *
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function index()
     {
+        // 判断用户是否登录，如果未登录则临时生成一个随机数，账号密码写入OpenIM服务器以便用户登录使用
         if (!empty(session('user')->guid)) {
             $uid = session('user')->guid;
             $nick = session('user')->nickname ? session('user')->nickname : session('user')->tel;

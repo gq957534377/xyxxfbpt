@@ -122,23 +122,24 @@ class LoginController extends Controller
      */
     public function captcha($tmp, Request $request)
     {
-        // 短信验证码次数验证
+
         $res5 = Safety::checkSqlNum($request->getClientIp(), 1111, 1111);
-        dd($res5);
+
+        // 短信验证码次数验证
         $res5 = Safety::checkIpSMSCode($request->getClientIp(), 1111);
 //        dd($res5);
         // 检查IP有没有被加入黑名单
-        $res1 = Safety::checkIpBlackList(config('safety.BLACKLIST') . $request->getClientIp());
+        $res1 = Safety::checkIpBlackList($request->getClientIp());
         // 防止快速刷新
-        $res4 = Safety::PreventFastRefresh($request->getClientIp());
+        $res4 = Safety::preventFastRefresh($request->getClientIp());
         // 通过IP请求数量验证
         $res2 = Safety::number($request->getClientIp(), 100, '图片验证码接口');
         // 请求数量，以及通过sessionID验证
         $res3 = Safety::session_number($tmp);
 
-//        if ($res1 || $res2 || $res3 || $res4) {
-//            return view('welcome');
-//        }
+        if ($res3) {
+            return view('welcome');
+        }
         return Common::captcha($tmp);
     }
 

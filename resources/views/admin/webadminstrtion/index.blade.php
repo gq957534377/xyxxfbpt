@@ -52,7 +52,7 @@
 
 <img src="/admin/images/load.gif" class="loading">
 
-<div class="wraper container-fluid">
+<div id="organiz" class="wraper container-fluid">
     <div class="page-title">
         <div class="row">
             <div class="col-md-4">
@@ -69,22 +69,104 @@
     </div>
     <hr>
     <div id="data"></div>
+
+    <div class="col-sm-10 add-picture" hidden>
+        <div class="panel">
+            <div class="panel-body">
+                <div class="media-main">
+                    <input type="hidden" name="investor_card_pic">
+                    <a class="pull-left" href="#">
+                        <div id="crop-avatar3">
+                            <div class="avatar-view" title="">
+                                <img id="headpic" class="thumb-lg" src="{{ url('/admin/images/jiahao.jpg') }}" alt="Avatar"/>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="info">
+                    <h4>添加图片</h4>
+                    <p class="text-muted">Graphics Designer</p>
+                </div>
+                <div class="clearfix"></div>
+            </div> <!-- panel-body -->
+        </div> <!-- panel -->
+    </div> <!-- end col -->
+
+
+    <div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog" style="width:55%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="custom-width-modalLel">投资机构信息</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="investid" name="investid" type="hidden" value="">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <label for="inputEmail3" class="col-sm-3 control-label">name</label>
+                            <div class="col-sm-9">
+                                <input id="investname" type="text" class="form-control" data-method="invesname" name="investname" placeholder="name">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <label for="inputEmail3" class="col-sm-3 control-label">url</label>
+                            <div class="col-sm-9">
+                                <input id="investurl" type="text" class="form-control" name="investurl" placeholder="url">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="saveinfo" data-dismiss="modal" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>
+@include('admin.public.card')
 @endsection
 @section('script')
 
+    <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
+    <script src="{{asset('cropper/js/webOrganiz.js')}}"></script>
+    <script src="{{asset('admin/js/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('admin/js/web-admin-validator.js')}}"></script>
     <script type="text/javascript">
 
         //活动状态选择
         $('.status1').off('click').on('click', function () {
             $('.status1').removeClass('btn-success').addClass('btn-default');
             $(this).addClass('btn-success');
+            listType($(this).data('status'));
+            var status = $(this).data('status');
+            switch (status)
+            {
+                case 1:
+                    $('.avatar-scale').val('1');
+                    break;
+                case 2:
+                    $('.avatar-scale').val(224/153);
+                    $('.organiz-type').val(status);
+                    break;
+                case 3:
+                    $('.avatar-scale').val(224/153);
+                    $('.organiz-type').val(status);
+                    break;
+                case 4:
+                    $('.avatar-scale').val(192/60);
+                    $('.organiz-type').val(status);
+                    break;
 
-            listType1($(this).data('status'));
+            }
         });
 
         $(function () {
-            listType1(1);
+            listType(1);
         });
         var width  = $(window).width() / 2;
         var height = $(window).height() / 2 - 70;
@@ -96,7 +178,7 @@
                 'top': height
             });
         }
-        function listType1(type) {
+        function listType(type) {
 
             $.ajaxSetup({
                 headers: {
@@ -120,18 +202,24 @@
                             case 1:
                                 console.log(data);
                                 contentHtml(data.ResultData);
+                                $('.add-picture').hide();
                                 break;
                             case 2:
                                 console.log(data);
-                                carouselHtml(data.ResultData);
+                                institutionHtml(data.ResultData);
+                                $('.text-coutent').show();
+                                $('.add-picture').show();
                                 break;
                             case 3:
                                 console.log(data);
-                                carouselHtml(data.ResultData);
+                                institutionHtml(data.ResultData);
+                                $('.text-coutent').show();
+                                $('.add-picture').show();
                                 break;
                             case 4:
-                                console.log(data);
                                 carouselHtml(data.ResultData);
+                                $('.add-picture').show();
+                                $('.text-coutent').hide();
                                 break;
 
                         }
@@ -143,12 +231,13 @@
                     $('.loading').hide();
                 }
             });
+
         }
         /**
          * 拼接html字符串
          * @param data
          */
-        function carouselHtml(data) {
+        function institutionHtml(data) {
             html = '';
             $.each(data, function (key, value) {
                 html += '<div class="col-sm-6">';
@@ -181,6 +270,41 @@
             $('#headpic').attr('src', '/admin/images/jiahao.jpg');
 
         }
+
+        function carouselHtml (data) {
+
+            html = '';
+            $.each(data, function (key, value) {
+
+                html += '<div class="row">';
+                html += '<div class="col-sm-10">';
+                html += '<div class="panel">';
+                html += '<div class="panel-body">';
+                html += '<div class="media-main">';
+                html += '<a class="pull-left" href="#">';
+                html += '<img class="thumb-lg bx-s" src="'+ value.url +'" alt="" style="width: 250%;">';
+                html += '</a>';
+                html += '<div class="pull-right btn-group-sm">';
+//                html += '<a href="" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">';
+//                html += '<i class="fa fa-pencil"></i>';
+//                html += '</a>';
+                html += '<a id="'+ value.id +'"  class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">';
+                html += '<i class="fa fa-close"></i>';
+                html += '</a>';
+                html += '</div>';
+
+                html += '</div>';
+                html += '<div class="clearfix"></div>';
+                html += '</div> <!-- panel-body -->';
+                html += '</div> <!-- panel -->';
+                html += '</div> <!-- end col -->';
+                html += '</div> <!-- end row -->';
+            });
+            $('#data').html(html);
+            $('#headpic').attr('src', '/admin/images/jiahao.jpg');
+
+
+        }
         /**
          * 拼接html字符串
          * @param data
@@ -194,7 +318,7 @@
             html += '<div class="panel-heading"><h3 class="panel-title">文字管理</h3></div>';
             html += '<div class="panel-body">';
             html += '<div class=" form p-20">';
-            html += '<form class="cmxform form-horizontal tasi-form" id="textfrom" method="get" action="#">';
+            html += '<form class="cmxform form-horizontal tasi-form" id="textfrom">';
             html += '<div class="form-group ">';
             html += '<label for="cemail" class="control-label col-lg-2">客服电话：</label>';
             html += '<div class="col-lg-10">';
@@ -221,7 +345,7 @@
             html += '</div>';
             html += '<div class="form-group">';
             html += '<div class="col-lg-offset-2 col-lg-10">';
-            html += '<button class="btn btn-success" type="submit">Save</button>';
+            html += '<button id="text-content-submit" class="btn btn-success" type="button">Save</button>';
             html += '</div>';
             html += '</div>';
             html += '</form>';
@@ -232,9 +356,125 @@
             html += '</div> ';
 
             $('#data').html(html);
-            $('#headpic').attr('src', '/admin/images/jiahao.jpg');
+        }
+
+        // 提交文本内容
+        $('#data').on('click', '#text-content-submit', function(){
+            // 异步更新
+            $.ajax({
+                type: "POST",
+                url: '/web_admins',
+                data: {
+                    'email' : $('#cemail').val(),
+                    'tel' : $('#tel').val(),
+                    'time' : $('#time').val(),
+                    'record' : $('#record').val(),
+                    '_token' : $('meta[name="csrf-token"]').attr('content')
+                },
+                before  : ajaxBeforeModel(),
+                success:function(data){
+                    if (data.StatusCode == '200') {
+                        listType(1);
+                        alert('更新成功');
+                    } else {
+                        alert('失败：' + data.ResultData)
+                    }
+                    $('.loading').hide();
+                }
+            });
+        });
+        function addHtml() {
+            var html = '';
+            html += '<div class="col-sm-10">';
+            html += '<div class="panel">';
+            html += '<div class="panel-body">';
+            html += '<div class="media-main">';
+            html += '<a class="pull-left" href="#">';
+
+
+            html += '</a>';
+            html += '</div>';
+            html += '<div class="info">';
+            html += '<h4>添加合作机构</h4>';
+            html += '<p class="text-muted">Graphics Designer</p>';
+            html += '</div>';
+            html += '<div class="clearfix"></div>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
 
         }
 
+        // 删除
+        $('#data').on('click', '.btn-danger' ,function () {
+            if (!confirm('是否确认删除？')) {
+                return ;
+            }
+            var me = $(this);
+            // 异步删除
+            $.ajax({
+                type: "POST",
+                url: '/web_admins/'+ me.attr('id'),
+                data: {
+                    '_method': 'DELETE',
+                    '_token' : $('meta[name="csrf-token"]').attr('content')
+                },
+                before  : ajaxBeforeModel(),
+                success:function(data){
+                    if (data.StatusCode == 200) {
+                        me.parent().parent().parent().parent().parent().remove();
+                    } else {
+                        alert(data.ResultData);
+                    }
+                    $('.loading').hide();
+                }
+            });
+        });
+
+        // 编辑信息
+        $('#data').on('click', '.btn-success', function () {
+            //alert($(this).data('id'));
+            var me = $(this);
+            var id = me.data('id');
+            $('#investid').val(id);
+            $('#investname').val($('#name' + id).html());
+            $('#investurl').val($('#img' + id).attr('href'));
+        });
+
+        // 提交修改信息
+        $('#saveinfo').on('click', function () {
+            var id = $('#investid').val();
+            var name = $('#investname').val();
+            var url = $('#investurl').val()
+
+            // 异步修改
+            $.ajax({
+                type: "POST",
+                url: '/picture/'+ id,
+                data: {
+                    '_method': 'PUT',
+                    '_token' : $('meta[name="csrf-token"]').attr('content'),
+                    'name' : name,
+                    'url' : url
+                },
+                before  : ajaxBeforeModel(),
+                success:function(data){
+                    alert(data.ResultData);
+                    updateHtml();
+                    $('.loading').hide();
+                }
+            });
+        });
+        // 更新HTML界面
+        function updateHtml() {
+            var status = $('.page-title .btn-success').data('status');
+            if (status == null || status == undefined) {
+                listType(1);
+            } else {
+                listType(status);
+            }
+        }
+
     </script>
+
 @endsection

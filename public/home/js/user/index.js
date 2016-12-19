@@ -92,7 +92,7 @@ $(document).ready(function (){
             'birthday' : $('input[name="birthday"]').val(),
             'sex':  $('input:radio[name="sex"]:checked').val()
         };
-        ajaxRequire('user/'+guid,'PUT',data,$("#editUserInfo"),2);
+        ajaxRequire('user/'+guid, 'PUT', data, $("#editUserInfo"), 2);
 
         user_name.html($('input[name="realname"]').val());
 
