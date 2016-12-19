@@ -93,12 +93,19 @@ class ProjectController extends Controller
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 贾济林
      * @modify 刘峻廷
+     * @modify 张洵之
      */
     public function show($id)
     {
         // 项目详情
         $where = ['project_id'=>$id];
         $res = self::$projectServer->getData($where);
+        $likeNum = self::$commentServer->likeCount($id);
+        if(isset(session('user')->guid)){
+            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);
+        }else{
+            $likeStatus = 3;
+        }
 
         if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
         $project_details = $res['data'][0];
@@ -116,7 +123,7 @@ class ProjectController extends Controller
         $userinfo->headpic = $headpic;
         $commentData = self::$commentServer->getComent($id,1);
 //        return view('home.project.pro_details')->with('data',$res['data']);
-        return view('home.projects.details', compact('project_details', 'userinfo', 'commentData', 'id'));
+        return view('home.projects.details', compact('project_details', 'userinfo', 'commentData', 'id', 'likeNum', 'likeStatus'));
     }
 
     /**
