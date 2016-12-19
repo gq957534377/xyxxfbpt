@@ -69,6 +69,12 @@ class RoleStore
         return DB::table(self::$table)->where($where)->orderBy('id', 'desc')->first();
     }
 
+    public function getOneRoleDate($where)
+    {
+        // 条件检测
+        if (empty($where)) return false;
+        return DB::table(self::$table)->where($where)->where('role', '!=', '4')->orderBy('id', 'desc')->first();
+    }
      /** 获取一条数据
      * @param $condition
      * @return bool

@@ -4,6 +4,7 @@ $(document).ready(function (){
     // 个人资料
     var user_avatar = $(".user_avatar");
     var user_name = $(".user_name");
+    var user_nickname = $(".user_name");
     var user_sex = $(".user_sex");
     var user_birthday = $(".user_birthday");
     var user_webchat = $(".user_webchat");
@@ -28,6 +29,7 @@ $(document).ready(function (){
                     console.log(msg.ResultData);
 
                     user_avatar.attr('src',msg.ResultData.headpic);
+                    user_nickname.html(msg.ResultData.nickname);
                     user_name.html(msg.ResultData.realname);
 
                     var sex ='';
@@ -41,8 +43,8 @@ $(document).ready(function (){
 
                     user_sex.html(sex);
                     user_birthday.html(msg.ResultData.birthday);
-                    user_webchat.html('无');
-                    user_info.html('无');
+                    // user_webchat.html('无');
+                    user_info.html(msg.ResultData.introduction);
 
                     hide_avatar.attr('src',msg.ResultData.headpic);
                     hide_realname.empty().val(msg.ResultData.realname);
@@ -88,9 +90,12 @@ $(document).ready(function (){
     // 编辑保存用户信息
     $("#editSubmit").click(function(){
         var data = {
+            'nickname' : $('input[name="nickname"]').val(),
             'realname' : $('input[name="realname"]').val(),
             'birthday' : $('input[name="birthday"]').val(),
-            'sex':  $('input:radio[name="sex"]:checked').val()
+            'sex':  $('input:radio[name="sex"]:checked').val(),
+            // 'wechat':  $('input[name="wechat"]').val(),
+            'introduction':  $('textarea[name="introduction"]').val(),
         };
         ajaxRequire('user/'+guid,'PUT',data,$("#editUserInfo"),2);
 
@@ -107,8 +112,8 @@ $(document).ready(function (){
 
         user_sex.html(sex);
         user_birthday.html($('input[name="birthday"]').val());
-        user_webchat.html('无');
-        user_info.html('无');
+        // user_webchat.html('无');
+        user_info.html($('textarea[name="introduction"]').val());
 
         $('#userinfo').show();
         $('#editUserInfo').hide();

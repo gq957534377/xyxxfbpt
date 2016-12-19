@@ -98,14 +98,18 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * 获取用户角色信息
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
      */
     public function show($id)
     {
-        //
+        if (empty($id)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
+
+        $result = self::$userServer->getRoleInfo($id);
+
+        return response()->json($result);
     }
 
     /**

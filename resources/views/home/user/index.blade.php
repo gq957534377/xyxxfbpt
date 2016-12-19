@@ -6,7 +6,8 @@
     <link href="{{ asset('home/css/user_center_personal_data.css') }}" rel="stylesheet">
     <link href="{{asset('dateTime/jquery.datetimepicker.css')}}" rel="stylesheet">
     <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
-    <link href="{{asset('cropper/css/main.css')}}" rel="stylesheet"/>
+    {{--<link href="{{asset('cropper/css/main.css')}}" rel="stylesheet"/>--}}
+    <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
 @endsection
 
 @section('content')
@@ -18,11 +19,23 @@
             <span>基本信息</span>
             <a href="javascript:void(0);" class="pull-right" id="editBtn">编辑</a>
             <ul class="list-unstyled">
-                <li>头像<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}"></li>
+                <li>头像
+                    {{--<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}">--}}
+                    <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                        <div class="row">
+                            <div id="crop-avatar">
+                                <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
+                                    <img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}" alt="Logo" style="margin-left: 0px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>昵称<span class="user_nickname">XXXXXXXXXX</span></li>
                 <li>名字<span class="user_name">XXXXXXXXXX</span></li>
                 <li>性别<span class="user_sex">XXXXXXXXXX</span></li>
                 <li>生日<span class="user_birthday">XXXXXXXXXX</span></li>
-                <li>微信<span class="user_webchat">XXXXXXXXXX</span></li>
+                {{--<li>微信<span class="user_webchat">XXXXXXXXXX</span></li>--}}
                 <li>个人信息<span class="user_info">XXXXXXXXXX</span></li>
             </ul>
         </div>
@@ -36,6 +49,10 @@
             </ul>
         </div>
     </div>
+    <!--修改头像弹出框 Start-->
+    @include('home.public.avatar')
+    <!--修改头像弹出框 End-->
+
     <!--基本信息结束-->
 
     <!--基本信息编辑开始 隐藏-->
@@ -45,17 +62,25 @@
             <span>基本信息</span>
             <a href="#" class="pull-right" id="editSubmit">保存</a>
 
-            <div class="mar-b30 col-md-12 col-sm-12" style="padding: 0;margin-top: 30px;">
-                <label for="inputfile" class="col-md-2 control-label line-h hidden-xs hidden-sm" style="padding: 0;font-weight: unset;">头像</label>
-                <div class="col-md-2">
-                    @include('home.public.avatar')
-                </div>
-                <div class="col-md-2">
-                    <span>点击头像进行更换</span>
-                </div>
-            </div>
+            {{--<div class="mar-b30 col-md-12 col-sm-12" style="padding: 0;margin-top: 30px;">--}}
+                {{--<label for="inputfile" class="col-md-2 control-label line-h hidden-xs hidden-sm" style="padding: 0;font-weight: unset;">头像</label>--}}
+                {{--<div class="col-md-2">--}}
+                    {{--@include('home.public.avatar')--}}
+                {{--</div>--}}
+                {{--<div class="col-md-2">--}}
+                    {{--<span>点击头像进行更换</span>--}}
+                {{--</div>--}}
+            {{--</div>--}}
 
             <form class="form-horizontal personal-data-edit" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
+
+                <div class="form-group mar-b30">
+                    <label for="form-title" class="col-md-2 control-label mar-b10">昵称</label>
+                    <div class="col-md-4">
+                        <input type="text" name="nickname" class="form-control" id="form-title" placeholder="">
+                    </div>
+                </div>
+
                 <div class="form-group mar-b30">
                     <label for="form-title" class="col-md-2 control-label mar-b10">名字</label>
                     <div class="col-md-4">
@@ -83,20 +108,18 @@
                       <div class="col-md-4">
                           <input type="text" name="birthday" class="form-control pad-clr-xs text-center date-time" id="birthday-year"></div>
                 </div>
-                <div class="form-group mar-b30">
-                    <label for="wechat-num" class="col-md-2 control-label mar-b10">微信</label>
-                    <div class="col-md-4">
-                        <input type="text" class="form-control form-title" id="wechat-num" placeholder="">
-                    </div>
-                </div>
+                {{--<div class="form-group mar-b30">--}}
+                    {{--<label for="wechat-num" class="col-md-2 control-label mar-b10">微信</label>--}}
+                    {{--<div class="col-md-4">--}}
+                        {{--<input type="text" name="wechat" class="form-control form-title" id="wechat-num" placeholder="微信号">--}}
+                    {{--</div>--}}
+                {{--</div>--}}
                 <div class="form-group mar-b30">
                     <label for="form-introduction" class="col-md-2 control-label mar-b10">个人简介</label>
                     <div class="col-md-8">
-                        <textarea class="form-control text-r ht-8" id="form-introduction" placeholder=""></textarea>
+                        <textarea name="introduction" class="form-control text-r ht-8" id="form-introduction" placeholder="" style="overflow: hidden;word-wrap: break-word; resize:horizontal;"></textarea>
                     </div>
                 </div>
-
-
             </form>
         </div>
     </div>
@@ -147,6 +170,7 @@
     <script src="{{asset('home/js/dateTime.js')}}"></script>
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
     <script src="{{asset('cropper/js/main.js')}}"></script>
+    {{--<script src="{{asset('cropper/js/sitelogo.js')}}"></script>--}}
     <script src="{{asset('home/js/ajaxRequire.js')}}"></script>
     {{--用户中心--}}
     <script src="{{ asset('home/js/user/index.js') }}"></script>
