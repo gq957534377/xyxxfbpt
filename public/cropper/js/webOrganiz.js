@@ -15,34 +15,32 @@
 
   function CropAvatar($element) {
 
-      this.$container = $element;
+    this.$container = $element;
 
-      this.$avatarView = this.$container.find('.avatar-view');
-      this.$avatar = this.$avatarView.find('img');
-      this.$avatarModal = $("body").find('#avatar-modal');
-      this.$loading = this.$avatarModal.find('.loading');
+    this.$avatarView = this.$container.find('.avatar-view');
+    this.$avatar = this.$avatarView.find('img');
+    this.$avatarModal = $("body").find('#avatar-modal');
+    this.$loading = $("#page-wrapper").find('.loading');
 
-      this.$avatarForm = this.$avatarModal.find('.avatar-form');
-      this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
-      this.$avatarScale = this.$avatarForm.find('.avatar-scale').val();
-      this.$avatarSrc = this.$avatarForm.find('.avatar-src');
-      this.$avatarData = this.$avatarForm.find('.avatar-data');
-      this.$avatarInput = this.$avatarForm.find('.avatar-input');
-      this.$avatarSave = this.$avatarForm.find('.avatar-save');
-      this.$avatarBtns = this.$avatarForm.find('.avatar-btns');
+    this.$avatarForm = this.$avatarModal.find('.avatar-form');
+    this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
+    this.$avatarScale = this.$avatarForm.find('.avatar-scale').val();
+    this.$avatarSrc = this.$avatarForm.find('.avatar-src');
+    this.$avatarData = this.$avatarForm.find('.avatar-data');
+    this.$avatarInput = this.$avatarForm.find('.avatar-input');
+    this.$avatarSave = this.$avatarForm.find('.avatar-save');
+    this.$avatarBtns = this.$avatarForm.find('.avatar-btns');
 
-      this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');
-      this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
+    this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');
+    this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
 
-      this.init();
+    this.init();
   }
 
-  // 对象添加属性和方法
   CropAvatar.prototype = {
     constructor: CropAvatar,
-
     support: {
-      fileList: !!$('<input type="file">').prop('files'),// prop 获取属性 返回真或假
+      fileList: !!$('<input type="file">').prop('files'),
       blobURLs: !!window.URL && URL.createObjectURL,
       formData: !!window.FormData
     },
@@ -58,32 +56,32 @@
       this.initModal();
       this.addListener();
     },
-    // 添加监听事件
+
     addListener: function () {
-      this.$avatarView.on('click', $.proxy(this.click, this));//头像点击事件
-      this.$avatarInput.on('change', $.proxy(this.change, this));//选择文件时的变化事件
-      this.$avatarForm.on('submit', $.proxy(this.submit, this));//表单提交事件
-      this.$avatarBtns.on('click', $.proxy(this.rotate, this));//旋转按钮点击事件
+      this.$avatarView.on('click', $.proxy(this.click, this));
+      this.$avatarInput.on('change', $.proxy(this.change, this));
+      this.$avatarForm.on('submit', $.proxy(this.submit, this));
+      this.$avatarBtns.on('click', $.proxy(this.rotate, this));
     },
-    // 提示工具栏，移动到头像时显示提示
+
     initTooltip: function () {
       this.$avatarView.tooltip({
-        placement: 'top'
+        placement: 'bottom'
       });
     },
-    // 初始化模态框,默认隐藏
+
     initModal: function () {
       this.$avatarModal.modal({
         show: false
       });
     },
-    // 模态框预览时，右侧显示头像，显示当前用户头像
+
     initPreview: function () {
       var url = this.$avatar.attr('src');
 
       this.$avatarPreview.empty().html('<img src="' + url + '">');
     },
-    // 初始化隐藏的上传框架，截取
+
     initIframe: function () {
       var target = 'upload-iframe-' + (new Date()).getTime(),
           $iframe = $('<iframe>').attr({
@@ -114,7 +112,7 @@
 
             _this.submitDone(data);
           } else {
-            _this.submitFail('头像上传失败!');
+            _this.submitFail('图片上传失败!');
           }
 
           _this.submitEnd();
@@ -125,12 +123,12 @@
       this.$iframe = $iframe;
       this.$avatarForm.attr('target', target).after($iframe.hide());
     },
-    // 点击事件，模态框显示，预览初始化
+
     click: function () {
       this.$avatarModal.modal('show');
       this.initPreview();
     },
-    // 更改事件
+
     change: function () {
       var files,
           file;
@@ -141,13 +139,13 @@
         if (files.length > 0) {
           file = files[0];
 
-          if (this.isImageFile(file)) {//判断文件格式
-            if (this.url) {//现在的选择的图像的链接存在
-              URL.revokeObjectURL(this.url); // 撤销旧的，链接
+          if (this.isImageFile(file)) {
+            if (this.url) {
+              URL.revokeObjectURL(this.url); // Revoke the old one
             }
 
-            this.url = URL.createObjectURL(file);//当前这个链接为现在选择头像的链接
-            this.startCropper();//开始截取
+            this.url = URL.createObjectURL(file);
+            this.startCropper();
           } else {
               this.alert('请上传图片格式文件,例如:jpg|jpeg|png|gif');
               return false;
@@ -157,24 +155,23 @@
         file = this.$avatarInput.val();
 
         if (this.isImageFile(file)) {
-          this.syncUpload();// 同步上传
+          this.syncUpload();
         }
       }
     },
-    // 提交数据，上传数据
+
     submit: function () {
-      // 提交数据不为空，一处为空都false
       if (!this.$avatarSrc.val() && !this.$avatarInput.val()) {
-        this.alert('请选择文件！');
-        return false;
+          this.alert('请上传图片文件');
+          return false;
       }
-      // 将整个表单数据formData格式上传
+
       if (this.support.formData) {
         this.ajaxUpload();
         return false;
       }
     },
-    // 旋转角度数据
+
     rotate: function (e) {
       var data;
 
@@ -182,11 +179,11 @@
         data = $(e.target).data();
 
         if (data.method) {
-          this.$img.cropper(data.method, data.option);//获取图像处理数据
+          this.$img.cropper(data.method, data.option);
         }
       }
     },
-    // 判断是否是图像文件
+
     isImageFile: function (file) {
       if (file.type) {
         return /^image\/\w+$/.test(file.type);
@@ -194,28 +191,27 @@
         return /\.(jpg|jpeg|png|gif)$/.test(file);
       }
     },
-    // 开始截取
+
     startCropper: function () {
       var _this = this;
 
-      // 判断当前截取框是不是动态，使用
       if (this.active) {
         this.$img.cropper('replace', this.url);
       } else {
         this.$img = $('<img src="' + this.url + '">');
         this.$avatarWrapper.empty().html(this.$img);
         this.$img.cropper({
-          aspectRatio: 1,
+          aspectRatio: this.$avatarScale,
           preview: this.$avatarPreview.selector,
           strict: false,
           crop: function (data) {
             var json = [
-              '{"x":' + data.x,
-              '"y":' + data.y,
-              '"height":' + data.height,
-              '"width":' + data.width,
-              '"rotate":' + data.rotate + '}'
-            ].join();
+                  '{"x":' + data.x,
+                  '"y":' + data.y,
+                  '"height":' + data.height,
+                  '"width":' + data.width,
+                  '"rotate":' + data.rotate + '}'
+                ].join();
 
             _this.$avatarData.val(json);
           }
@@ -224,7 +220,7 @@
         this.active = true;
       }
     },
-    // 停止截取
+
     stopCropper: function () {
       if (this.active) {
         this.$img.cropper('destroy');
@@ -232,19 +228,19 @@
         this.active = false;
       }
     },
-    // 异步上传
+
     ajaxUpload: function () {
       var url = this.$avatarForm.attr('action'),
           data = new FormData(this.$avatarForm[0]),
           _this = this;
 
       $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+      });
 
-      $.ajax(url, {
+      $.ajax(url,{
         type: 'post',
         data: data,
         dataType: 'json',
@@ -257,13 +253,14 @@
 
         success: function (data) {
           _this.submitDone(data);
+            updateHtml();
         },
 
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            var number = XMLHttpRequest.status;
-            var info = "错误号:"+number+",文件上传失败";
-            _this.submitFail(info);
-          // _this.submitFail(textStatus || errorThrown);
+          var number = XMLHttpRequest.status;
+          var info = "错误号:"+number+",文件上传失败";
+          _this.submitFail(info);
+          delete this;
         },
 
         complete: function () {
@@ -277,16 +274,15 @@
     },
 
     submitStart: function () {
-      this.$loading.fadeIn();
+      // this.$loading.fadeIn();
+      $(".loading").fadeIn();
     },
 
     submitDone: function (data) {
-      console.log(data);
-
-      if ($.isPlainObject(data) && data.StatusCode === '200') {
-        if (data.ResultData) {
+      if ($.isPlainObject(data)) {
+        if (data.StatusCode == '200') {
+          $(".loading").fadeOut();
           this.url = data.ResultData;
-
           if (this.support.datauri || this.uploaded) {
             this.uploaded = false;
             this.cropDone();
@@ -295,18 +291,18 @@
             this.$avatarSrc.val(this.url);
             this.startCropper();
           }
-
           this.$avatarInput.val('');
         } else if (data.ResultData) {
           this.alert(data.ResultData);
         }
       } else {
-        this.alert(data.ResultData);
+        $(".loading").fadeOut();
+        this.alert('Error:500,服务异常!');
       }
     },
 
     submitFail: function (msg) {
-      this.$avatarInput.val('');
+        $(".loading").hide();
       this.alert(msg);
     },
 
@@ -317,26 +313,32 @@
     cropDone: function () {
       this.$avatarForm.get(0).reset();
       this.$avatar.attr('src', this.url);
-      $('.user_avatar').attr('src', this.url);
-      $('#topAvatar').attr('src', this.url);
       this.stopCropper();
       this.$avatarModal.modal('hide');
+      $('.modal').css('overflow-y', 'auto');
     },
 
     alert: function (msg) {
       var $alert = [
-        '<div class="alert alert-danger avater-alert">',
-        '<button type="button" class="close" data-dismiss="alert">&times;</button>',
-        msg,
-        '</div>'
-      ].join('');
+            '<div class="alert alert-danger avater-alert">',
+              '<button type="button" class="close" data-dismiss="alert">&times;</button>',
+              msg,
+            '</div>'
+          ].join('');
 
       this.$avatarUpload.after($alert);
     }
   };
+    $('.close').click(function(){
+        $('.modal').css('overflow-y', 'auto');
+    });
+    $(document).keydown(function (event) {
+        if (event.keyCode == 27) {
+            $('.modal').css('overflow-y', 'auto');
+        }
+    });
 
-  $(function () {
-    return new CropAvatar($('#crop-avatar'));
-  });
-
+  $('#organiz').on('click','.status1' , function () {
+      new CropAvatar($('#crop-avatar3'));
+  })
 });

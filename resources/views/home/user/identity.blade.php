@@ -16,11 +16,13 @@
             <a href="#" class="tabs_btn" data-status="0">我是投资人<span class="triangle-down"></span></a>
         </div>
 
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+
         <!--申请成为创业者开始-->
         <div class="pad-4 bgc-1" id="hide_syb">
             <div class="center-block wid-1-xs wid-1-sm wid-1 pad-eml6 pad-cl-xs pad-emt6-xs auth-entre">
-                <p class="mar-b5 fw-1 fs-15">申请成为创业者</p>
-                <p class="mar-cb text-left fs-12">成为创业者后才可以创建项目，并开始报名参加大赛，同时获得投资人的关注！</p>
+                <p class="mar-b5 fw-1 fs-15 sybTitle">申请成为创业者</p>
+                <p class="mar-cb text-left fs-12 sybContent">成为创业者后才可以创建项目，并开始报名参加大赛，同时获得投资人的关注！</p>
                 <a href="#" class="btn btn-default btn-1 fs-15 mar-1 bgc-2 fs-c-1 border-no auth-entre-btn" role="button" id="sybSubmit">立即申请</a>
             </div>
         </div>
@@ -29,7 +31,7 @@
         <!--申请成为创业者开始-->
         <div class="pad-4 bgc-1" id="hide_investor" style="display: none;">
             <div class="center-block wid-1-xs wid-1-sm wid-1 pad-eml6 pad-cl-xs pad-emt6-xs auth-entre">
-                <p class="mar-b5 fw-1 fs-15">申请成为投资人</p>
+                <p class="mar-b5 fw-1 fs-15 investorTitle">申请成为投资人</p>
                 <p class="mar-cb text-left fs-12">成为投资人后才可以创建项目，并开始报名参加大赛，同时获得投资人的关注！</p>
                 <a href="#" class="btn btn-1 fs-15 mar-1 bgc-2 fs-c-1 border-no auth-entre-btn" role="button" id="investorSubmit">立即申请</a>
             </div>
@@ -95,7 +97,7 @@
                     </div>
                     <div class="form-group mar-b30">
                         <label for="inputfile" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>上传身份证（正面）</label>
-                        <input type="hidden" name="syb_card_pic">
+                        <input type="hidden" name="1">
                         <div class="col-md-5">
                             <div class="ibox-content">
                                 <div class="row">
@@ -240,7 +242,55 @@
         $("#hide_investor").hide();
         $("#investorBox").show();
     });
-    // 异步提交申请
+
+    var guid = $('#topAvatar').data('id');
+    // 异步先获取信息
+    $.ajax({
+        url     : '/identity/' + guid,
+        type    : 'GET',
+        beforeSend: function(){
+            $('.loading').show();
+        },
+        success : function(msg){
+            console.log(msg);
+            if (msg.StatusCode == '200') {
+                console.log(msg.ResultData);
+                switch (msg.ResultData.role) {
+                    case 2:
+                        if (msg.ResultData.status == '1') {
+                            $(".sybTitle").html('已申请成为创业者，待审核');
+                            $("#sybSubmit").hide();
+                            $(".investorTitle").html('您正在申请成为创业者，不能再次申请成为投资者');
+                            $("#investorSubmit").hide();
+                        } else if (msg.ResultData.status == '2') {
+                            $(".sybTitle").html('创业者');
+                            $("#sybSubmit").hide();
+                            $(".investorTitle").html('您已成为创业者，不能再次申请成为投资者');
+                            $("#investorSubmit").hide();
+                        }else if (msg.ResultData.status == '3') {
+                            $(".sybTitle").html('审核失败，请重新申请');
+                        }
+                       break;
+                    case 3:
+                        if (msg.ResultData.status == '1') {
+                            $(".investorTitle").html('已申请成为投资者，待审核');
+                            $("#investorSubmit").hide();
+                            $(".sybTitle").html('您正在申请成为投资者，不能再次申请成为投资者');
+                            $("#sybSubmit").hide();
+                        } else if (msg.ResultData.status == '2') {
+                            $(".investorTitle").html('投资者');
+                            $("#investorSubmit").hide();
+                            $(".sybTitle").html('您已成为投资者，不能再次申请成为创业者');
+                            $("#sybSubmit").hide();
+                        }else if (msg.ResultData.status == '3') {
+                            $(".investorTitle").html('审核失败，请重新申请');
+                        }
+                       break;
+                }
+            }
+            $('.loading').hide();
+        }
+    });
 
 </script>
 @endsection

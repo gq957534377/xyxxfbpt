@@ -3,34 +3,6 @@
  * @author 郭庆
  */
 
-// 获取分页数据并加载显示在页面
-function getInfoList(data){
-    $('.loading').hide();
-    if (data) {
-        console.log(data);
-        if (data.StatusCode == 200) {
-            if(data.ResultData.data == '') {
-                $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
-            }else {
-                $('#data').html(listHtml(data));
-                $('#page').html(data.ResultData.pages);
-                getPage();
-                modifyStatus();
-                showInfo();
-                updateArticle();
-            }
-        } else {
-            $('#myModal').modal('show');
-            $('#alert-form').hide();
-            $('#alert-info').html('<p>' + data.ResultData + '</p>');
-        }
-    } else {
-        $('#myModal').modal('show');
-        $('#alert-form').hide();
-        $('#alert-info').html('<p>未知的错误</p>');
-    }
-}
-
 function listHtml(data){
     var html = '';
     console.log(data);
@@ -39,7 +11,7 @@ function listHtml(data){
         html += '<tr class="gradeX">';
         html += '<td>' + type(e.type)+ '</td>';
         html += '<td>' + e.title+ '</td>';
-        html += '<td>' + author(e.author) + '</td>';
+        html += '<td>' + e.author + '</td>';
         html += '<td>' + e.time+'</td>';
         html += '<td>' + status(e.status)+'</td>';
         html += '<td>' + e.source+'</td>';
@@ -62,28 +34,6 @@ function listHtml(data){
     return html;
 }
 
-function author(author) {
-    if(author) return author;
-    return 'admin';
-}
-// 分页li点击触发获取ajax事件获取分页
-function getPage() {
-    $('.pagination li').click(function () {
-        var class_name = $(this).prop('class');
-        if(class_name == 'disabled' || class_name == 'active') {
-            return false;
-        }
-        var url = $(this).children().prop('href')+'&type='+list_type+'&status='+list_status+'&user='+list_user;
-        var ajax = new ajaxController();
-        ajax.ajax({
-            url : url,
-            before : ajaxBeforeModel,
-            success: getInfoList,
-            error: ajaxErrorModel
-        });
-        return false;
-    });
-}
 //文章类型展示
 function type(type) {
     var res;
@@ -120,13 +70,7 @@ function status(status) {
 //展示旧数据
 function date(data) {
     data = data.ResultData;
-    console.log(data);
-    if (list_user==1){
-        $('#xg_type').val(data.type);
-    }else{
-        $('#xg_type').val(3);
-        $('#xg_type').attr('disable','true');
-    }
+    $('#xg_type').val(data.type);
     $('#yz_xg').find('input[name=id]').val(data.guid);
     $('#yz_xg').find('input[name=title]').val(data.title);
     $('#yz_xg').find('input[name=source]').val(data.source);

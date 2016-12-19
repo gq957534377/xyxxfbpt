@@ -177,7 +177,7 @@
             </form>
         </div>
     </div>
-</div><!-- /.modal -->
+</div>
 {{--修改活动表单--}}
 <div class="modal fade bs-example-modal-lg" id="xg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
      aria-hidden="true" style="display: none;">
@@ -305,7 +305,7 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
 {{--活动详情--}}
 <div id="tabs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      style="display: none;">
@@ -448,7 +448,7 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
 {{--报名表--}}
 <div id="baoming" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      style="display: none;">
@@ -477,7 +477,7 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</div>
 <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>
 <img src="/admin/images/load.gif" class="loading">
 
@@ -513,9 +513,10 @@
 @section('script')
     <!--引用ajax模块-->
     <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
-    <script src="JsService/Model/action/actionAjaxBeforeModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/ajaxBeforeModel.js" type="text/javascript"></script>
     <script src="JsService/Model/action/actionAjaxSuccessModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/action/actionAjaxErrorModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/ajaxErrorModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/pageList.js" type="text/javascript"></script>
     <!--alertInfo end-->
     <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
     {{--富文本--}}
@@ -525,142 +526,10 @@
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
     <script src="{{asset('cropper/js/sitelogo.js')}}"></script>
     {{--时间插件--}}
-    <script src="/dateTime/build/jquery.datetimepicker.full.js"></script>
+    <script src="{{asset('/dateTime/build/jquery.datetimepicker.full.js')}}"></script>
+    <script src="{{asset('/admin/js/public/dateTime.js')}}"></script>//时间插件配置
     <script type="text/javascript">
         {{--全局变量的设置--}}
-        //时间插件的配置
-        $.datetimepicker.setLocale('en');
-        $('#datetimepicker_format').datetimepicker({value:'2015/04/15 05:03', format: $("#datetimepicker_format_value").val()});
-        console.log($('#datetimepicker_format').datetimepicker('getValue'));
-
-        $("#datetimepicker_format_change").on("click", function(e){
-            $("#datetimepicker_format").data('xdsoft_datetimepicker').setOptions({format: $("#datetimepicker_format_value").val()});
-        });
-        $("#datetimepicker_format_locale").on("change", function(e){
-            $.datetimepicker.setLocale($(e.currentTarget).val());
-        });
-
-        $('#datetimepicker').datetimepicker({
-            dayOfWeekStart : 1,
-            lang:'en',
-            disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
-            startDate:	'1986/01/05'
-        });
-        $('#datetimepicker').datetimepicker({value:'2015/04/15 05:03',step:10});
-
-        $('.some_class').datetimepicker();
-
-        $('#default_datetimepicker').datetimepicker({
-            formatTime:'H:i',
-            formatDate:'d.m.Y',
-            //defaultDate:'8.12.1986', // it's my birthday
-            defaultDate:'+03.01.1970', // it's my birthday
-            defaultTime:'10:00',
-            timepickerScrollbar:false
-        });
-
-        $('#datetimepicker10').datetimepicker({
-            step:5,
-            inline:true
-        });
-        $('#datetimepicker_mask').datetimepicker({
-            mask:'9999/19/39 29:59'
-        });
-
-        $('#datetimepicker1').datetimepicker({
-            datepicker:false,
-            format:'H:i',
-            step:5
-        });
-        $('#datetimepicker2').datetimepicker({
-            yearOffset:222,
-            lang:'ch',
-            timepicker:false,
-            format:'d/m/Y',
-            formatDate:'Y/m/d',
-            minDate:'-1970/01/02', // yesterday is minimum date
-            maxDate:'+1970/01/02' // and tommorow is maximum date calendar
-        });
-        $('#datetimepicker3').datetimepicker({
-            inline:true
-        });
-        $('#datetimepicker4').datetimepicker();
-        $('#open').click(function(){
-            $('#datetimepicker4').datetimepicker('show');
-        });
-        $('#close').click(function(){
-            $('#datetimepicker4').datetimepicker('hide');
-        });
-        $('#reset').click(function(){
-            $('#datetimepicker4').datetimepicker('reset');
-        });
-        $('#datetimepicker5').datetimepicker({
-            datepicker:false,
-            allowTimes:['12:00','13:00','15:00','17:00','17:05','17:20','19:00','20:00'],
-            step:5
-        });
-        $('#datetimepicker6').datetimepicker();
-        $('#destroy').click(function(){
-            if( $('#datetimepicker6').data('xdsoft_datetimepicker') ){
-                $('#datetimepicker6').datetimepicker('destroy');
-                this.value = 'create';
-            }else{
-                $('#datetimepicker6').datetimepicker();
-                this.value = 'destroy';
-            }
-        });
-        var logic = function( currentDateTime ){
-            if (currentDateTime && currentDateTime.getDay() == 6){
-                this.setOptions({
-                    minTime:'11:00'
-                });
-            }else
-                this.setOptions({
-                    minTime:'8:00'
-                });
-        };
-        $('#datetimepicker7').datetimepicker({
-            onChangeDateTime:logic,
-            onShow:logic
-        });
-        $('#datetimepicker8').datetimepicker({
-            onGenerate:function( ct ){
-                $(this).find('.xdsoft_date')
-                        .toggleClass('xdsoft_disabled');
-            },
-            minDate:'-1970/01/2',
-            maxDate:'+1970/01/2',
-            timepicker:false
-        });
-        $('#datetimepicker9').datetimepicker({
-            onGenerate:function( ct ){
-                $(this).find('.xdsoft_date.xdsoft_weekend')
-                        .addClass('xdsoft_disabled');
-            },
-            weekends:['01.01.2014','02.01.2014','03.01.2014','04.01.2014','05.01.2014','06.01.2014'],
-            timepicker:false
-        });
-        var dateToDisable = new Date();
-        dateToDisable.setDate(dateToDisable.getDate() + 2);
-        $('#datetimepicker11').datetimepicker({
-            beforeShowDay: function(date) {
-                if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
-                    return [false, ""]
-                }
-
-                return [true, ""];
-            }
-        });
-        $('#datetimepicker12').datetimepicker({
-            beforeShowDay: function(date) {
-                if (date.getMonth() == dateToDisable.getMonth() && date.getDate() == dateToDisable.getDate()) {
-                    return [true, "custom-date-style"];
-                }
-
-                return [true, ""];
-            }
-        });
-        $('#datetimepicker_dark').datetimepicker({theme:'dark'})
         //富文本配置
         var toolbra     = {
                     toolbars : [
@@ -817,12 +686,10 @@
             listType(list_type, $(this).data('status'));
         });
 
-
         //列表活动类型设置
         function listType(type, status) {
             list_type   = type;
             list_status = status;
-
             list(type, status);
         }
 
@@ -895,10 +762,9 @@
                                 if (data.StatusCode == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>活动修改成功!</p>');
-
                                     list(resul.type, 1);
                                 } else {
-                                    $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                                    $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
                                 }
                             } else {
                                 $('#alert-info').html('<p>未知的错误</p>');
@@ -997,7 +863,7 @@
                                     ue.setContent('');
                                     list(resul.type, 1);
                                 } else {
-                                    $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                                    $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
                                 }
                             } else {
                                 $('#alert-info').html('<p>未知的错误</p>');
@@ -1021,7 +887,7 @@
         }(window.jQuery);
 
         //修改活动信息展示旧的信息
-        function updateRoad() {
+        function updates() {
             $('.charge-road').click(function () {
                 $('.loading').hide();
                 var ajax = new ajaxController();
@@ -1080,7 +946,7 @@
                             list(list_type, list_status);
                         } else {
                             $('#alert-form').hide();
-                            $('#alert-info').html('<p>状态修改失败！</p>');
+                            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
                         }
                     } else {
                         $('#alert-form').hide();
@@ -1095,11 +961,12 @@
             $('.action_status').click(function () {
                 var _this  = $(this);
                 var ajax   = new ajaxController();
-                var status = $(this).data('status');
+                var status = _this.data('status');
+                alert(status);
                 if (status.data) {
                     status = status.data;
                 }
-                var url = '/action/' + $(this).data('name') + '/edit/?status=' + status;
+                var url = '/action/' + _this.data('name') + '/edit/?status=' + status;
                 ajax.ajax({
                     url     : url,
                     before  : ajaxBeforeNoHiddenModel,
@@ -1114,9 +981,15 @@
                         if (data.StatusCode == 200) {
                             $('#alert-form').hide();
                             $('#alert-info').html('<p>状态修改成功!</p>');
+                            if (status == 1) {
+                                _this.html('<a href="javascript:;" data-name="3" data-status="3" class="action_status"><button class="btn-danger">禁用</button></a>');
+                            }else {
+                                _this.html('<a href="javascript:;" data-name="1" data-status="1" class="action_status"><button class="btn-primary">启用</button></a>');
+                            }
+                            actionStatus();
                         } else {
                             $('#alert-form').hide();
-                            $('#alert-info').html('<p>状态修改失败！</p>');
+                            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
                         }
                     } else {
                         $('#alert-form').hide();
@@ -1129,20 +1002,26 @@
         //查看报名情况
         function checkAction() {
             $('.bm').click(function () {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': token
-                    }
-                });
-                var ajax = new ajaxController();
-                var url  = '/action/' + $(this).data('name');
-                ajax.ajax({
-                    url     : url,
-                    type    : 'delete',
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : actionOrder,
-                    error   : ajaxErrorModel
-                });
+                if ($(this).data('num') == 0){
+                    $('#myModal').modal('show');
+                    $('#alert-info').html('<p>暂无报名情况</p>');
+                }else{
+                    $('#baoming').modal('show');
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': token
+                        }
+                    });
+                    var ajax = new ajaxController();
+                    var url  = '/action/' + $(this).data('name');
+                    ajax.ajax({
+                        url     : url,
+                        type    : 'delete',
+                        before  : ajaxBeforeNoHiddenModel,
+                        success : actionOrder,
+                        error   : ajaxErrorModel
+                    });
+                }
             });
         }
 

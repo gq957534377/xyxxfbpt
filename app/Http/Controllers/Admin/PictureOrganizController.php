@@ -30,7 +30,7 @@ class PictureOrganizController extends Controller
      */
     public function carousel ()
     {
-        return view('admin.webadminstrtion.carousel_organiz');
+
     }
 
     /**
@@ -40,8 +40,7 @@ class PictureOrganizController extends Controller
      */
     public function carouselAjax ()
     {
-        $res = self::$pictureservice->getPicture(2);
-        return response()->json($res);
+
     }
 
     /**

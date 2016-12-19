@@ -40,6 +40,20 @@ class SendStore
             ->where('status', '<>', 5)
             ->first();
     }
+
+    /**
+     * 获取IN数组中对应的数据
+     *
+     * @return \Illuminate\Http\Response
+     * @author 王通
+     */
+    public function getAllData($where)
+    {
+        return DB::table(self::$table)
+            ->whereIn($where)
+            ->where('status', '<>', 5)
+            ->first();
+    }
     /**
      * 分页查询数据
      * @param $page
@@ -77,6 +91,18 @@ class SendStore
     public function upload($where, $data)
     {
         return DB::table(self::$table)->where($where)->update($data);
+    }
+
+    /**
+     * 批量
+     * @param $where
+     * @param $data
+     * @return null
+     * author 王通
+     */
+    public function updataAll($where, $data)
+    {
+        return DB::table(self::$table)->whereIn($where)->update($data);
     }
 
     /**

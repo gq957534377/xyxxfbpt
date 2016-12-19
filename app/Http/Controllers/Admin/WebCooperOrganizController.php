@@ -29,7 +29,7 @@ class WebCooperOrganizController extends Controller
      */
     public function index()
     {
-        return view('admin.webadminstrtion.web_cooper_organiz');
+
     }
 
     /**
@@ -39,8 +39,7 @@ class WebCooperOrganizController extends Controller
      */
     public function create()
     {
-        $res = self::$pictureservice->getPicture(3);
-        return response()->json($res);
+
     }
 
     /**

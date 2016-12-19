@@ -2,37 +2,6 @@
  * ajax成功执行函数
  * @author 郭庆
  */
-
-// 获取分页数据并加载显示在页面
-function getInfoList(data){
-    $('.loading').hide();
-    if (data) {
-        console.log(data);
-        if (data.StatusCode == 200) {
-            if(data.ResultData.data == '') {
-                $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
-            }else {
-                $('#data').html(listHtml(data));
-                $('#page').html(data.ResultData.pages);
-                getPage();
-                modifyStatus();
-                showInfo();
-                updateRoad();
-                checkAction();
-
-            }
-        } else {
-            $('#myModal').modal('show');
-            $('#alert-form').hide();
-            $('#alert-info').html('<p>' + data.ResultData + '</p>');
-        }
-    } else {
-        $('#myModal').modal('show');
-        $('#alert-form').hide();
-        $('#alert-info').html('<p>未知的错误</p>');
-    }
-}
-
 function listHtml(data){
     var html = '';
     console.log(data);
@@ -49,7 +18,7 @@ function listHtml(data){
         html += '<td><a class="info btn btn-sm btn-success tooltips" style="border-radius: 6px;" data-name="' + e.guid + '" href="javascript:;"><i class="fa" data-toggle="modal" data-target="#tabs-modal" style="margin-bottom: 6px">详情</i></a>&nbsp';
         if (e.status == 1) {
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
-            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" class="bm" data-toggle="modal" data-target="#baoming">报名详情</i></a>&nbsp';
+            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
         } else if (e.status == 4) {
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
@@ -60,7 +29,7 @@ function listHtml(data){
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
         }else if (e.status == 5) {
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
-            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" class="bm" data-toggle="modal" data-target="#baoming">报名详情</i></a>&nbsp';
+            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
             html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
         }
         html += '</td>';
@@ -68,24 +37,7 @@ function listHtml(data){
     html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
     return html;
 }
-// 分页li点击触发获取ajax事件获取分页
-function getPage() {
-    $('.pagination li').click(function () {
-        var class_name = $(this).prop('class');
-        if(class_name == 'disabled' || class_name == 'active') {
-            return false;
-        }
-        var url = $(this).children().prop('href')+'&type='+list_type+'&status='+list_status;
-        var ajax = new ajaxController();
-        ajax.ajax({
-            url : url,
-            before : ajaxBeforeModel,
-            success: getInfoList,
-            error: ajaxErrorModel
-        });
-        return false;
-    });
-}
+
 //活动类型展示
 function type(type) {
     var res;
@@ -145,7 +97,6 @@ function status(status) {
 //展示旧数据
 function date(data) {
     data = data.ResultData;
-    console.log(data);
     $('#yz_xg').find('input[name=id]').val(data.guid);
     $('#yz_xg').find('input[name=title]').val(data.title);
     $('#yz_xg').find('input[name=end_time]').val(data.end_time);
@@ -185,7 +136,7 @@ function showInfoList(data){
             $('#xq_describe').html(data.describe);
         } else {
             $('#alert-form').hide();
-            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
         }
     } else {
         $('#alert-form').hide();
@@ -196,7 +147,6 @@ function showInfoList(data){
 //展示活动报名情况表
 function actionOrder(data) {
     $('.loading').hide();
-    console.log(data);
     if (data) {
         if (data.StatusCode == 200) {
             $('#list_baoming').html('');
@@ -215,7 +165,7 @@ function actionOrder(data) {
         } else {
             $('#baoming').modal('hide');
             $('#myModal').modal('show');
-            $('#alert-info').html('<p>' + data.ResultData + ',获取数据失败</p>');
+            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
         }
     } else {
         $('#myModal').modal('show');

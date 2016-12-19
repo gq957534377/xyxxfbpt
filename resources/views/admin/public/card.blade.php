@@ -1,18 +1,36 @@
 <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
 
-    <img class="loading"  src="{{ asset('home/img/load.gif') }}" style="position: absolute;left: 43%;top: 30%;"/>
+    <img class="loading"  src="{{ asset('home/img/loading.gif') }}" style="position: absolute;left: 43%;top: 30%;"/>
 
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form class="avatar-form" action="{{url('/cardpic')}}" enctype="multipart/form-data" method="post">
+            <form class="avatar-form" action="/web_admins/uploadorganizpic" enctype="multipart/form-data" method="post">
+                <input class="organiz-type" name="organiz-type" value="2" type="hidden">
                 <div class="modal-header">
                     <button class="close" data-dismiss="modal" type="button">&times;</button>
-                    <h4 class="modal-title" id="avatar-modal-label">上传身份证证件照</h4>
+                    <h4 class="modal-title" id="avatar-modal-label">添加</h4>
                 </div>
                 <div class="modal-body">
                     <div class="avatar-body">
+                        <div class="row text-coutent">
+                            <div class="col-sm-6">
+                                <label for="inputEmail3" class="col-sm-3 control-label">name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" data-method="coopname" name="name" placeholder="name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-coutent">
+                            <div class="col-sm-6">
+                                <label for="inputEmail3" class="col-sm-3 control-label">url</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" name="url" placeholder="url">
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="text-coutent">
                         <div class="avatar-upload">
-                            <input class="avatar-scale" name="avatar-scale" value="1.6" type="hidden">
+                            <input class="avatar-scale" name="avatar-scale" value="2.6" type="hidden">
                             <input class="avatar-src" name="avatar_src" type="hidden">
                             <input class="avatar-data" name="avatar_data" type="hidden">
                             <label for="avatarInput">图片上传</label>
@@ -47,4 +65,3 @@
     </div>
 </div>
 
-{{--<div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>--}}

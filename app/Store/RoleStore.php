@@ -69,6 +69,22 @@ class RoleStore
         return DB::table(self::$table)->where($where)->orderBy('id', 'desc')->first();
     }
 
+    /**
+     * 获取不是英雄会成员的角色记录
+     * @param array $where
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function getOneRoleDate($where)
+    {
+        // 条件检测
+        if (empty($where)) return false;
+        return DB::table(self::$table)
+                        ->where($where)
+                        ->where('role', '!=', '4')
+                        ->orderBy('id', 'desc')
+                        ->first();
+    }
      /** 获取一条数据
      * @param $condition
      * @return bool

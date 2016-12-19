@@ -27,18 +27,22 @@ class ActionService
     protected static $common;
     protected static $likeStore;
 
-    public function __construct(ActionStore $actionStore, ActionOrderStore $actionOrderStore, CommentStore $commentStore, LikeStore $likeStore)
+    public function __construct(
+        ActionStore $actionStore,
+        ActionOrderStore $actionOrderStore,
+        CommentStore $commentStore,
+        LikeStore $likeStore)
     {
-        self::$actionStore = $actionStore;
-        self::$commentStore = $commentStore;
+        self::$actionStore      = $actionStore;
+        self::$commentStore     = $commentStore;
         self::$actionOrderStore = $actionOrderStore;
-        self::$likeStore = $likeStore;
+        self::$likeStore        = $likeStore;
     }
 
     /**
-     * 查询对应活动类型的所有活动数据
-     * @param $type
-     * @return array
+     * 查询获取某一类型的所有活动
+     * @param int $type 活动类型
+     * @return array 对应类型的所有活动组成的数组
      * @author 郭庆
      * @modify 刘峻廷
      */
@@ -49,17 +53,10 @@ class ActionService
         if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有本活动信息'];
         return ['StatusCode' => '200', 'ResultData' => $data];
     }
-    public static function selectByType($type)
-    {
-        $data = self::$actionStore->getListData($type);
-        if($data) return ['status' => true, 'msg' => $data];
-        if ($data!=[]) \Log::info('前端查询列表失败:'.$data);
-        return ['status' => false, 'msg' => '暂时没有本活动信息'];
-    }
 
     /**
      * 报名活动
-     * @param $data
+     * @param array $data 报名具体信息记录
      * @return array
      * @author 郭庆
      */
@@ -95,6 +92,7 @@ class ActionService
 
     /**
      * 获取指定用户所报名参加的所有活动.
+     * @param @user 用户的guid
      * @return array 返回一个活动id为元素的一维数组
      * @author 郭庆
      */
@@ -110,9 +108,9 @@ class ActionService
     }
     /**
      * 发布活动
-     * @param $data
+     * @param array $data 活动信息记录
      * @return array
-     * author 张洵之
+     * author 郭庆
      */
     public function insertData($data)
     {
@@ -125,13 +123,13 @@ class ActionService
         if($temp["status"]){
             $result = self::$actionStore->insertData($data);
         }else{
-            return ['status' => false, 'msg' => $temp["msg"]];
+            return ['StatusCode' => '400', 'ResultData' => $temp['msg']];
         }
 
         //判断插入是否成功，并返回结果
-        if(isset($result)) return ['status' => true, 'msg' => $result];
-        \Log::info('发表评论失败', $data, $result);
-        return ['status' => false, 'msg' => '存储数据发生错误'];
+        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => "发布活动成功"];
+        \Log::info('发布活动失败', $data, $result);
+        return ['StatusCode' => '500', 'ResultData' => "服务器忙，发布失败"];
     }
 
     /**
@@ -204,6 +202,7 @@ class ActionService
      * @param $request
      * @return array
      * author 张洵之
+     * @modify 郭庆
      */
     public function selectData($request)
     {
@@ -263,26 +262,26 @@ class ActionService
     public function getData($guid)
     {
         if(!is_string($guid)){
-            return ['status' => false, 'msg' => "参数有误！"];
+            return ['StatusCode'=> 400,'ResultData' => "数据参数有误"];
         }
         //查询一条数据活动信息
         $data = self::$actionStore->getOneData(["guid" => $guid]);
-        if($data) return ['status' => true, 'msg' => $data];
+        if($data) return ['StatusCode'=> 200,'ResultData' => $data];
         \Log::info('获取'.$guid.'活动详情出错:'.$data);
-        return ['status' => false, 'msg' => "活动信息获取失败！"];
+        return ['StatusCode'=> 500,'ResultData' => "获取活动信息失败"];
     }
 
     /**
      * 修改活动/报名状态
-     * @param $guid
-     * @param $status
+     * @param $guid 所要修改的id
+     * @param $status 改为的状态
      * @return array
      * author 郭庆
      */
     public function changeStatus($guid, $status)
     {
         if(!(isset($guid) && isset($status))){
-            return ['status' => false, 'msg' => "参数有误 ！"];
+            return ['StatusCode'=> 400,'ResultData' => "参数有误"];
         }
 
         //判断请求的是改活动状态还是报名状态
@@ -294,11 +293,10 @@ class ActionService
 
         //判断修改结果并返回
         if($Data){
-            $result["data"] = $Data;
-            return ['status' => true, 'msg' => $result];
+            return ['StatusCode'=> 200,'ResultData' => "修改成功"];
         }else{
             if ($Data != 0) \Log::info('修改'.$guid.'活动/报名状态出错:'.$Data);
-            return ['status' => false, 'msg' => $Data];
+            return ['StatusCode'=> 500,'ResultData' => "修改失败"];
         }
     }
 
@@ -313,11 +311,11 @@ class ActionService
     {
         $Data = self::$actionStore->upload($where, $data);
         if($Data){
-            $result["data"] = $Data;
-            return ['status' => true, 'msg' => $result];
+            return ['StatusCode'=> 200,'ResultData' => "修改成功"];
         }else{
+            if($Data == 0) return ['StatusCode'=> 400,'ResultData' => "未作任何更改"];
             \Log::info('修改'.$where['guid'].'活动出错:'.$Data);
-            return ['status' => false, 'msg' => "数据参数有误！"];
+            return ['StatusCode'=> 500,'ResultData' => "服务器忙,修改失败"];
         }
     }
 
@@ -332,10 +330,11 @@ class ActionService
         $where = ["action_id" => $guid];
         $result = self::$actionOrderStore->getSomeData($where);
         if($result){
-            return ['status' => true, 'msg' => $result];
+            return ['StatusCode'=> 200,'ResultData' => $result];
         }else{
-            if (!is_array($result)) \Log::info('获取'.$guid.'报名信息出错:'.$result);
-            return ['status' => false, 'msg' => "数据暂无数据！"];
+            if ($result == []) return ['StatusCode'=> 500,'ResultData' => "该活动暂无报名"];
+            \Log::info('获取'.$guid.'报名信息出错:'.$result);
+            return ['StatusCode'=> 500,'ResultData' => "获取报名信息失败"];
         }
     }
 
