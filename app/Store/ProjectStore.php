@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProjectStore {
 
-    protected static $table = 'project_info_data';
+    protected static $table = 'data_project_info';
 
     /**
      * 增加数据
@@ -84,5 +84,14 @@ class ProjectStore {
         return $result;
     }
 
-
+    /**
+     * 获取一条数据
+     *@param array $where
+     * @return \Illuminate\Http\Response
+     * @author 张洵之
+     */
+    public function getOneData($where)
+    {
+        return DB::table(self::$table)->where($where)->first();
+    }
 }

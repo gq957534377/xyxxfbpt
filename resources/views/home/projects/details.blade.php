@@ -201,77 +201,50 @@
                 <div class="row pl-block">
                     <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
                     <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">更多评论></a>
-                    <ul class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <li class="row inputs">
-                            <textarea>                    </textarea>
-                            <button class="subbtn btn btn-warning">提交</button>
-                        </li>
+                    <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <!---循环遍历开始-->
-                        <li class="row">
-                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <div class="user-img-bgs">
-                                    <img src="{{ asset('home/img/demoimg/test11.jpg') }}">
-                                </div>
-                            </div>
-                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                <div class="row user-say1">
-                                    <span>Paloma</span>
-                                    <span>2016-11-24 16:26</span>
-                                </div>
-                                <div class="row user-say2">
-                                    <p>这个项目很有意思,我很喜欢,赞一个</p>
-                                </div>
-                            </div>
+                        <li class="row inputs">
+                            <form id="comment" method = 'post'>
+                                <input name="action_id" value="{{ $id}}" hidden>
+                                <input name="type" value="2" hidden>
+                                <textarea name="content" required>
+                            </textarea>
+                                <button type="submit" class="subbtn btn btn-warning" >提交</button>
+                            </form>
                         </li>
-                        <li class="row">
-                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <div class="user-img-bgs">
-                                    <img src="{{ asset('home/img/demoimg/test11.jpg') }}">
+                        @if($commentData['StatusCode'] == 200)
+                            @foreach($commentData['ResultData'] as $datas)
+                                <li class="row">
+                                    <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        <div class="user-img-bgs">
+                                            <img src="{{ $datas->userImg }}">
+                                        </div>
+                                    </div>
+                                    <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                        <div class="row user-say1">
+                                            <span>{{ $datas->nikename }}</span>
+                                            <span>{{ $datas->time }}</span>
+                                        </div>
+                                        <div class="row user-say2">
+                                            <p>{{ $datas->content }}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        @else
+                            <li class="row">
+                                <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+
                                 </div>
-                            </div>
-                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                <div class="row user-say1">
-                                    <span>Paloma</span>
-                                    <span>2016-11-24 16:26</span>
+                                <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+
+                                    <div class="row user-say2">
+                                        <p>暂无评论</p>
+                                    </div>
                                 </div>
-                                <div class="row user-say2">
-                                    <p>这个项目很有意思,我很喜欢,赞一个</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="row">
-                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <div class="user-img-bgs">
-                                    <img src="{{ asset('home/img/demoimg/test11.jpg') }}">
-                                </div>
-                            </div>
-                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                <div class="row user-say1">
-                                    <span>Paloma</span>
-                                    <span>2016-11-24 16:26</span>
-                                </div>
-                                <div class="row user-say2">
-                                    <p>这个项目很有意思,我很喜欢,赞一个</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="row">
-                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <div class="user-img-bgs">
-                                    <img src="{{ asset('home/img/demoimg/test11.jpg') }}">
-                                </div>
-                            </div>
-                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                <div class="row user-say1">
-                                    <span>Paloma</span>
-                                    <span>2016-11-24 16:26</span>
-                                </div>
-                                <div class="row user-say2">
-                                    <p>这个项目很有意思,我很喜欢,赞一个</p>
-                                </div>
-                            </div>
-                        </li>
-                        <!---循环遍历结束-->
+                            </li>
+                    @endif
+                    <!---循环遍历结束-->
 
                     </ul>
                 </div>
@@ -280,6 +253,8 @@
         </div>
     </section>
 @endsection
-
+@section('script')
+    <script src="{{ asset('home/js/commentValidate.js') }}"></script>
+@endsection
 
 

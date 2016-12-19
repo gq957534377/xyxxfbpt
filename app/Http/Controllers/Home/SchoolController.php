@@ -20,9 +20,11 @@ class SchoolController extends Controller
         self::$userServer = $userServer;
     }
     /**
-     * Display a listing of the resource.
+     * 根据所选活动类型导航，返回相应的列表页+数据.
      *
      * @return \Illuminate\Http\Response
+     * @author 郭庆
+     * @modify 张洵之
      */
     public function index()
     {

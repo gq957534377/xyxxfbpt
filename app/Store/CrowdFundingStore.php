@@ -13,7 +13,7 @@ use DB;
 class CrowdFundingStore
 {
     //表名
-    protected static $table = 'crowd_funding_data';
+    protected static $table = 'data_crowd_funding';
     /**
      * 返回拥有该字段最大值的整条记录
      * @param string $field

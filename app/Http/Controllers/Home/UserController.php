@@ -355,7 +355,7 @@ class UserController extends Controller
         //去除评论干扰项
         unset($request['nowPage']);
         $likeResult = self::$commentServer->getLikesTitles(1,$request);
-
+        
         if ($commentResult['StatusCode'] == '200') {
             $commentPage = $commentResult['ResultData']['pageData'];
             unset($commentResult['ResultData']['pageData']);

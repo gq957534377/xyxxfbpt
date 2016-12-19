@@ -13,7 +13,7 @@ use DB;
 class CrowdCapitalStore
 {
     //表名
-    protected static $table = 'crowd_capital_data';
+    protected static $table = 'data_crowd_capital';
 
     /**
      * 插入数据
