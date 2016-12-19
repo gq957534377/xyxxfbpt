@@ -87,6 +87,7 @@ class CommentAndLikeService
 
         return ['StatusCode' => '200', 'ResultData' => $data];
     }
+
     /**
      * 数据解封包
      * @param array $data 要被解封包的数据
@@ -224,9 +225,9 @@ class CommentAndLikeService
         // 判断两次评论之间的时间间隔
         $oldTime = $this->getUserCommentTime ($data['action_id'], session('user')->guid);
 
-//        if (($oldTime + config('safety.COMMENT_TIME')) > time()) {
-//            return ['StatusCode' => '400', 'ResultData' => '两次评论间隔过短，请稍后重试'];
-//        };
+        if (($oldTime + config('safety.COMMENT_TIME')) > time()) {
+            return ['StatusCode' => '400', 'ResultData' => '两次评论间隔过短，请稍后重试'];
+        };
 
         $result = self::$commentStore->addData($data);
         if($result) {
@@ -240,8 +241,8 @@ class CommentAndLikeService
 
     /**
      * 得到该用户上次评论同文章的时间
-     * @param $acricle_id   文章ID
-     * @param $user_id  用户ID
+     * @param string $acricle_id   文章ID
+     * @param string $user_id  用户ID
      * @return $time  时间戳
      * @author 王通
      */
