@@ -98,7 +98,7 @@ $(document).ready(function (){
             // 'wechat':  $('input[name="wechat"]').val(),
             'introduction':  $('textarea[name="introduction"]').val(),
         };
-        ajaxRequire('user/'+guid,'PUT',data,$("#editUserInfo"),2);
+        ajaxRequire('user/'+guid, 'PUT', data, $("#editUserInfo"), 2);
 
         user_name.html($('input[name="realname"]').val());
 

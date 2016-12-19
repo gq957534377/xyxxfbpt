@@ -211,13 +211,13 @@ class UserService {
         // 查询数据
         $temp = self::$homeStore->getOneData(['tel' => $data['tel']]);
         // 返回假，说明此账号不存在
-        if(!$temp) return ['status' => '400','msg' => '账号不存在或输入错误！'];
+        if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];
         // 查询数据
         $temp = self::$homeStore->getOneData(['tel' => $data['tel'],'password' => $pass]);
         // 返回假，说明此密码不正确
-        if(!$temp) return ['status' => '400','msg' => '密码错误！'];
+        if(!$temp) return ['StatusCode' => '400','ResultData' => '密码错误！'];
         // 返回真，再进行账号状态判断
-        if($temp->status != '1') ['status' => '400','msg' => '账号存在异常，已锁定，请紧快与客服联系！'];
+        if($temp->status != '1') ['StatusCode' => '400','ResultData' => '账号存在异常，已锁定，请紧快与客服联系！'];
 
         // 数据提纯
         unset($temp->password);
@@ -226,7 +226,10 @@ class UserService {
 
         // 更新数据表，登录和ip
         $info = self::$homeStore->updateData(['guid'=>$temp->guid],['logintime' => $time,'ip' => $data['ip']]);
-        if(!$info) return ['status' => '500','msg' => '服务器数据异常！'];
+        if(!$info) {
+            Log::error($info['msg'],$data);
+            return ['StatusCode' => '500','ResultData' => '服务器数据异常！'];
+        }
 
         //将一些用户的信息推到session里，方便维持
 
@@ -242,7 +245,7 @@ class UserService {
         $temp->memeber = $userInfo->memeber;
 
         Session::put('user',$temp);
-        return ['status' => '200','msg' => '登录成功！'];
+        return ['StatusCode' => '200','ResultData' => '登录成功！'];
     }
 
     /**

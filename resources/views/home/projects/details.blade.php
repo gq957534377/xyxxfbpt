@@ -275,7 +275,7 @@
                 data:{type:2},
                 success:function (data) {
                     switch (data.StatusCode){
-                        case '200':$('#like').toggleClass('bang').html(str+"（<span id='likeNum'>"+nowLikeNum+"</span>）");break；
+                        case '200':$('#like').toggleClass('bang').html(str+"（<span id='likeNum'>"+nowLikeNum+"</span>）");break;
                         case '400':alert(data.ResultData);break;
                         case '401':alert(data.ResultData);window.location.href = "{{route('login.index')}}";break;
                     }

@@ -72,8 +72,8 @@ class ArticleService
         $result = self::$sendStore->insertData($data);
 
         //判断插入是否成功，并返回结果
-        if(isset($result)) return ['status' => true, 'msg' => $result];
-        return ['status' => false, 'msg' => '存储数据发生错误'];
+        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => '发布成功'];
+        return ['StatusCode' => '500', 'ResultData' => '文章发布失败'];
     }
 
     /**
@@ -109,7 +109,7 @@ class ArticleService
         if(isset($creatPage)){
             $result["pages"] = $creatPage['pages'];
         }else{
-            return ['status' => false, 'msg' => '生成分页样式发生错误'];
+            return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
         }
 
         //获取对应页的数据
@@ -117,9 +117,9 @@ class ArticleService
 
         if($res || empty($res)){
             $result['data'] = $res;
-            return ['status' => true, 'msg' => $result];
+            return ['StatusCode' => 200,'ResultData' => $result];
         }else{
-            return ['status' => false, 'msg' => "获取分页数据失败！"];
+            return ['StatusCode' => 500,'ResultData' => '获取分页数据失败！'];
         }
     }
 
@@ -163,23 +163,54 @@ class ArticleService
      * @return array
      * author 郭庆
      */
-    public function changeStatus($guid, $status, $user)
+    public function changeStatus($guid, $status, $user = 1)
     {
         if(!(isset($guid) && isset($status))){
-            return ['status' => false, 'msg' => "参数有误 ！"];
+            return ['StatusCode'=> '400', 'ResultData' => "数据参数有误"];
+        }
+        if ($user = 1) {
+            $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
+        } else {
+            $result = self::$sendStore->getOneData(['guid' => $guid]);
+            if (empty($result) || ($result->user_id != session('user')->guid)) {
+                return ['StatusCode'=> '400', 'ResultData' => "没有权限"];
+            } else {
+                $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
+            }
         }
 
-        $Data = self::$sendStore->upload(["guid" => $guid], ["status" => $status]);
 
         //判断修改结果并返回
-        if($Data){
-            $result["data"] = $Data;
-            return ['status' => true, 'msg' => $result];
-        }else{
-            return ['status' => false, 'msg' => "数据参数有误！"];
-        }
+        if($Data) return ['StatusCode'=> '200', 'ResultData' => "修改状态成功"];
+        return ['StatusCode'=> '500', 'ResultData' => "服务器忙，修改失败"];
     }
 
+    /**
+     * 批量修改文章状态
+     * @param $guidAll
+     * @param $status
+     * @return array
+     * $author 王通
+     */
+    public function userChangeStatus($guidAll, $status)
+    {
+        if ($user = 1) {
+            $Data = self::$sendStore->updataAll(["guid" => $guidAll], ["status" => $status]);
+        } else {
+            $result = self::$sendStore->getAllData(['guid' => $guidAll]);
+            dd($result);
+            if (empty($result) || ($result->user_id != session('user')->guid)) {
+                return ['StatusCode'=> '400', 'ResultData' => "没有权限"];
+            } else {
+                $Data = self::$sendStore->updataAll(["guid" => $guidAll], ["status" => $status]);
+            }
+        }
+
+
+        //判断修改结果并返回
+        if($Data) return ['StatusCode'=> '200', 'ResultData' => "修改状态成功"];
+        return ['StatusCode'=> '500', 'ResultData' => "服务器忙，修改失败"];
+    }
     /**
      * 修改文章内容
      * @param $where
@@ -192,10 +223,9 @@ class ArticleService
         $data["time"] = date("Y-m-d H:i:s", time());
         $Data = self::$sendStore->upload($where, $data);
         if($Data){
-            $result["data"] = $Data;
-            return ['status' => true, 'msg' => $result];
+            return ['StatusCode'=> 200,'ResultData' => "修改成功"];
         }else{
-            return ['status' => false, 'msg' => "数据参数有误！"];
+            return ['StatusCode'=> 400,'ResultData' => "服务器忙,修改失败"];
         }
     }
 
@@ -404,6 +434,35 @@ class ArticleService
             return 0;
         } else {
             return strtotime($res[0]->time);
+        }
+    }
+
+    /**
+     * 点赞
+     * @return array
+     * @author 王通
+     */
+    public function like($user_id, $id)
+    {
+        //判断是否点赞了
+        $isHas = self::getLike($user_id, $id);
+
+        if($isHas['status']) {
+            // 如果已经点赞，则修改状态为取消，如果是取消点赞，则修改为点赞
+            if ($isHas['msg']->support == 1) {
+                $setLike = self::chargeLike($user_id, $id, ['support' => 2]);
+            } else {
+                $setLike = self::chargeLike($user_id, $id, ['support' => 1]);
+            }
+
+            if ($setLike) return ['StatusCode' => '200',  'ResultData' => self::getLikeNum($id)['msg']];
+            return ['StatusCode' => '400',  'ResultData' => '点赞失败'];
+        }else{
+
+            //没有点赞则加一条新记录
+            $result = self::setLike(['support' => 1, 'action_id' => $id, 'user_id' => $user_id]);
+            if($result['status']) return ['StatusCode' => '200',  'ResultData' => self::getLikeNum($id)['msg']];
+            return ['StatusCode' => '400', 'ResultData' => '点赞失败'];
         }
     }
 }

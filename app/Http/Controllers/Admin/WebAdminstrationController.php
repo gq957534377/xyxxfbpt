@@ -9,38 +9,77 @@ use App\Http\Controllers\Controller;
 use App\Services\WebAdminService;
 use Validator;
 use App\Tools\Avatar;
+use App\Services\PictureService;
 
 class WebAdminstrationController extends Controller
 {
     protected static $webAdmin;
+    protected static $pictureService;
     /** 单例引入
      *
      * @param WebAdminService $webAdminService
      * @author 王通
      */
-    public function __construct(WebAdminService $webAdminService)
+    public function __construct(WebAdminService $webAdminService, PictureService $pictureService)
     {
         self::$webAdmin = $webAdminService;
+        self::$pictureService = $pictureService;
     }
     /**
      * 网站管理页面
      *
      * @author 王通
      */
-    public function index()
+    public function index(Request $request)
     {
+
+        if (empty($request['type'])) {
+            return response()->json(['StatusCode' => '400','ResultData' => '参数错误']);
+        }
         // 取出界面数据
-        $res = self::$webAdmin->getAllWebConf();
-        return view('admin.webadminstrtion.web_admin', ['info' => $res['msg']]);
+        return view('admin.webadminstrtion.index');
+
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 请求界面数据
      *
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function create(Request $request)
     {
+        if (empty($request['type'])) {
+            return response()->json(['StatusCode' => '400','ResultData' => '参数错误']);
+        }
+        switch ($request['type'])
+        {
+            case '1':
+                // 取出界面数据
+                $result = self::$webAdmin->getAllWebConf();
+                return response()->json($result);
+                break;
+            case '2':
+                // 合作机构Ajax请求
+                $result = self::$pictureService->getPicture(3);
+                return response()->json($result);
+                break;
+            case '3':
+                // 投资机构Ajax请求
+                $result = self::$pictureService->getPicture(5);
+                return response()->json($result);
+                break;
+            case '4':
+                // 轮播图管理Ajax请求
+                $result = self::$pictureService->getPicture(2);
+                break;
+            default:
+
+                break;
+        }
+
+        return response()->json($result);
     }
 
     /**
@@ -87,10 +126,12 @@ class WebAdminstrationController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @author 王通
      */
-    public function uploadLogo (Request $request)
+    public function uploadOrganizPic (Request $request)
     {
+        $data = $request->all();
+
         //数据验证过滤
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($data, [
             'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
         ],[
             'avatar_file.required' => '上传文件为空!',
@@ -100,14 +141,30 @@ class WebAdminstrationController extends Controller
 
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['state' => 400, 'result' => $validator->errors()->all()]);
+        switch ($data['organiz-type'])
+        {
 
-        $info = self::$webAdmin->uploadImg($request, 'logo');
+            case 2:
+                // 合作机构图片上传
+                $result = self::$pictureService->saveCooper($request);
+                break;
+            case 3:
+                // 投资机构图片上传
+                $result = self::$pictureService->saveInvest($request);
+                break;
+            case 4:
+                // 轮播图管理图片上传
+                $result = self::$pictureService->saveCarousel($request);
+                break;
+
+        }
+
 
         // 判断上传是否成功
-        if ($info['status'] == '200') {
-            return response()->json(['state' => 200, 'result' => $info['msg']]);
+        if ($result['StatusCode'] == '200') {
+            return response()->json(['StatusCode' => 200, 'ResultData' => $result['ResultData']]);
         } else {
-            return response()->json(['state' => 400, 'result' => $info['msg']]);
+            return response()->json(['StatusCode' => 400, 'ResultData' => $result['ResultData']]);
         }
 
     }
@@ -148,13 +205,14 @@ class WebAdminstrationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 删除指定id数据
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function destroy($id)
     {
-        //
+        return self::$pictureService->delPicture($id);
     }
 }

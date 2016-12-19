@@ -58,8 +58,8 @@ class PictureService
             if (self::$picturestore->savePicture([
                 'url' => $res['msg'],
                 'state' => 3,
-                'pointurl' => $data['coopurl'],
-                'name' => $data['coopname']
+                'pointurl' => $data['url'],
+                'name' => $data['name']
             ])) {
                 return ['StatusCode' => '200', 'ResultData' => '合作机构保存成功'];
             }
@@ -82,8 +82,8 @@ class PictureService
             if (self::$picturestore->savePicture([
                 'url' => $res['msg'],
                 'state' => 5,
-                'pointurl' => $data['invesurl'],
-                'name' => $data['invesname']
+                'pointurl' => $data['url'],
+                'name' => $data['name']
             ])) {
                 return ['StatusCode' => '200', 'ResultData' => '合作机构保存成功'];
             }

@@ -337,7 +337,6 @@ class UserController extends Controller
         $result = self::$userServer->sendEmail($request);
 
         return response()->json($result);
-
     }
 
 

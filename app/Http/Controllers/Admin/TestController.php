@@ -84,12 +84,16 @@ class TestController extends Controller
         //表名选择
         if(count($where) > 1){
             $table = 'data_role_info';
+
             $count = \DB::table($table)->where($where)->count();
+
 
 
         }else{
             $table = 'data_user_info';
+
             $count = \DB::table($table)->where($where)->count();
+
 
         }
 
@@ -122,11 +126,13 @@ class TestController extends Controller
         //获取对应页的数据
         if (count($where) > 1){
             $Data = \DB::table($table)
+
                 ->where($where)
                 ->forPage($nowPage, $pageNums)
                 ->get();
         }else{
             $Data = \DB::table($table)->where($where)->forPage($nowPage, $pageNums)->get();
+
         }
 
 

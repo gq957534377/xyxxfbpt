@@ -53,6 +53,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         // 网站管理
         Route::resource('/web_admins/uploadlogo', 'WebAdminstrationController@uploadLogo');
         Route::resource('/web_admins/uploadqrcode', 'WebAdminstrationController@uploadQRcode');
+        Route::resource('/web_admins/uploadorganizpic', 'WebAdminstrationController@uploadOrganizPic');
         Route::resource('/web_admins', 'WebAdminstrationController');
 
 

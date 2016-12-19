@@ -9,7 +9,7 @@
     $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
 }
 // 初始化数据
-function ajaxRequire(url,type,data,obj,model)
+function ajaxRequire(url, type, data, obj, model)
 {
     $.ajaxSetup({
         headers: {

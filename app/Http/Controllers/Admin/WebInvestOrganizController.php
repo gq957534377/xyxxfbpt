@@ -29,7 +29,7 @@ class WebInvestOrganizController extends Controller
      */
     public function index()
     {
-        return view('admin/webadminstrtion/web_investment_organiz');
+
     }
 
     /**
@@ -39,8 +39,7 @@ class WebInvestOrganizController extends Controller
      */
     public function create()
     {
-        $res = self::$pictureservice->getPicture(5);
-        return response()->json($res);
+
     }
 
     /**
