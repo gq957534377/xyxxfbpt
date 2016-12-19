@@ -84,7 +84,7 @@
                     </p>
                     <p class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
             <span class="collect">
-              收藏
+              点赞
             </span>
                     </p>
                     <p class="col-lg-1 col-md-1 col-sm-1 col-xs-3 pad-cr pad-clr-md pad-cl-sm line-h-36">分享到</p>
@@ -101,7 +101,8 @@
             <!--活动说明 结束-->
             <!--活动评论 开始-->
             <div class="col-md-3 col-lg-3 road-comment road-banner pl-block">
-                <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">评论</h2>
+                <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
+                <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">更多评论></a>
                 <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <!---循环遍历开始-->
                     <li class="row inputs">
@@ -132,35 +133,9 @@
                                 </div>
                             </li>
                         @endforeach
-                        <div class="row">
-                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                <div class="user-img-bgs">
-
-                                </div>
-                            </div>
-                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                <div class="row user-say1">
-                                </div>
-                                <div class="row user-say2">
-                                    <p><a href="#">更多</a></p>
-                                </div>
-                            </div>
-                        </div>
                     @else
-                        <li class="row">
-                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-
-                            </div>
-                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-
-                                <div class="row user-say2">
-                                    <p>暂无评论</p>
-                                </div>
-                            </div>
-                        </li>
                 @endif
                     <!---循环遍历结束-->
-
                 </ul>
                 <div class="clearfix"></div>
             </div>

@@ -62,6 +62,7 @@ class CommentAndLikeService
     /**
      * 查找一组内容id(数组)中的一组活动内容
      * @param string $id 内容id
+     * @param int $type 内容类型 1-文章；2-项目；3-活动；
      * @return array
      * author 张洵之
      */
@@ -117,13 +118,13 @@ class CommentAndLikeService
 
     /**
      *为每条数据添加与之相关的内容数据
-     * @param array $commentdata
+     * @param array $commentData 评论数据
      * @return array
      * author 张洵之
      */
-    public function getContents($datas)
+    public function getContents($commentData)
     {
-        foreach ($datas as $data) {
+        foreach ($commentData as $data) {
             //活动内容表数据
             $contentData = $this->openData($this->getContentInContentId($data->action_id,$data->type));
             if (empty($contentData)) return ['StatusCode' => '400', 'ResultData' => $data->action_id];
@@ -131,7 +132,7 @@ class CommentAndLikeService
             $data->contentTitle = $contentData ->title;
         }
 
-        return ['StatusCode' => '200', 'ResultData' => $datas];
+        return ['StatusCode' => '200', 'ResultData' => $commentData];
     }
 
     /**
@@ -151,16 +152,16 @@ class CommentAndLikeService
         if(empty($pageData)) return ['StatusCode' => '400', 'ResultData' => '分页方法错误'];
 
         //评论表数据
-        $commentdata = $this->openData($this->getForPageUserComment($where, $page));
+        $commentData = $this->openData($this->getForPageUserComment($where, $page));
 
-        if (empty($commentdata)) return ['StatusCode' => '400', 'ResultData' => '暂无评论数据'];
+        if (empty($commentData)) return ['StatusCode' => '400', 'ResultData' => '暂无评论数据'];
 
         //拼装了内容标题的评论数据
-        $commentdata = $this->openData($this->getContents($commentdata));
+        $commentData = $this->openData($this->getContents($commentData));
         //拼装分页样式
-        $commentdata['pageData'] = $pageData;
+        $commentData['pageData'] = $pageData;
 
-        return ['StatusCode' => '200', 'ResultData' => $commentdata];
+        return ['StatusCode' => '200', 'ResultData' => $commentData];
     }
 
     /**
@@ -212,7 +213,7 @@ class CommentAndLikeService
 
     /**
      * 发表评论
-     * @param $data 前台数据
+     * @param array $data 前台数据
      * @return array
      * @author 郭庆
      * @modify 王通
@@ -243,7 +244,7 @@ class CommentAndLikeService
      * 得到该用户上次评论同文章的时间
      * @param string $acricle_id   文章ID
      * @param string $user_id  用户ID
-     * @return $time  时间戳
+     * @return int $time  时间戳
      * @author 王通
      */
     public  function getUserCommentTime ($acricle_id, $user_id)
@@ -289,13 +290,12 @@ class CommentAndLikeService
         if($commentData['StatusCode'] == '400') return $commentData;
 
         $commentData = $this->addUserInfo($this->openData($commentData));
-
         return $commentData;
     }
 
     /**
-     * 添加用户数据
-     * @param array $commentData 评论表数据
+     * 为数据添加改数据有关用户信息数据
+     * @param array $commentData 评论数据
      * @return array
      * author 张洵之
      */
@@ -303,10 +303,120 @@ class CommentAndLikeService
     {
         foreach ($commentData as $data) {
             $userInfoData = self::$userStore->getOneData(['guid' => $data->user_id]);
+
             if (empty($userInfoData)) return ['StatusCode' => '400', 'ResultData' => $data->user_id];
+
             $data->userImg = $userInfoData->headpic;//添加用户头像
             $data->nikename = $userInfoData->nickname;//添加用户昵称
         }
         return ['StatusCode' => '200', 'ResultData' => $commentData];
+    }
+
+    /**
+     * 查询点赞状态
+     * @param string $userId 用户id
+     * @param string $contentId 内容id
+     * @return bool
+     * author 张洵之
+     */
+    public function likeStatus($userId, $contentId)
+    {
+        $where = ['action_id' => $contentId, 'user_id' => $userId];
+        $result = self::$likeStore->getLikeStatus($where, 'support');
+
+        switch ($result) {
+            case 1 :
+                return 1;//已收藏或点赞
+                break;
+
+            case 2 :
+                return 2;//已取消收藏或点赞
+                break;
+
+            default :
+                return 3;//暂无改用户数据
+        }
+    }
+
+    /**
+     * 查询用户上次与本次操作间隔是否合法
+     * @param array $where 查询条件
+     * @return bool
+     * author 张洵之
+     */
+    public function likeTime($where)
+    {
+        $result = self::$likeStore->getLikeStatus($where, 'time');
+
+        if($result) {
+            $nowTime = time();//当前时间戳
+            $changeTime = strtotime($result);//上次操作时间戳
+            $time = $nowTime -$changeTime;//两次操作时间差值
+
+            if($time<15) return false;
+
+            return true;
+        }else{
+            return true;
+        }
+    }
+
+    /**
+     * 更改当前用户点赞状态
+     * @param string $contentId 内容ID
+     * @param int $type 点赞外联属性 1-文章；2-项目；3-活动；
+     * @return array
+     * author 张洵之
+     */
+    public function changeLike($contentId, $type)
+    {
+        //当前用户id
+        $userId = $userId = session('user')->guid;
+        $result = $this->likeStatus($userId, $contentId);
+        $where = ['action_id' => $contentId, 'user_id' => $userId];
+
+        //查询用户上次与本次操作间隔是否合法
+        if(!$this->likeTime($where)) return ['StatusCode' => '400', 'ResultData' => false];
+
+        $data = [
+            'action_id' => $contentId, //内容ID
+            'user_id' => $userId, //用户ID
+            'support' => 1, //点赞状态 1：赞 2：取消赞
+            'time' => date('Y-m-d H:i:s',time()),//修改日期
+            'addtime' => date('Y-m-d H:i:s',time()),//添加日期
+            'type' => $type //点赞外联属性 1-文章；2-项目；3-活动；
+        ];
+
+        switch ($result) {
+            case 1 :
+                $temp = self::$likeStore->updateData($where, ['support' => 2, 'time' => date('Y-m-d H:i:s',time())]);//取消赞或收藏
+                break;
+
+            case 2 :
+                $temp = self::$likeStore->updateData($where, ['support' => 1, 'time' => date('Y-m-d H:i:s',time())]);//添加赞或收藏
+                break;
+
+            default :
+                $temp = self::$likeStore->addData($data);//添加该用户点赞数据
+        }
+
+        if ($temp) return ['StatusCode' => '200', 'ResultData' => true];
+
+        return ['StatusCode' => '400', 'ResultData' => false];
+    }
+
+    /**
+     * 统计某个内容点赞数量
+     * @param string|int $contentId 内容ID
+     * @return int
+     * author 张洵之
+     */
+    public function likeCount($contentId)
+    {
+        $num = self::$likeStore->getSupportNum($contentId);
+
+        if($num)return $num;
+
+        return 0;
     }
 }

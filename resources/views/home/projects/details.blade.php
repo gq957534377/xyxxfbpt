@@ -231,20 +231,6 @@
                                     </div>
                                 </li>
                             @endforeach
-                            <div class="row">
-                                <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <div class="user-img-bgs">
-
-                                    </div>
-                                </div>
-                                <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                    <div class="row user-say1">
-                                    </div>
-                                    <div class="row user-say2">
-                                        <p><a href="#">更多</a></p>
-                                    </div>
-                                </div>
-                            </div>
                         @else
                             <li class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
