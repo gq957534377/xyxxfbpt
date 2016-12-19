@@ -160,12 +160,13 @@ class SendController extends Controller
      * @return array
      * @author 郭庆
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id, Request $request)
     {
+        dd($request->all());
         if ($request['type'] == 'one') {
-
+            $result = self::$articleServer->changeStatus($id, 5, 2);
         }
-        $result = self::$articleServer->changeStatus($id, 5, 2);
+
         if ($result['StatusCode'] == '200') return ['StatusCode' => '200', 'ResultData' => $result['ResultData']];
         return ['StatusCode' => '400', 'ResultData' => '删除失败！'];
     }
