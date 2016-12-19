@@ -82,10 +82,10 @@
                     <p class="col-xs-12 indent mar-b30">
                         本地创业者的状态，众筹投资，有潜力的新投资方向，种子轮投资应该如何定位（月中将逐渐披露一些参与嘉宾）。
                     </p>
-                    <p class="col-lg-8 col-md-7 col-sm-7 col-xs-12">
-            <span class="collect">
-              点赞
-            </span>
+                    <p class="col-lg-8 col-md-7 col-sm-7 col-xs-12 @if($likeStatus == 1) taoxin @endif">
+                        <span class="collect">
+                          <span id="likeFont"></span><span id="likeNum">{{$likeNum}}</span>
+                        </span>
                     </p>
                     <p class="col-lg-1 col-md-1 col-sm-1 col-xs-3 pad-cr pad-clr-md pad-cl-sm line-h-36">分享到</p>
                     <div class="bdsharebuttonbox col-lg-3 col-md-4 col-sm-4 col-xs-9 pad-clr pad-l30-md pad-l30-sm">
@@ -167,17 +167,25 @@
         });
         $('.collect').click(function () {
             var obj = $(this);
+            var temp = obj.parent('p').is('.taoxin')?-1:1;
+            var num = parseInt($('#likeNum').html())
             $.ajax({
                 type:"get",
-                url:"/article/{{$data->guid}}/edit",
+                url:"/action/{{$data->guid}}/edit",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
+                data:{type:3},
                 success:function (data) {
                     switch (data.StatusCode){
-                        case '200':obj.html("已收藏").unbind("click").parent('p').addClass('taoxin');break;
+                        case '200':obj.parent('p').toggleClass('taoxin');$('#likeNum').html(num+temp);break;
                         case '400':alert(data.ResultData);break;
                     }
+                },
+                error: function(XMLHttpRequest){
+                    var number = XMLHttpRequest.status;
+                    var msg = "Error: "+number+",数据异常！";
+                    alert(msg);
                 }
             })
         })

@@ -33,11 +33,11 @@
               <div class="row article-bottom">
                   @if($ResultData->like)
                         <span id="like" data-id="{{ $ResultData->guid }}" class="taoxin col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
-                            点赞 {{ $ResultData->likenum or 0 }}
+                             <span></span><span id="likeNum">{{ $ResultData->likeNum}}</span>
                         </span>
                   @else
                       <span id="like" data-id="{{ $ResultData->guid }}" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
-                            点赞 {{ $ResultData->likenum or 0 }}
+                            <span></span> <span id="likeNum">{{ $ResultData->likeNum}}</span>
                         </span>
                   @endif
                 <span class="col-lg-10 col-md-10 col-sm-10 col-xs-12 fenxiang">

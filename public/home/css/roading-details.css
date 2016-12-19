@@ -29,8 +29,14 @@
 .taoxin .collect::before{
     content: "♥";
 }
+.taoxin .collect #likeFont::before{
+    content: '已点赞 ';
+}
+.collect #likeFont::before {
+    content: '点赞 ';
+}
 .collect::before{
-    content: "♡";
+    content: "♡ ";
     font-size: 18px;
     position: relative;
     top: 1px;

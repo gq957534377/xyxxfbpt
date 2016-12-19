@@ -324,7 +324,9 @@ class CommentAndLikeService
         $where = ['action_id' => $contentId, 'user_id' => $userId];
         $result = self::$likeStore->getLikeStatus($where, 'support');
 
-        switch ($result) {
+        if(!$result) $result[0] =null;
+
+        switch ($result[0]) {
             case 1 :
                 return 1;//已收藏或点赞
                 break;
@@ -334,7 +336,7 @@ class CommentAndLikeService
                 break;
 
             default :
-                return 3;//暂无改用户数据
+                return 3;//暂无该用户数据
         }
     }
 
@@ -350,7 +352,7 @@ class CommentAndLikeService
 
         if($result) {
             $nowTime = time();//当前时间戳
-            $changeTime = strtotime($result);//上次操作时间戳
+            $changeTime = strtotime($result[0]);//上次操作时间戳
             $time = $nowTime -$changeTime;//两次操作时间差值
 
             if($time<15) return false;
@@ -376,7 +378,7 @@ class CommentAndLikeService
         $where = ['action_id' => $contentId, 'user_id' => $userId];
 
         //查询用户上次与本次操作间隔是否合法
-        if(!$this->likeTime($where)) return ['StatusCode' => '400', 'ResultData' => false];
+        if(!$this->likeTime($where)) return ['StatusCode' => '400', 'ResultData' => '操作过于频繁请稍后再试！'];
 
         $data = [
             'action_id' => $contentId, //内容ID
@@ -402,7 +404,7 @@ class CommentAndLikeService
 
         if ($temp) return ['StatusCode' => '200', 'ResultData' => true];
 
-        return ['StatusCode' => '400', 'ResultData' => false];
+        return ['StatusCode' => '400', 'ResultData' => '请求失败'];
     }
 
     /**
@@ -415,7 +417,7 @@ class CommentAndLikeService
     {
         $num = self::$likeStore->getSupportNum($contentId);
 
-        if($num)return $num;
+        if($num) return $num;
 
         return 0;
     }

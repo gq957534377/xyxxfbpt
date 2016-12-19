@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProjectStore {
 
-    protected static $table = 'project_info_data';
+    protected static $table = 'data_project_info';
 
     /**
      * 增加数据
