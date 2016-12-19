@@ -110,7 +110,7 @@
 .top_right_5{
   padding:15px 0 0 15px;
 }
-.top_right_5 span{
+.top_right_5 >span{
   max-width: 147px;
   text-align: center;
   padding: 14px 0 14px 30px;
@@ -119,10 +119,10 @@
   cursor: pointer;
   position: relative;
 }
-.top_right_5 span:nth-child(1){
+.top_right_5 >span:nth-child(1){
   margin-right: 2%;
 }
-.top_right_5 span:nth-child(1)::before{
+.top_right_5 >span:nth-child(1)::before{
   position: absolute;
   width: 18px;
   height: 19px;
@@ -131,7 +131,10 @@
   display: block;
   background: url(../img/zan.jpg) no-repeat;
 }
-.top_right_5 span:nth-child(2)::before{
+.top_right_5 >span.bang:nth-child(1)::before{
+  background: url(../img/zaned.png) no-repeat;
+}
+.top_right_5 >span:nth-child(2)::before{
   position: absolute;
   width: 18px;
   height: 19px;
