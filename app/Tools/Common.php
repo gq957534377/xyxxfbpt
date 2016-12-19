@@ -132,29 +132,7 @@ class Common {
             return $info->result->success;
         }
     }
-    /**
-     * 获取分页URL
-     * @param  object $data 把传进来
-     * @param  string $table 把表名传进来
-     * @param  string $url 把主URL传进来
-     * @return mixed(array | false)
-     * @author 郭庆
-     */
 
-    public static function getPageUrl($data, $table, $url, $n, $where)
-    {
-        if (empty($table) || empty($url)) return false;
-        $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        $count     = DB::table($table)->where($where)->count();
-        $totalPage = ceil($count / $n);
-        $baseUrl   = url($url);
-        if($nowPage <= 0) $nowPage = 1;
-        if($nowPage > $totalPage) $nowPage = $totalPage;
-        return [
-            'nowPage' => $nowPage,
-            'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl, null),
-        ];
-    }
     /**
      * new获取分页URL
      * @param  object $data 把$request传进来
@@ -186,33 +164,6 @@ class Common {
 
     }
 
-    /**
-     * new获取分页URL 不包括页码
-     * @param  object $data 把$request传进来
-     * @param  string $table 把表名传进来
-     * @param  string $url 把主URL传进来
-     * @return mixed(array | false)
-     * @author 张洵之
-     */
-    public static function  getPageUrlsAjax($data, $table, $url, $n,$filed,$where)
-    {
-        if(empty($table) || empty($url)) return false;
-        $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        if($filed){
-            $count = DB::table($table)->whereIn($filed,$where)->count();
-        }else{
-            $count = DB::table($table)->where($where)->count();
-        }
-        $totalPage = ceil($count / $n);
-        $baseUrl   = url($url);
-        if($nowPage <= 0) $nowPage = 1;
-        if($nowPage > $totalPage) $nowPage = $totalPage;
-        return [
-            'nowPage' => $nowPage,
-            'pages'   => CustomPage::getSelfPageViewAjax($nowPage, $totalPage, $baseUrl,null),
-        ];
-
-    }
 
     /**
      * 返回七牛upToken

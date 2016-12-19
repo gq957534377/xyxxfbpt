@@ -116,68 +116,6 @@ class CustomPage
         $pageView = $pagePre . $pageTemp . $pageEnd;
         return $pageView;
     }
-    /**
-     * 获取整个的分页样式 不包括数字
-     * @param $nowPage 当前页
-     * @param $totalPage 共多少页面
-     * @param $baseUrl  当前url
-     * @param $search   搜索
-     * @return string
-     */
-    public static function getSelfPageViewAjax($nowPage, $totalPage, $baseUrl, $search)
-    {
-
-        $pagePre = '<ul class=" pagination">';
-        $pageEnd = '</ul>';
-
-        $pageLastStr = '';
-        $pageNextStr = '';
-        if ($nowPage <= 1) {
-            $nowPage = 1;
-            $pageLastStr = '<li class="disabled"><span>上一页</span></li>';
-        }
-        if ($nowPage >= $totalPage) {
-            $nowPage = $totalPage;
-            $pageNextStr = '<li class="disabled"><span>下一页</span></li>';
-        }
-
-        $search['totalPage'] = $totalPage;
-
-        if (empty($pageLastStr)) {
-            $lastPage = $nowPage - 1;
-            $search['nowPage'] = $lastPage;
-            $lastSearchStr = self::arrayToSearchStr($search);
-            $url = $baseUrl . '?' . $lastSearchStr;
-            $pageLastStr = self::getPageLinkWrapperAjax($url, '上一页');
-        }
-
-
-        if (empty($pageNextStr)) {
-            $pageNext = $nowPage + 1;
-            $search['nowPage'] = $pageNext;
-            $lastSearchStr = self::arrayToSearchStr($search);
-            $url = $baseUrl . '?' . $lastSearchStr;
-            $pageNextStr = self::getPageLinkWrapperAjax($url, '下一页');
-        }
-
-
-        $pageTemp = '';
-        $pageRange = self::getPageRange($nowPage, $totalPage);
-        $pageTemp .= $pageLastStr;
-        foreach ($pageRange as $page) {
-            $search['nowPage'] = $page;
-            $searchStr = self::arrayToSearchStr($search);
-            $url = $baseUrl . '?' . $searchStr;
-            if ($page == $nowPage) {
-                $pageTemp .= self::getActivePageLinkWrapper($url, $page);
-            } else {
-                $pageTemp .= self::getPageLinkWrapperAjax($url, $page);
-            }
-        }
-        $pageTemp .= $pageNextStr;
-        $pageView = $pagePre . $pageTemp . $pageEnd;
-        return $pageView;
-    }
 
     /**
      * 获取实际显示页面范围的范围

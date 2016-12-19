@@ -105,7 +105,7 @@ class ArticleService
             $where['user'] = $user;
         }
         //创建分页
-        $creatPage = Common::getPageUrls($data, "data_send_info", "/article/create", $forPages, null, $where);
+        $creatPage = Common::getPageUrls($data, "data_article_info", "/article/create", $forPages, null, $where);
         if(isset($creatPage)){
             $result["pages"] = $creatPage['pages'];
         }else{
@@ -162,6 +162,7 @@ class ArticleService
      * @param $user
      * @return array
      * author 郭庆
+     * @modify 王通
      */
     public function changeStatus($guid, $status, $user = 1)
     {
@@ -358,7 +359,8 @@ class ArticleService
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         unset($where['nowPage']);
         unset($where['totalPage']);
-        $creatPage = Common::getPageUrls($data, "data_send_info", "/send", $forPages, null, $where);
+        $creatPage = Common::getPageUrls($data, "data_article_info", "/send", $forPages, null, $where);
+
         if(isset($creatPage)){
             $result["pages"] = $creatPage['pages'];
         }else{

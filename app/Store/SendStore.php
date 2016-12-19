@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class SendStore
 {
-    protected static $table = "data_send_info";
+    protected static $table = "data_article_info";
 
     /**
      * 插入数据

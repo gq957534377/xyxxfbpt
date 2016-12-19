@@ -31,8 +31,9 @@
                 @foreach($ResultData['data'] as $val)
                     <div class="contribute-box pad-3 bb-1">
                         <div class="dis-in-bl pad-clr col-xs-12 col-sm-8">
-                            <label class="checkbox-1">
-                                <input type="checkbox" value="guid" name="itemId"  id="{{ $val->guid }}"/>
+                            {{--这里样式有BUG需要修改 checkbox-1 --}}
+                            <label class="1">
+                                <input type="checkbox" class="checkbox-contri" name="itemId"  id="{{ $val->guid }}"/>
                             </label>
                             <a class="a-style-1" href="/market/{{ $val->guid }}">{{ $val->title }}</a>
                         </div>
