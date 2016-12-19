@@ -105,7 +105,7 @@ class ActionController extends Controller
             $action = self::$actionServer->getAction(session('user')->guid);//当前用户报名参加的所有活动
             $isLogin = session('user')->guid;
             if ($action['status']){
-                $isHas = in_array($data["msg"]->guid, $action['msg']);
+                $isHas = in_array($data["ResultData"]->guid, $action['msg']);
             }else{
                 $isHas = false;
             }
@@ -113,7 +113,7 @@ class ActionController extends Controller
 
         //返回详情页
         return view("home.action.details", [
-            "data" => $data["msg"],
+            "data" => $data["ResultData"],
             'isLogin' => $isLogin,
             'isHas' => $isHas,
             'likeNum' => $likeNum,
