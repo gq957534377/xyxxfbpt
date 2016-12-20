@@ -23,9 +23,9 @@ function getInfoList(data){
     if (data) {
         console.log(data);
         if (data.StatusCode == 200) {
-            if(data.ResultData.data == '') {
-                $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
-            }else {
+            // if(data.ResultData.data == '') {
+            //     $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
+            // }else {
                 $('#data').html(listHtml(data));
                 $('#page').html(data.ResultData.pages);
                 getPage();
@@ -33,8 +33,10 @@ function getInfoList(data){
                 showInfo();
                 updates();
                 checkAction();
-            }
-        } else {
+            // }
+        } else if(data.StatusCode == 201) {
+            $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
+        }else {
             $('#myModal').modal('show');
             $('#alert-form').hide();
             $('#alert-info').html('<p>' + data.ResultData + '</p>');

@@ -97,7 +97,7 @@ class PictureService
      */
     public function getPicture ($val)
     {
-        $res = self::$picturestore->getPicture(['state' => $val]);
+        $res = self::$picturestore->getPicture(['status' => $val]);
         // 判断有没有请求道数据
         if (empty($res)) {
             return ['StatusCode' => '201', 'ResultData' => '没有数据'];

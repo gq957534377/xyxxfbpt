@@ -47,6 +47,7 @@ $(function () {
 });
 /**
  * 删除单条记录
+ * @author 王通
  */
 $('.bg-del').on('click', function () {
     me = $(this);
@@ -56,14 +57,13 @@ $('.bg-del').on('click', function () {
         }
     });
     var data = {
-        'type': 'one'
+        'type': 'one',
+        '_method': 'DELETE'
     };
     $.ajax({
-        type: 'DELETE',
+        type: 'POST',
         url: '/send/' + me.data('delete'),
         data: data,
-
-        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
         success: function(msg){
             switch (msg.StatusCode){
                 case '404':
@@ -89,10 +89,72 @@ $('.bg-del').on('click', function () {
         }
 
     });
+});
 
+$('#delete').on('click', function () {
+    getAllGuid();
+    return;
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    var data = {
+        'type': 'one',
+        '_method': 'DELETE',
+        'rew': $('.checkbox-contri').attr('checked'),
+        'qwe': 'asdfasf',
+    };
+    $.ajax({
+        type: 'POST',
+        url: '/send/all',
+        data: data,
+        success: function(msg){
+            switch (msg.StatusCode){
+                case '404':
+                    $(".loading").hide();
+                    alert(msg.ResultData);
 
+                    break;
+                case '400':
+                    $(".loading").hide();
+                    alert(msg.ResultData);
+                    break;
+                case '200':
+                    $(".loading").hide();
+                    me.parent().parent().remove();
+                    alert(msg.ResultData);
+                    break;
+            }
+        },
+        error: function(XMLHttpRequest){
+            var number = XMLHttpRequest.status;
+            var msg = "Error: "+number+",数据异常！";
+            alert(msg);
+        }
 
-})
+    });
+});
+
+/**
+ * 获取要操作的文章数组
+ * @author 王通
+ */
+
+function getAllGuid()
+{
+
+    var num = $('.checkbox-contri').size();
+    var guidArr = [];
+    var k = 0;
+    for (var i = 0; i < num; i++) {
+        if ($('.checkbox-contri:eq('+i+')').is(':checked')) {
+            guidArr[i] = $('.checkbox-contri:eq('+i+')').attr('id');
+        };
+        alert(guidArr[k++]);
+
+    }
+}
 
 
 
