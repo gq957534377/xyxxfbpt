@@ -124,7 +124,7 @@
                                 <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                     <div class="row user-say1">
                                         <span>{{ $datas->nikename }}</span>
-                                        <span>{{ $datas->time }}</span>
+                                        <span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>
                                     </div>
                                     <div class="row user-say2">
                                         <p>{{ $datas->content }}</p>

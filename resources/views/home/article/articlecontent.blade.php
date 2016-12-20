@@ -106,7 +106,7 @@
                                 <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                     <div class="row user-say1">
                                         <span>{{ $val->nikename }}</span>
-                                        <span>{{ $val->time }}</span>
+                                        <span>{{ date('Y-m-d H:m:s',$val->changetime) }}</span>
                                     </div>
                                         <div class="row user-say2">
                                         <p>{{ $val->content }}</p>
