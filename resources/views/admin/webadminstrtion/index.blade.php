@@ -28,7 +28,7 @@
     <div class="page-title">
         <div class="row">
             <div class="col-md-4">
-                <h3 class="title">活动管理</h3>
+                <h3 class="title">网站管理</h3>
             </div>
         </div>
 
@@ -50,7 +50,7 @@
                     <a class="pull-left" href="#">
                         <div id="crop-avatar3">
                             <div class="avatar-view" title="">
-                                <img id="headpic" class="thumb-lg" src="{{ url('/admin/images/jiahao.jpg') }}" alt="Avatar"/>
+                                <img id="headpic" class="thumb-lg" src="{{ asset('/admin/images/jiahao.jpg') }}" alt="Avatar"/>
                             </div>
                         </div>
                     </a>
