@@ -37,6 +37,9 @@ body {
     bottom: 0;
     width: 100%;
 }
+.zxz-footer .footer-center{
+    cursor: pointer;
+}
 img {
     max-width: 100%;
 }

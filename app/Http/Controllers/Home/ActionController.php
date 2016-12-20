@@ -48,9 +48,9 @@ class ActionController extends Controller
                     }
                 }
             }
-            return view('home.action.index', ['actions' => $result['ResultData']]);
+            return view('home.action.index', ['actions' => $result['ResultData'], 'type'=>$type]);
         }
-        return view('home.action.index', ['actions' => $result['ResultData']]);
+        return view('home.action.index', ['actions' => $result['ResultData'], 'type'=>$type]);
     }
 
     /**

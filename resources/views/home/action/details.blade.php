@@ -45,7 +45,7 @@
                     <p class="col-sm-6"><span>场地合作：</span>初橙</p>
                     <p class="col-sm-6"><span>协作：</span>苏河汇、创客加速</p>
                     <div class="col-xs-12">
-                        <img class="img-responsive" src="{{ asset('home/img/demoimg/u1591.png') }}">
+                        <img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="img-responsive" src="{{ asset('home/img/demoimg/u1591.png') }}">
                     </div>
                     <p class="col-xs-12">
                         <br>每月一期！<br>
@@ -60,7 +60,7 @@
                         下图是14、15期活动场景
                     </p>
                     <div class="col-xs-12">
-                        <img class="img-responsive" src="{{ asset($data->banner) }}">
+                        <img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="img-responsive" src="{{ asset($data->banner) }}">
                     </div>
                     <p class="col-xs-12">
                         <br>活动流程
@@ -119,7 +119,7 @@
                             <li class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                     <div class="user-img-bgs">
-                                        <img src="{{ $datas->userImg }}">
+                                        <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $datas->userImg }}">
                                     </div>
                                 </div>
                                 <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
