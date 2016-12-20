@@ -16,7 +16,7 @@
             <a href="#" class="tabs_btn" data-status="0">我是投资人<span class="triangle-down"></span></a>
         </div>
 
-        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="position: absolute;left:45%;top:45%;z-index: 9999;display: none;" >
 
         <!--申请成为创业者开始-->
         <div class="pad-4 bgc-1" id="hide_syb">
@@ -243,54 +243,60 @@
         $("#investorBox").show();
     });
 
+
     var guid = $('#topAvatar').data('id');
     // 异步先获取信息
-    $.ajax({
-        url     : '/identity/' + guid,
-        type    : 'GET',
-        beforeSend: function(){
-            $('.loading').show();
-        },
-        success : function(msg){
-            console.log(msg);
-            if (msg.StatusCode == '200') {
-                console.log(msg.ResultData);
-                switch (msg.ResultData.role) {
-                    case 2:
-                        if (msg.ResultData.status == '1') {
-                            $(".sybTitle").html('已申请成为创业者，待审核');
-                            $("#sybSubmit").hide();
-                            $(".investorTitle").html('您正在申请成为创业者，不能再次申请成为投资者');
-                            $("#investorSubmit").hide();
-                        } else if (msg.ResultData.status == '2') {
-                            $(".sybTitle").html('创业者');
-                            $("#sybSubmit").hide();
-                            $(".investorTitle").html('您已成为创业者，不能再次申请成为投资者');
-                            $("#investorSubmit").hide();
-                        }else if (msg.ResultData.status == '3') {
-                            $(".sybTitle").html('审核失败，请重新申请');
-                        }
-                       break;
-                    case 3:
-                        if (msg.ResultData.status == '1') {
-                            $(".investorTitle").html('已申请成为投资者，待审核');
-                            $("#investorSubmit").hide();
-                            $(".sybTitle").html('您正在申请成为投资者，不能再次申请成为投资者');
-                            $("#sybSubmit").hide();
-                        } else if (msg.ResultData.status == '2') {
-                            $(".investorTitle").html('投资者');
-                            $("#investorSubmit").hide();
-                            $(".sybTitle").html('您已成为投资者，不能再次申请成为创业者');
-                            $("#sybSubmit").hide();
-                        }else if (msg.ResultData.status == '3') {
-                            $(".investorTitle").html('审核失败，请重新申请');
-                        }
-                       break;
+    function loadAjax()
+    {
+        $.ajax({
+            url     : '/identity/' + guid,
+            type    : 'GET',
+            beforeSend: function(){
+                $('.loading').show();
+            },
+            success : function(msg){
+                console.log(msg);
+                if (msg.StatusCode == '200') {
+                    console.log(msg.ResultData);
+                    switch (msg.ResultData.role) {
+                        case 2:
+                            if (msg.ResultData.status == '1') {
+                                $(".sybTitle").html('已申请成为创业者，待审核');
+                                $("#sybSubmit").hide();
+                                $(".investorTitle").html('您正在申请成为创业者，不能再次申请成为投资者');
+                                $("#investorSubmit").hide();
+                            } else if (msg.ResultData.status == '2') {
+                                $(".sybTitle").html('创业者');
+                                $("#sybSubmit").hide();
+                                $(".investorTitle").html('您已成为创业者，不能再次申请成为投资者');
+                                $("#investorSubmit").hide();
+                            }else if (msg.ResultData.status == '3') {
+                                $(".sybTitle").html('审核失败，请重新申请');
+                            }
+                            break;
+                        case 3:
+                            if (msg.ResultData.status == '1') {
+                                $(".investorTitle").html('已申请成为投资者，待审核');
+                                $("#investorSubmit").hide();
+                                $(".sybTitle").html('您正在申请成为投资者，不能再次申请成为投资者');
+                                $("#sybSubmit").hide();
+                            } else if (msg.ResultData.status == '2') {
+                                $(".investorTitle").html('投资者');
+                                $("#investorSubmit").hide();
+                                $(".sybTitle").html('您已成为投资者，不能再次申请成为创业者');
+                                $("#sybSubmit").hide();
+                            }else if (msg.ResultData.status == '3') {
+                                $(".investorTitle").html('审核失败，请重新申请');
+                            }
+                            break;
+                    }
                 }
+                $('.loading').hide();
             }
-            $('.loading').hide();
-        }
-    });
+        });
+    }
 
+    loadAjax();
 </script>
+
 @endsection

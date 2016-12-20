@@ -9,11 +9,18 @@ $(document).ready(function (){
     var user_birthday = $(".user_birthday");
     var user_webchat = $(".user_webchat");
     var user_info = $(".user_info");
+    var user_company = $(".user_company");
+    var user_company_position = $(".user_company_position");
+    var user_company_address = $(".user_company_address");
     // 隐藏个人信息表单
     var hide_avatar = $('#head-pic');
     var hide_realname = $('input[name = "realname"]');
     var hide_nickname = $('input[name = "nickname"]');
     var hide_birthday = $('input[name = "birthday"]');
+    var hide_introduction = $('textarea[name = "introduction"]');
+    var hide_company = $('input[name = "company"]');
+    var hide_company_position = $('input[name = "company_position"]');
+    var hide_company_address = $('input[name = "company_address"]');
 
     // 异步获取用户数据
     $.ajax({
@@ -45,7 +52,11 @@ $(document).ready(function (){
                     user_birthday.html(msg.ResultData.birthday);
                     // user_webchat.html('无');
                     user_info.html(msg.ResultData.introduction);
+                    user_company.html(msg.ResultData.company);
+                    user_company_position.html(msg.ResultData.company_position);
+                    user_company_address.html(msg.ResultData.company_address);
 
+                    // 隐藏表单数据信息
                     hide_avatar.attr('src',msg.ResultData.headpic);
                     hide_realname.empty().val(msg.ResultData.realname);
                     hide_nickname.empty().val(msg.ResultData.nickname);
@@ -61,6 +72,10 @@ $(document).ready(function (){
                     }
 
                     hide_birthday.empty().val(msg.ResultData.birthday);
+                    hide_introduction.empty().val(msg.ResultData.introduction);
+                    hide_company.val(msg.ResultData.company);
+                    hide_company_position.val(msg.ResultData.company_position);
+                    hide_company_address.val(msg.ResultData.company_address);
 
                     $(".loading").hide();
                     break;
@@ -83,9 +98,20 @@ $(document).ready(function (){
 
     });
 
+    $('#editRevoke').click(function(){
+        $('#userinfo').show();
+        $('#editUserInfo').hide();
+
+    });
+
     $('#editCompanyBtn').click(function(){
         $('#userinfo').hide();
         $('#editCompanyInfo').show();
+    });
+
+    $('#editCompanyRevoke').click(function(){
+        $('#userinfo').show();
+        $('#editCompanyInfo').hide();
     });
 
     // 编辑保存用户信息
@@ -100,6 +126,7 @@ $(document).ready(function (){
         };
         ajaxRequire('user/'+guid, 'PUT', data, $("#editUserInfo"), 2);
 
+        user_nickname.html($('input[name="nickname"]').val());
         user_name.html($('input[name="realname"]').val());
 
         var sex ='';
@@ -130,5 +157,21 @@ $(document).ready(function (){
         }
     });
 
+    // 公司信息保存
+    $("#editCompanySubmit").click(function(){
+        var data = {
+            'company' : hide_company.val(),
+            'company_position' : hide_company_position.val(),
+            'company_address' : hide_company_address.val()
+        };
+        ajaxRequire('user/'+guid, 'PUT', data, $("#editCompanyInfo"), 2);
+
+        user_company.html(hide_company.val());
+        user_company_position.html(hide_company_position.val());
+        user_company_address.html(hide_company_address.val());
+
+        $('#userinfo').show();
+        $('#editCompanyInfo').hide();
+    });
 });
 

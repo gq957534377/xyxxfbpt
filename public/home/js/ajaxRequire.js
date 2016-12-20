@@ -6,7 +6,7 @@
 {
     var width = obj.width()/2 -40;
     var height = obj.height()/2 -50;
-    $(".loading").css({'width':'80px','height':'80px','left':width,'top':height}).show();
+    $(".loading").show();
 }
 // 初始化数据
 function ajaxRequire(url, type, data, obj, model)
