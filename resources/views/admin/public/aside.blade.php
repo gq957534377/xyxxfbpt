@@ -3,7 +3,7 @@
 
     <!-- brand -->
     <div class="logo">
-        <a href="index.html" class="logo-expanded">
+        <a href="{{ url('/') }}" class="logo-expanded">
             <i class="ion-social-buffer"></i>
             <span class="nav-label">Hero Meeting</span>
         </a>

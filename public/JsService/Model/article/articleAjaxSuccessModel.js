@@ -6,13 +6,13 @@
 function listHtml(data){
     var html = '';
     console.log(data);
-    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th>文章类型</th><th>文章标题</th><th>发布人</th><th>发布时间</th><th>文章状态</th><th>文章来源</th><th>操作</th></tr></thead><tbody>';
+    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th style="text-align:center;">文章类型</th><th style="text-align:center;">文章标题</th><th style="text-align:center;">发布人</th><th style="text-align:center;">发布时间</th><th style="text-align:center;">文章状态</th><th style="text-align:center;">文章来源</th><th style="text-align:center;">操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
         html += '<td>' + type(e.type)+ '</td>';
         html += '<td>' + e.title+ '</td>';
         html += '<td>' + e.author + '</td>';
-        html += '<td>' + e.time+'</td>';
+        html += '<td>' + getLocalTime(e.addtime)+'</td>';
         html += '<td>' + status(e.status)+'</td>';
         html += '<td>' + e.source+'</td>';
         html += '<td><a class="info btn btn-xs btn-warning tooltips" style="border-radius: 6px;" data-name="' + e.guid + '" href="javascript:;" data-toggle="modal" data-target="#full-width-modal">详情</a>&nbsp';
@@ -50,6 +50,7 @@ function type(type) {
     }
     return res;
 }
+
 //文章状态
 function status(status) {
     var res;
@@ -89,7 +90,7 @@ function showInfoList(data){
             data = data.ResultData;
             console.log(data);
             $('#xq_title').html(data.title);
-            $('#xq_time_author').html(data.time+'     发表人：'+ data.author);
+            $('#xq_time_author').html(getLocalTime(data.addtime)+'     发表人：'+ data.author);
             $('#xq_banner').attr('src',data.banner);
             $('#xq_source').html('<h5>来源：'+data.source+'</h5>');
             $('#xq_brief').html(data.brief);

@@ -50,7 +50,7 @@ class ActionStore
         if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
         return DB::table(self::$table)
            ->where($where)
-           ->orderBy("change_time","desc")
+           ->orderBy("addtime","desc")
            ->forPage($page,$tolPage)
            ->get();
     }
