@@ -13,6 +13,7 @@ use App\Store\ActionOrderStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
 use App\Tools\Common;
+use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -197,46 +198,48 @@ class ActionService
         if ($old == $status) return ['status' => false, "msg" => '无需更改'];
         return ['status' => true, "msg" => $status];
     }
+
+
     /**
      * 分页查询
-     * @param $request
+     * @param array $where 查询条件
+     * @param int $nowPage  当前页
+     * @param int $forPages 一页获取的数量
+     * @param string $url 请求的路由url
+     * @param boolean $disPlay 是否需要分页样式
      * @return array
-     * author 张洵之
-     * @modify 郭庆
+     * author 郭庆
      */
-    public function selectData($request)
+    public function selectData($where, $nowPage, $forPages, $url, $disPlay=true)
     {
-        //数据初始化
-        $data = $request->all();
-        $forPages = 5;//一页的数据条数
-        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        $status = $data["status"];//活动状态：开始前 进行中  结束
-        $type = $data["type"];//获取数据类型
-        $where = [];
-        if($status){
-            $where["status"] = $status;
+        //查询总记录数
+        $count = self::$actionStore->getCount($where);
+        if (!$count) {
+            //如果没有数据直接返回201空数组，函数结束
+            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
+            return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
         }
-        if($type!="null"){
-            $where["type"] = $type;
-        }
-
-        //创建分页
-        $creatPage = Common::getPageUrls($data, "data_action_info", "/action/create", $forPages, null, $where);
-        if(isset($creatPage)){
-            $result["pages"] = $creatPage['pages'];
-        }else{
-            \Log::info('生成分页出错:', $creatPage);
-            return ['status' => false, 'msg' => '生成分页样式发生错误'];
-        }
+        //计算总页数
+        $totalPage = ceil($count / $forPages);
 
         //获取对应页的数据
-        $Data = self::$actionStore->forPage($nowPage, $forPages, $where);
-        if($Data || empty($Data)){
-            $result["data"] = $Data;
-            return ['status' => true, 'msg' => $result];
+        $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
+        if($result['data']){
+            if ($disPlay && $totalPage > 1) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+
+                if($creatPage){
+                    $result["pages"] = $creatPage;
+                }else{
+                    return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
+                }
+            }else{
+                $result["pages"] = '';
+            }
+            return ['StatusCode' => 200,'ResultData' => $result];
         }else{
-            \Log::info('获取活动分页数据出错:', $Data);
-            return ['status' => false, 'msg' => "数据参数有误！"];
+            return ['StatusCode' => 500,'ResultData' => '获取分页数据失败！'];
         }
     }
 
