@@ -37,20 +37,21 @@ class ProjectController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 贾济林
      * @modify 刘峻廷
+     * @modify 张洵之
      */
     public function index()
     {
         $where = ['disable'=>'0','status'=>'3'];
 
         $res = self::$projectServer->getData($where);
-        // 处理内容，限制字数
-        $projects = $res['data'];
-        Common::wordLimit($projects, 'content', 15);
 
         if (!$res['status']) {
             $projects = [];
             return view('home.projects.index', compact('projects'));
         } else {
+            // 处理内容，限制字数
+            $projects = $res['data'];
+            Common::wordLimit($projects, 'content', 15);
             return view('home.projects.index', compact('projects'));
         }
 
@@ -195,6 +196,13 @@ class ProjectController extends Controller
             return response()->json(['ServerNo' => 400, 'ResultData' => $validator->errors()->first()]);
         }
 
+    }
+
+    public function lists(Request $request)
+    {
+        $type = (int)$request->input('type');
+        $result = self::$projectServer->ajaxForClass();
+        return response()->json($result);
     }
 
 }

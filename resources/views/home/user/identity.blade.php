@@ -97,7 +97,7 @@
                     </div>
                     <div class="form-group mar-b30">
                         <label for="inputfile" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>上传身份证（正面）</label>
-                        <input type="hidden" name="1">
+                        <input type="hidden" name="syb_card_pic">
                         <div class="col-md-5">
                             <div class="ibox-content">
                                 <div class="row">
