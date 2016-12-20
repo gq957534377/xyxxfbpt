@@ -190,7 +190,7 @@ class ArticleService
      */
     public function upDta($where, $data)
     {
-        $data["time"] = date("Y-m-d H:i:s", time());
+        $data["addtime"] = time();
         $Data = self::$articleStore->upload($where, $data);
         if($Data){
             return ['StatusCode'=> 200,'ResultData' => "修改成功"];
