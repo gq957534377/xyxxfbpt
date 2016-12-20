@@ -472,7 +472,7 @@ class ActionService
     public function takeActions($type, $status = null,$number = 3)
     {
 
-        if (!isset($type)) return ['status' => false, 'msg' => '缺少参数'];
+        if (!isset($type)) return ['StatusCode' => '400', 'ResultData' => '缺少参数'];
 
         if (isset($status)) {
             $where = ['type' => $type, 'status' => $status];
@@ -480,13 +480,13 @@ class ActionService
             $where = ['type' => $type];
         }
 
-        $result = self::$actionStore->takeActions($where,$number);
+        $result = self::$actionStore->takeActions($where, $number);
 
-        if ($result) return ['status' => true, 'msg' => $result];
+        if ($result) return ['StatusCode' => '200', 'ResultData' => $result];
 
         Log::error('拿取三条活动数据失败', $result);
 
-        return ['status' => false, 'msg' => '查询失败'];
+        return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
     }
 
     /**
@@ -500,7 +500,7 @@ class ActionService
     {
         foreach($words as $word){
             $content = trim($word->$filed);
-            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';;
+            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
             $word->$filed = $content;
         }
 

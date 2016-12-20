@@ -80,8 +80,9 @@ class ProjectService {
     {
         $data = self::$projectStore->takeData($number);
 
-        if (!$data) return ['status' => false, 'msg' => '查询失败'];
-        return ['status' => true, 'msg' => $data];
+        if (!$data) return ['StatusCode' => '204', 'ResultData' => '暂无无数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $data];
     }
 
     /**
