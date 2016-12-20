@@ -41,7 +41,7 @@
                         switch (data.StatusCode){
                             case '400':
                                 // promptBoxHandle('警告',data.ResultData);
-                                alert('警告',data.ResultData);
+                                alert(data.ResultData);
                                 break;
                             case '200':
                                 var html = '<li class="row">';
