@@ -312,7 +312,7 @@
                 str +=  '<td>';
 
                 if(v.status == 1){
-                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-danger btn-xs">禁用</button></a>';
+                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-danger btn-xs" style="border-radius:6px">禁用</button></a>';
                 }
                 if(v.status == 2){
                     str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-success btn-xs">启用</button></a>';
