@@ -2,7 +2,7 @@
 @section('content')
 @section('title', '功能测试')
         {{-- 弹出表单开始 --}}
-        <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">表单弹窗</button>
+
         <!--继承组件-->
         <!--替换按钮ID-->
         @section('form-id', 'con-close-modal')
@@ -21,95 +21,12 @@
         @endsection
         {{-- 弹出表单结束 --}}
 
-
-{{-- AlertInfo --}}
-<a href="javascript:;" class="md-trigger btn btn-primary btn-sm" data-modal="modal-1">Show Me</a>
 @section('alertInfo-title', '弹出标题')
 @section('alertInfo-body')
-    <p>This is a modal window. You can do the following things with it:</p>
-    <ul>
-        <li><strong>Read:</strong> modal windows will probably tell you something important so don't forget to read what they say.</li>
-        <li><strong>Look:</strong> a modal window enjoys a certain kind of attention; just look at it and appreciate its presence.</li>
-        <li><strong>Close:</strong> click on the button below to close the modal.</li>
-    </ul>
-    @endsection
+
+@endsection
 {{-- AlertInfoEnd --}}
-
-<!-- 表单验证 -->
-<div class="row">
-
-    <div class="col-sm-12">
-        <div class="panel panel-default">
-            <div class="panel-heading"><h3 class="panel-title">Form validations</h3></div>
-            <div class="panel-body">
-                <div class=" form">
-                    <form class="cmxform form-horizontal tasi-form" id="signupForm" method="get" action="#" novalidate="novalidate">
-                        <div class="form-group ">
-                            <label for="fname" class="control-label col-lg-2">Fname *</label>
-                            <div class="col-lg-10">
-                                <input class=" form-control" id="fname" name="fname" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="lastname" class="control-label col-lg-2">Lastname  *</label>
-                            <div class="col-lg-10">
-                                <input class=" form-control" id="lastname" name="lastname" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="username" class="control-label col-lg-2">Username *</label>
-                            <div class="col-lg-10">
-                                <input class="form-control " id="username" name="username" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="password" class="control-label col-lg-2">Password *</label>
-                            <div class="col-lg-10">
-                                <input class="form-control " id="password" name="password" type="password">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="confirm_password" class="control-label col-lg-2">Confirm Password *</label>
-                            <div class="col-lg-10">
-                                <input class="form-control " id="confirm_password" name="confirm_password" type="password">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="email" class="control-label col-lg-2">Email *</label>
-                            <div class="col-lg-10">
-                                <input class="form-control " id="email" name="email" type="email">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="agree" class="control-label col-lg-2 col-sm-3">Agree to Our Policy *</label>
-                            <div class="col-lg-10 col-sm-9">
-                                <input type="checkbox" style="width: 16px" class="checkbox form-control" id="agree" name="agree">
-                            </div>
-                        </div>
-                        <div class="form-group ">
-                            <label for="newsletter" class="control-label col-lg-2 col-sm-3">Receive the Newsletter</label>
-                            <div class="col-lg-10 col-sm-9">
-                                <input type="checkbox" style="width: 16px" class="checkbox form-control" id="newsletter" name="newsletter">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <div class="col-lg-offset-2 col-lg-10">
-                                <button class="btn btn-success" type="submit">Save</button>
-                                <button class="btn btn-default" type="button">Cancel</button>
-                            </div>
-                        </div>
-                    </form>
-                </div> <!-- .form -->
-
-            </div> <!-- panel-body -->
-        </div> <!-- panel -->
-    </div> <!-- col -->
-
-</div>
-<!-- 表单验证结束-->
-
+<h1>英雄会管理</h1>
 
 @endsection
 

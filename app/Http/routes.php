@@ -146,6 +146,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         //发布项目
         Route::resource('/project', 'ProjectController');
         Route::resource('/project_user','ProjectUsersController');
+        //项目列表ajax请求
+        Route::post('/project/list','ProjectController@lists')->name('projectList');
         //活动管理
         Route::resource('/activity', 'ActivityController');
         //投稿管理

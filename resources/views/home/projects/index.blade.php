@@ -17,18 +17,18 @@
 <section class="hang container-fluid">
     <form>
         <ul class="row selected">
-            <li class="col-lg-1 col-md-1 col-sm-1 col-xs-6">默认排序</li>
+            <li class="col-lg-2 col-md-2 col-sm-2 col-xs-5">上线日期：</li>
             <li class="col-lg-2 col-md-2 col-sm-2 col-xs-6 form-group">
                 <div class="btn-group">
-                    <button type="button" class="btn">全部</button>
-                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                    <button data-id="0" id="upId" type="button" class="btn">默认</button>
+                    <button  type="button"  class="btn dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                         <span class="sr-only"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">最近三天</a></li>
-                        <li><a href="#">最近一周</a></li>
-                        <li><a href="#">最近一月</a></li>
+                        <li data-id="1"><a href="#">最近三天</a></li>
+                        <li data-id="2"><a href="#">最近一周</a></li>
+                        <li data-id="3"><a href="#">最近一月</a></li>
                     </ul>
                 </div>
             </li>
@@ -54,7 +54,7 @@
                         <!--p标签内容不可超过40个中文简体字-->
                         <div>
                             <span>21</span>
-                            <span>12723</span>
+                            {{--<span>12723</span>--}}
                         </div>
                     </div>
                 </div>
@@ -63,4 +63,35 @@
     </ul>
 </section>
 <!--主体内容行结束-->
+@endsection
+@section('script')
+    <script>
+        $('.dropdown-menu li').click(function () {
+            //请求类型0-默认 1-最近三天 2-最近一周 3-最近一月
+            var type =$(this).attr('data-id');
+            var obj = $(this)
+            $.ajax({
+                type:'post',
+                url:'{{route('projectList')}}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{type:type},
+                success:function (data) {
+
+                    changeStyle(obj);
+                }
+            })
+
+        })
+        //ajax请求成功后修改按钮样式的方法
+        function changeStyle(obj) {
+            var nowId = obj.attr('data-id');
+            var nowName = obj.children('a').html();
+            var upIds = $('#upId').attr('data-id');
+            var upName = $('#upId').html();
+            obj.attr('data-id',upIds).children('a').html(upName);
+            $('#upId').attr('data-id',nowId).html(nowName);
+        }
+    </script>
 @endsection

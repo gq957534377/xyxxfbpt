@@ -3,7 +3,7 @@
 
     <!-- brand -->
     <div class="logo">
-        <a href="index.html" class="logo-expanded">
+        <a href="{{ url('/') }}" class="logo-expanded">
             <i class="ion-social-buffer"></i>
             <span class="nav-label">Hero Meeting</span>
         </a>
@@ -13,7 +13,7 @@
     <!-- Navbar Start -->
     <nav class="navigation">
         <ul class="list-unstyled">
-            <li class="active"><a href="{{url('/')}}"><i class="zmdi zmdi-view-dashboard"></i> <span class="nav-label">控制台</span></a></li>
+            {{--<li class="active"><a href="{{url('/')}}"><i class="zmdi zmdi-view-dashboard"></i> <span class="nav-label">控制台</span></a></li>--}}
 
             <li>
                 <a href="{{url('user')}}"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span></a>

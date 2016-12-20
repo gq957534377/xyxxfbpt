@@ -40,8 +40,11 @@ class HomeController extends Controller
     {
         // 精选项目,随机拿取3条
         $projectResult = self::$projectServer->takeData();
-        // 推送内容限定字数
-        self::$actionServer->wordLimit($projectResult['msg'], 'content',60);
+
+        if ($projectResult['StatusCode'] == '200') {
+            // 推送内容限定字数
+            self::$actionServer->wordLimit($projectResult['ResultData'], 'content',60);
+        }
 
         // 路演活动
         $roadShowResult = self::$actionServer->takeActions(1);
@@ -49,7 +52,11 @@ class HomeController extends Controller
         $sybResult = self::$actionServer->takeActions(2);
         // 学习培训活动
         $trainResult = self::$actionServer->takeActions(3, null, 2);
-        self::$actionServer->wordLimit($trainResult['msg'], 'brief',60);
+
+        if ($trainResult['StatusCode'] == '200') {
+            // 推送内容限定字数
+            self::$actionServer->wordLimit($trainResult['ResultData'], 'brief',60);
+        }
 
         // 轮播图，投资合作管理，
         $cooperResult = self::$pictureService->getPicture(2);
@@ -63,12 +70,12 @@ class HomeController extends Controller
 
         $carousel = $carouselResult['ResultData'];
         $invest = $investResult['ResultData'];
-        $projects = $projectResult['msg'];
-        $roadShows  = $roadShowResult['msg'];
-        $sybs = $sybResult['msg'];
-        $trains = $trainResult['msg'];
+        $projects = $projectResult['ResultData'];
+        $roadShows  = $roadShowResult['ResultData'];
+        $sybs = $sybResult['ResultData'];
+        $trains = $trainResult['ResultData'];
 
-        return view('home.index.index', compact('projects', 'roadShows', 'sybs', 'trains', 'cooper', 'carousel', 'invest'));
+        return view('home.index.index', compact('projects','roadShows', 'sybs', 'trains', 'cooper', 'carousel', 'invest'));
     }
 
     /**
