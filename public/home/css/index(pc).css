@@ -722,6 +722,10 @@ section{
 	float: right;
 }
 /***pc版众筹区域样式结束****/
+#section6{
+	max-width: 1200px;
+	width: 100%;
+}
 /***pc版英雄社区与市场咨询区域样式开始****/
 .section6_top{
 	max-width:1200px;
