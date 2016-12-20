@@ -106,7 +106,7 @@ function deleteAjax (method, id)
                         $('#' + val).parent().parent().parent().remove();
                     })
 
-                    alert(msg.ResultData);
+                    alert('删除成功');
                     break;
             }
         },
