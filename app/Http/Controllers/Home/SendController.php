@@ -71,24 +71,33 @@ class SendController extends Controller
      *
      * @return array
      * @author 郭庆
+     * @modify 王通
      */
     public function store(Request $request)
     {
 
         $data = $request->all();
+        // 判断验证法是否在正确
+        if ($data['verif_code'] != session('code')) {
+            return response()->json(['StatusCode' => '400', 'ResultData' => '验证码错误']);
+            // 判断图片是否正确
+        } else if (empty(session('picture_contri')) || (session('picture_contri') != $data['banner'])) {
+            return response()->json(['StatusCode' => '400', 'ResultData' => '参数错误']);
+        }
+        unset($data['verif_code']);
 
         $data['user_id'] = session('user')->guid;
+        // 取出用户信息
         $res = self::$userServer->userInfo(['guid' => $data['user_id']]);
-        if ($res['status']){
-            $data['author'] = $res['msg']->nickname;
-            $data['headpic'] = $res['msg']->headpic;
+        if ($res['StatusCode'] ==  '200'){
+            $data['author'] = $res['ResultData']->nickname;
+            $data['headpic'] = $res['ResultData']->headpic;
         }else{
             $data['author'] = '佚名';
             $data['headpic'] = '/home/images/logo.jpg';
         }
-        $result = self::$articleServer->addSend($data);
-        if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
-        return ['StatusCode' => 400, 'ResultData' => $result['msg']];
+        $result = self::$articleServer->addArticle($data);
+        return response()->json($result);
     }
 
 
@@ -163,13 +172,11 @@ class SendController extends Controller
      */
     public function destroy($id, Request $request)
     {
-        dd($request->all());
-        if ($request['type'] == 'one') {
-            $result = self::$articleServer->changeStatus($id, 5, 2);
+        if (empty($request['id']) || !is_array($request['id'])) {
+            return response()->json(['StatusCode' => '400', 'ResultData' => '参数错误！']);
         }
-
-        if ($result['StatusCode'] == '200') return ['StatusCode' => '200', 'ResultData' => $result['ResultData']];
-        return ['StatusCode' => '400', 'ResultData' => '删除失败！'];
+        $result = self::$articleServer->changeStatus($request['id'], 5, 2);
+        return response()->json($result);
     }
 
     public function selUserArticleList ()
