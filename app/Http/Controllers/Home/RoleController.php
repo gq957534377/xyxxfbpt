@@ -172,7 +172,7 @@ class RoleController extends Controller
         $info = Avatar::avatar($request);
         if ($info['status'] == '400') return response()->json(['StatusCode' => '400','ResultData' => '文件上传失败!']);
         $avatarName = $info['msg'];
-
+        session(['picture_contri' => $avatarName]);
         return response()->json(['StatusCode' => '200','ResultData' => $avatarName]);
     }
 }

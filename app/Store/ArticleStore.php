@@ -41,17 +41,19 @@ class ArticleStore
     }
 
     /**
-     * 获取IN数组中对应的数据
+     * 获取IN数组中对应的用户账户，
      *
      * @return \Illuminate\Http\Response
      * @author 王通
      */
-    public function getAllData($where)
+    public function getDataUserId($where)
     {
         return DB::table(self::$table)
-            ->whereIn($where)
+            ->select('user_id')
+            ->whereIn('guid', $where)
             ->where('status', '<>', 5)
-            ->first();
+            ->distinct()
+            ->get();
     }
     /**
      * 分页查询数据
@@ -94,7 +96,7 @@ class ArticleStore
     }
 
     /**
-     * 批量
+     * 批量 更新数据
      * @param $where
      * @param $data
      * @return null
@@ -102,7 +104,7 @@ class ArticleStore
      */
     public function updataAll($where, $data)
     {
-        return DB::table(self::$table)->whereIn($where)->update($data);
+        return DB::table(self::$table)->whereIn('guid', $where)->update($data);
     }
 
     /**

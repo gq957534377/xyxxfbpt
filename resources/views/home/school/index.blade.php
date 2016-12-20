@@ -25,7 +25,7 @@
             @foreach($schooldata as $data)
             <li class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
               <div class="content-block">
-                <img src="{{$data->banner}}">
+                <img src="{{$data->banner}} " onerror="this.src='{{asset('home/img/zxz.png')}}'">
                 <h2><a href="{{ route('action.show', $data->guid) }}">{{$data->title}}</a></h2>
                 <p>
                   {{$data->brief}}

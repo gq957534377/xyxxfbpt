@@ -86,18 +86,20 @@ class ArticleService
      */
     public function selectData($where, $nowPage, $forPages, $url, $disPlay=true)
     {
-
+        //查询总记录数
         $count = self::$articleStore->getCount($where);
         if (!$count) {
-            if ($count == 0) return ['StatusCode' => '201', 'ResultData' => []];
+            //如果没有数据直接返回201空数组，函数结束
+            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
             return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
         }
+        //计算总页数
         $totalPage = ceil($count / $forPages);
 
         //获取对应页的数据
-        $res = self::$articleStore->forPage($nowPage, $forPages, $where);
-        if($res){
-            if ($disPlay) {
+        $result['data'] = self::$articleStore->forPage($nowPage, $forPages, $where);
+        if($result['data']){
+            if ($disPlay && $totalPage>1) {
                 //创建分页样式
                 $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
 
@@ -106,9 +108,8 @@ class ArticleService
                 }else{
                     return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
                 }
-                $result['data'] = $res;
             }else{
-                $result = $res;
+                $result["pages"] = '';
             }
             return ['StatusCode' => 200,'ResultData' => $result];
         }else{
@@ -150,60 +151,36 @@ class ArticleService
 
     /**
      * 修改文章状态
-     * @param $guid
+     * @param $guidAll 数组，['guid1', 'guid2', ***]
      * @param $status
      * @param $user
      * @return array
      * author 郭庆
      * @modify 王通
      */
-    public function changeStatus($guid, $status, $user = 1)
+    public function changeStatus($guidAll, $status, $user = 1)
     {
-        if(!(isset($guid) && isset($status))){
-            return ['StatusCode'=> '400', 'ResultData' => "数据参数有误"];
-        }
-        if ($user = 1) {
-            $Data = self::$articleStore->upload(["guid" => $guid], ["status" => $status]);
+
+        if ($user == 1) {
+            $Data = self::$articleStore->upload(["guid" => $guidAll['id']], ["status" => $status]);
         } else {
-            $result = self::$articleStore->getOneData(['guid' => $guid]);
-            if (empty($result) || ($result->user_id != session('user')->guid)) {
+            $result = self::$articleStore->getDataUserId($guidAll['id']);
+
+            if (empty($result) || !is_array($result) || (count($result) != 1) || ($result[0]->user_id != session('user')->guid)) {
                 return ['StatusCode'=> '400', 'ResultData' => "没有权限"];
             } else {
-                $Data = self::$articleStore->upload(["guid" => $guid], ["status" => $status]);
+
+                $Data = self::$articleStore->updataAll($guidAll['id'], ["status" => $status]);
+
             }
         }
 
         //判断修改结果并返回
-        if($Data) return ['StatusCode'=> '200', 'ResultData' => "修改状态成功"];
+        if(!empty($Data)) return ['StatusCode'=> '200', 'ResultData' => "修改状态成功"];
         return ['StatusCode'=> '500', 'ResultData' => "服务器忙，修改失败"];
     }
 
-    /**
-     * 批量修改文章状态
-     * @param $guidAll
-     * @param $status
-     * @return array
-     * $author 王通
-     */
-    public function userChangeStatus($guidAll, $status)
-    {
-        if ($user = 1) {
-            $Data = self::$articleStore->updataAll(["guid" => $guidAll], ["status" => $status]);
-        } else {
-            $result = self::$articleStore->getAllData(['guid' => $guidAll]);
-            dd($result);
-            if (empty($result) || ($result->user_id != session('user')->guid)) {
-                return ['StatusCode'=> '400', 'ResultData' => "没有权限"];
-            } else {
-                $Data = self::$articleStore->updataAll(["guid" => $guidAll], ["status" => $status]);
-            }
-        }
 
-
-        //判断修改结果并返回
-        if($Data) return ['StatusCode'=> '200', 'ResultData' => "修改状态成功"];
-        return ['StatusCode'=> '500', 'ResultData' => "服务器忙，修改失败"];
-    }
     /**
      * 修改文章内容
      * @param $where
@@ -412,8 +389,8 @@ class ArticleService
         $result = self::$articleStore->insertData($data);
 
         //判断插入是否成功，并返回结果
-        if(isset($result)) return ['status' => true, 'msg' => $result];
-        return ['status' => false, 'msg' => '存储数据发生错误'];
+        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => $result];
+        return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
     }
 
     /**

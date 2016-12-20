@@ -102,7 +102,7 @@ class ArticleController extends Controller
         if ($status == 3 && $user == 2){
             $result = self::$articleServer->upDta(['guid'=>$id], ['status' => 3, 'reason' => $request["reason"], 'user'=>2]);
         }else{
-            $result = self::$articleServer->changeStatus($id, $status);
+            $result = self::$articleServer->changeStatus(['id' => $id], $status);
         }
         return response()->json($result);
     }
