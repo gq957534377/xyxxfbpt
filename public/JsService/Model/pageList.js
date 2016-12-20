@@ -45,3 +45,8 @@ function getPage() {
         return false;
     });
 }
+
+//时间转换
+function getLocalTime(nS) {
+    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+}
