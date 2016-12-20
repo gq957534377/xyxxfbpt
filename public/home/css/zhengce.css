@@ -29,6 +29,37 @@
 }
 .list-img img{
   width: 100%;
+  height: 140px;
+}
+@media screen and (max-width:767px){
+  .list-img img{
+    width: 100%;
+    height: 340px;
+  }
+}
+@media screen and (max-width:620px){
+  .list-img img{
+    width: 100%;
+    height: 300px;
+  }
+}
+@media screen and (max-width:520px){
+  .list-img img{
+    width: 100%;
+    height: 240px;
+  }
+}
+@media screen and (max-width:420px){
+  .list-img img{
+    width: 100%;
+    height: 200px;
+  }
+}
+@media screen and (max-width:380px){
+  .list-img img{
+    width: 100%;
+    height: 160px;
+  }
 }
  .article-list .list-font{
   padding-left: 20px;

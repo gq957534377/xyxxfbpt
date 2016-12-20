@@ -18,16 +18,22 @@
     <form>
         <ul class="row selected">
             <li class="col-lg-1 col-md-1 col-sm-1 col-xs-6">默认排序</li>
-            <li class="col-lg-1 col-md-1 col-sm-1 col-xs-6">
-                <select name="" id="">
-                    <option value="">最近三天</option>
-                    <option value="">最近一周</option>
-                    <option value="">最近一月</option>
-                    <option value="">全部</option>
-                </select>
+            <li class="col-lg-2 col-md-2 col-sm-2 col-xs-6 form-group">
+                <div class="btn-group">
+                    <button type="button" class="btn">全部</button>
+                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">最近三天</a></li>
+                        <li><a href="#">最近一周</a></li>
+                        <li><a href="#">最近一月</a></li>
+                    </ul>
+                </div>
             </li>
-            <li class="col-lg-2 col-md-2 col-sm-2 col-xs-6"><input placeholder='结果中搜索项目名称' name="selects" type="text"></li>
-            <li class="col-lg-1 col-md-1 col-sm-1 col-xs-3"><button type="button">搜索</button></li>
+            {{--<li class="col-lg-2 col-md-2 col-sm-2 col-xs-6"><input placeholder='结果中搜索项目名称' name="selects" type="text"></li>--}}
+            {{--<li class="col-lg-1 col-md-1 col-sm-1 col-xs-3"><button type="button">搜索</button></li>--}}
         </ul>
     </form>
 </section>
