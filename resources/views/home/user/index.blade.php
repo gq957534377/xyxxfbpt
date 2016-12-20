@@ -43,9 +43,9 @@
             <span>公司信息</span>
             <a href="#" id="editCompanyBtn" class="pull-right">编辑</a>
             <ul class="list-unstyled">
-                <li>在职公司<span>XXXXXXXXXX</span></li>
-                <li>职位<span>XXXXXXXXXX</span></li>
-                <li>所在地<span>XXXXXXXXXX</span></li>
+                <li>在职公司<span class="user_company">XXXXXXXXXX</span></li>
+                <li>职位<span class="user_company_position">XXXXXXXXXX</span></li>
+                <li>所在地<span class="user_company_address">XXXXXXXXXX</span></li>
             </ul>
         </div>
     </div>
@@ -97,7 +97,7 @@
                 <div class="form-group mar-b15">
                     <span class="col-md-2 control-label mar-b10 dis-in-bl">生日</span>
                       <div class="col-md-4">
-                          <input type="text" name="birthday" class="form-control pad-clr-xs text-center date-time" id="birthday-year"></div>
+                          <input type="text" name="birthday" class="form-control pad-clr-xs date-time" id="birthday-year"></div>
                 </div>
                 {{--<div class="form-group mar-b30">--}}
                     {{--<label for="wechat-num" class="col-md-2 control-label mar-b10">微信</label>--}}
@@ -107,7 +107,7 @@
                 {{--</div>--}}
                 <div class="form-group mar-b30">
                     <label for="form-introduction" class="col-md-2 control-label mar-b10">个人简介</label>
-                    <div class="col-md-8">
+                    <div class="col-md-4">
                         <textarea name="introduction" class="form-control text-r ht-8" id="form-introduction" placeholder="" style="overflow: hidden;word-wrap: break-word; resize:horizontal;"></textarea>
                     </div>
                 </div>
@@ -120,18 +120,18 @@
         <div class="basic-info">
             <span>公司信息</span>
             <a href="#" class="pull-right" id="editCompanyRevoke" style="padding-left: 5px;">取消</a>
-            <a href="#" class="pull-right">保存</a>
+            <a href="#" id="editCompanySubmit" class="pull-right">保存</a>
             <form class="form-horizontal personal-data-edit" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
                 <div class="form-group mar-b30 mar-b15-xs">
                     <label for="work-company" class="col-md-2 control-label mar-b10">在职公司</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" id="work-company" placeholder="">
+                        <input name="company" type="text" class="form-control">
                     </div>
                 </div>
                 <div class="form-group mar-b30 mar-b15-xs">
                     <label for="work-position" class="col-md-2 control-label mar-b10">职位</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control form-title" id="work-position" placeholder="">
+                        <input name="company_position" type="text" class="form-control form-title">
                     </div>
                 </div>
                 <div class="form-group mar-b30 mar-b15-xs">
@@ -143,7 +143,7 @@
                                 <select class="form-control" name="city"></select> <br>
                                 <select class="form-control" name="area"></select>
                             </p>
-                            <input id="place" class="form-control" name="hometown" value="" type="text" readonly>
+                            <input id="place" class="form-control" name="company_address" value="" type="text" readonly>
                         </div>
                     </div>
                 </div>
