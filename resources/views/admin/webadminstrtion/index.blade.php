@@ -50,8 +50,6 @@
     <button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
 @endsection
 
-<img src="/admin/images/load.gif" class="loading">
-
 <div id="organiz" class="wraper container-fluid">
     <div class="page-title">
         <div class="row">
@@ -68,7 +66,12 @@
         <button class="btn btn-default status1" data-status="4">轮播图管理</button>
     </div>
     <hr>
-    <div id="data"></div>
+
+    <div id="margin_data" style="position: relative;">
+        <img src="{{ asset('admin/images/load.gif') }}" class="loading">
+        <div id="data"></div>
+    </div>
+
 
     <div class="col-sm-10 add-picture" hidden>
         <div class="panel">
@@ -168,13 +171,13 @@
         $(function () {
             listType(1);
         });
-        var width  = $(window).width() / 2;
-        var height = $(window).height() / 2 - 70;
+        var width  = $('#data').width() / 2;
+        var height = $('#data').height() / 2 + 80;
 
         function ajaxBeforeModel() {
             $('.loading').show().css({
-                'left': 0,
-                'top': 0
+                'left': width,
+                'top': height
             });
         }
         /**
@@ -410,7 +413,7 @@
 
         // 删除
         $('#data').on('click', '.btn-danger' ,function () {
-            if (!confirm('是否确认删啊啊除？')) {
+            if (!confirm('是否确认删除？')) {
                 return ;
             }
             var me = $(this);
