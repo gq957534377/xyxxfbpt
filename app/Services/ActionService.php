@@ -237,6 +237,7 @@ class ActionService
                     return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
                 }
             }else{
+                $result['totalPage'] = $totalPage;
                 $result["pages"] = '';
             }
             return ['StatusCode' => 200,'ResultData' => $result];
@@ -517,5 +518,18 @@ class ActionService
             $word->$filed = $content;
         }
 
+    }
+
+    /**
+     * 获取某一类型活动某一短时间的活动列表
+     * @param int $type 活动类型
+     * @param [] $between 时间范围
+     * @return array
+     * @author 郭庆
+     */
+    public static function getActionByTime($type, $between)
+    {
+        $res = self::$actionStore->dateBetween($between);
+        if (!$res) return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
     }
 }

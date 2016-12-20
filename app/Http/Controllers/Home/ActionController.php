@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
@@ -31,40 +30,59 @@ class ActionController extends Controller
     public function index(Request $request)
     {
         // 获取活动类型 -> 活动类型的所有数据
-        $type = $request->type;
-        $result = self::$actionServer->actionTypeData($type);
+        $where = ['type'=>$request->type];
+        $nowPage = 1;
+        $result = self::$actionServer->selectData($where, $nowPage, 1, '/action', false);
 
-        if($result["StatusCode"] == '200'){
-            foreach ($result['ResultData'] as $v){
+        if($result["StatusCode"] == 200){
+            foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
-                        if (!$chage['status']){
-                            Log::info("普通用户第一次请求更改活动状态失败".$v->guid.':'.$chage['msg']);
+                        if ($chage['StatusCode'] != 200){
+                            Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
                             $v->status = $status['msg'];
                         }
                     }
                 }
             }
-            return view('home.action.index', ['actions' => $result['ResultData'], 'type'=>$type]);
         }
-        return view('home.action.index', ['actions' => $result['ResultData'], 'type'=>$type]);
+        $result['nowPage'] = $nowPage;
+        $result['type'] = $request->type;
+        return view('home.action.index', $result);
     }
 
     /**
-     * 添加评论
+     * 后续ajax请求分页数据
      * @param $request
      * @return \Illuminate\Http\Response
      * @author 郭庆
      */
     public function create(Request $request)
     {
-        $data = $request->all();
-        $result = self::$actionServer->comment($data);
-        if(!$result['status']) return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
+        // 获取活动类型 -> 活动类型的所有数据
+        $where = ['type'=>$request->type];
+        $nowPage = isset($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
+        $result = self::$actionServer->selectData($where, $nowPage, 1, '/action', false);
+
+        if($result["StatusCode"] == 200){
+            foreach ($result['ResultData']['data'] as $v){
+                $status = self::$actionServer->setStatusByTime($v);
+                if ($status['status']){
+                    if (!is_string($status['msg'])){
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        if ($chage['StatusCode'] != 200){
+                            Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
+                        }else{
+                            $v->status = $status['msg'];
+                        }
+                    }
+                }
+            }
+        }
+        return response()->json($result);
     }
 
     /**
@@ -176,25 +194,5 @@ class ActionController extends Controller
     public function destroy($id)
     {
 
-    }
-
-    /**
-     * 上传图片
-     *
-     * @return \Illuminate\Http\Response
-     * @author 郭庆
-     */
-    public function upload()
-    {
-        $file = Input::file('Filedata');
-        if($file->isValid()){
-            $realPath = $file->getRealPath();//临时文件的绝对路径
-            $extension = $file->getClientOriginalName();//上传文件的后缀
-            $hz = explode('.', $extension)[1];
-            $newName = date('YmdHis').mt_rand(100,999).'.'.$hz;
-            $path = $file->move(public_path('uploads/image/admin/road'), $newName);
-            $result = 'uploads/image/admin/road/'.$newName;
-            return response()->json(['res' => $result]);
-        }
     }
 }
