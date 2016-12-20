@@ -109,8 +109,7 @@
                         <form id="comment" method = 'post'>
                             <input name="action_id" value="{{ $contentId}}" hidden>
                             <input name="type" value="3" hidden>
-                            <textarea name="content" required>
-                            </textarea>
+                            <textarea name="content" required></textarea>
                             <button type="submit" class="subbtn btn btn-warning" >提交</button>
                         </form>
                     </li>

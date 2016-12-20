@@ -91,8 +91,7 @@
                       <form id="comment" method = 'post'>
                             <input name="action_id" value="{{ $ResultData->guid or 0 }}" hidden>
                             <input name="type" value="1" hidden>
-                            <textarea name="content" required>
-                            </textarea>
+                            <textarea name="content" required></textarea>
                             <button type="submit" class="subbtn btn btn-warning" >提交</button>
                       </form>
                   </li>
