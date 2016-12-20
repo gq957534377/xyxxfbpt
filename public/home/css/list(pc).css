@@ -13,9 +13,10 @@
 }
 .selected li:nth-child(1){
   min-width: 90px;
+  max-width: 100px;
+  padding-right: 0px;
 }
 .selected li:nth-child(2){
-  padding-right: 30px;
   min-width: 110px;
 }
 /*.selected li:nth-child(2)::after{*/

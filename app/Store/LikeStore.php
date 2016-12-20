@@ -40,7 +40,7 @@ class LikeStore{
         return DB::table(self::$table)
             ->where($where)
             ->forPage($nowPage, PAGENUM)
-            ->orderBy('time','desc')
+            ->orderBy('changetime','desc')
             ->get();
     }
 
