@@ -26,7 +26,7 @@
                     <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>
                     <p>{{ $val->brief }}</p>
                     <div class="row list-font-bottom">
-                      <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ date('Y-m-d H:i:s', $val->addtime) }}</span>
+                      <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ date('Y-m-d H:i', $val->addtime) }}</span>
                       <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                       <div class="bg-mg">
                         <div class="bg-mg-f">

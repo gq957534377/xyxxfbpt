@@ -1,10 +1,10 @@
 <div class="zxz-footer">
     <footer class="container-fluid">
-        <div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true" style="display: none;">
-            <div class="modal-dialog modal-full">
-                <div class="modal-content">
+        <div  id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true" style="display: none;">
+            <div  class="modal-dialog modal-full">
+                <div style="width: 700px;height: 470px;" class="modal-content">
 
-                    <div class="demo" id="J_demo" style="width: 700px;height: 470px;"></div>
+                    <div  class="demo" id="openim" style="width: 700px;height: 470px;"></div>
 
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
