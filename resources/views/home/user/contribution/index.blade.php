@@ -87,7 +87,7 @@
                           <button data-status="4" type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz">保存草稿</button>
                       </div>
                       <div class="col-xs-3 col-sm-2 col-md-2">
-                          <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz">预览</button>
+                          <button data-status="0" type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz">预览</button>
                       </div>
                   </div>
                  <input hidden type="text" id="status" name="status" value="2">
@@ -252,7 +252,7 @@
                         data.append( "source"     , $("input[name= 'source']").val());
                         data.append( "verif_code"     , $("input[name= 'verif_code']").val());
                         //开始正常的ajax
-                        // 异步登录
+                        // 异步写入
                         $.ajax({
                             type: "POST",
                             url: '/send',

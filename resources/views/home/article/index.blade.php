@@ -40,14 +40,8 @@
                 </li>
               @endforeach
             @else
-              <li class="row">
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">
-
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">
-                  <h3>暂无数据</h3>
-
-                </div>
+              <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <span style="color: #999999;text-align:center;">暂无数据呦~亲 O(∩_∩)O~</span>
               </li>
             @endif
           </ul>

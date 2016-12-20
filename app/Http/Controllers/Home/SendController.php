@@ -84,11 +84,15 @@ class SendController extends Controller
             return response()->json(['StatusCode' => '400', 'ResultData' => '验证码错误']);
             // 判断图片是否正确
 
-        } else if (empty(session('picture_contri'))) {
+        }
+        dd(session()->all());
+        if (empty(session('picture_contri'))) {
             return response()->json(['StatusCode' => '400', 'ResultData' => '图片上传失败']);
         }
-        $data['banner'] = session('picture_contri');
+        $data['banner'] = session()->pull('picture_contri');
         unset($data['verif_code']);
+        $request->session()->forget('picture_contri');
+        dd(session('picture_contri'));
 
         $data['user_id'] = session('user')->guid;
         // 取出用户信息
