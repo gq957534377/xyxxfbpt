@@ -151,6 +151,22 @@
     {{--</script>--}}
 
     <script>
+
+        //页面默认加载所有可用用户信息
+        $(function () {
+            $('#user_title').html('<h3>所有用户</h3>');
+            var key = 14;
+
+            var url = '/test/show';
+
+            //初始化请求参数
+            var queryString = {
+                key : key
+            };
+
+            //执行ajax请求
+            execAjax( url, queryString, 'get');
+        });
         
         /**
          *  获取不同类型用户的列表点击事件
@@ -252,15 +268,14 @@
                     '<table class="table table-bordered table-striped">' +
                     '<thead>' +
                     '<tr>' +
-                    '<th>item</th>' +
-                    '<th>姓名</th>' +
-                    '<th>类型</th>' +
-                    '<th>性别</th>' +
-                    '<th>生日</th>' +
-                    '<th>手机</th>' +
-                    '<th>邮箱</th>' +
-                    '<th>用户状态</th>' +
-                    '<th>操作</th>' +
+                    '<th class ="text-center">姓名</th>' +
+                    '<th class ="text-center">类型</th>' +
+                    '<th class ="text-center">性别</th>' +
+                    '<th class ="text-center">生日</th>' +
+                    '<th class ="text-center">手机</th>' +
+                    '<th class ="text-center">邮箱</th>' +
+                    '<th class ="text-center">用户状态</th>' +
+                    '<th class ="text-center">操作</th>' +
                     '</tr>' +
                     '</thead>'+
                     '<tbody>';
@@ -270,23 +285,22 @@
             $.each(data, function (i, v) {
 
                 str += '<tr class="gradeX">';
-                str +=  '<td>' + i + '</td>';
                 str +=  '<td>' + v.realname + '</td>';
-
+                str +=  '<td>';
                 if(v.role == 1){
-                    str +=  '<td>普通用户</td>';
+                    str +=  '<span class="text-info text-xs">普通用户&nbsp;</span>';
                 }
                 if(v.role == 2){
-                    str +=  '<td>创业者</td>';
+                    str +=  '<span class="text-warning text-xs">创业者&nbsp;</span>';
                 }
                 if(v.role == 3){
-                    str += '<td>投资者</td>';
+                    str += '<span class="text-success text-xs">投资者&nbsp;</span>';
                 }
-                if(v.role == 4){
-                    str += '<td>英雄会员</td>';
+                if(v.memeber == 2){
+                    str += '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
                 }
-
-                if(v.sex == 0){
+                str += '</td>';
+                if(v.sex == 1){
                     str += '<td>男</td>';
                 }else{
                     str +=  '<td>女</td>';
@@ -295,8 +309,19 @@
                 str += '<td>' + v.birthday + '</td>';
                 str +=  '<td>' + v.tel + '</td>';
                 str +=  '<td>' + v.email + '</td>';
-                str +=  '<td>' + '&nbsp;' + '</td>';
-                str +=  '<td><a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a></td></tr>';
+                str +=  '<td>';
+
+                if(v.status == 1){
+                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-danger btn-xs">禁用</button></a>';
+                }
+                if(v.status == 2){
+                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-success btn-xs">启用</button></a>';
+                }
+                str +=  '</td>';
+                str +=  '<td><a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
+                str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-warning btn-xs">详情</button></a>';
+
+                str +=  '</td></tr>';
             });
             str += '</tbody>' +
                     '</table>' +
@@ -307,6 +332,7 @@
                     '</div>';
             return str;
         }
+
         /**
          *
          *

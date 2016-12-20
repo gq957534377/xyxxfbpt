@@ -111,4 +111,32 @@ class UserStore {
             ->get();
     }
 
+    /**
+     * @param $where 查询条件
+     * @return bool 返回的条数
+     * @author lw
+     */
+    public function getUserCount($where)
+    {
+        if(empty($where)) return false;
+        return DB::table(self::$table)->where($where)->count();
+    }
+
+    /**
+     * @param $where    查询条件
+     * @param $nowPage  当前页数
+     * @param $pageNums     每页显示条数
+     * @return array    用户列表
+     * @author lw
+     */
+    public function getUserTypelist($where, $nowPage, $pageNums)
+    {
+        if(empty($where)) return false;
+        return DB::table(self::$table)
+            ->where($where)
+            ->orderBy('addtime','desc')
+            ->forPage($nowPage, $pageNums)
+            ->get();
+    }
+
 }
