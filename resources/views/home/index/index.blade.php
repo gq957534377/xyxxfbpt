@@ -568,63 +568,63 @@
     <!-- 英雄社区 Start-->
     <div class=" container-fluid">
         <section id="section6" class="font-size">
-            <ul class="section6_top">
-                <li>
-                    <h2>英雄社区</h2>
-                </li>
-            </ul>
-            <div id="section6_bottom">
-                <ul id="section6_left" class="row">
-                    <li class="col-sm-6">
-                        <div class="bg-mg">
-                            <div class="bg-mg-f">
-                                <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
-                            </div>
-                        </div>
-                        <div>
-                            <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
-                            <p>Posted on 2016/11/11 10:44:05</p>
-                            <p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>
-                        </div>
-                    </li>
-                    <li class="col-sm-6">
-                        <div class="bg-mg">
-                            <div class="bg-mg-f">
-                                <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
-                            </div>
-                        </div>
-                        <div>
-                            <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
-                            <p>Posted on 2016/11/11 10:44:05</p>
-                            <p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>
-                        </div>
-                    </li>
-                    <li class="col-sm-6">
-                        <div class="bg-mg">
-                            <div class="bg-mg-f">
-                                <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
-                            </div>
-                        </div>
-                        <div>
-                            <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
-                            <p>Posted on 2016/11/11 10:44:05</p>
-                            <p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>
-                        </div>
-                    </li>
-                    <li class="col-sm-6">
-                        <div class="bg-mg">
-                            <div class="bg-mg-f">
-                                <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>
-                            </div>
-                        </div>
-                        <div>
-                            <h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>
-                            <p>Posted on 2016/11/11 10:44:05</p>
-                            <p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            {{--<ul class="section6_top">--}}
+                {{--<li>--}}
+                    {{--<h2>英雄社区</h2>--}}
+                {{--</li>--}}
+            {{--</ul>--}}
+            {{--<div id="section6_bottom">--}}
+                {{--<ul id="section6_left" class="row">--}}
+                    {{--<li class="col-sm-6">--}}
+                        {{--<div class="bg-mg">--}}
+                            {{--<div class="bg-mg-f">--}}
+                                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div>--}}
+                            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
+                            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
+                            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
+                        {{--</div>--}}
+                    {{--</li>--}}
+                    {{--<li class="col-sm-6">--}}
+                        {{--<div class="bg-mg">--}}
+                            {{--<div class="bg-mg-f">--}}
+                                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div>--}}
+                            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
+                            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
+                            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
+                        {{--</div>--}}
+                    {{--</li>--}}
+                    {{--<li class="col-sm-6">--}}
+                        {{--<div class="bg-mg">--}}
+                            {{--<div class="bg-mg-f">--}}
+                                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div>--}}
+                            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
+                            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
+                            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
+                        {{--</div>--}}
+                    {{--</li>--}}
+                    {{--<li class="col-sm-6">--}}
+                        {{--<div class="bg-mg">--}}
+                            {{--<div class="bg-mg-f">--}}
+                                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div>--}}
+                            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
+                            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
+                            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
+                        {{--</div>--}}
+                    {{--</li>--}}
+                {{--</ul>--}}
+            {{--</div>--}}
             <ul class="section6_top">
                 <li>
                     <h2>市场资讯</h2>

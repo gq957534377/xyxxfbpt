@@ -22,8 +22,6 @@
     <button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
 @endsection
 
-{{--<img src="/admin/images/load.gif" class="loading">--}}
-
 <div id="organiz" class="wraper container-fluid">
     <div class="page-title">
         <div class="row">
@@ -40,7 +38,12 @@
         <button class="btn btn-default status1" data-status="4">轮播图管理</button>
     </div>
     <hr>
-    <div id="data"></div>
+
+    <div id="margin_data" style="position: relative;">
+        <img src="{{ asset('admin/images/load.gif') }}" class="loading">
+        <div id="data"></div>
+    </div>
+
 
     <div class="col-sm-10 add-picture" hidden>
         <div class="panel">
