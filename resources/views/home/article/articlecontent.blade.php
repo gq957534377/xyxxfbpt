@@ -129,4 +129,7 @@
 
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script src="{{ asset('home/js/article.js') }}"></script>
+    <script>
+
+    </script>
 @endsection

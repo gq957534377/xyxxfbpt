@@ -17,16 +17,16 @@ class HomeMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $checkBlackList = Safety::checkIpBlackList($request->getClientIp());
-
-        if ($checkBlackList) {
-            return view('errors.404');
-        }
-        // 防止快速刷新
-        $res4 = Safety::addIpBlackList($request->getClientIp());
-        if ($res4) {
-            return view('errors.404');
-        }
+//        $checkBlackList = Safety::checkIpBlackList($request->getClientIp());
+//        dd($checkBlackList);
+//        if ($checkBlackList) {
+//            return view('welcome');
+//        }
+//        // 防止快速刷新
+//        $res4 = Safety::addIpBlackList($request->getClientIp());
+//        if ($res4) {
+//            return view('welcome');
+//        }
         // 判断用户session是否存在
         if(empty(Session::get('user'))) return redirect('/login');
         return $next($request);
