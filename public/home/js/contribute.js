@@ -146,11 +146,12 @@ function getAllGuid()
 
     var num = $('.checkbox-contri').size();
     var guidArr = [];
+    var k = 0;
     for (var i = 0; i < num; i++) {
         if ($('.checkbox-contri:eq('+i+')').is(':checked')) {
             guidArr[i] = $('.checkbox-contri:eq('+i+')').attr('id');
         };
-        alert(guidArr[i]);
+        alert(guidArr[k++]);
 
     }
 }
