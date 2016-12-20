@@ -72,7 +72,6 @@
                             case '200':
                                 loadAjax();
                                 $(".loading").hide();
-
                                 alert('提示,'+data.ResultData);
                                 break;
                         }

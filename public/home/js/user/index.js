@@ -14,6 +14,7 @@ $(document).ready(function (){
     var hide_realname = $('input[name = "realname"]');
     var hide_nickname = $('input[name = "nickname"]');
     var hide_birthday = $('input[name = "birthday"]');
+    var hide_introduction = $('textarea[name = "introduction"]');
 
     // 异步获取用户数据
     $.ajax({
@@ -61,6 +62,7 @@ $(document).ready(function (){
                     }
 
                     hide_birthday.empty().val(msg.ResultData.birthday);
+                    hide_introduction.empty().val(msg.ResultData.introduction);
 
                     $(".loading").hide();
                     break;
@@ -83,9 +85,20 @@ $(document).ready(function (){
 
     });
 
+    $('#editRevoke').click(function(){
+        $('#userinfo').show();
+        $('#editUserInfo').hide();
+
+    });
+
     $('#editCompanyBtn').click(function(){
         $('#userinfo').hide();
         $('#editCompanyInfo').show();
+    });
+
+    $('#editCompanyRevoke').click(function(){
+        $('#userinfo').show();
+        $('#editCompanyInfo').hide();
     });
 
     // 编辑保存用户信息
@@ -100,6 +113,7 @@ $(document).ready(function (){
         };
         ajaxRequire('user/'+guid, 'PUT', data, $("#editUserInfo"), 2);
 
+        user_nickname.html($('input[name="nickname"]').val());
         user_name.html($('input[name="realname"]').val());
 
         var sex ='';

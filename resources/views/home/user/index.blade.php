@@ -60,6 +60,7 @@
         <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
         <div class="basic-info">
             <span>基本信息</span>
+            <a href="#" class="pull-right" id="editRevoke" style="padding-left: 5px;">取消</a>
             <a href="#" class="pull-right" id="editSubmit">保存</a>
 
             <form class="form-horizontal personal-data-edit" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -118,6 +119,7 @@
     <div id="editCompanyInfo" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 personal-data" style="display: none;">
         <div class="basic-info">
             <span>公司信息</span>
+            <a href="#" class="pull-right" id="editCompanyRevoke" style="padding-left: 5px;">取消</a>
             <a href="#" class="pull-right">保存</a>
             <form class="form-horizontal personal-data-edit" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
                 <div class="form-group mar-b30 mar-b15-xs">
