@@ -20,7 +20,7 @@ class ActionController extends Controller
      * 活动后台首页
      * @param
      * @return 活动管理页面
-     * @author 张洵之
+     * @author 郭庆
      */
     public function index()
     {
@@ -31,7 +31,7 @@ class ActionController extends Controller
      * 获取分页数据
      * @param
      * @return array
-     * @author 张洵之
+     * @author 郭庆
      * @modify 郭庆
      */
     public function create(Request $request)
@@ -76,8 +76,7 @@ class ActionController extends Controller
      * 获取分页数据
      * @param $request
      * @return array
-     * @author 张洵之
-     * @modifif 郭庆
+     * @author 郭庆
      */
     public function store(Request $request)
     {
@@ -90,7 +89,7 @@ class ActionController extends Controller
      * 拿取一条活动信息详情
      * @param $id 活动id
      * @return array
-     * @author 张洵之
+     * @author 郭庆
      */
     public function show($id)
     {
@@ -102,7 +101,7 @@ class ActionController extends Controller
      * 修改活动+报名状态
      * @param $request
      * @param $id 活动id/报名记录id
-     * @author 活动：张洵之 报名：郭庆
+     * @author 郭庆
      */
     public function edit(Request $request, $id)
     {

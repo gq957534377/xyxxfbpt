@@ -273,9 +273,9 @@ class ActionService
         $data = self::$actionStore->getOneData(["guid" => $guid]);
         if($data) {
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
-            $data->start_time = date("Y-m-d H:i:s", $data->start_time) ;
-            $data->end_time = date("Y-m-d H:i:s", $data->end_time) ;
-            $data->deadline = date("Y-m-d H:i:s", $data->deadline) ;
+            $data->start_time = date("Y年m月d日 H点", $data->start_time) ;
+            $data->end_time = date("Y年m月d日 H点", $data->end_time) ;
+            $data->deadline = date("Y年m月d日 H点", $data->deadline) ;
             return ['StatusCode'=> 200,'ResultData' => $data];
         }else{
             \Log::info('获取'.$guid.'活动详情出错:'.$data);

@@ -478,16 +478,17 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
+<h3 class="title">活动管理</h3>
 <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>
 <img src="/admin/images/load.gif" class="loading">
 
 <div class="wraper container-fluid">
     <div class="page-title">
         <div class="row">
-            <div class="col-md-4">
-                <h3 class="title">活动管理</h3>
+            <div class="col-md-1">
+            <h4>活动类型选择:</h4>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <select class="form-control" id="xz_type" name="xz_type">
                     <option value="null">所有</option>
                     <option value="1">路演活动</option>
@@ -495,8 +496,10 @@
                     <option value="3">学习</option>
                 </select>
             </div>
-        </div>
+            <div class="col-md-8">
 
+            </div>
+        </div>
 
         <br>
         <button class="btn btn-success status1" data-status="1">报名中</button>
@@ -504,7 +507,7 @@
         <button class="btn btn-default status1" data-status="3">往期回顾</button>
         <button class="btn btn-default status1" data-status="4">回收站</button>
         <button class="btn btn-default status1" data-status="5">报名截止，等待开始</button>
-        <center><h1 id="list_title">报名中</h1></center>
+        {{--<center><h1 id="list_title">报名中</h1></center>--}}
     </div>
     <div class="panel" id="data"></div>
 </div>
