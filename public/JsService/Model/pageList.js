@@ -12,7 +12,7 @@ function getInfoList(data) {
             showInfo();
             updates();
             checkAction();
-        } else if (data.StatusCode == 201) {
+        } else if (data.StatusCode == 204) {
             $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
         } else {
             $('#myModal').modal('show');

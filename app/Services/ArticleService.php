@@ -90,7 +90,7 @@ class ArticleService
         $count = self::$articleStore->getCount($where);
         if (!$count) {
             //如果没有数据直接返回201空数组，函数结束
-            if ($count == 0) return ['StatusCode' => '201', 'ResultData' => []];
+            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
             return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
         }
         //计算总页数
