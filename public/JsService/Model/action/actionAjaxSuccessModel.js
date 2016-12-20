@@ -5,36 +5,36 @@
 function listHtml(data){
     var html = '';
     console.log(data);
-    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th>活动类型</th><th>活动主题</th><th>负责人</th><th>活动时间</th><th>截止报名</th><th>报名人数限定</th><th>报名人数</th><th>操作</th></tr></thead><tbody>';
+    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th style="text-align:center;">活动类型</th><th style="text-align:center;">活动主题</th><th style="text-align:center;">负责人</th><th style="text-align:center;">活动时间</th><th style="text-align:center;">截止报名</th><th style="text-align:center;">报名人数限定</th><th style="text-align:center;">报名人数</th><th style="text-align:center;">操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
         html += '<td>' + type(e.type)+ '</td>';
         html += '<td>' + e.title+ '</td>';
         html += '<td>' + e.author + '</td>';
-        html += '<td>' + e.start_time + '--'+e.end_time+'</td>';
-        html += '<td>' + e.deadline+'</td>';
+        html += '<td>' + getLocalTime(e.start_time) + '--'+getLocalTime(e.end_time)+'</td>';
+        html += '<td>' + getLocalTime(e.deadline)+'</td>';
         html += '<td>' + e.limit+'</td>';
         html += '<td>' + e.people+'</td>';
-        html += '<td><a class="info btn btn-sm btn-success tooltips" style="border-radius: 6px;" data-name="' + e.guid + '" href="javascript:;"><i class="fa" data-toggle="modal" data-target="#tabs-modal" style="margin-bottom: 6px">详情</i></a>&nbsp';
+        html += '<td><a class="info btn btn-xs btn-warning tooltips" data-toggle="modal" data-target="#tabs-modal" style="border-radius: 6px;" data-name="' + e.guid + '">详情</a>&nbsp';
         if (e.status == 1) {
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
-            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-info tooltips charge-road" style="border-radius: 6px;" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
+            html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
         } else if (e.status == 4) {
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 1 + '" class="status ion ion-checkmark-round" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-info tooltips charge-road" style="border-radius: 6px;" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" style="border-radius: 6px;" data-name="' + e.guid + '" data-status="' + 1 + '">启用</a>&nbsp';
         }else if (e.status == 2) {
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
         }else if (e.status == 3) {
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
         }else if (e.status == 5) {
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 4 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
-            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-info tooltips charge-road" style="border-radius: 6px;" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
+            html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>';
         }
         html += '</td>';
     });
-    html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
+    html += '</tbody></table></div><div class="row"><div class="col-xs-8"></div><div class="col-xs-4" id="page"></div></div>';
     return html;
 }
 

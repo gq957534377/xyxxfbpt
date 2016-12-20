@@ -681,10 +681,10 @@ class UserService {
         $result = self::$homeStore->updateData(['guid' => $guid], ['tel' => $data]);
 
         if (!$result) {
-            Log::error('用户账号手机绑定修改失败', $data);
+            \Log::error('用户账号手机绑定修改失败', $data);
             return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
         } else {
-            return ['StatusCode' => '400', 'ResultData' => '手机改绑成功，请重新登录!'];
+            return ['StatusCode' => '200', 'ResultData' => '手机改绑成功，请重新登录!'];
         }
     }
 

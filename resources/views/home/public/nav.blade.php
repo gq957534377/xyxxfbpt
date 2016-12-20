@@ -12,13 +12,13 @@
             <ul class="nav navbar-nav">
                 <li class="active"><a href="{{ route('index') }}">奇力首页</a></li>
                 <li><a href="{{ route('project.index') }}">创新作品</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">项目投资<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">项目投资</a></li>
-                        <li><a href="#">众筹项目</a></li>
-                    </ul>
-                </li>
+                {{--<li class="dropdown">--}}
+                    {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">项目投资<span class="caret"></span></a>--}}
+                    {{--<ul class="dropdown-menu" role="menu">--}}
+                        {{--<li><a href="#">项目投资</a></li>--}}
+                        {{--<li><a href="#">众筹项目</a></li>--}}
+                    {{--</ul>--}}
+                {{--</li>--}}
                 <li><a href="{{route('school.index')}}">英雄学院</a></li>
                 <li><a href="/article?type=1">市场咨询</a></li>
                 <li><a href="/article?type=2">创业政策</a></li>

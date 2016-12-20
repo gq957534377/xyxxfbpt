@@ -20,17 +20,17 @@
               @foreach($ResultData as $val)
                 <li class="row">
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">
-                    <img src="{{ $val->banner }}">
+                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}">
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">
                     <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>
                     <p>{{ $val->brief }}</p>
                     <div class="row list-font-bottom">
-                      <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">2016-12-31 15:04</span>
+                      <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ date('Y-m-d H:i:s', $val->addtime) }}</span>
                       <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                       <div class="bg-mg">
                         <div class="bg-mg-f">
-                          <img src="{{ $val->headPic }}">
+                          <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->headPic }}">
                         </div>
                       </div>
                       <div class="bg-mg-name">{{ $val->author or '匿名' }}</div>
@@ -40,13 +40,22 @@
                 </li>
               @endforeach
             @else
+              <li class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">
+
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">
+                  <h3>暂无数据</h3>
+
+                </div>
+              </li>
             @endif
           </ul>
 
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 content-right">
           <div class="guangao row">
-            <a href="#"><img class="col-lg-12 col-md-12" src="{{ asset('home/img/test13.jpg') }}"></a>
+            <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/test13.jpg') }}"></a>
           </div>
           <div class="row news-list-title">
             <h2>7×24h 快讯</h2>

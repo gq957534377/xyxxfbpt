@@ -20,12 +20,12 @@
               <div class="row article-content">
                 <div class="bg-mg col-lg-1 col-md-1 col-sm-1 col-xs-1">
                   <div class="bg-mg-f">
-                    <img src="{{ $ResultData->headPic }}">
+                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $ResultData->headPic }}">
                   </div>
                 </div>
                 <div class="author-name col-lg-11 col-md-11 col-sm-11 col-xs-11">
                   <p>
-                    {{ $ResultData->author or '匿名' }} {{ $ResultData->time }}
+                    {{ $ResultData->author or '匿名' }} {{ date('Y-m-d H:i:s', $ResultData->addtime) }}
                   </p>
                 </div>
                 <div class="fwb col-lg-12 col-md-12 col-sm-12 col-xs-12">{!! $ResultData->describe !!}</div>
@@ -50,7 +50,7 @@
 
             <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 content-right">
               <div class="guangao row">
-                <a href="#"><img class="col-lg-12 col-md-12" src="{{ asset('home/img/test13.jpg') }}"></a>
+                <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/test13.jpg') }}"></a>
               </div>
               <div class="row news-list-title">
                 <h2>你可能感兴趣的文章</h2>
@@ -91,8 +91,7 @@
                       <form id="comment" method = 'post'>
                             <input name="action_id" value="{{ $ResultData->guid or 0 }}" hidden>
                             <input name="type" value="1" hidden>
-                            <textarea name="content" required>
-                            </textarea>
+                            <textarea name="content" required></textarea>
                             <button type="submit" class="subbtn btn btn-warning" >提交</button>
                       </form>
                   </li>
@@ -101,13 +100,13 @@
                             <li class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                     <div class="user-img-bgs">
-                                        <img src="{{ $val->userImg }}">
+                                        <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->userImg }}">
                                     </div>
                                 </div>
                                 <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                     <div class="row user-say1">
                                         <span>{{ $val->nikename }}</span>
-                                        <span>{{ $val->time }}</span>
+                                        <span>{{ date('Y-m-d H:m:s',$val->changetime) }}</span>
                                     </div>
                                         <div class="row user-say2">
                                         <p>{{ $val->content }}</p>

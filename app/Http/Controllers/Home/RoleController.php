@@ -11,6 +11,7 @@ use App\Services\UserService as UserServer;
 use App\Services\UploadService as UploadServer;
 use App\Tools\Avatar;
 
+
 class RoleController extends Controller
 {
     protected static $userServer = null;
@@ -172,7 +173,7 @@ class RoleController extends Controller
         $info = Avatar::avatar($request);
         if ($info['status'] == '400') return response()->json(['StatusCode' => '400','ResultData' => '文件上传失败!']);
         $avatarName = $info['msg'];
-
+        session(['picture_contri' => $avatarName]);
         return response()->json(['StatusCode' => '200','ResultData' => $avatarName]);
     }
 }

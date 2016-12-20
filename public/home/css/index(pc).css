@@ -118,6 +118,7 @@ section{
 }
 #section1 div>li >a{
 	line-height: 36px;
+	word-break: keep-all;
 }
 #section1 >div>.row>div:nth-child(2){
 	float: right;
@@ -862,7 +863,7 @@ section{
 /***pc版英雄会友情机构区域样式开始****/
 #section7{
 	border-top: 1px solid #d1d1d1;
-	margin-top: 34px;
+	margin: 34px auto;
 }
 #section7 >h2{
 	width: 182px;
@@ -972,7 +973,7 @@ section{
 .carousel .carousel-indicators .active{
 	background: #FF9036;
 }
-body a,body a:hover,body a:focus{
+body> a,body>.container-fluid a:hover,body >.container-fluid a:focus{
 	text-decoration:none ;
 	color: #FF9036;
 }
@@ -989,7 +990,7 @@ body a,body a:hover,body a:focus{
 	font-weight: 900;
 	padding-top: 7px;
 }
-body .wysjx:hover{
+body>.container-fluid .wysjx:hover{
 	color: #FFFFFF;
 }
 .wysjx{

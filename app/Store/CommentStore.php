@@ -40,7 +40,7 @@ class CommentStore{
         return DB::table(self::$table)
             ->where($where)
             ->forPage($nowPage, PAGENUM)
-            ->orderBy('time','desc')
+            ->orderBy('changetime','desc')
             ->get();
     }
 
@@ -53,7 +53,7 @@ class CommentStore{
     {
         return DB::table(self::$table)
             ->where($where)
-            ->orderBy('time', 'desc')
+            ->orderBy('changetime', 'desc')
             ->limit($limit)
             ->get();
     }
@@ -120,7 +120,7 @@ class CommentStore{
         return DB::table(self::$table)
             ->where('action_id', $action_id)
             ->where('user_id', $user_id)
-            ->orderBy('time', 'desc')
+            ->orderBy('changetime', 'desc')
             ->limit(1)
             ->get();
     }

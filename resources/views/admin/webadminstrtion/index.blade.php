@@ -172,12 +172,15 @@
         var height = $(window).height() / 2 - 70;
 
         function ajaxBeforeModel() {
-            $('#data').html('');
             $('.loading').show().css({
-                'left': width,
-                'top': height
+                'left': 0,
+                'top': 0
             });
         }
+        /**
+         * 加载指定类型的数据
+         * @author 王通
+         **/
         function listType(type) {
 
             $.ajaxSetup({
@@ -407,7 +410,7 @@
 
         // 删除
         $('#data').on('click', '.btn-danger' ,function () {
-            if (!confirm('是否确认删除？')) {
+            if (!confirm('是否确认删啊啊除？')) {
                 return ;
             }
             var me = $(this);
@@ -422,7 +425,7 @@
                 before  : ajaxBeforeModel(),
                 success:function(data){
                     if (data.StatusCode == 200) {
-                        me.parent().parent().parent().parent().parent().remove();
+                        me.parent().parent().remove();
                     } else {
                         alert(data.ResultData);
                     }

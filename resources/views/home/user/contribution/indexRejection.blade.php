@@ -42,7 +42,7 @@
                             <span class="bg-area bg-write pull-right"></span>
                         </div>
                         <div class="col-xs-12 pad-clr">
-                            <p class="mar-cb mar-eml2 mar-emt03">{{ $val->time }}</p>
+                            <p class="mar-cb mar-eml2 mar-emt03">{{ date('Y-m-d H:i:s', $val->addtime) }}</p>
                         </div>
                         <div class="dis-in-bl col-xs-12 pad-clr mar-eml2-xs mar-emt03-xs visible-xs-block">
                             <span data-delete="{{ $val->guid }}" class="bg-area bg-del dis-in-bl"></span>

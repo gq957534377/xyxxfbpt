@@ -50,7 +50,7 @@ class ActionStore
         if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
         return DB::table(self::$table)
            ->where($where)
-           ->orderBy("change_time","desc")
+           ->orderBy("addtime","desc")
            ->forPage($page,$tolPage)
            ->get();
     }
@@ -108,6 +108,17 @@ class ActionStore
     public function takeActions($where,$number)
     {
         return DB::table(self::$table)->where($where)->take($number)->get();
+    }
+
+    /**
+     * 得到指定状态的数量
+     * @param $where
+     * @return mixed
+     * @author 郭庆
+     */
+    public function getCount ($where)
+    {
+        return DB::table(self::$table)->where($where)->count();
     }
 
 }

@@ -13,6 +13,7 @@ use App\Store\ActionOrderStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
 use App\Tools\Common;
+use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -115,8 +116,10 @@ class ActionService
     public function insertData($data)
     {
         $data["guid"] = Common::getUuid();
-        $data["time"] = date("Y-m-d H:i:s", time());
-        $data["change_time"] = date("Y-m-d H:i:s", time());
+        $data['start_time'] = strtotime($data['start_time']);
+        $data['end_time'] = strtotime($data['end_time']);
+        $data['deadline'] = strtotime($data['deadline']);
+        $data["addtime"] = time();
 
         //检测时间是否符合标准
         $temp = $this->checkTime($data);
@@ -140,9 +143,9 @@ class ActionService
     public function checkTime($data)
     {
         //转为时间戳
-        $endtime = strtotime($data["end_time"]);
-        $deadline = strtotime($data["deadline"]);
-        $starttime = strtotime($data["start_time"]);
+        $endtime = $data["end_time"];
+        $deadline = $data["deadline"];
+        $starttime = $data["start_time"];
 
         //检测开始：报名截止时间 < 活动开始时间 < 活动结束时间
         if($endtime > $starttime && $starttime > $deadline && $deadline > time()){
@@ -170,9 +173,9 @@ class ActionService
         $old = $data->status;
 
         //转为时间戳
-        $endTime = strtotime($data->end_time);
-        $deadline = strtotime($data->deadline);
-        $startTime = strtotime($data->start_time);
+        $endTime = $data->end_time;
+        $deadline = $data->deadline;
+        $startTime = $data->start_time;
         $time = time();
 
         //设置状态
@@ -197,46 +200,48 @@ class ActionService
         if ($old == $status) return ['status' => false, "msg" => '无需更改'];
         return ['status' => true, "msg" => $status];
     }
+
+
     /**
      * 分页查询
-     * @param $request
+     * @param array $where 查询条件
+     * @param int $nowPage  当前页
+     * @param int $forPages 一页获取的数量
+     * @param string $url 请求的路由url
+     * @param boolean $disPlay 是否需要分页样式
      * @return array
-     * author 张洵之
-     * @modify 郭庆
+     * author 郭庆
      */
-    public function selectData($request)
+    public function selectData($where, $nowPage, $forPages, $url, $disPlay=true)
     {
-        //数据初始化
-        $data = $request->all();
-        $forPages = 5;//一页的数据条数
-        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        $status = $data["status"];//活动状态：开始前 进行中  结束
-        $type = $data["type"];//获取数据类型
-        $where = [];
-        if($status){
-            $where["status"] = $status;
+        //查询总记录数
+        $count = self::$actionStore->getCount($where);
+        if (!$count) {
+            //如果没有数据直接返回201空数组，函数结束
+            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
+            return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
         }
-        if($type!="null"){
-            $where["type"] = $type;
-        }
-
-        //创建分页
-        $creatPage = Common::getPageUrls($data, "data_action_info", "/action/create", $forPages, null, $where);
-        if(isset($creatPage)){
-            $result["pages"] = $creatPage['pages'];
-        }else{
-            \Log::info('生成分页出错:', $creatPage);
-            return ['status' => false, 'msg' => '生成分页样式发生错误'];
-        }
+        //计算总页数
+        $totalPage = ceil($count / $forPages);
 
         //获取对应页的数据
-        $Data = self::$actionStore->forPage($nowPage, $forPages, $where);
-        if($Data || empty($Data)){
-            $result["data"] = $Data;
-            return ['status' => true, 'msg' => $result];
+        $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
+        if($result['data']){
+            if ($disPlay && $totalPage > 1) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+
+                if($creatPage){
+                    $result["pages"] = $creatPage;
+                }else{
+                    return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
+                }
+            }else{
+                $result["pages"] = '';
+            }
+            return ['StatusCode' => 200,'ResultData' => $result];
         }else{
-            \Log::info('获取活动分页数据出错:', $Data);
-            return ['status' => false, 'msg' => "数据参数有误！"];
+            return ['StatusCode' => 500,'ResultData' => '获取分页数据失败！'];
         }
     }
 
@@ -266,9 +271,16 @@ class ActionService
         }
         //查询一条数据活动信息
         $data = self::$actionStore->getOneData(["guid" => $guid]);
-        if($data) return ['StatusCode'=> 200,'ResultData' => $data];
-        \Log::info('获取'.$guid.'活动详情出错:'.$data);
-        return ['StatusCode'=> 500,'ResultData' => "获取活动信息失败"];
+        if($data) {
+            $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
+            $data->start_time = date("Y-m-d H:i:s", $data->start_time) ;
+            $data->end_time = date("Y-m-d H:i:s", $data->end_time) ;
+            $data->deadline = date("Y-m-d H:i:s", $data->deadline) ;
+            return ['StatusCode'=> 200,'ResultData' => $data];
+        }else{
+            \Log::info('获取'.$guid.'活动详情出错:'.$data);
+            return ['StatusCode'=> 500,'ResultData' => "获取活动信息失败"];
+        }
     }
 
     /**
@@ -305,10 +317,14 @@ class ActionService
      * @param $where
      * @param $data
      * @return array
-     * author 张洵之
+     * author 郭庆
      */
     public function upDta($where, $data)
     {
+        $data['start_time'] = strtotime($data['start_time']);
+        $data['end_time'] = strtotime($data['end_time']);
+        $data['deadline'] = strtotime($data['deadline']);
+        $data["addtime"] = time();
         $Data = self::$actionStore->upload($where, $data);
         if($Data){
             return ['StatusCode'=> 200,'ResultData' => "修改成功"];
@@ -469,7 +485,7 @@ class ActionService
     public function takeActions($type, $status = null,$number = 3)
     {
 
-        if (!isset($type)) return ['status' => false, 'msg' => '缺少参数'];
+        if (!isset($type)) return ['StatusCode' => '401', 'ResultData' => '缺少参数'];
 
         if (isset($status)) {
             $where = ['type' => $type, 'status' => $status];
@@ -477,13 +493,13 @@ class ActionService
             $where = ['type' => $type];
         }
 
-        $result = self::$actionStore->takeActions($where,$number);
+        $result = self::$actionStore->takeActions($where, $number);
 
-        if ($result) return ['status' => true, 'msg' => $result];
+        if ($result) return ['StatusCode' => '200', 'ResultData' => $result];
 
         Log::error('拿取三条活动数据失败', $result);
 
-        return ['status' => false, 'msg' => '查询失败'];
+        return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
     }
 
     /**
@@ -497,7 +513,7 @@ class ActionService
     {
         foreach($words as $word){
             $content = trim($word->$filed);
-            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';;
+            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
             $word->$filed = $content;
         }
 
