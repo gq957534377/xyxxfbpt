@@ -72,7 +72,7 @@ class TestController extends Controller
             ['status' => 3, 'role' => 2],    // '审核失败创业者用户' =>
             ['status' => 3, 'role' => 3],    //'审核失败投资者用户' =>
             ['status' => 3, 'role' => 4],    //'审核失败英雄会成员' =>
-            ['status' => 2, 'role' => 1],      //'已禁用普通用户' =>
+            ['status' => 2, 'role' => 1],      //'已禁用普通用户' =>查询data_user_info表,普通用户
             ['status' => 2, 'role' => 2],     //'已禁用创业者用户' =>
             ['status' => 2, 'role' => 3],     //'已禁用投资者用户' =>
             ['status' => 2, 'role' => 4]      //'已禁用英雄会成员' =>
@@ -84,18 +84,12 @@ class TestController extends Controller
         //表名选择
         if(count($where) > 1){
             $table = 'data_role_info';
-
-            $count = \DB::table($table)->where($where)->count();
-
-
-
         }else{
             $table = 'data_user_info';
-
-            $count = \DB::table($table)->where($where)->count();
-
-
         }
+
+        //获取总条数
+        $count = \DB::table($table)->where($where)->count();
 
         //没有数据返回400
         if ($count == 0){
@@ -126,17 +120,17 @@ class TestController extends Controller
         //获取对应页的数据
         if (count($where) > 1){
             $Data = \DB::table($table)
-
                 ->where($where)
+                ->orderBy('addtime','desc')
                 ->forPage($nowPage, $pageNums)
                 ->get();
         }else{
-            $Data = \DB::table($table)->where($where)->forPage($nowPage, $pageNums)->get();
-
+            $Data = \DB::table($table)
+                ->where($where)
+                ->orderBy('addtime','desc')
+                ->forPage($nowPage, $pageNums)
+                ->get();
         }
-
-
-
 
         //有则返回200和用户列表信息
         return response()->json(['StatusCode' => 200, 'ResultData' => [$pageStr,$Data]]);
