@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
 use App\Services\UserService as UserServer;
 
+
 class SendController extends Controller
 {
     protected  static $articleServer;
@@ -77,15 +78,18 @@ class SendController extends Controller
     {
 
         $data = $request->all();
+
         // 判断验证法是否在正确
         if ($data['verif_code'] != session('code')) {
             return response()->json(['StatusCode' => '400', 'ResultData' => '验证码错误']);
             // 判断图片是否正确
-        } else if (empty(session('picture_contri')) || (session('picture_contri') != $data['banner'])) {
-            return response()->json(['StatusCode' => '400', 'ResultData' => '参数错误']);
+
+        } else if (empty(session('picture_contri'))) {
+            return response()->json(['StatusCode' => '400', 'ResultData' => '图片上传失败']);
         }
+        $data['banner'] = session('picture_contri');
         unset($data['verif_code']);
-        $data['user'] = 2;
+
         $data['user_id'] = session('user')->guid;
         // 取出用户信息
         $res = self::$userServer->userInfo(['guid' => $data['user_id']]);

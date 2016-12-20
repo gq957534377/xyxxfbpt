@@ -25,7 +25,7 @@
                 </div>
                 <div class="author-name col-lg-11 col-md-11 col-sm-11 col-xs-11">
                   <p>
-                    {{ $ResultData->author or '匿名' }} {{ $ResultData->time }}
+                    {{ $ResultData->author or '匿名' }} {{ date('Y-m-d H:i:s', $ResultData->addtime) }}
                   </p>
                 </div>
                 <div class="fwb col-lg-12 col-md-12 col-sm-12 col-xs-12">{!! $ResultData->describe !!}</div>

@@ -81,17 +81,18 @@
                   <div class="form-group">
 
                       <div class="col-xs-4 col-sm-3 col-md-offset-2 col-md-2">
-                          <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz">提交审核</button>
-                          </div>
+                          <button data-status="2" type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz">提交审核</button>
+                      </div>
                       <div class="col-xs-4 col-sm-3 col-md-2">
-                          <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz">保存草稿</button>
-                          </div>
+                          <button data-status="4" type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz">保存草稿</button>
+                      </div>
                       <div class="col-xs-3 col-sm-2 col-md-2">
                           <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz">预览</button>
-                          </div>
                       </div>
-                  </form>
-              </div>
+                  </div>
+                 <input hidden type="text" id="status" name="status" value="2">
+             </form>
+          </div>
           @include('home.public.card')
 
 
@@ -113,6 +114,9 @@
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
     <script src="{{asset('cropper/js/sitelogo.js')}}"></script>
     <script type="text/javascript">
+        $('button[type="submit"]').on('click', function () {
+            $('#status').val($(this).data('status'));
+        });
         // 验证码点击更换
         var captcha = document.getElementById('captcha');
         captcha.onclick = function(){
@@ -259,6 +263,7 @@
                                 'source': $("input[name= 'source']").val(),
                                 'verif_code': $("input[name= 'verif_code']").val(),
                                 'banner': $("#contribution-picture").attr('src'),
+                                'status': $('#status').val(),
                             },
                             success:function(data){
                                 switch (data.StatusCode){
