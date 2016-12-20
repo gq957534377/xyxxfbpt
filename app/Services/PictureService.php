@@ -57,7 +57,7 @@ class PictureService
             // 判断图片信息是否保存成功
             if (self::$picturestore->savePicture([
                 'url' => $res['msg'],
-                'state' => 3,
+                'status' => 3,
                 'pointurl' => $data['url'],
                 'name' => $data['name']
             ])) {
@@ -81,7 +81,7 @@ class PictureService
             // 判断图片信息是否保存成功
             if (self::$picturestore->savePicture([
                 'url' => $res['msg'],
-                'state' => 5,
+                'status' => 5,
                 'pointurl' => $data['url'],
                 'name' => $data['name']
             ])) {
@@ -128,7 +128,7 @@ class PictureService
      */
     public function delPicture ($id)
     {
-        $res = self::$picturestore->updatePic(['id' => $id], ['state' => 4]);
+        $res = self::$picturestore->updatePic(['id' => $id], ['status' => 4]);
         if ($res) {
             return ['StatusCode' => '200', 'ResultData' => '删除成功'];
         } else {
