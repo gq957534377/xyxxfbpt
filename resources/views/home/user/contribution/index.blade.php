@@ -6,6 +6,7 @@
   <link href="{{ asset('home/css/user_center_contribute.css') }}" rel="stylesheet">
 
   <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
+  <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
 @endsection
 
 @section('content')
@@ -33,7 +34,7 @@
                   <div class="form-group mar-b30">
                      <label for="form-introduction" class="col-md-2 control-label"><span class="form-star">*</span>导语</label>
                       <div class="col-md-10">
-                          <textarea class="form-control form-introduction" id="form-introduction" name="introduction" placeholder=""></textarea>
+                          <textarea class="form-control form-introduction" id="form-introduction" name="brief" placeholder=""></textarea>
                          </div>
                   </div>
                  <div class="form-group mar-b30">
@@ -45,7 +46,7 @@
                                  <div class="row">
                                      <div id="crop-avatar" class="col-md-6">
                                          <div class="avatar-view" title="">
-                                             <img src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                                             <img id="contribution-picture" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                                          </div>
                                      </div>
                                  </div>
@@ -56,7 +57,7 @@
                   <div class="form-group mar-b30">
                       <label for="form-content" class="col-md-2 control-label"><span class="form-star">*</span>内容</label>
                      <div class="col-md-10">
-                          <textarea class="" id="form-content" name="content"></textarea>
+                          <textarea class="" id="form-content" name="describe"></textarea>
                           </div>
                   </div>
 
@@ -103,8 +104,10 @@
 @section('script')
 
     {{--富文本--}}
-    {{--<script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>--}}
-    {{--<script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>--}}
+    <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
+    <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
+
+    <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
 
 
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
@@ -114,9 +117,9 @@
         var captcha = document.getElementById('captcha');
         captcha.onclick = function(){
             var url = '/code/captcha/';
-            url = url + $(this).data('sesid') + Math.ceil(Math.random()*100);;
+            url = url + $(this).data('sesid') + Math.ceil(Math.random()*100);
             this.src = url;
-        }
+        };
         {{--全局变量的设置--}}
 
         //富文本配置
@@ -179,10 +182,10 @@
                 required: true,
                 maxlength: 50
             },
-            introduction: {
+            brief: {
                 required: true
             },
-            content: {
+            describe: {
                 required: true
             },
             source: {
@@ -202,10 +205,10 @@
                 required: '请输入标题',
                 maxlength: '标题最多50个字符'
             },
-            introduction: {
+            brief: {
                 required: '请输入简介',
             },
-            content: {
+            describe: {
                 required: '请输入投稿正文'
             },
             source: {
@@ -240,8 +243,8 @@
                         var data = new FormData();
 
                         data.append( "title"     , $("input[name= 'title']").val());
-                        data.append( "introduction"       , $("textarea[name= 'introduction']").val());
-                        data.append( "content"     ,$("textarea[name= 'content']").val());
+                        data.append( "brief"       , $("textarea[name= 'brief']").val());
+                        data.append( "describe"     ,$("textarea[name= 'describe']").val());
                         data.append( "source"     , $("input[name= 'source']").val());
                         data.append( "verif_code"     , $("input[name= 'verif_code']").val());
                         //开始正常的ajax
@@ -251,10 +254,11 @@
                             url: '/send',
                             data: {
                                 'title': $("input[name= 'title']").val(),
-                                'introduction': $("textarea[name= 'introduction']").val(),
-                                'content': $("textarea[name= 'content']").val(),
+                                'brief': $("textarea[name= 'brief']").val(),
+                                'describe': $("textarea[name= 'describe']").val(),
                                 'source': $("input[name= 'source']").val(),
                                 'verif_code': $("input[name= 'verif_code']").val(),
+                                'banner': $("#contribution-picture").attr('src'),
                             },
                             success:function(data){
                                 switch (data.StatusCode){
@@ -262,10 +266,10 @@
                                         alert('警告' + data.ResultData);
                                         break;
                                     case '200':
-
-
-
+                                        alert('插入成功');
+                                        history.go(0);
                                         jQuery(document).ready(function(){
+
                                             $('#signUpForm').html(str);
                                             //setTimeout('delayer()', 3000);
                                             //这里实现延迟3秒跳转

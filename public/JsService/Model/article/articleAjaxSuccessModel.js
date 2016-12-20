@@ -15,22 +15,22 @@ function listHtml(data){
         html += '<td>' + e.time+'</td>';
         html += '<td>' + status(e.status)+'</td>';
         html += '<td>' + e.source+'</td>';
-        html += '<td><a class="info btn btn-sm btn-success tooltips" style="border-radius: 6px;" data-name="' + e.guid + '" href="javascript:;"><i class="fa" data-toggle="modal" data-target="#full-width-modal" style="margin-bottom: 6px">详情</i></a>&nbsp';
+        html += '<td><a class="info btn btn-xs btn-warning tooltips" style="border-radius: 6px;" data-name="' + e.guid + '" href="javascript:;" data-toggle="modal" data-target="#full-width-modal">详情</a>&nbsp';
         if(e.user == 1){
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" class="fa fa-pencil charge-road" data-toggle="modal" data-target=".bs-example-modal-lg" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-info tooltips charge-road" style="border-radius: 6px;" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
         }
         if (e.status == 1 && e.status != 2) {
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 3 + '" class="status fa fa-close" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" style="border-radius: 6px;" data-name="' + e.guid + '" data-status="' + 3 + '">删除</a>&nbsp';
         } else if (e.status == 3 && e.status != 2) {
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 1 + '" class="status ion ion-checkmark-round" style="margin-bottom: 6px"></i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" style="border-radius: 6px;" data-name="' + e.guid + '" data-status="' + 1 + '">启用</a>&nbsp';
         }
         if (e.status == 2){
-            html += '<a class="btn btn-sm btn-primary tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 1 + '" class="status" style="margin-bottom: 6px">通过</i></a>&nbsp';
-            html += '<a class="btn btn-sm btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i id="pass" data-name="' + e.guid + '" data-status="' + 3 + '" style="margin-bottom: 6px" data-toggle="modal" data-target="#panel-modal">否决</i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 1 + '" class="status" style="margin-bottom: 6px">通过</i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i id="pass" data-name="' + e.guid + '" data-status="' + 3 + '" style="margin-bottom: 6px" data-toggle="modal" data-target="#panel-modal">否决</i></a>&nbsp';
         }
         html += '</td>';
     });
-    html += '</tbody></table></div><div class="row"><div class="col-sm-8"></div><div class="col-sm-4" id="page"></div></div>';
+    html += '</tbody></table></div><div class="row"><div class="col-xs-8"></div><div class="col-xs-4" id="page"></div></div>';
     return html;
 }
 

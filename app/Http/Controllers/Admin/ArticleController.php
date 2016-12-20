@@ -34,7 +34,26 @@ class ArticleController extends Controller
      */
     public function create(Request $request)
     {
-        $result = self::$articleServer->selectData($request);
+        $data = $request->all();
+        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
+        $forPages = 5;//一页的数据条数
+        $status = $data["status"];//文章状态：已发布 待审核 已下架
+        $type = $data["type"];//获取文章类型
+        $user = $data["user"];//用户类型
+
+        $where = [];
+        if($status){
+            $where["status"] = $status;
+        }
+        if($type!="null"){
+            if ($type != 3){
+                $where["type"] = $type;
+            }
+        }
+        if ($user){
+            $where['user'] = $user;
+        }
+        $result = self::$articleServer->selectData($where, $nowPage, $forPages, "/article/create");
         return response()->json($result);
     }
 
@@ -83,7 +102,7 @@ class ArticleController extends Controller
         if ($status == 3 && $user == 2){
             $result = self::$articleServer->upDta(['guid'=>$id], ['status' => 3, 'reason' => $request["reason"], 'user'=>2]);
         }else{
-            $result = self::$articleServer->changeStatus($id, $status);
+            $result = self::$articleServer->changeStatus(['id' => $id], $status);
         }
         return response()->json($result);
     }

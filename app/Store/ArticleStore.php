@@ -34,24 +34,43 @@ class ArticleStore
      */
     public function getOneData($where)
     {
-        return DB::table(self::$table)->where($where)->first();
+        return DB::table(self::$table)
+            ->where($where)
+            ->where('status', '<>', 5)
+            ->first();
+    }
+
+    /**
+     * 获取IN数组中对应的用户账户，
+     *
+     * @return \Illuminate\Http\Response
+     * @author 王通
+     */
+    public function getDataUserId($where)
+    {
+        return DB::table(self::$table)
+            ->select('user_id')
+            ->whereIn('guid', $where)
+            ->where('status', '<>', 5)
+            ->distinct()
+            ->get();
     }
     /**
      * 分页查询数据
-     * @param $page
-     * @param $tolPage
-     * @param $where
+     * @param $page 当前页
+     * @param $tolPage 总页数
+     * @param $where 查询条件
+     * @param $sort 排序方式（默认desc降序）
      * @return null
      * author 郭庆
      */
-    public function forPage($page, $tolPage, $where)
+    public function forPage($page, $tolPage, $where, $sort="desc")
     {
-        if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
         return DB::table(self::$table)
-           ->where($where)
-           ->orderBy("time","desc")
-           ->forPage($page,$tolPage)
-           ->get();
+            ->where($where)
+            ->orderBy("addtime",$sort)
+            ->forPage($page,$tolPage)
+            ->get();
     }
 
     /**
@@ -61,7 +80,7 @@ class ArticleStore
      */
     public static function getData($where)
     {
-        return DB::table(self::$table)->where($where)->get();
+        return DB::table(self::$table)->where($where)->orderBy("time","desc")->get();
     }
 
     /**
@@ -77,11 +96,45 @@ class ArticleStore
     }
 
     /**
+     * 批量 更新数据
+     * @param $where
+     * @param $data
+     * @return null
+     * author 王通
+     */
+    public function updataAll($where, $data)
+    {
+        return DB::table(self::$table)->whereIn('guid', $where)->update($data);
+    }
+
+    /**
      * 给某个字段自增data
      * @author 郭庆
      */
     public static function incrementData($where, $field, $data)
     {
         return DB::table(self::$table)->where($where)->increment($field, $data);
+    }
+
+    /**
+     * 得到指定状态的数量
+     * @param $where
+     * @return mixed
+     * @author 王通
+     */
+    public function getCount ($where)
+    {
+        return DB::table(self::$table)->where($where)->count();
+    }
+
+    /**
+     * 获取一条数据
+     *@param array $where
+     * @return \Illuminate\Http\Response
+     * @author 张洵之
+     */
+    public function getOneDatas($where)
+    {
+        return DB::table(self::$table)->where($where)->first();
     }
 }

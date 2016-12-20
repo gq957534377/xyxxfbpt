@@ -23,7 +23,7 @@ function checkAllSwitch() {
 }
 //  单个复选框操作
 $(function () {
-    getContributeList(1);
+
     var inputs = $("input[name='itemId']");
     var num = inputs.length;
     inputs.on('click', function(){
@@ -51,63 +51,41 @@ $(function () {
  */
 $('.bg-del').on('click', function () {
     me = $(this);
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    var data = {
-        'type': 'one',
-        '_method': 'DELETE'
-    };
-    $.ajax({
-        type: 'POST',
-        url: '/send/' + me.data('delete'),
-        data: data,
-        success: function(msg){
-            switch (msg.StatusCode){
-                case '404':
-                    $(".loading").hide();
-                    alert(msg.ResultData);
 
-                    break;
-                case '400':
-                    $(".loading").hide();
-                    alert(msg.ResultData);
-                    break;
-                case '200':
-                    $(".loading").hide();
-                    me.parent().parent().remove();
-                    alert(msg.ResultData);
-                    break;
-            }
-        },
-        error: function(XMLHttpRequest){
-            var number = XMLHttpRequest.status;
-            var msg = "Error: "+number+",数据异常！";
-            alert(msg);
-        }
-
-    });
+    deleteAjax ('DELETE', {'id' : [me.data('delete')]});
 });
 
 $('#delete').on('click', function () {
-    getAllGuid();
-    return;
+    var num = $('.checkbox-contri').size();
+    var guidArr = [];
+    var k = 0;
+    for (var i = 0; i < num; i++) {
+        if ($('.checkbox-contri:eq('+i+')').is(':checked')) {
+            guidArr[i] = $('.checkbox-contri:eq('+i+')').attr('id');
+            guidArr[k++];
+        };
+    }
+    deleteAjax ('DELETE', {'id' : guidArr});
+});
+
+/**
+ * ajax请求，删除数据
+ */
+function deleteAjax (method, id)
+{
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
     var data = {
-        'type': 'one',
-        '_method': 'DELETE',
-        'rew': $('.checkbox-contri').attr('checked'),
-        'qwe': 'asdfasf',
+        '_method': method,
+        'id': id
     };
     $.ajax({
         type: 'POST',
-        url: '/send/all',
+        url: '/send/delete',
         data: data,
         success: function(msg){
             switch (msg.StatusCode){
@@ -121,8 +99,13 @@ $('#delete').on('click', function () {
                     alert(msg.ResultData);
                     break;
                 case '200':
+                    console.log(id.id);
                     $(".loading").hide();
-                    me.parent().parent().remove();
+                    $.each(id.id, function (key, val) {
+
+                        $('#' + val).parent().parent().parent().remove();
+                    })
+
                     alert(msg.ResultData);
                     break;
             }
@@ -134,7 +117,7 @@ $('#delete').on('click', function () {
         }
 
     });
-});
+}
 
 /**
  * 获取要操作的文章数组
@@ -144,15 +127,7 @@ $('#delete').on('click', function () {
 function getAllGuid()
 {
 
-    var num = $('.checkbox-contri').size();
-    var guidArr = [];
-    for (var i = 0; i < num; i++) {
-        if ($('.checkbox-contri:eq('+i+')').is(':checked')) {
-            guidArr[i] = $('.checkbox-contri:eq('+i+')').attr('id');
-        };
-        alert(guidArr[i]);
 
-    }
 }
 
 
