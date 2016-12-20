@@ -85,7 +85,7 @@ class SendController extends Controller
             return response()->json(['StatusCode' => '400', 'ResultData' => '参数错误']);
         }
         unset($data['verif_code']);
-
+        $data['user'] = 2;
         $data['user_id'] = session('user')->guid;
         // 取出用户信息
         $res = self::$userServer->userInfo(['guid' => $data['user_id']]);

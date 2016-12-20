@@ -68,7 +68,22 @@
                 @foreach($likeData as $data)
                     <div class="my-like-box pad-3 bb-1">
                         <p class="col-xs-12">
-                            <a href="{{route('action.show', $data->action_id) }}"><span>活动</span>{{$data->contentTitle}}</a>
+                            @if($data->type == 1)
+                                <a href="{{route('article.show', $data->action_id) }}">
+                                    <span>文章</span>
+                                    {{$data->contentTitle}}
+                                </a>
+                            @elseif($data->type == 2)
+                                <a href="{{route('project.show', $data->action_id) }}">
+                                    <span>项目</span>
+                                    {{$data->contentTitle}}
+                                </a>
+                            @elseif($data->type == 3)
+                                <a href="{{route('action.show', $data->action_id) }}">
+                                    <span>活动</span>
+                                    {{$data->contentTitle}}
+                                </a>
+                            @endif
                         </p>
                         <p class="col-xs-12 mar-cb">{{$data->time}}</p>
                         <div class="clearfix"></div>

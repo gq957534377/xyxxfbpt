@@ -17,6 +17,9 @@ a:hover{
   text-decoration: none;
   color: #000000;
 }
+.zxz-footer a:hover{
+  color: inherit;
+}
 @media screen and (max-width:500px) {
   .rodeing-type >ul>li{
     min-width: 70px;
@@ -41,7 +44,7 @@ a:hover{
   padding-left: 0;
 }
 .rodeing-time .active a{
-  background-color:#FF9036;
+  background-color: #FF9900;
   color: #ffffff;
 }
 @media screen and (min-width:767px) {
@@ -78,7 +81,7 @@ a:hover{
 }
 /***************活动列表块样式开始****************/
 .rodeing-list{
-  padding: 0;
+  padding: 0 0 40px;
   margin: 0 auto;
 }
 .rodeing-list>li{
@@ -88,9 +91,40 @@ a:hover{
   padding-left: 0;
   padding-right: 0;
 }
+
 .rodeing-img img{
   width: 100%;
-  height: 100%;
+  height: 140px;
+}
+@media screen and (max-width:767px){
+  .rodeing-img img{
+    width: 100%;
+    height: 340px;
+  }
+}
+@media screen and (max-width:620px){
+  .rodeing-img img{
+    width: 100%;
+    height: 300px;
+  }
+}
+@media screen and (max-width:520px){
+  .rodeing-img img{
+    width: 100%;
+    height: 240px;
+  }
+}
+@media screen and (max-width:420px){
+  .rodeing-img img{
+    width: 100%;
+    height: 200px;
+  }
+}
+@media screen and (max-width:380px){
+  .rodeing-img img{
+    width: 100%;
+    height: 160px;
+  }
 }
 .rodeing-font h2{
   font-size: 20px;

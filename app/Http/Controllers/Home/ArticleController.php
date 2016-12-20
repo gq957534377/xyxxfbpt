@@ -35,10 +35,8 @@ class ArticleController extends Controller
             $res = self::$articleServer->selectByType($request['type']);
             return view('home.article.index', $res);
         }
-        $type = $request['type'];
-        $result = self::$articleServer -> selectByType($type);
-        if ($result['status']) return view('home.article.index', ['msg' => $result['msg'], 'type' => $type]);
-        return view('home.article.index', ['msg' => $result['msg'], 'type' => $type]);
+
+        return view('errors.404');
     }
 
     /**
