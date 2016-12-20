@@ -71,9 +71,9 @@ class HomeController extends Controller
         $carousel = $carouselResult['ResultData'];
         $invest = $investResult['ResultData'];
         $projects = $projectResult['ResultData'];
-        $roadShows  = $roadShowResult['msg'];
-        $sybs = $sybResult['msg'];
-        $trains = $trainResult['msg'];
+        $roadShows  = $roadShowResult['ResultData'];
+        $sybs = $sybResult['ResultData'];
+        $trains = $trainResult['ResultData'];
 
         return view('home.index.index', compact('projects','roadShows', 'sybs', 'trains', 'cooper', 'carousel', 'invest'));
     }

@@ -15,6 +15,7 @@
                 <div id="carousel-example-generic" class="carousel slide animated rotateInUpLeft" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
+                        @if( is_array($cooper) )
                         @foreach($cooper as $key => $val)
                             @if($key == 0)
                                 <li data-target="#carousel-example-generic" data-slide-to="{{$key}}" class="active"></li>
@@ -22,12 +23,14 @@
                                 <li data-target="#carousel-example-generic" data-slide-to="{{$key}}"></li>
                             @endif
                         @endforeach
+                        @else
+                           {{ $coopoer }}
+                        @endif
                     </ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
-
-
+                        @if( is_array($cooper) )
                         @foreach($cooper as $key => $val)
                             @if($key == 0)
                                 <div class="item active">
@@ -43,6 +46,9 @@
                                 </div>
                             @endif
                         @endforeach
+                        @else
+                            <li>{{ $coopoer }}</li>
+                        @endif
                     </div>
 
                     <!-- Controls -->
@@ -76,7 +82,7 @@
                     </div>
                 </div>
                 <ul class="row">
-                    @if(isset($projects))
+                    @if(is_array($projects))
                         @foreach ($projects as $project)
                             <li class="col-sm-4">
                                 <a class="new_a" href="{{ route('project.show', $project->project_id) }}">
@@ -111,7 +117,7 @@
                             </li>
                         @endforeach
                     @else
-                        暂无数据
+                        {{ $projects }}
                     @endif
                 </ul>
             </div>
@@ -248,6 +254,7 @@
                 <a href="#">查看全部</a>
             </div>
             <ul class="row">
+                @if(is_array($roadShows))
                 @foreach($roadShows as $roadShow)
                     <li class="col-sm-4">
                         <a href="#">
@@ -275,6 +282,9 @@
     			</span>
                     </li>
                 @endforeach
+                @else
+                    {{ $roadShows }}
+                @endif
             </ul>
         </section>
         <!-- 路演活动 End -->
@@ -290,6 +300,7 @@
                 <a href="#">查看全部</a>
             </div>
             <ul class="row">
+                @if(is_array($sybs))
                 @foreach($sybs as $syb)
                     <li class="col-sm-4">
                         <a href="#">
@@ -317,6 +328,9 @@
     			</span>
                     </li>
                 @endforeach
+                @else
+                  {{ $sybs }}
+                @endif
             </ul>
         </section>
         <!-- 创业大赛 End -->
@@ -332,6 +346,7 @@
                 <a href="#">查看全部</a>
             </div>
             <ul class="row">
+                @if(is_array($trains))
                 @foreach($trains as $train)
                     <li class="col-sm-6">
                         <a href="#">
@@ -357,6 +372,9 @@
                         </a>
                     </li>
                 @endforeach
+                @else
+                    {{ $trains }}
+                @endif
             </ul>
         </section>
         <!-- 英雄学院 End -->
@@ -656,9 +674,13 @@
         <section id="section7" class="font-size">
             <h2>英雄会合作机构</h2>
             <ul class="row">
+                @if(is_array($carousel))
                 @foreach($carousel as $val)
                 <li class="col-sm-2"><a href="{{ $val->pointurl }}"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"></a></li>
                 @endforeach
+                @else
+                  {{ $carousel }}
+                @endif
             </ul>
         </section>
         <!----英雄会友情机构结束----->
@@ -672,6 +694,7 @@
         <section id="section9" class="font-size">
             <h2>英雄会顶级投资机构联盟</h2>
             <ul class="row">
+                @if(is_array($invest))
                 @foreach($invest as $val)
                     <li class="col-sm-2">
                         <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"/>
@@ -682,7 +705,9 @@
                         </a>
                     </li>
                 @endforeach
-
+                @else
+                  {{ $invest }}
+                @endif
 
             </ul>
         </section>

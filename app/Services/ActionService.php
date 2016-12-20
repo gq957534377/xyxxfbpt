@@ -472,7 +472,7 @@ class ActionService
     public function takeActions($type, $status = null,$number = 3)
     {
 
-        if (!isset($type)) return ['StatusCode' => '400', 'ResultData' => '缺少参数'];
+        if (!isset($type)) return ['StatusCode' => '401', 'ResultData' => '缺少参数'];
 
         if (isset($status)) {
             $where = ['type' => $type, 'status' => $status];
