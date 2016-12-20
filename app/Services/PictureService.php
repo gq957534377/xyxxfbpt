@@ -36,7 +36,11 @@ class PictureService
         // 判断是否上传成功
         if ($res['status'] == '200') {
             // 判断图片信息是否保存成功
-            if (self::$picturestore->savePicture(['url' => $res['msg'], 'state' => 2])) {
+            if (self::$picturestore->savePicture([
+                'url' => $res['msg'],
+                'status' => 2,
+                'addtime' => time()])
+            ) {
                 return ['StatusCode' => '200', 'ResultData' => '图片保存成功'];
             }
         }
@@ -59,7 +63,8 @@ class PictureService
                 'url' => $res['msg'],
                 'status' => 3,
                 'pointurl' => $data['url'],
-                'name' => $data['name']
+                'name' => $data['name'],
+                'addtime' => time(),
             ])) {
                 return ['StatusCode' => '200', 'ResultData' => '合作机构保存成功'];
             }
@@ -83,7 +88,8 @@ class PictureService
                 'url' => $res['msg'],
                 'status' => 5,
                 'pointurl' => $data['url'],
-                'name' => $data['name']
+                'name' => $data['name'],
+                'addtime' => time(),
             ])) {
                 return ['StatusCode' => '200', 'ResultData' => '合作机构保存成功'];
             }

@@ -1,6 +1,6 @@
 <div class="modal fade" id="avatar-modal" aria-hidden="true" aria-labelledby="avatar-modal-label" role="dialog" tabindex="-1">
 
-    <img class="loading"  src="{{ asset('home/img/loading.gif') }}" style="position: absolute;left: 43%;top: 30%;"/>
+    <img class="loading"  src="{{ asset('/admin/images/load.gif') }}" style="position: absolute;left: 43%;top: 30%;"/>
 
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
