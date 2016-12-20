@@ -48,7 +48,6 @@ class ArticleService
      */
     public static function selectByType($type)
     {
-
         $data = self::$articleStore->getData(['type' => $type, 'status' => 1]);
 
         if($data) return ['StatusCode' => '200', 'ResultData' => $data];
@@ -190,7 +189,7 @@ class ArticleService
      */
     public function upDta($where, $data)
     {
-        $data["time"] = date("Y-m-d H:i:s", time());
+        $data["addtime"] = time();
         $Data = self::$articleStore->upload($where, $data);
         if($Data){
             return ['StatusCode'=> 200,'ResultData' => "修改成功"];
@@ -384,7 +383,12 @@ class ArticleService
     public static function addArticle($data)
     {
         $data["guid"] = Common::getUuid();
-        $data["time"] = date("Y-m-d H:i:s", time());
+        $data["addtime"] = time();
+        $data['user'] = 2;
+
+        if ($data['status'] != '2' && $data['status'] != '4') {
+            $data['status'] = '4';
+        }
 
         $result = self::$articleStore->insertData($data);
 

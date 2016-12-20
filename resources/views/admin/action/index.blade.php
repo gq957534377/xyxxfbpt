@@ -188,7 +188,7 @@
                 <h4 class="modal-title" id="myLargeModalLabel">修改活动</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg" onsubmit="return false">
+                <form class="form-horizontal p-20" data-changed=false role="form" id="yz_xg" onsubmit="return false">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -299,7 +299,7 @@
                         </div>
                     </div>
                     <center>
-                        <button type="submit" class="btn btn-success m-l-10">修改</button>
+                        <button type="submit" id="sub_xg" class="btn btn-success m-l-10">修改</button>
                     </center>
                 </form>
             </div>
@@ -708,6 +708,14 @@
             //初始化
             FormValidator.prototype.init = function () {
                 //插件验证完成执行操作 可以不写
+//                $('#sub_xg').click(function () {
+//                    if ($('#yz_xg').data('changed')){
+//                        alert(111);
+//                    }else{
+//                        alert(222);
+//                    }
+//                });
+
                 $.validator.setDefaults({
                     submitHandler: function () {
                         $.ajaxSetup({
@@ -898,6 +906,15 @@
                     success : date,
                     error   : ajaxErrorModel
                 });
+            });
+            $("#yz_xg :input").change(function(){
+                $("#yz_xg").attr("data-changed",true);
+            });
+            $('#xg_brief').change(function(){
+                $("#yz_xg").attr("data-changed",true);
+            });
+            $('#charge_banner').change(function(){
+                $("#yz_xg").attr("data-changed",true);
             });
         }
 

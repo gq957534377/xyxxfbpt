@@ -116,8 +116,10 @@ class ActionService
     public function insertData($data)
     {
         $data["guid"] = Common::getUuid();
-        $data["time"] = date("Y-m-d H:i:s", time());
-        $data["change_time"] = date("Y-m-d H:i:s", time());
+        $data['start_time'] = strtotime($data['start_time']);
+        $data['end_time'] = strtotime($data['end_time']);
+        $data['deadline'] = strtotime($data['deadline']);
+        $data["addtime"] = time();
 
         //检测时间是否符合标准
         $temp = $this->checkTime($data);
@@ -141,9 +143,9 @@ class ActionService
     public function checkTime($data)
     {
         //转为时间戳
-        $endtime = strtotime($data["end_time"]);
-        $deadline = strtotime($data["deadline"]);
-        $starttime = strtotime($data["start_time"]);
+        $endtime = $data["end_time"];
+        $deadline = $data["deadline"];
+        $starttime = $data["start_time"];
 
         //检测开始：报名截止时间 < 活动开始时间 < 活动结束时间
         if($endtime > $starttime && $starttime > $deadline && $deadline > time()){
@@ -171,9 +173,9 @@ class ActionService
         $old = $data->status;
 
         //转为时间戳
-        $endTime = strtotime($data->end_time);
-        $deadline = strtotime($data->deadline);
-        $startTime = strtotime($data->start_time);
+        $endTime = $data->end_time;
+        $deadline = $data->deadline;
+        $startTime = $data->start_time;
         $time = time();
 
         //设置状态
@@ -269,9 +271,16 @@ class ActionService
         }
         //查询一条数据活动信息
         $data = self::$actionStore->getOneData(["guid" => $guid]);
-        if($data) return ['StatusCode'=> 200,'ResultData' => $data];
-        \Log::info('获取'.$guid.'活动详情出错:'.$data);
-        return ['StatusCode'=> 500,'ResultData' => "获取活动信息失败"];
+        if($data) {
+            $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
+            $data->start_time = date("Y-m-d H:i:s", $data->start_time) ;
+            $data->end_time = date("Y-m-d H:i:s", $data->end_time) ;
+            $data->deadline = date("Y-m-d H:i:s", $data->deadline) ;
+            return ['StatusCode'=> 200,'ResultData' => $data];
+        }else{
+            \Log::info('获取'.$guid.'活动详情出错:'.$data);
+            return ['StatusCode'=> 500,'ResultData' => "获取活动信息失败"];
+        }
     }
 
     /**
@@ -308,10 +317,14 @@ class ActionService
      * @param $where
      * @param $data
      * @return array
-     * author 张洵之
+     * author 郭庆
      */
     public function upDta($where, $data)
     {
+        $data['start_time'] = strtotime($data['start_time']);
+        $data['end_time'] = strtotime($data['end_time']);
+        $data['deadline'] = strtotime($data['deadline']);
+        $data["addtime"] = time();
         $Data = self::$actionStore->upload($where, $data);
         if($Data){
             return ['StatusCode'=> 200,'ResultData' => "修改成功"];

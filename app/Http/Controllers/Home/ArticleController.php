@@ -33,6 +33,7 @@ class ArticleController extends Controller
     {
         if (!empty($request['type'])) {
             $res = self::$articleServer->selectByType($request['type']);
+
             return view('home.article.index', $res);
         }
 
