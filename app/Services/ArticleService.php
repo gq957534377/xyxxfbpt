@@ -86,18 +86,20 @@ class ArticleService
      */
     public function selectData($where, $nowPage, $forPages, $url, $disPlay=true)
     {
-
+        //查询总记录数
         $count = self::$articleStore->getCount($where);
         if (!$count) {
+            //如果没有数据直接返回201空数组，函数结束
             if ($count == 0) return ['StatusCode' => '201', 'ResultData' => []];
             return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
         }
+        //计算总页数
         $totalPage = ceil($count / $forPages);
 
         //获取对应页的数据
-        $res = self::$articleStore->forPage($nowPage, $forPages, $where);
-        if($res){
-            if ($disPlay) {
+        $result['data'] = self::$articleStore->forPage($nowPage, $forPages, $where);
+        if($result['data']){
+            if ($disPlay && $totalPage>1) {
                 //创建分页样式
                 $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
 
@@ -106,9 +108,8 @@ class ArticleService
                 }else{
                     return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
                 }
-                $result['data'] = $res;
             }else{
-                $result = $res;
+                $result["pages"] = '';
             }
             return ['StatusCode' => 200,'ResultData' => $result];
         }else{
