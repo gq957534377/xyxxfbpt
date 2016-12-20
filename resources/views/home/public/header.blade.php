@@ -20,14 +20,16 @@
                         </li>
                     </ul>
                     <a href="#">消息</a>
-                    <a href="#">英雄社区</a>
+                    {{--<a href="#">英雄社区</a>--}}
+                    <a href="#"></a>
 
                 </div>
             @else
                 <div class="top-right">
                     <a href="{{ url('/login') }}"><img class="img-circle" src="{{ asset('home/img/icon_empty.png') }}"></a>
                     <a href="{{ url('/login') }}">未登录</a>
-                    <a href="#">英雄社区</a>
+                    <a href="#"></a>
+                    {{--<a href="#">英雄社区</a>--}}
                 </div>
             @endif
         </div>
