@@ -113,6 +113,7 @@ class CommentAndLikeService
     {
         $url = $request->url();
         return Common::getPageUrls($request, $table, $url, 5, null, $where);
+
     }
 
 
@@ -159,7 +160,11 @@ class CommentAndLikeService
         //拼装了内容标题的评论数据
         $commentData = $this->openData($this->getContents($commentData));
         //拼装分页样式
-        $commentData['pageData'] = $pageData;
+        if($pageData['totalPage']>1){
+            $commentData['pageData'] = $pageData;
+        }else{
+            $commentData['pageData'] = null;
+        }
 
         return ['StatusCode' => '200', 'ResultData' => $commentData];
     }
@@ -207,7 +212,12 @@ class CommentAndLikeService
 
         if (empty($likeDatas)) return ['StatusCode' => '400', 'ResultData' => '点赞数据拼装失败'];
 
-        $likeDatas['pageData'] = $pageData;
+        if($pageData['totalPage']>1){
+            $likeDatas['pageData'] = $pageData;
+        }else{
+            $likeDatas['pageData'] = null;
+        }
+
         return ['StatusCode' => '200', 'ResultData' => $likeDatas];
     }
 
@@ -221,8 +231,8 @@ class CommentAndLikeService
      */
     public  function comment($data)
     {
-        $data["time"] = date("Y-m-d H:i:s", time());
-
+        $data["addtime"] = time();
+        $data["changetime"] = time();
         // 判断两次评论之间的时间间隔
         $oldTime = $this->getUserCommentTime ($data['action_id'], session('user')->guid);
 
@@ -231,8 +241,9 @@ class CommentAndLikeService
         };
 
         $result = self::$commentStore->addData($data);
+
         if($result) {
-            $userData = $this->getUserCommentData($data['time'], $data['content']);
+            $userData = $this->getUserCommentData($data['changetime'], $data['content']);
             return ['StatusCode' => '200', 'ResultData' => $userData];
         }
 
@@ -253,7 +264,7 @@ class CommentAndLikeService
         if (empty($res)) {
             return 0;
         } else {
-            return strtotime($res[0]->time);
+            return $res[0]->changetime;
         }
     }
 
@@ -271,7 +282,7 @@ class CommentAndLikeService
         return [
             'userImg' => $userImg,
             'nikename' => $nikename,
-            'time' => $time,
+            'time' => date('Y-m-d H:m:s',$time),
             'content' => $content
         ];
     }
@@ -348,18 +359,18 @@ class CommentAndLikeService
      */
     public function likeTime($where)
     {
-        $result = self::$likeStore->getLikeStatus($where, 'time');
+        $result = self::$likeStore->getLikeStatus($where, 'changetime');
 
         if($result) {
             $nowTime = time();//当前时间戳
-            $changeTime = strtotime($result[0]);//上次操作时间戳
+            $changeTime = $result[0];//上次操作时间戳
             $time = $nowTime -$changeTime;//两次操作时间差值
 
             if($time<15) return false;
 
             return true;
         }else{
-            return true;
+            return false;
         }
     }
 
@@ -384,18 +395,18 @@ class CommentAndLikeService
             'action_id' => $contentId, //内容ID
             'user_id' => $userId, //用户ID
             'support' => 1, //点赞状态 1：赞 2：取消赞
-            'time' => date('Y-m-d H:i:s',time()),//修改日期
-            'addtime' => date('Y-m-d H:i:s',time()),//添加日期
+            'changetime' => time(),//修改日期
+            'addtime' => time(),//添加日期
             'type' => $type //点赞外联属性 1-文章；2-项目；3-活动；
         ];
 
         switch ($result) {
             case 1 :
-                $temp = self::$likeStore->updateData($where, ['support' => 2, 'time' => date('Y-m-d H:i:s',time())]);//取消赞或收藏
+                $temp = self::$likeStore->updateData($where, ['support' => 2, 'changetime' => time()]);//取消赞或收藏
                 break;
 
             case 2 :
-                $temp = self::$likeStore->updateData($where, ['support' => 1, 'time' => date('Y-m-d H:i:s',time())]);//添加赞或收藏
+                $temp = self::$likeStore->updateData($where, ['support' => 1, 'changetime' => time()]);//添加赞或收藏
                 break;
 
             default :

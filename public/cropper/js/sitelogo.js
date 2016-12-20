@@ -19,7 +19,7 @@
     this.$avatarView = this.$container.find('.avatar-view');
     this.$avatar = this.$avatarView.find('img');
     this.$avatarModal = $("body").find('#avatar-modal');
-    this.$loading = $("#page-wrapper").find('.loading');
+    this.$loading = this.$avatarModal.find('#loading_card');
 
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
     this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
@@ -271,14 +271,14 @@
     },
 
     submitStart: function () {
-      // this.$loading.fadeIn();
-      $(".loading").fadeIn();
+      this.$loading.fadeIn();
+      // $(".loading").fadeIn();
     },
 
     submitDone: function (data) {
       if ($.isPlainObject(data)) {
         if (data.StatusCode == '200') {
-          $(".loading").fadeOut();
+            this.$loading.fadeOut();
           this.url = data.ResultData;
           if (this.support.datauri || this.uploaded) {
             this.uploaded = false;
@@ -293,13 +293,13 @@
           this.alert(data.ResultData);
         }
       } else {
-        $(".loading").fadeOut();
+          this.$loading.fadeOut();
         this.alert('Error:500,服务异常!');
       }
     },
 
     submitFail: function (msg) {
-        $(".loading").hide();
+        this.$loading.fadeOut();
       this.alert(msg);
     },
 

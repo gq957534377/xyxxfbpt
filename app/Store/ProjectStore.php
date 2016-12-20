@@ -43,6 +43,7 @@ class ProjectStore {
      */
     public function takeData($number)
     {
+        if (empty($number)) return false;
         return DB::table(self::$table)->orderByRaw('RAND()')->take($number)->get();
     }
     /**

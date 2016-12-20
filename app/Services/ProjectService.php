@@ -80,8 +80,9 @@ class ProjectService {
     {
         $data = self::$projectStore->takeData($number);
 
-        if (!$data) return ['status' => false, 'msg' => '查询失败'];
-        return ['status' => true, 'msg' => $data];
+        if (!$data) return ['StatusCode' => '204', 'ResultData' => '暂无无数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $data];
     }
 
     /**
@@ -197,5 +198,22 @@ class ProjectService {
         $res = self::$projectStore->update($where,$data);
         if ($res==0) return ['status'=>false,'msg'=>'修改失败'];
         return ['status'=>true,'msg'=>'修改成功'];
+    }
+
+    public function ajaxForClass($type)
+    {
+        $where = ['disable'=>'0','status'=>'3'];
+
+        switch ($type) {
+            case 0 :
+                $result = $this->getData($where);
+                break;
+//            case 1 :
+//                $result = $this->getDatas();
+        }
+
+        if(is_array($result)) return ['StatusCode' => '200', 'ResultData' => $result];
+
+        return ['StatusCode' => '500', 'ResultData' => "服务器端出错"];
     }
 }

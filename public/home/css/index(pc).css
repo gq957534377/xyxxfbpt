@@ -118,6 +118,7 @@ section{
 }
 #section1 div>li >a{
 	line-height: 36px;
+	word-break: keep-all;
 }
 #section1 >div>.row>div:nth-child(2){
 	float: right;

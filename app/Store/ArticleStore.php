@@ -68,8 +68,8 @@ class ArticleStore
     {
         return DB::table(self::$table)
             ->where($where)
-            ->orderBy("addtime",$sort)
-            ->forPage($page,$tolPage)
+            ->orderBy("addtime", $sort)
+            ->forPage($page, $tolPage)
             ->get();
     }
 
@@ -80,7 +80,7 @@ class ArticleStore
      */
     public static function getData($where)
     {
-        return DB::table(self::$table)->where($where)->orderBy("time","desc")->get();
+        return DB::table(self::$table)->where($where)->orderBy("addtime", "desc")->get();
     }
 
     /**

@@ -109,8 +109,7 @@
                         <form id="comment" method = 'post'>
                             <input name="action_id" value="{{ $contentId}}" hidden>
                             <input name="type" value="3" hidden>
-                            <textarea name="content" required>
-                            </textarea>
+                            <textarea name="content" required></textarea>
                             <button type="submit" class="subbtn btn btn-warning" >提交</button>
                         </form>
                     </li>
@@ -125,7 +124,7 @@
                                 <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
                                     <div class="row user-say1">
                                         <span>{{ $datas->nikename }}</span>
-                                        <span>{{ $datas->time }}</span>
+                                        <span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>
                                     </div>
                                     <div class="row user-say2">
                                         <p>{{ $datas->content }}</p>
