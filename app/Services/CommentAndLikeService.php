@@ -370,7 +370,7 @@ class CommentAndLikeService
 
             return true;
         }else{
-            return true;
+            return false;
         }
     }
 

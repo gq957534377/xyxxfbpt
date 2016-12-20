@@ -64,7 +64,11 @@ class OpenIMService
             $pwd = md5($uid);
             $this->userinfos['uid'] = $userid;
             $this->userinfos['pwd'] = $pwd;
-            $res = self::$openim->insertInfo(['user' => $userid, 'password' => $pwd]);
+            $res = self::$openim->insertInfo([
+                'user' => $userid,
+                'password' => $pwd,
+                'addtime' => time()
+            ]);
             // 判断是否插入成功
             if (!empty($res)) {
                 $rest = $this->userToIM($userid, $pwd, $nick, $icon_url, $mobile);

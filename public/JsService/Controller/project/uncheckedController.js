@@ -146,7 +146,15 @@ $(function(){
         data:{
             status:'1'
         },
-        beforeSend:function(){$('.loading').show()},
+        beforeSend:function(){
+            var width  = $('#margin_load').width() / 2;
+            var height = $('#margin_load').height() / 2 + 80;
+
+            $('.loading').show().css({
+                'left' : width,
+                'top' : height,
+            });
+        },
         success:function(res){
             $('.loading').hide();
             var data = res.data;
