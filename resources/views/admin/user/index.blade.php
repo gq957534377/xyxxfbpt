@@ -67,9 +67,22 @@
     <div id="con123" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" id="fabu">
             <div class="modal-content">
+                <div id = "" class="modal-header">
+
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-4">12345131315646464646545646545644444444444444444444654646554654654645646554646</div>
+                        <div class="col-sm-4">67890464654654444444444444444444444444444444444444444444444444444444444444454646</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+                    <button type="submit" data-name="" class="road_update btn btn-primary" id="add_road">发布活动</button>
+                </div>
 
             </div>
-            </div>
+        </div>
 
     </div>
 
@@ -130,6 +143,19 @@
     {{--</script>--}}
 
     <script>
+        /**
+         *查看用户详情
+         *
+         *
+         *
+         * */
+        function listenChange() {
+            $('.user_modify').click(function () {
+                var guid = $(this).data('name');
+                $('#con123').modal('show');
+                $('.modal-header').html(guid);
+            });
+        }
 
         //页面默认加载所有可用用户信息
         $(function () {
@@ -323,19 +349,7 @@
             return str;
         }
 
-        /**
-         *查看用户详情
-         *
-         *
-         *
-         * */
-        function listenChange() {
-            $('.user_modify').click(function () {
-                var guid = $(this).data('name');
-                $('#con123').modal('show');
-                $('.modal-content').html(guid);
-            });
-        }
+
 
 
     </script>
