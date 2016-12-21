@@ -62,7 +62,9 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/web_invest_organiz', 'WebInvestOrganizController');
 
         // 用户管理bate
-        Route::resource('/test','TestController');
+        Route::resource('/user_management','UserManagementController');
+        // 角色申请管理
+        Route::resource('/role_management','RoleManagementController');
 
         // 图片内容管理
         Route::resource('/picture/carousel', 'PictureOrganizController@carousel');

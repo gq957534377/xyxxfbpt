@@ -7,12 +7,24 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Tools\CustomPage;
+
 use App\Store\UserStore;
+use App\Store\RoleStore;
+use App\Services\userManagementService as Users;
 
 
-class TestController extends Controller
+class UserManagementController extends Controller
 {
+
+    protected static $users;    //用户管理service
+    /**
+     *
+     */
+    public function __construct(Users $users)
+    {
+        self::$users = $users;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +32,7 @@ class TestController extends Controller
      */
     public function index()
     {
-        //
+        //返回后台用户管理首页
         return view('admin.user.index');
     }
 
@@ -57,86 +69,38 @@ class TestController extends Controller
         $data = $request->all();
 
         //参数范围限制
-        if($data['key'] < 0 || $data['key'] > 13){
-            return response()->josn(['StatusCode' => 403]);
+        if($data['key'] < 0 || $data['key'] > 16){
+            return view('404');
         }
         //参数规则
-        $roles = [
-            ['role' => 1],    //查询data_user_info表,普通用户
-            ['role' => 2],      //创业者用户
-            ['role' => 3],      //投资者用户
-            ['role' => 4],      //英雄会会员
-            ['status' => 1, 'role' => 2],     //查询data_role_info表,'待审核创业者用户' =>
-            ['status' => 1, 'role' => 3],     //  '待审核投资者用户' =>
-            ['status' => 1, 'role' => 4],     //'待审核投资者用户' =>
-            ['status' => 3, 'role' => 2],    // '审核失败创业者用户' =>
-            ['status' => 3, 'role' => 3],    //'审核失败投资者用户' =>
-            ['status' => 3, 'role' => 4],    //'审核失败英雄会成员' =>
-            ['status' => 2, 'role' => 1],      //'已禁用普通用户' =>
-            ['status' => 2, 'role' => 2],     //'已禁用创业者用户' =>
-            ['status' => 2, 'role' => 3],     //'已禁用投资者用户' =>
-            ['status' => 2, 'role' => 4]      //'已禁用英雄会成员' =>
-        ];
+        $roles = self::$users->roles();
 
         //查询条件
         $where = $roles[$data['key']];
 
-        //表名选择
-        if(count($where) > 1){
+        //表名选择,并获取数据的条数
+        if($data['key'] > 8){
             $table = 'data_role_info';
-
-            $count = \DB::table($table)->where($where)->count();
-
-
-
         }else{
             $table = 'data_user_info';
-
-            $count = \DB::table($table)->where($where)->count();
-
-
         }
 
+        //获取条数
+        $count = self::$users->getCount($table, $where);
         //没有数据返回400
         if ($count == 0){
             return response()->json(['StatusCode' => 400]);
         }
 
-        $pageNums = 1;  //一页的数据条数
+        $pageNums = 5;  //一页的数据条数
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;   //获取当前页
-        //总页数
-        $totalPage = ceil($count / $pageNums);
-        //分页求情的地址
-        $baseUrl   = url('/test/show');
+        $search = ['key' => $data['key']];  //查询参数拼装
 
-        if($nowPage <= 0){
-            $nowPage = 1;
-        }elseif ($nowPage > $totalPage){
-            $nowPage = $totalPage;
-        }
-
-        //创建分页
-        if ($totalPage > 1){
-            $search = ['key' => $data['key']];
-            $pageStr = CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl, $search);
-        }else{
-            $pageStr = '';
-        }
+        //获取分页字符串
+        $pageStr = self::$users->paramHandle($count, $nowPage, $pageNums, $search);
 
         //获取对应页的数据
-        if (count($where) > 1){
-            $Data = \DB::table($table)
-
-                ->where($where)
-                ->forPage($nowPage, $pageNums)
-                ->get();
-        }else{
-            $Data = \DB::table($table)->where($where)->forPage($nowPage, $pageNums)->get();
-
-        }
-
-
-
+        $Data = self::$users->getTypelist($table, $where, $nowPage, $pageNums);
 
         //有则返回200和用户列表信息
         return response()->json(['StatusCode' => 200, 'ResultData' => [$pageStr,$Data]]);

@@ -12,44 +12,36 @@
 @section('content')
 
     <div class="btn-toolbar" role="toolbar">
-        <h2>用户常规管理</h2>
+        <h2>用户审核管理</h2>
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">用户类型
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">待审核
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a  class="user_role_list"  key="1"  title="普通用户">普通用户</a>
+                    <a  class="user_role_list" key="9" title="待审核创业者用户" >创业者</a>
                 </li>
                 <li>
-                    <a  class="user_role_list"  key="2"  title="创业者用户">创业者用户</a>
+                    <a  class="user_role_list" key="10" title="待审核投资者用户" >投资者</a>
                 </li>
                 <li>
-                    <a  class="user_role_list"  key="3" title="投资者用户">投资者用户</a>
-                </li>
-                <li>
-                    <a  class="user_role_list"  key="4"  title="英雄会成员">英雄会成员</a>
+                    <a   class="user_role_list" key="11"  title="待审核英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
-
-
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">已禁用
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">审核失败
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a class="user_role_list" key="5" title="已禁用普通用户" >普通用户</a>
+                    <a class="user_role_list" key="12" title="审核失败创业者用户">创业者</a>
                 </li>
                 <li>
-                    <a  class="user_role_list" key="6" title="已禁用创业者用户" >创业者</a>
+                    <a  class="user_role_list" key="13" title="审核失败投资者用户">投资者</a>
                 </li>
                 <li>
-                    <a  class="user_role_list" key="7" title="已禁用投资者用户" >投资者</a>
-                </li>
-                <li>
-                    <a  class="user_role_list" key="8" title="已禁用英雄会成员">英雄会成员</a>
+                    <a class="user_role_list" key="14" title="审核失败英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -64,14 +56,6 @@
     {{--表格盒子开始--}}
     <div class="panel" id="data" style="text-align: center"></div>
     {{--表格盒子结束--}}
-    <div id="con123" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog" id="fabu">
-            <div class="modal-content">
-
-            </div>
-            </div>
-
-    </div>
 
 @endsection
 {{--展示内容结束--}}
@@ -133,8 +117,8 @@
 
         //页面默认加载所有可用用户信息
         $(function () {
-            $('#user_title').html('<h3>所有用户</h3>');
-            var key = 0;
+            $('#user_title').html('<h3>待审核用户</h3>');
+            var key = 15;   //默认请求所有待审核用户
 
             var url = '/user_management/show';
 
@@ -225,7 +209,6 @@
                     $('#data').html(htmlStr(msg.ResultData[1]));
                     $('#page').html(msg.ResultData[0]);
                     pages();
-                    listenChange();
 
 
                 }
@@ -291,22 +274,29 @@
                 str +=  '<td>' + v.email + '</td>';
                 str +=  '<td>';
 
-                if(v.status == 1){
-                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-danger btn-xs" style="border-radius:6px">禁用</button></a>';
+                if(v.status == 5 && v.role == 2){
+                    str += '<span class="text-danger text-xs">待审核&nbsp; </span><span class="text-info text-xs">创业者</span>';
                 }
-                if(v.status == 2){
-                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-success btn-xs">启用</button></a>';
+                if(v.status == 5 && v.role == 3){
+                    str += '<span class="text-danger text-xs">待审核&nbsp;</span><span class="text-success text-xs">投资者</span>';
                 }
-                if(v.status == 5){
-                    str += '<span class="text-danger text-xs">待审核&nbsp;</span>';
+                if(v.status == 5 && v.role == 4){
+                    str += '<span class="text-danger text-xs">待审核&nbsp;</span><span class="text-warning text-xs">英雄会员</span>';
                 }
-                if(v.status == 7){
-                    str += '<span class="text-danger text-xs">审核失败&nbsp;</span>';
+
+                if(v.status == 7 && v.role == 2){
+                    str += '<span class="text-danger text-xs">未通过&nbsp; </span><span class="text-info text-xs">创业者</span>';
+                }
+                if(v.status == 7 && v.role == 3){
+                    str += '<span class="text-danger text-xs">未通过&nbsp;</span><span class="text-success text-xs">投资者</span>';
+                }
+                if(v.status == 7 && v.role == 4){
+                    str += '<span class="text-danger text-xs">未通过&nbsp;</span><span class="text-warning text-xs">英雄会员</span>';
                 }
                 str +=  '</td>';
                 str +=  '<td>';
                 if(v.status == 5 || v.status == 7){
-                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-success">审核</button></a>';
+                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-success btn-xs">审核</button></a>';
                 }
                 str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
                 str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-warning btn-xs">详情</button></a>';
@@ -324,19 +314,11 @@
         }
 
         /**
-         *查看用户详情
+         *
          *
          *
          *
          * */
-        function listenChange() {
-            $('.user_modify').click(function () {
-                var guid = $(this).data('name');
-                $('#con123').modal('show');
-                $('.modal-content').html(guid);
-            });
-        }
-
 
     </script>
 
