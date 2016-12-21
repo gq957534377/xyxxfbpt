@@ -323,8 +323,8 @@ class UserController extends Controller
      */
     public function sendEmail(Request $request)
     {
+        dd($request->guid);
        if (!isset($request->guid) || !isset($request->newEmail)) return response()->json(['StatusCode' => '400', '缺少数据信息']);
-
 
        // 确认当前用户是否存在
        $userAccount = self::$userServer->accountInfo(['guid' => $request->guid]);

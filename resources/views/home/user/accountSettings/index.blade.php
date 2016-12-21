@@ -349,9 +349,11 @@
 @endsection
 
 @section('script')
+    <script src="{{asset('home/js/ajax/ajaxCommon.js')}}"></script>
     <script>
         $(function () {
             var guid = $("#topAvatar").data('id');
+            var ajax =new ajaxCommon();
 //        测量 滚动条宽度的函数 开始
             function measure() { // thx walsh
                 this.$body = $(document.body);
@@ -394,31 +396,25 @@
                     'captcha' : $.trim($("#captcha").val()),
                     'step'    : '1'
                 };
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url  : '/user/change/phone/' + guid,
-                    type : 'PUT',
-                    data : data,
-                    success: function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            alert(msg.ResultData);
-                            $('#sendSmsSuccess').addClass('hidden');
-                            $('.tel-step-one').addClass('hidden');
-                            $('.tel-step-one + div').addClass('hidden');
-                            $('.tel-step-two').removeClass('hidden');
-                            $('.tel-step-two + div').removeClass('hidden');
-                        } else {
-                            $('#errorBox').html(msg.ResultData).removeClass('hidden');
-                        }
-                    }
+                ajax.ajax({
+                    url     :   '/user/change/phone/' + guid,
+                    type    :   'PUT',
+                    data    :   data,
+                    success :   stepOne,
                 });
 
+                function stepOne (msg) {
+                    if (msg.StatusCode == '200') {
+                        alert(msg.ResultData);
+                        $('#sendSmsSuccess').addClass('hidden');
+                        $('.tel-step-one').addClass('hidden');
+                        $('.tel-step-one + div').addClass('hidden');
+                        $('.tel-step-two').removeClass('hidden');
+                        $('.tel-step-two + div').removeClass('hidden');
+                    } else {
+                        $('#errorBox').html(msg.ResultData).removeClass('hidden');
+                    }
+                }
             });
             $('#step_two').on('click', function () {
                 // 发送成功后，验证输入框不为空执行下一步
@@ -438,30 +434,27 @@
                     'step'    : '2'
                 };
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url  : '/user/change/phone/' + guid,
-                    type : 'PUT',
-                    data : data,
-                    success: function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            alert(msg.ResultData);
-                            $("#newSmsBox").text(msg.ResultData);
-                            $('.tel-step-two').addClass('hidden');
-                            $('.tel-step-two + div').addClass('hidden');
-                            $('.tel-step-three').removeClass('hidden');
-                            $('.tel-step-three + div').removeClass('hidden');
-                        } else {
-                            $('#errorBox2').html(msg.ResultData).removeClass('hidden');
-                        }
-                    }
+                ajax.ajax({
+                   url      :   '/user/change/phone/' + guid,
+                   type     :   'PUT',
+                   data     :   data,
+                   success  :   stepTwo,
+
                 });
 
+                function stepTwo (msg)
+                {
+                    if (msg.StatusCode == '200') {
+                        alert(msg.ResultData);
+                        $("#newSmsBox").text(msg.ResultData);
+                        $('.tel-step-two').addClass('hidden');
+                        $('.tel-step-two + div').addClass('hidden');
+                        $('.tel-step-three').removeClass('hidden');
+                        $('.tel-step-three + div').removeClass('hidden');
+                    } else {
+                        $('#errorBox2').html(msg.ResultData).removeClass('hidden');
+                    }
+                }
             });
             $('#step_three').on('click', function () {
                 // 发送成功后，验证输入框不为空执行下一步
@@ -477,30 +470,27 @@
                     'tel'     : $("#newSmsBox").text()
                 };
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url  : '/user/change/phone/' + guid,
-                    type : 'PUT',
-                    data : data,
-                    success: function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            alert(msg.ResultData);
-                            $('.tel-step-three').addClass('hidden');
-                            $('.tel-step-three + div').addClass('hidden');
-                            $('.tel-step-four').removeClass('hidden');
-                            $('.tel-step-four + div').removeClass('hidden');
-                            window.location.href = '/logout';
-                        } else {
-                            $('#errorBox3').html(msg.ResultData).removeClass('hidden');
-                        }
-                    }
+                ajax.ajax({
+                    url      :   '/user/change/phone/' + guid,
+                    type     :   'PUT',
+                    data     :   data,
+                    success  :   StepThree,
+
                 });
 
+                function StepThree (msg)
+                {
+                    if (msg.StatusCode == '200') {
+                        alert(msg.ResultData);
+                        $('.tel-step-three').addClass('hidden');
+                        $('.tel-step-three + div').addClass('hidden');
+                        $('.tel-step-four').removeClass('hidden');
+                        $('.tel-step-four + div').removeClass('hidden');
+                        window.location.href = '/logout';
+                    } else {
+                        $('#errorBox3').html(msg.ResultData).removeClass('hidden');
+                    }
+                }
             });
             $('#step_four').on('click', function () {
                 $('.tel-step-four').addClass('hidden');
@@ -548,25 +538,23 @@
                     'guid'     : guid,
                     'newEmail' : newEmail,
                 };
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url     : '/user/sendemail',
-                    type    : 'POST',
-                    data    : data,
-                    success : function(msg){
-                        console.log(msg);
-                        $('#toEmail').html(newEmail);
 
-                        $('.email-step-one').addClass('hidden');
-                        $('.email-step-one + div').addClass('hidden');
-                        $('.email-step-two').removeClass('hidden');
-                        $('.email-step-two + div').removeClass('hidden');
-                    }
+                ajax.ajax({
+                    url      :   '/user/sendemail',
+                    type     :   'POST',
+                    data     :   data,
+                    success  :   emailOne,
+
                 });
+
+                function emailOne () {
+                    $('#toEmail').html(newEmail);
+
+                    $('.email-step-one').addClass('hidden');
+                    $('.email-step-one + div').addClass('hidden');
+                    $('.email-step-two').removeClass('hidden');
+                    $('.email-step-two + div').removeClass('hidden');
+                }
             });
             $('#email_step_two').on('click', function () {
 
