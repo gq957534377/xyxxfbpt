@@ -20,18 +20,19 @@ class ActionController extends Controller
      * 活动后台首页
      * @param
      * @return 活动管理页面
-     * @author 张洵之
+     * @author 郭庆
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.action.index');
+        $type = (int)$request->get('type');
+        return view('admin.action.index',['type'=>$type]);
     }
 
     /**
      * 获取分页数据
      * @param
      * @return array
-     * @author 张洵之
+     * @author 郭庆
      * @modify 郭庆
      */
     public function create(Request $request)
@@ -76,8 +77,7 @@ class ActionController extends Controller
      * 获取分页数据
      * @param $request
      * @return array
-     * @author 张洵之
-     * @modifif 郭庆
+     * @author 郭庆
      */
     public function store(Request $request)
     {
@@ -90,7 +90,7 @@ class ActionController extends Controller
      * 拿取一条活动信息详情
      * @param $id 活动id
      * @return array
-     * @author 张洵之
+     * @author 郭庆
      */
     public function show($id)
     {
@@ -102,7 +102,7 @@ class ActionController extends Controller
      * 修改活动+报名状态
      * @param $request
      * @param $id 活动id/报名记录id
-     * @author 活动：张洵之 报名：郭庆
+     * @author 郭庆
      */
     public function edit(Request $request, $id)
     {
@@ -135,5 +135,35 @@ class ActionController extends Controller
     {
         $result = self::$actionServer -> getOrderInfo($id);
         return response() -> json($result);
+    }
+
+    /**
+     * 返回活动发布视图
+     * @return view
+     * @author 郭庆
+     */
+    public function actionAdd()
+    {
+        return view('admin.action.add');
+    }
+    /**
+     * 返回活动修改视图
+     * @param $id 活动id
+     * @return view
+     * @author 郭庆
+     */
+    public function actionChange($id)
+    {
+        return view('admin.action.edit');
+    }
+    /**
+     * 返回报名列表管理视图
+     * @param $id 活动id
+     * @return view
+     * @author 郭庆
+     */
+    public function actionOrder($id)
+    {
+        return view('admin.action.order');
     }
 }

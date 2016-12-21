@@ -23,7 +23,12 @@
                 {{--<a href="{{url('project_approval')}}"><i class="fa fa-dollar"></i> <span class="nav-label">众筹管理</span></a>--}}
             {{--</li>--}}
 
-            <li class="has-submenu"><a href="{{asset('/action')}}"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span class="nav-label">活动管理</span></a>
+            <li class="has-submenu"><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i> <span class="nav-label">活动管理</span></a>
+                <ul class="list-unstyled">
+                    <li><a href="{{asset('action?type=1')}}">路演活动管理</a></li>
+                    <li><a href="{{asset('action?type=2')}}">创业大赛管理</a></li>
+                    <li><a href="{{asset('action?type=3')}}">英雄学院管理</a></li>
+                </ul>
             </li>
 
             <li class="has-submenu"><a href="{{asset('/article')}}"><i class="ion-android-book" aria-hidden="true"></i> <span class="nav-label">内容管理</span></a>

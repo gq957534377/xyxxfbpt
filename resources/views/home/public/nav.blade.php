@@ -19,7 +19,7 @@
                         {{--<li><a href="#">众筹项目</a></li>--}}
                     {{--</ul>--}}
                 {{--</li>--}}
-                <li><a href="{{route('school.index')}}">英雄学院</a></li>
+                <li><a href="/school?type=4">英雄学院</a></li>
                 <li><a href="/article?type=1">市场咨询</a></li>
                 <li><a href="/article?type=2">创业政策</a></li>
                 <li class="dropdown">
