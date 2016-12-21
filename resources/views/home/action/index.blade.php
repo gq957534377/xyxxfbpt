@@ -62,7 +62,7 @@
                                                         @endif
                                                     </li>
                                                     <li class="col-lg-6 col-md-6 col-sm-6 col-xs-9">{{ $action->author }}</li>
-                                                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ date('Y/m/d H:m',$action->start_time) }}——{{ date('Y/m/d H:m',$action->end_time) }}</li>
+                                                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ date('Y年m月d日 H:m',$action->start_time) }}——{{ date('Y年m月d日 H:m',$action->end_time) }}</li>
                                                     <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ $action->address }}</li>
                                                 </ul>
                                             </div>
@@ -98,6 +98,18 @@
 
 @section('script')
     <script>
+        //时间转换
+        function getLocalTime(ns) {
+//            return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
+                var now = new Date(ns);
+                var year=now.getYear();
+                var month=now.getMonth()+1;
+                var date=now.getDate();
+                var hour=now.getHours();
+                var minute=now.getMinutes();
+                var second=now.getSeconds();
+                return "20"+year+"年"+month+"月"+date+"日 "+hour+":"+minute;
+        }
         var type_list = function(type) {
             if (type == 1){
                 return "路演活动";
@@ -126,7 +138,7 @@
                                 '</div>'+
                                 '<div class="rodeing-font col-lg-8 col-md-8 col-sm-8 col-xs-12">'+
                                 '<h2>'+
-                                '<a href="">'+action.title+
+                                '<a href="/action/'+action.guid+'">'+action.title+
                                 '</a>'+
                                 '</h2>'+
                                 '<p>'+action.brief+'</p>'+
@@ -135,7 +147,7 @@
                                 '<li class="col-lg-6 col-md-6 col-sm-6 col-xs-3">'+type_list(action.type)+
                         '</li>'+
                         '<li class="col-lg-6 col-md-6 col-sm-6 col-xs-9">'+action.author+'</li>'+
-                         '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+action.start_time+'——'+action.end_time+'</li>'+
+                         '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+getLocalTime(action.start_time)+'——'+getLocalTime(action.end_time)+'</li>'+
                         '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+action.address+'</li></ul></div></div></div></li>'
                                 );
                     });
