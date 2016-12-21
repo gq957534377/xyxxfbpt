@@ -51,8 +51,7 @@
 @endsection
 {{-- 弹出表单结束 --}}
 {{--发布活动表单--}}
-<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true" style="display: none;">
+<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" id="fabu">
         <div class="modal-content">
             <form data-name="" role="form" id="yz_fb" onsubmit="return false">
