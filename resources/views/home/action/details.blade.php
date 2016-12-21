@@ -40,48 +40,13 @@
             <div class="col-md-9 col-lg-9 pad-clr mar-b15">
                 <div class="br-1 pad-8 mar-r20 b-n-sm b-n-xs mar-cr-sm mar-cr-xs road-explain">
                     <p class="col-sm-6"><span>主办方：</span>{{ $data->author }}</p>
-                    <p class="col-sm-6"><span>项目合作：</span>好园区  梦想接力</p>
-                    <p class="col-sm-6"><span>合作伙伴：</span>微链</p>
-                    <p class="col-sm-6"><span>场地合作：</span>初橙</p>
-                    <p class="col-sm-6"><span>协作：</span>苏河汇、创客加速</p>
-                    <div class="col-xs-12">
-                        <img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="img-responsive" src="{{ asset('home/img/demoimg/u1591.png') }}">
+                    <p class="col-sm-12"><span>活动简述：</span>{{ $data->brief }}</p>
+                    <p class="col-sm-12"><span>活动详情：</span></p>
+                    <div class="col-md-12">
+                        {!! $data->describe !!}
                     </div>
-                    <p class="col-xs-12">
-                        <br>每月一期！<br>
-                        仍然是8个优选创业项目！<br>
-                        仍然是精选种子轮和天使轮项目<br>
-                        仍然邀请20+投资机构<br><br>
-                        第16期活动，将是结合项目路演和种子轮投资观点对话的盛会！
-                    </p>
 
-                    <p class="col-xs-12">
-                        <br><br>
-                        下图是14、15期活动场景
-                    </p>
-                    <div class="col-xs-12">
-                        <img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="img-responsive" src="{{ asset($data->banner) }}">
-                    </div>
-                    <p class="col-xs-12">
-                        <br>活动流程
-                    </p>
-                    <p class="col-sm-6">13:30-14:00  演讲</p>
-                    <p class="col-sm-6">14:00-15:00  路演上半场（含休息时间）</p>
-                    <p class="col-sm-6">15:00-15:30  沪杭种子轮投资对话1</p>
-                    <p class="col-sm-6">15:30-16:30  路演下半场（含休息时间）</p>
-                    <p class="col-sm-6">16:30-17:00  沪杭种子轮投资对话2</p>
-                    <p class="col-xs-12">
-                        <br>沪杭种子轮投资对话会
-                    </p>
-                    <p class="col-xs-12 indent">
-                        在杭州有很多早期阶段投资的投资机构和投资人，而上海相对来说更后端的投资机构比较多。邀请关注种子轮投资的杭州投资人们来做专业的交流！这是实质性的对话，致力于对种子轮投资的专业认识的提升和交流“沪杭种子轮投资对话会”将和项目路演穿插进行，并结合路演的项目案例来展开！
-                    </p>
-                    <p class="col-xs-12">
-                        <br>话题包括
-                    </p>
-                    <p class="col-xs-12 indent mar-b30">
-                        本地创业者的状态，众筹投资，有潜力的新投资方向，种子轮投资应该如何定位（月中将逐渐披露一些参与嘉宾）。
-                    </p>
+
                     <p class="col-lg-8 col-md-7 col-sm-7 col-xs-12 @if($likeStatus == 1) taoxin @endif">
                         <span class="collect">
                           <span id="likeFont"></span><span id="likeNum">{{$likeNum}}</span>
@@ -190,11 +155,17 @@
         })
         @else
             $('#js_enroll').click(function(){
+                alert('还未登录，请登录！');
                 login();
         });
             $('.collect').click(function () {
-                    login()
+                alert('还未登录，请登录！');
+                login();
             });
+        $('#comment').click(function () {
+            alert('还未登录，请登录！');
+            login();
+        });
         @endif
         function login() {
             window.location.href = "{{route('login.index')}}"

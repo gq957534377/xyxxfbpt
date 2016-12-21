@@ -20,8 +20,10 @@ class WebAdminstrationController extends Controller
      * @param WebAdminService $webAdminService
      * @author 王通
      */
-    public function __construct(WebAdminService $webAdminService, PictureService $pictureService)
-    {
+    public function __construct(
+        WebAdminService $webAdminService,
+        PictureService $pictureService
+    ) {
         self::$webAdmin = $webAdminService;
         self::$pictureService = $pictureService;
     }
@@ -121,7 +123,7 @@ class WebAdminstrationController extends Controller
     }
 
     /**
-     * 上传 更改 logo
+     * 上传 更改
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @author 王通
@@ -201,7 +203,7 @@ class WebAdminstrationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return self::$pictureService->updatePicture($id, $request->all());
     }
 
     /**

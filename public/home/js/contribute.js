@@ -52,9 +52,11 @@ $(function () {
 $('.bg-del').on('click', function () {
     me = $(this);
 
-    deleteAjax ('DELETE', {'id' : [me.data('delete')]});
+    deleteAjax(me.data('delete'));
 });
 
+
+// 删除记录
 $('#delete').on('click', function () {
     var num = $('.checkbox-contri').size();
     var guidArr = [];
@@ -68,10 +70,12 @@ $('#delete').on('click', function () {
     deleteAjax ('DELETE', {'id' : guidArr});
 });
 
+
+
 /**
  * ajax请求，删除数据
  */
-function deleteAjax (method, id)
+function deleteAjax(method, id)
 {
 
     $.ajaxSetup({

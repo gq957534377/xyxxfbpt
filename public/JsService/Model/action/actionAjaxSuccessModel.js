@@ -126,7 +126,7 @@ function showInfoList(data){
             $('#xq_start_time').val(data.start_time);
             $('#xq_end_time').val(data.end_time);
             $('#xq_deadline').val(data.deadline);
-            $('#xq_time').val(data.time);
+            $('#xq_time').val(data.addtime);
             $('#xq_banner').attr('src',data.banner);
             $('#xq_population').val(data.people);
             $('#xq_limit').val(data.limit);

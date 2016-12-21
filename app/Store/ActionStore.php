@@ -121,4 +121,15 @@ class ActionStore
         return DB::table(self::$table)->where($where)->count();
     }
 
+    /**
+     * 获取固定时间范围开始的活动
+     * @param [] $between 时间范围
+     * @return array
+     * @author 郭庆
+     */
+    public static function dateBetween($between)
+    {
+        return DB::table(self::$table)->whereBetween('start_time', $between)->get();
+    }
+
 }

@@ -46,13 +46,13 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::get("/select_publish",'CrowdFundingController@selectPublish');
         //活动管理
         Route::resource('/action', 'ActionController');
-        Route::resource('/upload','ActionController@upload');
+        Route::resource('/action_add','ActionController@actionAdd');
+//        Route::resource('/action_change/{id}','ActionController@actionChange');
+//        Route::resource('/action_order/{id}','ActionController@actionOrder');
         //内容管理
         Route::resource('/article', 'ArticleController');
         Route::resource('/banner','ArticleController@bannerpic');
         // 网站管理
-        Route::resource('/web_admins/uploadlogo', 'WebAdminstrationController@uploadLogo');
-        Route::resource('/web_admins/uploadqrcode', 'WebAdminstrationController@uploadQRcode');
         Route::resource('/web_admins/uploadorganizpic', 'WebAdminstrationController@uploadOrganizPic');
         Route::resource('/web_admins', 'WebAdminstrationController');
 
@@ -64,23 +64,12 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/web_invest_organiz', 'WebInvestOrganizController');
 
         // 用户管理bate
-        Route::resource('/test','TestController');
+        Route::resource('/user_management','UserManagementController');
+        // 角色申请管理
+        Route::resource('/role_management','RoleManagementController');
 
         // 图片内容管理
         Route::resource('/picture/carousel', 'PictureOrganizController@carousel');
-
-
-
-
-
-
-        // 轮播图管理
-
-        Route::resource('/picture/carouselajax', 'PictureOrganizController@carouselAjax');
-
-        Route::resource('/picture/uploadcarousel', 'PictureOrganizController@uploadCarousel');
-        Route::resource('/picture', 'PictureOrganizController');
-
 
     });
 });
@@ -132,10 +121,12 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/user/change/email','UserController@changeEmail');
         Route::resource('/user/change/phone','UserController@changeTel');
         Route::resource('/user/change/password','UserController@changePassword');
+        // 个人中心页
         // 评论和赞
         Route::get('/user/commentandlike','UserController@commentAndLike')->name('commentlike');
         Route::post('/user/commentandlike','UserController@getLike')->name('getLike');
-        // 个人中心页
+        //我的项目
+        Route::get('/user/myProject','UserController@myProject');
            // 发送短信
         Route::resource('/user/sendsms','UserController@sendSms');
         Route::resource('/user','UserController');
@@ -151,6 +142,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         //活动管理
         Route::resource('/activity', 'ActivityController');
         //投稿管理
+        Route::resource('/send/get_article_info', 'SendController@getArticleInfo');
         Route::resource('/send', 'SendController');
 
         Route::resource('/upload','ActionController@upload');

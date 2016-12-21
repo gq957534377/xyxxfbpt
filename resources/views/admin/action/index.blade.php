@@ -51,8 +51,7 @@
 @endsection
 {{-- 弹出表单结束 --}}
 {{--发布活动表单--}}
-<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true" style="display: none;">
+<div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog" id="fabu">
         <div class="modal-content">
             <form data-name="" role="form" id="yz_fb" onsubmit="return false">
@@ -478,16 +477,18 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>
+<h3 class="title">@if($type == 1)路演活动管理@elseif($type == 2)创业大赛管理@else英雄学院管理@endif</h3>
+{{--<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>--}}
+<a href="/action_add"><button class="btn btn-primary" id="add">发布活动</button></a>
 <img src="/admin/images/load.gif" class="loading">
 
 <div class="wraper container-fluid">
     <div class="page-title">
         <div class="row">
-            <div class="col-md-4">
-                <h3 class="title">活动管理</h3>
+            <div class="col-md-1">
+            <h4>活动类型选择:</h4>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <select class="form-control" id="xz_type" name="xz_type">
                     <option value="null">所有</option>
                     <option value="1">路演活动</option>
@@ -495,8 +496,10 @@
                     <option value="3">学习</option>
                 </select>
             </div>
-        </div>
+            <div class="col-md-8">
 
+            </div>
+        </div>
 
         <br>
         <button class="btn btn-success status1" data-status="1">报名中</button>
@@ -504,7 +507,7 @@
         <button class="btn btn-default status1" data-status="3">往期回顾</button>
         <button class="btn btn-default status1" data-status="4">回收站</button>
         <button class="btn btn-default status1" data-status="5">报名截止，等待开始</button>
-        <center><h1 id="list_title">报名中</h1></center>
+        {{--<center><h1 id="list_title">报名中</h1></center>--}}
     </div>
     <div class="panel" id="data"></div>
 </div>
@@ -530,6 +533,7 @@
     <script src="{{asset('/admin/js/public/dateTime.js')}}"></script>//时间插件配置
     <script type="text/javascript">
         {{--全局变量的设置--}}
+
         //富文本配置
         var toolbra     = {
                     toolbars : [
@@ -583,7 +587,7 @@
 
         //全局变量参数的设置
         var token       = $('meta[name="csrf-token"]').attr('content');
-        var list_type   = null;//活动类型：1：路演 2：大赛 3：学习
+        var list_type   = "{{$type}}";//活动类型：1：路演 2：大赛 3：学习
         var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
 
         //验证规则

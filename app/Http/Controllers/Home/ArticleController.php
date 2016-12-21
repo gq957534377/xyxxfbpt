@@ -181,10 +181,12 @@ class ArticleController extends Controller
      */
     public function setComment(Request $request)
     {
+        if(!isset(session('user')->guid)) return response()->json(['StatusCode' => '401','ResultData' => '请登录后在评论']);
+
         $data = $request->all();
         // 验证参数
         $validator = Validator::make($data, [
-            'content' => 'required|max:150',
+            'content' => 'required|max:60',
             'action_id' => 'required',
             'type' => 'required'
         ], [
@@ -196,7 +198,6 @@ class ArticleController extends Controller
         if ($validator->fails()) {
             return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
         }
-
 
         $data['user_id'] = session('user')->guid;
 

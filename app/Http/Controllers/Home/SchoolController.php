@@ -26,27 +26,43 @@ class SchoolController extends Controller
      * @author 郭庆
      * @modify 张洵之
      */
-    public function index()
+    public function index(Request $request)
     {
-        $type = 3;
-        $result = self::$actionServer->actionTypeData($type);
-        if($result["StatusCode"] == '200'){
-            foreach ($result['ResultData'] as $v){
+        // 获取活动类型 -> 活动类型的对应状态的所有数据
+        $data = $request->all();
+        $where = [];
+        if (isset($data['type'])){
+            $where['type'] = $data['type'];
+        }
+        if (isset($data['status'])){
+            $where['status'] = $data['status'];
+        }
+        $nowPage = 1;
+        $result = self::$actionServer->selectData($where, $nowPage, 10, '/action', false);
+
+        if($result["StatusCode"] == 200){
+            foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
-                        if (!$chage['status']){
-                            Log::info("普通用户第一次请求更改活动状态失败".$v->guid.':'.$chage['msg']);
+                        if ($chage['StatusCode'] != 200){
+                            Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
                             $v->status = $status['msg'];
                         }
                     }
                 }
             }
-            return view('home.school.index', ['schooldata' => $result['ResultData']]);
         }
-        return view('home.school.index');
+        if (isset($data['status'])){
+            $result['status'] = (int)$data['status'];
+        }else{
+            $result['status'] = 204;
+        }
+        $result['type'] = $data['type'];
+        $result['nowPage'] = $nowPage;
+        return view('home.school.index', $result);
     }
 
     /**

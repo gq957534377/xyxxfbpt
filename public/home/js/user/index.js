@@ -131,6 +131,7 @@ $(document).ready(function () {
             'introduction': $('textarea[name="introduction"]').val(),
         };
 
+
         ajax.ajax({
             type: 'PUT',
             url: 'user/' + guid,

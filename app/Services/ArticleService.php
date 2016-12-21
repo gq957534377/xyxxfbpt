@@ -380,16 +380,21 @@ class ArticleService
      * @return array
      * @author 郭庆
      */
-    public static function addArticle($data)
+    public function addArticle($data)
     {
+        unset($data['verif_code']);
+        if (!empty($data['write'])) {
+            $guid = $data['write'];
+            unset($data['write']);
+            $this->upDta(['guid' => $guid], ['status' => 5]);
+        }
+
         $data["guid"] = Common::getUuid();
         $data["addtime"] = time();
         $data['user'] = 2;
-
         if ($data['status'] != '2' && $data['status'] != '4') {
             $data['status'] = '4';
         }
-
         $result = self::$articleStore->insertData($data);
 
         //判断插入是否成功，并返回结果

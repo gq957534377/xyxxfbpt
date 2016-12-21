@@ -277,6 +277,7 @@ class CommentAndLikeService
      */
     public function getUserCommentData($time,$content)
     {
+
         $userImg = session('user')->headpic;
         $nikename = session('user')->nickname;
         return [
@@ -368,10 +369,8 @@ class CommentAndLikeService
 
             if($time<15) return false;
 
-            return true;
-        }else{
-            return true;
         }
+        return true;
     }
 
     /**

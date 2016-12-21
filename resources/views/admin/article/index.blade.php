@@ -241,7 +241,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-
+<h3 class="title">文章管理</h3>
 <button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">文章发布</button>
 {{--大菊花转转转--}}
 <img src="{{asset('/admin/images/load.gif')}}" class="loading">
@@ -250,17 +250,21 @@
 <div class="wraper container-fluid">
     <div class="page-title">
         <div class="row">
-            <div class="col-md-4">
-                <div class="col-md-6"><h3 class="title">文章管理</h3></div>
+            <div class="col-md-1">
+                <h3 id="list_title" class="title">管理员文稿</h3>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-1">
                 <select class="form-control" id="xz_type" name="xz_type">
                     <option value="3">所有</option>
                     <option value="1">市场</option>
                     <option value="2">政策</option>
                 </select>
             </div>
+            <div class="col-md-10">
+
+            </div>
         </div>
+        <br>
         <div class="btn-group-vertical">
             <div class="btn-group-vertical">
                 <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
@@ -288,7 +292,6 @@
                 </ul>
             </div>
         </div>
-        <center><h1 id="list_title">管理员文稿</h1></center>
     </div>
     <div class="panel" id="data"></div>
 </div>

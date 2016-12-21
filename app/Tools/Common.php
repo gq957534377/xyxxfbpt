@@ -159,7 +159,7 @@ class Common {
         if($nowPage > $totalPage) $nowPage = $totalPage;
         return [
             'nowPage' => $nowPage,
-            'totalPage'=> $totalPage,
+            'totalPage'=> (int)$totalPage,
             'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl,null),
         ];
 

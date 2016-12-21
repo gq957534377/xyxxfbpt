@@ -24,8 +24,8 @@ return [
     // 限制三次验证码时间
     'SMS_REQUEST_TIME' => 3600,
     // 限制验证码输出次数
-    'SMS_LIMIT_NUM' => 3,
+    'SMS_LIMIT_NUM' => 100,
 
     // 评论时间间隔
-    'COMMENT_TIME' => 3600,
+    'COMMENT_TIME' => 600,
 ];

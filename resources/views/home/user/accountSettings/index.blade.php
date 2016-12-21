@@ -14,28 +14,62 @@
             <p class="col-sm-12 col-md-10 col-lg-10 mar-cb mar-emt05 fs-c-5">用于更好的保护您的账号安全，建议设置绑定手机、邮箱、密保问题！</p>
         </div>
         <div class="security-graph col-xs-12 pad-clr bb-1">
-            <div class="col-lg-3 col-md-3 pad-cl mar-cb hidden-sm hidden-xs text-right fw-600">
-                安全等级: <span class="fs-c-6 fs-22">60</span><span>分</span>
-            </div>
-            <div class="col-sm-offset-1 col-xs-offset-1 col-sm-4 col-xs-12 pad-cl mar-cb hidden-lg hidden-md fw-600">
-                安全等级:<span class="fs-c-6 fs-22">60</span><span>分</span>
-            </div>
-            <div class="col-sm-offset-2 col-sm-4 pad-cr mar-cb hidden-lg hidden-md hidden-xs text-right fw-600">
-                存在<span class="fs-c-6 fs-22">1</span>项风险
-            </div>
-            <div class="col-xs-offset-1 col-xs-11 pad-cl mar-cb hidden-lg hidden-md hidden-sm fw-600 pad-emt05-xs">
-                存在<span class="fs-c-6 fs-22">1</span>项风险
-            </div>
-            <div class="security-bar col-lg-offset-0 col-md-offset-0 col-lg-6 col-md-6 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10 pad-clr">
-                <div>
-                    <div>
-                        <div></div>
+            {{--<div class="col-lg-3 col-md-3 pad-cl mar-cb hidden-sm hidden-xs text-right fw-600">--}}
+                {{--安全等级: <span class="fs-c-6 fs-22">60</span><span>分</span>--}}
+            {{--</div>--}}
+            {{--<div class="col-sm-offset-1 col-xs-offset-1 col-sm-4 col-xs-12 pad-cl mar-cb hidden-lg hidden-md fw-600">--}}
+                {{--安全等级:<span class="fs-c-6 fs-22">60</span><span>分</span>--}}
+            {{--</div>--}}
+            {{--<div class="col-sm-offset-2 col-sm-4 pad-cr mar-cb hidden-lg hidden-md hidden-xs text-right fw-600">--}}
+                {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
+            {{--</div>--}}
+            {{--<div class="col-xs-offset-1 col-xs-11 pad-cl mar-cb hidden-lg hidden-md hidden-sm fw-600 pad-emt05-xs">--}}
+                {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
+            {{--</div>--}}
+            {{--<div class="security-bar col-lg-offset-0 col-md-offset-0 col-lg-6 col-md-6 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10 pad-clr">--}}
+                {{--<div>--}}
+                    {{--<div>--}}
+                        {{--<div></div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="col-lg-2 col-md-3 pad-cr mar-cb hidden-sm hidden-xs fw-600">--}}
+                {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
+            {{--</div>--}}
+            {{--<div style="clear: both;"></div>--}}
+            <div class="row">
+
+                <input id="resk" hidden value="{{ $accountInfo->resk or 0 }}">
+                <div class="col-lg-3 col-md-3 pad-cl mar-cb hidden-sm hidden-xs text-right fw-600">
+                    安全等级: <span class="fs-c-6 fs-22 safe-lv">00</span><span>分</span>
+                </div>
+                <div class="col-sm-offset-1 col-xs-offset-1 col-sm-4 col-xs-12 pad-cl mar-cb hidden-lg hidden-md fw-600">
+                    安全等级: <span class="fs-c-6 fs-22 safe-lv">00</span><span>分</span>
+                </div>
+
+                <div class="col-sm-offset-2 col-sm-4 pad-cr mar-cb hidden-lg hidden-md hidden-xs text-right fw-600">
+                    存在<span class="fs-c-6 fs-22">{{ $accountInfo->risk or 0 }}</span>项风险
+                </div>
+                <div class="col-xs-offset-1 col-xs-11 pad-cl mar-cb hidden-lg hidden-md hidden-sm fw-600 pad-emt05-xs">
+                    存在<span class="fs-c-6 fs-22">{{ $accountInfo->risk or 0 }}</span>项风险
+                </div>
+
+                <div class="security-bar col-lg-offset-0 col-md-offset-0 col-lg-6 col-md-6 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10 pad-clr" style="">
+                    <div class="progress" style="">
+                        <div class="progress-bar progress-bar-warning" role="progressbar"
+                             aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                             style="width: 0%;">
+                        </div>
+                        <div id="div1"></div>
                     </div>
                 </div>
+                <div class="col-lg-2 col-md-3 pad-cr mar-cb hidden-sm hidden-xs fw-600">
+                        存在<span class="fs-c-6 fs-22">{{ $accountInfo->risk or 0 }}</span>项风险
+                </div>
+
             </div>
-            <div class="col-lg-2 col-md-3 pad-cr mar-cb hidden-sm hidden-xs fw-600">
-                存在<span class="fs-c-6 fs-22">1</span>项风险
-            </div>
+
+
         </div>
 
         <div class="binding col-xs-12 bb-1 pad-clr">
@@ -351,7 +385,17 @@
 @section('script')
     <script src="{{asset('home/js/ajax/ajaxCommon.js')}}"></script>
     <script>
+        // 更改进度条长度
+        var number = $('#resk').val();
+        updateResk(number)
+        function updateResk(number)
+        {
+            $('.progress-bar-warning').width(number + '%');
+            $('.safe-lv').html(number);
+        }
+
         $(function () {
+
             var guid = $("#topAvatar").data('id');
             var ajax =new ajaxCommon();
 //        测量 滚动条宽度的函数 开始
@@ -752,7 +796,7 @@
                 });
             });
             // 短信验证发送后计时器
-            var countdown = 10;
+            var countdown = 60;
             function setTime(obj, objLabel) {
                 if (countdown == 0) {
                     obj.show();

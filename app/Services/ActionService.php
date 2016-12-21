@@ -237,6 +237,7 @@ class ActionService
                     return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
                 }
             }else{
+                $result['totalPage'] = $totalPage;
                 $result["pages"] = '';
             }
             return ['StatusCode' => 200,'ResultData' => $result];
@@ -273,9 +274,9 @@ class ActionService
         $data = self::$actionStore->getOneData(["guid" => $guid]);
         if($data) {
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
-            $data->start_time = date("Y-m-d H:i:s", $data->start_time) ;
-            $data->end_time = date("Y-m-d H:i:s", $data->end_time) ;
-            $data->deadline = date("Y-m-d H:i:s", $data->deadline) ;
+            $data->start_time = date("Y年m月d日 H点", $data->start_time) ;
+            $data->end_time = date("Y年m月d日 H点", $data->end_time) ;
+            $data->deadline = date("Y年m月d日 H点", $data->deadline) ;
             return ['StatusCode'=> 200,'ResultData' => $data];
         }else{
             \Log::info('获取'.$guid.'活动详情出错:'.$data);
@@ -517,5 +518,18 @@ class ActionService
             $word->$filed = $content;
         }
 
+    }
+
+    /**
+     * 获取某一类型活动某一短时间的活动列表
+     * @param int $type 活动类型
+     * @param [] $between 时间范围
+     * @return array
+     * @author 郭庆
+     */
+    public static function getActionByTime($type, $between)
+    {
+        $res = self::$actionStore->dateBetween($between);
+        if (!$res) return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
     }
 }

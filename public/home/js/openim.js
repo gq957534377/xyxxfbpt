@@ -13,7 +13,7 @@ $(function () {
         console.log('__________________________');
         console.log(obj);
         WKIT.init({
-            container: document.getElementById('J_demo'),
+            container: document.getElementById('openim'),
             uid: obj.uid,
             appkey: obj.appkey,
             credential: obj.pwd,

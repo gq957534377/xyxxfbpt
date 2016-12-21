@@ -75,23 +75,43 @@ class UserController extends Controller
      * 显示修改账号页面
      * @param $id
      * @author 刘峻廷
+     * @modify 王通
      */
     public function edit($id)
     {
         // 获取账号信息
         $result = self::$userServer->accountInfo(['guid' => $id ]);
 
-        if ($result['StatusCode'] == '400') {
+        if ($result['StatusCode'] != '200') {
             return view('home.user.accountSettings.index');
         };
 
         // 数据处理
-        $tel = substr_replace(trim($result['ResultData']->tel), '****', 3, 4);
-        $email = substr_replace(trim($result['ResultData']->email), '****', 2, 4);
+        // 判断手机号跟邮箱是否为空
+        $tel = null;
+        $email = null;
+        // 危险度
+        $resk = 0;
+        // 风险项
+        $risk = 2;
+        if (!empty($result['ResultData']->tel)) {
+            $tel = substr_replace(trim($result['ResultData']->tel), '****', 3, 4);
+            $resk += 50;
+            $risk--;
+        }
+        if (!empty($result['ResultData']->email)) {
+            $email = substr_replace(trim($result['ResultData']->email), '****', 2, 4);
+            $resk += 50;
+            $risk--;
+        }
+
+
 
         $accountInfo = $result['ResultData'];
         $accountInfo->tel = $tel;
         $accountInfo->email = $email;
+        $accountInfo->resk = $resk;
+        $accountInfo->risk = $risk;
 
         return view('home.user.accountSettings.index', compact('accountInfo'));
     }
@@ -300,12 +320,11 @@ class UserController extends Controller
     {
         if (isset($request->phone)) {
             // 发送短信
-            return ['StatusCode' => '200', 'ResultData' => 'OK'];
+
             $info = self::$userServer->sendSmsCode($request->phone);
         }
 
-        // 发送直接返回
-        return ['StatusCode' => '200', 'ResultData' => 'OK'];
+
 
         if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
 
@@ -386,5 +405,10 @@ class UserController extends Controller
         $nowPage = $request->input('nowPage');
         $likeResult = self::$commentServer->getLikesTitles($nowPage,$request);
         return response()->json($likeResult);
+    }
+
+    public function myProject()
+    {
+        return view('home.user.myProject');
     }
 }
