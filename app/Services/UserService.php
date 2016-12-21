@@ -471,15 +471,15 @@ class UserService {
         }
 
         //成功后再进行数据重组，转存到session中
-        $temp = self::$homeStore->getOneData(['guid' => $guid]);
-        $userInfo = self::$userStore->getOneData(['guid' => $guid]);
-        //获取角色状态
-        $temp->role = $userInfo->role;
-        //获取用户信息头像
-        $temp->headpic = $userInfo->headpic;
+//        $temp = self::$homeStore->getOneData(['guid' => $guid]);
+//        $userInfo = self::$userStore->getOneData(['guid' => $guid]);
+//        //获取角色状态
+//        $temp->role = $userInfo->role;
+//        //获取用户信息头像
+//        $temp->headpic = $userInfo->headpic;
 
-        Session::put('user',$temp);
-
+//        Session::put('user',$temp);
+          session('user')->headpic = $avatarName;
         return ['StatusCode' => '200','ResultData' => $avatarName];
 
     }
