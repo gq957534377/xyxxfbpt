@@ -224,6 +224,7 @@ class UserService {
         if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];
         // 查询数据
         $temp = self::$homeStore->getOneData(['tel' => $data['tel'],'password' => $pass]);
+
         // 返回假，说明此密码不正确
         if(!$temp) return ['StatusCode' => '400','ResultData' => '密码错误！'];
         // 返回真，再进行账号状态判断
@@ -238,17 +239,26 @@ class UserService {
         $info = self::$homeStore->updateData(['guid'=>$temp->guid],['logintime' => $time,'ip' => $data['ip']]);
         if(!$info) {
             Log::error($info['msg'],$data);
-            return ['StatusCode' => '500','ResultData' => '服务器数据异常！'];
+            return ['StatusCode' => '400','ResultData' => '服务器数据异常！'];
         }
 
         //将一些用户的信息推到session里，方便维持
 
         $userInfo = self::$userStore->getOneData(['guid' => $temp->guid]);
 
+        // 用户信息缺失，需要给用户信息表重新插入一条基本信息
         if (!$userInfo) {
-            Log::error('账号异常，用户信息缺失', $userInfo);
-            return ['StatusCode' => '500','ResultData' => '账号异常，请联系管理员！'];
+            Log::error('账号异常，用户信息缺失', ['guid' => $temp->guid, 'tel' => $temp->tel, 'time' => $time ]);
+
+
+            $userInfo = self::$userStore->addUserInfo(['guid' => $temp->guid, 'tel' => $temp->tel]);
+
+            if (!$userInfo) {
+                Log::error('账号异常，用户信息缺失,补充用户信息失败', ['guid' => $temp->guid, 'tel' => $temp->tel, 'time' => $time, 'headpic' => '/home/img/user_center.jpg' ]);
+                return ['StatusCode' => '400','ResultData' => '账号异常，请联系管理员！'];
+            }
         }
+
         //获取角色状态
         $temp->role = $userInfo->role;
         //获取用户信息头像
