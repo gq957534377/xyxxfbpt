@@ -155,11 +155,17 @@
         })
         @else
             $('#js_enroll').click(function(){
+                alert('还未登录，请登录！');
                 login();
         });
             $('.collect').click(function () {
-                    login()
+                alert('还未登录，请登录！');
+                login();
             });
+        $('#comment').click(function () {
+            alert('还未登录，请登录！');
+            login();
+        });
         @endif
         function login() {
             window.location.href = "{{route('login.index')}}"

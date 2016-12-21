@@ -479,7 +479,8 @@
     </div><!-- /.modal-dialog -->
 </div>
 <h3 class="title">活动管理</h3>
-<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>
+{{--<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>--}}
+<a href="/action_add"><button class="btn btn-primary" id="add">发布活动</button></a>
 <img src="/admin/images/load.gif" class="loading">
 
 <div class="wraper container-fluid">
@@ -533,6 +534,7 @@
     <script src="{{asset('/admin/js/public/dateTime.js')}}"></script>//时间插件配置
     <script type="text/javascript">
         {{--全局变量的设置--}}
+
         //富文本配置
         var toolbra     = {
                     toolbars : [

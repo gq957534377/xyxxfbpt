@@ -97,19 +97,9 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('JsService/Model/date.js') }} "></script>
     <script>
-        //时间转换
-        function getLocalTime(ns) {
-//            return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
-                var now = new Date(ns);
-                var year=now.getYear();
-                var month=now.getMonth()+1;
-                var date=now.getDate();
-                var hour=now.getHours();
-                var minute=now.getMinutes();
-                var second=now.getSeconds();
-                return "20"+year+"年"+month+"月"+date+"日 "+hour+":"+minute;
-        }
+
         var type_list = function(type) {
             if (type == 1){
                 return "路演活动";

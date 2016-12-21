@@ -135,4 +135,34 @@ class ActionController extends Controller
         $result = self::$actionServer -> getOrderInfo($id);
         return response() -> json($result);
     }
+
+    /**
+     * 返回活动发布视图
+     * @return view
+     * @author 郭庆
+     */
+    public function actionAdd()
+    {
+        return view('admin.action.add');
+    }
+    /**
+     * 返回活动修改视图
+     * @param $id 活动id
+     * @return view
+     * @author 郭庆
+     */
+    public function actionChange($id)
+    {
+        return view('admin.action.edit');
+    }
+    /**
+     * 返回报名列表管理视图
+     * @param $id 活动id
+     * @return view
+     * @author 郭庆
+     */
+    public function actionOrder($id)
+    {
+        return view('admin.action.order');
+    }
 }
