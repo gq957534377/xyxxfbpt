@@ -9,6 +9,7 @@ use App\Store\RoleStore;
 use App\Services\UploadService as UploadServer;
 use App\Tools\Common;
 use App\Tools\CustomPage;
+use App\Tools\Safety;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -263,7 +264,10 @@ class UserService {
         $name = '英雄,';
         $number = mt_rand(100000, 999999);
         $content = ['name' => $name,'number' => $number];
-
+        $result = Safety::checkIpSMSCode(\Request::getClientIp(), $number);
+        if ($result) {
+            return ['StatusCode' => '400','ResultData' => '获取验证码次数过多，请稍后再试'];
+        }
         //校验
         if($sms['phone']==$phone){
             // 两分之内，不在发短信

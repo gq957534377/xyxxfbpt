@@ -69,19 +69,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         // 图片内容管理
         Route::resource('/picture/carousel', 'PictureOrganizController@carousel');
 
-
-
-
-
-
-        // 轮播图管理
-
-        Route::resource('/picture/carouselajax', 'PictureOrganizController@carouselAjax');
-
-        Route::resource('/picture/uploadcarousel', 'PictureOrganizController@uploadCarousel');
-        Route::resource('/picture', 'PictureOrganizController');
-
-
     });
 });
 
@@ -151,6 +138,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         //活动管理
         Route::resource('/activity', 'ActivityController');
         //投稿管理
+        Route::resource('/send/get_article_info', 'SendController@getArticleInfo');
         Route::resource('/send', 'SendController');
 
         Route::resource('/upload','ActionController@upload');

@@ -19,9 +19,9 @@
                 <a href="{{url('user')}}"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span></a>
             </li>
 
-            <li class="has-submenu">
-                <a href="{{url('project_approval')}}"><i class="fa fa-dollar"></i> <span class="nav-label">众筹管理</span></a>
-            </li>
+            {{--<li class="has-submenu">--}}
+                {{--<a href="{{url('project_approval')}}"><i class="fa fa-dollar"></i> <span class="nav-label">众筹管理</span></a>--}}
+            {{--</li>--}}
 
             <li class="has-submenu"><a href="{{asset('/action')}}"><i class="fa fa-bullhorn" aria-hidden="true"></i> <span class="nav-label">活动管理</span></a>
             </li>

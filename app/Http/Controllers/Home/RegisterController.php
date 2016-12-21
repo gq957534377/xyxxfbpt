@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Services\UserService as UserServer;
 use App\Tools\Common;
+use App\Tools\Safety;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -156,6 +157,7 @@ class RegisterController extends Controller
     {
         // 判断存在
         if (empty($id)) return false;
+
         // 手机号校验
         $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
         if(!preg_match($preg, $id)) return response()->json(['StatusCode'=>'200','ResultData' =>'请输入正确的手机号！']);

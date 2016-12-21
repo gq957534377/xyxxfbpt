@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
 use App\Services\UserService as UserServer;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
 
 
 class SendController extends Controller
@@ -30,14 +32,16 @@ class SendController extends Controller
         // 判断有没有传递参数
         $data = $request->all();
         // 判断有没有传过来数据
-        if (empty($request['status']) || $request['status'] >= 5) {
+        if (empty($request['status'])) {
+            $data["status"] = 1;
+        } else if ($request['status'] >= 5) {
             $data["status"] = 5;
         } else {
             $data["status"] = $request["status"];// 文章状态：开始前 进行中  结束
         }
-        $data["user_id"] =  session('user')->guid;
+
         // 分页查询 得到指定类型的数据
-        $result = self::$articleServer->selectTypeData($data);
+        $result = self::$articleServer->selectTypeData(['status' => $data['status'], 'user_id' => session('user')->guid]);
 
         switch ($data['status'])
         {
@@ -49,11 +53,15 @@ class SendController extends Controller
                 break;
             default:
                 $result['sesid'] = md5(session()->getId());
-                return view('home.user.contribution.index', $result);
+                if (empty($data['write'])) {
+                    return view('home.user.contribution.index', $result);
+                } else {
+                    $result['write'] = $data['write'];
+                    return view('home.user.contribution.index', $result);
+                }
+
                 break;
         }
-
-
     }
 
     /**
@@ -83,16 +91,34 @@ class SendController extends Controller
         if ($data['verif_code'] != session('code')) {
             return response()->json(['StatusCode' => '400', 'ResultData' => '验证码错误']);
             // 判断图片是否正确
+        }
+        // 验证过滤数据
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:80',
+            'brief' => 'required|max:150',
+            'describe' => 'required',
+            'source' => 'required|max:80',
+            'verif_code' => 'required',
+            'banner' => 'required',
+        ],[
+            'title.required' => '标题不能为空',
+            'title.max' => '标题过长',
+            'brief.required' => '导语不能为空',
+            'brief.max' => '简介过长',
+            'describe.required' => '内容不能为空',
+            'source.required' => '来源不能为空',
+            'source.max' => '来源过长',
+            'verif_code.required' => '验证码不能为空',
+            'banner.required' => '图片不能为空',
+        ]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+//        if (empty(Redis::get('picture_contri' . session('user')->guid))) {
+//            return response()->json(['StatusCode' => '400', 'ResultData' => '图片上传失败']);
+//        }
+//        $data['banner'] = Redis::get('picture_contri' . session('user')->guid);
+//
 
-        }
-        dd(session()->all());
-        if (empty(session('picture_contri'))) {
-            return response()->json(['StatusCode' => '400', 'ResultData' => '图片上传失败']);
-        }
-        $data['banner'] = session()->pull('picture_contri');
-        unset($data['verif_code']);
-        $request->session()->forget('picture_contri');
-        dd(session('picture_contri'));
+        Redis::set('picture_contri' . session('user')->guid, null);
 
         $data['user_id'] = session('user')->guid;
         // 取出用户信息
@@ -150,7 +176,7 @@ class SendController extends Controller
      */
     public function edit($id)
     {
-        $result = self::$articleServer->getData($id, 2);
+        $result = self::$articleServer->getData($id);
         if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
         return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }
@@ -187,8 +213,28 @@ class SendController extends Controller
         return response()->json($result);
     }
 
-    public function selUserArticleList ()
+    public function selUserArticleList()
     {
 
     }
+
+    /**
+     * js得到文章信息
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 王通
+     */
+    public function getArticleInfo(Request $request)
+    {
+        if (!empty($request['guid'])) {
+            $result = self::$articleServer->getData($request['guid']);
+
+        } else {
+            $result = ['StatusCode' => '400', 'ResultData' => "参数错误！"];
+        }
+
+        return response()->json($result);
+
+    }
+
 }

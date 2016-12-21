@@ -21,7 +21,7 @@
       </div>
       <!--导航结束-->
       <div id="contributeNav" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 fs-15 bgc-1 pad-2">
-
+            <input hidden id="write" value="{{ $write or false }}">
           <div id="contribute-text">
              <span class="contribute-title">投稿</span>
              <form id="contribute-form" class="form-horizontal form-contribute" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
@@ -90,7 +90,7 @@
                           <button data-status="0" type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz">预览</button>
                       </div>
                   </div>
-                 <input hidden type="text" id="status" name="status" value="2">
+                     <input hidden type="text" id="status" name="status" value="2">
              </form>
           </div>
           @include('home.public.card')
@@ -114,6 +114,39 @@
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
     <script src="{{asset('cropper/js/sitelogo.js')}}"></script>
     <script type="text/javascript">
+        $(function () {
+            // 异步写入
+            var guid = $("#write").val();
+            if (guid) {
+
+                $.ajax({
+                    type: 'get',
+                    url: '/send/get_article_info',
+                    data: {
+                        'guid': guid,
+                    },
+                    success:function(data){
+                        console.log(data);
+                        switch (data.StatusCode){
+                            case '400':
+                                alert('警告' + data.ResultData);
+                                break;
+                            case '200':
+                                    $("input[name= 'title']").val(data.ResultData.title);
+                                    $("textarea[name= 'brief']").val(data.ResultData.brief);
+                                    $("input[name= 'source']").val(data.ResultData.source);
+                                    $("#contribution-picture").attr('src', data.ResultData.banner);
+                                    ue.setContent(data.ResultData.describe);
+                                break;
+                        }
+                    },
+                    error:function (data) {
+                        alert(data);
+                    }
+                });
+            }
+
+        })
         $('button[type="submit"]').on('click', function () {
             $('#status').val($(this).data('status'));
         });
@@ -252,18 +285,26 @@
                         data.append( "source"     , $("input[name= 'source']").val());
                         data.append( "verif_code"     , $("input[name= 'verif_code']").val());
                         //开始正常的ajax
+                        var status = $('#status').val();
+                        var url = '/send';
+                        var type = 'post';
+                        if (status == 0) {
+                            type = 'get';
+                            url = '/send/1';
+                        }
                         // 异步写入
                         $.ajax({
-                            type: "POST",
-                            url: '/send',
+                            type: type,
+                            url: url,
                             data: {
                                 'title': $("input[name= 'title']").val(),
+                                'write': $("#write").val(),
                                 'brief': $("textarea[name= 'brief']").val(),
                                 'describe': $("textarea[name= 'describe']").val(),
                                 'source': $("input[name= 'source']").val(),
                                 'verif_code': $("input[name= 'verif_code']").val(),
                                 'banner': $("#contribution-picture").attr('src'),
-                                'status': $('#status').val(),
+                                'status': status,
                             },
                             success:function(data){
                                 switch (data.StatusCode){
@@ -272,13 +313,6 @@
                                         break;
                                     case '200':
                                         alert('插入成功');
-                                        history.go(0);
-                                        jQuery(document).ready(function(){
-
-                                            $('#signUpForm').html(str);
-                                            //setTimeout('delayer()', 3000);
-                                            //这里实现延迟3秒跳转
-                                        });
                                         break;
                                 }
                             }

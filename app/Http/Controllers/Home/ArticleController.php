@@ -184,7 +184,7 @@ class ArticleController extends Controller
         $data = $request->all();
         // 验证参数
         $validator = Validator::make($data, [
-            'content' => 'required|max:150',
+            'content' => 'required|max:60',
             'action_id' => 'required',
             'type' => 'required'
         ], [

@@ -39,14 +39,14 @@
                         </div>
                         <div class="dis-in-bl col-sm-4 pad-clr mar-eml2-xs mar-emt03-xs hidden-xs">
                             <span data-delete="{{ $val->guid }}" class="bg-area bg-del pull-right"></span>
-                            <span class="bg-area bg-write pull-right"></span>
+                            <a href="{{ asset('/send?status=5&write=' . $val->guid) }}" class="bg-area bg-write pull-right"></a>
                         </div>
                         <div class="col-xs-12 pad-clr">
                             <p class="mar-cb mar-eml2 mar-emt03">{{ date('Y-m-d H:i:s', $val->addtime) }}</p>
                         </div>
                         <div class="dis-in-bl col-xs-12 pad-clr mar-eml2-xs mar-emt03-xs visible-xs-block">
                             <span data-delete="{{ $val->guid }}" class="bg-area bg-del dis-in-bl"></span>
-                            <span class="bg-area bg-write dis-in-bl"></span>
+                            <a class="bg-area bg-write dis-in-bl"></a>
                         </div>
                         <div class="clearfix"></div>
                     </div>

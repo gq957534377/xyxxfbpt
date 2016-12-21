@@ -313,7 +313,7 @@ $('#saveinfo').on('click', function () {
     // 异步修改
     $.ajax({
         type: "POST",
-        url: '/picture/'+ id,
+        url: '/web_admins/'+ id,
         data: {
             '_method': 'PUT',
             '_token' : $('meta[name="csrf-token"]').attr('content'),
