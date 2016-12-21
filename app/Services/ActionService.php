@@ -12,6 +12,7 @@ use App\Store\ActionStore;
 use App\Store\ActionOrderStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
+use App\Store\CollegeStore;
 use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +24,7 @@ class ActionService
      * 引入活动数据仓储层
      */
     protected static $actionStore;
+    protected static $collegeStore;
     protected static $commentStore;
     protected static $actionOrderStore;
     protected static $common;
@@ -30,6 +32,7 @@ class ActionService
 
     public function __construct(
         ActionStore $actionStore,
+        CollegeStore $collegeStore,
         ActionOrderStore $actionOrderStore,
         CommentStore $commentStore,
         LikeStore $likeStore)
@@ -38,6 +41,7 @@ class ActionService
         self::$commentStore     = $commentStore;
         self::$actionOrderStore = $actionOrderStore;
         self::$likeStore        = $likeStore;
+        self::$collegeStore     = $collegeStore;
     }
 
     /**
@@ -212,10 +216,14 @@ class ActionService
      * @return array
      * author 郭庆
      */
-    public function selectData($where, $nowPage, $forPages, $url, $disPlay=true)
+    public function selectData($where, $nowPage, $forPages, $url, $list, $disPlay=true)
     {
         //查询总记录数
-        $count = self::$actionStore->getCount($where);
+        if(!$list){
+            $count = self::$actionStore->getCount($where);
+        }else{
+            $count = self::$collegeStore->getCount($where);
+        }
         if (!$count) {
             //如果没有数据直接返回201空数组，函数结束
             if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
@@ -225,7 +233,11 @@ class ActionService
         $totalPage = ceil($count / $forPages);
 
         //获取对应页的数据
-        $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
+        if ($list){
+            $result['data'] = self::$collegeStore->forPage($nowPage, $forPages, $where);
+        }else{
+            $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
+        }
         if($result['data']){
             if ($disPlay && $totalPage > 1) {
                 //创建分页样式

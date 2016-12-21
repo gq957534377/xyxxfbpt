@@ -38,22 +38,6 @@ function listHtml(data){
     return html;
 }
 
-//活动类型展示
-function type(type) {
-    var res;
-    switch (type){
-        case 1:
-            res = '路演活动';
-            break;
-        case 2:
-            res = '大赛';
-            break;
-        default:
-            res = '学习';
-            break;
-    }
-    return res;
-}
 //所属机构展示
 function group(type) {
     var res;
@@ -65,7 +49,6 @@ function group(type) {
             res = '兄弟会';
             break;
         default:
-            res = '个人';
             break;
     }
     return res;

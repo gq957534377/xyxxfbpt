@@ -481,36 +481,31 @@
 {{--<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>--}}
 <a href="/action_add"><button class="btn btn-primary" id="add">发布活动</button></a>
 <img src="/admin/images/load.gif" class="loading">
-
-<div class="wraper container-fluid">
-    <div class="page-title">
+@if($type == 3)
         <div class="row">
-            <div class="col-md-1">
-            <h4>活动类型选择:</h4>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <h4 class="col-md-4">培训类型:</h4>
+                    <div class="col-md-8">
+                        <select class="form-control" id="college" name="action">
+                            <option value="4">所有培训</option>
+                            <option value="1">企业管理</option>
+                            <option value="2">资金管理</option>
+                            <option value="3">人才管理</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-3">
-                <select class="form-control" id="xz_type" name="xz_type">
-                    <option value="null">所有</option>
-                    <option value="1">路演活动</option>
-                    <option value="2">比赛</option>
-                    <option value="3">学习</option>
-                </select>
-            </div>
-            <div class="col-md-8">
-
-            </div>
-        </div>
-
-        <br>
+    @endif
+            <br><br>
+    <div class="page-title">
         <button class="btn btn-success status1" data-status="1">报名中</button>
         <button class="btn btn-default status1" data-status="2">活动进行中...</button>
         <button class="btn btn-default status1" data-status="3">往期回顾</button>
         <button class="btn btn-default status1" data-status="4">回收站</button>
         <button class="btn btn-default status1" data-status="5">报名截止，等待开始</button>
-        {{--<center><h1 id="list_title">报名中</h1></center>--}}
     </div>
     <div class="panel" id="data"></div>
-</div>
 @include('admin.public.banner')
 @endsection
 @section('script')
@@ -589,6 +584,7 @@
         var token       = $('meta[name="csrf-token"]').attr('content');
         var list_type   = "{{$type}}";//活动类型：1：路演 2：大赛 3：学习
         var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
+        var college_type = 4;
 
         //验证规则
         var rules       = {
@@ -682,6 +678,46 @@
             }
         };
 
+        //活动类型展示
+        function type(type) {
+            var res;
+            if ("{{$type}}" != 3)
+            {
+                switch (type){
+                    case 1:
+                        res = '路演活动';
+                        break;
+                    case 2:
+                        res = '创业大赛';
+                        break;
+                    default:
+                        break;
+                }
+            }else{
+                switch (type){
+                    case 1:
+                        res = '企业管理';
+                        break;
+                    case 2:
+                        res = '资金管理';
+                        break;
+                    case 3:
+                        res = '人才管理 ';
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return res;
+        }
+        @if($type == 3)
+        //活动类型选择
+        $('#college').change(function () {
+            college_type = $(this).val();
+            list(3, list_status);
+        });
+        @endif
         //活动状态选择
         $('.status1').off('click').on('click', function () {
             $('.status1').removeClass('btn-success').addClass('btn-default');
@@ -699,7 +735,7 @@
 
         //分类查看数据
         $('#xz_type').change(function () {
-            listType($('#xz_type').val(), list_status);
+            list(3, list_status);
         });
 
         {{--修改活动--}}
@@ -1048,7 +1084,7 @@
         // 页面加载时触发事件请求分页数据
         function list(type, status) {
             var ajax = new ajaxController();
-            var url  = '/action/create?type=' + type + '&status=' + status;
+            var url  = '/action/create?type=' + type + '&status=' + status+'&college_type='+college_type;
             ajax.ajax({
                 url     : url,
                 before  : ajaxBeforeModel,

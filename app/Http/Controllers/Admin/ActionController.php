@@ -41,19 +41,24 @@ class ActionController extends Controller
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         $forPages = 5;//一页的数据条数
         $status = $data["status"];//文章状态：已发布 待审核 已下架
-        $type = $data["type"];//获取文章类型
+        $type = (int)$data["type"];//获取文章类型
         $where = [];
 
         if($status){
-            $where["status"] = $status;
+            $where["status"] = (int)$status;
         }
-        if($type!="null"){
-            if ($type != 3){
-                $where["type"] = $type;
+        if ($type == 3) {
+            if (isset($data['college_type'])){
+                if ($data['college_type'] != 4){
+                    $where['type'] = $data['college_type'];
+                }
             }
+            $list = true;
+        } else {
+            $list = false;
+            $where['type'] = $type;
         }
-
-        $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create");
+        $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create", $list);
 
         if($result["StatusCode"] == 200){
             foreach ($result['ResultData']['data'] as $v){
