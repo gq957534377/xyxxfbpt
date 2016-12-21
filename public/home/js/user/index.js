@@ -124,24 +124,63 @@ $(document).ready(function (){
             // 'wechat':  $('input[name="wechat"]').val(),
             'introduction':  $('textarea[name="introduction"]').val(),
         };
-        ajaxRequire('user/'+guid, 'PUT', data, $("#editUserInfo"), 2);
 
-        user_nickname.html($('input[name="nickname"]').val());
-        user_name.html($('input[name="realname"]').val());
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
 
-        var sex ='';
-        if ( $('input:radio[name="sex"]:checked').val() == 1) {
-            sex = '男';
-        } else if( $('input:radio[name="sex"]:checked').val() == 2) {
-            sex = '女';
-        } else{
-            sex = '保密';
-        }
+        $.ajax({
+            type:'PUT',
+            url:'user/'+guid,
+            data:data,
+            async: true,
+            beforeSend : function() {
+                $(".loading").show();
+            },
+            success: function(msg){
+                switch (msg.StatusCode){
+                    case '404':
+                        $(".loading").hide();
+                        alert(msg.ResultData);
+                        break;
+                    case '400':
+                        $(".loading").hide();
+                        alert(msg.ResultData);
+                        break;
+                    case '200':
+                        $(".loading").hide();
 
-        user_sex.html(sex);
-        user_birthday.html($('input[name="birthday"]').val());
-        // user_webchat.html('无');
-        user_info.html($('textarea[name="introduction"]').val());
+                        user_nickname.html($('input[name="nickname"]').val());
+                        user_name.html($('input[name="realname"]').val());
+
+                        var sex ='';
+                        if ( $('input:radio[name="sex"]:checked').val() == 1) {
+                            sex = '男';
+                        } else if( $('input:radio[name="sex"]:checked').val() == 2) {
+                            sex = '女';
+                        } else{
+                            sex = '保密';
+                        }
+
+                        user_sex.html(sex);
+                        user_birthday.html($('input[name="birthday"]').val());
+                        // user_webchat.html('无');
+                        user_info.html($('textarea[name="introduction"]').val());
+
+                        alert(msg.ResultData);
+
+                        break;
+                }
+            },
+            error: function(XMLHttpRequest){
+                var number = XMLHttpRequest.status;
+                var msg = "Error: "+number+",数据异常！";
+                alert(msg);
+            }
+
+        });
 
         $('#userinfo').show();
         $('#editUserInfo').hide();
