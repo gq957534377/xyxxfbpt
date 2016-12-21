@@ -64,10 +64,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        $guid = session('user')->guid;
-        $res = self::$projectServer->getRole($guid);
-        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
-        return response()->json(['status'=>'200','data'=>$res['data']]);
+        return view('home.user.creatMyProject');
     }
 
     /**
@@ -198,6 +195,7 @@ class ProjectController extends Controller
 
     }
 
+    //未写完的方法--张洵之
     public function lists(Request $request)
     {
         $type = (int)$request->input('type');
@@ -205,4 +203,16 @@ class ProjectController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * 根据用户session得到角色值
+     * @return \Illuminate\Http\JsonResponse
+     * @author 贾济林
+     */
+//    public function getRole()
+//    {
+//        $guid = session('user')->guid;
+//        $res = self::$projectServer->getRole($guid);
+//        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
+//        return response()->json(['status'=>'200','data'=>$res['data']]);
+//    }
 }

@@ -368,10 +368,8 @@ class CommentAndLikeService
 
             if($time<15) return false;
 
-            return true;
-        }else{
-            return false;
         }
+        return true;
     }
 
     /**

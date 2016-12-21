@@ -245,7 +245,7 @@ function delayer(){
 var captcha = document.getElementById('captcha');
 captcha.onclick = function(){
         var url = '/code/captcha/';
-        url = url + $(this).data('sesid') + Math.ceil(Math.random()*100);;
+        url = url + $(this).data('sesid') + Math.ceil(Math.random()*100);
         this.src = url;
     }
 

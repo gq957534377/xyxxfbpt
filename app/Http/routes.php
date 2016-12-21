@@ -129,10 +129,12 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/user/change/email','UserController@changeEmail');
         Route::resource('/user/change/phone','UserController@changeTel');
         Route::resource('/user/change/password','UserController@changePassword');
+        // 个人中心页
         // 评论和赞
         Route::get('/user/commentandlike','UserController@commentAndLike')->name('commentlike');
         Route::post('/user/commentandlike','UserController@getLike')->name('getLike');
-        // 个人中心页
+        //我的项目
+        Route::get('/user/myProject','UserController@myProject');
            // 发送短信
         Route::resource('/user/sendsms','UserController@sendSms');
         Route::resource('/user','UserController');

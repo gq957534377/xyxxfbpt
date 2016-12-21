@@ -45,7 +45,7 @@
                 <div class="col-xs-12 zxz-comment">
                     {{$data->content}}
                 </div>
-                <p class="col-xs-12 mar-cb">{{$data->time}}</p>
+                <p class="col-xs-12 mar-cb">{{date('Y-m-d H:m:s',$data->changetime)}}</p>
                 <div class="clearfix"></div>
             </div>
             @endforeach
@@ -85,7 +85,7 @@
                                 </a>
                             @endif
                         </p>
-                        <p class="col-xs-12 mar-cb">{{$data->time}}</p>
+                        <p class="col-xs-12 mar-cb">{{date('Y-m-d H:m:s',$data->changetime)}}</p>
                         <div class="clearfix"></div>
                     </div>
                 @endforeach
