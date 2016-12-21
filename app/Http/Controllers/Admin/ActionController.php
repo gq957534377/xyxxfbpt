@@ -22,9 +22,10 @@ class ActionController extends Controller
      * @return 活动管理页面
      * @author 郭庆
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.action.index');
+        $type = (int)$request->get('type');
+        return view('admin.action.index',['type'=>$type]);
     }
 
     /**

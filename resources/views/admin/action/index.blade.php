@@ -478,7 +478,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-<h3 class="title">活动管理</h3>
+<h3 class="title">@if($type == 1)路演活动管理@elseif($type == 2)创业大赛管理@else英雄学院管理@endif</h3>
 {{--<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>--}}
 <a href="/action_add"><button class="btn btn-primary" id="add">发布活动</button></a>
 <img src="/admin/images/load.gif" class="loading">
@@ -1057,6 +1057,6 @@
                 error   : ajaxErrorModel,
             });
         }
-        list(list_type, list_status);
+        list("{{$type}}", list_status);
     </script>
 @endsection
