@@ -277,13 +277,18 @@ class ActionService
      * @return array
      * author 郭庆
      */
-    public function getData($guid)
+    public function getData($guid, $list)
     {
-        if(!is_string($guid)){
+        if(!$guid){
             return ['StatusCode'=> 400,'ResultData' => "数据参数有误"];
         }
         //查询一条数据活动信息
-        $data = self::$actionStore->getOneData(["guid" => $guid]);
+        if ($list == 3){
+            $data = self::$collegeStore->getOneData(["guid" => $guid]);
+        }else{
+            $data = self::$actionStore->getOneData(["guid" => $guid]);
+        }
+
         if($data) {
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
             $data->start_time = date("Y年m月d日 H点", $data->start_time) ;
