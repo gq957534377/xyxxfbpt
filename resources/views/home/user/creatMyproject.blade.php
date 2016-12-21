@@ -67,7 +67,7 @@
           <!--项目详情 结束-->
           <!--项目历程 开始-->
           <div class='form-group line-h-3'>
-            <span class="col-md-3 col-lg-2 control-label mar-b10 dis-in-bl mar-xs--b"><span class="form-star"> </span>项目历程(选填)</span>
+            <span style="word-break: keep-all" class="col-md-3 col-lg-2 control-label mar-b10 dis-in-bl mar-xs--b">项目历程(选填)</span>
             <div class='col-md-8'>
               <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
                 <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
@@ -216,7 +216,7 @@
           <div class="form-group mar-b30 line-h-3">
             <label for="invest-area" class="col-sm-12 col-md-3 col-lg-2 control-label pad-cr mar-xs--b"><span class="form-star">*</span>目前需求</label>
             <div class="col-sm-8 col-md-5 col-lg-4">
-              <select neme="now_need" class="form-control chr-c bg-1" id="invest-area">
+              <select name="now_need" class="form-control chr-c bg-1" id="invest-area">
                 <option value="">请选择需求</option>
                 <option value="1">1</option>
                 <option value="2">2</option>

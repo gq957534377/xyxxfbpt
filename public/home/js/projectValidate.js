@@ -70,7 +70,27 @@
                 },
                 brief_content: {
                     required: true,
-                    maxlength:2
+                    rangelength:[40,120]
+                },
+                industry:{
+                    required: true,
+                    digits:true
+                },
+                financing_stage:{
+                    required: true,
+                    digits:true
+                },
+                content:{
+                    required: true,
+                    rangelength:[120,1200]
+                },
+                now_need:{
+                    required: true,
+                    digits:true
+                },
+                brief_need:{
+                    required: true,
+                    rangelength:[40,120]
                 }
             },
             // 提示信息
@@ -81,7 +101,27 @@
                 },
                 brief_content: {
                     required: "此处不可为空！",
-                    maxlength:"最多只可输入64个字符！"
+                    rangelength:"应输入40~120个字符！"
+                },
+                industry:{
+                    required: "请选一个行业！",
+                    digits:'别费力气了，我早考虑到了'
+                },
+                financing_stage:{
+                    required: "请选一个融资阶段！",
+                    digits:'别费力气了，我早考虑到了'
+                },
+                content:{
+                    required: "此处不可为空！",
+                    rangelength:"应输入120~1200个字符！"
+                },
+                now_need:{
+                    required: "请选一个需求！",
+                    digits:'别费力气了，我早考虑到了'
+                },
+                brief_need:{
+                    required: "此处不可为空！",
+                    rangelength:"应输入40~120个字符！"
                 }
             }
         });
