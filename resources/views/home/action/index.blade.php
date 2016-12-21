@@ -22,21 +22,21 @@
 
     <section class="container-fluid">
         <div class="row rodeing-content">
-            <div class="col-lg-9 col-md-9 col-s
-            m-12 col-xs-12">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <ul class="row rodeing-time">
+                    <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'>活动状态：</li>
+                    {{--{{dd($status)}}--}}
+                    <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2 @if($status == 204)active @endif'><a href="/action?type={{$type}}">所有</a></li>
+                    <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2 @if($status == 1)active @endif'><a href="/action?type={{$type}}&status=1">未开始</a></li>
+                    <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2 @if($status == 2)active @endif'><a href="/action?type={{$type}}&status=2">进行中</a></li>
+                    <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2 @if($status == 3)active @endif'><a href="/action?type={{$type}}&status=3">往期回顾</a></li>
+                </ul>
                 @if($StatusCode == 204)
                     <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <span style="color: #999999">暂无数据呦~亲 O(∩_∩)O~</span>
                     </li>
                 @else
                     @if($StatusCode == 200)
-                        <ul class="row rodeing-time">
-                            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'>活动时间：</li>
-                            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2 active'><a href="#">今天</a></li>
-                            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a href="#">明天</a></li>
-                            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a href="#">最近7天</a></li>
-                            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a href="#">最近30天</a></li>
-                        </ul>
                         <!--路演列表块开始-->
                         <ul class="row rodeing-list">
                             @foreach($ResultData['data'] as $action)
@@ -135,7 +135,7 @@
                                 '<li class="col-lg-6 col-md-6 col-sm-6 col-xs-3">'+type_list(action.type)+
                         '</li>'+
                         '<li class="col-lg-6 col-md-6 col-sm-6 col-xs-9">'+action.author+'</li>'+
-                         '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+"{{ date('Y/m/d H:m',$action->start_time) }}"+'——'+"{{ date('Y/m/d H:m',$action->end_time) }}"+'</li>'+
+                         '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+action.start_time+'——'+action.end_time+'</li>'+
                         '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+action.address+'</li></ul></div></div></div></li>'
                                 );
                     });

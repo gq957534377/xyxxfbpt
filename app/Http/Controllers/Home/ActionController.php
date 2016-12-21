@@ -29,8 +29,15 @@ class ActionController extends Controller
      */
     public function index(Request $request)
     {
-        // 获取活动类型 -> 活动类型的所有数据
-        $where = ['type'=>$request->type];
+        // 获取活动类型 -> 活动类型的对应状态的所有数据
+        $data = $request->all();
+        $where = [];
+        if (isset($data['type'])){
+            $where['type'] = $data['type'];
+        }
+        if (isset($data['status'])){
+            $where['status'] = $data['status'];
+        }
         $nowPage = 1;
         $result = self::$actionServer->selectData($where, $nowPage, 1, '/action', false);
 
@@ -49,8 +56,13 @@ class ActionController extends Controller
                 }
             }
         }
+        if (isset($data['status'])){
+            $result['status'] = (int)$data['status'];
+        }else{
+            $result['status'] = 204;
+        }
+        $result['type'] = $data['type'];
         $result['nowPage'] = $nowPage;
-        $result['type'] = $request->type;
         return view('home.action.index', $result);
     }
 
