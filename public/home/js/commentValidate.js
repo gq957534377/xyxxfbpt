@@ -43,6 +43,10 @@
                                 // promptBoxHandle('警告',data.ResultData);
                                 alert(data.ResultData);
                                 break;
+                            case '401':
+                                alert(data.ResultData);
+                                window.location.href = '/login';
+                                break;
                             case '200':
                                 var html = '<li class="row">';
                                 html += '<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">';

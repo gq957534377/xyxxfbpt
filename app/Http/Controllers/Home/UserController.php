@@ -406,4 +406,9 @@ class UserController extends Controller
         $likeResult = self::$commentServer->getLikesTitles($nowPage,$request);
         return response()->json($likeResult);
     }
+
+    public function myProject()
+    {
+        return view('home.user.myProject');
+    }
 }
