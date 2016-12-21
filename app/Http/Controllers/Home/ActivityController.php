@@ -24,6 +24,7 @@ class ActivityController extends Controller
      */
     public function index()
     {
+        return view('errors.404');
         //获取用户id，取得所有活动id
         $guid = session('user')->guid;
         $where = ['user_id' => $guid,'status' => '1'];

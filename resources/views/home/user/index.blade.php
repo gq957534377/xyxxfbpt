@@ -162,8 +162,7 @@
     <script src="{{asset('home/js/dateTime.js')}}"></script>
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
     <script src="{{asset('cropper/js/main.js')}}"></script>
-    {{--<script src="{{asset('cropper/js/sitelogo.js')}}"></script>--}}
-    <script src="{{asset('home/js/ajaxRequire.js')}}"></script>
+    <script src="{{asset('home/js/ajax/ajaxCommon.js')}}"></script>
     {{--用户中心--}}
     <script src="{{ asset('home/js/user/index.js') }}"></script>
 

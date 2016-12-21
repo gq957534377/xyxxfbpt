@@ -65,8 +65,18 @@ class UserService {
     {
         if (isset($model)) {
             $result = self::$roleStore->getRole($where);
+
+            // 申请记录表有读取申请记录表，没有读取用户信息表
+            if (!$result) {
+                $result = self::$userStore->getOneData($where);
+            }
         } else {
             $result = self::$roleStore->getOneRoleDate($where);
+
+            // 申请记录表有读取申请记录表，没有读取用户信息表
+            if (!$result) {
+                $result = self::$userStore->getOneData($where);
+            }
         }
         //返回错误状态信息
         if(!$result) return ['StatusCode' => '400', 'ResultData' => '没有找到'];
@@ -215,6 +225,7 @@ class UserService {
         if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];
         // 查询数据
         $temp = self::$homeStore->getOneData(['tel' => $data['tel'],'password' => $pass]);
+
         // 返回假，说明此密码不正确
         if(!$temp) return ['StatusCode' => '400','ResultData' => '密码错误！'];
         // 返回真，再进行账号状态判断
@@ -229,12 +240,25 @@ class UserService {
         $info = self::$homeStore->updateData(['guid'=>$temp->guid],['logintime' => $time,'ip' => $data['ip']]);
         if(!$info) {
             Log::error($info['msg'],$data);
-            return ['StatusCode' => '500','ResultData' => '服务器数据异常！'];
+            return ['StatusCode' => '400','ResultData' => '服务器数据异常！'];
         }
 
         //将一些用户的信息推到session里，方便维持
 
         $userInfo = self::$userStore->getOneData(['guid' => $temp->guid]);
+
+        // 用户信息缺失，需要给用户信息表重新插入一条基本信息
+        if (!$userInfo) {
+            Log::error('账号异常，用户信息缺失', ['guid' => $temp->guid, 'tel' => $temp->tel, 'time' => $time ]);
+
+
+            $userInfo = self::$userStore->addUserInfo(['guid' => $temp->guid, 'tel' => $temp->tel]);
+
+            if (!$userInfo) {
+                Log::error('账号异常，用户信息缺失,补充用户信息失败', ['guid' => $temp->guid, 'tel' => $temp->tel, 'time' => $time, 'headpic' => '/home/img/user_center.jpg' ]);
+                return ['StatusCode' => '400','ResultData' => '账号异常，请联系管理员！'];
+            }
+        }
 
         //获取角色状态
         $temp->role = $userInfo->role;
@@ -450,16 +474,7 @@ class UserService {
             return ['StatusCode' => '400','ResultData' => '保存失败'];
         }
 
-        //成功后再进行数据重组，转存到session中
-        $temp = self::$homeStore->getOneData(['guid' => $guid]);
-        $userInfo = self::$userStore->getOneData(['guid' => $guid]);
-        //获取角色状态
-        $temp->role = $userInfo->role;
-        //获取用户信息头像
-        $temp->headpic = $userInfo->headpic;
-
-        Session::put('user',$temp);
-
+        session('user')->headpic = $avatarName;
         return ['StatusCode' => '200','ResultData' => $avatarName];
 
     }
