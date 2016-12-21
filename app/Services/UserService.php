@@ -245,6 +245,10 @@ class UserService {
 
         $userInfo = self::$userStore->getOneData(['guid' => $temp->guid]);
 
+        if (!$userInfo) {
+            Log::error('账号异常，用户信息缺失', $userInfo);
+            return ['StatusCode' => '500','ResultData' => '账号异常，请联系管理员！'];
+        }
         //获取角色状态
         $temp->role = $userInfo->role;
         //获取用户信息头像
