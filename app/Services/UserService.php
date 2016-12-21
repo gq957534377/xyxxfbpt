@@ -64,8 +64,18 @@ class UserService {
     {
         if (isset($model)) {
             $result = self::$roleStore->getRole($where);
+
+            // 申请记录表有读取申请记录表，没有读取用户信息表
+            if (!$result) {
+                $result = self::$userStore->getOneData($where);
+            }
         } else {
             $result = self::$roleStore->getOneRoleDate($where);
+
+            // 申请记录表有读取申请记录表，没有读取用户信息表
+            if (!$result) {
+                $result = self::$userStore->getOneData($where);
+            }
         }
         //返回错误状态信息
         if(!$result) return ['StatusCode' => '400', 'ResultData' => '没有找到'];
