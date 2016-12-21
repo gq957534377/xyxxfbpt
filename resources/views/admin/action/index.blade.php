@@ -588,7 +588,7 @@
 
         //全局变量参数的设置
         var token       = $('meta[name="csrf-token"]').attr('content');
-        var list_type   = null;//活动类型：1：路演 2：大赛 3：学习
+        var list_type   = "{{$type}}";//活动类型：1：路演 2：大赛 3：学习
         var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
 
         //验证规则
@@ -1057,6 +1057,6 @@
                 error   : ajaxErrorModel,
             });
         }
-        list("{{$type}}", list_status);
+        list(list_type, list_status);
     </script>
 @endsection
