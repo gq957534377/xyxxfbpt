@@ -70,24 +70,26 @@ class userManagementService
          //参数规则
         $roles = [
                 //查询data_user_info表,
+                ['status' => 1],    //查询所有可用用户
                 ['status' => 1, 'role' => 1],    //查询data_user_info表,普通用户
                 ['status' => 1, 'role' => 2],      //创业者用户
                 ['status' => 1, 'role' => 3],      //投资者用户
                 ['status' => 1, 'memeber' => 2],      //英雄会会员
-                //查询data_role_info表
-                ['status' => 1, 'role' => 2],     //查询data_role_info表,'待审核创业者用户' =>
-                ['status' => 1, 'role' => 3],     //  '待审核投资者用户' =>
-                ['status' => 1, 'role' => 4],     //'待审核投资者用户' =>
-                ['status' => 3, 'role' => 2],    // '审核失败创业者用户' =>
-                ['status' => 3, 'role' => 3],    //'审核失败投资者用户' =>
-                ['status' => 3, 'role' => 4],    //'审核失败英雄会成员' =>
-                //查询data_user_info表,
                 ['status' => 2, 'role' => 1],      //'已禁用普通用户' =>查询data_user_info表,普通用户
                 ['status' => 2, 'role' => 2],     //'已禁用创业者用户' =>
                 ['status' => 2, 'role' => 3],     //'已禁用投资者用户' =>
                 ['status' => 2, 'memeber' => 2],    //'已禁用英雄会成员' =>
-                //页面默认加载所有正常用户信息
-                ['status' => 1]
+                //user页面默认加载所有正常用户信息
+
+                //查询data_role_info表
+                ['status' => 5, 'role' => 2],     //查询data_role_info表,'待审核创业者用户' =>
+                ['status' => 5, 'role' => 3],     //  '待审核投资者用户' =>
+                ['status' => 5, 'role' => 4],     //'待审核投资者用户' =>
+                ['status' => 7, 'role' => 2],    // '审核失败创业者用户' =>
+                ['status' => 7, 'role' => 3],    //'审核失败投资者用户' =>
+                ['status' => 7, 'role' => 4],    //'审核失败英雄会成员' =>
+                //role页面默认加载所有待审核用户
+                ['status' => 5]
         ];
         return $roles;
     }
@@ -105,7 +107,7 @@ class userManagementService
         //总页数
         $totalPage = ceil($count / $pageNums);
         //分页求情的地址
-        $baseUrl   = url('/test/show');
+        $baseUrl   = url('/user_management/show');
 
         if($nowPage <= 0){
             $nowPage = 1;

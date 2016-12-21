@@ -13,7 +13,7 @@ use App\Store\RoleStore;
 use App\Services\userManagementService as Users;
 
 
-class TestController extends Controller
+class UserManagementController extends Controller
 {
 
     protected static $users;    //用户管理service
@@ -69,7 +69,7 @@ class TestController extends Controller
         $data = $request->all();
 
         //参数范围限制
-        if($data['key'] < 0 || $data['key'] > 14){
+        if($data['key'] < 0 || $data['key'] > 16){
             return view('404');
         }
         //参数规则
@@ -79,7 +79,7 @@ class TestController extends Controller
         $where = $roles[$data['key']];
 
         //表名选择,并获取数据的条数
-        if($data['key'] >=4 && $data['key'] <=9){
+        if($data['key'] > 8){
             $table = 'data_role_info';
         }else{
             $table = 'data_user_info';
