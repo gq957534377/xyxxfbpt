@@ -2,11 +2,12 @@
 
 var console = window.console || { log: function () {} };
 
-function CropAvatar($element) {
+function CropAvatar($element, $img) {
     this.$container = $element;
 
     this.$avatarView = this.$container.find('.avatar-view');
-    this.$avatar = this.$avatarView.find('img');
+    // this.$avatar = this.$avatarView.find('img');
+    this.$avatar = this.$avatarView.find($img);
     this.$avatarModal = $("body").find('#avatar-modal');
     this.$loading = this.$avatarModal.find('#loading_card');
 
@@ -299,9 +300,9 @@ CropAvatar.prototype = {
     cropDone: function () {
         this.$avatarForm.get(0).reset();
         this.$avatar.attr('src', this.url);
-        $('input[name="syb_card_pic"]').val(this.url);
-        $('input[name="investor_card_pic"]').val(this.url);
-        $('input[name="banner"]').val(this.url);
+        // $('input[name="syb_card_pic"]').val(this.url);
+        // $('input[name="investor_card_pic"]').val(this.url);
+        // $('input[name="banner"]').val(this.url);
         this.stopCropper();
         this.$avatarModal.modal('hide');
         $('.modal').css('overflow-y', 'auto');
@@ -319,10 +320,10 @@ CropAvatar.prototype = {
     }
 };
 
-function sendParam(obj)
+function sendParam(obj, thisImg)
 {
     $(function () {
-        return new CropAvatar(obj);
+        return new CropAvatar(obj, thisImg);
     });
 }
 
