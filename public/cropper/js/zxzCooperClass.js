@@ -17,9 +17,8 @@ var father =function ($) {
 
   var console = window.console || { log: function () {} };
 
-  CropAvatar =function ($element,zxz) {
+  CropAvatar =function ($element) {
     this.$container = $element;
-    this.zxz =zxz;
 
 
     this.$avatarView = this.$container.find('.avatar-view');
@@ -291,7 +290,7 @@ var father =function ($) {
             this.cropDone();
           } else {
             this.uploaded = true;
-            this.zxz.fun;
+            this.$avatarSrc.val(this.url);
             this.startCropper();
           }
           this.$avatarInput.val('');

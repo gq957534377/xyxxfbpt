@@ -379,8 +379,11 @@
   <script src="{{asset('cropper/js/zxzCooperClass.js')}}"></script>
   <script>
     //添加项目历程
+    var zxz ={fun:function () {
+      alert(1);
+    }}
     function logo() {
-      return new CropAvatar($('#logo'));
+      return new CropAvatar($('#logo'),zxz);
     }
     logo();
     var Pro_Exp_Num = 1;
