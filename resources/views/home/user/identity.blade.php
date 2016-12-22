@@ -186,7 +186,7 @@
                                     <div class="row">
                                         <div id="crop-avatar2" class="col-md-6">
                                             <div class="avatar-view" title="">
-                                                <img src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                                                <img id="investor_card_a" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                                             </div>
                                         </div>                                    </div>
                                 </div>
@@ -297,8 +297,13 @@
 
     loadAjax();
 
+
     $("#syb_card_a").click(function(){
-        sendParam($('#crop-avatar'));
+        sendParam($('#crop-avatar'), '#syb_card_a');
+    });
+
+    $("#investor_card_a").click(function(){
+        sendParam($('#crop-avatar2'));
     });
 
 </script>

@@ -260,7 +260,7 @@
             <div class="col-md-5 col-lg-5">
               <div id="logo" class="col-md-6">
                 <div class="avatar-view" title="">
-                  <img src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                  <img class="zxz" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                 </div>
               </div>
             </div>
@@ -273,7 +273,7 @@
             <div class="col-md-5 col-lg-5">
               <div id="banner" class="col-md-6">
                 <div class="avatar-view" title="">
-                  <img src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                  <img class="zxzs"  src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                 </div>
               </div>
             </div>
@@ -376,23 +376,23 @@
   <script src="{{asset('home/js/dateTime.js')}}"></script>
   <script src="{{asset('home/js/projectValidate.js')}}"></script>
   <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
+  {{--<script src="{{asset('cropper/js/upload.js')}}"></script>--}}
   <script src="{{asset('cropper/js/zxzCooperClass.js')}}"></script>
   <script>
-    //添加项目历程
-    var zxz ={fun:function () {
-      alert(1);
-    }}
-    function logo() {
-      return new CropAvatar($('#logo'),zxz);
-    }
-    logo();
+
+//    $('#logo').click(function () {
+//      sendParam($(this),'.zxz');
+//    });
+//    $('#banner').click(function () {
+//      sendParam($(this),'.zxzs');
+//    });
     var Pro_Exp_Num = 1;
     $('#add_Pro_Exp').click(function () {
       var Pro_Exo = '#pro_exo_'+Pro_Exp_Num;
       var Pro_Exos = '#pro_exo_'+Pro_Exp_Num+'s';
       $(Pro_Exo).toggleClass('hiddens');
       $(Pro_Exos).toggleClass('hiddens');
-      Pro_Exp_Num ++
+      Pro_Exp_Num ++;
       selectBtn();
     });
     $('#del_Pro_Exp').click(function () {

@@ -17,9 +17,9 @@ var father =function ($) {
 
   var console = window.console || { log: function () {} };
 
-  CropAvatar =function ($element) {
+  CropAvatar =function ($element,zxz) {
     this.$container = $element;
-
+    this.zxz =zxz;
 
     this.$avatarView = this.$container.find('.avatar-view');
     this.$avatar = this.$avatarView.find('img');
@@ -290,7 +290,7 @@ var father =function ($) {
             this.cropDone();
           } else {
             this.uploaded = true;
-            this.$avatarSrc.val(this.url);
+            // this.$avatarSrc.val(this.url);
             this.startCropper();
           }
           this.$avatarInput.val('');
@@ -314,7 +314,7 @@ var father =function ($) {
 
     cropDone: function () {
       this.$avatarForm.get(0).reset();
-      this.$avatar.attr('src', this.url);
+      this.zxz.fun(this.url);
       this.stopCropper();
       this.$avatarModal.modal('hide');
       $('.modal').css('overflow-y', 'auto');
