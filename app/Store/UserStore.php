@@ -139,4 +139,16 @@ class UserStore {
             ->get();
     }
 
+    /** 修改用户状态 status 1 为启用，2 为禁用
+     * @param $where  string  用户guid
+     * @param $status  array  要修改的状态
+     * @return bool
+     *@author lw
+     */
+    public function changeStatus($where, $status)
+    {
+        if(empty($where)) return false;
+        return DB::table(self::$table)->where($where)->update($status);
+    }
+
 }

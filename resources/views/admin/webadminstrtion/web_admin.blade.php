@@ -70,6 +70,7 @@
 
 @endsection
 @section('script')
+
     @include("admin.validator.webAdminValidator")
 
 @endsection

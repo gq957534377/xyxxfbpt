@@ -107,15 +107,27 @@ class UserManagementController extends Controller
 
     }
 
-    /**
+    /** 执行用户的启用、禁用操作： 1为禁用 2为启用
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        if($id < 1 && $id > 2){
+            return response()->json(['statusCode' => 204,'resultDate' => "参数不在合法范围"]);
+        }
+
+        //获取用户guid
+        $guid = $request->input('guid');
+
+        //执行启用或者禁用
+        $update = self::$users->changeStatus(['guid'=>$guid], ['status' => $id]);
+
+        if(!$update) return response()->json(['statusCode' => 400,'resultData' =>'操作失败！']);
+        return response()->json(['statusCode' => 200,'resultData' =>'操作成功！']);
+
     }
 
     /**
