@@ -188,7 +188,19 @@
                                             <div class="avatar-view" title="">
                                                 <img id="investor_card_a" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                                             </div>
+<<<<<<< HEAD
                                         </div>                                    </div>
+=======
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="crop-avatar3" class="col-md-6">
+                                            <div class="avatar-view" title="">
+                                                <img id="investor_card_b" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                                            </div>
+                                        </div>
+                                    </div>
+>>>>>>> origin/liujunting
                                 </div>
                             </div>
                         </div>
@@ -303,9 +315,11 @@
     });
 
     $("#investor_card_a").click(function(){
-        sendParam($('#crop-avatar2'));
+        sendParam($('#crop-avatar2'), '#investor_card_a', '1.6');
     });
-
+    $("#investor_card_b").click(function(){
+        sendParam($('#crop-avatar3'), '#investor_card_b', '1.6');
+    });
 </script>
 
 @endsection
