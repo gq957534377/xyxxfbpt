@@ -320,12 +320,10 @@ class UserController extends Controller
     {
         if (isset($request->phone)) {
             // 发送短信
-
+            return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
             $info = self::$userServer->sendSmsCode($request->phone);
         }
-
-
-
+        return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
         if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
 
         // 拿到给用户的手机号
@@ -343,7 +341,6 @@ class UserController extends Controller
     public function sendEmail(Request $request)
     {
        if (!isset($request->guid) || !isset($request->newEmail)) return response()->json(['StatusCode' => '400', '缺少数据信息']);
-
 
        // 确认当前用户是否存在
        $userAccount = self::$userServer->accountInfo(['guid' => $request->guid]);
