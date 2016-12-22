@@ -304,7 +304,7 @@
                   <input type="hidden" id="touxiangUrl">
                   <div id="touxiang">
                     <div class="avatar-view">
-                      <img src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                      <img class="zxzss" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                     </div>
                   </div>
                 </div>
@@ -376,16 +376,18 @@
   <script src="{{asset('home/js/dateTime.js')}}"></script>
   <script src="{{asset('home/js/projectValidate.js')}}"></script>
   <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
-  {{--<script src="{{asset('cropper/js/upload.js')}}"></script>--}}
-  <script src="{{asset('cropper/js/zxzCooperClass.js')}}"></script>
+  <script src="{{asset('cropper/js/upload.js')}}"></script>
+  {{--<script src="{{asset('cropper/js/zxzCooperClass.js')}}"></script>--}}
   <script>
-
-//    $('#logo').click(function () {
-//      sendParam($(this),'.zxz');
-//    });
-//    $('#banner').click(function () {
-//      sendParam($(this),'.zxzs');
-//    });
+    $('#logo').click(function () {
+      sendParam($('#logo'),'.zxz','1.6');
+    });
+    $('#banner').click(function () {
+      sendParam($('#banner'),'.zxzs','1.6');
+    });
+    $('#touxiang').click(function () {
+      sendParam($('#touxiang'),'.zxzss','1.6');
+    });
     var Pro_Exp_Num = 1;
     $('#add_Pro_Exp').click(function () {
       var Pro_Exo = '#pro_exo_'+Pro_Exp_Num;
