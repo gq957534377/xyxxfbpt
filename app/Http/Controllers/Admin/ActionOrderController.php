@@ -45,7 +45,12 @@ class ActionOrderController extends Controller
 
         $data = $request->all();
         $users = self::$actionServer->getAction('user_id', ['action_id' => $data['action_id']]);
-//        dd($users);
+        if ($users['status']){
+            $users = $users['msg'];
+        }else{
+            return response() -> json(['StatusCode' => '500', 'ResultData' => $users['msg']]);
+        }
+
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         $forPages = 1;//一页的数据条数
         $where = [];
@@ -57,8 +62,8 @@ class ActionOrderController extends Controller
             $where["action_id"] = $data['action_id'];
         }
 
-        $result = self::$actionServer->getOrderInfo($where, $nowPage, $forPages, 'action_order/create');
-
+        $result = self::$userServer->getUsers($users, $nowPage, $forPages, 'action_order/create');
+        dd($result);
         return response() -> json($result);
     }
 
