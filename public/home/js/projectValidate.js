@@ -70,7 +70,7 @@
                 },
                 brief_content: {
                     required: true,
-                    rangelength:[40,120]
+                    rangelength:[40,200]
                 },
                 industry:{
                     required: true,
@@ -82,15 +82,16 @@
                 },
                 content:{
                     required: true,
-                    rangelength:[120,1200]
+                    rangelength:[120,800]
                 },
-                now_need:{
-                    required: true,
-                    digits:true
+                logo_img:{
+                    required: true
                 },
-                brief_need:{
-                    required: true,
-                    rangelength:[40,120]
+                banner_img:{
+                    required: true
+                },
+                team_member:{
+                    required: true
                 }
             },
             // 提示信息
@@ -101,7 +102,7 @@
                 },
                 brief_content: {
                     required: "此处不可为空！",
-                    rangelength:"应输入40~120个字符！"
+                    rangelength:"应输入40~200个字符！"
                 },
                 industry:{
                     required: "请选一个行业！",
@@ -113,15 +114,16 @@
                 },
                 content:{
                     required: "此处不可为空！",
-                    rangelength:"应输入120~1200个字符！"
+                    rangelength:"应输入120~800个字符！"
                 },
-                now_need:{
-                    required: "请选一个需求！",
-                    digits:'别费力气了，我早考虑到了'
+                logo_img:{
+                    required: "请为您的项目添加一个logo！"
                 },
-                brief_need:{
-                    required: "此处不可为空！",
-                    rangelength:"应输入40~120个字符！"
+                banner_img:{
+                    required: "请添加您的项目添加一个Banner图！"
+                },
+                team_member:{
+                    required: "请至少添加一位核心成员"
                 }
             }
         });

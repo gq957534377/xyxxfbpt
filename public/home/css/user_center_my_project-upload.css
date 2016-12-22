@@ -21,7 +21,23 @@
 .hiddens{
     display: none;
 }
+.privacy-block >div{
+    padding: 0px;
+}
+.privacy-block label{
+    font-weight: 100;
+}
+#touxiang img{
+    width: 80px;
+    height: 80px;
+}
+#touxiang .avatar-view{
+    width: 80px;
+}
 @media (max-width: 767px) {
+    .privacy-block >div{
+        margin-top: 15px;
+    }
 }
 /*屏幕宽度大于等于768px*/
 @media (min-width: 768px) {

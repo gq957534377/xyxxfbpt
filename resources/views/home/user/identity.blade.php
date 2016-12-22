@@ -188,8 +188,7 @@
                                             <div class="avatar-view" title="">
                                                 <img src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                                             </div>
-                                        </div>
-                                    </div>
+                                        </div>                                    </div>
                                 </div>
                             </div>
                         </div>
