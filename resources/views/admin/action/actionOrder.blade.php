@@ -63,10 +63,9 @@
                 <h5 class="col-md-3" style="padding-left: 30px;text-align: left;">发布时间：{{$ResultData->addtime}}</h5>
                 </div>
             <div class="row">
-                <h5 class="col-md-3" style="padding:0 0 0 30px;text-align: left;word-break: keep-all;">活动时间：{{$ResultData->start_time}} ----> {{$ResultData->end_time}}</h5>
+                <h5 class="col-md-3" style="padding:0 0 0 30px;text-align: left;word-break: keep-all;">活动时间：{{date('m月d日 H点m分',$ResultData->start_time)}} ----> {{date('m月d日 H点m分',$ResultData->end_time)}}</h5>
             </div>
             <div class="panel" id="data"></div>
-
             @else
                 <center><h1>出现错误了，错误代码{{$StatusCode}}，错误原因：{{$ResultData}}</h1>
                     <center>
@@ -75,11 +74,11 @@
 @endsection
 @section('script')
     <!--引用ajax模块-->
-    <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
-    <script src="JsService/Model/ajaxBeforeModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/action/actionOrderAjaxSuccessModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/ajaxErrorModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/pageList.js" type="text/javascript"></script>
+    <script src="{{asset('JsService/Controller/ajaxController.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/ajaxBeforeModel.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/action/actionOrderAjaxSuccessModel.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/ajaxErrorModel.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/pageList.js') }}" type="text/javascript"></script>
     <!--alertInfo end-->
     <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
     {{--富文本--}}

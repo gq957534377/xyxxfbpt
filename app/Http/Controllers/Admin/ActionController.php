@@ -105,9 +105,9 @@ class ActionController extends Controller
     }
 
     /**
-     * 修改活动+报名状态
+     * 修改活动状态
      * @param $request
-     * @param $id 活动id/报名记录id
+     * @param $id 活动id
      * @author 郭庆
      */
     public function edit(Request $request, $id)
@@ -159,9 +159,11 @@ class ActionController extends Controller
      * @return view
      * @author 郭庆
      */
-    public function actionChange($id)
+    public function actionChange($id, $list)
     {
-        return view('admin.action.edit');
+        $result = self::$actionServer -> getData($id,$list);
+        $result['list'] = (int)$list;
+        return view('admin.action.edit', $result);
     }
     /**
      * 返回报名列表管理视图

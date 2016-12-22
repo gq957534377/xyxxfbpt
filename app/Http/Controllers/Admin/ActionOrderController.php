@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
@@ -78,8 +77,7 @@ class ActionOrderController extends Controller
      */
     public function show($id)
     {
-        $result = self::$actionServer -> getData($id);
-        return response() -> json($result);
+
     }
 
     /**
@@ -90,9 +88,7 @@ class ActionOrderController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $status = $request -> input("status");
-        $result = self::$actionServer -> changeStatus($id,$status);
-        return response() -> json($result);
+
     }
 
     /**
@@ -103,10 +99,7 @@ class ActionOrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request -> all();
-        $where = ["guid" => $id];
-        $result = self::$actionServer -> upDta($where, $data);
-        return response() -> json($result);
+
     }
 
     /**
@@ -117,37 +110,8 @@ class ActionOrderController extends Controller
      */
     public function destroy($id)
     {
-        $result = self::$actionServer -> getOrderInfo($id);
-        return response() -> json($result);
+
     }
 
-    /**
-     * 返回活动发布视图
-     * @return view
-     * @author 郭庆
-     */
-    public function actionAdd()
-    {
-        return view('admin.action.add');
-    }
-    /**
-     * 返回活动修改视图
-     * @param $id 活动id
-     * @return view
-     * @author 郭庆
-     */
-    public function actionChange($id)
-    {
-        return view('admin.action.edit');
-    }
-    /**
-     * 返回报名列表管理视图
-     * @param $id 活动id
-     * @return view
-     * @author 郭庆
-     */
-    public function actionOrder($id)
-    {
-        return view('admin.action.order');
-    }
+
 }

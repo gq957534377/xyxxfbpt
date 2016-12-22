@@ -56,21 +56,21 @@
                     <label for="field-3">活动类型</label>
                     <div for="field-3">
                         <select class="form-control" id="action" name="type">
-                            <option value="1">路演活动</option>
-                            <option value="2">创业大赛</option>
-                            <option value="3">英雄学院</option>
+                            <option value="1" @if($list !=3 && $ResultData->type == 1) selected @endif>路演活动</option>
+                            <option value="2" @if($list !=3 && $ResultData->type == 2) selected @endif>创业大赛</option>
+                            <option value="3" @if($list == 3) selected @endif>英雄学院</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6" id="type" style="display: none">
+            <div class="col-md-6" id="type" style="display: @if($list == 3)block @endif none">
                 <div class="form-group">
                     <label for="field-3">培训类型</label>
                     <div for="field-3">
                         <select id="type1" class="form-control" name="">
-                            <option value="1">企业管理</option>
-                            <option value="2">资金管理</option>
-                            <option value="3">人才管理</option>
+                            <option value="1" @if($ResultData->type == 1) selected @endif>企业管理</option>
+                            <option value="2" @if($ResultData->type == 2) selected @endif>资金管理</option>
+                            <option value="3" @if($ResultData->type == 3) selected @endif>人才管理</option>
                         </select>
                     </div>
                 </div>
@@ -80,14 +80,13 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="field-1" class="control-label">活动主题</label>
-                    <input type="text" class="form-control" id="title" name="title"
-                           placeholder="action title...">
+                    <input type="text" class="form-control" id="title" name="title" value="{{$ResultData->title}}" placeholder="action title...">
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="field-2" class="control-label">负责人</label>
-                    <input type="text" class="form-control" id="author" name="author" placeholder="Author">
+                    <input type="text" class="form-control" id="author" name="author" value="{{$ResultData->author}}" placeholder="Author">
                 </div>
             </div>
             <div class="col-md-3">
@@ -95,8 +94,8 @@
                     <label for="field-3">所属机构</label>
                     <div for="field-3">
                         <select class="form-control" id="group" name="group">
-                            <option value="1">英雄会</option>
-                            <option value="2">兄弟会</option>
+                            <option value="1" @if($ResultData->group == 1) selected @endif>英雄会</option>
+                            <option value="2" @if($ResultData->group == 2) selected @endif>兄弟会</option>
                         </select>
                     </div>
                 </div>
@@ -106,26 +105,26 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="field-4" class="control-label">活动开始时间：</label>
-                    <input type="text" class="some_class form-control" id="start_time" name="start_time"/>
+                    <input type="text" class="some_class form-control" value="{{date('Y/m/d H:m', $ResultData->start_time)}}" id="start_time" name="start_time"/>
 
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="field-4" class="control-label">活动结束时间：</label>
-                    <input type="text" class="some_class form-control" id="end_time" name="end_time"/>
+                    <input type="text" class="some_class form-control" value="{{date('Y/m/d H:m', $ResultData->end_time)}}" id="end_time" name="end_time"/>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="field-4" class="control-label">截止报名时间：</label>
-                    <input type="text" class="some_class form-control" name="deadline" id="deadline"/>
+                    <input type="text" class="some_class form-control" value="{{date('Y/m/d H:m', $ResultData->deadline)}}" name="deadline" id="deadline"/>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="field-4" class="control-label">限报人数：</label>
-                    <input type="text" class="form-control" id="limit" name="limit">
+                    <input type="text" class="form-control" value="{{$ResultData->limit}}" id="limit" name="limit">
                 </div>
             </div>
         </div>
@@ -134,14 +133,13 @@
                 <div class="form-group mar-b30">
                     <label for="inputfile" class="col-md-2 control-label pad-cr"><span
                                 class="form-star">*</span>缩略图</label>
-                    <input type="hidden" id="banner" name="banner">
+                    <input type="hidden" id="banner" value="{{$ResultData->banner}}" name="banner">
                     <div class="col-md-5">
                         <div class="ibox-content">
                             <div class="row">
                                 <div id="crop-avatar" class="col-md-6">
                                     <div class="avatar-view" title="">
-                                        <img src="{{ asset('home/img/upload-card.png') }}" id="action_thumb_img"
-                                             alt="Logo" style="width: 200px;height: 150px;">
+                                        <img src="{{$ResultData->banner}}" id="action_thumb_img" alt="Logo" style="width: 200px;height: 150px;">
                                     </div>
                                 </div>
                             </div>
@@ -152,7 +150,7 @@
             <div class="col-md-10">
                 <div class="form-group">
                     <label for="field-4" class="control-label">活动地址：</label>
-                    <input type="text" class="form-control" id="address" name="address">
+                    <input type="text" class="form-control" id="address" value="{{$ResultData->address}}" name="address">
                 </div>
             </div>
         </div>
@@ -160,22 +158,20 @@
             <div class="col-md-12">
                 <div class="form-group no-margin">
                     <label for="field-7" class="control-label">活动简述</label>
-                    <textarea class="form-control autogrow" id="brief" name="brief"
-                              placeholder="Write something about action"
-                              style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
+                    <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about action" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">{{$ResultData->brief}}</textarea>
                 </div>
             </div>
         </div>
         <div class="row">
             <label class="col-md-12 control-label">活动详情</label>
             <div class="col-md-12">
-                <textarea id="UE" name="describe" class="describe"></textarea>
+                <textarea id="UE" name="describe" class="describe">{{$ResultData->describe}}</textarea>
             </div>
         </div>
     </div>
     <div class="modal-footer" id="caozuo">
         <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-        <button type="submit" data-name="" class="road_update btn btn-primary" id="add_road">发布活动</button>
+        <button type="submit" class="road_update btn btn-primary" id="add_road">修改</button>
     </div>
 </form>
 
@@ -183,10 +179,10 @@
 @endsection
 @section('script')
     <!--引用ajax模块-->
-    <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
-    <script src="JsService/Model/ajaxBeforeModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/action/actionAjaxSuccessModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/ajaxErrorModel.js" type="text/javascript"></script>
+    <script src="{{asset('JsService/Controller/ajaxController.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/ajaxBeforeModel.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/action/actionAjaxSuccessModel.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/ajaxErrorModel.js') }}" type="text/javascript"></script>
     <!--alertInfo end-->
     <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
     {{--富文本--}}
@@ -391,7 +387,7 @@
                             brief: $('textarea[name=brief]').val(),
                             describe: $('textarea[name=describe]').val(),
                         };
-                        var url = 'action?list='+$('#action').val();
+                        var url = '/action/{{$ResultData->guid}}?list={{$list}}';
 
                         data.append("type", resul.type);
                         data.append("title", resul.title);
@@ -413,7 +409,7 @@
                             }else{
                                 $.ajax({
                                     url: url,
-                                    type: 'post',
+                                    type: 'put',
                                     data: resul,
                                     before: ajaxBeforeNoHiddenModel,
                                     success: check,
@@ -428,7 +424,7 @@
                             $('.modal-title').html('提示');
                             if (data) {
                                 if (data.StatusCode == 200) {
-                                    alert('发布成功！');
+                                    alert('修改成功！');
 //                                    $('#alert-info').html('<p>活动发布成功!</p>');
                                     window.history.back(-1);
                                 } else {

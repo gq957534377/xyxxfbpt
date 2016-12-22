@@ -47,9 +47,9 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         //活动管理
         Route::resource('/action', 'ActionController');
         Route::resource('/action_add','ActionController@actionAdd');
+        Route::resource('/action_change/{id}/{list}/','ActionController@actionChange');
+        //活动报名管理
         Route::resource('/action_order','ActionOrderController');
-//        Route::resource('/action_change/{id}','ActionController@actionChange');
-//        Route::resource('/action_order/{id}','ActionController@actionOrder');
         //内容管理
         Route::resource('/article', 'ArticleController');
         Route::resource('/banner','ArticleController@bannerpic');

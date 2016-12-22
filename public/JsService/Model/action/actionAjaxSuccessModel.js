@@ -17,18 +17,18 @@ function listHtml(data){
         html += '<td>' + e.people+'</td>';
         html += '<td><a class="info btn btn-xs btn-warning tooltips" data-toggle="modal" data-target="#tabs-modal" style="border-radius: 6px;" data-list="'+list_type+'" data-name="' + e.guid + '">详情</a>&nbsp';
         if (e.status == 1) {
-            html += '<a class="btn btn-xs btn-info charge-road" data-list="'+list_type+'" style="border-radius: 6px;" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
+            html += '<a class="btn btn-xs btn-info" href="action_change/'+e.guid+'/'+list_type+'" style="border-radius: 6px;">修改</a>&nbsp';
             html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
             html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-list="'+list_type+'" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
         } else if (e.status == 4) {
-            html += '<a class="btn btn-xs btn-info tooltips charge-road" data-list="'+list_type+'" style="border-radius: 6px;" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
+            html += '<a class="btn btn-xs btn-info" href="action_change/'+e.guid+'/'+list_type+'" style="border-radius: 6px;">修改</a>&nbsp';
             html += '<a class="btn btn-xs btn-danger tooltips status" style="border-radius: 6px;" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 1 + '">启用</a>&nbsp';
         }else if (e.status == 2) {
             html += '<a class="btn btn-xs btn-danger tooltips status" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
         }else if (e.status == 3) {
             html += '<a class="btn btn-xs btn-danger tooltips status" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
         }else if (e.status == 5) {
-            html += '<a class="btn btn-xs btn-info tooltips charge-road" style="border-radius: 6px;" data-list="'+list_type+'" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
+            html += '<a class="btn btn-xs btn-info" href="action_change/'+e.guid+'/'+list_type+'" style="border-radius: 6px;">修改</a>&nbsp';
             html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
             html += '<a class="btn btn-xs btn-danger tooltips status" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>';
         }

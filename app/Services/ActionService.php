@@ -352,27 +352,23 @@ class ActionService
      */
     public function changeStatus($guid, $status, $list)
     {
-        if(!(isset($guid) && isset($status))){
-            return ['StatusCode'=> 400,'ResultData' => "参数有误"];
+        if (!(isset($guid) && isset($status))) {
+            return ['StatusCode' => 400, 'ResultData' => "参数有误"];
         }
 
-        //判断请求的是改活动状态还是报名状态
-        if(strlen($guid) != 32){
-            $Data = self::$actionOrderStore->updateData(["id" => $guid], ["status" => $status]);
-        }else{
-            if ($list == 3){
-                $Data = self::$collegeStore->upload(["guid" => $guid], ["status" => $status]);
-            }else{
-                $Data = self::$actionStore->upload(["guid" => $guid], ["status" => $status]);
-            }
+        if ($list == 3) {
+            $Data = self::$collegeStore->upload(["guid" => $guid], ["status" => $status]);
+        } else {
+            $Data = self::$actionStore->upload(["guid" => $guid], ["status" => $status]);
         }
+
 
         //判断修改结果并返回
-        if($Data){
-            return ['StatusCode'=> 200,'ResultData' => "修改成功"];
-        }else{
-            if ($Data != 0) \Log::info('修改'.$guid.'活动/报名状态出错:'.$Data);
-            return ['StatusCode'=> 500,'ResultData' => "修改失败"];
+        if ($Data) {
+            return ['StatusCode' => 200, 'ResultData' => "修改成功"];
+        } else {
+            if ($Data != 0) \Log::info('修改' . $guid . '活动/报名状态出错:' . $Data);
+            return ['StatusCode' => 500, 'ResultData' => "修改失败"];
         }
     }
 
@@ -388,13 +384,18 @@ class ActionService
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
         $data['deadline'] = strtotime($data['deadline']);
-        $data["addtime"] = time();
         unset($data['list']);
 
-        if ($list == 3){
-            $Data = self::$collegeStore->upload($where, $data);
+        //检测时间是否符合标准
+        $temp = $this->checkTime($data);
+        if($temp["status"]){
+            if ($list == 3){
+                $Data = self::$collegeStore->upload($where, $data);
+            }else{
+                $Data = self::$actionStore->upload($where, $data);
+            }
         }else{
-            $Data = self::$actionStore->upload($where, $data);
+            return ['StatusCode' => '400', 'ResultData' => $temp['msg']];
         }
 
         if($Data){
@@ -405,7 +406,6 @@ class ActionService
             return ['StatusCode'=> 500,'ResultData' => "服务器忙,修改失败"];
         }
     }
-
 
 
     /**
