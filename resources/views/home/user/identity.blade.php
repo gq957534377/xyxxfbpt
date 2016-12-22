@@ -188,6 +188,9 @@
                                             <div class="avatar-view" title="">
                                                 <img id="investor_card_a" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                                             </div>
+<<<<<<< HEAD
+                                        </div>                                    </div>
+=======
                                         </div>
                                     </div>
                                     <div class="row">
@@ -197,6 +200,7 @@
                                             </div>
                                         </div>
                                     </div>
+>>>>>>> origin/liujunting
                                 </div>
                             </div>
                         </div>

@@ -70,7 +70,28 @@
                 },
                 brief_content: {
                     required: true,
-                    maxlength:2
+                    rangelength:[40,200]
+                },
+                industry:{
+                    required: true,
+                    digits:true
+                },
+                financing_stage:{
+                    required: true,
+                    digits:true
+                },
+                content:{
+                    required: true,
+                    rangelength:[120,800]
+                },
+                logo_img:{
+                    required: true
+                },
+                banner_img:{
+                    required: true
+                },
+                team_member:{
+                    required: true
                 }
             },
             // 提示信息
@@ -81,7 +102,28 @@
                 },
                 brief_content: {
                     required: "此处不可为空！",
-                    maxlength:"最多只可输入64个字符！"
+                    rangelength:"应输入40~200个字符！"
+                },
+                industry:{
+                    required: "请选一个行业！",
+                    digits:'别费力气了，我早考虑到了'
+                },
+                financing_stage:{
+                    required: "请选一个融资阶段！",
+                    digits:'别费力气了，我早考虑到了'
+                },
+                content:{
+                    required: "此处不可为空！",
+                    rangelength:"应输入120~800个字符！"
+                },
+                logo_img:{
+                    required: "请为您的项目添加一个logo！"
+                },
+                banner_img:{
+                    required: "请添加您的项目添加一个Banner图！"
+                },
+                team_member:{
+                    required: "请至少添加一位核心成员"
                 }
             }
         });
