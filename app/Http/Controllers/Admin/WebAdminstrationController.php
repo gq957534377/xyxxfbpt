@@ -46,7 +46,6 @@ class WebAdminstrationController extends Controller
 
     /**
      * 请求界面数据
-     *
      * @return \Illuminate\Http\Response
      * @author 王通
      */

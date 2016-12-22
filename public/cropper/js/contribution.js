@@ -14,13 +14,12 @@
   var console = window.console || { log: function () {} };
 
   function CropAvatar($element) {
-
     this.$container = $element;
 
     this.$avatarView = this.$container.find('.avatar-view');
     this.$avatar = this.$avatarView.find('img');
     this.$avatarModal = $("body").find('#avatar-modal');
-    this.$loading = $("#page-wrapper").find('.loading');
+    this.$loading = this.$avatarModal.find('#loading_card');
 
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
     this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
@@ -253,14 +252,12 @@
 
         success: function (data) {
           _this.submitDone(data);
-            updateHtml();
         },
 
         error: function (XMLHttpRequest, textStatus, errorThrown) {
           var number = XMLHttpRequest.status;
           var info = "错误号:"+number+",文件上传失败";
           _this.submitFail(info);
-          delete this;
         },
 
         complete: function () {
@@ -274,14 +271,14 @@
     },
 
     submitStart: function () {
-      // this.$loading.fadeIn();
-      $(".loading").fadeIn();
+      this.$loading.fadeIn();
+      // $(".loading").fadeIn();
     },
 
     submitDone: function (data) {
       if ($.isPlainObject(data)) {
         if (data.StatusCode == '200') {
-          $(".loading").fadeOut();
+            this.$loading.fadeOut();
           this.url = data.ResultData;
           if (this.support.datauri || this.uploaded) {
             this.uploaded = false;
@@ -296,13 +293,13 @@
           this.alert(data.ResultData);
         }
       } else {
-        $(".loading").fadeOut();
+          this.$loading.fadeOut();
         this.alert('Error:500,服务异常!');
       }
     },
 
     submitFail: function (msg) {
-        $(".loading").hide();
+        this.$loading.fadeOut();
       this.alert(msg);
     },
 
@@ -313,6 +310,9 @@
     cropDone: function () {
       this.$avatarForm.get(0).reset();
       this.$avatar.attr('src', this.url);
+      $('input[name="syb_card_pic"]').val(this.url);
+      $('input[name="investor_card_pic"]').val(this.url);
+      $('input[name="banner"]').val(this.url);
       this.stopCropper();
       this.$avatarModal.modal('hide');
       $('.modal').css('overflow-y', 'auto');
@@ -337,9 +337,8 @@
             $('.modal').css('overflow-y', 'auto');
         }
     });
-
-  $('#organiz').on('click','.status1' , function () {
-      new CropAvatar($('#crop-avatar3'));
+  $(function () {
+    return new CropAvatar($('#crop-avatar'));
   });
 
 });

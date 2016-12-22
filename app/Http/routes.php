@@ -86,6 +86,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台登录页
     Route::resource('/login', 'LoginController');
     // 前台注册页
+    Route::resource('/register/checkphoto', 'RegisterController@checkPhoto');
     Route::resource('/register', 'RegisterController');
     //众筹
     Route::resource('/crowd_funding', 'CrowdFundingController');

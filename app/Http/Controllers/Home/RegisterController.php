@@ -174,6 +174,20 @@ class RegisterController extends Controller
     }
 
     /**
+     * 验证手机号是否已经存在
+     * @param Request $request
+     * @return array
+     * @author 王通
+     */
+    public function checkPhoto(Request $request)
+    {
+        $data = $request->all();
+        // 提交数据到业务层，检验用户是否存在
+        $info = self::$userServer->checkUser($data);
+        if ($info) return ['StatusCode' => '400','ResultData' => '用户已存在！'];
+        return ['StatusCode' => '200','ResultData' => '用户不存在'];
+    }
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int $id

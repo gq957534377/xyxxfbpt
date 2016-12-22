@@ -18,6 +18,9 @@
     <div class="row content-login">
     	<div class="container loginpanel">
     		<div class="login_title">注册账号</div>
+
+            <div id="error-info" class="alert alert-danger" style="display: none;"></div>
+
     		<form id="signUpForm" class="form-inline" action="{{ url('/register') }}" method="post">
                 <input name="stage" type="text" hidden value="1">
                 <ul class="input_block_1">
