@@ -139,4 +139,15 @@ class UserStore {
             ->get();
     }
 
+    /**
+     * 获取满足指定字段的集合的所有数据
+     * @param string $field 字段
+     * @param  [] $array 集合
+     * @author 郭庆
+     */
+    public static function getAraay($field, $array)
+    {
+        return DB::table(self::$table)->whereIn($field, $array)->get();
+    }
+
 }

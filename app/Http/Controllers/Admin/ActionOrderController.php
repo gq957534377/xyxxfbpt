@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -10,9 +11,11 @@ use App\Services\ActionService as ActionServer;
 class ActionOrderController extends Controller
 {
     protected  static $actionServer;
-    public function __construct(ActionServer $actionServer)
+    protected  static $userServer;
+    public function __construct(ActionServer $actionServer, UserService $userServer)
     {
         self::$actionServer = $actionServer;
+        self::$userServer = $userServer;
     }
 
     /**
@@ -39,7 +42,10 @@ class ActionOrderController extends Controller
      */
     public function create(Request $request)
     {
+
         $data = $request->all();
+        $users = self::$actionServer->getAction('user_id', ['action_id' => $data['action_id']]);
+//        dd($users);
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         $forPages = 1;//一页的数据条数
         $where = [];

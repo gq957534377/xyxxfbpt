@@ -96,21 +96,22 @@ class ActionService
     }
 
     /**
-     * 获取指定用户所报名参加的所有活动.
+     * 获取指定用户所报名参加的所有活动/或者获取报名参加某一个活动的所有用户
      * @param @user 用户的guid
      * @return array 返回一个活动id为元素的一维数组
      * @author 郭庆
      */
-    public static function getAction($user)
+    public static function getAction($field, $where)
     {
-        $action = self::$actionOrderStore->getSomeField(['user_id' => $user], 'action_id');
+        $action = self::$actionOrderStore->getSomeField($where, $field);
         if ($action) {
             return ['status' => true, 'msg' => $action];
         }else{
-            if (!is_array($action)) \Log::info('获取'.$user.'数据失败：'.$action);
+            if (!is_array($action)) \Log::info('获取'.$field.'数据失败：'.$action);
             return ['status' => false, 'msg' => '获取报名活动清单失败'];
         }
     }
+
     /**
      * 发布活动
      * @param array $data 活动信息记录
@@ -211,6 +212,7 @@ class ActionService
         if ($old == $status) return ['status' => false, "msg" => '无需更改'];
         return ['status' => true, "msg" => $status];
     }
+
     /**
      * 获取报名信息
      * @param $guid
