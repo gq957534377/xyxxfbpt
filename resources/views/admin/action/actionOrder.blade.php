@@ -65,19 +65,19 @@
             <div class="row">
                 <h5 class="col-md-3" style="padding:0 0 0 30px;text-align: left;word-break: keep-all;">活动时间：{{$ResultData->start_time}} ----> {{$ResultData->end_time}}</h5>
             </div>
+            <div class="panel" id="data"></div>
 
             @else
                 <center><h1>出现错误了，错误代码{{$StatusCode}}，错误原因：{{$ResultData}}</h1>
                     <center>
                         @endif
-                        <div class="panel" id="data"></div>
 @include('admin.public.banner')
 @endsection
 @section('script')
     <!--引用ajax模块-->
     <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
     <script src="JsService/Model/ajaxBeforeModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/action/actionAjaxSuccessModel.js" type="text/javascript"></script>
+    <script src="JsService/Model/action/actionOrderAjaxSuccessModel.js" type="text/javascript"></script>
     <script src="JsService/Model/ajaxErrorModel.js" type="text/javascript"></script>
     <script src="JsService/Model/pageList.js" type="text/javascript"></script>
     <!--alertInfo end-->
@@ -94,10 +94,15 @@
     <script type="text/javascript">
         {{--全局变量的设置--}}
 
-        //全局变量参数的设置
+        //全局变量参数的设置action_id
+        var action_id;
+                @if($StatusCode == 200)
+        action_id = "{{$ResultData->guid}}";
+                @endif
+
+
         var token       = $('meta[name="csrf-token"]').attr('content');
-        var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
-        var college_type = 4;
+        var list_status = 1;//报名状态：1：报名 3：禁用
 
         {{--@if($type == 3)--}}
         {{--//活动类型选择--}}
@@ -110,8 +115,7 @@
         $('.status1').off('click').on('click', function () {
             $('.status1').removeClass('btn-success').addClass('btn-default');
             $(this).addClass('btn-success');
-            $('#list_title').html($(this).html());
-            listType(list_type, $(this).data('status'));
+//            listType(list_type, $(this).data('status'));
         });
 
         //列表活动类型设置
@@ -164,16 +168,16 @@
         }
 
         // 页面加载时触发事件请求分页数据
-        function list(type, status) {
+        function list(action_id, status) {
             var ajax = new ajaxController();
-            var url  = '/action_order/create?type=' + type + '&status=' + status+'&college_type='+college_type;
+            var url  = '/action_order/create?action_id='+action_id+'&status=' + status;
             ajax.ajax({
                 url     : url,
                 before  : ajaxBeforeModel,
-                success : getInfoList,
+                success : actionOrder,
                 error   : ajaxErrorModel,
             });
         }
-
+        list(action_id, list_status);
     </script>
 @endsection

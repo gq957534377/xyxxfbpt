@@ -352,7 +352,7 @@
 </div>
 <h3 class="title">@if($type == 1)路演活动管理@elseif($type == 2)创业大赛管理@else英雄学院管理@endif</h3>
 {{--<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>--}}
-<a href="/action_add"><button class="btn btn-primary" id="add">发布活动</button></a>
+<a href="/action_add?list={{$type}}"><button class="btn btn-primary" id="add">发布活动</button></a>
 <img src="/admin/images/load.gif" class="loading">
 @if($type == 3)
         <div class="row">
@@ -399,6 +399,7 @@
     {{--时间插件--}}
     <script src="{{asset('/dateTime/build/jquery.datetimepicker.full.js')}}"></script>
     <script src="{{asset('/admin/js/public/dateTime.js')}}"></script>//时间插件配置
+    <script src="{{asset('JsService/Model/date.js')}}"></script>//时间插件配置
     <script type="text/javascript">
         {{--全局变量的设置--}}
 
@@ -450,7 +451,6 @@
                     ],
                     initialFrameWidth : '100%',
                 };
-        var ue          = UE.getEditor('UE', toolbra);
         var ue1         = UE.getEditor('UE1', toolbra);
 
         //全局变量参数的设置
@@ -665,8 +665,9 @@
                         data.append("address", resul.address);
                         data.append("limit", resul.limit);
 
+                        var url = '/action/' + id + '?list='+list_type;
                         $.ajax({
-                            url     : '/action/' + id,
+                            url     : url,
                             type    : 'put',
                             data    : resul,
                             before  : ajaxBeforeNoHiddenModel,
@@ -683,7 +684,7 @@
                                 if (data.StatusCode == 200) {
                                     $('.bs-example-modal-lg').modal('hide');
                                     $('#alert-info').html('<p>活动修改成功!</p>');
-                                    list(resul.type, 1);
+                                    list(list_type, list_status);
                                 } else {
                                     $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
                                 }
@@ -712,7 +713,7 @@
             $('.charge-road').click(function () {
                 $('.loading').hide();
                 var ajax = new ajaxController();
-                var url  = '/action/' + $(this).data('name')
+                var url  = '/action/' + $(this).data('name')+'?list='+list_type;
                 ajax.ajax({
                     url     : url,
                     before  : ajaxBeforeNoHiddenModel,
@@ -735,7 +736,7 @@
         function showInfo() {
             $('.info').click(function () {
                 var ajax = new ajaxController();
-                var url  = '/action/' + $(this).data('name');
+                var url  = '/action/' + $(this).data('name')+'?list='+list_type;
                 ajax.ajax({
                     url     : url,
                     before  : ajaxBeforeNoHiddenModel,
@@ -750,7 +751,7 @@
             $('.status').click(function () {
                 var _this = $(this);
                 var ajax  = new ajaxController();
-                var url   = '/action/' + $(this).data('name') + '/edit/?status=' + $(this).data('status');
+                var url   = '/action/' + $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&list='+list_type;
                 ajax.ajax({
                     url     : url,
                     before  : ajaxBeforeNoHiddenModel,

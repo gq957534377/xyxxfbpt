@@ -65,7 +65,7 @@ class ActionController extends Controller
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
-                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg'],$type);
                         if ($chage['StatusCode'] != 200){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
@@ -79,7 +79,7 @@ class ActionController extends Controller
     }
 
     /**
-     * 获取分页数据
+     * 发布活动
      * @param $request
      * @return array
      * @author 郭庆
@@ -97,9 +97,10 @@ class ActionController extends Controller
      * @return array
      * @author 郭庆
      */
-    public function show($id)
+    public function show($id,Request $request)
     {
-        $result = self::$actionServer -> getData($id);
+        $list = $request->get('list');
+        $result = self::$actionServer -> getData($id,$list);
         return response() -> json($result);
     }
 
@@ -112,7 +113,8 @@ class ActionController extends Controller
     public function edit(Request $request, $id)
     {
         $status = $request -> input("status");
-        $result = self::$actionServer -> changeStatus($id,$status);
+        $list = $request->get('list');
+        $result = self::$actionServer -> changeStatus($id, $status, $list);
         return response() -> json($result);
     }
 
@@ -126,20 +128,20 @@ class ActionController extends Controller
     {
         $data = $request -> all();
         $where = ["guid" => $id];
-        $result = self::$actionServer -> upDta($where, $data);
+
+        $result = self::$actionServer -> upDta($where, $data, $data['list']);
         return response() -> json($result);
     }
 
     /**
-     * 获取报名情况表信息
-     * @param $id 活动id
+     *
+     * @param
      * @return array
-     * author 郭庆
+     * @author 郭庆
      */
     public function destroy($id)
     {
-        $result = self::$actionServer -> getOrderInfo($id);
-        return response() -> json($result);
+
     }
 
     /**

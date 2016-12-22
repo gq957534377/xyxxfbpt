@@ -42,42 +42,18 @@ class ActionOrderController extends Controller
     {
         $data = $request->all();
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        $forPages = 5;//一页的数据条数
-        $status = $data["status"];//文章状态：已发布 待审核 已下架
-        $type = (int)$data["type"];//获取文章类型
+        $forPages = 1;//一页的数据条数
         $where = [];
 
-        if($status){
-            $where["status"] = (int)$status;
+        if($data["status"]){
+            $where["status"] = (int)$data["status"];
         }
-        if ($type == 3) {
-            if (isset($data['college_type'])){
-                if ($data['college_type'] != 4){
-                    $where['type'] = $data['college_type'];
-                }
-            }
-            $list = true;
-        } else {
-            $list = false;
-            $where['type'] = $type;
+        if ($data['action_id']){
+            $where["action_id"] = $data['action_id'];
         }
-        $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create", $list);
 
-        if($result["StatusCode"] == 200){
-            foreach ($result['ResultData']['data'] as $v){
-                $status = self::$actionServer->setStatusByTime($v);
-                if ($status['status']){
-                    if (!is_string($status['msg'])){
-                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
-                        if ($chage['StatusCode'] != 200){
-                            Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
-                        }else{
-                            $v->status = $status['msg'];
-                        }
-                    }
-                }
-            }
-        }
+        $result = self::$actionServer->getOrderInfo($where, $nowPage, $forPages, 'action_order/create');
+
         return response() -> json($result);
     }
 
