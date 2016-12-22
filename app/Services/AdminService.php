@@ -59,12 +59,11 @@ class AdminService {
         $temp =self::$adminStore->getOneData(['email' => $data['email']]);
         // 查询不到，返回 400
         if(!$temp) return ['status' => '400', 'msg' => '账号输入错误!'];
-        // 检验用户密码是否正确
-        $temp =self::$adminStore->getOneData(['email' => $data['email'],'password' => $pass]);
-        // 查询不到，返回 400
-        if(!$temp) return ['status' => '400', 'msg' => '密码输入错误!'];
 
-        // 查询到数据，再进行状态判断
+        // 检验用户密码是否正确
+        if ($temp->password != $pass) return ['status' => '400', 'msg' => '密码输入错误!'];
+
+        // 密码匹配成功，再进行状态判断
         if($temp->status != '1') return ['status' => '400', 'msg' => '账号被锁定，快去联系网站管理员吧!'];
 
         //验证成功后，更新此次登录时间和IP，密码不刷新
@@ -72,7 +71,7 @@ class AdminService {
         // 获取客户端发起请求的时间
         $time = $_SERVER['REQUEST_TIME'];
 
-        $info = self::$adminStore->updateData(['guid' => $temp->guid],['ip' => $data['ip'],'loginTime' => $time]);
+        $info = self::$adminStore->updateData(['guid' => $temp->guid],['ip' => $data['ip'], 'loginTime' => $time]);
         //验证更新
         if(!$info) return ['status' => '500', 'msg' => '数据登录信息没有更新!'];
        
