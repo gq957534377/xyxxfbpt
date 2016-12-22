@@ -40,18 +40,32 @@ class ArticleController extends Controller
         return view('errors.404');
     }
 
+    public function waterfall(Request $request)
+    {
+
+    }
     /**
-     * 添加评论
+     *  查询分页数据，瀑布流
      *
      * @return \Illuminate\Http\Response
-     * @author 郭庆
+     * @author 王通
      */
     public function create(Request $request)
     {
-        $data = $request -> all();
-        $result = self::$articleServer -> comment($data);
-        if(!$result['status']) return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
+        $data = $request->all();
+        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:2;   // 获取当前页
+        $forPages = 5;                      // 一页的数据条数
+        $type = $data["type"];              // 获取文章类型
+        $where = [];
+        $where["status"] = 1;
+
+        if($type!="null"){
+            if ($type != 3){
+                $where["type"] = $type;
+            }
+        }
+        $result = self::$articleServer->selectData($where, $nowPage, $forPages, "/article/create");
+        return response()->json($result);
     }
 
     /**

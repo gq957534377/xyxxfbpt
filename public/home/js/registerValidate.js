@@ -19,6 +19,35 @@
             return this.optional(element) || (length == 11 && mobile.test(value));
         }, "手机号码不对");
 
+        // // 自定义手机验证规则
+        // $.validator.addMethod("checkPhoto", function(value, element) {
+        //     var length = value.length;
+        //     var b = '';
+        //     // return this.optional(element) || (length == 11 && mobile.test(value));
+        //     if (length == 11) {
+        //         $.ajax({
+        //             type: "get",
+        //             url: '/register/checkphoto',
+        //             data: {
+        //                 'tel': $("input[name= 'tel']").val(),
+        //             },
+        //             success:function(data){
+        //                console.log(data);
+        //
+        //                 switch (data.StatusCode){
+        //                     case '400':
+        //                         a1(1111111);
+        //                         break;
+        //
+        //                 }
+        //             }
+        //         });
+        //     }
+        //     return false;
+        // }, "用户已存在");
+        // function a1(a) {
+        //     alert (a);
+        // }
         // ajax 异步
         $.validator.setDefaults({
             // 提交触发事件
@@ -53,7 +82,8 @@
                     success:function(data){
                         switch (data.StatusCode){
                             case '400':
-                                alert('警告' + data.ResultData);
+
+                                $('#error-info').html('警告' + data.ResultData).fadeIn(1000);
                                 break;
                             case '200':
 
@@ -156,6 +186,11 @@
                 code: {
                     required: "输入短信验证码"
                 }
+            },
+            errorPlacement: function(error, element) {
+                // Append error within linked label
+                $('#error-info').html(error[0].textContent).fadeIn(1000);
+                $('input[name="tel"]').focus();
             }
         });
     };
@@ -179,12 +214,11 @@ function formValidate(phone) {
     var str = '';
     // 判断手机号
     if($.trim(phone).length == 0){
-        alert('警告','请输入手机号');
+        $('#error-info').html('警告' + '请输入手机号').fadeIn(1000);
         exit();
     } else {
         if(isPhoneNo($.trim(phone))== false) {
-            alert('警告' + '手机号不正确');
-
+            $('#error-info').html('警告' + '手机号不正确').fadeIn(1000);
             exit();
         }
     }
@@ -205,12 +239,12 @@ $("#signUpForm").on('click','#sendCode',function(){
             switch (data.StatusCode){
                 case '400':
                     // promptBoxHandle('警告',data.ResultData);
-                    alert('警告,'+ data.ResultData);
+                    $('#error-info').html(data.ResultData).fadeIn(1000);
                     setTime($("#sendCode"));
                     break;
 
                 case '200':
-                    alert('提示' + data.ResultData);
+                    $('#error-info').html(data.ResultData).fadeIn(1000);
                     setTime($("#sendCode"));
                     break;
             }
@@ -247,6 +281,31 @@ captcha.onclick = function(){
         var url = '/code/captcha/';
         url = url + $(this).data('sesid') + Math.ceil(Math.random()*100);
         this.src = url;
-    }
+    };
 
 
+// 验证手机号是否存在
+$('input[name="tel"]').on('change', function () {
+    $('#error-info').fadeOut();
+    // var num = $(this).val().length;
+    // if (num == 11) {
+    //     $.ajax({
+    //         type: "get",
+    //         url: '/register/checkphoto',
+    //         data: {
+    //             'tel': $("input[name= 'tel']").val(),
+    //         },
+    //         success:function(data){
+    //
+    //             switch (data.StatusCode){
+    //                 case '400':
+    //                     $('#error-info').html(data.ResultData).fadeIn(1000);
+    //                     $('input[name="tel"]').focus();
+    //                     break;
+    //
+    //             }
+    //         }
+    //     });
+    // }
+
+});
