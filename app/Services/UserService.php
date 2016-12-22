@@ -223,11 +223,10 @@ class UserService {
         $temp = self::$homeStore->getOneData(['tel' => $data['tel']]);
         // 返回假，说明此账号不存在
         if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];
-        // 查询数据
-        $temp = self::$homeStore->getOneData(['tel' => $data['tel'],'password' => $pass]);
 
-        // 返回假，说明此密码不正确
-        if(!$temp) return ['StatusCode' => '400','ResultData' => '密码错误！'];
+        // 密码校验
+        if ($pass != $temp->password) return ['StatusCode' => '400','ResultData' => '密码错误！'];
+
         // 返回真，再进行账号状态判断
         if($temp->status != '1') ['StatusCode' => '400','ResultData' => '账号存在异常，已锁定，请紧快与客服联系！'];
 
@@ -239,19 +238,16 @@ class UserService {
         // 更新数据表，登录和ip
         $info = self::$homeStore->updateData(['guid'=>$temp->guid],['logintime' => $time,'ip' => $data['ip']]);
         if(!$info) {
-            Log::error($info['msg'],$data);
-            return ['StatusCode' => '400','ResultData' => '服务器数据异常！'];
+            Log::error('更新用户登录信息失败', $data);
+            return ['StatusCode' => '400', 'ResultData' => '服务器数据异常！'];
         }
 
         //将一些用户的信息推到session里，方便维持
-
         $userInfo = self::$userStore->getOneData(['guid' => $temp->guid]);
 
         // 用户信息缺失，需要给用户信息表重新插入一条基本信息
         if (!$userInfo) {
             Log::error('账号异常，用户信息缺失', ['guid' => $temp->guid, 'tel' => $temp->tel, 'time' => $time ]);
-
-
             $userInfo = self::$userStore->addUserInfo(['guid' => $temp->guid, 'tel' => $temp->tel]);
 
             if (!$userInfo) {
@@ -269,7 +265,7 @@ class UserService {
         //获取用户的Memeber状态
         $temp->memeber = $userInfo->memeber;
 
-        Session::put('user',$temp);
+        Session::put('user', $temp);
         return ['StatusCode' => '200','ResultData' => '登录成功！'];
     }
 
@@ -722,6 +718,18 @@ class UserService {
 
         return ['StatusCode' => '200', 'ResultData' => $result];
 
+    }
+
+    /**
+     * 获取指定guid的所有用户的信息
+     * @param [] $guids 用户guid数组
+     * @return array
+     * @author 郭庆
+     */
+    public static function getHomeStore($guids)
+    {
+        $users = self::$userStore->getAraay('guid', $guids);
+        dd($users);
     }
 
 }

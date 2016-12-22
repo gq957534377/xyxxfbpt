@@ -15,26 +15,26 @@
         </div>
         <div class="security-graph col-xs-12 pad-clr bb-1">
             {{--<div class="col-lg-3 col-md-3 pad-cl mar-cb hidden-sm hidden-xs text-right fw-600">--}}
-                {{--安全等级: <span class="fs-c-6 fs-22">60</span><span>分</span>--}}
+            {{--安全等级: <span class="fs-c-6 fs-22">60</span><span>分</span>--}}
             {{--</div>--}}
             {{--<div class="col-sm-offset-1 col-xs-offset-1 col-sm-4 col-xs-12 pad-cl mar-cb hidden-lg hidden-md fw-600">--}}
-                {{--安全等级:<span class="fs-c-6 fs-22">60</span><span>分</span>--}}
+            {{--安全等级:<span class="fs-c-6 fs-22">60</span><span>分</span>--}}
             {{--</div>--}}
             {{--<div class="col-sm-offset-2 col-sm-4 pad-cr mar-cb hidden-lg hidden-md hidden-xs text-right fw-600">--}}
-                {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
+            {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
             {{--</div>--}}
             {{--<div class="col-xs-offset-1 col-xs-11 pad-cl mar-cb hidden-lg hidden-md hidden-sm fw-600 pad-emt05-xs">--}}
-                {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
+            {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
             {{--</div>--}}
             {{--<div class="security-bar col-lg-offset-0 col-md-offset-0 col-lg-6 col-md-6 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10 pad-clr">--}}
-                {{--<div>--}}
-                    {{--<div>--}}
-                        {{--<div></div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
+            {{--<div>--}}
+            {{--<div>--}}
+            {{--<div></div>--}}
+            {{--</div>--}}
+            {{--</div>--}}
             {{--</div>--}}
             {{--<div class="col-lg-2 col-md-3 pad-cr mar-cb hidden-sm hidden-xs fw-600">--}}
-                {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
+            {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
             {{--</div>--}}
             {{--<div style="clear: both;"></div>--}}
             <div class="row">
@@ -64,12 +64,10 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-3 pad-cr mar-cb hidden-sm hidden-xs fw-600">
-                        存在<span class="fs-c-6 fs-22">{{ $accountInfo->risk or 0 }}</span>项风险
+                    存在<span class="fs-c-6 fs-22">{{ $accountInfo->risk or 0 }}</span>项风险
                 </div>
 
             </div>
-
-
         </div>
 
         <div class="binding col-xs-12 bb-1 pad-clr">
@@ -109,7 +107,8 @@
         <!--修改手机号 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeTelModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="position: relative;">
+                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改手机号</h4>
@@ -140,7 +139,7 @@
                     </div>
                     <div class="modal-footer border-no h-align-1">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="step_one">下一步</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default tel_btn_reset" data-dismiss="modal">取消</button>
                         <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
                     </div>
                     <!--第一步 获取验证码 结束-->
@@ -185,7 +184,8 @@
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_two">下一步</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" id="tel_return">返回</button>
+                        <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
                     </div>
                     <!--第二步 填写新手机号 结束-->
 
@@ -229,7 +229,7 @@
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_three">下一步</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
                         <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
                     </div>
                     <!--第四步 修改成功-->
@@ -263,7 +263,8 @@
         <!--修改邮箱 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="position: relative;">
+                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改邮箱</h4>
@@ -284,7 +285,7 @@
                     </div>
                     <div class="modal-footer border-no h-align-1">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_one">下一步</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default btn_email_reset" data-dismiss="modal">取消</button>
                     </div>
                     <!--第二步 验证新邮箱-->
                     <div class="modal-body email-step-two hidden">
@@ -309,7 +310,8 @@
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_two">下一步</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" id="email_return">返回</button>
+                        <button type="button" class="btn btn-default btn_email_reset pull-right" data-dismiss="modal">取消</button>
                         <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
                     </div>
                     <!--第三步 修改成功-->
@@ -327,7 +329,8 @@
         <!--修改密码 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeKeyModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="position: relative;">
+                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改密码</h4>
@@ -361,7 +364,7 @@
                     </div>
                     <div class="modal-footer border-no h-align-1 pad-ct">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="key_step_one">确认修改</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default btn_password_reset" data-dismiss="modal">取消</button>
                     </div>
                     <!--第二步 结果提示-->
                     <div class="modal-body key-step-two hidden">
@@ -383,6 +386,7 @@
 @endsection
 
 @section('script')
+    <script src="{{asset('home/js/ajax/ajaxCommon.js')}}"></script>
     <script>
         // 更改进度条长度
         var number = $('#resk').val();
@@ -396,6 +400,7 @@
         $(function () {
 
             var guid = $("#topAvatar").data('id');
+            var ajax =new ajaxCommon();
 //        测量 滚动条宽度的函数 开始
             function measure() { // thx walsh
                 this.$body = $(document.body);
@@ -438,31 +443,27 @@
                     'captcha' : $.trim($("#captcha").val()),
                     'step'    : '1'
                 };
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url  : '/user/change/phone/' + guid,
-                    type : 'PUT',
-                    data : data,
-                    success: function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            alert(msg.ResultData);
-                            $('#sendSmsSuccess').addClass('hidden');
-                            $('.tel-step-one').addClass('hidden');
-                            $('.tel-step-one + div').addClass('hidden');
-                            $('.tel-step-two').removeClass('hidden');
-                            $('.tel-step-two + div').removeClass('hidden');
-                        } else {
-                            $('#errorBox').html(msg.ResultData).removeClass('hidden');
-                        }
-                    }
+                ajax.ajax({
+                    url     :   '/user/change/phone/' + guid,
+                    type    :   'PUT',
+                    data    :   data,
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success :   stepOne,
                 });
 
+                function stepOne (msg) {
+                    if (msg.StatusCode == '200') {
+                        alert(msg.ResultData);
+                        $('#sendSmsSuccess').addClass('hidden');
+                        $('.tel-step-one').addClass('hidden');
+                        $('.tel-step-one + div').addClass('hidden');
+                        $('.tel-step-two').removeClass('hidden');
+                        $('.tel-step-two + div').removeClass('hidden');
+                    } else {
+                        $('#errorBox').html(msg.ResultData).removeClass('hidden');
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
             });
             $('#step_two').on('click', function () {
                 // 发送成功后，验证输入框不为空执行下一步
@@ -482,30 +483,39 @@
                     'step'    : '2'
                 };
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url  : '/user/change/phone/' + guid,
-                    type : 'PUT',
-                    data : data,
-                    success: function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            alert(msg.ResultData);
-                            $("#newSmsBox").text(msg.ResultData);
-                            $('.tel-step-two').addClass('hidden');
-                            $('.tel-step-two + div').addClass('hidden');
-                            $('.tel-step-three').removeClass('hidden');
-                            $('.tel-step-three + div').removeClass('hidden');
-                        } else {
-                            $('#errorBox2').html(msg.ResultData).removeClass('hidden');
-                        }
-                    }
+                ajax.ajax({
+                   url      :   '/user/change/phone/' + guid,
+                   type     :   'PUT',
+                   data     :   data,
+                   beforeSend: ajaxBeforeSend($('.loading')),
+                   success  :   stepTwo,
+
                 });
 
+                function stepTwo (msg)
+                {
+                    if (msg.StatusCode == '200') {
+                        alert(msg.ResultData);
+                        $("#newSmsBox").text(msg.ResultData);
+                        $('.tel-step-two').addClass('hidden');
+                        $('.tel-step-two + div').addClass('hidden');
+                        $('.tel-step-three').removeClass('hidden');
+                        $('.tel-step-three + div').removeClass('hidden');
+                    } else {
+                        $('#errorBox2').html(msg.ResultData).removeClass('hidden');
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
+            });
+            // 手机绑定返回按钮
+            $('#tel_return').click(function(){
+                $("#captcha").val('');
+                $("#errorBox").addClass('hidden');
+                $("#newTel").val('');
+                $('.tel-step-two').addClass('hidden');
+                $('.tel-step-two + div').addClass('hidden');
+                $('.tel-step-one').removeClass('hidden');
+                $('.tel-step-one + div').removeClass('hidden');
             });
             $('#step_three').on('click', function () {
                 // 发送成功后，验证输入框不为空执行下一步
@@ -521,36 +531,53 @@
                     'tel'     : $("#newSmsBox").text()
                 };
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url  : '/user/change/phone/' + guid,
-                    type : 'PUT',
-                    data : data,
-                    success: function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            alert(msg.ResultData);
-                            $('.tel-step-three').addClass('hidden');
-                            $('.tel-step-three + div').addClass('hidden');
-                            $('.tel-step-four').removeClass('hidden');
-                            $('.tel-step-four + div').removeClass('hidden');
-                            window.location.href = '/logout';
-                        } else {
-                            $('#errorBox3').html(msg.ResultData).removeClass('hidden');
-                        }
-                    }
+                ajax.ajax({
+                    url      :   '/user/change/phone/' + guid,
+                    type     :   'PUT',
+                    data     :   data,
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   StepThree,
+
                 });
 
+                function StepThree (msg)
+                {
+                    if (msg.StatusCode == '200') {
+                        alert(msg.ResultData);
+                        $('.tel-step-three').addClass('hidden');
+                        $('.tel-step-three + div').addClass('hidden');
+                        $('.tel-step-four').removeClass('hidden');
+                        $('.tel-step-four + div').removeClass('hidden');
+                        window.location.href = '/logout';
+                    } else {
+                        $('#errorBox3').html(msg.ResultData).removeClass('hidden');
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
             });
             $('#step_four').on('click', function () {
                 $('.tel-step-four').addClass('hidden');
                 $('.tel-step-four + div').addClass('hidden');
                 $('.tel-step-one').removeClass('hidden');
                 $('.tel-step-one + div').removeClass('hidden');
+            });
+            // 点击取消，回到初始第一步
+            $(".tel_btn_reset").click(function(){
+                $("#captcha").val('');
+                $("#captcha_two").val('');
+                $("#newTel").val('');
+                $('.tel-step-one').removeClass('hidden');
+                $('.tel-step-one + div').removeClass('hidden');
+                $('.tel-step-two').addClass('hidden');
+                $('.tel-step-two + div').addClass('hidden');
+                $('.tel-step-three').addClass('hidden');
+                $('.tel-step-three + div').addClass('hidden');
+                $('.tel-step-four').addClass('hidden');
+                $('.tel-step-four + div').addClass('hidden');
+                $('#errorBox').addClass('hidden');
+                $('#errorBox2').addClass('hidden');
+                $('#errorBox3').addClass('hidden');
+
             });
 //        更换安全手机 结束
 
@@ -592,66 +619,96 @@
                     'guid'     : guid,
                     'newEmail' : newEmail,
                 };
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
+
+                ajax.ajax({
+                    url      :   '/user/sendemail',
+                    type     :   'POST',
+                    data     :   data,
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   emailOne,
+
                 });
-                $.ajax({
-                    url     : '/user/sendemail',
-                    type    : 'POST',
-                    data    : data,
-                    success : function(msg){
-                        console.log(msg);
+
+                function emailOne (msg) {
+                    if (msg.StatusCode == '200') {
                         $('#toEmail').html(newEmail);
 
                         $('.email-step-one').addClass('hidden');
                         $('.email-step-one + div').addClass('hidden');
                         $('.email-step-two').removeClass('hidden');
                         $('.email-step-two + div').removeClass('hidden');
+                    } else {
+                        $("#errorEmailBox_one").html(msg.ResultData).removeClass('hidden');
                     }
-                });
+
+                    ajaxAfterSend($('.loading'));
+                }
             });
             $('#email_step_two').on('click', function () {
-
                 var captcha_email = $("#captcha_email").val();
                 if ($.trim(captcha_email) == '') {
                     $("#errorEmailBox_two").html('请输入验证码').removeClass('hidden');
                     return false;
                 }
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url     : '/user/change/email',
-                    type    : 'POST',
-                    data    : {
-                        'guid' : guid,
-                        'captcha_email' : captcha_email,
-                    },
-                    success : function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            $("#email").html(msg.ResultData);
-                            $('.email-step-two').addClass('hidden');
-                            $('.email-step-two + div').addClass('hidden');
-                            $('.email-step-three').removeClass('hidden');
-                            $('.email-step-three + div').removeClass('hidden');
-                        } else {
-                            $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
-                        }
+                var data = {
+                    'guid' : guid,
+                    'captcha_email' : captcha_email,
+                };
+                ajax.ajax({
+                    url      :   '/user/change/email',
+                    type     :   'POST',
+                    data     :   data,
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   emailTwo,
 
-                    }
                 });
 
+                function emailTwo (msg) {
+                    if (msg.StatusCode == '200') {
+                        $("#email").html(msg.ResultData);
+                        $('.email-step-two').addClass('hidden');
+                        $('.email-step-two + div').addClass('hidden');
+                        $('.email-step-three').removeClass('hidden');
+                        $('.email-step-three + div').removeClass('hidden');
+                    } else {
+                        $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
+
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
             });
             $('#email_step_three').on('click', function () {
-                $('.email-step-three').addClass('hidden');
-                $('.email-step-three + div').addClass('hidden');
+                $('.email-step-two').addClass('hidden');
+                $('.email-step-two + div').addClass('hidden');
                 $('.email-step-one').removeClass('hidden');
                 $('.email-step-one + div').removeClass('hidden');
+            });
+
+            // 邮箱更换绑定返回按钮
+            $('#email_return').click(function () {
+                $('#newEmail').val('');
+                $('#captcha_email').val('');
+                $('#errorEmailBox_one').addClass('hidden');
+                $('#errorEmailBox_two').addClass('hidden');
+                $('.email-step-one').removeClass('hidden');
+                $('.email-step-one + div').removeClass('hidden');
+                $('.email-step-two').addClass('hidden');
+                $('.email-step-two + div').addClass('hidden');
+                $('.email-step-three').addClass('hidden');
+                $('.email-step-three + div').addClass('hidden');
+            });
+            // Email更换绑定取消按钮
+            $('.btn_email_reset').click(function () {
+                $('#newEmail').val('');
+                $('#captcha_email').val('');
+                $('#errorEmailBox_one').addClass('hidden');
+                $('#errorEmailBox_two').addClass('hidden');
+                $('.email-step-one').removeClass('hidden');
+                $('.email-step-one + div').removeClass('hidden');
+                $('.email-step-two').addClass('hidden');
+                $('.email-step-two + div').addClass('hidden');
+                $('.email-step-three').addClass('hidden');
+                $('.email-step-three + div').addClass('hidden');
             });
 //        更换安全邮箱 结束
 
@@ -698,40 +755,45 @@
                     return false;
                 }
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url     : '/user/change/password',
-                    type    : 'POST',
-                    data    : {
+                ajax.ajax({
+                    url      :   '/user/change/password',
+                    type     :   'POST',
+                    data     :   {
                         'guid' : guid,
                         'password' : key_old,
                         'new_password' : key_new,
                     },
-                    success : function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            $("#errorPasswordBox_one").html('').addClass('hidden');
-                            $('.key-step-one').addClass('hidden');
-                            $('.key-step-one + div').addClass('hidden');
-                            $('.key-step-two').removeClass('hidden');
-                            $('.key-step-two + div').removeClass('hidden');
-                            window.location.href = '/logout';
-                        } else {
-                            $("#errorPasswordBox_one").html(msg.ResultData).removeClass('hidden');
-                        }
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   passwordOne,
 
-                    }
                 });
+
+                function passwordOne (msg) {
+                    if (msg.StatusCode == '200') {
+                        $("#errorPasswordBox_one").html('').addClass('hidden');
+                        $('.key-step-one').addClass('hidden');
+                        $('.key-step-one + div').addClass('hidden');
+                        $('.key-step-two').removeClass('hidden');
+                        $('.key-step-two + div').removeClass('hidden');
+                        window.location.href = '/logout';
+                    } else {
+                        $("#errorPasswordBox_one").html(msg.ResultData).removeClass('hidden');
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
+
             });
             $('#key_step_two').on('click', function () {
                 $('.key-step-two').addClass('hidden');
                 $('.key-step-two + div').addClass('hidden');
                 $('.key-step-one').removeClass('hidden');
                 $('.key-step-one + div').removeClass('hidden');
+            });
+
+            $(".btn_password_reset").click(function () {
+                $('#key_old').val('');
+                $('#key_new').val('');
+                $('#key_new_two').val('');
             });
 //        更换密码 结束
 
@@ -740,42 +802,52 @@
             // 手机改绑，点击更换事件
             $("#resend_captcha").click(function() {
                 // 异步发送短信
-                $.ajax({
-                    url  : '/user/sendsms/'+guid,
-                    type : 'GET',
-                    success: function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            // 成功后显示
-                            $('#sendSmsSuccess').removeClass('hidden');
-                            // 成功后60秒内禁止再次发送
-                            setTime($("#resend_captcha"), $("#resend_captcha_label"));
-
-                        } else {
-                            alert(msg.ResultData);
-                        }
-                    }
+                ajax.ajax({
+                    url      :   '/user/sendsms/'+guid,
+                    type     :   'GET',
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   resendCaptcha,
                 });
+
+                function resendCaptcha(msg)
+                {
+                    if (msg.StatusCode == '200') {
+                        // 成功后显示
+                        $('#sendSmsSuccess').removeClass('hidden');
+                        // 成功后60秒内禁止再次发送
+                        setTime($("#resend_captcha"), $("#resend_captcha_label"));
+
+                    } else {
+                        alert(msg.ResultData);
+                    }
+
+                    $("#errorBox").addClass('hidden');
+                    ajaxAfterSend($('.loading'));
+                }
             });
 
             $("#resend_captcha_two").click(function() {
-                // 异步发送短信
-                $.ajax({
-                    url  : '/user/sendsms/'+ guid + '?phone=' + $('#newSmsBox').text(),
-                    type : 'GET',
-                    success: function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            // 成功后显示
-                            $('#sendSmsSuccessTwo').removeClass('hidden');
-                            // 成功后60秒内禁止再次发送
-                            setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
-
-                        } else {
-                            alert(msg.ResultData);
-                        }
-                    }
+                ajax.ajax({
+                    url      :   '/user/sendsms/'+ guid + '?phone=' + $('#newSmsBox').text(),
+                    type     :   'GET',
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   resendCaptchaTwo,
                 });
+
+                function resendCaptchaTwo(msg)
+                {
+                    if (msg.StatusCode == '200') {
+                        // 成功后显示
+                        $('#sendSmsSuccessTwo').removeClass('hidden');
+                        // 成功后60秒内禁止再次发送
+                        setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
+
+                    } else {
+                        alert(msg.ResultData);
+                    }
+                    $("#errorBox2").addClass('hidden');
+                    ajaxAfterSend($('.loading'));
+                }
 
             });
 
@@ -787,25 +859,25 @@
                     'guid'     : guid,
                     'newEmail' : newEmail,
                 };
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: '/user/sendemail',
-                    type: 'POST',
+
+                ajax.ajax({
+                    url      :   '/user/sendemail',
+                    type     :   'POST',
                     data: data,
-                    success: function (msg) {
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            setTime($("#resend_captcha_email"), $('#resend_email_two'));
-                        } else {
-                            $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
-                            setTime($("#resend_captcha_email"), $('#resend_email_two'));
-                        }
-                    }
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   resendEmail,
                 });
+
+                function resendEmail(msg)
+                {
+                    if (msg.StatusCode == '200') {
+                        setTime($("#resend_captcha_email"), $('#resend_email_two'));
+                    } else {
+                        $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
+                        setTime($("#resend_captcha_email"), $('#resend_email_two'));
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
             });
             // 短信验证发送后计时器
             var countdown = 60;

@@ -340,5 +340,6 @@
 
   $('#organiz').on('click','.status1' , function () {
       new CropAvatar($('#crop-avatar3'));
-  })
+  });
+
 });

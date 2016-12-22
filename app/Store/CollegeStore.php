@@ -1,29 +1,25 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: 郭庆
- * Date: 2016/11/08
- * Time: 16:34
+ * User: Administrator
+ * Date: 2016/11/17
+ * Time: 13:52
+ * 活动信息表数据仓储层
  */
+
 namespace App\Store;
 
 use Illuminate\Support\Facades\DB;
 
-/**
- * Class roadStore
- * 后台数据处理仓库层
- *
- * @package App\Store
- */
-class ActionOrderStore{
-    // 表名
-    protected static $table = 'rel_action_order';
+class CollegeStore
+{
+    protected static $table = "data_college_info";
 
     /**
      * 插入数据
      * @param $data
      * @return null
-     * author 张洵之
+     * author 郭庆
      */
     public function insertData($data)
     {
@@ -47,16 +43,16 @@ class ActionOrderStore{
      * @param $tolPage
      * @param $where
      * @return null
-     * author 张洵之
+     * author 郭庆
      */
     public function forPage($page, $tolPage, $where)
     {
         if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
         return DB::table(self::$table)
-            ->where($where)
-            ->orderBy("addtime","desc")
-            ->forPage($page,$tolPage)
-            ->get();
+           ->where($where)
+           ->orderBy("addtime","desc")
+           ->forPage($page,$tolPage)
+           ->get();
     }
 
     /**
@@ -70,27 +66,6 @@ class ActionOrderStore{
     }
 
     /**
-     * 添加记录到数据
-     * @param array $data
-     * @return bool
-     * @author 郭庆
-     */
-    public function addData($data)
-    {
-        if (empty($data)) return false;
-        return DB::table(self::$table)->insert($data);
-    }
-    /**
-     * 获取符合条件的某一个字段的集合
-     * @param
-     * @return array
-     * @author 郭庆
-     */
-    public static function getSomeField($where, $field)
-    {
-        return DB::table(self::$table)->where($where)->lists($field);
-    }
-    /**
      * 查询某一类型活动列表业所需的活动
      * @param
      * @return array
@@ -102,24 +77,11 @@ class ActionOrderStore{
     }
 
     /**
-     * 更新记录到数据库
-     * @param array $where
-     * @param array $data
-     * @return bool
-     * @author 郭庆
-     */
-    public function updateData($where, $data)
-    {
-        if(empty($where) || empty($data)) return false;
-        return DB::table(self::$table)->where($where)->update($data);
-    }
-
-    /**
      * 更新数据
      * @param $where
      * @param $data
      * @return null
-     * author 张洵之
+     * author 郭庆
      */
     public function upload($where, $data)
     {
@@ -169,5 +131,5 @@ class ActionOrderStore{
     {
         return DB::table(self::$table)->whereBetween('start_time', $between)->get();
     }
-}
 
+}

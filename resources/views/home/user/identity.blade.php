@@ -103,7 +103,7 @@
                                 <div class="row">
                                     <div id="crop-avatar" class="col-md-6">
                                         <div class="avatar-view" title="">
-                                            <img src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                                            <img id="syb_card_a" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +186,14 @@
                                     <div class="row">
                                         <div id="crop-avatar2" class="col-md-6">
                                             <div class="avatar-view" title="">
-                                                <img src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                                                <img id="investor_card_a" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div id="crop-avatar3" class="col-md-6">
+                                            <div class="avatar-view" title="">
+                                                <img id="investor_card_b" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                                             </div>
                                         </div>
                                     </div>
@@ -214,7 +221,7 @@
     <script src="{{ asset('home/js/user/applySybValidate.js') }}"></script>
     <script src="{{ asset('home/js/user/applyInvestorValidate.js') }}"></script>
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
-    <script src="{{asset('cropper/js/sitelogo.js')}}"></script>
+    <script src="{{asset('cropper/js/upload.js')}}"></script>
 <script>
     // tabs 切换
     $('.tabs_btn').click(function(){
@@ -297,6 +304,18 @@
     }
 
     loadAjax();
+
+
+    $("#syb_card_a").click(function(){
+        sendParam($('#crop-avatar'), '#syb_card_a');
+    });
+
+    $("#investor_card_a").click(function(){
+        sendParam($('#crop-avatar2'), '#investor_card_a', '1.6');
+    });
+    $("#investor_card_b").click(function(){
+        sendParam($('#crop-avatar3'), '#investor_card_b', '1.6');
+    });
 </script>
 
 @endsection

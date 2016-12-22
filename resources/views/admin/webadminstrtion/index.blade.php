@@ -40,7 +40,7 @@
     <hr>
 
     <div id="margin_data" style="position: relative;">
-        <img src="{{ asset('admin/images/load.gif') }}" class="loading">
+        {{--<img src="{{ asset('admin/images/load.gif') }}" class="loading">--}}
         <div id="data"></div>
     </div>
 
@@ -106,11 +106,9 @@
 @include('admin.public.card')
 @endsection
 @section('script')
-
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
     <script src="{{asset('cropper/js/webOrganiz.js')}}"></script>
     <script src="{{asset('admin/js/jquery.validate.min.js')}}"></script>
     <script src="{{asset('admin/js/web-admin-validator.js')}}"></script>
     <script type="text/javascript" src="{{asset('admin/js/web-admin.js')}}"></script>
-
 @endsection

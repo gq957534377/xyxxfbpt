@@ -142,12 +142,13 @@
                                 );
                     });
                     if (nowPage<data.ResultData['totalPage']){
-                        nowPage+=1;
+                        nowPage++;
                     }else {
                         $('#more_list').remove();
                     }
 //                    $('#more_list').attr('data-name',(nowPage));
-                    console.log("{{$nowPage}}");
+                    console.log(data);
+                    console.log(nowPage+'---'+data.ResultData['totalPage']);
                 }
             });
         });

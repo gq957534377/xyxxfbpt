@@ -39,7 +39,7 @@ class ActionController extends Controller
             $where['status'] = $data['status'];
         }
         $nowPage = 1;
-        $result = self::$actionServer->selectData($where, $nowPage, 1, '/action', false);
+        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action', false, false);
 
         if($result["StatusCode"] == 200){
             foreach ($result['ResultData']['data'] as $v){
@@ -77,7 +77,7 @@ class ActionController extends Controller
         // 获取活动类型 -> 活动类型的所有数据
         $where = ['type'=>$request->type];
         $nowPage = isset($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
-        $result = self::$actionServer->selectData($where, $nowPage, 1, '/action', false);
+        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action', false, false);
 
         if($result["StatusCode"] == 200){
             foreach ($result['ResultData']['data'] as $v){
@@ -122,7 +122,7 @@ class ActionController extends Controller
     public function show($id)
     {
         //所需要数据的获取
-        $data = self::$actionServer->getData($id);//活动详情
+        $data = self::$actionServer->getData($id,false);//活动详情
         $likeNum = self::$commentServer->likeCount($id);//点赞人数
         $commentData = self::$commentServer->getComent($id,1);//评论数据
         //$isHas（是否已经报名参加）的设置
@@ -132,7 +132,7 @@ class ActionController extends Controller
             $likeStatus = 2;
         }else{
             $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
-            $action = self::$actionServer->getAction(session('user')->guid);//当前用户报名参加的所有活动
+            $action = self::$actionServer->getAction('action_id', ['user_id'=>session('user')->guid]);//当前用户报名参加的所有活动
             $isLogin = session('user')->guid;
             if ($action['status']){
                 $isHas = in_array($data["ResultData"]->guid, $action['msg']);
