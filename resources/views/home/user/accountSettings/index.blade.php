@@ -109,6 +109,7 @@
         <!--修改手机号 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeTelModal" tabindex="-1" role="dialog">
+            <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
@@ -263,6 +264,7 @@
         <!--修改邮箱 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog">
+            <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
@@ -310,6 +312,7 @@
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_two">下一步</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">取消</button>
                         <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
                     </div>
                     <!--第三步 修改成功-->
@@ -327,6 +330,7 @@
         <!--修改密码 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeKeyModal" tabindex="-1" role="dialog">
+            <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
@@ -444,6 +448,7 @@
                     url     :   '/user/change/phone/' + guid,
                     type    :   'PUT',
                     data    :   data,
+                    beforeSend: ajaxBeforeSend($('.loading')),
                     success :   stepOne,
                 });
 
@@ -458,6 +463,7 @@
                     } else {
                         $('#errorBox').html(msg.ResultData).removeClass('hidden');
                     }
+                    ajaxAfterSend($('.loading'));
                 }
             });
             $('#step_two').on('click', function () {
@@ -482,6 +488,7 @@
                    url      :   '/user/change/phone/' + guid,
                    type     :   'PUT',
                    data     :   data,
+                   beforeSend: ajaxBeforeSend($('.loading')),
                    success  :   stepTwo,
 
                 });
@@ -498,6 +505,7 @@
                     } else {
                         $('#errorBox2').html(msg.ResultData).removeClass('hidden');
                     }
+                    ajaxAfterSend($('.loading'));
                 }
             });
             $('#step_three').on('click', function () {
@@ -518,6 +526,7 @@
                     url      :   '/user/change/phone/' + guid,
                     type     :   'PUT',
                     data     :   data,
+                    beforeSend: ajaxBeforeSend($('.loading')),
                     success  :   StepThree,
 
                 });
@@ -534,6 +543,7 @@
                     } else {
                         $('#errorBox3').html(msg.ResultData).removeClass('hidden');
                     }
+                    ajaxAfterSend($('.loading'));
                 }
             });
             $('#step_four').on('click', function () {
@@ -587,53 +597,58 @@
                     url      :   '/user/sendemail',
                     type     :   'POST',
                     data     :   data,
+                    beforeSend: ajaxBeforeSend($('.loading')),
                     success  :   emailOne,
 
                 });
 
-                function emailOne () {
-                    $('#toEmail').html(newEmail);
+                function emailOne (msg) {
+                    if (msg.StatusCode == '200') {
+                        $('#toEmail').html(newEmail);
 
-                    $('.email-step-one').addClass('hidden');
-                    $('.email-step-one + div').addClass('hidden');
-                    $('.email-step-two').removeClass('hidden');
-                    $('.email-step-two + div').removeClass('hidden');
+                        $('.email-step-one').addClass('hidden');
+                        $('.email-step-one + div').addClass('hidden');
+                        $('.email-step-two').removeClass('hidden');
+                        $('.email-step-two + div').removeClass('hidden');
+                    } else {
+                        $("#errorEmailBox_one").html(msg.ResultData).removeClass('hidden');
+                    }
+
+                    ajaxAfterSend($('.loading'));
                 }
             });
             $('#email_step_two').on('click', function () {
-
                 var captcha_email = $("#captcha_email").val();
                 if ($.trim(captcha_email) == '') {
                     $("#errorEmailBox_two").html('请输入验证码').removeClass('hidden');
                     return false;
                 }
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url     : '/user/change/email',
-                    type    : 'POST',
-                    data    : {
-                        'guid' : guid,
-                        'captcha_email' : captcha_email,
-                    },
-                    success : function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            $("#email").html(msg.ResultData);
-                            $('.email-step-two').addClass('hidden');
-                            $('.email-step-two + div').addClass('hidden');
-                            $('.email-step-three').removeClass('hidden');
-                            $('.email-step-three + div').removeClass('hidden');
-                        } else {
-                            $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
-                        }
+                var data = {
+                    'guid' : guid,
+                    'captcha_email' : captcha_email,
+                };
+                ajax.ajax({
+                    url      :   '/user/change/email',
+                    type     :   'POST',
+                    data     :   data,
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   emailTwo,
 
-                    }
                 });
 
+                function emailTwo (msg) {
+                    if (msg.StatusCode == '200') {
+                        $("#email").html(msg.ResultData);
+                        $('.email-step-two').addClass('hidden');
+                        $('.email-step-two + div').addClass('hidden');
+                        $('.email-step-three').removeClass('hidden');
+                        $('.email-step-three + div').removeClass('hidden');
+                    } else {
+                        $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
+
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
             });
             $('#email_step_three').on('click', function () {
                 $('.email-step-three').addClass('hidden');
@@ -686,34 +701,33 @@
                     return false;
                 }
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url     : '/user/change/password',
-                    type    : 'POST',
-                    data    : {
+                ajax.ajax({
+                    url      :   '/user/change/password',
+                    type     :   'POST',
+                    data     :   {
                         'guid' : guid,
                         'password' : key_old,
                         'new_password' : key_new,
                     },
-                    success : function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            $("#errorPasswordBox_one").html('').addClass('hidden');
-                            $('.key-step-one').addClass('hidden');
-                            $('.key-step-one + div').addClass('hidden');
-                            $('.key-step-two').removeClass('hidden');
-                            $('.key-step-two + div').removeClass('hidden');
-                            window.location.href = '/logout';
-                        } else {
-                            $("#errorPasswordBox_one").html(msg.ResultData).removeClass('hidden');
-                        }
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   passwordOne,
 
-                    }
                 });
+
+                function passwordOne (msg) {
+                    if (msg.StatusCode == '200') {
+                        $("#errorPasswordBox_one").html('').addClass('hidden');
+                        $('.key-step-one').addClass('hidden');
+                        $('.key-step-one + div').addClass('hidden');
+                        $('.key-step-two').removeClass('hidden');
+                        $('.key-step-two + div').removeClass('hidden');
+                        window.location.href = '/logout';
+                    } else {
+                        $("#errorPasswordBox_one").html(msg.ResultData).removeClass('hidden');
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
+
             });
             $('#key_step_two').on('click', function () {
                 $('.key-step-two').addClass('hidden');
@@ -728,42 +742,49 @@
             // 手机改绑，点击更换事件
             $("#resend_captcha").click(function() {
                 // 异步发送短信
-                $.ajax({
-                    url  : '/user/sendsms/'+guid,
-                    type : 'GET',
-                    success: function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            // 成功后显示
-                            $('#sendSmsSuccess').removeClass('hidden');
-                            // 成功后60秒内禁止再次发送
-                            setTime($("#resend_captcha"), $("#resend_captcha_label"));
-
-                        } else {
-                            alert(msg.ResultData);
-                        }
-                    }
+                ajax.ajax({
+                    url      :   '/user/sendsms/'+guid,
+                    type     :   'GET',
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   resendCaptcha,
                 });
+
+                function resendCaptcha(msg)
+                {
+                    if (msg.StatusCode == '200') {
+                        // 成功后显示
+                        $('#sendSmsSuccess').removeClass('hidden');
+                        // 成功后60秒内禁止再次发送
+                        setTime($("#resend_captcha"), $("#resend_captcha_label"));
+
+                    } else {
+                        alert(msg.ResultData);
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
             });
 
             $("#resend_captcha_two").click(function() {
-                // 异步发送短信
-                $.ajax({
-                    url  : '/user/sendsms/'+ guid + '?phone=' + $('#newSmsBox').text(),
-                    type : 'GET',
-                    success: function(msg){
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            // 成功后显示
-                            $('#sendSmsSuccessTwo').removeClass('hidden');
-                            // 成功后60秒内禁止再次发送
-                            setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
-
-                        } else {
-                            alert(msg.ResultData);
-                        }
-                    }
+                ajax.ajax({
+                    url      :   '/user/sendsms/'+ guid + '?phone=' + $('#newSmsBox').text(),
+                    type     :   'GET',
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   resendCaptchaTwo,
                 });
+
+                function resendCaptchaTwo(msg)
+                {
+                    if (msg.StatusCode == '200') {
+                        // 成功后显示
+                        $('#sendSmsSuccessTwo').removeClass('hidden');
+                        // 成功后60秒内禁止再次发送
+                        setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
+
+                    } else {
+                        alert(msg.ResultData);
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
 
             });
 
@@ -775,25 +796,25 @@
                     'guid'     : guid,
                     'newEmail' : newEmail,
                 };
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: '/user/sendemail',
-                    type: 'POST',
+
+                ajax.ajax({
+                    url      :   '/user/sendemail',
+                    type     :   'POST',
                     data: data,
-                    success: function (msg) {
-                        console.log(msg);
-                        if (msg.StatusCode == '200') {
-                            setTime($("#resend_captcha_email"), $('#resend_email_two'));
-                        } else {
-                            $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
-                            setTime($("#resend_captcha_email"), $('#resend_email_two'));
-                        }
-                    }
+                    beforeSend: ajaxBeforeSend($('.loading')),
+                    success  :   resendEmail,
                 });
+
+                function resendEmail(msg)
+                {
+                    if (msg.StatusCode == '200') {
+                        setTime($("#resend_captcha_email"), $('#resend_email_two'));
+                    } else {
+                        $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
+                        setTime($("#resend_captcha_email"), $('#resend_email_two'));
+                    }
+                    ajaxAfterSend($('.loading'));
+                }
             });
             // 短信验证发送后计时器
             var countdown = 60;

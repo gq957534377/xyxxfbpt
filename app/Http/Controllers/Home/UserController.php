@@ -324,8 +324,6 @@ class UserController extends Controller
             $info = self::$userServer->sendSmsCode($request->phone);
         }
 
-
-
         if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
 
         // 拿到给用户的手机号
@@ -342,7 +340,6 @@ class UserController extends Controller
      */
     public function sendEmail(Request $request)
     {
-        dd($request->guid);
        if (!isset($request->guid) || !isset($request->newEmail)) return response()->json(['StatusCode' => '400', '缺少数据信息']);
 
        // 确认当前用户是否存在
