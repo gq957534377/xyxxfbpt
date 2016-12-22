@@ -15,26 +15,26 @@
         </div>
         <div class="security-graph col-xs-12 pad-clr bb-1">
             {{--<div class="col-lg-3 col-md-3 pad-cl mar-cb hidden-sm hidden-xs text-right fw-600">--}}
-                {{--安全等级: <span class="fs-c-6 fs-22">60</span><span>分</span>--}}
+            {{--安全等级: <span class="fs-c-6 fs-22">60</span><span>分</span>--}}
             {{--</div>--}}
             {{--<div class="col-sm-offset-1 col-xs-offset-1 col-sm-4 col-xs-12 pad-cl mar-cb hidden-lg hidden-md fw-600">--}}
-                {{--安全等级:<span class="fs-c-6 fs-22">60</span><span>分</span>--}}
+            {{--安全等级:<span class="fs-c-6 fs-22">60</span><span>分</span>--}}
             {{--</div>--}}
             {{--<div class="col-sm-offset-2 col-sm-4 pad-cr mar-cb hidden-lg hidden-md hidden-xs text-right fw-600">--}}
-                {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
+            {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
             {{--</div>--}}
             {{--<div class="col-xs-offset-1 col-xs-11 pad-cl mar-cb hidden-lg hidden-md hidden-sm fw-600 pad-emt05-xs">--}}
-                {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
+            {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
             {{--</div>--}}
             {{--<div class="security-bar col-lg-offset-0 col-md-offset-0 col-lg-6 col-md-6 col-sm-offset-1 col-sm-10 col-xs-offset-1 col-xs-10 pad-clr">--}}
-                {{--<div>--}}
-                    {{--<div>--}}
-                        {{--<div></div>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
+            {{--<div>--}}
+            {{--<div>--}}
+            {{--<div></div>--}}
+            {{--</div>--}}
+            {{--</div>--}}
             {{--</div>--}}
             {{--<div class="col-lg-2 col-md-3 pad-cr mar-cb hidden-sm hidden-xs fw-600">--}}
-                {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
+            {{--存在<span class="fs-c-6 fs-22">1</span>项风险--}}
             {{--</div>--}}
             {{--<div style="clear: both;"></div>--}}
             <div class="row">
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-3 pad-cr mar-cb hidden-sm hidden-xs fw-600">
-                        存在<span class="fs-c-6 fs-22">{{ $accountInfo->risk or 0 }}</span>项风险
+                    存在<span class="fs-c-6 fs-22">{{ $accountInfo->risk or 0 }}</span>项风险
                 </div>
 
             </div>
@@ -109,7 +109,6 @@
         <!--修改手机号 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeTelModal" tabindex="-1" role="dialog">
-            <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
@@ -264,7 +263,6 @@
         <!--修改邮箱 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog">
-            <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
@@ -312,7 +310,6 @@
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_two">下一步</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">取消</button>
                         <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
                     </div>
                     <!--第三步 修改成功-->
@@ -330,7 +327,6 @@
         <!--修改密码 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeKeyModal" tabindex="-1" role="dialog">
-            <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
