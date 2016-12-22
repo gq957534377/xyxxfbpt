@@ -125,5 +125,18 @@ class userManagementService
         return $pageStr;
     }
 
+    /**
+     * @param $where array、 用户guid
+     * @param $status  array  要修改的状态
+     * @return bool  修改成功为真  失败假
+     * @author lw
+     */
+    public function changeStatus($where, $status)
+    {
+        $res = self::$data_user_info->changeStatus($where, $status);
+        if(!$res) return false;
+        return true;
+    }
+
 
 }

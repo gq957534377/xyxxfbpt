@@ -8,7 +8,8 @@
 namespace App\Store;
 use Illuminate\Support\Facades\DB;
 
-class UserStore {
+class UserStore
+{
 
     protected static $table = 'data_user_info';
 
@@ -137,6 +138,29 @@ class UserStore {
             ->orderBy('addtime','desc')
             ->forPage($nowPage, $pageNums)
             ->get();
+    }
+
+
+    /** 修改用户状态 status 1 为启用，2 为禁用
+     * @param $where  string  用户guid
+     * @param $status  array  要修改的状态
+     * @return bool
+     *@author lw
+     */
+    public function changeStatus($where, $status)
+    {
+        if (empty($where)) return false;
+        return DB::table(self::$table)->where($where)->update($status);
+    }
+    /**
+     * 获取满足指定字段的集合的所有数据
+     * @param string $field 字段
+     * @param  [] $array 集合
+     * @author 郭庆
+     */
+    public function getAraay($field, $array)
+    {
+        return DB::table(self::$table)->whereIn($field, $array)->get();
     }
 
 }

@@ -47,8 +47,9 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         //活动管理
         Route::resource('/action', 'ActionController');
         Route::resource('/action_add','ActionController@actionAdd');
-//        Route::resource('/action_change/{id}','ActionController@actionChange');
-//        Route::resource('/action_order/{id}','ActionController@actionOrder');
+        Route::resource('/action_change/{id}/{list}/','ActionController@actionChange');
+        //活动报名管理
+        Route::resource('/action_order','ActionOrderController');
         //内容管理
         Route::resource('/article', 'ArticleController');
         Route::resource('/banner','ArticleController@bannerpic');
@@ -86,6 +87,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台登录页
     Route::resource('/login', 'LoginController');
     // 前台注册页
+    Route::resource('/register/checkphoto', 'RegisterController@checkPhoto');
     Route::resource('/register', 'RegisterController');
     //众筹
     Route::resource('/crowd_funding', 'CrowdFundingController');

@@ -12,6 +12,7 @@ use App\Store\ActionStore;
 use App\Store\ActionOrderStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
+use App\Store\CollegeStore;
 use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +24,7 @@ class ActionService
      * 引入活动数据仓储层
      */
     protected static $actionStore;
+    protected static $collegeStore;
     protected static $commentStore;
     protected static $actionOrderStore;
     protected static $common;
@@ -30,6 +32,7 @@ class ActionService
 
     public function __construct(
         ActionStore $actionStore,
+        CollegeStore $collegeStore,
         ActionOrderStore $actionOrderStore,
         CommentStore $commentStore,
         LikeStore $likeStore)
@@ -38,6 +41,7 @@ class ActionService
         self::$commentStore     = $commentStore;
         self::$actionOrderStore = $actionOrderStore;
         self::$likeStore        = $likeStore;
+        self::$collegeStore     = $collegeStore;
     }
 
     /**
@@ -92,21 +96,22 @@ class ActionService
     }
 
     /**
-     * 获取指定用户所报名参加的所有活动.
+     * 获取指定用户所报名参加的所有活动/或者获取报名参加某一个活动的所有用户
      * @param @user 用户的guid
      * @return array 返回一个活动id为元素的一维数组
      * @author 郭庆
      */
-    public static function getAction($user)
+    public static function getAction($field, $where)
     {
-        $action = self::$actionOrderStore->getSomeField(['user_id' => $user], 'action_id');
+        $action = self::$actionOrderStore->getSomeField($where, $field);
         if ($action) {
             return ['status' => true, 'msg' => $action];
         }else{
-            if (!is_array($action)) \Log::info('获取'.$user.'数据失败：'.$action);
+            if (!is_array($action)) \Log::info('获取'.$field.'数据失败：'.$action);
             return ['status' => false, 'msg' => '获取报名活动清单失败'];
         }
     }
+
     /**
      * 发布活动
      * @param array $data 活动信息记录
@@ -124,7 +129,14 @@ class ActionService
         //检测时间是否符合标准
         $temp = $this->checkTime($data);
         if($temp["status"]){
-            $result = self::$actionStore->insertData($data);
+            if ($data['list'] == 3){
+                unset($data['list']);
+                $result = self::$collegeStore->insertData($data);
+            }else{
+                unset($data['list']);
+                $result = self::$actionStore->insertData($data);
+            }
+
         }else{
             return ['StatusCode' => '400', 'ResultData' => $temp['msg']];
         }
@@ -201,6 +213,44 @@ class ActionService
         return ['status' => true, "msg" => $status];
     }
 
+    /**
+     * 获取报名信息
+     * @param $guid
+     * @return array
+     * @author 郭庆
+     */
+    public function getOrderInfo($where, $nowPage, $forPages, $url, $disPlay=true)
+    {
+        $count = self::$actionOrderStore->getCount($where);
+        if (!$count) {
+            //如果没有数据直接返回201空数组，函数结束
+            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
+            return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
+        }
+        //计算总页数
+        $totalPage = ceil($count / $forPages);
+        //获取所有数据
+        $result['data'] = self::$actionOrderStore->forPage($nowPage, $forPages, $where);
+
+        if($result['data']){
+            if ($disPlay && $totalPage > 1) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+
+                if($creatPage){
+                    $result["pages"] = $creatPage;
+                }else{
+                    return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
+                }
+            }else{
+                $result['totalPage'] = $totalPage;
+                $result["pages"] = '';
+            }
+            return ['StatusCode' => 200,'ResultData' => $result];
+        }else{
+            return ['StatusCode' => 500,'ResultData' => '获取报名分页数据失败！'];
+        }
+    }
 
     /**
      * 分页查询
@@ -212,10 +262,14 @@ class ActionService
      * @return array
      * author 郭庆
      */
-    public function selectData($where, $nowPage, $forPages, $url, $disPlay=true)
+    public function selectData($where, $nowPage, $forPages, $url, $list, $disPlay=true)
     {
         //查询总记录数
-        $count = self::$actionStore->getCount($where);
+        if(!$list){
+            $count = self::$actionStore->getCount($where);
+        }else{
+            $count = self::$collegeStore->getCount($where);
+        }
         if (!$count) {
             //如果没有数据直接返回201空数组，函数结束
             if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
@@ -225,7 +279,11 @@ class ActionService
         $totalPage = ceil($count / $forPages);
 
         //获取对应页的数据
-        $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
+        if ($list){
+            $result['data'] = self::$collegeStore->forPage($nowPage, $forPages, $where);
+        }else{
+            $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
+        }
         if($result['data']){
             if ($disPlay && $totalPage > 1) {
                 //创建分页样式
@@ -265,18 +323,21 @@ class ActionService
      * @return array
      * author 郭庆
      */
-    public function getData($guid)
+    public function getData($guid, $list)
     {
-        if(!is_string($guid)){
+        if(!$guid){
             return ['StatusCode'=> 400,'ResultData' => "数据参数有误"];
         }
         //查询一条数据活动信息
-        $data = self::$actionStore->getOneData(["guid" => $guid]);
+        if ($list == 3){
+            $data = self::$collegeStore->getOneData(["guid" => $guid]);
+        }else{
+            $data = self::$actionStore->getOneData(["guid" => $guid]);
+        }
+
         if($data) {
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
-            $data->start_time = date("Y年m月d日 H点", $data->start_time) ;
-            $data->end_time = date("Y年m月d日 H点", $data->end_time) ;
-            $data->deadline = date("Y年m月d日 H点", $data->deadline) ;
+
             return ['StatusCode'=> 200,'ResultData' => $data];
         }else{
             \Log::info('获取'.$guid.'活动详情出错:'.$data);
@@ -291,25 +352,25 @@ class ActionService
      * @return array
      * author 郭庆
      */
-    public function changeStatus($guid, $status)
+    public function changeStatus($guid, $status, $list)
     {
-        if(!(isset($guid) && isset($status))){
-            return ['StatusCode'=> 400,'ResultData' => "参数有误"];
+        if (!(isset($guid) && isset($status))) {
+            return ['StatusCode' => 400, 'ResultData' => "参数有误"];
         }
 
-        //判断请求的是改活动状态还是报名状态
-        if(strlen($guid) != 32){
-            $Data = self::$actionOrderStore->updateData(["id" => $guid], ["status" => $status]);
-        }else{
+        if ($list == 3) {
+            $Data = self::$collegeStore->upload(["guid" => $guid], ["status" => $status]);
+        } else {
             $Data = self::$actionStore->upload(["guid" => $guid], ["status" => $status]);
         }
 
+
         //判断修改结果并返回
-        if($Data){
-            return ['StatusCode'=> 200,'ResultData' => "修改成功"];
-        }else{
-            if ($Data != 0) \Log::info('修改'.$guid.'活动/报名状态出错:'.$Data);
-            return ['StatusCode'=> 500,'ResultData' => "修改失败"];
+        if ($Data) {
+            return ['StatusCode' => 200, 'ResultData' => "修改成功"];
+        } else {
+            if ($Data != 0) \Log::info('修改' . $guid . '活动/报名状态出错:' . $Data);
+            return ['StatusCode' => 500, 'ResultData' => "修改失败"];
         }
     }
 
@@ -320,40 +381,34 @@ class ActionService
      * @return array
      * author 郭庆
      */
-    public function upDta($where, $data)
+    public function upDta($where, $data, $list)
     {
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
         $data['deadline'] = strtotime($data['deadline']);
-        $data["addtime"] = time();
-        $Data = self::$actionStore->upload($where, $data);
+        unset($data['list']);
+
+        //检测时间是否符合标准
+        $temp = $this->checkTime($data);
+        if($temp["status"]){
+            if ($list == 3){
+                $Data = self::$collegeStore->upload($where, $data);
+            }else{
+                $Data = self::$actionStore->upload($where, $data);
+            }
+        }else{
+            return ['StatusCode' => '400', 'ResultData' => $temp['msg']];
+        }
+
         if($Data){
             return ['StatusCode'=> 200,'ResultData' => "修改成功"];
         }else{
-            if($Data == 0) return ['StatusCode'=> 400,'ResultData' => "未作任何更改"];
+            if($Data == 0) return ['StatusCode'=> 204,'ResultData' => "未作任何更改"];
             \Log::info('修改'.$where['guid'].'活动出错:'.$Data);
             return ['StatusCode'=> 500,'ResultData' => "服务器忙,修改失败"];
         }
     }
 
-    /**
-     * 获取报名信息
-     * @param $guid
-     * @return array
-     * @author 郭庆
-     */
-    public function getOrderInfo($guid)
-    {
-        $where = ["action_id" => $guid];
-        $result = self::$actionOrderStore->getSomeData($where);
-        if($result){
-            return ['StatusCode'=> 200,'ResultData' => $result];
-        }else{
-            if ($result == []) return ['StatusCode'=> 500,'ResultData' => "该活动暂无报名"];
-            \Log::info('获取'.$guid.'报名信息出错:'.$result);
-            return ['StatusCode'=> 500,'ResultData' => "获取报名信息失败"];
-        }
-    }
 
     /**
      * 获取评论表+like表中某一个活动的评论

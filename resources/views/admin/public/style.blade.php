@@ -1,5 +1,5 @@
 
-    <link rel="shortcut icon" href="http://cdn.rooyun.com/img/favicon_1.ico">
+    {{--<link rel="shortcut icon" href="http://cdn.rooyun.com/img/favicon_1.ico">--}}
     <!-- Bootstrap core CSS -->
     <link href="http://cdn.rooyun.com/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://cdn.rooyun.com/css/bootstrap-reset.css" rel="stylesheet">

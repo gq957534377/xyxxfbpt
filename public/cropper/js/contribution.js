@@ -16,7 +16,6 @@
   function CropAvatar($element) {
     this.$container = $element;
 
-
     this.$avatarView = this.$container.find('.avatar-view');
     this.$avatar = this.$avatarView.find('img');
     this.$avatarModal = $("body").find('#avatar-modal');
@@ -340,10 +339,6 @@
     });
   $(function () {
     return new CropAvatar($('#crop-avatar'));
-  });
-
-  $(function () {
-      return new CropAvatar($('#crop-avatar2'));
   });
 
 });

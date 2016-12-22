@@ -57,24 +57,24 @@ function listType(type) {
         },
         before  : ajaxBeforeModel(),
         success:function(data){
-            console.log(data);
+
             if (data.StatusCode == '200') {
 
                 switch (type)
                 {
                     case 1:
-                        console.log(data);
+
                         contentHtml(data.ResultData);
                         $('.add-picture').hide();
                         break;
                     case 2:
-                        console.log(data);
+
                         institutionHtml(data.ResultData);
                         $('.text-coutent').show();
                         $('.add-picture').show();
                         break;
                     case 3:
-                        console.log(data);
+
                         institutionHtml(data.ResultData);
                         $('.text-coutent').show();
                         $('.add-picture').show();
@@ -88,7 +88,7 @@ function listType(type) {
                 }
 
             } else {
-                console.log(data);
+
                 alert(data.ResultData);
             }
             $('.loading').hide();
@@ -173,7 +173,7 @@ function carouselHtml (data) {
  * @param data
  */
 function contentHtml(data) {
-    console.log(data);
+
     html = '';
     html += '<div class="row">';
     html += '<div class="col-sm-11">';
@@ -285,7 +285,7 @@ $('#data').on('click', '.btn-danger' ,function () {
         before  : ajaxBeforeModel(),
         success:function(data){
             if (data.StatusCode == 200) {
-                me.parent().parent().parent().parent().remove();
+                me.parent().parent().parent().parent().parent().remove();
             } else {
                 alert(data.ResultData);
             }

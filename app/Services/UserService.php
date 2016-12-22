@@ -720,4 +720,16 @@ class UserService {
 
     }
 
+    /**
+     * 获取指定guid的所有用户的信息
+     * @param [] $guids 用户guid数组
+     * @return array
+     * @author 郭庆
+     */
+    public static function getHomeStore($guids)
+    {
+        $users = self::$userStore->getAraay('guid', $guids);
+        dd($users);
+    }
+
 }

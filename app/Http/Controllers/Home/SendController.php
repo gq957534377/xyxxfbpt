@@ -141,30 +141,24 @@ class SendController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author 郭庆
+     * @modify 王通
      */
     public function show(Request $request, $id)
     {
-
-        if($id == 1){
-            if (is_string($request['data'])){
-                $data = json_decode($request['data']);
-            }else{
-                $data = $request['data'];
-            }
-            $user_id = session('user')->guid;
-            $res = self::$userServer->userInfo(['guid' => $user_id]);
-            if ($res['status'] && $data){
-                $data->author = $res['msg']->nickname;
-                $data->headpic = $res['msg']->headpic;
-            }elseif ($data){
-                $data->author = '佚名';
-                $data->headpic = '/home/images/logo.jpg';
-            }
-            return view('home.article.new',['data' => $data]);
+        if ($request['verif_code'] != session('code')) return view('home.user.contribution.browse', ['error' => '验证码错误', 'addtime' => time()]);
+        $data = $request->all();
+        $user_id = session('user')->guid;
+        $res = self::$userServer->userInfo(['guid' => $user_id]);
+        $data['addtime'] = time();
+        if ($res['StatusCode'] == '200'){
+            $data["author"] = $res['ResultData']->nickname;
+            $data["headPic"] = $res['ResultData']->headpic;
+        }elseif ($data){
+            $data["author"] = '佚名';
+            $data["headPic"] = '/home/images/logo.jpg';
         }
-        $result = self::$articleServer->getData($id, 2);
-        if ($result['status']) return view('home.article.new',['data' => $result['msg']]);
-        return view('home.article.new',['data' => $result['msg']]);
+        return view('home.user.contribution.browse', $data);
+
     }
 
     /**

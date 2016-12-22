@@ -18,6 +18,7 @@
 		@include('admin.public.success')
     	<div class="container loginpanel">
     		<div class="login_title">登录</div>
+			<div id="error-info" class="alert alert-danger" style="display: none;"></div>
     		<form id="signOnForm" class="form-inline" action="{{url('/login')}}" method="post">
 	    		<ul class="input_block_1">
 	    			<li>
