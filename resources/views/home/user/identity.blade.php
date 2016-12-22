@@ -107,8 +107,16 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <img id="syb_card_b" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                                        <input type="file" name="card_pic_b" style="display: none;">
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="form-group">
                         <!--col-sm-offset-2-->
@@ -190,13 +198,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div id="crop-avatar3" class="col-md-6">
-                                            <div class="avatar-view" title="">
-                                                <img id="investor_card_b" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -253,8 +254,7 @@
 
     var guid = $('#topAvatar').data('id');
     // 异步先获取信息
-    function loadAjax()
-    {
+    function loadAjax() {
         $.ajax({
             url     : '/identity/' + guid,
             type    : 'GET',
@@ -316,6 +316,8 @@
     $("#investor_card_b").click(function(){
         sendParam($('#crop-avatar3'), '#investor_card_b', '1.6');
     });
+
+
 </script>
 
 @endsection
