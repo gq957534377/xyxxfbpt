@@ -1,19 +1,19 @@
 'use strict';
 
 var console = window.console || { log: function () {} };
-
-function CropAvatar($element, $img) {
+var img = '';
+var scale = '';
+function CropAvatar($element) {
     this.$container = $element;
 
     this.$avatarView = this.$container.find('.avatar-view');
-    // this.$avatar = this.$avatarView.find('img');
-    this.$avatar = this.$avatarView.find($img);
+    this.$avatar = this.$avatarView.find('img');
     this.$avatarModal = $("body").find('#avatar-modal');
     this.$loading = this.$avatarModal.find('#loading_card');
 
     this.$avatarForm = this.$avatarModal.find('.avatar-form');
     this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
-    this.$avatarScale = this.$avatarForm.find('.avatar-scale').val();
+    // this.$avatarScale = this.$avatarForm.find('.avatar-scale').val();
     this.$avatarSrc = this.$avatarForm.find('.avatar-src');
     this.$avatarData = this.$avatarForm.find('.avatar-data');
     this.$avatarInput = this.$avatarForm.find('.avatar-input');
@@ -190,7 +190,8 @@ CropAvatar.prototype = {
             this.$img = $('<img src="' + this.url + '">');
             this.$avatarWrapper.empty().html(this.$img);
             this.$img.cropper({
-                aspectRatio: this.$avatarScale,
+                // aspectRatio: this.$avatarScale,
+                aspectRatio: scale,
                 preview: this.$avatarPreview.selector,
                 strict: false,
                 crop: function (data) {
@@ -299,10 +300,8 @@ CropAvatar.prototype = {
 
     cropDone: function () {
         this.$avatarForm.get(0).reset();
-        this.$avatar.attr('src', this.url);
-        // $('input[name="syb_card_pic"]').val(this.url);
-        // $('input[name="investor_card_pic"]').val(this.url);
-        // $('input[name="banner"]').val(this.url);
+        console.log(this.$img);
+        $(img).attr('src', this.url);
         this.stopCropper();
         this.$avatarModal.modal('hide');
         $('.modal').css('overflow-y', 'auto');
@@ -320,10 +319,12 @@ CropAvatar.prototype = {
     }
 };
 
-function sendParam(obj, thisImg)
+function sendParam(obj, thisImg, thisScale)
 {
+    img = thisImg;
+    scale = thisScale;
     $(function () {
-        return new CropAvatar(obj, thisImg);
+        return new CropAvatar(obj);
     });
 }
 
