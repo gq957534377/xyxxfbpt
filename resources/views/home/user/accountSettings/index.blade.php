@@ -68,8 +68,6 @@
                 </div>
 
             </div>
-
-
         </div>
 
         <div class="binding col-xs-12 bb-1 pad-clr">
@@ -109,7 +107,8 @@
         <!--修改手机号 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeTelModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="position: relative;">
+                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改手机号</h4>
@@ -140,7 +139,7 @@
                     </div>
                     <div class="modal-footer border-no h-align-1">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="step_one">下一步</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default tel_btn_reset" data-dismiss="modal">取消</button>
                         <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
                     </div>
                     <!--第一步 获取验证码 结束-->
@@ -185,7 +184,8 @@
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_two">下一步</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" id="tel_return">返回</button>
+                        <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
                     </div>
                     <!--第二步 填写新手机号 结束-->
 
@@ -229,7 +229,7 @@
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_three">下一步</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
                         <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
                     </div>
                     <!--第四步 修改成功-->
@@ -263,7 +263,8 @@
         <!--修改邮箱 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="position: relative;">
+                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改邮箱</h4>
@@ -284,7 +285,7 @@
                     </div>
                     <div class="modal-footer border-no h-align-1">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_one">下一步</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default btn_email_reset" data-dismiss="modal">取消</button>
                     </div>
                     <!--第二步 验证新邮箱-->
                     <div class="modal-body email-step-two hidden">
@@ -309,7 +310,8 @@
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_two">下一步</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" id="email_return">返回</button>
+                        <button type="button" class="btn btn-default btn_email_reset pull-right" data-dismiss="modal">取消</button>
                         <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
                     </div>
                     <!--第三步 修改成功-->
@@ -327,7 +329,8 @@
         <!--修改密码 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeKeyModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="position: relative;">
+                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改密码</h4>
@@ -361,7 +364,7 @@
                     </div>
                     <div class="modal-footer border-no h-align-1 pad-ct">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="key_step_one">确认修改</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default btn_password_reset" data-dismiss="modal">取消</button>
                     </div>
                     <!--第二步 结果提示-->
                     <div class="modal-body key-step-two hidden">
@@ -504,6 +507,16 @@
                     ajaxAfterSend($('.loading'));
                 }
             });
+            // 手机绑定返回按钮
+            $('#tel_return').click(function(){
+                $("#captcha").val('');
+                $("#errorBox").addClass('hidden');
+                $("#newTel").val('');
+                $('.tel-step-two').addClass('hidden');
+                $('.tel-step-two + div').addClass('hidden');
+                $('.tel-step-one').removeClass('hidden');
+                $('.tel-step-one + div').removeClass('hidden');
+            });
             $('#step_three').on('click', function () {
                 // 发送成功后，验证输入框不为空执行下一步
                 if ($.trim($("#captcha_two").val()) == '') {
@@ -547,6 +560,24 @@
                 $('.tel-step-four + div').addClass('hidden');
                 $('.tel-step-one').removeClass('hidden');
                 $('.tel-step-one + div').removeClass('hidden');
+            });
+            // 点击取消，回到初始第一步
+            $(".tel_btn_reset").click(function(){
+                $("#captcha").val('');
+                $("#captcha_two").val('');
+                $("#newTel").val('');
+                $('.tel-step-one').removeClass('hidden');
+                $('.tel-step-one + div').removeClass('hidden');
+                $('.tel-step-two').addClass('hidden');
+                $('.tel-step-two + div').addClass('hidden');
+                $('.tel-step-three').addClass('hidden');
+                $('.tel-step-three + div').addClass('hidden');
+                $('.tel-step-four').addClass('hidden');
+                $('.tel-step-four + div').addClass('hidden');
+                $('#errorBox').addClass('hidden');
+                $('#errorBox2').addClass('hidden');
+                $('#errorBox3').addClass('hidden');
+
             });
 //        更换安全手机 结束
 
@@ -647,10 +678,37 @@
                 }
             });
             $('#email_step_three').on('click', function () {
-                $('.email-step-three').addClass('hidden');
-                $('.email-step-three + div').addClass('hidden');
+                $('.email-step-two').addClass('hidden');
+                $('.email-step-two + div').addClass('hidden');
                 $('.email-step-one').removeClass('hidden');
                 $('.email-step-one + div').removeClass('hidden');
+            });
+
+            // 邮箱更换绑定返回按钮
+            $('#email_return').click(function () {
+                $('#newEmail').val('');
+                $('#captcha_email').val('');
+                $('#errorEmailBox_one').addClass('hidden');
+                $('#errorEmailBox_two').addClass('hidden');
+                $('.email-step-one').removeClass('hidden');
+                $('.email-step-one + div').removeClass('hidden');
+                $('.email-step-two').addClass('hidden');
+                $('.email-step-two + div').addClass('hidden');
+                $('.email-step-three').addClass('hidden');
+                $('.email-step-three + div').addClass('hidden');
+            });
+            // Email更换绑定取消按钮
+            $('.btn_email_reset').click(function () {
+                $('#newEmail').val('');
+                $('#captcha_email').val('');
+                $('#errorEmailBox_one').addClass('hidden');
+                $('#errorEmailBox_two').addClass('hidden');
+                $('.email-step-one').removeClass('hidden');
+                $('.email-step-one + div').removeClass('hidden');
+                $('.email-step-two').addClass('hidden');
+                $('.email-step-two + div').addClass('hidden');
+                $('.email-step-three').addClass('hidden');
+                $('.email-step-three + div').addClass('hidden');
             });
 //        更换安全邮箱 结束
 
@@ -731,6 +789,12 @@
                 $('.key-step-one').removeClass('hidden');
                 $('.key-step-one + div').removeClass('hidden');
             });
+
+            $(".btn_password_reset").click(function () {
+                $('#key_old').val('');
+                $('#key_new').val('');
+                $('#key_new_two').val('');
+            });
 //        更换密码 结束
 
 
@@ -756,6 +820,8 @@
                     } else {
                         alert(msg.ResultData);
                     }
+
+                    $("#errorBox").addClass('hidden');
                     ajaxAfterSend($('.loading'));
                 }
             });
@@ -779,6 +845,7 @@
                     } else {
                         alert(msg.ResultData);
                     }
+                    $("#errorBox2").addClass('hidden');
                     ajaxAfterSend($('.loading'));
                 }
 
