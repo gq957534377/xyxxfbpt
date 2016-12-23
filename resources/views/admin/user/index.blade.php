@@ -8,7 +8,7 @@
         .table button{margin-right:15px;}
         .page-title{ padding-bottom: 5px;}
         .list-unstyled > li{
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
         .list-unstyled > li:nth-child(1){
             margin-bottom: 25px;
@@ -112,14 +112,14 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li>真实姓名 ：<span id="realname"></span></li>
-                                    <li>昵称 ：<span id="nickname"></span></li>
+                                    <li><strong>真实姓名 ：</strong><mark><span id="realname"></span></mark></li>
+                                    <li><strong>昵称 ：</strong><span id="nickname"></span></li>
                                     <li>性别 ：<span id="sex"></span></li>
-                                    <li>出生日期 ：<span id="birthday"></span></li>
+                                    <li><strong>出生日期 ：</strong><span id="birthday"></span></li>
                                     <li>电话 ：<span id="phone"></span></li>
-                                    <li>邮箱 ：<span id="email"></span></li>
+                                    <li><strong>邮箱 ：</strong><span id="email"></span></li>
                                     <li>公司 ： <span id="company"></span></li>
-                                    <li>职位 ：<span id="company_position"></span></li>
+                                    <li><strong>职位 ：</strong><span id="company_position"></span></li>
                                     <li>公司地址 ：<span id="company_address"></span></li>
 
                                     <li><span></span></li>
@@ -135,7 +135,7 @@
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
-                                    <li>微信 ： <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                    <li><strong>微信 ：</strong> <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
                                             <div class="row">
                                                 <div id="crop-avatar">
                                                     <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
@@ -148,7 +148,7 @@
                                     <li>注册时间 ：<span id="addtime"></span></li>
                                     <li id="role"></li>
                                     <li id="status"></li>
-                                    <li>个人简介 ：<span id="introduction"></span></li>
+                                    <li>个人简介 ：<small id="introduction"></small></li>
                                 </ul>
                             </div>
 
@@ -347,7 +347,7 @@
                         var status = '当前状态 ：<span class="text-danger text-xs">禁用中&nbsp;</span>';
                 }
                 $('#status').html(status);
-                $('#').text();
+                $('#introduction').text(data.introduction ? data.introduction : '');
                 $('#').text();
 
                 $('#user-info').modal('show');
@@ -519,7 +519,7 @@
                 str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
                         '" data-brithday="'+v.birthday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+
                         '" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+
-                        '" data-headpic="'+v.headpic+'" data-wechat="'+v.wechat+'" data-intoduction="'+v.introduction+
+                        '" data-headpic="'+v.headpic+'" data-wechat="'+v.wechat+'" data-introduction="'+v.introduction+
                         '" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+
                         '" class="user_info"><button class="btn btn-warning btn-xs">详情</button></a>';
 
