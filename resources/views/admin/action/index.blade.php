@@ -385,6 +385,9 @@
     <script src="JsService/Model/pageList.js" type="text/javascript"></script>
     <!--alertInfo end-->
     <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
+        <script src="http://cdn.rooyun.com/js/classie.js"></script>
+        <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+        <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     {{--富文本--}}
     <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
     <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
@@ -398,153 +401,11 @@
     <script type="text/javascript">
         {{--全局变量的设置--}}
 
-        //富文本配置
-        var toolbra     = {
-                    toolbars : [
-                        [
-                            'bold', //加粗
-                            'indent', //首行缩进
-                            'italic', //斜体
-                            'underline', //下划线
-                            'blockquote', //引用
-                            'pasteplain', //纯文本粘贴模式
-                            'horizontal', //分隔线
-                            'removeformat', //清除格式
-                            'mergeright', //右合并单元格
-                            'mergedown', //下合并单元格
-                            'deleterow', //删除行
-                            'deletecol', //删除列
-                            'inserttitle', //插入标题
-                            'mergecells', //合并多个单元格
-                            'deletetable', //删除表格
-                            'cleardoc', //清空文档
-                            'insertparagraphbeforetable', //"表格前插入行"
-                            'fontfamily', //字体
-                            'fontsize', //字号
-                            'paragraph', //段落格式
-                            'simpleupload', //单图上传
-                            'insertimage', //多图上传
-                            'edittable', //表格属性
-                            'edittd', //单元格属性
-                            'link', //超链接
-                            'spechars', //特殊字符
-                            'insertvideo', //视频
-                            'justifyleft', //居左对齐
-                            'justifyright', //居右对齐
-                            'justifycenter', //居中对齐
-                            'forecolor', //字体颜色
-                            'backcolor', //背景色
-                            'pagebreak', //分页
-                            'attachment', //附件
-                            'imagecenter', //居中
-                            'lineheight', //行间距
-                            'autotypeset', //自动排版
-                            'background', //背景
-                            'music', //音乐
-                            'inserttable', //插入表格
-                        ]
-                    ],
-                    initialFrameWidth : '100%',
-                };
-        var ue1         = UE.getEditor('UE1', toolbra);
-
         //全局变量参数的设置
         var token       = $('meta[name="csrf-token"]').attr('content');
         var list_type   = "{{$type}}";//活动类型：1：路演 2：大赛 3：学习
         var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
         var college_type = 4;
-
-        //验证规则
-        var rules       = {
-            type: {
-                required: true
-            },
-            title: {
-                required: true,
-                maxlength: 50
-            },
-            end_time: {
-                required: true
-            },
-            deadline: {
-                required: true
-            },
-            address: {
-                required: true,
-                maxlength: 30
-            },
-            limit: {
-                digits: true,
-                required: true
-            },
-            author: {
-                required: true,
-                maxlength: 5
-            },
-            group: {
-                required: true
-            },
-            start_time: {
-                required: true
-            },
-            brief: {
-                required: true,
-                rangelength: [40, 100]
-            },
-            describe: {
-                required: true,
-                minlength: 50
-            },
-            banner: {
-                required: true
-            }
-        };
-        //提示信息
-        var messages    = {
-            type: {
-                required: '请选择活动类型'
-            },
-            title: {
-                required: '请输入活动主题',
-                maxlength: '标题最多50个字符'
-            },
-            author: {
-                required: '请输入负责人',
-                maxlength: '负责人最多5个字符'
-
-            },
-            group: {
-                required: '组织机构必选'
-            },
-            start_time: {
-                required: '请输入活动开始时间'
-            },
-            brief: {
-                required: '请输入活动简述',
-                rangelength: '请输入40-100个字符作为简述'
-            },
-            end_time: {
-                required: '请输入活动结束时间'
-            },
-            deadline: {
-                required: '请输入报名截止日期'
-            },
-            address: {
-                required: '请输入活动地址',
-                maxlength: '地址最多30个字符'
-            },
-            limit: {
-                digits: '人数限制必须为整数',
-                required: '请输入报名限制人数'
-            },
-            describe: {
-                required: '请输入活动详情',
-                minlength: '详情长度最少50个字符'
-            },
-            banner: {
-                required: '缩略图不能为空'
-            }
-        };
 
         //活动类型展示
         function type(type) {
@@ -606,125 +467,72 @@
             list(3, list_status);
         });
 
-        {{--修改活动--}}
-        !function ($) {
-            "use strict";
-            var FormValidator = function () {
-                this.$signupForm = $("#yz_xg");
-            };
+        function initAlert() {
+            !function($) {
+                "use strict";
 
-            //初始化
-            FormValidator.prototype.init = function () {
-                //插件验证完成执行操作 可以不写
-//                $('#sub_xg').click(function () {
-//                    if ($('#yz_xg').data('changed')){
-//                        alert(111);
-//                    }else{
-//                        alert(222);
-//                    }
-//                });
+                var SweetAlert = function() {};
 
-                $.validator.setDefaults({
-                    submitHandler: function () {
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN' : token
-                            }
-                        });
+                //examples
+                SweetAlert.prototype.init = function() {
 
-                        var data  = new FormData();
-                        var id = $('#xg_id').val();
-                        var resul = {
-                            type       : $('#yz_xg').find('select[name=action]').val(),
-                            title      : $('#yz_xg').find('input[name=title]').val(),
-                            author     : $('#yz_xg').find('input[name=author]').val(),
-                            group      : $('#yz_xg').find('select[name=group]').val(),
-                            banner     : $('#yz_xg').find('input[name=banner]').val(),
-                            end_time   : $('#yz_xg').find('input[name=end_time]').val(),
-                            deadline   : $('#yz_xg').find('input[name=deadline]').val(),
-                            address    : $('#yz_xg').find('input[name=address]').val(),
-                            limit      : $('#yz_xg').find('input[name=limit]').val(),
-                            start_time : $('#yz_xg').find('input[name=start_time]').val(),
-                            brief      : $('#yz_xg').find('textarea[name=brief]').val(),
-                            describe   : ue1.getContent()
-                        };
+                    //禁用弹出确认框
+                    $('.status').click(function(){
 
-                        data.append("title", resul.title);
-                        data.append("author", resul.author);
-                        data.append("group", resul.group);
-                        data.append("start_time", resul.start_time);
-                        data.append("brief", resul.brief);
-                        data.append("describe", resul.describe);
-                        data.append("banner", resul.banner);
-                        data.append("end_time", resul.end_time);
-                        data.append("address", resul.address);
-                        data.append("limit", resul.limit);
-
-                        var url = '/action/' + id + '?list='+list_type;
-                        $.ajax({
-                            url     : url,
-                            type    : 'put',
-                            data    : resul,
-                            before  : ajaxBeforeNoHiddenModel,
-                            success : check,
-                            error   : ajaxErrorModel
-                        });
-
-                        function check(data) {
-                            $('.loading').hide();
-                            $('#myModal').modal('show');
-                            $('#alert-form').html('');
-                            $('.modal-title').html('提示');
-                            if (data) {
-                                if (data.StatusCode == 200) {
-                                    $('.bs-example-modal-lg').modal('hide');
-                                    $('#alert-info').html('<p>活动修改成功!</p>');
-                                    list(list_type, list_status);
-                                } else {
-                                    $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
-                                }
-                            } else {
-                                $('#alert-info').html('<p>未知的错误</p>');
-                            }
+                        var guid = $(this).data('name');
+                        var status = $(this).data('status');
+                        var statusMessage;
+                        if (status != 1){
+                            statusMessage = "禁用";
+                        }else{
+                            statusMessage = "启用";
                         }
-                    }
-                });
-                this.$signupForm.validate({
-                    rules    : rules,
-                    messages : messages
-                });
-            },
-                    //init
-            $.FormValidator              = new FormValidator,
-            $.FormValidator.Constructor  = FormValidator
-        }(window.jQuery),
-        function ($) {
-            "use strict";
-            $.FormValidator.init()
-        }(window.jQuery);
 
-        //修改活动信息展示旧的信息
-        function updates() {
-            $('.charge-road').click(function () {
-                $('.loading').hide();
-                var ajax = new ajaxController();
-                var url  = '/action/' + $(this).data('name')+'?list='+list_type;
-                ajax.ajax({
-                    url     : url,
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : date,
-                    error   : ajaxErrorModel
-                });
-            });
-            $("#yz_xg :input").change(function(){
-                $("#yz_xg").attr("data-changed",true);
-            });
-            $('#xg_brief').change(function(){
-                $("#yz_xg").attr("data-changed",true);
-            });
-            $('#charge_banner').change(function(){
-                $("#yz_xg").attr("data-changed",true);
-            });
+                        //获取tr节点
+                        var tr = $(this).parent().parent();
+
+
+                        swal({
+                            title: "确定要"+statusMessage+"?",
+                            text: "当前操作"+statusMessage+"该活动的展示!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: statusMessage,
+                            cancelButtonText: "取消",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        }, function(isConfirm){
+                            if (isConfirm) {
+                                //发送请求
+                                var url   = '/action/' + guid + '/edit/?status=' + status+'&list='+list_type;
+                                $.ajax({
+                                    url     : url,
+                                    success : function (data) {
+                                        console.log(data);
+                                        if(data.statusCode != 200){
+                                            swal(data.ResultData, statusMessage + '失败', "danger");
+                                        }
+                                        swal(data.ResultData, '成功'+statusMessage+'该活动', "success");
+                                        tr.remove();
+                                    },
+                                });
+                            } else {
+                                swal("已取消！", "没有做任何修改！", "error");
+                            }
+                        });
+                    });
+                },
+                        //init
+                        $.SweetAlert = new SweetAlert,
+                        $.SweetAlert.Constructor = SweetAlert
+            }(window.jQuery),
+
+//initializing
+                    function($) {
+                        "use strict";
+                        $.SweetAlert.init()
+                    }(window.jQuery);
         }
 
         //展示活动信息详情
@@ -738,89 +546,6 @@
                     success : showInfoList,
                     error   : ajaxErrorModel
                 });
-            });
-        }
-
-        // 修改活动信息状态
-        function modifyStatus() {
-            $('.status').click(function () {
-                var _this = $(this);
-                var ajax  = new ajaxController();
-                var url   = '/action/' + $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&list='+list_type;
-                ajax.ajax({
-                    url     : url,
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : checkStatus,
-                    error   : ajaxErrorModel
-                });
-
-                function checkStatus(data) {
-                    $('.loading').hide();
-                    $('#myModal').modal('show');
-                    $('.modal-title').html('提示');
-                    if (data) {
-                        if (data.StatusCode == 200) {
-                            var code = data.ResultData;
-                            $('#alert-form').hide();
-                            _this.data('status', code);
-                            if (_this.children().hasClass("btn-danger")) {
-                                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
-                            } else if (_this.children().hasClass("btn-primary")) {
-                                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
-                            }
-                            $('#alert-info').html('<p>状态修改成功!</p>');
-                            list(list_type, list_status);
-                        } else {
-                            $('#alert-form').hide();
-                            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
-                        }
-                    } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>未知的错误</p>');
-                    }
-                }
-            });
-        }
-
-        //修改报名信息状态
-        function actionStatus() {
-            $('.action_status').click(function () {
-                var _this  = $(this);
-                var ajax   = new ajaxController();
-                var status = _this.data('status');
-                alert(status);
-                if (status.data) {
-                    status = status.data;
-                }
-                var url = '/action/' + _this.data('name') + '/edit/?status=' + status;
-                ajax.ajax({
-                    url     : url,
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : action_status,
-                    error   : ajaxErrorModel
-                });
-                function action_status(data) {
-                    $('.loading').hide();
-                    $('#myModal').modal('show');
-                    $('.modal-title').html('提示');
-                    if (data) {
-                        if (data.StatusCode == 200) {
-                            $('#alert-form').hide();
-                            $('#alert-info').html('<p>状态修改成功!</p>');
-                            if (status == 1) {
-                                _this.html('<a href="javascript:;" data-name="3" data-status="3" class="action_status"><button class="btn-danger">禁用</button></a>');
-                            }else {
-                                _this.html('<a href="javascript:;" data-name="1" data-status="1" class="action_status"><button class="btn-primary">启用</button></a>');
-                            }
-                        } else {
-                            $('#alert-form').hide();
-                            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
-                        }
-                    } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>未知的错误</p>');
-                    }
-                }
             });
         }
 

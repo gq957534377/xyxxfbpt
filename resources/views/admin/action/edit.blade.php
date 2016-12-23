@@ -47,7 +47,7 @@
 @endsection
 {{-- 弹出表单结束 --}}
 {{--发布活动表单--}}
-<h3>发布活动</h3>
+<h3>修改活动</h3>
 <form data-name="" role="form" id="yz_fb" onsubmit="return false">
     <div class="modal-body">
         <div class="row">
@@ -355,7 +355,7 @@
             }
         });
 
-        //发布
+        //修改
         !function ($) {
             "use strict";
             var FormValidator = function () {
