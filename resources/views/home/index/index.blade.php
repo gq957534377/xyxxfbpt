@@ -2,6 +2,7 @@
 
 @section('style')
     <link href="{{ asset('home/css/index(pc).css') }}" rel="stylesheet">
+
 @endsection
 
 @section('menu')
@@ -713,5 +714,6 @@
         </section>
     </div>
     <!-- 英雄会顶级投资机构联盟 End-->
+
 @endsection
 

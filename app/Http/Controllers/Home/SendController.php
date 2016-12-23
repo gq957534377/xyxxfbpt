@@ -100,6 +100,7 @@ class SendController extends Controller
             'source' => 'required|max:80',
             'verif_code' => 'required',
             'banner' => 'required',
+            'status' => 'required',
         ],[
             'title.required' => '标题不能为空',
             'title.max' => '标题过长',
@@ -110,6 +111,7 @@ class SendController extends Controller
             'source.max' => '来源过长',
             'verif_code.required' => '验证码不能为空',
             'banner.required' => '图片不能为空',
+            'status.required' => '参数错误',
         ]);
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 //        if (empty(Redis::get('picture_contri' . session('user')->guid))) {
@@ -118,7 +120,7 @@ class SendController extends Controller
 //        $data['banner'] = Redis::get('picture_contri' . session('user')->guid);
 //
 
-        Redis::set('picture_contri' . session('user')->guid, null);
+        //Redis::set('picture_contri' . session('user')->guid, null);
 
         $data['user_id'] = session('user')->guid;
         // 取出用户信息
@@ -143,21 +145,10 @@ class SendController extends Controller
      * @author 郭庆
      * @modify 王通
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        if ($request['verif_code'] != session('code')) return view('home.user.contribution.browse', ['error' => '验证码错误', 'addtime' => time()]);
-        $data = $request->all();
-        $user_id = session('user')->guid;
-        $res = self::$userServer->userInfo(['guid' => $user_id]);
-        $data['addtime'] = time();
-        if ($res['StatusCode'] == '200'){
-            $data["author"] = $res['ResultData']->nickname;
-            $data["headPic"] = $res['ResultData']->headpic;
-        }elseif ($data){
-            $data["author"] = '佚名';
-            $data["headPic"] = '/home/images/logo.jpg';
-        }
-        return view('home.user.contribution.browse', $data);
+        $result = self::$articleServer->getCacheContribution($id);
+        return view('home.user.contribution.browse', $result);
 
     }
 
