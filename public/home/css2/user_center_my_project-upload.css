@@ -1,0 +1,44 @@
+/*公共部分*/
+.my-project-upload {
+    background-color: #fafafa;
+    padding: 2% 4.5%;
+}
+.my-project-upload > div {
+    padding-top: 15px;
+}
+.my-project-upload > div > span {
+    background: url("../img/vertical_bar.jpg") no-repeat left center;
+    padding-left: 15px;
+    color: #000000;
+    font-weight: 900;
+    font-size: 16px;
+}
+.form-horizontal .control-label {
+    padding-top: 0;
+    text-align: left;
+    font-weight: normal;
+}
+.hiddens{
+    display: none;
+}
+.privacy-block >div{
+    padding: 0px;
+}
+.privacy-block label{
+    font-weight: 100;
+}
+#touxiang img{
+    width: 80px;
+    height: 80px;
+}
+#touxiang .avatar-view{
+    width: 80px;
+}
+@media (max-width: 767px) {
+    .privacy-block >div{
+        margin-top: 15px;
+    }
+}
+/*屏幕宽度大于等于768px*/
+@media (min-width: 768px) {
+}

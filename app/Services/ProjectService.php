@@ -216,4 +216,17 @@ class ProjectService {
 
         return ['StatusCode' => '500', 'ResultData' => "服务器端出错"];
     }
+
+    public function addProjects($data)
+    {
+        $data['user_guid'] = session('user')->guid;
+        $data['guid'] = Common::getUuid();
+        $data['addtime'] = time();
+        $data['changetime'] = time();
+        $result = self::$projectStore ->addData($data);
+
+        if($result) return ['StatusCode' => '200', 'ResultData' => '添加成功'];
+
+        ['StatusCode' => '400', 'ResultData' => '项目添加失败'];
+    }
 }

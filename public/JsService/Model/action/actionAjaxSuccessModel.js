@@ -77,24 +77,7 @@ function status(status) {
     }
     return res;
 }
-//展示旧数据
-function date(data) {
-    data = data.ResultData;
-    $('#yz_xg').find('input[name=id]').val(data.guid);
-    $('#yz_xg').find('input[name=title]').val(data.title);
-    $('#yz_xg').find('input[name=end_time]').val(MyTime(data.end_time));
-    $('#yz_xg').find('input[name=deadline]').val(MyTime(data.deadline));
-    $('#yz_xg').find('input[name=address]').val(data.address);
-    $('#yz_xg').find('input[name=limit]').val(data.limit);
-    $('#yz_xg').find('input[name=author]').val(data.author);
-    $('#yz_xg').find('input[name=banner]').val(data.banner);
-    $('#charge_thumb_img').attr('src',data.banner);
-    $('#yz_xg').find('select[name=group]').val(data.group);
-    $('#yz_xg').find('input[name=start_time]').val(MyTime(data.start_time));
-    $('#yz_xg').find('textarea[name=brief]').val(data.brief);
-    ue1.setContent(data.describe);
-    $('.loading').hide();
-}
+
 // 显示活动信息详情
 function showInfoList(data){
     $('.loading').hide();
@@ -155,3 +138,4 @@ function actionOrder(data) {
         $('#alert-info').html('<p>未知的错误</p>');
     }
 }
+

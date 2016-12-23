@@ -1,0 +1,15 @@
+.identity-info-top {
+    background-color: #f3f3f3;
+}
+.identity-info-top a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 15px;
+}
+.identity-info-top a:hover {
+    background-color: #ff9035;
+    color: white;
+}
+.authentication-entrepreneur {
+    background-color: #fafafa;
+}

@@ -27,12 +27,24 @@
 .privacy-block label{
     font-weight: 100;
 }
+#rongqi{
+    display: none;
+}
 #touxiang img{
     width: 80px;
     height: 80px;
 }
 #touxiang .avatar-view{
     width: 80px;
+}
+#chengyuan,#exp_brief{
+    display: inline-block;
+    width: 100%;
+}
+
+#chengyuan li,#exp_brief li{
+    float: left;
+    padding-left: 5px;
 }
 @media (max-width: 767px) {
     .privacy-block >div{

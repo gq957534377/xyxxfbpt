@@ -1,0 +1,44 @@
+/*这里存放一些常用的样式*/
+
+/*媒体查询的结构，全局一致*/
+/*
+1170px一个样式
+970px一个样式
+750px一个样式
+***************768px分界线**************
+视情况，可能需要多个样式
+*/
+/*这里的媒体查询用于控制body的font-size，通过em控制页面缩放*/
+/*iphone5 320px;*/
+/*iphone6 375px;*/
+/*iphone6 plus 414px;*/
+/*ipad 768px;*/
+/*屏幕宽度小于768px时,bootstrap row容器宽度不定，自动变化*/
+@media (max-width: 767px) {
+}
+/*屏幕宽度大于等于768px小于992px时,bootstrap row容器宽度750px*/
+@media (min-width: 768px) and (max-width: 992px) {
+}
+/*屏幕宽度大于等于992px小于1200px时,bootstrap row容器宽度970px*/
+@media (min-width: 992px) and (max-width: 1200px) {
+}
+/*屏幕宽度大于等于1200px时,bootstrap row容器宽度1170px*/
+@media (min-width: 1200px) {
+    /*所有不在媒体查询之内的样式都可视为在此之内*/
+}
+
+
+/*这里存放一些使用过的颜色*/
+.color {
+    color: #222222;
+    color: #5a5a5a;
+    color: #9a9a9a;
+    color: #000000;
+    color: #ffffff;
+    color: #f0f0f0;
+    color: #ff9035;
+    color: #ba3d3b;
+}
+
+/*background 简写顺序*/
+/*background：color img_url repeat attachment position / size*/

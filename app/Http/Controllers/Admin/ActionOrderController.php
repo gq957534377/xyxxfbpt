@@ -42,23 +42,26 @@ class ActionOrderController extends Controller
      */
     public function create(Request $request)
     {
-
         $data = $request->all();
         $users = self::$actionServer->getAction('user_id', ['action_id' => $data['action_id']]);
-//        dd($users);
+        if ($users['status']){
+            $users = $users['msg'];
+        }else{
+            return response() -> json(['StatusCode' => '500', 'ResultData' => $users['msg']]);
+        }
+
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         $forPages = 1;//一页的数据条数
         $where = [];
 
-        if($data["status"]){
+        if(isset($data["status"])){
             $where["status"] = (int)$data["status"];
         }
-        if ($data['action_id']){
+        if (isset($data['action_id'])){
             $where["action_id"] = $data['action_id'];
         }
 
-        $result = self::$actionServer->getOrderInfo($where, $nowPage, $forPages, 'action_order/create');
-
+        $result = self::$userServer->getUsers($users, $nowPage, $forPages, 'action_order/create');
         return response() -> json($result);
     }
 
@@ -87,7 +90,7 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 修改活动+报名状态
+     * 修改报名状态
      * @param $request
      * @param $id 活动id/报名记录id
      * @author 郭庆

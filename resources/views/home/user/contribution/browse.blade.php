@@ -9,26 +9,26 @@
 @endsection
 
 @section('content')
-        @if(empty($error))
+        @if(!empty($StatusCode) && $StatusCode == '200')
         <section class="container-fluid">
           <div class="row content">
 
             <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 content-left">
               <div class="row article-title">
-                <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ $title or '' }}</h2>
+                <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ $ResultData->title or '' }}</h2>
               </div>
               <div class="row article-content">
                 <div class="bg-mg col-lg-1 col-md-1 col-sm-1 col-xs-1">
                   <div class="bg-mg-f">
-                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $headPic or '' }}">
+                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $ResultData->headpic or '' }}">
                   </div>
                 </div>
                 <div class="author-name col-lg-11 col-md-11 col-sm-11 col-xs-11">
                   <p>
-                    {{ $author or '匿名' }} {{ date('Y-m-d H:i', $addtime) }}
+                    {{ $ResultData->author or '匿名' }} {{ date('Y-m-d H:i', $ResultData->addtime) }}
                   </p>
                 </div>
-                <div class="fwb col-lg-12 col-md-12 col-sm-12 col-xs-12">{!! $describe or '' !!}</div>
+                <div class="fwb col-lg-12 col-md-12 col-sm-12 col-xs-12">{!! $ResultData->describe or '' !!}</div>
               </div>
               <div class="row article-bottom">
                       <span id="like" data-id="" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
@@ -100,7 +100,7 @@
             <div class="container">
                 <div class="row" >
                     <div class="col-sm-3" style="text-align: center;">
-                        <h1>验证码错误</h1>
+                        <h1>出错</h1>
                     </div>
                 </div>
             </div>

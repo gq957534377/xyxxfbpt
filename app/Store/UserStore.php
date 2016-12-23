@@ -153,14 +153,28 @@ class UserStore
         return DB::table(self::$table)->where($where)->update($status);
     }
     /**
+     * 获取满足指定字段的集合的所有数据的个数
+     * @param string $field 字段
+     * @param  [] $array 集合
+     * @author 郭庆
+     */
+    public function getUsersCount($field, $array)
+    {
+        return DB::table(self::$table)->whereIn($field, $array)->count();
+    }
+
+    /**
      * 获取满足指定字段的集合的所有数据
      * @param string $field 字段
      * @param  [] $array 集合
      * @author 郭庆
      */
-    public function getAraay($field, $array)
+    public function getUsersPage($field, $array, $page, $pageNum)
     {
-        return DB::table(self::$table)->whereIn($field, $array)->get();
+        return DB::table(self::$table)
+            ->whereIn($field, $array)
+            ->orderBy('memeber','desc')
+            ->forPage($page,$pageNum)
+            ->get();
     }
-
 }

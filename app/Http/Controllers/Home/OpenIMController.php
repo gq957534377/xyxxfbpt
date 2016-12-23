@@ -57,7 +57,7 @@ class OpenIMController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 意见反馈
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

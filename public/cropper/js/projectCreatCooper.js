@@ -3,6 +3,9 @@
 var console = window.console || { log: function () {} };
 var img = '';
 var scale = '';
+var inputs ='';//被替换图片对象
+var hiddenInput = '';//隐藏文本对象
+
 function CropAvatar($element) {
     this.$container = $element;
 
@@ -302,9 +305,14 @@ CropAvatar.prototype = {
         this.$avatarForm.get(0).reset();
         console.log(this.$img);
         $(img).attr('src', this.url);
-        this.stopCropper();
+        inputs .attr('src', this.url);
+        hiddenInput.val(this.url);
+        this.stopCropper(this.url);
         this.$avatarModal.modal('hide');
         $('.modal').css('overflow-y', 'auto');
+        setTimeout(function () {
+            $('#fask').html("");
+        },1000);
     },
 
     alert: function (msg) {
@@ -319,10 +327,11 @@ CropAvatar.prototype = {
     }
 };
 
-function sendParam(obj, thisImg, thisScale)
+function sendParam(obj, thisImg, thisScale,inh)
 {
     img = thisImg;
     scale = thisScale;
+    hiddenInput = inh;
     $(function () {
         return new CropAvatar(obj);
     });

@@ -46,7 +46,7 @@ class ActionController extends Controller
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
-                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], $data['type']);
                         if ($chage['StatusCode'] != 200){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
@@ -84,7 +84,7 @@ class ActionController extends Controller
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
-                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], $where['type']);
                         if ($chage['StatusCode'] != 200){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{

@@ -42,7 +42,6 @@ class ProjectController extends Controller
     public function index()
     {
         $where = ['disable'=>'0','status'=>'3'];
-        return view('errors.404');
         $res = self::$projectServer->getData($where);
 
         if (!$res['status']) {
@@ -72,17 +71,22 @@ class ProjectController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      * @author 贾济林
+     * @modify 张洵之
      */
     public function store(Request $request)
     {
         //验证请求数据
-        $this->addDataValidator($request);
+        $role = session('user')->role;
+
+        if ($role != 2) return response()->json(['status'=>'400','msg'=>'非创业者不可创建项目']);
+
+        $validataResult = $this->addDataValidator($request);
+
+        if($validataResult) return $validataResult;
 
         $data = $request->all();
-        $res = self::$projectServer->addProject($request);
-
-        if(!$res) return response()->json(['status'=>'400','msg'=>'插入失败']);
-        return response()->json(['status'=>'200','msg'=>'插入成功']);
+        $result = self::$projectServer->addProjects($data);
+        return response()->json($result);
     }
 
     /**
@@ -179,18 +183,47 @@ class ProjectController extends Controller
      * @param $request
      * @return \Illuminate\Http\JsonResponse
      * @author 贾济林
+     * modify 张洵之
      */
     public function addDataValidator($request)
     {
         $validator = \Validator::make($request->all(), [
-            'title'   => 'required|max:10',
-            'content' => 'required',
-            'image'   => 'required',
-            'file'    => 'required'
+            'title'   => 'required|max:64',
+            'content' => 'required|between:120,800',
+            'brief_content'   => 'required|between:40,200',
+            'industry'    => 'required|integer',
+            'financing_stage' => 'required|integer',
+            'logo_img' => 'required|url|string',
+            'banner_img' => 'required|url|string',
+            'team_member' => 'required|string',
+            'project_experience'=> 'string',
+            'privacy' => 'required|integer'
+        ], [
+            'title.required'   => '未填写项目标题',
+            'title.max' => '标题不可以超过64个字符',
+            'content.required' => '项目详情不可为空',
+            'content.between' => '项目详情应在120~800字符之间',
+            'brief_content.required' => '项目一句话简介不可为空',
+            'brief_content.between' => '项目一句话简介应在40~200字符之间',
+            'industry.required' => '请选一个行业！',
+            'industry.integer' => '行业输入类型错误',
+            'financing_stage.required' => '请选一个融资阶段！',
+            'financing_stage.integer' => '融资阶段输入类型错误',
+            'logo_img.required' => '项目logo不可为空',
+            'logo_img.url' => '无法识别logo地址',
+            'logo_img.string' => 'logo输入类型错误',
+            'banner_img.required' => '项目banner不可为空',
+            'banner_img.url' => '无法识别banner地址',
+            'banner_img.string' => 'banner输入类型错误',
+            'team_member.required' => '项目核心成员缺失',
+            'team_member.string' => '项目核心成员输入类型错误',
+            'project_experience.string' =>  '项目历程输入类型错误',
+            'privacy.required' => '请为项目设置隐私',
+            'privacy.integer' => '隐私设置输入类型错误'
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['ServerNo' => 400, 'ResultData' => $validator->errors()->first()]);
+            return response()->json(['StatusCode' => 400, 'ResultData' => $validator->errors()->first()]);
         }
 
     }

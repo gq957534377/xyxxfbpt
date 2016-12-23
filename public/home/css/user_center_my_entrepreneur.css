@@ -1,0 +1,82 @@
+.my-education {
+    background-color: #fafafa;
+    padding: 2% 4.5%;
+}
+.my-education > div {
+    padding-top: 15px;
+}
+.my-education > div > span {
+    background: url("../img/vertical_bar.jpg") no-repeat left center;
+    padding-left: 15px;
+    color: #000000;
+    font-weight: 900;
+    font-size: 16px;
+}
+#submit_my_company {
+    padding: .7em 2.5em;
+}
+.upload-specification > div > {
+    width: 200px;
+    text-align: center;
+}
+.upload-specification > div > img {
+    display: inline-block;
+    max-width: 90px;
+}
+.upload-specification > div > img:nth-child(2) {
+    margin-left: 1em;
+}
+.upload-active {
+    width: 380px;
+    height: 215px;
+    text-align: center;
+    margin-top: .5em;
+}
+.upload-active > span {
+    display: inline-block;
+    padding-top: 110px;
+    background: url("../img/upload_normal.jpg") no-repeat center 75%;
+}
+.upload-active > span:hover {
+    cursor: pointer;
+    color: #ff9035;
+    background: url("../img/upload_active.jpg") no-repeat center 75%;
+}
+
+.form-horizontal .control-label {
+    padding-top: 0;
+    text-align: left;
+    font-weight: normal;
+}
+.my-education-edit{
+    margin-top: 30px;
+}
+/*768px以下的样式，最小宽度为320px*/
+@media (max-width: 767px) {
+    .my-education {
+        padding: 1% 4%;
+    }
+    .my-education > div {
+        padding-top: 1em;
+    }
+    .upload-active {
+        width: 238px;
+        height: 135px;
+    }
+    .upload-active > span {
+        padding-top: 70px;
+        background-position: center 65%;
+    }
+}
+/*991px以下的样式*/
+@media (min-width: 768px) and (max-width: 991px) {
+}
+/*1200px以下的样式*/
+@media (min-width: 992px) and (max-width: 1199px) {
+}
+
+@media (min-width: 1200px) {
+    .move-front {
+        margin-left: -70px;
+    }
+}
