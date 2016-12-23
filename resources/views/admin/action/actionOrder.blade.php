@@ -169,12 +169,31 @@
         // 页面加载时触发事件请求分页数据
         function list(action_id, status) {
             var ajax = new ajaxController();
-            var url  = '/action_order/create?action_id='+action_id+'&status=' + status;
+            var url  = '/action_order/create?action_id='+action_id;
             ajax.ajax({
                 url     : url,
                 before  : ajaxBeforeModel,
                 success : actionOrder,
                 error   : ajaxErrorModel,
+            });
+        }
+        function pageUrl(){
+            $('.pagination li').click(function () {
+                var class_name = $(this).prop('class');
+                if (class_name == 'disabled' || class_name == 'active') {
+                    return false;
+                }
+
+                var url = $(this).children().prop('href') + '&action_id='+action_id+'&status=' + list_status;
+
+                var ajax = new ajaxController();
+                ajax.ajax({
+                    url: url,
+                    before: ajaxBeforeModel,
+                    success: actionOrder,
+                    error: ajaxErrorModel
+                });
+                return false;
             });
         }
         list(action_id, list_status);

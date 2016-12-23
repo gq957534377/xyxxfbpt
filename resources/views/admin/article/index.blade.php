@@ -5,10 +5,6 @@
     #alert-info{padding-left:10px;}
     table{font-size:14px;}
     .table button{margin-right:15px;}
-    #fabu{
-        width: 80%;
-        height:80%;
-    }
 </style>
 <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
 <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
@@ -33,7 +29,7 @@
 {{-- 弹出表单结束 --}}
 {{--发布文章表单--}}
 <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog" id="fabu">
+    <div class="modal-dialog" id="fabu" style="width: 64%;">
         <div class="modal-content">
             <form data-name="" role="form" id="yz_fb"  onsubmit="return false">
                 <div class="modal-header">
@@ -360,6 +356,7 @@
                 ]
             ],
             initialFrameWidth : '100%',
+            initialFrameHeight: '220',
         };
         var ue          = UE.getEditor('UE', toolbra);
         var ue1         = UE.getEditor('UE1', toolbra);

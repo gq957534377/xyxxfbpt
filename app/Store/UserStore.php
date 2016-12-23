@@ -169,11 +169,12 @@ class UserStore
      * @param  [] $array 集合
      * @author 郭庆
      */
-    public function getUsersPage($field, $array, $page, $tolPage)
+    public function getUsersPage($field, $array, $page, $pageNum)
     {
         return DB::table(self::$table)
             ->whereIn($field, $array)
-            ->forPage($page,$tolPage)
+            ->orderBy('memeber','desc')
+            ->forPage($page,$pageNum)
             ->get();
     }
 }

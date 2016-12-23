@@ -738,7 +738,7 @@ class UserService {
         //计算总页数
         $totalPage = ceil($count / $forPages);
         //获取所有数据
-        $result['data'] = self::$userStore->getUsersPage('guid', $guids, $nowPage, $totalPage);
+        $result['data'] = self::$userStore->getUsersPage('guid', $guids, $nowPage, $forPages);
         if($result['data']){
             if ($disPlay && $totalPage > 1) {
                 //创建分页样式

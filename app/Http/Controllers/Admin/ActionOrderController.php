@@ -42,7 +42,6 @@ class ActionOrderController extends Controller
      */
     public function create(Request $request)
     {
-
         $data = $request->all();
         $users = self::$actionServer->getAction('user_id', ['action_id' => $data['action_id']]);
         if ($users['status']){
@@ -55,15 +54,14 @@ class ActionOrderController extends Controller
         $forPages = 1;//一页的数据条数
         $where = [];
 
-        if($data["status"]){
+        if(isset($data["status"])){
             $where["status"] = (int)$data["status"];
         }
-        if ($data['action_id']){
+        if (isset($data['action_id'])){
             $where["action_id"] = $data['action_id'];
         }
 
         $result = self::$userServer->getUsers($users, $nowPage, $forPages, 'action_order/create');
-        dd($result);
         return response() -> json($result);
     }
 
