@@ -195,7 +195,7 @@
                 </div>
                 <div class="panel-body">
                     <textarea id = "reason" style="width: 100%;"></textarea><br><br>
-                    <center><button class="btn btn-success status" id="pass_form">确定</button></center>
+                    <center><button class="btn btn-danger out" id="pass_form" data-status="3">否决</button></center>
                 </div>
             </div>
         </div><!-- /.modal-content -->
@@ -302,6 +302,9 @@
     <script src="{{asset('JsService/Model/pageList.js')}}" type="text/javascript"></script>
     <!--alertInfo end-->
     <script src="{{asset('/admin/js/jquery.validate.min.js')}}"></script>
+    <script src="http://cdn.rooyun.com/js/classie.js"></script>
+    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     {{--富文本--}}
     <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
     <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
@@ -443,6 +446,92 @@
             }
             listType(list_type,list_status,list_user);
         });
+
+        //确认谈框
+        function initAlert() {
+//            $('.pass').click(function () {
+//                $('#pass_form').attr('data-name', $(this).data('name'));
+//                $('#pass_form').attr('data-status', $(this).data('status'));
+//            });
+            !function($) {
+                "use strict";
+
+                var SweetAlert = function() {};
+
+                //examples
+                SweetAlert.prototype.init = function() {
+
+                    //禁用弹出确认框
+                    $('.status').off('click').click(function(){
+
+                        var guid = $(this).data('name');
+                        var status = $(this).data('status');
+                        var reason = $('#reason').val();
+                        var statusMessage = $(this).html();
+
+                        //获取tr节点
+                        var tr;
+                        if (statusMessage == "通过" || statusMessage == "否决"){
+                            tr = $(this).parent().parent().parent();
+                            if (statusMessage == "否决"){
+                                guid = $(this).data('name');
+                            }
+                        }else{
+                            tr = $(this).parent().parent();
+                        }
+
+                        swal({
+                            title: "确定要"+statusMessage+"?",
+                            text: "当前操作将"+statusMessage+"该文章的展示!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: statusMessage,
+                            cancelButtonText: "取消",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        }, function(isConfirm){
+                            if (isConfirm) {
+                                //发送请求
+                                var url;
+                                if(status == 3 && list_user == 2){
+                                    url = '/article/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&user='+list_user+'&reason='+$('#reason').val();
+                                }else{
+                                    url = '/article/'+ guid + '/edit/?status=' + status +'&user='+list_user;
+                                }
+                                alert(url);
+                                $.ajax({
+                                    url     : url,
+                                    success : function (data) {
+                                        console.log(data);
+                                        if(data.StatusCode != 200){
+                                            swal(data.ResultData, statusMessage + '文章失败', "danger");
+                                        }else{
+                                            swal(data.ResultData, '成功'+statusMessage+'文章', "success");
+                                                tr.remove();
+                                        }
+                                    }
+                                });
+                            } else {
+                                swal("已取消！", "没有做任何修改！", "error");
+                            }
+                        });
+                    });
+                },
+                        //init
+                        $.SweetAlert = new SweetAlert,
+                        $.SweetAlert.Constructor = SweetAlert
+            }(window.jQuery),
+
+//initializing
+                    function($) {
+                        "use strict";
+                        $.SweetAlert.init()
+                    }(window.jQuery);
+
+        }
+
+
 
         {{--修改--}}
                 !function($) {
@@ -632,57 +721,57 @@
             });
         }
 
-        // 修改文章信息状态
-        function modifyStatus() {
-            $('.status').off('click').click(function () {
-                var _this = $(this);
-                var ajax = new ajaxController();
-
-                var url = '/article/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&user='+list_user;
-                if($(this).data('status') == 3 && list_user == 2){
-                    url = '/article/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&user='+list_user+'&reason='+$('#reason').val();
-                }
-                ajax.ajax({
-                    url     : url,
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : checkStatus,
-                    error   : ajaxErrorModel
-                });
-
-                function checkStatus(data){
-                    $('.loading').hide();
-                    $('#myModal').modal('show');
-                    $('.modal-title').html('提示');
-                    if (data) {
-                        if (data.StatusCode == 200) {
-                            var code = data.ResultData;
-                            $('#alert-form').hide();
-                            _this.data('status', code);
-                            if (_this.children().hasClass("btn-danger")) {
-                                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
-                            } else if (_this.children().hasClass("btn-primary")) {
-                                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
-                            }
-                            $('#panel-modal').modal('hide');
-                            $('#alert-info').html('<p>状态修改成功!</p>');
-                            listType(list_type,list_status,list_user);
-                        } else {
-                            $('#alert-form').hide();
-                            $('#alert-info').html('<p>状态修改失败！</p>');
-                        }
-                    } else {
-                        $('#alert-form').hide();
-                        $('#alert-info').html('<p>未知的错误</p>');
-                    }
-                }
-            });
-
-            $('#pass').click(function () {
-                $('#pass_form').attr('data-name',$(this).data('name'));
-                $('#pass_form').attr('data-status',$(this).data('status'));
-            });
-
-        }
+////        // 修改文章信息状态
+//        function modifyStatus() {
+//            $('.status').off('click').click(function () {
+//                var _this = $(this);
+//                var ajax = new ajaxController();
+//
+//                var url = '/article/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&user='+list_user;
+//                if($(this).data('status') == 3 && list_user == 2){
+//                    url = '/article/'+ $(this).data('name') + '/edit/?status=' + $(this).data('status')+'&user='+list_user+'&reason='+$('#reason').val();
+//                }
+//                ajax.ajax({
+//                    url     : url,
+//                    before  : ajaxBeforeNoHiddenModel,
+//                    success : checkStatus,
+//                    error   : ajaxErrorModel
+//                });
+//
+//                function checkStatus(data){
+//                    $('.loading').hide();
+//                    $('#myModal').modal('show');
+//                    $('.modal-title').html('提示');
+//                    if (data) {
+//                        if (data.StatusCode == 200) {
+//                            var code = data.ResultData;
+//                            $('#alert-form').hide();
+//                            _this.data('status', code);
+//                            if (_this.children().hasClass("btn-danger")) {
+//                                _this.children().removeClass("btn-danger").addClass("btn-primary").html('启用');
+//                            } else if (_this.children().hasClass("btn-primary")) {
+//                                _this.children().removeClass("btn-primary").addClass("btn-danger").html('禁用');
+//                            }
+//                            $('#panel-modal').modal('hide');
+//                            $('#alert-info').html('<p>状态修改成功!</p>');
+//                            listType(list_type,list_status,list_user);
+//                        } else {
+//                            $('#alert-form').hide();
+//                            $('#alert-info').html('<p>状态修改失败！</p>');
+//                        }
+//                    } else {
+//                        $('#alert-form').hide();
+//                        $('#alert-info').html('<p>未知的错误</p>');
+//                    }
+//                }
+//            });
+//
+//            $('#pass').click(function () {
+//                $('#pass_form').attr('data-name',$(this).data('name'));
+//                $('#pass_form').attr('data-status',$(this).data('status'));
+//            });
+//
+//        }
 
         function checkAction(){}
 
