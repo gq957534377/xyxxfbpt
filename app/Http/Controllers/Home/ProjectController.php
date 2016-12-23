@@ -42,7 +42,6 @@ class ProjectController extends Controller
     public function index()
     {
         $where = ['disable'=>'0','status'=>'3'];
-        return view('errors.404');
         $res = self::$projectServer->getData($where);
 
         if (!$res['status']) {

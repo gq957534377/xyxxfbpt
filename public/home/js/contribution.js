@@ -42,7 +42,6 @@ captcha.onclick = function(){
     this.src = url;
 };
 
-
 //富文本配置
 var toolbra     = {
     toolbars : [
@@ -173,18 +172,6 @@ var messages    = {
                 var url = '/send';
                 var type = 'post';
 
-                if (status == 0) {
-                    // $('#browse').on('click', function () {
-                        var title = $("input[name= 'title']").val();
-                        var brief = $("textarea[name= 'brief']").val();
-                        var describe = $("textarea[name= 'describe']").val();
-                        var source = $("input[name= 'source']").val();
-                        var verif_code = $("input[name= 'verif_code']").val();
-                        var src = $("#contribution-picture").attr('src');
-                        window.open('/send/1?title=' + title + '&brief=' + brief + '&describe=' + describe + '&source=' + source + '&verif_code=' + verif_code + '&src=' + src);
-                        return;
-                    // });
-                }
                 // 异步写入
                 $.ajax({
                     type: type,
@@ -206,6 +193,10 @@ var messages    = {
                                 break;
                             case '200':
                                 alert('插入成功');
+                                window.open('/send/1?title=' + title + '&brief=' + brief + '&describe=' + describe + '&source=' + source + '&verif_code=' + verif_code + '&src=' + src);
+                                break;
+                            case '200.1':
+                                window.open('/send/' + data.ResultData);
                                 break;
                         }
                     }
@@ -222,9 +213,13 @@ var messages    = {
     };
     $.FormValidator = new FormValidator;
     $.FormValidator.Constructor = FormValidator;
+
 })(window.jQuery),
     function($){
         "use strict";
         $.FormValidator.init();
+
     }(window.jQuery);
+
+
 

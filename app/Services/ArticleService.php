@@ -8,6 +8,7 @@
  */
 
 namespace App\Services;
+use App\Redis\BaseRedis;
 use App\Store\ArticleStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
@@ -392,6 +393,15 @@ class ArticleService
         $data["guid"] = Common::getUuid();
         $data["addtime"] = time();
         $data['user'] = 2;
+        // 判断是否是预览
+        if ($data['status'] == 0) {
+            $md5Guid = md5(session('user')->guid);
+            // 预览内容写入redis，
+            if (BaseRedis::setexRedis($md5Guid, json_encode($data), 1800)) {
+                return ['StatusCode' => '200.1', 'ResultData' => $md5Guid];
+            };
+            return ['StatusCode' => '400', 'ResultData' => '预览出错，请联系管理员！'];
+        }
         if ($data['status'] != '2' && $data['status'] != '4') {
             $data['status'] = '4';
         }
@@ -445,5 +455,23 @@ class ArticleService
             if($result['status']) return ['StatusCode' => '200',  'ResultData' => self::getLikeNum($id)['msg']];
             return ['StatusCode' => '400', 'ResultData' => '点赞失败'];
         }
+    }
+
+    /**
+     * 把预览数据从缓存中取出
+     * @param $id
+     * @return array
+     * @author 王通
+     */
+    public function getCacheContribution($id)
+    {
+        $data = BaseRedis::getRedis($id);
+        if (!empty($data)) {
+            $result = json_decode($data);
+            return ['StatusCode' => '200',  'ResultData' => $result];
+        } else {
+            return ['StatusCode' => '400', 'ResultData' => '查询失败'];
+        }
+
     }
 }

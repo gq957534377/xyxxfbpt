@@ -1,0 +1,126 @@
+
+
+div#htmlfeedback-container * {
+    margin: 0;
+    padding: 0
+}
+
+div#htmlfeedback-container {
+    font-size: 12px;
+    background-color: #fff;
+    border-left: 1px solid #96b97d;
+    border-top: 1px solid #96b97d;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 5500;
+    display: none
+}
+
+div#htmlfeedback-container.expanded {
+    width: 400px
+}
+
+div#htmlfeedback-container-more {
+    padding: 5px
+}
+
+div#htmlfeedback-container span {
+    display: block;
+    max-width: 200px
+}
+
+div#htmlfeedback-container p {
+    display: block;
+    margin-bottom: 5px;
+    max-width: 400px
+}
+
+div#htmlfeedback-container h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px
+}
+
+div#htmlfeedback-container form input[type=reset], div#htmlfeedback-container form input[type=submit] {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 10px;
+    height: 30px;
+    border: 1px solid #fff;
+    background-color: #96b97d;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold
+}
+
+div#htmlfeedback-container form input[type=reset]:active, div#htmlfeedback-container form input[type=submit]:active {
+    border: 1px inset #5aa0b8
+}
+
+div#htmlfeedback-container textarea {
+    width: 350px;
+    height: 140px;
+    line-height: 24px;
+    float: left;
+    padding: 0 3% 0 3%;
+    background-color: #fff;
+    text-align: initial;
+    border: 1px solid #c8c8c8;
+    border-radius: 3px;
+    overflow: hidden;
+    font-size: 1.2em;
+    color: #000;
+    margin-bottom: 10px
+}
+
+div#htmlfeedback-container .fb-guide {
+    padding-top: 10px;
+    background-color: #f7f7f7;
+    color: #9a9a9a;
+    margin-left: -20px;
+    padding-left: 20px;
+    border-right-width: 0;
+    margin-right: -20px;
+    padding-right: 25px;
+    margin-bottom: -20px;
+    padding-bottom: 15px;
+    margin-top: 10px
+}
+
+div#htmlfeedback-container .fb-email {
+    line-height: 34px;
+    left: 9px;
+    top: 0;
+    text-align: initial;
+    white-space: nowrap;
+    right: 9px;
+    height: 35px;
+    width: 90%;
+    padding: 0 3% 0 3%;
+    background-color: #fff;
+    border: 1px solid #c8c8c8;
+    border-radius: 3px;
+    color: #000;
+    font-weight: 400;
+    font-size: 1.2em
+}
+
+div#htmlfeedback-container div#htmlfeedback-more {
+    display: block;
+    background-color: #96b97d;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px;
+    cursor: pointer
+}
+
+div#htmlfeedback-container div#htmlfeedback-more div#htmlfeedback-close {
+    padding-right: 5px;
+    float: right
+}
+
+div#htmlfeedback-container div#htmlfeedback-more div#htmlfeedback-close:hover {
+    text-decoration: underline
+}
+

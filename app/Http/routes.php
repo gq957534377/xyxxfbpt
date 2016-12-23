@@ -105,7 +105,10 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/comment', 'ArticleController@commentShow');
     //学院内容页
     Route::resource('/school', 'SchoolController');
-
+    //发布项目
+    Route::resource('/project', 'ProjectController');
+    //项目列表ajax请求
+    Route::post('/project/list','ProjectController@lists')->name('projectList');
     // openIM 阿里云旺
     Route::resource('/openim', 'OpenIMController');
 
@@ -136,11 +139,9 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::get('/logout','LoginController@logout');
         //众筹用户投钱
         Route::get("/investment/{project_id}","CrowdFundingController@investment");
-        //发布项目
-        Route::resource('/project', 'ProjectController');
+
         Route::resource('/project_user','ProjectUsersController');
-        //项目列表ajax请求
-        Route::post('/project/list','ProjectController@lists')->name('projectList');
+
         //活动管理
         Route::resource('/activity', 'ActivityController');
         //投稿管理
