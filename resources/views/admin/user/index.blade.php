@@ -7,6 +7,12 @@
         table{font-size:14px;}
         .table button{margin-right:15px;}
         .page-title{ padding-bottom: 5px;}
+        .list-unstyled > li{
+            margin-bottom: 5px;
+        }
+        .list-unstyled > li:nth-child(1){
+            margin-bottom: 25px;
+        }
     </style>
 @endsection
 {{--展示内容开始--}}
@@ -91,52 +97,63 @@
                     <h3>用户详细信息</h3><button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
                 </div>
                 <div class="modal-body">
-                        <ul class="list-unstyled">
-                            <li><strong>头像</strong> :
-                                {{--<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}">--}}
-                                <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
-                                    <div class="row">
-                                        <div id="crop-avatar">
-                                            <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
-                                                <img id="headpic" class="img-circle" src="" />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><strong>头像</strong> :
+                                        {{--<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}">--}}
+                                        <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                            <div class="row">
+                                                <div id="crop-avatar">
+                                                    <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
+                                                        <img id="headpic" class="img-circle" src="" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </li><br>
-                            <li>真实姓名 ：<span id="realname"></span></li>
-                            <li>昵称 ：<span id="nickname"></span></li>
-                            <li>性别 ：<span id="sex"></span></li>
-                            <li>出生日期 ：<span id="birthday"></span></li>
-                            <li>电话 ：<span id="phone"></span></li>
-                            <li>邮箱 ：<span id="email"></span></li>
-                            <li>公司 ： <span id="company"></span></li>
-                            <li>职位 ：<span id="company_position"></span></li>
-                            <li>公司地址 ：<span id="company_address"></span></li>
-                            <li>个人简介 ：<span id="introduction"></span></li>
-                            <li>微信 ： <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
-                                    <div class="row">
-                                        <div id="crop-avatar">
-                                            <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
-                                                <img id="wechat" class="img-rounded" src="" />
+                                    </li>
+                                    <li>真实姓名 ：<span id="realname"></span></li>
+                                    <li>昵称 ：<span id="nickname"></span></li>
+                                    <li>性别 ：<span id="sex"></span></li>
+                                    <li>出生日期 ：<span id="birthday"></span></li>
+                                    <li>电话 ：<span id="phone"></span></li>
+                                    <li>邮箱 ：<span id="email"></span></li>
+                                    <li>公司 ： <span id="company"></span></li>
+                                    <li>职位 ：<span id="company_position"></span></li>
+                                    <li>公司地址 ：<span id="company_address"></span></li>
+
+                                    <li><span></span></li>
+                                    <li><span></span></li>
+                                    <li><span></span></li>
+                                    <li><span></span></li>
+                                    <li><span></span></li>
+                                    <li><span></span></li>
+                                    <li><span></span></li>
+                                    <li><span></span></li>
+                                    <li><span></span></li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li>微信 ： <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                            <div class="row">
+                                                <div id="crop-avatar">
+                                                    <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
+                                                        <img id="wechat" class="img-rounded" src="" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>注册时间 ：<span id="addtime"></span></li>
-                            <li id="role"></li>
-                            <li id="status"></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                        </ul>
+                                    </li>
+                                    <li>注册时间 ：<span id="addtime"></span></li>
+                                    <li id="role"></li>
+                                    <li id="status"></li>
+                                    <li>个人简介 ：<span id="introduction"></span></li>
+                                </ul>
+                            </div>
+
+                        </div>
+
                 </div>
             </div>
         </div>
@@ -292,9 +309,9 @@
                 $('#phone').text(data.phone);
                 $('#email').text(data.email);
                 $('#company').text(data.company);
-                $('#company_position').text(data.company_position);
-                $('#company_address').text(data.company_address);
-                $('#introduction').text(data.introduction);
+                $('#company_position').text(data.company_position ? data.company_position : '');
+                $('#company_address').text(data.company_address ? data.company_address : '');
+                $('#introduction').text(data.introduction ? data.introduction : '');
                 $('#wechat').attr('src',data.wechat);
                 $('#addtime').text(data.addtime);
                 //角色身份选择
