@@ -453,6 +453,9 @@
         if(strStore(Str)){
           clearInput();
           chengyuanNum++;
+          if (chengyuanNum == 1){
+            $('#delPeople').removeClass('hiddens');
+          }
           if (chengyuanNum == 5){
             $(this).addClass('hiddens');
           }
@@ -463,7 +466,19 @@
         alert('请为核心成员添加对应内容');
       }
     });
-    
+    $('#delPeople').click(function () {
+      var str = delPeopleStr($('#peopleStore').val());
+      $('#peopleStore').val(str);
+      chengyuanNum --;
+      changeCYNum();
+      $('#chengyuan li').eq(chengyuanNum).remove();
+      if(chengyuanNum == 4){
+        $('#addPeople').removeClass('hiddens');
+      }
+      if(chengyuanNum == 0){
+        $(this).addClass('hiddens');
+      }
+    });
     function strEmpty(str) {
       if (str.replace(/(^\s*)|(\s*$)|(\s*)/g, "").length ==0){
         return false;
@@ -477,6 +492,7 @@
       $('#peopleStore').val(storeStr+str);
       return true;
     }
+
     function clearInput() {
       $('#member-name').val('');
       $("#member-position").val('');
@@ -484,14 +500,27 @@
       $('#member-introduce').val('');
       $('.tou').attr('src',"{{ asset('home/img/upload-card.png') }}")
     }
+
     function changeCYNum() {
       $('#chengyuanNum').html("("+chengyuanNum+")个")
     }
+
     function clearHiddenInput() {
       $('#peopleStore').val('');
       $('#logoUrl').val('');
       $('#bannerUrl').val('');
-      $('#touxiangUrl').val('')
+      $('#touxiangUrl').val('');
+    }
+
+    clearHiddenInput();
+
+    function delPeopleStr(str) {
+      var newArr = str.split(';');
+      if (newArr.length == 2){
+        return "";
+      }
+      newArr.splice(newArr.length-2,1);
+      return newArr.join(';');
     }
   </script>
 @endsection
