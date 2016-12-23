@@ -24,25 +24,25 @@ class ActivityController extends Controller
      */
     public function index()
     {
-        return view('errors.404');
-        //获取用户id，取得所有活动id
-        $guid = session('user')->guid;
-        $where = ['user_id' => $guid,'status' => '1'];
-
-        $tmp = self::$actionService->getActivityId($where);
-
-        //如果数据为空，返回空数组
-        if (!$tmp['status']) return view('home.user.activity.index')->with('data',[]);
-        $actionguid = $tmp['data'];
-
-        //拼接活动信息数据
-        $data = [];
-        foreach ($actionguid as $v){
-            $res = self::$actionService->getData($v);
-            array_push($data,$res['msg']);
-        }
-
-        // 活动类型数据处理，划分三个组
+//        return view('errors.404');
+//        //获取用户id，取得所有活动id
+//        $guid = session('user')->guid;
+//        $where = ['user_id' => $guid,'status' => '1'];
+//
+//        $tmp = self::$actionService->getActivityId($where);
+//
+//        //如果数据为空，返回空数组
+//        if (!$tmp['status']) return view('home.user.activity.index')->with('data',[]);
+//        $actionguid = $tmp['data'];
+//
+//        //拼接活动信息数据
+//        $data = [];
+//        foreach ($actionguid as $v){
+//            $res = self::$actionService->getData($v);
+//            array_push($data,$res['msg']);
+//        }
+//
+//        // 活动类型数据处理，划分三个组
 
         if (empty($data)) return view('home.user.activity.index')->with('data',[]);
         return view('home.user.activity.index')->with('data',$data);
