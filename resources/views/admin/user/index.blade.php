@@ -85,19 +85,61 @@
     </div>
     {{--查看详情弹出框 --}}
     <div id="user-info" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg" id="fabu">
+        <div class="modal-dialog" id="fabu">
             <div class="modal-content">
                 <div id = "" class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
+                    <h3>用户详细信息</h3><button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
                 </div>
                 <div class="modal-body">
-                    <img id="realname" src="" />
+                        <ul class="list-unstyled">
+                            <li><strong>头像</strong> :
+                                {{--<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}">--}}
+                                <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                    <div class="row">
+                                        <div id="crop-avatar">
+                                            <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
+                                                <img id="headpic" class="img-circle" src="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li><br>
+                            <li>真实姓名 ：<span id="realname"></span></li>
+                            <li>昵称 ：<span id="nickname"></span></li>
+                            <li>性别 ：<span id="sex"></span></li>
+                            <li>出生日期 ：<span id="birthday"></span></li>
+                            <li>电话 ：<span id="phone"></span></li>
+                            <li>邮箱 ：<span id="email"></span></li>
+                            <li>公司 ： <span id="company"></span></li>
+                            <li>职位 ：<span id="company_position"></span></li>
+                            <li>公司地址 ：<span id="company_address"></span></li>
+                            <li>个人简介 ：<span id="introduction"></span></li>
+                            <li>微信 ： <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                    <div class="row">
+                                        <div id="crop-avatar">
+                                            <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
+                                                <img id="wechat" class="img-rounded" src="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>注册时间 ：<span id="addtime"></span></li>
+                            <li id="role"></li>
+                            <li id="status"></li>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                            <li><span></span></li>
+                        </ul>
                 </div>
-
-
             </div>
         </div>
-
     </div>
 
 
@@ -232,7 +274,65 @@
 
                 var data = $(this).data();
                 //alert(realname);
-                $('#realname').attr('src',data.headpic);
+                $('#headpic').attr('src',data.headpic);
+                $('#realname').text(data.realname);
+                $('#nickname').text(data.nickname);
+                switch (data.sex){
+                    case 1:
+                        var sex = '男';
+                        break;
+                    case 2:
+                        var sex = '女';
+                        break;
+                    default:
+                        var sex = '未填写';
+                }
+                $('#sex').text(sex);
+                $('#birthday').text(data.birthday);
+                $('#phone').text(data.phone);
+                $('#email').text(data.email);
+                $('#company').text(data.company);
+                $('#company_position').text(data.company_position);
+                $('#company_address').text(data.company_address);
+                $('#introduction').text(data.introduction);
+                $('#wechat').attr('src',data.wechat);
+                $('#addtime').text(data.addtime);
+                //角色身份选择
+                switch (data.role){
+                    case 1 :
+                        var str = '身份 ：<span class="text-info text-xs">普通用户&nbsp;</span>';
+                        break;
+                    case 2 :
+                        var str = '身份 ：<span class="text-warning text-xs">创业者&nbsp;</span>';
+                        break;
+                    case 3 :
+                        var str = '身份 ：<span class="text-success text-xs">投资者&nbsp;</span>';
+                        break;
+                }
+                //会员身份选择
+                switch(data.memeber){
+                    case 2:
+                        var member = '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
+                        break;
+                    default:
+                    var member = '';
+                }
+
+
+                $('#role').html(str + member);
+
+                //状态匹配
+                switch (data.status){
+                    case 1:
+                        var status = '当前状态 ：<span class="text-primary text-xs">正常使用中&nbsp;</span>';
+                        break;
+                    default:
+                        var status = '当前状态 ：<span class="text-danger text-xs">禁用中&nbsp;</span>';
+                }
+                $('#status').html(status);
+                $('#').text();
+                $('#').text();
+
                 $('#user-info').modal('show');
 
             });
@@ -399,7 +499,12 @@
                 str +=  '</td>';
                 str +=  '<td>';
                 str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
-                str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+'" data-brithday="'+v.brithday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+'" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+'" data-headpic="'+v.headpic+'" data-chat="'+v.wechat+'" data-intoduction="'+v.introduction+'" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+'" class="user_info"><button class="btn btn-warning btn-xs">详情</button></a>';
+                str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
+                        '" data-brithday="'+v.birthday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+
+                        '" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+
+                        '" data-headpic="'+v.headpic+'" data-wechat="'+v.wechat+'" data-intoduction="'+v.introduction+
+                        '" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+
+                        '" class="user_info"><button class="btn btn-warning btn-xs">详情</button></a>';
 
                 str +=  '</td></tr>';
             });
