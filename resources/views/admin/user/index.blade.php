@@ -94,7 +94,8 @@
         <div class="modal-dialog" id="fabu">
             <div class="modal-content">
                 <div id = "" class="modal-header">
-                    <h3>用户详细信息</h3><button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
+                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
+                    <h3>用户详细信息</h3>
                 </div>
                 <div class="modal-body">
                         <div class="row">
@@ -122,15 +123,6 @@
                                     <li><strong>职位 ：</strong><span id="company_position"></span></li>
                                     <li><strong>公司地址 ：</strong><span id="company_address" class="text-muted"></span></li>
 
-                                    <li><span></span></li>
-                                    <li><span></span></li>
-                                    <li><span></span></li>
-                                    <li><span></span></li>
-                                    <li><span></span></li>
-                                    <li><span></span></li>
-                                    <li><span></span></li>
-                                    <li><span></span></li>
-                                    <li><span></span></li>
                                 </ul>
                             </div>
                             <div class="col-md-6">
@@ -227,6 +219,7 @@
                             closeOnCancel: false
                         }, function(isConfirm){
                             if (isConfirm) {
+                                $('.confirm').prop('disabled','disabled');
                                 //发送请求
                                 $.ajax({
                                     url :'/user_management/'+id+'/edit', //参数2 为禁用,1 为启用
@@ -235,10 +228,12 @@
                                     success : function (msg) {
                                         if(msg.statusCode == 400){
                                             swal(msg.resultData, '执行' + status + '失败', "danger");
+                                            return;
                                         }
                                         swal(msg.resultData, '该用户已被成功'+status, "success");
                                         //成功后删除当前行
                                         tr.remove();
+                                        $('.confirm').prop('disabled','');
 
                                     }
                                 });

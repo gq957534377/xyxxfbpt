@@ -7,6 +7,7 @@ use App\Store\RoleStore;
 use App\Store\HomeStore;
 
 use App\Tools\CustomPage;
+use Illuminate\Support\Facades\DB;
 
 class userManagementService
 {
@@ -133,8 +134,15 @@ class userManagementService
      */
     public function changeStatus($where, $status)
     {
-        $res = self::$data_user_info->changeStatus($where, $status);
-        if(!$res) return false;
+        DB::beginTransaction();
+            $res1 = self::$data_user_info->changeStatus($where, $status);
+            $res2 = self::$data_user_login->changeSatus($where, $status);
+
+        if(!$res1 || !$res2) {
+            DB::rollBack();
+            return false;
+        }
+        DB::commit();
         return true;
     }
 
