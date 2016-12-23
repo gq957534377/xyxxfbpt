@@ -88,7 +88,7 @@
                 <p class="col-xs-12 pad-clr">认证成为创业者，XXXXXXXXXXXX</p>
             </div>
             <div class="col-xs-12 col-sm-3 pad-clr my-home-auth">
-                <a href="javascript:void(0)" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
+                <a href="{{ route('identity.index') }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
             </div>
         </div>
         <!--创业者认证 已认证 和 审核中-->

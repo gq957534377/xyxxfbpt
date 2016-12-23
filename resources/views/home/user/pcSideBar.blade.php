@@ -2,7 +2,7 @@
     <aside class="hidden-xs">
         <ul id="js_zxz" class="list-unstyled">
             <li><a zxz-data="user" href="{{ route('user.index') }}">我的主页</a></li>
-            <li><a zxz-data="identity" href="{{ route('identity.index') }}">英雄会报名</a></li>
+            <li><a zxz-data="identity" href="{{ route('identity.index',['identity' => 'hero']) }}">英雄会报名</a></li>
             <li><a zxz-data="myProject" href="/user/myProject">我的项目</a></li>
             <li><a zxz-data="activity" href="{{ route('activity.index') }}">参加的活动</a></li>
             <li><a zxz-data="send" href="{{ route('send.index') }}">我的投稿</a></li>
