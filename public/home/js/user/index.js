@@ -43,7 +43,16 @@ $(document).ready(function () {
         }
     }
 
-    // 点击编辑，弹出修改昵称模态框
+    //        测量 滚动条宽度的函数 开始
+    function measure() { // thx walsh
+        this.$body = $(document.body);
+        var scrollDiv = document.createElement('div');
+        scrollDiv.className = 'modal-scrollbar-measure';
+        this.$body.append(scrollDiv);
+        var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+        this.$body[0].removeChild(scrollDiv);
+    }
+        // 点击编辑，弹出修改昵称模态框
     $('#userInfoEdit').on('click', function () {
 //            处理模态框显示时的问题 开始
         var body = $('body');
