@@ -260,7 +260,7 @@
             <div class="col-md-5 col-lg-5">
               <div id="logo" class="col-md-6">
                 <div class="avatar-view" title="">
-                  <img class="zxz" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                  <img class="lgt" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                 </div>
               </div>
             </div>
@@ -273,7 +273,7 @@
             <div class="col-md-5 col-lg-5">
               <div id="banner" class="col-md-6">
                 <div class="avatar-view" title="">
-                  <img class="zxzs"  src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                  <img class="bner"  src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                 </div>
               </div>
             </div>
@@ -282,19 +282,17 @@
 
           <!--添加核心成员 开始-->
           <div class="form-group mar-b15 line-h-3">
-            <span class="col-md-3 col-lg-2 control-label mar-b10 dis-in-bl mar-xs--b"><span class="form-star">*</span>核心成员</span>
+            <span class="col-md-12 col-lg-12 control-label mar-b10 dis-in-bl mar-xs--b"><span class="form-star">*</span>核心成员<span id="chengyuanNum">(0个)</span></span>
+            <ul id="chengyuan">
+            </ul>
             <div class="col-md-9 col-lg-10">
               <div class="row mar-clr">
-                <label for="member-name" class="col-xs-3 col-sm-2 col-md-2 col-lg-1 control-label pad-clr mar-b10 text-c-sm text-c-xs">名字</label>
-                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-3 pad-clr mar-b10">
+                <label for="member-name" class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label pad-clr mar-b10 text-c-sm text-c-xs">名字</label>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-4 pad-clr mar-b10">
                   <input class="form-control pad-cr-xs pad-l5-xs chr-c" id="member-name">
                 </div>
-                <label for="member-company" class="col-xs-3 col-sm-2 col-md-2 col-lg-1 control-label pad-clr text-l-lg text-l-md mar-b10 text-c-sm text-c-xs">公司</label>
-                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-3 pad-clr mar-b10">
-                  <input class="form-control pad-cr-xs pad-l5-xs chr-c" id="member-company">
-                </div>
-                <label for="member-position" class="col-xs-3 col-sm-2 col-md-2 col-lg-1 control-label pad-clr text-l-lg text-l-md mar-b10 text-c-sm text-c-xs">职位</label>
-                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-3 pad-clr mar-b10">
+                <label for="member-position" class="col-xs-3 col-sm-2 col-md-2 col-lg-2 control-label pad-clr text-l-lg text-l-md mar-b10 text-c-sm text-c-xs">职位</label>
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-4 pad-clr mar-b10">
                   <input class="form-control pad-cr-xs pad-l5-xs chr-c" id="member-position">
                 </div>
               </div>
@@ -304,7 +302,7 @@
                   <input type="hidden" id="touxiangUrl">
                   <div id="touxiang">
                     <div class="avatar-view">
-                      <img class="zxzss" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                      <img class="tou" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
                     </div>
                   </div>
                 </div>
@@ -313,7 +311,7 @@
                 <label for="member-introduce" class="col-xs-3 col-sm-2 col-md-2 col-lg-1 control-label pad-clr mar-b10 text-c-sm text-c-xs">简介</label>
                 <div class="col-xs-9 col-sm-9 col-md-8 col-lg-8 pad-clr">
                   <textarea class="form-control text-r ht-8" id="member-introduce" placeholder=""></textarea>
-                  <input style="border:0;position: absolute;z-index: -1;" type="text" name="team_member">
+                  <input id="peopleStore" style="border:0;position: absolute;z-index: -1;" type="text" name="team_member">
                 </div>
               </div>
             </div>
@@ -322,10 +320,10 @@
           <!--添加 删除 开始-->
           <div class="form-group">
             <div class="col-xs-offset-1 col-xs-4 col-sm-offset-2 col-sm-3 col-md-offset-3 col-md-3 col-lg-offset-2 col-lg-2">
-              <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 wid-2-xs">添加</button>
+              <button id="addPeople" type="button"  class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 wid-2-xs">添加</button>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-              <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 wid-2-xs">删除</button>
+              <button id="delPeople" type="button" class="hiddens btn btn-1 bgc-2 fs-c-1 zxz wid-2 wid-2-xs">删除</button>
             </div>
           </div>
           <!--添加 删除 结束-->
@@ -366,7 +364,11 @@
 
         </form>
         <!--表单结束-->
+
+      </div>
+      <div id="fask">
         @include('home.public.card')
+        <div id='rongqi'><div class='avatar-view'><img src="{{ asset('home/img/upload-card.png')}}"  class='rongqiImg'></div></div>
       </div>
       <!--创建我的项目结束-->
 @endsection
@@ -376,18 +378,37 @@
   <script src="{{asset('home/js/dateTime.js')}}"></script>
   <script src="{{asset('home/js/projectValidate.js')}}"></script>
   <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
-  <script src="{{asset('cropper/js/upload.js')}}"></script>
+  <script src="{{asset('cropper/js/projectCreatCooper.js')}}"></script>
   {{--<script src="{{asset('cropper/js/zxzCooperClass.js')}}"></script>--}}
   <script>
+    //图片上传开始
+    var DOM = $('#fask').html();
+    var size =null;
     $('#logo').click(function () {
-      sendParam($('#logo'),'.zxz','1.6');
+      $('#fask').html("");
+      inputs = $('#logo img');
+      size = '1';
+      createH();
+      sendParam($('#rongqi'),'.rongqiImg',size, $('#logoUrl'));
+      $('#rongqi div').trigger('click');
     });
     $('#banner').click(function () {
-      sendParam($('#banner'),'.zxzs','1.6');
+      $('#fask').html("");
+      inputs = $('#banner img');
+      size = '1.6';
+      createH();
+      sendParam($('#rongqi'),'.rongqiImg',size, $('#bannerUrl'));
+      $('#rongqi div').trigger('click');
     });
     $('#touxiang').click(function () {
-      sendParam($('#touxiang'),'.zxzss','1.6');
+      $('#fask').html("");
+      inputs = $('#touxiang img');
+      size = '1';
+      createH();
+      sendParam($('#rongqi'),'.rongqiImg',size, $('#touxiangUrl'));
+      $('#rongqi div').trigger('click');
     });
+    //图片上传结束
     var Pro_Exp_Num = 1;
     $('#add_Pro_Exp').click(function () {
       var Pro_Exo = '#pro_exo_'+Pro_Exp_Num;
@@ -417,6 +438,60 @@
         $('#del_Pro_Exp').removeClass('hiddens');
       }
     }
+    function createH(){
+      $('#fask').html(DOM);
+    }
 
+    var chengyuanNum = 0;
+    $('#addPeople').click(function () {
+      var peoplesName = $('#member-name').val();
+      var peoplesPosition = $("#member-position").val();
+      var peoplesImg = $('#touxiangUrl').val();
+      var peoplesIntroduce =$('#member-introduce').val();
+      if (strEmpty(peoplesIntroduce)&&strEmpty(peoplesImg)&&strEmpty(peoplesName)&&strEmpty(peoplesPosition)) {
+        var Str = peoplesName + ',' + peoplesImg + ',' + peoplesPosition + ',' + peoplesIntroduce +';';
+        if(strStore(Str)){
+          clearInput();
+          chengyuanNum++;
+          if (chengyuanNum == 5){
+            $(this).addClass('hiddens');
+          }
+          $('#chengyuan').append("<li>"+ chengyuanNum +"."+ peoplesName +"</li>");
+          changeCYNum();
+        }
+      }else {
+        alert('请为核心成员添加对应内容');
+      }
+    });
+    
+    function strEmpty(str) {
+      if (str.replace(/(^\s*)|(\s*$)|(\s*)/g, "").length ==0){
+        return false;
+      }else {
+        return true
+      }
+    }
+
+    function strStore(str) {
+      var storeStr = $('#peopleStore').val();
+      $('#peopleStore').val(storeStr+str);
+      return true;
+    }
+    function clearInput() {
+      $('#member-name').val('');
+      $("#member-position").val('');
+      $('#touxiangUrl').val('');
+      $('#member-introduce').val('');
+      $('.tou').attr('src',"{{ asset('home/img/upload-card.png') }}")
+    }
+    function changeCYNum() {
+      $('#chengyuanNum').html("("+chengyuanNum+")个")
+    }
+    function clearHiddenInput() {
+      $('#peopleStore').val('');
+      $('#logoUrl').val('');
+      $('#bannerUrl').val('');
+      $('#touxiangUrl').val('')
+    }
   </script>
 @endsection

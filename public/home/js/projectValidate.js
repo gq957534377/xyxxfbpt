@@ -123,7 +123,7 @@
                     required: "请添加您的项目添加一个Banner图！"
                 },
                 team_member:{
-                    required: "请至少添加一位核心成员"
+                    required: "请点下方添加按钮添加一位核心成员"
                 }
             }
         });
