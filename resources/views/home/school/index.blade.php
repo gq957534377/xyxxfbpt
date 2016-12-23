@@ -12,12 +12,12 @@
     <!---类型选择层开始---->
     <section class="container-fluid rodeing-type">
         <ul class="row">
-            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a class="@if($type == 4) active @endif"
-                                                               href="school?type=4">企业管理</a></li>
-            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a class="@if($type == 5) active @endif"
-                                                               href="school?type=5">资金管理</a></li>
-            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a class="@if($type == 6) active @endif"
-                                                               href="school?type=6">人才管理</a></li>
+            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a class="@if($type == 1) active @endif"
+                                                               href="school?type=1">企业管理</a></li>
+            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a class="@if($type == 2) active @endif"
+                                                               href="school?type=2">资金管理</a></li>
+            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a class="@if($type == 3) active @endif"
+                                                               href="school?type=3">人才管理</a></li>
         </ul>
     </section>
     <!---类型选择层结束---->
@@ -33,7 +33,7 @@
                     <li class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                         <div class="content-block">
                             <img src="{{$data->banner}} " onerror="this.src='{{asset('home/img/zxz.png')}}'">
-                            <h2><a href="{{ route('action.show', $data->guid) }}">{{$data->title}}</a></h2>
+                            <h2><a href="school/{{$data->guid}}">{{$data->title}}</a></h2>
                             <p>
                                 {{$data->brief}}
                             </p>

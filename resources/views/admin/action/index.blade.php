@@ -18,11 +18,6 @@
         margin-right: 15px;
     }
 
-    #fabu {
-        width: 80%;
-        height: 80%;
-    }
-
     .btn {
         border-radius: 7px;
         padding: 6px 16px;

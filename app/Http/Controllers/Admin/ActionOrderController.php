@@ -90,7 +90,7 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 修改活动+报名状态
+     * 修改报名状态
      * @param $request
      * @param $id 活动id/报名记录id
      * @author 郭庆

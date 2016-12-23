@@ -141,7 +141,7 @@ function htmlStr( data) {
         str +=  '<td>' + v.email + '</td>';
 
         str +=  '<td>';
-        str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+'" data-brithday="'+v.brithday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+'" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+'" data-headpic="'+v.headpic+'" data-chat="'+v.wechat+'" data-intoduction="'+v.introduction+'" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+'" class="user_info"><button class="btn btn-warning btn-xs">用户详情</button></a>';
+        str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+'" data-brithday="'+v.brithday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+'" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+'" data-headpic="'+v.headpic+'" data-chat="'+v.wechat+'" data-intoduction="'+v.introduction+'" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+'" class="user_info"><button class="btn btn-warning btn-xs" style="border-radius: 6px;">用户详情</button></a>&nbsp';
         str +=  '</td></tr>';
     });
     str += '</tbody>' +
