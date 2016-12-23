@@ -51,18 +51,19 @@
         <!--修改头像弹出框 End-->
 
         <!-- 模态框（Modal） -->
-        <div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog" style="top: 20%;left: 10%;border-radius: 5px;">
+        <div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog" style="top: 20%;left: 8%;border-radius: 5px;">
             <div class="modal-dialog" style="position: relative;">
                 <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改昵称</h4>
                     </div>
-                    <!-- 错误提示 Start-->
-                    <div id="userInfoError" class="alert alert-danger hidden"></div>
-                    <!-- 错误提示 End-->
                     <!--第一步 填写-->
                     <div class="modal-body key-step-one">
+                        <!-- 错误提示 Start-->
+                        <div id="userInfoError" class="col-xs-12 alert alert-danger hidden"></div>
+                        <div id="userInfoSuccess" class="col-xs-12 alert alert-success hidden"></div>
+                        <!-- 错误提示 End-->
                         <div class="col-xs-12">
                             <label class="col-xs-12 control-label mar-b5" style="line-height: 34px;">用户昵称</label>
                             <div class="col-xs-12">
@@ -70,7 +71,7 @@
                             </div>
                             <div class="col-xs-12" style="margin-top: 10px;">
                                 <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="editSubmit">保存</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn btn-default userInfoReset" data-dismiss="modal">取消</button>
                             </div>
                         </div>
                     </div>

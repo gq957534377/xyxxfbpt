@@ -77,19 +77,29 @@ $(document).ready(function () {
         });
         // 请求成功后，需要对返回信息处理
         function editReturnInfo(msg) {
+
+            $("#userInfoError").addClass('hidden');
+            $("#userInfoSuccess").addClass('hidden');
+
             switch (msg.StatusCode) {
                 case '400':
                     $(".loading").hide();
-                    $("#userInfoError").addClass('alert-danger').html(msg.ResultData).removeClass('hidden');
+                    $("#userInfoError").html(msg.ResultData).removeClass('hidden');
                     break;
                 case '200':
                     $(".loading").hide();
                     user_nickname.html($('input[name="nickname"]').val());
 
-                    $("#userInfoError").addClass('alert-success').html(msg.ResultData).removeClass('hidden');
+                    $("#userInfoSuccess").html(msg.ResultData).removeClass('hidden');
                     break;
             }
         }
+    });
+
+    // 点击取消
+    $(".userInfoReset").click(function(){
+        $("#userInfoError").addClass('hidden');
+        $("#userInfoSuccess").addClass('hidden');
     });
 
 });
