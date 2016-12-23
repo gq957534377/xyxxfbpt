@@ -61,7 +61,7 @@
         //,theme:'default'
         //,themePath:URL +"themes/"
 
-        ,zIndex : 1     //编辑器层级的基数,默认是900
+        ,zIndex : 9999     //编辑器层级的基数,默认是900
 
         //针对getAllHtml方法，会在对应的head标签中增加该编码设置。
         ,charset:"utf-8"
@@ -111,7 +111,7 @@
         //粘贴只保留标签，去除标签所有属性
         //,retainOnlyLabelPasted: false
 
-        ,pasteplain:true  //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
+        ,pasteplain:false  //是否默认为纯文本粘贴。false为不使用纯文本粘贴，true为使用纯文本粘贴
         //纯文本粘贴模式下的过滤规则
         ,'filterTxtRules' : function(){
             function transP(node){

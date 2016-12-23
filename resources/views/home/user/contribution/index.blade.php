@@ -93,6 +93,7 @@
                      <input hidden type="text" id="status" name="status" value="2">
              </form>
           </div>
+          <button class="btn btn-info btn-sm" id="sa-basic">Click me</button>
           @include('home.public.card')
 
 
@@ -114,5 +115,6 @@
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
     <script src="{{asset('cropper/js/contribution.js')}}"></script>
     <script src="{{asset('home/js/contribution.js')}}"></script>
+
 
 @endsection

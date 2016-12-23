@@ -75,8 +75,8 @@
             </div>
             <div class="modal-footer">
 
-                <button type="submit" data-name="" class="btn btn-danger" id="add_road">拒绝</button>
-                <button type="submit" data-name="" class="btn btn-primary" id="add_road">通过</button>
+                <a href="javascript:;" data-name="' + v.guid + '" data-id="7" class="check_pass"><button type="submit" data-name="" class="btn btn-danger" id="check_pass">拒绝</button></a>
+                <a href="javascript:;" data-name="' + v.guid + '" data-id="6" class="check_pass"><button type="submit" data-name="" class="btn btn-primary">通过</button></a>
             </div>
 
         </div>
@@ -109,25 +109,20 @@
                 SweetAlert.prototype.init = function() {
 
                     //禁用弹出确认框
-                    $('.user_modify').click(function(){
-                        var guid = $(this).data('name');
-                        var id = $(this).data('id');
+                    $('.check_pass').click(function(){
+                        var action = $(this).children().html();
 
                         //获取tr节点
-                        var tr = $(this).parent().parent();
-                        if(id == 2){
-                            var status = '通过';
-                        }else{
-                            var status = '不通过';
-                        }
+
+
 
                         swal({
-                            title: "确定要"+status+"?",
-                            text: "当前操作会"+status+"用户的所有功能!",
+                            title: "确定要"+ action +"?",
+                            text: "当前操作会"+ action +"用户角色申请!",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",
-                            confirmButtonText: status,
+                            confirmButtonText: '',
                             cancelButtonText: "取消",
                             closeOnConfirm: false,
                             closeOnCancel: false
@@ -148,10 +143,13 @@
 //
 //                                    }
 //                                });
-                                swal('chenggong', '该用户已被成功'+status, "success");
+                                swal('操作成功！', '用户审核'+ action, "success");
+                                $('#con123').modal('hide');
+                                tr.remove();
 
                             } else {
-                                swal("Cancelled", "Your imaginary file is safe :)", "error");
+                                swal("操作取消！", "你没有进行任何操作！", "error");
+                                $('#con123').modal('hide');
                             }
                         });
                     });
@@ -177,9 +175,11 @@
          *
          *
          */
+        var tr; //获取审核时对应tr标签节点，审核完成后 执行tr移除操作
         function userCheck() {
             $('.user_check').click(function () {
                 var guid = $(this).data('name');
+                tr = $(this).parent().parent();
                 $('#con123').modal('show');
                 //$('.modal-content').html(guid);
             });
@@ -293,7 +293,7 @@
                     $('#page').html(msg.ResultData[0]);
                     pages();
                     //listenChange();
-
+                    initAlert();
                     userCheck();        //监听审核
 
 
@@ -356,9 +356,15 @@
                     str +=  '<td>女</td>';
                 }
 
-                str += '<td>' + v.birthday + '</td>';
-                str +=  '<td>' + v.tel + '</td>';
-                str +=  '<td>' + v.email + '</td>';
+                str += '<td>';
+                str += v.birthday ? v.birthday : '';
+                str += '</td>';
+                str +=  '<td>';
+                str += v.tel ? v.tel : '';
+                str += '</td>';
+                str +=  '<td>';
+                str += v.email ? v.email : '';
+                str += '</td>';
                 str +=  '<td>';
 
                 if(v.status == 5 && v.role == 2){
@@ -383,7 +389,12 @@
                 str +=  '</td>';
                 str +=  '<td>';
                 if(v.status == 5 || v.status == 7){
-                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_check"><button class="btn btn-success btn-xs">审核</button></a>';
+                    str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
+                            '" data-brithday="'+v.birthday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+
+                            '" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+
+                            '" data-headpic="'+v.headpic+'" data-wechat="'+v.wechat+'" data-introduction="'+v.introduction+
+                            '" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+
+                            '" class="user_check"><button class="btn btn-info btn-xs">审核</button></a>';
                 }
 
 

@@ -23,6 +23,14 @@
         padding: 6px 16px;
     }
 
+    .list-unstyled li{background: red;}
+    .list-unstyled > li{
+        margin-bottom: 10px;
+    }
+    .list-unstyled > li:nth-child(1){
+        margin-bottom: 25px;
+    }
+
 </style>
 <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
 <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
@@ -45,6 +53,75 @@
     <button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
 @endsection
 {{-- 弹出表单结束 --}}
+{{--查看报名用户详情谈框--}}
+<div id="user-info" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" id="fabu">
+        <div class="modal-content">
+            <div id = "" class="modal-header">
+                <h3>用户详细信息</h3><button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li style="line-height: 40px"><strong>头像</strong> :
+                                {{--<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}">--}}
+                                <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                    <div class="row">
+                                        <div id="crop-avatar">
+                                            <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
+                                                <img id="head" class="img-circle" src="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li style="line-height: 40px" style="line-height: 40px"><strong>真实姓名 ：</strong><mark><span id="realname"></span></mark></li>
+                            <li style="line-height: 40px"><strong>昵称 ：</strong><span id="nickname"></span></li>
+                            <li style="line-height: 40px"><strong>性别 ：</strong><span id="sex"></span></li>
+                            <li style="line-height: 40px"><strong>出生日期 ：</strong><span id="birthday"></span></li>
+                            <li style="line-height: 40px"><strong>电话 ：</strong><ins><span id="phone"></span></ins></li>
+                            <li style="line-height: 40px"><strong>邮箱 ：</strong><span id="email"></span></li>
+                            <li style="line-height: 40px"><strong>公司 ： </strong><span id="company"></span></li>
+                            <li style="line-height: 40px"><strong>职位 ：</strong><span id="company_position"></span></li>
+                            <li style="line-height: 40px"><strong>公司地址 ：</strong><span id="company_address" class="text-muted"></span></li>
+
+                            <li style="line-height: 40px"><span></span></li>
+                            <li style="line-height: 40px"><span></span></li>
+                            <li style="line-height: 40px"><span></span></li>
+                            <li style="line-height: 40px"><span></span></li>
+                            <li style="line-height: 40px"><span></span></li>
+                            <li style="line-height: 40px"><span></span></li>
+                            <li style="line-height: 40px"><span></span></li>
+                            <li style="line-height: 40px"><span></span></li>
+                            <li style="line-height: 40px"><span></span></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled1">
+                            <li style="line-height: 40px"><strong>微信 ：</strong> <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                    <div class="row">
+                                        <div id="crop-avatar">
+                                            <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
+                                                <img id="wechat" class="img-rounded" src="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li style="line-height: 40px"><strong>注册时间 ：</strong><span id="addtime"></span></li>
+                            <li style="line-height: 40px" id="role"></li>
+                            <li style="line-height: 40px" id="status"></li>
+                            <li style="line-height: 40px"><strong>个人简介 ：</strong><small id="introduction"></small></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 @if($StatusCode == 200)
     <center><h1>报名表</h1><center>
@@ -81,14 +158,8 @@
     <script src="{{asset('JsService/Model/pageList.js') }}" type="text/javascript"></script>
     <!--alertInfo end-->
     <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
-    {{--富文本--}}
-    <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
-    <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
-    {{--图片剪切--}}
-    <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
-    <script src="{{asset('cropper/js/sitelogo.js')}}"></script>
+
     {{--时间插件--}}
-    <script src="{{asset('/dateTime/build/jquery.datetimepicker.full.js')}}"></script>
     <script src="{{asset('/admin/js/public/dateTime.js')}}"></script>//时间插件配置
     <script type="text/javascript">
         {{--全局变量的设置--}}
@@ -169,12 +240,31 @@
         // 页面加载时触发事件请求分页数据
         function list(action_id, status) {
             var ajax = new ajaxController();
-            var url  = '/action_order/create?action_id='+action_id+'&status=' + status;
+            var url  = '/action_order/create?action_id='+action_id;
             ajax.ajax({
                 url     : url,
                 before  : ajaxBeforeModel,
                 success : actionOrder,
                 error   : ajaxErrorModel,
+            });
+        }
+        function pageUrl(){
+            $('.pagination li').click(function () {
+                var class_name = $(this).prop('class');
+                if (class_name == 'disabled' || class_name == 'active') {
+                    return false;
+                }
+
+                var url = $(this).children().prop('href') + '&action_id='+action_id+'&status=' + list_status;
+
+                var ajax = new ajaxController();
+                ajax.ajax({
+                    url: url,
+                    before: ajaxBeforeModel,
+                    success: actionOrder,
+                    error: ajaxErrorModel
+                });
+                return false;
             });
         }
         list(action_id, list_status);

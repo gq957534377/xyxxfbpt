@@ -58,7 +58,7 @@ $(document).ready(function () {
         var body = $('body');
         body.scrollTop(5);//控制滚动条下移1px
         var b = body.scrollTop();//取得滚动条位置
-        if (b > 0 && measure() > 0) {
+        if (b > 0) {
             body.scrollTop(0);//滚动条返回顶部
             $('header').css('padding-right', width + 15 + 'px');
             $('#userInfoModal').modal('show').on('hidden.bs.modal', function () {

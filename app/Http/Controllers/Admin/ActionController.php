@@ -59,7 +59,6 @@ class ActionController extends Controller
             $where['type'] = $type;
         }
         $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create", $list);
-
         if($result["StatusCode"] == 200){
             foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);

@@ -26,7 +26,7 @@
 
 @endsection
 {{-- AlertInfoEnd --}}
-<h1>英雄会管理</h1>
+<h1>英雄会后台管理系统</h1>
 
 @endsection
 

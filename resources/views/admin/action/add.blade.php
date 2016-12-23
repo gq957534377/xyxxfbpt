@@ -247,6 +247,7 @@
                 ]
             ],
             initialFrameWidth: '100%',
+            initialFrameHeight: '800',
         };
         var ue = UE.getEditor('UE', toolbra);
 
