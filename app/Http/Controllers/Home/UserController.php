@@ -131,20 +131,10 @@ class UserController extends Controller
         $data = $request->all();
         //数据验证过滤
         $validator = Validator::make($request->all(),[
-            'nickname' => 'string',
-            'realname' => 'string',
-            'birthday' => 'string',
-            'sex' => 'integer',
-            'introduction' => 'string|min:50|max:100',
+            'nickname' => 'required|string',
         ],[
+            'nickname.required' => '请输入昵称',
             'nickname.string' => '请输入正确的格式',
-            'realname.string' => '请输入正确的格式',
-            'birthday.string' => '请输入正确的格式',
-            'sex.integer' => '验证字段必须是整型',
-            'introduction.string' => '请输入正确的格式',
-            'introduction.min' => '请输入50个字符以上',
-            'introduction.max' => '输入字符最大长度100个字符',
-
         ]);
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);

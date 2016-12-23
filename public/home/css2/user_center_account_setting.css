@@ -1,0 +1,203 @@
+/*公共部分*/
+.account-setting {
+    background-color: #fafafa;
+    padding: 2% 4.5% 15% 4.5%;
+}
+.account-setting > div:first-child {
+    padding-top: .5em;
+}
+.account-setting > div > span {
+    background: url("../img/vertical_bar.jpg") no-repeat left center;
+    padding-left: 15px;
+    color: #000000;
+    font-weight: 900;
+    font-size: 16px;
+}
+.account-setting > div:first-child > p {
+    font-weight: normal;
+    line-height: 25px;
+    font-size: 14px;
+}
+.form-horizontal .control-label {
+    padding-top: 0;
+    text-align: left;
+    font-weight: normal;
+}
+.security-graph {
+    font-size: 16px;
+    line-height: 1em;
+    padding-top: 3.5em;
+    padding-bottom: 2.5em;
+}
+.security-bar > div {
+    position: relative;
+    margin-top: .35em;
+    height: 6px;
+    border-radius: 6px;
+    background-color: #cfcfcf;
+}
+.security-bar > div > div {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    z-index: 998;
+    top: -3px;
+    left: 0%;
+    border-radius: 6px;
+    background-color: #ff9035;
+}
+.security-bar > div > div > div {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    z-index: 999;
+    top: 3px;
+    left: 3px;
+    border-radius: 3px;
+    background-color: #ffffff;
+}
+.binded {
+    padding-left: 1.2em;
+    background: url("../img/ic_gr.png") no-repeat 0 60%;
+}
+.unbinded {
+    padding-left: 1.2em;
+    background: url("../img/ic_red.png") no-repeat 0 50%;
+}
+.binding {
+    padding: 2em 0;
+}
+.binding > div:first-child {
+    padding-left: 4em;
+}
+.binding > div:last-child {
+    text-align: center;
+}
+.binding > div > a {
+    padding-top: .6em;
+    padding-bottom: .6em;
+    margin-top: 10px;
+}
+.binding-tel {
+    background: url("../img/icon-phone-gray.png") no-repeat 0 40% / 40px 40px;
+}
+.binding-email {
+    background: url("../img/icon-latter-gray.png") no-repeat 0 40% / 40px 40px;
+}
+.binding-key {
+    background: url("../img/icon-lock-gray.png") no-repeat 0 40% / 40px 40px;
+}
+.change-margin {
+    margin-right: 17px;
+}
+.modal-dialog {
+    margin-top: 250px;
+}
+.modal-content {
+    border-radius: 0;
+    font-size: 15px;
+}
+.modal-footer > p > a:hover {
+    color: #ff9035;
+    text-decoration: none;
+}
+.modal-footer > p > a:visited {
+    color: #ff9035;
+    text-decoration: none;
+}
+.my-progress-bar > div {
+    max-width: 85%;
+    margin: .5em auto 0 auto;
+    position: relative;
+    height: 3px;
+    border-radius: 3px;
+    background-color: #f3f3f3;
+}
+.my-progress-bar > div > div {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: -6px;
+    z-index: 998;
+    border-radius: 10px;
+    background-color: #f3f3f3;
+}
+.my-progress-bar > div > div:first-child {
+    left: 0;
+}
+.my-progress-bar > div > div:nth-child(2) {
+    left: 50%;
+}
+.my-progress-bar > div > div:nth-child(3) {
+    left: 100%;
+}
+.my-progress-bar > div > div > div {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    z-index: 999;
+    top: 3px;
+    left: 3px;
+    border-radius: 6px;
+    background-color: #ffffff;
+}
+.my-progress-bar > div > div > p {
+    text-align: center;
+    width: 100px;
+    position: absolute;
+    z-index: 998;
+    left: -42px;
+    top: 20px;
+}
+.change-color {
+    background-color: #ff9035 !important;
+}
+.resend_captcha {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-bottom: 3px;
+}
+.tel-step-two {
+    padding-bottom: 0;
+}
+.tel-step-two > p {
+    margin-top: 50px;
+}
+.tel-step-three > p {
+    margin-top: 50px;
+}
+.tel-step-three > div:nth-child(2) {
+    margin-top: 50px;
+}
+.tel-step-four > p {
+    margin-top: 50px;
+}
+@media (max-width: 767px) {
+    .security-graph {
+        padding-top: 1.5em;
+        padding-bottom: 2.5em;
+    }
+    .security-bar {
+        padding-top: .7em;
+    }
+    .binding > div:last-child {
+        text-align: left;
+    }
+    .modal-footer {
+        padding-top: 0;
+    }
+    .my-progress-bar > div {
+        max-width: 78%;
+    }
+    .resend_captcha {
+        margin-top: 10px;
+    }
+}
+/*屏幕宽度大于等于768px*/
+@media (min-width: 768px) and (max-width: 991px){
+    .security-bar {
+        padding-top: .7em;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+}
