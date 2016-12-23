@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Tools\Common;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -11,6 +12,7 @@ use App\Services\UserService as UserServer;
 use App\Services\UploadService as UploadServer;
 use Illuminate\Support\Facades\Validator;
 use App\Tools\Avatar;
+use App\Tools\Upload;
 use App\Services\CommentAndLikeService as CommentServer;
 use Illuminate\Support\Facades\Session;
 
@@ -194,6 +196,30 @@ class UserController extends Controller
         return response()->json($info);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
+    public function uploadCard(Request $request)
+    {
+        //数据验证过滤
+        $validator = Validator::make($request->all(),[
+            'card_pic' => 'required|mimes:png,gif,jpeg,jpg,bmp'
+        ],[
+            'card_pic.required' => '上传文件为空!',
+            'card_pic.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
+
+        ]);
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        // 上传
+        $result = Upload::UploadFile($request->file('card_pic'));
+
+        return response()->json($result);
+
+    }
     /**
      * 修改账号密码
      * @param Request $request

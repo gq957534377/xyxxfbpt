@@ -4,8 +4,18 @@
 
 @section('style')
     <link href="{{ asset('home/css/user_center_identity-info.css') }}" rel="stylesheet">
-    <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
-    <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
+    <style>
+        .card-view {
+            display: block;
+            width: 320px;
+            height: 220px;
+            border: 3px solid #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,.15);
+            cursor: pointer;
+            overflow: hidden;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -67,12 +77,12 @@
                             <input name="syb_tel" type="text" class="form-control" placeholder="请输入您的手机号！">
                         </div>
                     </div>
-                    <div class="form-group mar-b30">
-                        <label for="identity-num" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>身份证号</label>
-                        <div class="col-md-5">
-                            <input name="syb_card" type="text" class="form-control" placeholder="请输入您的身份证号！">
-                        </div>
-                    </div>
+                    {{--<div class="form-group mar-b30">--}}
+                        {{--<label for="identity-num" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>身份证号</label>--}}
+                        {{--<div class="col-md-5">--}}
+                            {{--<input name="syb_card" type="text" class="form-control" placeholder="请输入您的身份证号！">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="form-group mar-b30">
                         <label for="invest-area" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>创业领域</label>
                         <div class="col-md-5">
@@ -97,27 +107,29 @@
                     </div>
                     <div class="form-group mar-b30">
                         <label for="inputfile" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>上传身份证（正面）</label>
-                        <input type="hidden" name="syb_card_pic">
+                        <input type="hidden" name="syb_card_a">
                         <div class="col-md-5">
-                            <div class="ibox-content">
-                                <div class="row">
-                                    <div id="crop-avatar" class="col-md-6">
-                                        <div class="avatar-view" title="">
-                                            <img id="syb_card_a" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <img id="syb_card_b" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
-                                        <input type="file" name="card_pic_b" style="display: none;">
-                                    </div>
-                                </div>
+                            <div class="card-view">
+                                <img id="syb_card_a" src="{{ asset('home/img/upload-card.png') }}" style="cursor: pointer;">
                             </div>
                         </div>
 
                     </div>
+
+                    <div class="form-group mar-b30">
+                        <label for="inputfile" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>上传身份证（反面）</label>
+                        <input type="hidden" name="syb_card_b">
+                        <div class="col-md-5">
+                            <div class="card-view">
+                                <img  id="syb_card_b" src="{{ asset('home/img/upload-card.png') }}"  style="cursor: pointer;">
+                                {{--公用一个上传input--}}
+                                <input type="file" name="card_pic" id="card_upload" style="display: none;">
+                                {{--公用一个上传input--}}
+                            </div>
+                        </div>
+
+                    </div>
+
                     <div class="form-group">
                         <!--col-sm-offset-2-->
                         <div class="col-xs-4 col-sm-3 col-md-offset-2 col-md-2">
@@ -157,12 +169,12 @@
                             <input name="investor_tel" type="text" class="form-control" placeholder="请输入您的手机号！">
                         </div>
                     </div>
-                    <div class="form-group mar-b30">
-                        <label for="identity-num" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>身份证号</label>
-                        <div class="col-md-5">
-                            <input type="text" class="form-control" name="investor_card" placeholder="请输入您的身份证号！">
-                        </div>
-                    </div>
+                    {{--<div class="form-group mar-b30">--}}
+                        {{--<label for="identity-num" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>身份证号</label>--}}
+                        {{--<div class="col-md-5">--}}
+                            {{--<input type="text" class="form-control" name="investor_card" placeholder="请输入您的身份证号！">--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                     <div class="form-group mar-b30">
                         <label for="invest-area" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>投资领域</label>
                         <div class="col-md-5">
@@ -221,9 +233,44 @@
 @section('script')
     <script src="{{ asset('home/js/user/applySybValidate.js') }}"></script>
     <script src="{{ asset('home/js/user/applyInvestorValidate.js') }}"></script>
-    <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
-    <script src="{{asset('cropper/js/upload.js')}}"></script>
+    <script src="{{asset('home/js/upload/uploadCommon.js')}}"></script>
 <script>
+
+    //  异步上传身份证照
+    var upload = new uploadCommon();
+
+    var originalPic = $(this).attr('src');
+
+    $("#syb_card_a").click(function(){
+
+        $("#card_upload").trigger('click');
+
+        upload.upload({
+            inputObj    : $("#card_upload"),
+            imgObj      : $("#syb_card_a"),
+            url         : '/uploadcard',
+            type        : 'POST',
+            loadingPic  : '/home/img/loading.gif',
+            originalPic : originalPic,
+            hideinput   : $("input[name = 'syb_card_a']")
+        });
+    });
+
+    $("#syb_card_b").click(function(){
+
+        $("#card_upload").trigger('click');
+
+        upload.upload({
+            inputObj    : $("#card_upload"),
+            imgObj      : $("#syb_card_b"),
+            url         : '/uploadcard',
+            type        : 'POST',
+            loadingPic  : '/home/img/loading.gif',
+            originalPic : originalPic,
+            hideinput   : $("input[name = 'syb_card_b']")
+        });
+    });
+
     // tabs 切换
     $('.tabs_btn').click(function(){
         $(this).addClass('active').siblings().removeClass('active');
@@ -304,19 +351,6 @@
     }
 
     loadAjax();
-
-
-    $("#syb_card_a").click(function(){
-        sendParam($('#crop-avatar'), '#syb_card_a');
-    });
-
-    $("#investor_card_a").click(function(){
-        sendParam($('#crop-avatar2'), '#investor_card_a', '1.6');
-    });
-    $("#investor_card_b").click(function(){
-        sendParam($('#crop-avatar3'), '#investor_card_b', '1.6');
-    });
-
 
 </script>
 

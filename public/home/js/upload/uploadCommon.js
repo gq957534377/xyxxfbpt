@@ -5,25 +5,18 @@ function uploadCommon()
     this.data = {};
 }
 
-uploadCommon.prototype.ajaxHead = function () {
-
-    $.ajaxSetup({
-        headers : {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        }
-    });
-};
-
 uploadCommon.prototype.upload = function (param) {
 
-    this.ajaxHead();
-
-    param.inputObj.trigger('click');
-
-    inputObj.on('change', function(){
+    param.inputObj.on('change', function(){
         var obj = this;
         var formData = new FormData();
         formData.append(param.inputObj.attr('name'), this.files[0]);
+
+        $.ajaxSetup({
+            headers : {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            }
+        });
 
         $.ajax({
             url         : param.url,
@@ -33,13 +26,14 @@ uploadCommon.prototype.upload = function (param) {
             processData : false,
             contentType : false,
             beforeSend  : function(){
-                param.beforeSend;
+                param.imgObj.attr('src', param.loadingPic);
             },
             success     : function(msg){
                 if (msg.StatusCode == '200') {
                     param.imgObj.attr('src', msg.ResultData);
+                    param.hideinput.val(msg.ResultData);
                 }else{
-                    param.afterSend;
+                    param.imgObj.attr('src', param.originalPic);
                     alert(msg.ResultData);
                 }
             },
@@ -47,7 +41,7 @@ uploadCommon.prototype.upload = function (param) {
                 var number = XMLHttpRequest.status;
                 var info = "错误号:"+number+",文件上传失败!";
                 // 将菊花图换成原图
-                param.afterSend;
+                param.imgObj.attr('src', param.originalPic);
 
                 alert(info);
             },
@@ -57,17 +51,3 @@ uploadCommon.prototype.upload = function (param) {
     });
 
 };
-
-
-// ajax 请求前
-
-function ajaxBeforeSend (obj, loadingPic)
-{
-    obj.attr('src', loadingPic);
-}
-
-// ajax 请求后
-function ajaxAfterSend (obj, originalPic)
-{
-    obj.attr('src', originalPic);
-}
