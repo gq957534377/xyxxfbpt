@@ -37,11 +37,12 @@
 #touxiang .avatar-view{
     width: 80px;
 }
-#chengyuan {
+#chengyuan,#exp_brief{
     display: inline-block;
     width: 100%;
 }
-#chengyuan li{
+
+#chengyuan li,#exp_brief li{
     float: left;
     padding-left: 5px;
 }

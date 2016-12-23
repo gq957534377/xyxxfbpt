@@ -90,136 +90,19 @@
             <span style="word-break: keep-all" class="col-md-3 col-lg-2 control-label mar-b10 dis-in-bl mar-xs--b">项目历程(选填)</span>
             <div class='col-md-8'>
               <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
-                <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
+                <input id="pro_exp_time" placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
               </div>
             </div>
           </div>
           <div class="form-group mar-b15 mar-b15-xs line-h-3">
             <div class="col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6">
-              <input type="text" class="form-control form-title" id="project-content" placeholder="此处填写本次历程内容">
+              <input type="hidden" id="expStore" name="project_experience">
+              <input id="exp_text" type="text" class="form-control form-title" id="project-content" placeholder="此处填写本次历程内容">
             </div>
           </div>
           <!--项目历程 结束-->
-
-          <!--添加项目历程开始-->
-          <div id="pro_exo_1" class='hiddens form-group line-h-3'>
-            <span class='col-md-3 col-lg-2 control-label dis-in-bl ht-px34 hidden-sm hidden-xs'></span>
-            <div class='col-md-8'>
-              <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
-                <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
-              </div>
-            </div>
-          </div>
-          <div id="pro_exo_1s" class='hiddens form-group mar-b15 mar-b15-xs line-h-3'>
-            <div class='col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6'>
-              <input type='text' class='form-control form-title' id='project-content' placeholder='此处填写本次历程内容'>
-            </div>
-          </div>
-          <div id="pro_exo_2" class='hiddens form-group line-h-3'>
-            <span class='col-md-3 col-lg-2 control-label dis-in-bl ht-px34 hidden-sm hidden-xs'></span>
-            <div class='col-md-8'>
-              <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
-                <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
-              </div>
-            </div>
-          </div>
-          <div id="pro_exo_2s" class='hiddens form-group mar-b15 mar-b15-xs line-h-3'>
-            <div class='col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6'>
-              <input type='text' class='form-control form-title' id='project-content' placeholder='此处填写本次历程内容'>
-            </div>
-          </div>
-          <div id="pro_exo_3" class='hiddens form-group line-h-3'>
-            <span class='col-md-3 col-lg-2 control-label dis-in-bl ht-px34 hidden-sm hidden-xs'></span>
-            <div class='col-md-8'>
-              <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
-                <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
-              </div>
-            </div>
-          </div>
-          <div id="pro_exo_3s" class='hiddens form-group mar-b15 mar-b15-xs line-h-3'>
-            <div class='col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6'>
-              <input type='text' class='form-control form-title' id='project-content' placeholder='此处填写本次历程内容'>
-            </div>
-          </div>
-          <div id="pro_exo_4" class='hiddens form-group line-h-3'>
-            <span class='col-md-3 col-lg-2 control-label dis-in-bl ht-px34 hidden-sm hidden-xs'></span>
-            <div class='col-md-8'>
-              <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
-                <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
-              </div>
-            </div>
-          </div>
-          <div id="pro_exo_4s" class='hiddens form-group mar-b15 mar-b15-xs line-h-3'>
-            <div class='col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6'>
-              <input type='text' class='form-control form-title' id='project-content' placeholder='此处填写本次历程内容'>
-            </div>
-          </div>
-          <div id="pro_exo_5" class='hiddens form-group line-h-3'>
-            <span class='col-md-3 col-lg-2 control-label dis-in-bl ht-px34 hidden-sm hidden-xs'></span>
-            <div class='col-md-8'>
-              <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
-                <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
-              </div>
-            </div>
-          </div>
-          <div id="pro_exo_5s" class='hiddens form-group mar-b15 mar-b15-xs line-h-3'>
-            <div class='col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6'>
-              <input type='text' class='form-control form-title' id='project-content' placeholder='此处填写本次历程内容'>
-            </div>
-          </div>
-          <div id="pro_exo_6" class='hiddens form-group line-h-3'>
-            <span class='col-md-3 col-lg-2 control-label dis-in-bl ht-px34 hidden-sm hidden-xs'></span>
-            <div class='col-md-8'>
-              <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
-                <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
-              </div>
-            </div>
-          </div>
-          <div id="pro_exo_6s" class='hiddens form-group mar-b15 mar-b15-xs line-h-3'>
-            <div class='col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6'>
-              <input type='text' class='form-control form-title' id='project-content' placeholder='此处填写本次历程内容'>
-            </div>
-          </div>
-          <div id="pro_exo_7" class='hiddens form-group line-h-3'>
-            <span class='col-md-3 col-lg-2 control-label dis-in-bl ht-px34 hidden-sm hidden-xs'></span>
-            <div class='col-md-8'>
-              <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
-                <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
-              </div>
-            </div>
-          </div>
-          <div id="pro_exo_7s" class='hiddens form-group mar-b15 mar-b15-xs line-h-3'>
-            <div class='col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6'>
-              <input type='text' class='form-control form-title' id='project-content' placeholder='此处填写本次历程内容'>
-            </div>
-          </div>
-          <div id="pro_exo_8" class='hiddens form-group line-h-3'>
-            <span class='col-md-3 col-lg-2 control-label dis-in-bl ht-px34 hidden-sm hidden-xs'></span>
-            <div class='col-md-8'>
-              <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
-                <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
-              </div>
-            </div>
-          </div>
-          <div id="pro_exo_8s" class='hiddens form-group mar-b15 mar-b15-xs line-h-3'>
-            <div class='col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6'>
-              <input type='text' class='form-control form-title' id='project-content' placeholder='此处填写本次历程内容'>
-            </div>
-          </div>
-          <div id="pro_exo_9" class='hiddens form-group line-h-3'>
-            <span class='col-md-3 col-lg-2 control-label dis-in-bl ht-px34 hidden-sm hidden-xs'></span>
-            <div class='col-md-8'>
-              <div class='col-xs-8 col-sm-8 col-md-8 pad-clr'>
-                <input placeholder="此处单击填写下方内容发生的时间" class='form-control pad-cr-xs pad-l5-xs chr-c date-time' />
-              </div>
-            </div>
-          </div>
-          <div id="pro_exo_9s" class='hiddens form-group mar-b15 mar-b15-xs line-h-3'>
-            <div class='col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6'>
-              <input type='text' class='form-control form-title' id='project-content' placeholder='此处填写本次历程内容'>
-            </div>
-          </div>
-          <!--添加项目历程 结束-->
+          <ul id="exp_brief">
+          </ul>
           <!--添加 删除 开始-->
           <div class="form-group">
             <!--col-sm-offset-2-->
@@ -379,7 +262,6 @@
   <script src="{{asset('home/js/projectValidate.js')}}"></script>
   <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
   <script src="{{asset('cropper/js/projectCreatCooper.js')}}"></script>
-  {{--<script src="{{asset('cropper/js/zxzCooperClass.js')}}"></script>--}}
   <script>
     //图片上传开始
     var DOM = $('#fask').html();
@@ -408,40 +290,59 @@
       sendParam($('#rongqi'),'.rongqiImg',size, $('#touxiangUrl'));
       $('#rongqi div').trigger('click');
     });
-    //图片上传结束
-    var Pro_Exp_Num = 1;
-    $('#add_Pro_Exp').click(function () {
-      var Pro_Exo = '#pro_exo_'+Pro_Exp_Num;
-      var Pro_Exos = '#pro_exo_'+Pro_Exp_Num+'s';
-      $(Pro_Exo).toggleClass('hiddens');
-      $(Pro_Exos).toggleClass('hiddens');
-      Pro_Exp_Num ++;
-      selectBtn();
-    });
-    $('#del_Pro_Exp').click(function () {
-      Pro_Exp_Num --
-      var Pro_Exo = '#pro_exo_'+Pro_Exp_Num;
-      var Pro_Exos = '#pro_exo_'+Pro_Exp_Num+'s';
-      $(Pro_Exo).toggleClass('hiddens');
-      $(Pro_Exos).toggleClass('hiddens');
-      $(Pro_Exo+" input").val("");
-      $(Pro_Exos+" input").val("");
-      selectBtn();
-    });
-    function selectBtn() {
-      if (Pro_Exp_Num ==9){
-        $('#add_Pro_Exp').addClass('hiddens');
-      }else if (Pro_Exp_Num ==1){
-        $('#del_Pro_Exp').addClass('hiddens');
-      }else {
-        $('#add_Pro_Exp').removeClass('hiddens');
-        $('#del_Pro_Exp').removeClass('hiddens');
-      }
-    }
+
     function createH(){
       $('#fask').html(DOM);
     }
+    //图片上传结束
 
+    //项目历程代码块开始
+    var expNum = 0;
+    $('#add_Pro_Exp').click(function () {
+      var time = $('#pro_exp_time').val();
+      var content = $('#exp_text').val();
+      if (strEmpty(time)&&strEmpty(content)) {
+        $('#pro_exp_time').val("");
+        $('#exp_text').val("");
+        var temp1 = $('#expStore').val();
+        var temp2 = time +":"+ content+ "*zxz*";
+        $('#expStore').val(temp1+temp2);
+        expNum++;
+        expBriefAdd(content);
+        if(expNum == 1){
+          $('#del_Pro_Exp').removeClass('hiddens');
+        }
+        if(expNum == 10){
+          $(this).addClass('hiddens');
+        }
+      }else {
+        alert('历程时间与对应历程不可为空！')
+      }
+    });
+    function expBriefAdd(str) {
+      if(str.length<=4){
+        var newStr = expNum+'.'+str;
+      }else {
+        var newStr =expNum+'.'+ str.substring(0,4)+'...';
+      }
+      $('#exp_brief').append("<li>"+newStr+"</li>");
+    }
+    $('#del_Pro_Exp').click(function () {
+      $('#expStore').val(delPeopleStr($('#expStore').val()));
+      expNum--;
+      $('#exp_brief li').eq(expNum).remove();
+
+      if (expNum == 0){
+        $(this).addClass('hiddens');
+      }
+
+      if (expNum == 9){
+        $('#add_Pro_Exp').removeClass('hiddens');
+      }
+    });
+    //项目历程代码块结束
+
+    //核心成员代码块开始
     var chengyuanNum = 0;
     $('#addPeople').click(function () {
       var peoplesName = $('#member-name').val();
@@ -449,7 +350,7 @@
       var peoplesImg = $('#touxiangUrl').val();
       var peoplesIntroduce =$('#member-introduce').val();
       if (strEmpty(peoplesIntroduce)&&strEmpty(peoplesImg)&&strEmpty(peoplesName)&&strEmpty(peoplesPosition)) {
-        var Str = peoplesName + ',' + peoplesImg + ',' + peoplesPosition + ',' + peoplesIntroduce +';';
+        var Str = peoplesName + ',' + peoplesImg + ',' + peoplesPosition + ',' + peoplesIntroduce +'*zxz*';
         if(strStore(Str)){
           clearInput();
           chengyuanNum++;
@@ -507,6 +408,7 @@
 
     function clearHiddenInput() {
       $('#peopleStore').val('');
+      $('#expStore').val('');
       $('#logoUrl').val('');
       $('#bannerUrl').val('');
       $('#touxiangUrl').val('');
@@ -515,12 +417,13 @@
     clearHiddenInput();
 
     function delPeopleStr(str) {
-      var newArr = str.split(';');
+      var newArr = str.split('*zxz*');
       if (newArr.length == 2){
         return "";
       }
       newArr.splice(newArr.length-2,1);
-      return newArr.join(';');
+      return newArr.join('*zxz*');
     }
+    //核心成员代码块结束
   </script>
 @endsection
