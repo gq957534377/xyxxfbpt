@@ -1,0 +1,157 @@
+.my-home {
+    background-color: #fafafa;
+    padding: 2% 2.5% 5% 2.5%;
+    margin-bottom: 10px;
+}
+
+.b-all-3 {
+    border: 2px solid #e3e3e3;
+}
+
+.my-home-basic img {
+    width: 80px;
+}
+.my-home-basic > div:nth-child(2) {
+    margin-top: 11px;
+}
+.my-home-basic > div:nth-child(2) > p:nth-child(1) {
+    padding-left: .45em;
+}
+.my-home-basic > div:nth-child(2) > p:nth-child(1) > a {
+    padding-left: 2.5em;
+    color: #6699ff;
+    background: url("../img/pen.png") no-repeat 35% center;
+}
+.my-home-basic > div:nth-child(2) > p:nth-child(1) > a:hover {
+    color: #ff9035;
+    text-decoration: none;
+}
+.my-home-basic > div:nth-child(2) > p:nth-child(2) {
+    padding-left: 2em;
+    margin-bottom: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: url("../img/icon-phone-gray.png") no-repeat left center / 26px 26px;
+}
+.my-home-basic > div:nth-child(2) > p:nth-child(3) {
+    padding-left: 2.5em;
+    margin-bottom: 0;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background: url("../img/icon-latter-gray.png") no-repeat left 75% / 26px 26px;
+}
+.my-home-entrepreneur-info > div {
+    float: right;
+}
+.my-home-entrepreneur-info > div > p {
+    text-align: center;
+}
+.my-home-entrepreneur-info > div > p:nth-child(1) {
+    color: #ff9035;
+}
+.my-home-entrepreneur-info > div > p:nth-child(2) {
+    color: #000;
+}
+.my-home-entrepreneur-info > div:nth-child(1) {
+    padding: 13px 24px;
+    margin-left: .6em;
+}
+.my-home-entrepreneur-info > div:nth-child(2) {
+    padding: 13px 24px;
+}
+
+.my-home-min {
+    margin-top: 1.5em;
+    border-radius: 5px;
+    min-height:50px;
+}
+.my-home-info {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.my-home-title {
+    color: #333;
+    font-weight: 900;
+    margin-top: .9em;
+}
+.my-home-title > span {
+    color: #fff;
+    font-weight: normal;
+    margin-left: 1em;
+    padding: .15em .4em .15em .4em;
+}
+.my-home-content {
+    margin-top: .5em;
+    padding-top: 2em;
+    border-top: 1px solid #cccccc;
+}
+.my-home-content > p {
+    margin-bottom: 15px;
+}
+.my-home-content > p > span {
+    color: #333;
+}
+/*.my-home-content {*/
+    /*margin-top: .5em;*/
+    /*padding-top: 2em;*/
+    /*border-top: 1px solid #cccccc;*/
+/*}*/
+/*.my-home-content > p {*/
+    /*margin-bottom: 15px;*/
+/*}*/
+
+.my-home-content > .com-bot {
+    text-align: center;
+    max-width:210px;
+    margin: 1.5em auto .35em auto;
+    padding-bottom: 30px;
+
+}
+.my-home-content > .com-bot a {
+    display: block;
+    padding-left: 75px;
+    padding-right: 75px;
+    max-width: 210px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.my-home-auth {
+    line-height: 80px;
+}
+.my-home-auth > a {
+    display: inline-block;
+    float: right;
+    margin-top: 1em;
+    line-height: 35px;
+}
+
+
+@media (max-width: 767px) {
+    .my-home > div:nth-child(2) {
+        margin-top: 1em;
+        padding-left: 0;
+    }
+    .my-home > div:nth-child(2) > div {
+        float: left;
+        margin-right: 1em;
+    }
+    .my-home-auth > a {
+        display: inline-block;
+        float: left;
+        line-height: 25px;
+        margin-bottom: 1em;
+    }
+}
+/*屏幕宽度大于等于768px*/
+@media (min-width: 768px) and (max-width: 991px){
+    .my-home > div:nth-child(2) {
+        margin-top: 1em;
+        padding-left: 0;
+    }
+    .my-home > div:nth-child(2) > div {
+        float: left;
+        margin-right: 1em;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+}

@@ -6,14 +6,19 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>琦立英雄会--@yield('title','用户中心')</title>
 
-    @include('home.public.userStyle')
+    @include('home.public.style')
     <link href="{{ asset('home/css/user_center_aside.css') }}" rel="stylesheet">
+
     @yield('style')
 
 </head>
 <body>
 
 @include('home.public.header')
+
+@section('menu')
+    @include('home.public.nav')
+@show
 
 <!--移动设备menu开始-->
 @include('home.user.mobileSidebar')

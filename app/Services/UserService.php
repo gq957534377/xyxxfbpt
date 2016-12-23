@@ -505,9 +505,9 @@ class UserService {
         // 查询不为空
         if(!empty($info)) {
             // 判断审批状态
-            if ($info->status == '1') {
+            if ($info->status == '5') {
                 return ['StatusCode' => '400', 'ResultData' => '您已有申请项，正在审核中，请耐心等待...'];
-            } else if ($info->status == '2') {
+            } else if ($info->status == '7') {
                 return ['StatusCode' => '400', 'ResultData' => '已申请成功，无需再次申请。'];
             }
         };

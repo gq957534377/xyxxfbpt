@@ -70,10 +70,11 @@ class RoleController extends Controller
             'realname' => 'required|min:2',
             'subject' => 'required',
             'tel' => 'required|min:11',
-            'card_number' => 'required|min:16|max:18',
+//            'card_number' => 'required|min:16|max:18',
             'field' => 'required',
             'stage' => 'required',
             'card_pic_a' => 'required',
+            'card_pic_b' => 'required',
         ],[
             'guid.required' => '非法操作!<br>',
             'role.required' => '非法操作!<br>',
@@ -82,16 +83,18 @@ class RoleController extends Controller
             'subject' => '请选择主体<br>',
             'tel.required' => '请填写您的手机号码<br>',
             'tel.min' => '手机号码标准11位<br>',
-            'card_number.required' => '请填写您的真实身份证件号',
-            'card_number.min' => '身份证件号16-18位<br>',
-            'card_number.max' => '身份证件号16-18位<br>',
+//            'card_number.required' => '请填写您的真实身份证件号',
+//            'card_number.min' => '身份证件号16-18位<br>',
+//            'card_number.max' => '身份证件号16-18位<br>',
             'field.required' => '请选择领域<br>',
             'stage.required' => '请选择阶段<br>',
             'card_pic_a.required' => '请上传您的出身份证正面照',
+            'card_pic_a.required' => '请上传您的出身份证反面照',
         ]);
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 
+        $data['addtime'] = $_SERVER['REQUEST_TIME'];
         // 提交数据到业务服务层
         $info = self::$userServer->applyRole($data);
 

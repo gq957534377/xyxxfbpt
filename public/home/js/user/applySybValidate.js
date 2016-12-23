@@ -20,9 +20,9 @@
             return this.optional(element) || (length == 11 && mobile.test(value));
         }, "请正确填写您的手机号码");
         // 身份证号码验证
-        $.validator.addMethod("isIdCardNo", function(value, element) {
-            return this.optional(element) || idCardNoUtil.checkIdCardNo(value);
-        }, "请正确输入您的身份证号码");
+        // $.validator.addMethod("isIdCardNo", function(value, element) {
+        //     return this.optional(element) || idCardNoUtil.checkIdCardNo(value);
+        // }, "请正确输入您的身份证号码");
 
         // ajax 异步
         $.validator.setDefaults({
@@ -39,10 +39,11 @@
                 data.append( "syb_realname"      , $("input[name= 'syb_realname']").val());
                 data.append( "syb_subject"      , $("#syb_subject").val());
                 data.append( "syb_tel"      , $("input[name= 'syb_tel']").val());
-                data.append( "syb_card"       , $("input[name= 'syb_card']").val());
+                // data.append( "syb_card"       , $("input[name= 'syb_card']").val());
                 data.append( "syb_field"       , $("#syb_field").val());
                 data.append( "syb_stage"       , $("#syb_stage").val());
-                data.append( "syb_card_pic"       , $("input[name= 'syb_card_pic']").val());
+                data.append( "syb_card_a"       , $("input[name= 'syb_card_a']").val());
+                data.append( "syb_card_b"       , $("input[name= 'syb_card_b']").val());
                 //开始正常的ajax
                 // 异步登录
                 $.ajax({
@@ -57,10 +58,11 @@
                         'realname': $("input[name= 'syb_realname']").val(),
                         'subject': $("#syb_subject").val(),
                         'tel': $("input[name= 'syb_tel']").val(),
-                        'card_number': $("input[name= 'syb_card']").val(),
+                        // 'card_number': $("input[name= 'syb_card']").val(),
                         'field': $("#syb_field").val(),
                         'stage': $("#syb_stage").val(),
-                        'card_pic_a': $("input[name= 'syb_card_pic']").val()
+                        'card_pic_a': $("input[name= 'syb_card_a']").val(),
+                        'card_pic_b': $("input[name= 'syb_card_a']").val()
                     },
                     success:function(data){
                         switch (data.StatusCode){
@@ -94,17 +96,20 @@
                     required: true,
                     isMobile: true
                 },
-                syb_card: {
-                    required: true,
-                    isIdCardNo: true
-                },
+                // syb_card: {
+                //     required: true,
+                //     isIdCardNo: true
+                // },
                 syb_field: {
                     required: true,
                 },
                 syb_stage: {
                     required: true,
                 },
-                syb_card_pic: {
+                syb_card_a: {
+                    required: true
+                },
+                syb_card_b: {
                     required: true
                 }
             },
@@ -120,18 +125,21 @@
                     required: "请输入手机号！",
                     isMobile: "手机号格式不对"
                 },
-                syb_card: {
-                    required: "请输入身份证号！",
-                    isIdCardNo: "请正确输入您的身份证号码"
-                },
+                // syb_card: {
+                //     required: "请输入身份证号！",
+                //     isIdCardNo: "请正确输入您的身份证号码"
+                // },
                 syb_field: {
                     required: "请选择创业领域"
                 },
                 syb_stage: {
                     required: "请选择创业阶段",
                 },
-                syb_card_pic: {
-                    required: "请上传身份证证件照"
+                syb_card_a: {
+                    required: "请上传身份证证件照正面"
+                },
+                syb_card_b: {
+                    required: "请上传身份证证件照反面"
                 }
             }
         });
