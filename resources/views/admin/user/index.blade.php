@@ -114,13 +114,13 @@
                                     </li>
                                     <li><strong>真实姓名 ：</strong><mark><span id="realname"></span></mark></li>
                                     <li><strong>昵称 ：</strong><span id="nickname"></span></li>
-                                    <li>性别 ：<span id="sex"></span></li>
+                                    <li><strong>性别 ：</strong><span id="sex"></span></li>
                                     <li><strong>出生日期 ：</strong><span id="birthday"></span></li>
-                                    <li>电话 ：<span id="phone"></span></li>
+                                    <li><strong>电话 ：</strong><ins><span id="phone"></span></ins></li>
                                     <li><strong>邮箱 ：</strong><span id="email"></span></li>
-                                    <li>公司 ： <span id="company"></span></li>
+                                    <li><strong>公司 ： </strong><span id="company"></span></li>
                                     <li><strong>职位 ：</strong><span id="company_position"></span></li>
-                                    <li>公司地址 ：<span id="company_address"></span></li>
+                                    <li><strong>公司地址 ：</strong><span id="company_address" class="text-muted"></span></li>
 
                                     <li><span></span></li>
                                     <li><span></span></li>
@@ -145,10 +145,10 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li>注册时间 ：<span id="addtime"></span></li>
+                                    <li><strong>注册时间 ：</strong><span id="addtime"></span></li>
                                     <li id="role"></li>
                                     <li id="status"></li>
-                                    <li>个人简介 ：<small id="introduction"></small></li>
+                                    <li><strong>个人简介 ：</strong><small id="introduction"></small></li>
                                 </ul>
                             </div>
 
@@ -306,7 +306,7 @@
                 }
                 $('#sex').text(sex);
                 $('#birthday').text(data.birthday);
-                $('#phone').text(data.phone);
+                $('#phone').text(data.tel);
                 $('#email').text(data.email);
                 $('#company').text(data.company);
                 $('#company_position').text(data.company_position ? data.company_position : '');
@@ -317,13 +317,13 @@
                 //角色身份选择
                 switch (data.role){
                     case 1 :
-                        var str = '身份 ：<span class="text-info text-xs">普通用户&nbsp;</span>';
+                        var str = '<strong>身份 ：</strong><span class="text-info text-xs">普通用户&nbsp;</span>';
                         break;
                     case 2 :
-                        var str = '身份 ：<span class="text-warning text-xs">创业者&nbsp;</span>';
+                        var str = '<strong>身份 ：</strong><span class="text-warning text-xs">创业者&nbsp;</span>';
                         break;
                     case 3 :
-                        var str = '身份 ：<span class="text-success text-xs">投资者&nbsp;</span>';
+                        var str = '<strong>身份 ：</strong><span class="text-success text-xs">投资者&nbsp;</span>';
                         break;
                 }
                 //会员身份选择
@@ -341,10 +341,10 @@
                 //状态匹配
                 switch (data.status){
                     case 1:
-                        var status = '当前状态 ：<span class="text-primary text-xs">正常使用中&nbsp;</span>';
+                        var status = '<strong>当前状态 ：</strong><span class="text-primary text-xs">正常使用中&nbsp;</span>';
                         break;
                     default:
-                        var status = '当前状态 ：<span class="text-danger text-xs">禁用中&nbsp;</span>';
+                        var status = '<strong>当前状态 ：</strong><span class="text-danger text-xs">禁用中&nbsp;</span>';
                 }
                 $('#status').html(status);
                 $('#introduction').text(data.introduction ? data.introduction : '');
