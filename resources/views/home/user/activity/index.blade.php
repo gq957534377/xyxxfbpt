@@ -27,11 +27,11 @@
                 <p>活动状态：</p>
             </div>
             <ul class="col-sm-9 col-md-9 col-lg-10 road-time mar-clr pad-clr">
-                <li class='pad-r2-xs active'><a href="#">全部</a></li>
-                <li class='pad-r2-xs'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=1')}}">报名中</a></li>
-                <li class='pad-r2-xs'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=5')}}">等待开始</a></li>
-                <li class='pad-r2-xs'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=2')}}">进行中</a></li>
-                <li class='pad-r2-xs'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=3')}}">已结束</a></li>
+                <li class='pad-r2-xs @if($status == 6) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'])}}">全部</a></li>
+                <li class='pad-r2-xs @if($status == 1) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=1')}}">报名中</a></li>
+                <li class='pad-r2-xs @if($status == 5) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=5')}}">等待开始</a></li>
+                <li class='pad-r2-xs @if($status == 2) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=2')}}">进行中</a></li>
+                <li class='pad-r2-xs @if($status == 3) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=3')}}">已结束</a></li>
             </ul>
         </div>
 
@@ -42,6 +42,7 @@
                 <span style="color: #999999">你还未参加任何活动呦~亲 O(∩_∩)O~</span>
             </li>
             @elseif($StatusCode == '200')
+            <div id="list">
             @foreach($ResultData['data'] as $action)
                 <div class="row mar-clr bb-3">
                     <div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">
@@ -79,6 +80,7 @@
                     </div>
                 </div>
         @endforeach
+                </div>
                 <div class="panel" id="data">{!! $ResultData['pages'] !!}</div>
         @else
             <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -93,25 +95,34 @@
 
 @section('script')
 <script>
-    {{--var status = "{{$status}}";--}}
-//    function getPage() {
-//        $('.pagination li').click(function () {
-//            var class_name = $(this).prop('class');
-//            if (class_name == 'disabled' || class_name == 'active') {
-//                return false;
-//            }
-//
-//            var url = $(this).children().prop('href') + '&list=' + list + '&status=' + status;
-//
-//            $.ajax({
-//                url: url,
-//                success: function (data) {
-//                    console.log(data);
-//                },
-//            });
-//            return false;
-//        });
-//    }
-//    getPage();
+    var status = "{{$status}}";
+    var list = "{{$ResultData['list']}}";
+    function getPage() {
+        $('.pagination li').click(function () {
+            var class_name = $(this).prop('class');
+            if (class_name == 'disabled' || class_name == 'active') {
+                return false;
+            }
+
+            var url;
+            if (status == 6){
+                url = $(this).children().prop('href') + '&list=' + list + '&type=' + list;
+            }else {
+                url = $(this).children().prop('href') + '&list=' + list + '&type=' + list +'&status=' + status;
+            }
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    $('#list').html('');
+                    $('#data').html('');
+
+                    console.log(data);
+                }
+            });
+            return false;
+        });
+    }
+    getPage();
 </script>
 @endsection
