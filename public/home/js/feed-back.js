@@ -365,10 +365,24 @@ $(document).ready(function() {
         e.preventDefault();
 
         $("#htmlfeedback-more").css({"background-color":"#ffa52e"});
-        $.post(
-            "/feedback/feedback.php",
-            {"description": $("#htmlfeedback-input-description").val(),"post_id" : 1,"fb_email" : $("#feedback_email").val()},
-            function(result){
+        $.ajaxSetup({
+            //将laravel的csrftoken加入请求头，所以页面中应该有meta标签，详细写法在上面的form表单部分
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type : 'post',
+            url: "/openim",
+            data: {
+                "description": $("#htmlfeedback-input-description").val(),
+                "post_id" : 1,
+                "fb_email" : $("#feedback_email").val()
+            },
+
+            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+            async: true,
+            success: function(msg){
                 if(result.flag==0) {
                     $("#htmlfeedback-info").html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 抱歉，提交失败：' + result.msg);
                 } else {
@@ -377,8 +391,13 @@ $(document).ready(function() {
                     $("body").htmlfeedback("hide");
                 }
             },
-            "json"
-        )
+            error: function(XMLHttpRequest){
+                var number = XMLHttpRequest.status;
+                var msg = "Error: "+number+",数据异常！";
+                alert(msg);
+            }
+
+        });
 
     });
 
