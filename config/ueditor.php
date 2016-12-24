@@ -21,17 +21,16 @@ return [
            // 'middleware' => 'auth',
         ],
 
-        'mode'=>'local',//上传方式,local 为本地   qiniu 为七牛
+        'mode'=>'qiniu',//上传方式,local 为本地   qiniu 为七牛
 		
 		'baseurl'=>'',// 设置网站的根路由(可访问到index.php的路由)
 
         //七牛配置,若mode='qiniu',以下为必填.
         'qiniu'=>[
-            'accessKey'=>'',
-            'secretKey'=>'',
-            'bucket'=>'',// 使用的七牛空间名称
-            'url'=>'http://xxxx.qiniucdn.com',//七牛分配的CDN域名,注意带上http://
-
+            'accessKey'=>'VsAP-hK_hVPKiq5CQcoxWNhBT9ZpZ1Ii4z3O_W51',
+            'secretKey'=>'5dqfmvL15DFoAK1QzaVF2TwVzwJllOF8K4Puf1Po',
+            'bucket'=>'jacklin',// 使用的七牛空间名称
+            'url'=>'http://ogd29n56i.bkt.clouddn.com',//七牛分配的CDN域名,注意带上http://
         ]
     ],
     /**

@@ -35,16 +35,22 @@
                 });
                 //与正常form不同，通过下面这样来获取需要验证的字段
                 var data = new FormData();
-                data.append( "tel"      , $("input[name= 'tel']").val());
-                data.append( "password"       , $("input[name= 'password']").val());
                 //开始正常的ajax
                 // 异步登录
                 $.ajax({
                     type: "POST",
-                    url: '/login',
+                    url: '/project',
                     data: {
-                        'tel': $("input[name= 'tel']").val(),
-                        'password': $("input[name= 'password']").val(),
+                        'title': $("input[name= 'title']").val(),
+                        'brief_content': $("textarea[name= 'brief_content']").val(),
+                        'industry': $("select[name= 'industry']").val(),
+                        'financing_stage':$("select[name= 'financing_stage']").val(),
+                        'content':$("textarea[name= 'content']").val(),
+                        'project_experience':$("input[name= 'project_experience']").val(),
+                        'logo_img':$("input[name= 'logo_img']").val(),
+                        'banner_img':$("input[name= 'banner_img']").val(),
+                        'team_member':$("input[name= 'team_member']").val(),
+                        "privacy":$("input[name= 'privacy']").val()
                     },
                     success:function(data){
                         switch (data.StatusCode){
@@ -53,7 +59,7 @@
                                 alert('警告,'+data.ResultData);
                                 break;
                             case '200':
-                                window.location = '/';
+                                window.location = '/user/myProject';
                                 break;
                         }
                     }
@@ -92,6 +98,10 @@
                 },
                 team_member:{
                     required: true
+                },
+                privacy:{
+                    required: true,
+                    digits:true
                 }
             },
             // 提示信息
@@ -123,7 +133,11 @@
                     required: "请添加您的项目添加一个Banner图！"
                 },
                 team_member:{
-                    required: "请至少添加一位核心成员"
+                    required: "请点下方添加按钮添加一位核心成员"
+                },
+                privacy:{
+                    required: '请选填一个隐私内容',
+                    digits:'别费力气了，我早考虑到了'
                 }
             }
         });

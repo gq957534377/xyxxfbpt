@@ -1,0 +1,86 @@
+/******导航样式开始***********/
+li{
+  list-style: none;
+}
+.bannerimg img{
+  min-height: 168px;
+}
+body{
+	padding-top: 129.6px
+}
+input{
+  border: 0px;
+}
+.nav-fixd{
+  display: inline-block;
+  width: 100%;
+  position: fixed;
+  z-index: 2;
+  top: 79.6px;
+}
+.naves{
+  background: #ff9036;
+}
+.icon-bar{
+  background: #ffffff;
+}
+.naves a{
+  color: #ffffff;
+}
+.naves .nav > li > a:focus,.naves .nav > li > a:hover{
+  background: #ffffff;
+  color:#FF9036;
+}
+.naves .nav{
+  width: 100%;
+  max-width:996px;
+  text-align: center;
+  margin: 0 auto;
+  float: none;
+}
+.naves .nav>li{
+  float: none;
+  padding: 0 0.5%;
+  font-size: 0;
+  text-align: left;
+}
+@media screen and (min-width: 1200px){
+  .naves .nav>li{
+    padding:0 25px;
+  }
+}
+@media screen and (min-width: 768px) {
+  .naves .nav>li{
+    text-align: center;
+    display: inline-block;
+  }
+}
+@media screen and (max-width:767px) {
+  .nav-fixd{
+    top: 50.4px;
+  }
+  .bannerimg{
+    display: none;
+  }
+  body{
+  	padding-top: 100.4px
+  }
+}
+.naves .nav>li>a{
+  font-size: 14px;
+}
+.naves .nav>li:nth-child(1){
+  padding-left: 0;
+}
+.naves .nav>li:last-child{
+  padding-right: 0;
+}
+.hang{
+  width: 100%;
+  height: auto;
+  margin-bottom: 14px;
+}
+.hang>img{
+  width: 100%;
+}
+/******导航样式结束***********/

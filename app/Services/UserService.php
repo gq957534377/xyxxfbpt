@@ -505,9 +505,9 @@ class UserService {
         // 查询不为空
         if(!empty($info)) {
             // 判断审批状态
-            if ($info->status == '1') {
+            if ($info->status == '5') {
                 return ['StatusCode' => '400', 'ResultData' => '您已有申请项，正在审核中，请耐心等待...'];
-            } else if ($info->status == '2') {
+            } else if ($info->status == '7') {
                 return ['StatusCode' => '400', 'ResultData' => '已申请成功，无需再次申请。'];
             }
         };
@@ -726,10 +726,36 @@ class UserService {
      * @return array
      * @author 郭庆
      */
-    public static function getHomeStore($guids)
+    public function getUsers($guids, $nowPage, $forPages, $url, $disPlay=true)
     {
-        $users = self::$userStore->getAraay('guid', $guids);
-        dd($users);
-    }
+        $count = self::$userStore->getUsersCount('guid', $guids);
+        if (!$count) {
+            //如果没有数据直接返回201空数组，函数结束
+            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
+            return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
+        }
 
+        //计算总页数
+        $totalPage = ceil($count / $forPages);
+        //获取所有数据
+        $result['data'] = self::$userStore->getUsersPage('guid', $guids, $nowPage, $forPages);
+        if($result['data']){
+            if ($disPlay && $totalPage > 1) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+
+                if($creatPage){
+                    $result["pages"] = $creatPage;
+                }else{
+                    return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
+                }
+            }else{
+                $result['totalPage'] = $totalPage;
+                $result["pages"] = '';
+            }
+            return ['StatusCode' => 200,'ResultData' => $result];
+        }else{
+            return ['StatusCode' => 500,'ResultData' => '获取报名分页数据失败！'];
+        }
+    }
 }

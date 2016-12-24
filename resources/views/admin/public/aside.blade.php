@@ -5,7 +5,7 @@
     <div class="logo">
         <a href="{{ url('/') }}" class="logo-expanded">
             <i class="ion-social-buffer"></i>
-            <span class="nav-label">Hero Meeting</span>
+            <span class="nav-label">英雄会后台管理系统</span>
         </a>
     </div>
     <!-- / brand -->

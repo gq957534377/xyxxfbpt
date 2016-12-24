@@ -83,43 +83,43 @@
                     </div>
                 </div>
                 <ul class="row">
-                    @if(is_array($projects))
-                        @foreach ($projects as $project)
-                            <li class="col-sm-4">
-                                <a class="new_a" href="{{ route('project.show', $project->project_id) }}">
-                                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $project->image }}">
-                                    <div class="companyName">{{ $project->title }}</div>
-                                    <div class="classLabel">
-                                <span>
-                                    @if($project->project_type == 1)
-                                        热门推荐
-                                    @elseif($project->project_type == 2)
-                                        新品上架
-                                    @elseif($project->project_type == 3)
-                                        未来科技
-                                    @elseif($project->project_type == 4)
-                                        健康出行
-                                    @elseif($project->project_type == 5)
-                                        生活美学
-                                    @elseif($project->project_type == 6)
-                                        美食生活
-                                    @elseif($project->project_type == 7)
-                                        流行文化
-                                    @elseif($project->project_type == 8)
-                                        爱心公益
-                                    @endif
-                                </span>
-                                        <span>{{ $project->habitude }}</span>
-                                    </div>
-                                    <p class="new_p">
-                                        {{ $project->content }}
-                                    </p>
-                                </a>
-                            </li>
-                        @endforeach
-                    @else
-                        {{ $projects }}
-                    @endif
+                    {{--@if(is_array($projects))--}}
+                        {{--@foreach ($projects as $project)--}}
+                            {{--<li class="col-sm-4">--}}
+                                {{--<a class="new_a" href="{{ route('project.show', $project->project_id) }}">--}}
+                                    {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $project->image }}">--}}
+                                    {{--<div class="companyName">{{ $project->title }}</div>--}}
+                                    {{--<div class="classLabel">--}}
+                                {{--<span>--}}
+                                    {{--@if($project->project_type == 1)--}}
+                                        {{--热门推荐--}}
+                                    {{--@elseif($project->project_type == 2)--}}
+                                        {{--新品上架--}}
+                                    {{--@elseif($project->project_type == 3)--}}
+                                        {{--未来科技--}}
+                                    {{--@elseif($project->project_type == 4)--}}
+                                        {{--健康出行--}}
+                                    {{--@elseif($project->project_type == 5)--}}
+                                        {{--生活美学--}}
+                                    {{--@elseif($project->project_type == 6)--}}
+                                        {{--美食生活--}}
+                                    {{--@elseif($project->project_type == 7)--}}
+                                        {{--流行文化--}}
+                                    {{--@elseif($project->project_type == 8)--}}
+                                        {{--爱心公益--}}
+                                    {{--@endif--}}
+                                {{--</span>--}}
+                                        {{--<span>{{ $project->habitude }}</span>--}}
+                                    {{--</div>--}}
+                                    {{--<p class="new_p">--}}
+                                        {{--{{ $project->content }}--}}
+                                    {{--</p>--}}
+                                {{--</a>--}}
+                            {{--</li>--}}
+                        {{--@endforeach--}}
+                    {{--@else--}}
+                        {{--{{ $projects }}--}}
+                    {{--@endif--}}
                 </ul>
             </div>
         </div>

@@ -55,4 +55,17 @@ class HomeStore {
         // 修改数据
         return DB::table(self::$table)->where($where)->update($data);
     }
+
+    /**
+     * @param $where string 需要启用或者禁用的用户ID
+     * @param $status int  1 为启用  2为禁用
+     * @return bool 成功true ，失败 false；
+     * @author lw
+     */
+    public function changeSatus($where, $status)
+    {
+        if(empty($where)) return false;
+
+        return DB::table(self::$table)->where($where)->update($status);
+    }
 }

@@ -8,7 +8,8 @@ function getInfoList(data) {
             $('#data').html(listHtml(data));
             $('#page').html(data.ResultData.pages);
             getPage();
-            modifyStatus();
+            // modifyStatus();
+            initAlert();
             showInfo();
             updates();
             checkAction();
