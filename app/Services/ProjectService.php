@@ -55,12 +55,15 @@ class ProjectService {
      * @param $where
      * @return array
      * @author 贾济林
+     * @modify 张洵之
      */
     public function getData($where)
     {
         $data = self::$projectStore->getData($where);
-        if (!$data) return ['status'=> false,'msg'=> '查询失败'];
-        return ['status'=>true,'data'=>$data];
+
+        if (!$data) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $data];
     }
 
     public function getAllData()
@@ -117,12 +120,15 @@ class ProjectService {
      * @param $status
      * @return array
      * @author 贾济林
+     * @modify 张洵之
      */
     public function getFrstPage($num, $status)
     {
         $res = self::$projectStore->getPage('1',$num,$status);
-        if (!$res) return ['status'=>false,'msg'=>'获取失败'];
-        return ['status'=>true,'data'=>$res];
+
+        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $res];
     }
 
     /**
@@ -217,6 +223,12 @@ class ProjectService {
         return ['StatusCode' => '500', 'ResultData' => "服务器端出错"];
     }
 
+    /**
+     * 向项目信息表添加数据
+     * @param $data
+     * @return array
+     * author 张洵之
+     */
     public function addProjects($data)
     {
         $data['user_guid'] = session('user')->guid;

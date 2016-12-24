@@ -101,11 +101,15 @@ class ProjectController extends Controller
         //获取首页数据
         $res = self::$projectServer->getFrstPage($num, $status);
         //获取分页
+        if ($res['StatusCode'] == '400') return response()->json($res);
+
         $pages = self::getpage($request,$num,$status);
-        //整理返回数据
-        $res['pages'] = $pages;
-        if (!$res['status']) return response()->json(['status'=>'400','msg'=>'查询失败']);
-        return response()->json(['status'=>'200','data'=>$res]);
+
+        if($pages){
+            $res['pages'] = $pages;
+        }
+
+        return response()->json($res);
     }
 
     /**
@@ -140,15 +144,22 @@ class ProjectController extends Controller
      * @param $status
      * @return string
      * @author 贾济林
+     * @modify 张洵之
      */
     public function getpage($request, $num, $status)
     {
         //整理参数
+
+        $table = 'data_project_info';
+
+        $count = DB::table($table)->where(['status' => $status]) -> count();
+
+        if($count<$num) return null;
+
         $data = $request->all();
-        $table = 'project_info_data';
         $baseUrl = url('project/unchecked');
-        $count = DB::table($table)->where(['status'=>$status])->count();
         $totalPage = ceil($count/$num);
+
         $nowPage = isset($data['nowPage']) ? $data['nowPage'] : 1;
 
         //获取分页
