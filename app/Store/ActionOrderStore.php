@@ -20,29 +20,43 @@ class ActionOrderStore{
     protected static $table = 'rel_action_order';
 
     /**
-     * 查询一条数据
-     * @param array $where
-     * @ author 郭庆
+     * 插入数据
+     * @param $data
+     * @return null
+     * author 张洵之
+     */
+    public function insertData($data)
+    {
+        if(!is_array($data)) return false;
+        return $result = DB::table(self::$table)->insertGetId($data);
+    }
+
+    /**
+     * 获取一条数据
+     *
+     * @return \Illuminate\Http\Response
+     * @author 郭庆
      */
     public function getOneData($where)
     {
-        if(empty($where)) return false;
         return DB::table(self::$table)->where($where)->first();
     }
-
-    /**获取指定页码的数据
-     * @页码
-     * @return object|false
-     * @author 郭庆
+    /**
+     * 分页查询数据
+     * @param $page
+     * @param $tolPage
+     * @param $where
+     * @return null
+     * author 张洵之
      */
-    public function getPageData($nowPage, $where)
+    public function forPage($page, $tolPage, $where)
     {
-        if(empty($nowPage)) return false;
+        if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
         return DB::table(self::$table)
-           ->where($where)
-           ->forPage($nowPage, PAGENUM)
-           ->orderBy('time', 'desc')
-           ->get();
+            ->where($where)
+            ->orderBy("addtime","desc")
+            ->forPage($page,$tolPage)
+            ->get();
     }
 
     /**
@@ -50,23 +64,9 @@ class ActionOrderStore{
      * @return mixed
      * @author 郭庆
      */
-    public static function getSomeData($where)
+    public static function getData($where)
     {
         return DB::table(self::$table)->where($where)->get();
-    }
-    public static function getSomeField($where, $field)
-    {
-        return DB::table(self::$table)->where($where)->lists($field);
-    }
-    /**
-     * 查询所有数据
-     * @return mixed
-     * @author 郭庆
-     */
-    public function getAllData()
-    {
-        // 返回指定表中说有数据
-        return DB::table(self::$table)->get();
     }
 
     /**
@@ -79,6 +79,26 @@ class ActionOrderStore{
     {
         if (empty($data)) return false;
         return DB::table(self::$table)->insert($data);
+    }
+    /**
+     * 获取符合条件的某一个字段的集合
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public static function getSomeField($where, $field)
+    {
+        return DB::table(self::$table)->where($where)->lists($field);
+    }
+    /**
+     * 查询某一类型活动列表业所需的活动
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public static function getListData($type)
+    {
+        return DB::table(self::$table)->where(['type' => $type])->where('status', '!=', '4')->get();
     }
 
     /**
@@ -95,15 +115,59 @@ class ActionOrderStore{
     }
 
     /**
-     * 得到指定条件的报名id
+     * 更新数据
      * @param $where
-     * @return bool
-     * @author 贾济林
+     * @param $data
+     * @return null
+     * author 张洵之
      */
-    public function getActivityId($where, $list)
+    public function upload($where, $data)
     {
-        if(empty($where)) return false;
-        return DB::table(self::$table)->where($where)->lists($list);
+        if(!is_array($where) || !is_array($data)) return false;
+        return DB::table(self::$table)->where($where)->update($data);
+    }
+
+    /**
+     * 给某个字段自增data
+     * @author 郭庆
+     */
+    public static function incrementData($where, $field, $data)
+    {
+        return DB::table(self::$table)->where($where)->increment($field, $data);
+    }
+
+    /**
+     * 获取三条活动数据
+     * @param $type
+     * @param int $number
+     * @return mixed
+     * @author 刘峻廷
+     */
+    public function takeActions($where,$number)
+    {
+        return DB::table(self::$table)->where($where)->take($number)->get();
+    }
+
+    /**
+     * 得到指定状态的数量
+     * @param $where
+     * @return mixed
+     * @author 郭庆
+     */
+    public function getCount ($where)
+    {
+        return DB::table(self::$table)->where($where)->count();
+    }
+
+    /**
+     * 获取固定时间范围开始的活动
+     * @param [] $between 时间范围
+     * @return array
+     * @author 郭庆
+     */
+    public static function dateBetween($between)
+    {
+        return DB::table(self::$table)->whereBetween('start_time', $between)->get();
     }
 }
 

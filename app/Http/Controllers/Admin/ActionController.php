@@ -41,26 +41,30 @@ class ActionController extends Controller
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
         $forPages = 5;//一页的数据条数
         $status = $data["status"];//文章状态：已发布 待审核 已下架
-        $type = $data["type"];//获取文章类型
+        $type = (int)$data["type"];//获取文章类型
         $where = [];
 
         if($status){
-            $where["status"] = $status;
+            $where["status"] = (int)$status;
         }
-        if($type!="null"){
-            if ($type != 3){
-                $where["type"] = $type;
+        if ($type == 3) {
+            if (isset($data['college_type'])){
+                if ($data['college_type'] != 4){
+                    $where['type'] = $data['college_type'];
+                }
             }
+            $list = true;
+        } else {
+            $list = false;
+            $where['type'] = $type;
         }
-
-        $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create");
-
+        $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create", $list);
         if($result["StatusCode"] == 200){
             foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
-                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg'],$type);
                         if ($chage['StatusCode'] != 200){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
@@ -74,7 +78,7 @@ class ActionController extends Controller
     }
 
     /**
-     * 获取分页数据
+     * 发布活动
      * @param $request
      * @return array
      * @author 郭庆
@@ -92,22 +96,24 @@ class ActionController extends Controller
      * @return array
      * @author 郭庆
      */
-    public function show($id)
+    public function show($id,Request $request)
     {
-        $result = self::$actionServer -> getData($id);
+        $list = $request->get('list');
+        $result = self::$actionServer -> getData($id,$list);
         return response() -> json($result);
     }
 
     /**
-     * 修改活动+报名状态
+     * 修改活动状态
      * @param $request
-     * @param $id 活动id/报名记录id
+     * @param $id 活动id
      * @author 郭庆
      */
     public function edit(Request $request, $id)
     {
         $status = $request -> input("status");
-        $result = self::$actionServer -> changeStatus($id,$status);
+        $list = $request->get('list');
+        $result = self::$actionServer -> changeStatus($id, $status, $list);
         return response() -> json($result);
     }
 
@@ -121,20 +127,20 @@ class ActionController extends Controller
     {
         $data = $request -> all();
         $where = ["guid" => $id];
-        $result = self::$actionServer -> upDta($where, $data);
+
+        $result = self::$actionServer -> upDta($where, $data, $data['list']);
         return response() -> json($result);
     }
 
     /**
-     * 获取报名情况表信息
-     * @param $id 活动id
+     *
+     * @param
      * @return array
-     * author 郭庆
+     * @author 郭庆
      */
     public function destroy($id)
     {
-        $result = self::$actionServer -> getOrderInfo($id);
-        return response() -> json($result);
+
     }
 
     /**
@@ -152,9 +158,11 @@ class ActionController extends Controller
      * @return view
      * @author 郭庆
      */
-    public function actionChange($id)
+    public function actionChange($id, $list)
     {
-        return view('admin.action.edit');
+        $result = self::$actionServer -> getData($id,$list);
+        $result['list'] = (int)$list;
+        return view('admin.action.edit', $result);
     }
     /**
      * 返回报名列表管理视图

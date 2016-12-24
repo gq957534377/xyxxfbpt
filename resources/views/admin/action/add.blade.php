@@ -19,11 +19,6 @@
             margin-right: 15px;
         }
 
-        #fabu {
-            width: 80%;
-            height: 80%;
-        }
-
         .btn {
             border-radius: 7px;
             padding: 6px 16px;
@@ -73,9 +68,9 @@
                     <label for="field-3">培训类型</label>
                     <div for="field-3">
                         <select id="type1" class="form-control" name="">
-                            <option value="4">企业管理</option>
-                            <option value="5">资金管理</option>
-                            <option value="6">人才管理</option>
+                            <option value="1">企业管理</option>
+                            <option value="2">资金管理</option>
+                            <option value="3">人才管理</option>
                         </select>
                     </div>
                 </div>
@@ -252,6 +247,7 @@
                 ]
             ],
             initialFrameWidth: '100%',
+            initialFrameHeight: '800',
         };
         var ue = UE.getEditor('UE', toolbra);
 
@@ -396,6 +392,8 @@
                             brief: $('textarea[name=brief]').val(),
                             describe: $('textarea[name=describe]').val(),
                         };
+                        var url = 'action?list='+$('#action').val();
+
                         data.append("type", resul.type);
                         data.append("title", resul.title);
                         data.append("author", resul.author);
@@ -415,7 +413,7 @@
                                 alert("详情描述不能为空")
                             }else{
                                 $.ajax({
-                                    url: '/action',
+                                    url: url,
                                     type: 'post',
                                     data: resul,
                                     before: ajaxBeforeNoHiddenModel,

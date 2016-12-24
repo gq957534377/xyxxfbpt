@@ -100,6 +100,7 @@ class SendController extends Controller
             'source' => 'required|max:80',
             'verif_code' => 'required',
             'banner' => 'required',
+            'status' => 'required',
         ],[
             'title.required' => '标题不能为空',
             'title.max' => '标题过长',
@@ -110,6 +111,7 @@ class SendController extends Controller
             'source.max' => '来源过长',
             'verif_code.required' => '验证码不能为空',
             'banner.required' => '图片不能为空',
+            'status.required' => '参数错误',
         ]);
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 //        if (empty(Redis::get('picture_contri' . session('user')->guid))) {
@@ -118,7 +120,7 @@ class SendController extends Controller
 //        $data['banner'] = Redis::get('picture_contri' . session('user')->guid);
 //
 
-        Redis::set('picture_contri' . session('user')->guid, null);
+        //Redis::set('picture_contri' . session('user')->guid, null);
 
         $data['user_id'] = session('user')->guid;
         // 取出用户信息
@@ -141,30 +143,13 @@ class SendController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author 郭庆
+     * @modify 王通
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
+        $result = self::$articleServer->getCacheContribution($id);
+        return view('home.user.contribution.browse', $result);
 
-        if($id == 1){
-            if (is_string($request['data'])){
-                $data = json_decode($request['data']);
-            }else{
-                $data = $request['data'];
-            }
-            $user_id = session('user')->guid;
-            $res = self::$userServer->userInfo(['guid' => $user_id]);
-            if ($res['status'] && $data){
-                $data->author = $res['msg']->nickname;
-                $data->headpic = $res['msg']->headpic;
-            }elseif ($data){
-                $data->author = '佚名';
-                $data->headpic = '/home/images/logo.jpg';
-            }
-            return view('home.article.new',['data' => $data]);
-        }
-        $result = self::$articleServer->getData($id, 2);
-        if ($result['status']) return view('home.article.new',['data' => $result['msg']]);
-        return view('home.article.new',['data' => $result['msg']]);
     }
 
     /**

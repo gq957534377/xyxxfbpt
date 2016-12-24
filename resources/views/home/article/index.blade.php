@@ -88,3 +88,6 @@
     </section>
       <!--内容结束--->
 @endsection
+@section('script')
+<script src="{{ asset('/home/js/articleScroll.js') }}"></script>
+@endsection

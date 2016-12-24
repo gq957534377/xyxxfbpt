@@ -47,7 +47,7 @@
                         switch (data.StatusCode){
                             case '400':
                                 // promptBoxHandle('警告',data.ResultData);
-                                alert('警告,'+data.ResultData);
+                                $('#error-info').html('警告,'+data.ResultData).fadeIn(1000);
                                 break;
                             case '200':
                                 window.location = '/';
@@ -80,6 +80,11 @@
                     required: "请输入密码",
                     minlength: "密码长度不对"
                 }
+            },
+            errorPlacement: function(error, element) {
+                // Append error within linked label
+                $('#error-info').html(error[0].textContent).fadeIn(1000);
+                $('input[name="tel"]').focus();
             }
         });
     };
@@ -92,11 +97,36 @@
     }(window.jQuery);
 
 // 验证码点击更换
-var captcha = document.getElementById('captcha');
-captcha.onclick = function(){
-        $url = "{{url('/code/captcha')}}";
-        $url = $url + "/" + Math.random();
-        this.src = $url;
-    }
+// var captcha = document.getElementById('captcha');
+// captcha.onclick = function(){
+//         $url = "{{url('/code/captcha')}}";
+//         $url = $url + "/" + Math.random();
+//         this.src = $url;
+//     };
 
+// 验证手机号是否存在
+$('input[name="tel"]').on('change', function () {
+    $('#error-info').fadeOut();
+    // var num = $(this).val().length;
+    // if (num == 11) {
+    //     $.ajax({
+    //         type: "get",
+    //         url: '/register/checkphoto',
+    //         data: {
+    //             'tel': $("input[name= 'tel']").val(),
+    //         },
+    //         success:function(data){
+    //             console.log(data);
+    //             switch (data.StatusCode){
+    //                 case '200':
+    //                     $('#error-info').html(data.ResultData).fadeIn(1000);
+    //                     $('input[name="tel"]').focus();
+    //                     break;
+    //
+    //
+    //             }
+    //         }
+    //     });
+    // }
 
+});

@@ -23,3 +23,6 @@
 <script src="{{ asset('admin/js/raphael.min.js') }}"></script>
 
 <script src="{{ asset('admin/js/jquery.app.js') }}"></script>
+
+<!-- alert -->
+<script src="{{ asset('admin/js/sweet-alert.min.js') }}"></script>

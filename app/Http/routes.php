@@ -47,8 +47,9 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         //活动管理
         Route::resource('/action', 'ActionController');
         Route::resource('/action_add','ActionController@actionAdd');
-//        Route::resource('/action_change/{id}','ActionController@actionChange');
-//        Route::resource('/action_order/{id}','ActionController@actionOrder');
+        Route::resource('/action_change/{id}/{list}/','ActionController@actionChange');
+        //活动报名管理
+        Route::resource('/action_order','ActionOrderController');
         //内容管理
         Route::resource('/article', 'ArticleController');
         Route::resource('/banner','ArticleController@bannerpic');
@@ -86,6 +87,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台登录页
     Route::resource('/login', 'LoginController');
     // 前台注册页
+    Route::resource('/register/checkphoto', 'RegisterController@checkPhoto');
     Route::resource('/register', 'RegisterController');
     //众筹
     Route::resource('/crowd_funding', 'CrowdFundingController');
@@ -103,7 +105,10 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/comment', 'ArticleController@commentShow');
     //学院内容页
     Route::resource('/school', 'SchoolController');
-
+    //发布项目
+    Route::resource('/project', 'ProjectController');
+    //项目列表ajax请求
+    Route::post('/project/list','ProjectController@lists')->name('projectList');
     // openIM 阿里云旺
     Route::resource('/openim', 'OpenIMController');
 
@@ -116,7 +121,9 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::resource('/identity','RoleController');
         // 修改头像
         Route::resource('/headpic','UserController@headpic');
+        Route::resource('/uploadcard','UserController@uploadCard');
         // 修改账号绑定信息
+        Route::resource('/user/sendsms','UserController@sendSms');
         Route::resource('/user/sendemail','UserController@sendEmail');
         Route::resource('/user/change/email','UserController@changeEmail');
         Route::resource('/user/change/phone','UserController@changeTel');
@@ -127,18 +134,14 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::post('/user/commentandlike','UserController@getLike')->name('getLike');
         //我的项目
         Route::get('/user/myProject','UserController@myProject');
-           // 发送短信
-        Route::resource('/user/sendsms','UserController@sendSms');
         Route::resource('/user','UserController');
         // 前台登出
         Route::get('/logout','LoginController@logout');
         //众筹用户投钱
         Route::get("/investment/{project_id}","CrowdFundingController@investment");
-        //发布项目
-        Route::resource('/project', 'ProjectController');
+
         Route::resource('/project_user','ProjectUsersController');
-        //项目列表ajax请求
-        Route::post('/project/list','ProjectController@lists')->name('projectList');
+
         //活动管理
         Route::resource('/activity', 'ActivityController');
         //投稿管理

@@ -1,3 +1,4 @@
+{{--author lw--}}
 @extends('admin.layouts.master')
 @section('styles')
     <style>
@@ -6,6 +7,12 @@
         table{font-size:14px;}
         .table button{margin-right:15px;}
         .page-title{ padding-bottom: 5px;}
+        .list-unstyled > li{
+            margin-bottom: 10px;
+        }
+        .list-unstyled > li:nth-child(1){
+            margin-bottom: 25px;
+        }
     </style>
 @endsection
 {{--展示内容开始--}}
@@ -64,71 +71,94 @@
     {{--表格盒子开始--}}
     <div class="panel" id="data" style="text-align: center"></div>
     {{--表格盒子结束--}}
-    <div id="con123" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+
+    {{--修改信息弹出框 --}}
+    <div id="user-change" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-sm" id="fabu">
+            <div class="modal-content">
+                <div id = "" class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-name="" class="btn btn-primary">修改</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {{--查看详情弹出框 --}}
+    <div id="user-info" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" id="fabu">
             <div class="modal-content">
+                <div id = "" class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
+                    <h3>用户详细信息</h3>
+                </div>
+                <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><strong>头像</strong> :
+                                        {{--<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}">--}}
+                                        <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                            <div class="row">
+                                                <div id="crop-avatar">
+                                                    <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
+                                                        <img id="headpic" class="img-circle" src="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><strong>真实姓名 ：</strong><mark><span id="realname"></span></mark></li>
+                                    <li><strong>昵称 ：</strong><span id="nickname"></span></li>
+                                    <li><strong>性别 ：</strong><span id="sex"></span></li>
+                                    <li><strong>出生日期 ：</strong><span id="birthday"></span></li>
+                                    <li><strong>电话 ：</strong><ins><span id="phone"></span></ins></li>
+                                    <li><strong>邮箱 ：</strong><span id="email"></span></li>
+                                    <li><strong>公司 ： </strong><span id="company"></span></li>
+                                    <li><strong>职位 ：</strong><span id="company_position"></span></li>
+                                    <li><strong>公司地址 ：</strong><span id="company_address" class="text-muted"></span></li>
 
-            </div>
-            </div>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li><strong>微信 ：</strong> <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                            <div class="row">
+                                                <div id="crop-avatar">
+                                                    <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
+                                                        <img id="wechat" class="img-rounded" src="" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><strong>注册时间 ：</strong><span id="addtime"></span></li>
+                                    <li id="role"></li>
+                                    <li id="status"></li>
+                                    <li><strong>个人简介 ：</strong><small id="introduction"></small></li>
+                                </ul>
+                            </div>
 
+                        </div>
+
+                </div>
+            </div>
+        </div>
     </div>
+
 
 @endsection
 {{--展示内容结束--}}
 
-{{--弹出页面 开始--}}
-@section('form-id', 'con-modal')
-@section('form-title', '提示信息：')
-@section('form-body')
-    <div class="row" id="alert-form"></div>
-    <div id="alert-info"></div>
-@endsection
-@section('form-footer')
-    <button type="button" id="post" class="btn btn-info hidden">提交</button>
-    <button type="button" id="cancel" class="btn btn-info hidden" data-dismiss="modal">取消</button>
-
-    <button type="button" class="btn check_pass hidden">通过</button>
-
-    <button type="button" class="btn check_fail btn-warning hidden">不通过</button>
-
-    <button type="button" class="btn change_memeber_false btn-warning hidden">不通过2</button>
-
-    <button type="button" id="close" class="btn btn-info hidden" data-dismiss="modal">Close</button>
-
-@endsection
-{{--弹出页面结束--}}
-
-{{--警告信息弹层开始--}}
-{{--@section('alertInfo-title', 'xxxxxxx')--}}
-{{--@section('alertInfo-body', 'yyyyyyyy')--}}
-{{--警告信息弹层结束--}}
-
 @section('script')
-
-    {{--<script>--}}
-
-        {{--function getInfo(n) {--}}
-            {{--$('#data').html(n);--}}
-        {{--}--}}
-    {{--</script>--}}
-
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
-    {{--<script src="{{asset('JsService/Model/user/html.js')}}" type="text/javascript"></script>--}}
-    {{--<script src="{{asset('JsService/Model/user/function.js')}}" type="text/javascript"></script>--}}
-
-
-
-    {{--<script>--}}
-        {{--var number = 0;--}}
-
-        {{--//初始化 请求数据 包含分页数据 添加事件--}}
-        {{--$(function () {--}}
-            {{--$("button[title='普通用户']").click();--}}
-        {{--});--}}
-
-    {{--</script>--}}
-
+    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     <script>
 
         //页面默认加载所有可用用户信息
@@ -146,6 +176,179 @@
             //执行ajax请求
             execAjax( url, queryString, 'get');
         });
+
+    /**************************************************************************************************/
+        /** 弹出确认框
+         * Theme: Velonic Admin Template
+         * Author: Coderthemes
+         * SweetAlert -
+         * Usage: $.SweetAlert.methodname
+         */
+
+     function initAlert() {
+            !function($) {
+                "use strict";
+
+                var SweetAlert = function() {};
+
+                //examples
+                SweetAlert.prototype.init = function() {
+
+                    //禁用弹出确认框
+                    $('.user_change').click(function(){
+                        var guid = $(this).data('name');
+                        var id = $(this).data('id');
+
+                        //获取tr节点
+                        var tr = $(this).parent().parent();
+                        if(id == 2){
+                            var status = '禁用';
+                        }else{
+                            var status = '启用';
+                        }
+
+                        swal({
+                            title: "确定要"+status+"?",
+                            text: "当前操作会"+status+"用户的所有功能!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: status,
+                            cancelButtonText: "取消",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        }, function(isConfirm){
+                            if (isConfirm) {
+                                $('.confirm').prop('disabled','disabled');
+                                //发送请求
+                                $.ajax({
+                                    url :'/user_management/'+id+'/edit', //参数2 为禁用,1 为启用
+                                    type : 'get',
+                                    data : {guid : guid},
+                                    success : function (msg) {
+                                        if(msg.statusCode == 400){
+                                            swal(msg.resultData, '执行' + status + '失败', "danger");
+                                            return;
+                                        }
+                                        swal(msg.resultData, '该用户已被成功'+status, "success");
+                                        //成功后删除当前行
+                                        tr.remove();
+                                        $('.confirm').prop('disabled','');
+
+                                    }
+                                });
+
+                            } else {
+                                swal("已取消！", "没有做任何修改！", "error");
+                            }
+                        });
+                    });
+                },
+                        //init
+                        $.SweetAlert = new SweetAlert,
+                        $.SweetAlert.Constructor = SweetAlert
+            }(window.jQuery),
+
+//initializing
+                    function($) {
+                        "use strict";
+                        $.SweetAlert.init()
+                    }(window.jQuery);
+        }
+
+
+/********************************************************************************************/
+
+        /**
+         *修改用户信息
+         *
+         *
+         *
+         * */
+        function userChange() {
+            $('.user_modify').click(function () {
+                var guid = $(this).data('name');
+                if(1){
+                    $('#user-change').modal('show');
+                    //$('.modal-body').html('操作成功！');
+                }
+
+            });
+        }
+
+        /**
+         * 查看用户详情
+         *
+         *
+         * */
+        function userInfo() {
+            $('.user_info').click(function () {
+
+                var data = $(this).data();
+                //alert(realname);
+                $('#headpic').attr('src',data.headpic);
+                $('#realname').text(data.realname);
+                $('#nickname').text(data.nickname);
+                switch (data.sex){
+                    case 1:
+                        var sex = '男';
+                        break;
+                    case 2:
+                        var sex = '女';
+                        break;
+                    default:
+                        var sex = '未填写';
+                }
+                $('#sex').text(sex);
+                $('#birthday').text(data.birthday);
+                $('#phone').text(data.tel);
+                $('#email').text(data.email);
+                $('#company').text(data.company);
+                $('#company_position').text(data.company_position ? data.company_position : '');
+                $('#company_address').text(data.company_address ? data.company_address : '');
+                $('#introduction').text(data.introduction ? data.introduction : '');
+                $('#wechat').attr('src',data.wechat);
+                $('#addtime').text(data.addtime);
+                //角色身份选择
+                switch (data.role){
+                    case 1 :
+                        var str = '<strong>身份 ：</strong><span class="text-info text-xs">普通用户&nbsp;</span>';
+                        break;
+                    case 2 :
+                        var str = '<strong>身份 ：</strong><span class="text-warning text-xs">创业者&nbsp;</span>';
+                        break;
+                    case 3 :
+                        var str = '<strong>身份 ：</strong><span class="text-success text-xs">投资者&nbsp;</span>';
+                        break;
+                }
+                //会员身份选择
+                switch(data.memeber){
+                    case 2:
+                        var member = '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
+                        break;
+                    default:
+                    var member = '';
+                }
+
+
+                $('#role').html(str + member);
+
+                //状态匹配
+                switch (data.status){
+                    case 1:
+                        var status = '<strong>当前状态 ：</strong><span class="text-primary text-xs">正常使用中&nbsp;</span>';
+                        break;
+                    default:
+                        var status = '<strong>当前状态 ：</strong><span class="text-danger text-xs">禁用中&nbsp;</span>';
+                }
+                $('#status').html(status);
+                $('#introduction').text(data.introduction ? data.introduction : '');
+                $('#').text();
+
+                $('#user-info').modal('show');
+
+            });
+        }
         
         /**
          *  获取不同类型用户的列表点击事件
@@ -224,8 +427,10 @@
                     //有数据，遍历数据进行DOM操作
                     $('#data').html(htmlStr(msg.ResultData[1]));
                     $('#page').html(msg.ResultData[0]);
-                    pages();
-                    listenChange();
+                    pages();    //分页事件触发
+                    userChange(); //调用修改弹出框
+                    initAlert();    //调用确认弹出框
+                    userInfo();     //用户详情
 
 
                 }
@@ -292,10 +497,10 @@
                 str +=  '<td>';
 
                 if(v.status == 1){
-                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-danger btn-xs" style="border-radius:6px">禁用</button></a>';
+                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" data-id="2" class="user_change"><button class="btn btn-danger btn-xs" id = "sa-warning" style="border-radius:6px">禁用</button></a>';
                 }
                 if(v.status == 2){
-                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-success btn-xs">启用</button></a>';
+                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" data-id="1" class="user_change"><button class="btn btn-success btn-xs">启用</button></a>';
                 }
                 if(v.status == 5){
                     str += '<span class="text-danger text-xs">待审核&nbsp;</span>';
@@ -305,11 +510,13 @@
                 }
                 str +=  '</td>';
                 str +=  '<td>';
-                if(v.status == 5 || v.status == 7){
-                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-success">审核</button></a>';
-                }
                 str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
-                str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-warning btn-xs">详情</button></a>';
+                str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
+                        '" data-brithday="'+v.birthday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+
+                        '" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+
+                        '" data-headpic="'+v.headpic+'" data-wechat="'+v.wechat+'" data-introduction="'+v.introduction+
+                        '" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+
+                        '" class="user_info"><button class="btn btn-warning btn-xs">详情</button></a>';
 
                 str +=  '</td></tr>';
             });
@@ -323,19 +530,7 @@
             return str;
         }
 
-        /**
-         *查看用户详情
-         *
-         *
-         *
-         * */
-        function listenChange() {
-            $('.user_modify').click(function () {
-                var guid = $(this).data('name');
-                $('#con123').modal('show');
-                $('.modal-content').html(guid);
-            });
-        }
+
 
 
     </script>

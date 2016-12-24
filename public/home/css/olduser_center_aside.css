@@ -1,0 +1,223 @@
+.user-center {
+    padding-top: 1.5em;
+    width: 90%;
+    font-size: 1.15em;
+    margin:  0 auto 0 auto;
+}
+aside ul > li > a {
+    color: #000;
+    padding-left: 1.8em;
+    background-size: 1.5em;
+    background: no-repeat left center;
+}
+
+aside ul > li > a:hover {
+    color: #ff9035;
+    text-decoration: none;
+}
+aside ul > li > a.active {
+    color: #ff9035;
+    text-decoration: none;
+}
+aside ul > li {
+    margin-bottom: 1.2em;
+}
+
+aside ul li:first-child > a {
+    background-image: url("../img/ic-txt-gray.png");
+}
+aside ul li:nth-child(2) > a {
+    background-image: url("../img/ic-status-gray.png");
+}
+aside ul li:nth-child(3) > a {
+    background-image: url("../img/ic-show-gray.png");
+}
+aside ul li:nth-child(4) > a {
+    background-image: url("../img/ic-flag-gray.png");
+}
+aside ul li:nth-child(5) > a {
+    background-image: url("../img/ic-pen-gray.png");
+}
+aside ul li:nth-child(6) > a {
+    background-image: url("../img/ic-book-gray.png");
+}
+aside ul li:nth-child(7) > a {
+    background-image: url("../img/ic-col-gray.png");
+}
+aside ul li:nth-child(8) > a {
+    background-image: url("../img/ic-set-gray.png");
+}
+aside ul li:nth-child(9) > a {
+    background-image: url("../img/ic-set-gray.png");
+}
+/************************/
+aside ul li:first-child > a:hover {
+    background-image: url("../img/ic-txt-org.png");
+}
+aside ul li:nth-child(2) > a:hover {
+    background-image: url("../img/ic-status-org.png");
+}
+aside ul li:nth-child(3) > a:hover {
+    background-image: url("../img/ic-show-org.png");
+}
+aside ul li:nth-child(4) > a:hover {
+    background-image: url("../img/ic-flag-org.png");
+}
+aside ul li:nth-child(5) > a:hover {
+    background-image: url("../img/ic-pen-org.png");
+}
+aside ul li:nth-child(6) > a:hover {
+    background-image: url("../img/ic-book-org.png");
+}
+aside ul li:nth-child(7) > a:hover {
+    background-image: url("../img/ic-col-org.png");
+}
+aside ul li:nth-child(8) > a:hover {
+    background-image: url("../img/ic-set-org.png");
+}
+aside ul li:nth-child(9) > a:hover {
+    background-image: url("../img/ic-set-org.png");
+}
+aside ul li:first-child > a.active {
+    background-image: url("../img/ic-txt-org.png");
+}
+aside ul li:nth-child(2) > a.active {
+    background-image: url("../img/ic-status-org.png");
+}
+aside ul li:nth-child(3) > a.active {
+    background-image: url("../img/ic-show-org.png");
+}
+aside ul li:nth-child(4) > a.active {
+    background-image: url("../img/ic-flag-org.png");
+}
+aside ul li:nth-child(5) > a.active {
+    background-image: url("../img/ic-pen-org.png");
+}
+aside ul li:nth-child(6) > a.active {
+    background-image: url("../img/ic-book-org.png");
+}
+aside ul li:nth-child(7) > a.active {
+    background-image: url("../img/ic-col-org.png");
+}
+aside ul li:nth-child(8) > a.active {
+    background-image: url("../img/ic-set-org.png");
+}
+aside ul li:nth-child(9) > a.active {
+    background-image: url("../img/ic-set-org.png");
+}
+
+/*移动端菜单*/
+.mobile-aside {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .user-center {
+        width: 100%;
+        margin:  6.5em auto 0 auto;
+    }
+    .mobile-aside {
+        display: block;
+        width: 100%;
+        max-width:100%;
+        margin:  4.1em auto 0 auto;
+        padding: 1em;
+        border-top: 1px solid #f0f0f0;
+        box-shadow:0 1px 1px #f0f0f0;
+        background-color: #ffffff;
+    }
+    .mobile-aside > span {
+        width: 100%;
+        padding:1em 4em;
+        background: url("../img/menu.png") no-repeat 30% 50%;
+    }
+    .mobile-aside > ul {
+        position: fixed;
+        left: 2.15em;
+        top: 7.8em;
+        z-index: 999;
+    }
+    .mobile-aside ul > li > a {
+        padding-left: 1.8em;
+        background-size: 1.5em;
+        background: no-repeat left center;
+    }
+    .mobile-aside ul > li > a:hover {
+        color: #ff9035;
+        text-decoration: none;
+    }
+    .mobile-aside ul > li {
+        margin-bottom: 5px;
+    }
+    .mobile-aside ul li:first-child > a {
+        background-image: url("../img/ic-txt-gray.png");
+    }
+    .mobile-aside ul li:nth-child(2) > a {
+        background-image: url("../img/ic-status-gray.png");
+    }
+    .mobile-aside ul li:nth-child(3) > a {
+        background-image: url("../img/ic-show-gray.png");
+    }
+    .mobile-aside ul li:nth-child(4) > a {
+        background-image: url("../img/ic-flag-gray.png");
+    }
+    .mobile-aside ul li:nth-child(5) > a {
+        background-image: url("../img/ic-pen-gray.png");
+    }
+    .mobile-aside ul li:nth-child(6) > a {
+        background-image: url("../img/ic-book-gray.png");
+    }
+    .mobile-aside ul li:nth-child(7) > a {
+        background-image: url("../img/ic-col-gray.png");
+    }
+    .mobile-aside ul li:nth-child(8) > a {
+        background-image: url("../img/ic-set-gray.png");
+    }
+    .mobile-aside ul li:nth-child(9) > a {
+        background-image: url("../img/ic-set-gray.png");
+    }
+    /************************/
+    .mobile-aside ul li:first-child > a:hover {
+        background-image: url("../img/ic-txt-org.png");
+    }
+    .mobile-aside ul li:nth-child(2) > a:hover {
+        background-image: url("../img/ic-status-org.png");
+    }
+    .mobile-aside ul li:nth-child(3) > a:hover {
+        background-image: url("../img/ic-show-org.png");
+    }
+    .mobile-aside ul li:nth-child(4) > a:hover {
+        background-image: url("../img/ic-flag-org.png");
+    }
+    .mobile-aside ul li:nth-child(5) > a:hover {
+        background-image: url("../img/ic-pen-org.png");
+    }
+    .mobile-aside ul li:nth-child(6) > a:hover {
+        background-image: url("../img/ic-book-org.png");
+    }
+    .mobile-aside ul li:nth-child(7) > a:hover {
+        background-image: url("../img/ic-col-org.png");
+    }
+    .mobile-aside ul li:nth-child(8) > a:hover {
+        background-image: url("../img/ic-set-org.png");
+    }
+    .mobile-aside ul li:nth-child(9) > a:hover {
+        background-image: url("../img/ic-set-org.png");
+    }
+}
+/*屏幕宽度大于等于768px小于992px时,bootstrap row容器宽度750px*/
+@media (min-width: 768px) and (max-width: 992px) {
+    .user-center {
+        margin:  4em auto 0 auto;
+    }
+}
+/*屏幕宽度大于等于992px小于1200px时,bootstrap row容器宽度970px*/
+@media (min-width: 992px) and (max-width: 1200px) {
+    .user-center {
+        margin:  5em auto 0 auto;
+    }
+}
+/*屏幕宽度大于等于1200px时,bootstrap row容器宽度1170px*/
+@media (min-width: 1200px) {
+    /*所有不在媒体查询之内的样式都可视为在此之内*/
+}

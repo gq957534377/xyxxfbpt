@@ -7,6 +7,7 @@ use App\Store\RoleStore;
 use App\Store\HomeStore;
 
 use App\Tools\CustomPage;
+use Illuminate\Support\Facades\DB;
 
 class userManagementService
 {
@@ -123,6 +124,26 @@ class userManagementService
         }
 
         return $pageStr;
+    }
+
+    /**
+     * @param $where array、 用户guid
+     * @param $status  array  要修改的状态
+     * @return bool  修改成功为真  失败假
+     * @author lw
+     */
+    public function changeStatus($where, $status)
+    {
+        DB::beginTransaction();
+            $res1 = self::$data_user_info->changeStatus($where, $status);
+            $res2 = self::$data_user_login->changeSatus($where, $status);
+
+        if(!$res1 || !$res2) {
+            DB::rollBack();
+            return false;
+        }
+        DB::commit();
+        return true;
     }
 
 

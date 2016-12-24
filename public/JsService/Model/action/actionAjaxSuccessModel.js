@@ -15,22 +15,22 @@ function listHtml(data){
         html += '<td>' + getLocalTime(e.deadline)+'</td>';
         html += '<td>' + e.limit+'</td>';
         html += '<td>' + e.people+'</td>';
-        html += '<td><a class="info btn btn-xs btn-warning tooltips" data-toggle="modal" data-target="#tabs-modal" style="border-radius: 6px;" data-name="' + e.guid + '">详情</a>&nbsp';
+        html += '<td><a class="info btn btn-xs btn-warning tooltips" data-toggle="modal" data-target="#tabs-modal" style="border-radius: 6px;" data-list="'+list_type+'" data-name="' + e.guid + '">详情</a>&nbsp';
         if (e.status == 1) {
-            html += '<a class="btn btn-xs btn-info tooltips charge-road" style="border-radius: 6px;" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
+            html += '<a class="btn btn-xs btn-info" href="action_change/'+e.guid+'/'+list_type+'" style="border-radius: 6px;">修改</a>&nbsp';
             html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
-            html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-list="'+list_type+'" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
         } else if (e.status == 4) {
-            html += '<a class="btn btn-xs btn-info tooltips charge-road" style="border-radius: 6px;" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
-            html += '<a class="btn btn-xs btn-danger tooltips status" style="border-radius: 6px;" data-name="' + e.guid + '" data-status="' + 1 + '">启用</a>&nbsp';
+            html += '<a class="btn btn-xs btn-info" href="action_change/'+e.guid+'/'+list_type+'" style="border-radius: 6px;">修改</a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" style="border-radius: 6px;" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 1 + '">启用</a>&nbsp';
         }else if (e.status == 2) {
-            html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
         }else if (e.status == 3) {
-            html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips status" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
         }else if (e.status == 5) {
-            html += '<a class="btn btn-xs btn-info tooltips charge-road" style="border-radius: 6px;" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
+            html += '<a class="btn btn-xs btn-info" href="action_change/'+e.guid+'/'+list_type+'" style="border-radius: 6px;">修改</a>&nbsp';
             html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
-            html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>';
+            html += '<a class="btn btn-xs btn-danger tooltips status" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>';
         }
         html += '</td>';
     });
@@ -38,22 +38,6 @@ function listHtml(data){
     return html;
 }
 
-//活动类型展示
-function type(type) {
-    var res;
-    switch (type){
-        case 1:
-            res = '路演活动';
-            break;
-        case 2:
-            res = '大赛';
-            break;
-        default:
-            res = '学习';
-            break;
-    }
-    return res;
-}
 //所属机构展示
 function group(type) {
     var res;
@@ -65,7 +49,6 @@ function group(type) {
             res = '兄弟会';
             break;
         default:
-            res = '个人';
             break;
     }
     return res;
@@ -94,24 +77,7 @@ function status(status) {
     }
     return res;
 }
-//展示旧数据
-function date(data) {
-    data = data.ResultData;
-    $('#yz_xg').find('input[name=id]').val(data.guid);
-    $('#yz_xg').find('input[name=title]').val(data.title);
-    $('#yz_xg').find('input[name=end_time]').val(data.end_time);
-    $('#yz_xg').find('input[name=deadline]').val(data.deadline);
-    $('#yz_xg').find('input[name=address]').val(data.address);
-    $('#yz_xg').find('input[name=limit]').val(data.limit);
-    $('#yz_xg').find('input[name=author]').val(data.author);
-    $('#yz_xg').find('input[name=banner]').val(data.banner);
-    $('#charge_thumb_img').attr('src',data.banner);
-    $('#yz_xg').find('select[name=group]').val(data.group);
-    $('#yz_xg').find('input[name=start_time]').val(data.start_time);
-    $('#yz_xg').find('textarea[name=brief]').val(data.brief);
-    ue1.setContent(data.describe);
-    $('.loading').hide();
-}
+
 // 显示活动信息详情
 function showInfoList(data){
     $('.loading').hide();
@@ -123,9 +89,9 @@ function showInfoList(data){
             $('#xq_author').val(data.author);
             $('#xq_type').val(type(data.type));
             $('#xq_group').val(group(data.group));
-            $('#xq_start_time').val(data.start_time);
-            $('#xq_end_time').val(data.end_time);
-            $('#xq_deadline').val(data.deadline);
+            $('#xq_start_time').val(getLocalTime(data.start_time));
+            $('#xq_end_time').val(getLocalTime(data.end_time));
+            $('#xq_deadline').val(getLocalTime(data.deadline));
             $('#xq_time').val(data.addtime);
             $('#xq_banner').attr('src',data.banner);
             $('#xq_population').val(data.people);
@@ -172,3 +138,4 @@ function actionOrder(data) {
         $('#alert-info').html('<p>未知的错误</p>');
     }
 }
+

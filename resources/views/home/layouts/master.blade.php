@@ -20,7 +20,7 @@
 @yield('content')
 
 @include('home.public.footer')
-
+@include('home.public.feedBack')
 @include('home.public.script')
 
 @yield('script')

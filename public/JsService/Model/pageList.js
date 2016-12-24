@@ -8,7 +8,8 @@ function getInfoList(data) {
             $('#data').html(listHtml(data));
             $('#page').html(data.ResultData.pages);
             getPage();
-            modifyStatus();
+            // modifyStatus();
+            initAlert();
             showInfo();
             updates();
             checkAction();
@@ -34,7 +35,13 @@ function getPage() {
             return false;
         }
 
-        var url = typeof (list_user) != 'undefined'?$(this).children().prop('href') + '&type=' + list_type + '&status=' + list_status + '&user=' + list_user:$(this).children().prop('href') + '&type=' + list_type + '&status=' + list_status;
+        var url;
+        if (typeof (list_user) != 'undefined'){
+            url = $(this).children().prop('href') + '&type=' + list_type + '&status=' + list_status + '&user=' + list_user;
+        }else {
+            url = $(this).children().prop('href') + '&type=' + list_type + '&status=' + list_status+'&college_type='+college_type;
+        }
+
         var ajax = new ajaxController();
         ajax.ajax({
             url: url,

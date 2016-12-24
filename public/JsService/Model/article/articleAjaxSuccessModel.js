@@ -26,7 +26,7 @@ function listHtml(data){
         }
         if (e.status == 2){
             html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 1 + '" class="status" style="margin-bottom: 6px">通过</i></a>&nbsp';
-            html += '<a class="btn btn-xs btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i id="pass" data-name="' + e.guid + '" data-status="' + 3 + '" style="margin-bottom: 6px" data-toggle="modal" data-target="#panel-modal">否决</i></a>&nbsp';
+            html += '<a class="btn btn-xs btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i class="pass" data-name="' + e.guid + '" data-status="' + 3 + '" style="margin-bottom: 6px" data-toggle="modal" data-target="#panel-modal">否决</i></a>&nbsp';
         }
         html += '</td>';
     });

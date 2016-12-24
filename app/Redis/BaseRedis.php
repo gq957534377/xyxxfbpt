@@ -106,6 +106,12 @@ class BaseRedis
         return Redis::Sadd($key, $value);
     }
 
+    /**
+     * @param $key
+     * @param $value
+     * @return mixed
+     * @author 王通
+     */
     public static function checkSet ($key, $value)
     {
         return Redis::SISMEMBER($key, $value);

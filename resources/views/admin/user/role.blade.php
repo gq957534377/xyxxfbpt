@@ -61,59 +61,142 @@
 {{--展示内容结束--}}
 
 {{--弹出页面 开始--}}
-@section('form-id', 'con-modal')
-@section('form-title', '提示信息：')
-@section('form-body')
-    <div class="row" id="alert-form"></div>
-    <div id="alert-info"></div>
-@endsection
-@section('form-footer')
-    <button type="button" id="post" class="btn btn-info hidden">提交</button>
-    <button type="button" id="cancel" class="btn btn-info hidden" data-dismiss="modal">取消</button>
+<div id="con123" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg" id="fabu">
+        <div class="modal-content">
+            <div id = "" class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4">123451313156464646465456465456444</div>
+                    <div class="col-sm-4">67890464654654444444444444444444444</div>
+                </div>
+            </div>
+            <div class="modal-footer">
 
-    <button type="button" class="btn check_pass hidden">通过</button>
+                <a href="javascript:;" data-name="' + v.guid + '" data-id="7" class="check_pass"><button type="submit" data-name="" class="btn btn-danger" id="check_pass">拒绝</button></a>
+                <a href="javascript:;" data-name="' + v.guid + '" data-id="6" class="check_pass"><button type="submit" data-name="" class="btn btn-primary">通过</button></a>
+            </div>
 
-    <button type="button" class="btn check_fail btn-warning hidden">不通过</button>
+        </div>
+    </div>
 
-    <button type="button" class="btn change_memeber_false btn-warning hidden">不通过2</button>
+</div>
 
-    <button type="button" id="close" class="btn btn-info hidden" data-dismiss="modal">Close</button>
 
-@endsection
-{{--弹出页面结束--}}
-
-{{--警告信息弹层开始--}}
-{{--@section('alertInfo-title', 'xxxxxxx')--}}
-{{--@section('alertInfo-body', 'yyyyyyyy')--}}
-{{--警告信息弹层结束--}}
 
 @section('script')
-
-    {{--<script>--}}
-
-        {{--function getInfo(n) {--}}
-            {{--$('#data').html(n);--}}
-        {{--}--}}
-    {{--</script>--}}
-
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
-    {{--<script src="{{asset('JsService/Model/user/html.js')}}" type="text/javascript"></script>--}}
-    {{--<script src="{{asset('JsService/Model/user/function.js')}}" type="text/javascript"></script>--}}
-
-
-
-    {{--<script>--}}
-        {{--var number = 0;--}}
-
-        {{--//初始化 请求数据 包含分页数据 添加事件--}}
-        {{--$(function () {--}}
-            {{--$("button[title='普通用户']").click();--}}
-        {{--});--}}
-
-    {{--</script>--}}
-
+    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     <script>
+        /**************************************************************************************************/
+        /** 弹出确认框
+         * Theme: Velonic Admin Template
+         * Author: Coderthemes
+         * SweetAlert -
+         * Usage: $.SweetAlert.methodname
+         */
+
+        function initAlert() {
+            !function($) {
+                "use strict";
+
+                var SweetAlert = function() {};
+
+                //examples
+                SweetAlert.prototype.init = function() {
+
+                    //禁用弹出确认框
+                    $('.check_pass').click(function(){
+                        var action = $(this).children().html();
+
+                        //获取tr节点
+
+
+
+                        swal({
+                            title: "确定要"+ action +"?",
+                            text: "当前操作会"+ action +"用户角色申请!",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: '',
+                            cancelButtonText: "取消",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        }, function(isConfirm){
+                            if (isConfirm) {
+                                //发送请求
+//                                $.ajax({
+//                                    url :'/user_management/'+id+'/edit', //参数2 为禁用,1 为启用
+//                                    type : 'get',
+//                                    data : {guid : guid},
+//                                    success : function (msg) {
+//                                        if(msg.statusCode == 400){
+//                                            swal(msg.resultData, '执行' + status + '失败', "danger");
+//                                        }
+//                                        swal(msg.resultData, '该用户已被成功'+status, "success");
+//                                        //成功后删除当前行
+//                                        tr.remove();
+//
+//                                    }
+//                                });
+                                swal('操作成功！', '用户审核'+ action, "success");
+                                $('#con123').modal('hide');
+                                tr.remove();
+
+                            } else {
+                                swal("操作取消！", "你没有进行任何操作！", "error");
+                                $('#con123').modal('hide');
+                            }
+                        });
+                    });
+                },
+                        //init
+                        $.SweetAlert = new SweetAlert,
+                        $.SweetAlert.Constructor = SweetAlert
+            }(window.jQuery),
+
+//initializing
+                    function($) {
+                        "use strict";
+                        $.SweetAlert.init()
+                    }(window.jQuery);
+        }
+
+
+        /********************************************************************************************/
+
+
+        /**
+         *  审核操作
+         *
+         *
+         */
+        var tr; //获取审核时对应tr标签节点，审核完成后 执行tr移除操作
+        function userCheck() {
+            $('.user_check').click(function () {
+                var guid = $(this).data('name');
+                tr = $(this).parent().parent();
+                $('#con123').modal('show');
+                //$('.modal-content').html(guid);
+            });
+        }
+        /**
+         *查看用户详情
+         *
+         *
+         *
+         * */
+//        function listenChange() {
+//            $('.user_modify').click(function () {
+//                var guid = $(this).data('name');
+//                $('#con123').modal('show');
+//                $('.modal-header').html(guid);
+//            });
+//        }
 
         //页面默认加载所有可用用户信息
         $(function () {
@@ -130,10 +213,10 @@
             //执行ajax请求
             execAjax( url, queryString, 'get');
         });
-        
+
         /**
          *  获取不同类型用户的列表点击事件
-         *  
+         *
          * @return  mixed   用户的列表
          * */
         $('.user_role_list').click(function(){
@@ -178,7 +261,7 @@
         }
 
 
-        
+
         /** ajax请求，通过参数返回不同类型用户的列表
          *
          * @param   var url           string    请求url
@@ -209,6 +292,10 @@
                     $('#data').html(htmlStr(msg.ResultData[1]));
                     $('#page').html(msg.ResultData[0]);
                     pages();
+                    //listenChange();
+                    initAlert();
+                    userCheck();        //监听审核
+
 
 
                 }
@@ -269,9 +356,15 @@
                     str +=  '<td>女</td>';
                 }
 
-                str += '<td>' + v.birthday + '</td>';
-                str +=  '<td>' + v.tel + '</td>';
-                str +=  '<td>' + v.email + '</td>';
+                str += '<td>';
+                str += v.birthday ? v.birthday : '';
+                str += '</td>';
+                str +=  '<td>';
+                str += v.tel ? v.tel : '';
+                str += '</td>';
+                str +=  '<td>';
+                str += v.email ? v.email : '';
+                str += '</td>';
                 str +=  '<td>';
 
                 if(v.status == 5 && v.role == 2){
@@ -296,10 +389,14 @@
                 str +=  '</td>';
                 str +=  '<td>';
                 if(v.status == 5 || v.status == 7){
-                    str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-success btn-xs">审核</button></a>';
+                    str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
+                            '" data-brithday="'+v.birthday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+
+                            '" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+
+                            '" data-headpic="'+v.headpic+'" data-wechat="'+v.wechat+'" data-introduction="'+v.introduction+
+                            '" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+
+                            '" class="user_check"><button class="btn btn-info btn-xs">审核</button></a>';
                 }
-                str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
-                str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-warning btn-xs">详情</button></a>';
+
 
                 str +=  '</td></tr>';
             });
