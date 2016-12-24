@@ -82,10 +82,10 @@
   left:15px;
 }
 .top_right_3 li:nth-child(1)::before{
-  content: "融资金额：";
+  content: "当前轮次：";
 }
 .top_right_3 li:nth-child(2)::before{
-  content: "当前轮次：";
+  content: "上线日期：";
 }
 .top_right_3 li:nth-child(3)::before{
   content: "出让股权：";
@@ -94,7 +94,7 @@
   content: "融资模式：";
 }
 .top_right_3 li:nth-child(5)::before{
-  content: "截止时间：";
+  content: "融资金额：";
 }
 .top_right_4{
   background:url(../img/class.jpg) no-repeat 15px;

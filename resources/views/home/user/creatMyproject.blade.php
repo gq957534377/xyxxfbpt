@@ -305,7 +305,7 @@
         $('#pro_exp_time').val("");
         $('#exp_text').val("");
         var temp1 = $('#expStore').val();
-        var temp2 = time +":"+ content+ "*zxz*";
+        var temp2 = time +":::"+ content+ "*zxz*";
         $('#expStore').val(temp1+temp2);
         expNum++;
         expBriefAdd(content);
@@ -350,7 +350,7 @@
       var peoplesImg = $('#touxiangUrl').val();
       var peoplesIntroduce =$('#member-introduce').val();
       if (strEmpty(peoplesIntroduce)&&strEmpty(peoplesImg)&&strEmpty(peoplesName)&&strEmpty(peoplesPosition)) {
-        var Str = peoplesName + ',' + peoplesImg + ',' + peoplesPosition + ',' + peoplesIntroduce +'*zxz*';
+        var Str = peoplesName + '!,/' + peoplesImg + '!,/' + peoplesPosition + '!,/' + peoplesIntroduce +'*zxz*';
         if(strStore(Str)){
           clearInput();
           chengyuanNum++;

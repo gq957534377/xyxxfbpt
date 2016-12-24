@@ -67,10 +67,27 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
-        if ($id == 'unchecked') return view('admin.project.unchecked');
-        if ($id == 'pass') return view('admin.project.pass');
-        if ($id == 'nopass') return view('admin.project.nopass');
-        return false;
+        switch ($id) {
+            case 'unchecked' :
+                return view('admin.project.unchecked');
+            break;
+
+            case 'pass' :
+                return view('admin.project.pass');
+            break;
+
+            case 'nopass' :
+                return view('admin.project.nopass');
+            break;
+
+            default:
+                $result = self::$projectServer->getProject($id);
+
+                if($result['StatusCode'] == '400') return $result['ResultData'];
+
+                return view('admin.project.details', ['data' => $result['ResultData']]);
+        }
+
     }
 
     /**

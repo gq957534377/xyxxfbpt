@@ -9,29 +9,29 @@ var creatTable = function(data){
 
         var image_td = $('<td></td>');
         var image_a = $('<a></a>');
-        image_a.attr('href',data[i].banner_img);
+        image_a.attr('href','/project/'+data[i].guid);
         image_a.attr('target','_blank');
-        image_a.html('<img class="unchecked_img"/>');
-        image_a.find('img').attr('src',data[i].banner_img);
+        image_a.html('<button class="btn btn-warning btn-xs">查看详情</button>');
         image_td.html(image_a);
 
         var file_td = $('<td></td>');
         var file_a = $('<a></a>');
-        file_a.attr('href',data[i].brief_content);
-        file_a.attr('target','_blank');
-        file_a.html(data[i].brief_content);
+        var str = data[i].brief_content;
+        if(str.length>40){
+            str = str.substring(0,40)+'...'
+        }
+        file_a.html(str);
         file_td.html(file_a);
 
-        var status_td = $('<td>待审核</td>');
         var btn_td = $('<td></td>');
 
-        var btn_yes = $("<button class='btn btn-success m-b-5 btn_yes changr_btn' status='yes'>通过</button>");
-        var btn_no = $("<button class='btn btn-primary m-b-5 btn_no changr_btn' status='no'>不通过</button>");
+        var btn_yes = $('<button class="btn btn-danger btn-xs" style="border-radius:6px">不通过</button>');
+        var btn_no = $('<button class="btn btn-success btn-xs" style="border-radius:6px">通过</button>');
         btn_yes.attr({'id':data[i].guid});
         btn_no.attr({'id':data[i].guid});
         btn_td.append(btn_yes).append(btn_no);
-        tr.append(title_td).append(image_td).append(file_td).append(status_td).append(btn_td);
-        var thead_tr = $('<tr><td>项目标题</td><td>图片</td><td>项目简介</td><td>状态</td><td>操作</td></tr>');
+        tr.append(title_td).append(file_td).append(image_td).append(btn_td);
+        var thead_tr = $('<tr><td>项目标题</td><td>项目简介</td><td>项目详情</td><td>操作</td></tr>');
         $("#unchecked_table tbody").append(tr);
     }
     $("#unchecked_table thead").append(thead_tr);
