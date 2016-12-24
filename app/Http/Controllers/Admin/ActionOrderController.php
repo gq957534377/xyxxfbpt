@@ -73,9 +73,7 @@ class ActionOrderController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request -> all();
-        $result = self::$actionServer -> insertData($data);
-        return response() -> json($result);
+
     }
 
     /**

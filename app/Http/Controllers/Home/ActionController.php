@@ -98,7 +98,7 @@ class ActionController extends Controller
     }
 
     /**
-     * 向活动表插入数据
+     * 向活动报名表插入数据
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      * @author 郭庆
@@ -143,7 +143,8 @@ class ActionController extends Controller
 
         //返回详情页
         return view("home.action.details", [
-            "data" => $data["ResultData"],
+            "list" => 1,
+            "data" => $data,
             'isLogin' => $isLogin,
             'isHas' => $isHas,
             'likeNum' => $likeNum,

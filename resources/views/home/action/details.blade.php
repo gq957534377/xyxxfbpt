@@ -13,23 +13,27 @@
 @section('content')
     <!--活动详情banner 开始-->
     <section class="container road-banner bgc-1 mar-emt1 pad-7 pad-7-xs">
-        <h4 class="mar-ct mar-b15">{{ $data->title }}</h4>
-        <p class="mar-b15"><span>时间：</span>{{ $data->start_time }}——{{ $data->end_time }}</p>
-        <p class="mar-b15"><span>地点：</span>{{ $data->address }}</p>
-        <p class="mar-emt60 mar-b15">已报名{{ $data->people }}人</p>
+        @if($data['StatusCode'] == 200)
+        <h4 class="mar-ct mar-b15">{{ $data['ResultData']->title }}</h4>
+        <p class="mar-b15"><span>时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}——{{ date('Y年m月d日 H点',$data['ResultData']->end_time) }}</p>
+        <p class="mar-b15"><span>地点：</span>{{ $data['ResultData']->address }}</p>
+        <p class="mar-emt60 mar-b15">已报名{{ $data['ResultData']->people }}人</p>
 
         <!--两个按钮按照情况只显示一个-->
-        @if($data->status == 1)
+        @if($data['ResultData']->status == 1)
             @if(!$isHas)
         <button id="js_enroll" type="button" class="btn btn-primary bgc-2 b-n btn-1">我要报名</button>
             @else
                 <button style="background: #3E8CE6;" type="button" class="btn btn-primary bgc-2 b-n btn-1">已报名</button>
             @endif
-        @elseif($data->status == 5)
+        @elseif($data['ResultData']->status == 5)
             <button type="button" class="btn btn-info b-n disabled">报名截止</button>
-        @elseif($data->status == 2)
+        @elseif($data['ResultData']->status == 2)
             <button type="button" class="btn btn-info b-n disabled">活动已开始</button>
         @endif
+            @else
+            <h4 class="mar-ct mar-b15">{{ $data['ResultData'] }}</h4>
+            @endif
     </section>
     <!--活动详情banner 结束-->
     <!--活动说明 & 评论 开始-->
@@ -39,14 +43,13 @@
             <!--活动说明 开始-->
             <div class="col-md-9 col-lg-9 pad-clr mar-b15">
                 <div class="br-1 pad-8 mar-r20 b-n-sm b-n-xs mar-cr-sm mar-cr-xs road-explain">
-                    <p class="col-sm-6"><span>主办方：</span>{{ $data->author }}</p>
-                    <p class="col-sm-12"><span>活动简述：</span>{{ $data->brief }}</p>
+                    @if($data['StatusCode'] == 200)
+                    <p class="col-sm-6"><span>主办方：</span>{{ $data['ResultData']->author }}</p>
+                    <p class="col-sm-12"><span>活动简述：</span>{{ $data['ResultData']->brief }}</p>
                     <p class="col-sm-12"><span>活动详情：</span></p>
                     <div class="col-md-12">
-                        {!! $data->describe !!}
+                        {!! $data['ResultData']->describe !!}
                     </div>
-
-
                     <p class="col-lg-8 col-md-7 col-sm-7 col-xs-12 @if($likeStatus == 1) taoxin @endif">
                         <span class="collect">
                           <span id="likeFont"></span><span id="likeNum">{{$likeNum}}</span>
@@ -55,12 +58,10 @@
                     <p class="col-lg-1 col-md-1 col-sm-1 col-xs-3 pad-cr pad-clr-md pad-cl-sm line-h-36">分享到</p>
                     <div class="bdsharebuttonbox col-lg-3 col-md-4 col-sm-4 col-xs-9 pad-clr pad-l30-md pad-l30-sm">
                         <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-                        <script>
-                            window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};
-                            with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-                        </script>
+
                     </div>
                     <div class="clearfix"></div>
+                    @endif
                 </div>
             </div>
             <!--活动说明 结束-->
@@ -97,7 +98,6 @@
                                 </div>
                             </li>
                         @endforeach
-                    @else
                 @endif
                     <!---循环遍历结束-->
                 </ul>
@@ -111,21 +111,26 @@
 @section('script')
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script>
-        @if($isLogin)
+
+        var token  = $('meta[name="csrf-token"]').attr('content');
+        @if($isLogin && $data['StatusCode'] == 200)
         $('#js_enroll').click(function(){
             var obj = $(this);
             $.ajax({
                 type:'post',
-                url:"{{route('action.store')}}",
+                url:"/action_order",
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': token
                 },
-                data:{user_id:"{{session('user')->guid}}",action_id:"{{$data->guid}}"},
+                data:{user_id:"{{$isLogin}}",action_id:"{{$data['ResultData']->guid}}",list:"{{$list}}"},
                 success:function (data) {
-                    switch (data.StatusCode){
-                        case '200':obj.html("已报名").css({background:"#3E8CE6"}).unbind("click");break;
-                        case '400':alert(data.ResultData);break;
+                    if (data.StatusCode === "200"){
+                        alert("报名成功！");
+                        obj.html("已报名").css({background:"#3E8CE6"}).unbind("click");
+                    }else{
+                        alert(data.ResultData+'错误代码：'+data.StatusCode);
                     }
+                    console.log(data);
                 }
             })
         });
@@ -135,9 +140,9 @@
             var num = parseInt($('#likeNum').html())
             $.ajax({
                 type:"get",
-                url:"/action/{{$data->guid}}/edit",
+                url:"/action/{{$data['ResultData']->guid}}/edit",
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': token
                 },
                 data:{type:3},
                 success:function (data) {
@@ -170,5 +175,9 @@
         function login() {
             window.location.href = "{{route('login.index')}}"
         }
+
+        //分享按钮
+        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};
+        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
     </script>
 @endsection

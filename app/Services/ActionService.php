@@ -70,28 +70,34 @@ class ActionService
         //判断是否已经报名
         $action = self::$actionOrderStore->getSomeField(['user_id' => $data['user_id']], 'action_id');
         $isHas = in_array($data['action_id'], $action);
-        if($isHas) return ['status' => false, 'msg' => '已经报名参加'];
+        if($isHas) return ['StatusCode' => '400', 'ResultData' => "已经报名参加"];
 
         //添加新的报名记录
-        $data['time'] = date("Y-m-d H:i:s", time());
+        $data['addtime'] = time();
         DB::beginTransaction();
         try{
             //插入报名记录
             $result = self::$actionOrderStore->addData($data);
 
             //给活动信息表参与人数字段加1
-            $res = self::$actionStore->incrementData(['guid' => $data['action_id']], 'people',1);
+            if ((int)$data['list'] == 3){
+                $res = self::$collegeStore->incrementData(['guid' => $data['action_id']], 'people',1);
+            }else{
+                $res = self::$actionStore->incrementData(['guid' => $data['action_id']], 'people',1);
+            }
 
             //上述俩个操作全部成功则返回成功
             if($res && $result){
                 DB::commit();
-                return ['status' => true, 'msg' => '报名成功'];
+                return ['StatusCode' => '200', 'ResultData' => "报名成功"];
+            }else{
+                return ['StatusCode' => '500', 'ResultData' => "存储有误，报名失败"];
             }
         }catch (Exception $e){
             //上述操作有一个失败就报错，数据库手动回滚
             \Log::error('报名失败', [$data]);
             DB::rollback();
-            return ['status' => false, 'msg' => '报名失败'];
+            return ['StatusCode' => '500', 'ResultData' => "服务器繁忙,报名失败"];
         }
     }
 
@@ -586,5 +592,54 @@ class ActionService
     {
         $res = self::$actionStore->dateBetween($between);
         if (!$res) return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
+    }
+
+    /**
+     * 获取指定用户所报名参加的满足限制条件的活动信息
+     * @param [] $actions 活动actions数组
+     * @return array
+     * @author 郭庆
+     */
+    public function getOrderActions($where, $actions, $nowPage, $forPages, $url, $list, $disPlay=true)
+    {
+        if ($list == 3){
+            $count = self::$collegeStore->getActionsCount($where, 'guid', $actions);
+        }else{
+            $count = self::$actionStore->getActionsCount($where, 'guid', $actions);
+        }
+
+        if (!$count) {
+            //如果没有数据直接返回201空数组，函数结束
+            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => ['list'=>$list,'data' => "你还未报名参加任何活动"]];
+            return ['StatusCode' => '400', 'ResultData' => ['list'=>$list,'data' => '数据参数有误']];
+        }
+
+        //计算总页数
+        $totalPage = ceil($count / $forPages);
+        //获取所有数据
+        if ($list == 3){
+            $result['data'] = self::$collegeStore->getActionsPage($where, 'guid', $actions, $nowPage, $forPages);
+        }else{
+            $result['data'] = self::$actionStore->getActionsPage($where, 'guid', $actions, $nowPage, $forPages);
+        }
+        if($result['data']){
+            if ($disPlay && $totalPage > 1) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+
+                if($creatPage){
+                    $result["pages"] = $creatPage;
+                }else{
+                    return ['StatusCode' => 500,'ResultData' => ['list'=>$list,'data' => '生成分页样式发生错误']];
+                }
+            }else{
+                $result['totalPage'] = $totalPage;
+                $result["pages"] = '';
+            }
+            $result['list'] = $list;
+            return ['StatusCode' => 200,'ResultData' => $result];
+        }else{
+            return ['StatusCode' => 500,'ResultData' => ['list'=>$list,'data' => '获取报名分页数据失败！']];
+        }
     }
 }

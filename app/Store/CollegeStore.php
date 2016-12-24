@@ -131,5 +131,33 @@ class CollegeStore
     {
         return DB::table(self::$table)->whereBetween('start_time', $between)->get();
     }
+    /**
+     * 获取满足指定字段的集合的所有数据
+     * @param string $field 字段
+     * @param  [] $array 集合
+     * @author 郭庆
+     */
+    public function getActionsPage($where, $field, $array, $page, $pageNum)
+    {
+        return DB::table(self::$table)
+            ->where($where)
+            ->whereIn($field, $array)
+            ->orderBy('addtime','desc')
+            ->forPage($page,$pageNum)
+            ->get();
+    }
+    /**
+     * 获取满足指定字段的集合的所有数据的个数
+     * @param string $field 字段
+     * @param  [] $array 集合
+     * @author 郭庆
+     */
+    public static function getActionsCount($where, $field, $array)
+    {
+        return DB::table(self::$table)
+            ->where($where)
+            ->whereIn($field, $array)
+            ->count();
+    }
 
 }
