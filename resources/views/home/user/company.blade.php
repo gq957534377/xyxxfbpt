@@ -29,33 +29,43 @@
 
                 <div class="form-group mar-b15">
                     <span class="col-md-3 col-lg-2 control-label mar-b10 dis-in-bl"><span class="form-star">&nbsp;</span>所在地</span>
-                    <div class="col-md-6 pad-cl">
-                        <div class="col-xs-5 col-sm-5 col-md-5">
-                            <select class="form-control chr-c bg-2" id="work-province">
-                                <option value="">北京市</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
+                    {{--<div class="col-md-6 pad-cl">--}}
+                        {{--<div class="col-xs-5 col-sm-5 col-md-5">--}}
+                            {{--<select class="form-control chr-c bg-2" id="work-province">--}}
+                                {{--<option value="">北京市</option>--}}
+                                {{--<option value="1">1</option>--}}
+                                {{--<option value="2">2</option>--}}
+                                {{--<option value="3">3</option>--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+                        {{--<label for="work-province" class="col-xs-1 col-sm-1 col-md-1 control-label pad-clr h-align line-h-1">省</label>--}}
+                        {{--<div class="col-xs-5 col-sm-5 col-md-5">--}}
+                            {{--<select class="form-control chr-c bg-2" id="work-city">--}}
+                                {{--<option value="">北京市</option>--}}
+                                {{--<option value="1">1</option>--}}
+                                {{--<option value="2">2</option>--}}
+                                {{--<option value="3">3</option>--}}
+                            {{--</select>--}}
+                        {{--</div>--}}
+                        {{--<label for="work-city" class="col-xs-1 col-sm-1 col-md-1 control-label pad-cl line-h-1">市</label>--}}
+                    {{--</div>--}}
+                    <div class="col-md-8">
+                        <div id="companyAddress" class="col-md-9 pad-cl" class="citys">
+                            <p>
+                                <select class="form-control form-title" name="province"></select> <br>
+                                <select class="form-control" name="city"></select> <br>
+                                <select class="form-control" name="area"></select>
+                            </p>
+                            <input id="place" class="form-control" name="company_address" value="" type="text" readonly>
                         </div>
-                        <label for="work-province" class="col-xs-1 col-sm-1 col-md-1 control-label pad-clr h-align line-h-1">省</label>
-                        <div class="col-xs-5 col-sm-5 col-md-5">
-                            <select class="form-control chr-c bg-2" id="work-city">
-                                <option value="">北京市</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div>
-                        <label for="work-city" class="col-xs-1 col-sm-1 col-md-1 control-label pad-cl line-h-1">市</label>
                     </div>
                 </div>
-                <div class="form-group mar-b30 mar-b15-xs">
-                    <div class="col-xs-9 col-sm-10 col-md-offset-3  col-lg-offset-2 col-md-6">
-                        <input type="text" class="form-control form-title" id="work-road" placeholder="">
-                    </div>
-                    <label for="work-road" class="col-xs-3 col-sm-1 col-md-2 col-lg-2 control-label pad-clr line-h-1">街道</label>
-                </div>
+                {{--<div class="form-group mar-b30 mar-b15-xs">--}}
+                    {{--<div class="col-xs-9 col-sm-10 col-md-offset-3  col-lg-offset-2 col-md-6">--}}
+                        {{--<input type="text" class="form-control form-title" id="work-road" placeholder="">--}}
+                    {{--</div>--}}
+                    {{--<label for="work-road" class="col-xs-3 col-sm-1 col-md-2 col-lg-2 control-label pad-clr line-h-1">街道</label>--}}
+                {{--</div>--}}
 
                 <div class="form-group mar-b30 mar-b15-xs">
                     <label for="work-company" class="col-md-3 col-lg-2 control-label mar-b10"><span class="form-star">&nbsp;</span>创始人姓名</label>
