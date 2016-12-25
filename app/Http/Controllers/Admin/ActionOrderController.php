@@ -75,8 +75,8 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 获取分页数据
-     * @param $request
+     *
+     * @param
      * @return array
      * @author 郭庆
      */
@@ -86,8 +86,8 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 拿取一条活动信息详情
-     * @param $id 活动id
+     *
+     * @param
      * @return array
      * @author 郭庆
      */
@@ -97,9 +97,9 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 修改报名状态
-     * @param $request
-     * @param $id 活动id/报名记录id
+     *
+     * @param
+     * @return array
      * @author 郭庆
      */
     public function edit(Request $request, $id)
@@ -108,10 +108,10 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 更改活动信息内容
-     * @param $request
-     * @param $id 所要修改的活动id
-     * author 郭庆
+     *
+     * @param
+     * @return array
+     * @author 郭庆
      */
     public function update(Request $request, $id)
     {
@@ -119,10 +119,10 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 获取报名情况表信息
-     * @param $id 活动id
+     *
+     * @param
      * @return array
-     * author 郭庆
+     * @author 郭庆
      */
     public function destroy($id)
     {

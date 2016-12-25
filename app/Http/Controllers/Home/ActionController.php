@@ -49,13 +49,13 @@ class ActionController extends Controller
         $nowPage = 1;
         $result = self::$actionServer->selectData($where, $nowPage, 2, '/action', false, false);
 
-        if($result["StatusCode"] == 200){
+        if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], $data['type']);
-                        if ($chage['StatusCode'] != 200){
+                        if ($chage['StatusCode'] != '200'){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
                             $v->status = $status['msg'];
@@ -67,7 +67,7 @@ class ActionController extends Controller
         if (isset($data['status'])){
             $result['status'] = (int)$data['status'];
         }else{
-            $result['status'] = 204;
+            $result['status'] = '204';
         }
         $result['type'] = $data['type'];
         $result['nowPage'] = $nowPage;
@@ -87,13 +87,13 @@ class ActionController extends Controller
         $nowPage = isset($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
         $result = self::$actionServer->selectData($where, $nowPage, 2, '/action', false, false);
 
-        if($result["StatusCode"] == 200){
+        if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], $where['type']);
-                        if ($chage['StatusCode'] != 200){
+                        if ($chage['StatusCode'] != '200'){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
                             $v->status = $status['msg'];
@@ -189,7 +189,7 @@ class ActionController extends Controller
     {
         $result = self::$actionServer->getComment($id);
         if (!$result['status']){
-            return ['StatusCode' => 400, 'ResultData' => $result['msg']];
+            return ['StatusCode' => '400', 'ResultData' => $result['msg']];
         }else{
             foreach ($result['msg'] as $v)
             {
@@ -203,7 +203,7 @@ class ActionController extends Controller
                 }
             }
         }
-        return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+        return ['StatusCode' => '200', 'ResultData' => $result['msg']];
     }
 
     /**

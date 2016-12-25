@@ -59,13 +59,13 @@ class ActionController extends Controller
             $where['type'] = $type;
         }
         $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create", $list);
-        if($result["StatusCode"] == 200){
+        if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg'],$type);
-                        if ($chage['StatusCode'] != 200){
+                        if ($chage['StatusCode'] != '200'){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
                             $v->status = $status['msg'];
