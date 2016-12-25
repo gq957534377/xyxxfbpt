@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Home;
 
 use App\Store\ActionOrderStore;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
@@ -180,30 +179,14 @@ class ActionController extends Controller
     }
 
     /**
-     * 展示评论
-     * @param $id
+     *
+     * @param
      * @return array
      * @author 郭庆
      */
     public function update($id)
     {
-        $result = self::$actionServer->getComment($id);
-        if (!$result['status']){
-            return ['StatusCode' => '400', 'ResultData' => $result['msg']];
-        }else{
-            foreach ($result['msg'] as $v)
-            {
-                $res = self::$userServer->userInfo(['guid' => $v->user_id]);
-                if($res['status']){
-                    $v->user_name = $res['msg']->nickname;
-                    $v->headpic = $res['msg']->headpic;
-                }else{
-                    $v->user_name = '无名英雄';
-                    $v->headpic = '';
-                }
-            }
-        }
-        return ['StatusCode' => '200', 'ResultData' => $result['msg']];
+
     }
 
     /**
