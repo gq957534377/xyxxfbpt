@@ -13,11 +13,11 @@
 @section('content')
     <!--活动详情banner 开始-->
     <section class="container road-banner bgc-1 mar-emt1 pad-7 pad-7-xs">
-        @if($data['StatusCode'] == 200)
+        @if($data['StatusCode'] == '200')
         <h4 class="mar-ct mar-b15">{{ $data['ResultData']->title }}</h4>
         <p class="mar-b15"><span>时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}——{{ date('Y年m月d日 H点',$data['ResultData']->end_time) }}</p>
         <p class="mar-b15"><span>地点：</span>{{ $data['ResultData']->address }}</p>
-        <p class="mar-emt60 mar-b15">已报名{{ $data['ResultData']->people }}人</p>
+        <p id="baomingNum" class="mar-emt60 mar-b15">已报名{{ $data['ResultData']->people }}人</p>
 
         <!--两个按钮按照情况只显示一个-->
         @if($data['ResultData']->status == 1)
@@ -43,7 +43,7 @@
             <!--活动说明 开始-->
             <div class="col-md-9 col-lg-9 pad-clr mar-b15">
                 <div class="br-1 pad-8 mar-r20 b-n-sm b-n-xs mar-cr-sm mar-cr-xs road-explain">
-                    @if($data['StatusCode'] == 200)
+                    @if($data['StatusCode'] == '200')
                     <p class="col-sm-6"><span>主办方：</span>{{ $data['ResultData']->author }}</p>
                     <p class="col-sm-12"><span>活动简述：</span>{{ $data['ResultData']->brief }}</p>
                     <p class="col-sm-12"><span>活动详情：</span></p>
@@ -79,7 +79,7 @@
                             <button type="submit" class="subbtn btn btn-warning" >提交</button>
                         </form>
                     </li>
-                    @if($comment['StatusCode'] == 200)
+                    @if($comment['StatusCode'] == '200')
                         @foreach($comment['ResultData'] as $datas)
                             <li class="row">
                                 <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
@@ -113,7 +113,7 @@
     <script>
 
         var token  = $('meta[name="csrf-token"]').attr('content');
-        @if($isLogin && $data['StatusCode'] == 200)
+        @if($isLogin && $data['StatusCode'] == '200')
         $('#js_enroll').click(function(){
             var obj = $(this);
             $.ajax({
@@ -124,8 +124,10 @@
                 },
                 data:{user_id:"{{$isLogin}}",action_id:"{{$data['ResultData']->guid}}",list:"{{$list}}"},
                 success:function (data) {
+                    console.log(data);
                     if (data.StatusCode === "200"){
                         alert("报名成功！");
+                        $('#baomingNum').html('已报名'+({{$data['ResultData']->people}}+1)+'人');
                         obj.html("已报名").css({background:"#3E8CE6"}).unbind("click");
                     }else{
                         alert(data.ResultData+'错误代码：'+data.StatusCode);

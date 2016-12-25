@@ -45,134 +45,6 @@
     <button type="button" class="btn btn-info" data-dismiss="modal">关闭</button>
 @endsection
 {{-- 弹出表单结束 --}}
-{{--修改活动表单--}}
-<div class="modal fade bs-example-modal-lg" id="xg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-     aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myLargeModalLabel">修改活动</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal p-20" data-changed=false role="form" id="yz_xg" onsubmit="return false">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="field-3">活动类型</label>
-                                <div for="field-3">
-                                    <select class="form-control" id="xg_action" name="action" disabled="true">
-                                        <option value="1">活动</option>
-                                        <option value="2">比赛</option>
-                                        <option value="3">学习</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <input type="hidden" id="xg_id" name="id">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="field-1" class="control-label">活动主题</label>
-                                <input type="text" class="form-control" id="xg_title" name="title"
-                                       placeholder="action title...">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-2" class="control-label">负责人</label>
-                                <input type="text" class="form-control" id="xg_author" name="author"
-                                       placeholder="Author">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-3">所属机构</label>
-                                <div for="field-3">
-                                    <select class="form-control" id="xg_group" name="group">
-                                        <option value="1">英雄会</option>
-                                        <option value="2">兄弟会</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">活动开始时间：</label>
-                                <input type="text" class="some_class form-control" id="xg_start_time" name="start_time">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">活动结束时间：</label>
-                                <input type="text" class="some_class form-control" id="xg_end_time" name="end_time">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">截止报名时间：</label>
-                                <input type="text" class="some_class form-control" id="xg_deadline" name="deadline">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">限报人数：</label>
-                                <input type="text" class="form-control" id="xg_limit" name="limit">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group mar-b30">
-                                <label for="inputfile" class="col-md-2 pad-cr"><span class="form-star">*</span>缩略图</label>
-                                <input type="hidden" name="banner" id="charge_banner">
-                                <div class="col-md-10">
-                                    <div class="ibox-content">
-                                        <div class="row">
-                                            <div id="crop-avatar2" class="col-md-12">
-                                                <div class="avatar-view" title="">
-                                                    <img src="{{ asset('home/img/upload-card.png') }}" id="charge_thumb_img" alt="Logo" style="width: 200px;height: 150px;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <label for="field-4" class="control-label">活动地址：</label>
-                                <input type="text" class="form-control" id="xg_address" name="address">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group no-margin">
-                                <label for="field-7" class="control-label">活动简述</label>
-                                <textarea class="form-control autogrow" id="xg_brief" name="brief"
-                                          placeholder="Write something about action"
-                                          style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">                                                        </textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-md-12 control-label">活动详情</label>
-                        <div class="col-md-12">
-                            <textarea id="UE1" name="describe" class="describe"></textarea>
-                        </div>
-                    </div>
-                    <center>
-                        <button type="submit" id="sub_xg" class="btn btn-success m-l-10">修改</button>
-                    </center>
-                </form>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
 {{--活动详情--}}
 <div id="tabs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
      style="display: none;">
@@ -316,35 +188,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-{{--报名表--}}
-<div id="baoming" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-     style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myModalLabel">报名表</h4>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <th>用户id</th>
-                        <th>报名时间</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody id="list_baoming">
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
 <h3 class="title">@if($type == 1)路演活动管理@elseif($type == 2)创业大赛管理@else英雄学院管理@endif</h3>
 {{--<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>--}}
 <a href="/action_add?list={{$type}}"><button class="btn btn-primary" id="add">发布活动</button></a>
@@ -378,26 +221,17 @@
 @endsection
 @section('script')
     <!--引用ajax模块-->
-    <script src="JsService/Controller/ajaxController.js" type="text/javascript"></script>
-    <script src="JsService/Model/ajaxBeforeModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/action/actionAjaxSuccessModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/ajaxErrorModel.js" type="text/javascript"></script>
-    <script src="JsService/Model/pageList.js" type="text/javascript"></script>
+    <script src="{{asset('JsService/Controller/ajaxController.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/ajaxBeforeModel.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/action/actionAjaxSuccessModel.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/ajaxErrorModel.js') }}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/pageList.js') }}" type="text/javascript"></script>
     <!--alertInfo end-->
     <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
-        <script src="http://cdn.rooyun.com/js/classie.js"></script>
-        <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
-        <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
-    {{--富文本--}}
-    <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
-    <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
-    {{--图片剪切--}}
-    <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
-    <script src="{{asset('cropper/js/sitelogo.js')}}"></script>
-    {{--时间插件--}}
-    <script src="{{asset('/dateTime/build/jquery.datetimepicker.full.js')}}"></script>
-    <script src="{{asset('/admin/js/public/dateTime.js')}}"></script>//时间插件配置
-    <script src="{{asset('JsService/Model/date.js')}}"></script>//时间插件配置
+    {{--提示框--}}
+    <script src="http://cdn.rooyun.com/js/classie.js"></script>
+    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     <script type="text/javascript">
         {{--全局变量的设置--}}
 
@@ -510,7 +344,7 @@
                                     url     : url,
                                     success : function (data) {
                                         console.log(data);
-                                        if(data.statusCode != 200){
+                                        if(data.statusCode != '200'){
                                             swal(data.ResultData, statusMessage + '失败', "danger");
                                         }
                                         swal(data.ResultData, '成功'+statusMessage+'该活动', "success");
@@ -552,7 +386,7 @@
         //查看报名情况
         function checkAction() {
             $('.bm').click(function () {
-                if ($(this).data('num') == 0){
+                if ($(this).data('num') === 0){
                     $('#myModal').modal('show');
                     $('#alert-info').html('<p>暂无报名情况</p>');
                 }else{

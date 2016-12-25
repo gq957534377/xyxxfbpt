@@ -105,17 +105,14 @@ class ActionController extends Controller
     }
 
     /**
-     * 向活动报名表插入数据
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     *
+     * @param
+     * @return array
      * @author 郭庆
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $result = self::$actionServer->actionOrder($data);
-        if(!$result['status']) return response()->json(['StatusCode' => '400', 'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => '200', 'ResultData' => $result['msg']]);
+
     }
 
     /**

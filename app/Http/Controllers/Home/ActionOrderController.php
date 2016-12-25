@@ -105,14 +105,16 @@ class ActionOrderController extends Controller
     }
 
     /**
-     *
-     * @param
-     * @return array
+     * 向活动报名表插入数据
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      * @author 郭庆
      */
     public function store(Request $request)
     {
-
+        $data = $request->all();
+        $result = self::$actionServer->actionOrder($data);
+        return response()->json($result);
     }
 
     /**

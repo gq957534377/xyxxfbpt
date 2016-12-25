@@ -16,18 +16,18 @@ function listHtml(data){
         html += '<td>' + e.limit+'</td>';
         html += '<td>' + e.people+'</td>';
         html += '<td><a class="info btn btn-xs btn-warning tooltips" data-toggle="modal" data-target="#tabs-modal" style="border-radius: 6px;" data-list="'+list_type+'" data-name="' + e.guid + '">详情</a>&nbsp';
-        if (e.status == 1) {
+        if (e.status === 1) {
             html += '<a class="btn btn-xs btn-info" href="action_change/'+e.guid+'/'+list_type+'" style="border-radius: 6px;">修改</a>&nbsp';
             html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
             html += '<a class="btn btn-xs btn-danger tooltips status" data-name="' + e.guid + '" data-list="'+list_type+'" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
-        } else if (e.status == 4) {
+        } else if (e.status === 4) {
             html += '<a class="btn btn-xs btn-info" href="action_change/'+e.guid+'/'+list_type+'" style="border-radius: 6px;">修改</a>&nbsp';
             html += '<a class="btn btn-xs btn-danger tooltips status" style="border-radius: 6px;" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 1 + '">启用</a>&nbsp';
-        }else if (e.status == 2) {
+        }else if (e.status === 2) {
             html += '<a class="btn btn-xs btn-danger tooltips status" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
-        }else if (e.status == 3) {
+        }else if (e.status === 3) {
             html += '<a class="btn btn-xs btn-danger tooltips status" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>&nbsp';
-        }else if (e.status == 5) {
+        }else if (e.status === 5) {
             html += '<a class="btn btn-xs btn-info" href="action_change/'+e.guid+'/'+list_type+'" style="border-radius: 6px;">修改</a>&nbsp';
             html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;"><i data-name="' + e.guid + '" data-num="'+e.people+'" class="bm">报名详情</i></a>&nbsp';
             html += '<a class="btn btn-xs btn-danger tooltips status" data-list="'+list_type+'" data-name="' + e.guid + '" data-status="' + 4 + '" style="border-radius: 6px;">禁用</a>';
@@ -82,7 +82,7 @@ function status(status) {
 function showInfoList(data){
     $('.loading').hide();
     if (data) {
-        if (data.StatusCode == 200) {
+        if (data.StatusCode === '200') {
             data = data.ResultData;
             console.log(data);
             $('#xq_title').val(data.title);
@@ -114,14 +114,14 @@ function showInfoList(data){
 function actionOrder(data) {
     $('.loading').hide();
     if (data) {
-        if (data.StatusCode == 200) {
+        if (data.StatusCode === '200') {
             $('#list_baoming').html('');
             data = data.ResultData;
             data.map(function (item) {
                 var html = '<tr><td>'+item.user_id+'</td><td>'+item.time+'</td><td>';
-                if (item.status == 1) {
+                if (item.status === 1) {
                     html += '<a href="javascript:;" data-name="' + item.id + '" data-status="3" class="action_status"><button class="btn-danger">禁用</button></a>';
-                } else if (item.status == 3) {
+                } else if (item.status === 3) {
                     html += '<a href="javascript:;" data-name="' + item.id + '" data-status="1" class="action_status"><button class="btn-primary">启用</button></a>';
                 }
                 html+= '</td></tr>';

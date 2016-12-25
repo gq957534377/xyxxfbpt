@@ -39,7 +39,7 @@ class ActionController extends Controller
     {
         $data = $request->all();
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        $forPages = 5;//一页的数据条数
+        $forPages = 3;//一页的数据条数
         $status = $data["status"];//文章状态：已发布 待审核 已下架
         $type = (int)$data["type"];//获取文章类型
         $where = [];
