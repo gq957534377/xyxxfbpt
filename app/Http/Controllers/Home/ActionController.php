@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Store\ActionOrderStore;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Log;
@@ -15,11 +16,18 @@ class ActionController extends Controller
     protected  static $actionServer;
     protected  static $userServer;
     protected  static $commentServer;
-    public function __construct(ActionServer $actionServer, UserServer $userServer ,CommentServer $commentServer)
+    protected  static $actionOrderStore;
+    public function __construct(
+        ActionServer $actionServer,
+        UserServer $userServer,
+        CommentServer $commentServer,
+        ActionOrderStore $actionOrderStore
+    )
     {
         self::$actionServer = $actionServer;
         self::$userServer = $userServer;
         self::$commentServer = $commentServer;
+        self::$actionOrderStore = $actionOrderStore;
     }
     /**
      * 根据所选活动类型导航，返回相应的列表页+数据.
@@ -132,13 +140,13 @@ class ActionController extends Controller
             $likeStatus = 2;
         }else{
             $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
-            $action = self::$actionServer->getAction('action_id', ['user_id'=>session('user')->guid]);//当前用户报名参加的所有活动
-            $isLogin = session('user')->guid;
-            if ($action['status']){
-                $isHas = in_array($data["ResultData"]->guid, $action['msg']);
-            }else{
+            $action = self::$actionOrderStore->getSomeField(['user_id'=>session('user')->guid], 'action_id');//当前用户报名参加的所有活动
+            if (!$action){
                 $isHas = false;
+            }else{
+                $isHas = in_array($id, $action);
             }
+            $isLogin = session('user')->guid;
         }
 
         //返回详情页

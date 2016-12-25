@@ -62,8 +62,9 @@ class Chage_Action_Status extends Command
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
-                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
-                        if (!$chage['status']){
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg'],3);
+                        $chage1 = self::$actionServer->changeStatus($v->guid, $status['msg'],1);
+                        if ($chage['StatusCode'] != '200' || $chage1['StatusCode']){
                             Log::info("普通用户第一次请求更改活动状态失败".$v->guid.':'.$chage['msg']);
                         }else{
                             $v->status = $status['msg'];

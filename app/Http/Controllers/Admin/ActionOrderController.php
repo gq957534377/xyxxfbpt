@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Services\UserService;
+use App\Store\ActionOrderStore;
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -12,10 +13,16 @@ class ActionOrderController extends Controller
 {
     protected  static $actionServer;
     protected  static $userServer;
-    public function __construct(ActionServer $actionServer, UserService $userServer)
+    protected  static $actionOrderStore;
+    public function __construct(
+        ActionServer $actionServer,
+        UserService $userServer,
+        ActionOrderStore $actionOrderStore
+    )
     {
         self::$actionServer = $actionServer;
         self::$userServer = $userServer;
+        self::$actionOrderStore = $actionOrderStore;
     }
 
     /**
@@ -43,11 +50,13 @@ class ActionOrderController extends Controller
     public function create(Request $request)
     {
         $data = $request->all();
-        $users = self::$actionServer->getAction('user_id', ['action_id' => $data['action_id']]);
-        if ($users['status']){
-            $users = $users['msg'];
-        }else{
-            return response() -> json(['StatusCode' => '500', 'ResultData' => $users['msg']]);
+        $users = self::$actionOrderStore->getSomeField(['action_id' => $data['action_id']], 'user_id');
+        if (!$users){
+            if ($users == []){
+                return response() -> json(['StatusCode' => '204', 'ResultData' => '没有用户报名该活动']);
+            }else{
+                return response() -> json(['StatusCode' => '500', 'ResultData' => '服务器出错,获取报名的用户失败']);
+            }
         }
 
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页

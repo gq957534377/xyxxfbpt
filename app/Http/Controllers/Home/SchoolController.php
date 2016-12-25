@@ -29,7 +29,6 @@ class SchoolController extends Controller
      *
      * @return \Illuminate\Http\Response
      * @author 郭庆
-     * @modify 张洵之
      */
     public function index(Request $request)
     {
@@ -52,7 +51,7 @@ class SchoolController extends Controller
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], 3);
                         if ($chage['StatusCode'] != 200){
-                            Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
+                            Log::info("用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
                             $v->status = $status['msg'];
                         }

@@ -11,7 +11,6 @@ function getInfoList(data) {
             // modifyStatus();
             initAlert();
             showInfo();
-            updates();
             checkAction();
         } else if (data.StatusCode == 204) {
             $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
