@@ -13,12 +13,12 @@ $(document).ready(function () {
     var ajax = new ajaxCommon();
 
     // 获取用户信息
-    ajax.ajax({
-        type: 'GET',
-        url: 'user/' + guid,
-        beforeSend: ajaxBeforeSend($('.loading')),
-        success: userInfoReturn
-    });
+    // ajax.ajax({
+    //     type: 'GET',
+    //     url: 'user/' + guid,
+    //     beforeSend: ajaxBeforeSend($('.loading')),
+    //     success: userInfoReturn
+    // });
 
     function userInfoReturn(msg) {
         // 将传过json格式转换为json对象
@@ -51,7 +51,10 @@ $(document).ready(function () {
         this.$body.append(scrollDiv);
         var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
         this.$body[0].removeChild(scrollDiv);
+        return scrollbarWidth;
     }
+    //        测量 滚动条宽度的函数 结束
+    var width = Number(measure());
         // 点击编辑，弹出修改昵称模态框
     $('#userInfoEdit').on('click', function () {
 //            处理模态框显示时的问题 开始

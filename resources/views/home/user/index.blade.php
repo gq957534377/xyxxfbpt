@@ -12,7 +12,6 @@
 @section('content')
     <!--我的主页内容开始-->
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 my-home fs-c-4 fs-14">
-
         <!--基本信息开始-->
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 pad-cl my-home-basic">
             <!-- 头像修改 Start -->
@@ -21,7 +20,8 @@
                     <div class="row">
                         <div id="crop-avatar">
                             <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
-                                <img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}" alt="Logo" style="margin-left: 0px;">
+                                <img class="user_avatar img-circle"
+                                     src="{{ $userInfo->headpic or asset('home/img/user_center.jpg')}}" alt="Logo" style="margin-left: 0px;">
                             </div>
                         </div>
                     </div>
@@ -30,8 +30,8 @@
             <!-- 头像修改 End -->
             <div class="col-sm-10 col-md-9 col-lg-10 pad-clr">
                 <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname"></span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
-                <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">18502703607</p>
-                <p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6">gw_testing@163.com</p>
+                <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->tel or '暂无'}}</p>
+                <p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6">{{ $userInfo->email or '暂无'}}</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pad-cr my-home-entrepreneur-info">
@@ -82,22 +82,22 @@
         <!--修改密码 结束-->
 
         <!--创业者认证 未认证 和 审核中-->
-        <div class="col-xs-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min">
+        <div class="col-xs-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='2' ? 'hidden' : ''}}">
             <div class="col-xs-12 col-sm-9 pad-clr">
                 <h4 class="col-xs-12 pad-clr my-home-title">创业者认证<span class="label label-warning">审核中</span></h4>
                 <p class="col-xs-12 pad-clr">认证成为创业者，XXXXXXXXXXXX</p>
             </div>
             <div class="col-xs-12 col-sm-3 pad-clr my-home-auth">
-                <a href="{{ route('identity.index') }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
+                <a href="{{ route('identity.index', ['identity' => 'syb']) }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
             </div>
         </div>
         <!--创业者认证 已认证 和 审核中-->
 
         <!--创业者认证通过 开始-->
-        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min hidden">
+        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='2' ? '' : 'hidden'}}">
 
             <h4 class="col-xs-12 pad-clr my-home-title">创业者认证<span class="label label-success">认证成功</span>
-                <a href="javascript:void(0)" class="pull-right fs-14">编辑</a>
+                <a href="{{ route('identity.edit', ['identity' => 'syb','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>
             </h4>
             <div class="col-xs-12 pad-clr my-home-content">
                 <p class="col-lg-6 pad-clr">真实姓名：<span>龚雯</span></p>
@@ -114,7 +114,7 @@
             </h4>
             <div class="col-xs-12 pad-clr my-home-content">
                 <div class="com-bot"> <p>入驻英雄会，获取优质创业服务</p>
-                    <a href="javascript:void(0)" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">创建公司</a>
+                    <a href="{{ route('user.create') }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">创建公司</a>
 
                 </div></div>
 
@@ -134,22 +134,22 @@
         <!--创业者认证通过 结束-->
 
         <!--投资者认证 未认证 和 审核中-->
-        <div class="col-xs-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min">
+        <div class="col-xs-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='3' ? 'hidden' : ''}}">
             <div class="col-xs-12 col-sm-9 pad-clr">
                 <h4 class="col-xs-12 pad-clr my-home-title">投资者认证<span class="label label-success hidden">认证</span></h4>
                 <p class="col-xs-12 pad-clr">认证成为投资人，参加路演活动发现更多好项目！</p>
             </div>
             <div class="col-xs-12 col-sm-3 pad-clr my-home-auth">
-                <a href="javascript:void(0)" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
+                <a href="{{ route('identity.index', ['identity' => 'investor']) }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
             </div>
         </div>
         <!--投资者认证 未认证 和 审核中-->
 
         <!--投资者认证通过 开始-->
-        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min hidden">
+        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='3' ? '' : 'hidden'}}">
 
             <h4 class="col-xs-12 pad-clr my-home-title">投资者认证<span class="label label-success">认证成功</span>
-                <a href="javascript:void(0)" class="pull-right fs-14">编辑</a>
+                <a href="{{ route('identity.edit', ['identity' => 'investor','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>
             </h4>
             <div class="col-xs-12 pad-clr my-home-content">
                 <p class="col-lg-6 pad-clr">真实姓名：<span>龚雯</span></p>

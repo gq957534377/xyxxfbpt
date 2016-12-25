@@ -19,11 +19,7 @@
             var mobile = /^1[34578]\d{9}$/;
             return this.optional(element) || (length == 11 && mobile.test(value));
         }, "请正确填写您的手机号码");
-        // 身份证号码验证
-        // $.validator.addMethod("isIdCardNo", function(value, element) {
-        //     return this.optional(element) || idCardNoUtil.checkIdCardNo(value);
-        // }, "请正确输入您的身份证号码");
-        // 验证图片的大小
+
         $.validator.addMethod("checkPicSize", function(value,element) {
             var fileSize=element.files[0].size;
             var maxSize = 5*1024*1024;
@@ -46,11 +42,9 @@
                 //与正常form不同，通过下面这样来获取需要验证的字段
                 var data = new FormData();
                 data.append( "investor_realname"      , $("input[name= 'investor_realname']").val());
-                data.append( "investor_subject"      , $("#investor_subject").val());
-                data.append( "investor_tel"      , $("input[name= 'investor_tel']").val());
-                // data.append( "investor_card"       , $("input[name= 'investor_card']").val());
-                data.append( "investor_field"       , $("#investor_field").val());
-                data.append( "investor_realname"       , $("#investor_stage").val());
+                data.append( "investor_subject"      , $('select[name = "investor_subject"]').val());
+                data.append( "investor_field"       , $("select[name = 'investor_field']").val());
+                data.append( "investor_stage"       , $("select[name = 'investor_stage']").val());
                 data.append( "investor_card_pic"       , $("input[name= 'investor_card_pic']").val());
                 //开始正常的ajax
                 // 异步登录
@@ -61,11 +55,9 @@
                         "guid": $("#topAvatar").data('id'),
                         "role": $("input[name= 'investor_role']").val(),
                         'realname': $("input[name= 'investor_realname']").val(),
-                        'subject': $("#investor_subject").val(),
-                        'tel': $("input[name= 'investor_tel']").val(),
-                        // 'card_number': $("input[name= 'investor_card']").val(),
-                        'field': $("#investor_field").val(),
-                        'stage': $("#investor_stage").val(),
+                        'subject': $('select[name = "investor_subject"]').val(),
+                        'field':  $("select[name = 'investor_field']").val(),
+                        'stage':  $("select[name = 'investor_stage']").val(),
                         'card_pic_a': $("input[name= 'investor_card_pic']").val()
                     },
                     beforeSend:function(){
@@ -79,7 +71,6 @@
                                 alert('警告,'+data.ResultData);
                                 break;
                             case '200':
-                                loadAjax();
                                 $(".loading").hide();
                                 alert('提示,'+data.ResultData);
                                 break;
@@ -97,16 +88,7 @@
                 },
                 investor_subject: {
                     required: true,
-                }
-                ,
-                investor_tel: {
-                    required: true,
-                    isMobile: true
                 },
-                // investor_card: {
-                //     required: true,
-                //     isIdCardNo: true
-                // },
                 investor_field: {
                     required: true,
                 },
@@ -125,14 +107,6 @@
                 investor_subject: {
                     required: "请选择创业主体！",
                 },
-                investor_tel: {
-                    required: "请输入手机号！",
-                    isMobile: "手机号格式不对"
-                },
-                // investor_card: {
-                //     required: "请输入身份证号！",
-                //     isIdCardNo: "请正确输入您的身份证号码"
-                // },
                 investor_field: {
                     required: "请选择创业领域"
                 },

@@ -40,7 +40,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('home.user.index');
+
+
     }
 
     /**
@@ -50,7 +51,7 @@ class UserController extends Controller
      */
     public function create()
     {
-
+        return view('home.user.company');
     }
 
     public function store(Request $request)
@@ -70,7 +71,10 @@ class UserController extends Controller
         if(empty($id)) return response()->json(['StatusCode' => '400','ResultData' => '服务器数据异常']);
       // 获取到用户的id，返回数据
         $info = self::$userServer->userInfo(['guid'=>$id]);
-        return response()->json($info);
+
+        return view('home.user.index')->with([
+            'userInfo' => $info['ResultData'],
+        ]);
     }
 
     /**
