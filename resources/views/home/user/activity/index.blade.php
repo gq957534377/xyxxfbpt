@@ -37,11 +37,11 @@
 
         <!--活动列表块开始-->
         {{--{{dd($ResultData)}}--}}
-        @if($StatusCode == '204')
+        @if($StatusCode === '204')
             <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span style="color: #999999">你还未参加任何活动呦~亲 O(∩_∩)O~</span>
             </li>
-            @elseif($StatusCode == '200')
+            @elseif($StatusCode === '200')
             <div id="list">
             @foreach($ResultData['data'] as $action)
                 <div class="row mar-clr bb-3">
@@ -94,6 +94,7 @@
 @endsection
 
 @section('script')
+    <script src="{{asset('JsService/Model/date.js')}}"></script>
 <script>
     var status = "{{$status}}";
     var list = "{{$ResultData['list']}}";
@@ -116,8 +117,45 @@
                 success: function (data) {
                     $('#list').html('');
                     $('#data').html('');
-
                     console.log(data);
+                    if (data.StatusCode === '200'){
+                        var html = '';
+                        $.each(data.ResultData.data, function (i,v) {
+                            html+='<div class="row mar-clr bb-3"><div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">';
+                            html+='<a';
+                            if(data.ResultData.list === '3'){
+                                html+= 'href="/school/'+v.guid+'">';
+                            }else{
+                                html += 'href="/actionl/'+v.guid+'">';
+                            }
+                            html += '<img src="'+v.banner+'"></a></div>';
+                            html+='<div class="road-font col-lg-7 col-md-12 col-sm-12 pad-clr"><h2>';
+                            if(data.ResultData.list === '3'){
+                                html+='<a href="/school/'+v.guid+'">';
+                            }else{
+                                html+='<a href="/action/'+v.guid+'">';
+                            }
+                            html += v.title+'</a></h2><p class="indent">'+v.brief+'</p><div class="row mar-clr road-class-u">';
+                            html += '<p class="col-sm-6 col-xs-12 pad-clr">';
+                            if (v.type === 1){
+                                html += '路演活动';
+                            }else if(v.type === 2){
+                                html += '创业大赛';
+                            }else if(v.type === 3){
+                                html += '英雄学院';
+                            }
+                            html += '</p><p class="col-sm-6 col-xs-12 pad-clr">'+v.author+'</p></div>';
+                            html += '<div class="road-class-d">';
+                            html += '<p class="col-xs-12 pad-clr">'+getLocalTime(v.start_time)+'--'+getLocalTime(v.end_time)+'</p>';
+                            html += '<p class="col-xs-12 pad-clr">'+v.address+'</p></div></div></div>';
+                        });
+                        console.log(html);
+                        $('#list').html(html);
+                        $('#data').html(data.ResultData.pages);
+                        getPage();
+                    }else{
+                        $('#list').html('好像出错了呦:'+data.ResultData.data+',错误代码：'+data.StatusCode);
+                    }
                 }
             });
             return false;
