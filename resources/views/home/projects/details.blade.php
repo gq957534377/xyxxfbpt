@@ -175,6 +175,7 @@
                     <h4>成员信息</h4>
                 </li>
                 <!--成员信息开始-->
+                <ul class="row">
                 <!--循环遍历开始-->
                 @if(is_array($project_details->team_member))
                     @foreach($project_details->team_member as $item)
@@ -197,6 +198,7 @@
                         </li>
                 @endforeach
             @endif
+                </ul>
                 <!--循环遍历结束-->
                 <div style="background-color: #ffffff;" class="row pl-block">
                     <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
