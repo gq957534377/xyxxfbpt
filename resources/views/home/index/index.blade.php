@@ -282,11 +282,11 @@
         <section id="section3" class="font-size">
             <div class="section_title">
                 <h2>路演活动</h2>
-                <a href="{{ url('action?type=1') }}">查看全部</a>
+                <a href="{{ route('action.index', ['type' => '1']) }}">查看全部</a>
             </div>
             <div class="section_titles">
                 <h2>路演活动</h2>
-                <a href="{{ url('action?type=1') }}">查看全部</a>
+                <a href="{{ route('action.index', ['type' => '1']) }}">查看全部</a>
             </div>
             <ul class="row">
                 @if(is_array($roadShows))
@@ -328,21 +328,21 @@
         <section id="section3s" class="font-size">
             <div class="section_title">
                 <h2>创业大赛</h2>
-                <a href="#">查看全部</a>
+                <a href="{{ route('action.index', ['type' => '2']) }}">查看全部</a>
             </div>
             <div class="section_titles">
                 <h2>创业大赛</h2>
-                <a href="#">查看全部</a>
+                <a href="{{ route('action.index', ['type' => '2']) }}">查看全部</a>
             </div>
             <ul class="row">
                 @if(is_array($sybs))
                 @foreach($sybs as $syb)
                     <li class="col-sm-4">
-                        <a href="#">
+                        <a href="{{ route('action.show', $syb->guid) }}">
                             <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $syb->banner }}"/>
                         </a>
                         <div class="ly">
-                            <h3><a href="#">{{ mb_substr($syb->title, 0,20).'...' }}</a></h3>
+                            <h3><a href="{{ route('action.show', $syb->guid) }}">{{ mb_substr($syb->title, 0,20).'...' }}</a></h3>
                     <span>
                         @if($syb->status == 1)
                             报名中
@@ -374,41 +374,41 @@
         <section id="section4" class="font-size">
             <div class="section_title">
                 <h2>英雄学院</h2>
-                <a href="#">查看全部</a>
+                <a href="{{ route('school.index', ['type' => '1']) }}">查看全部</a>
             </div>
             <div class="section_titles">
                 <h2>英雄学院</h2>
                 <a href="#">查看全部</a>
             </div>
             <ul class="row">
-                @if(is_array($trains))
-                @foreach($trains as $train)
+                @if(is_array($schools))
+                @foreach($schools as $school)
                     <li class="col-sm-6">
-                        <a href="#">
+                        <a href="{{ route('school.show', $school->guid) }}">
                             <span>第1期</span>
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $train->banner }}"/>
+                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $school->banner }}"/>
                             <div>
-                                <h3>{{ mb_substr($train->title, 0,20).'...'}}</h3>
+                                <h3>{{ mb_substr($school->title, 0,20).'...'}}</h3>
                         <span>
-                            @if($train->status == 1)
+                            @if($school->status == 1)
                                 报名中
-                            @elseif($train->status == 2)
+                            @elseif($school->status == 2)
                                 进行中
-                            @elseif($train->status == 3)
+                            @elseif($school->status == 3)
                                 已结束
-                            @elseif($train->status == 4)
+                            @elseif($school->status == 4)
                                 已取消
-                            @elseif($train->status == 5)
+                            @elseif($school->status == 5)
                                 报名截止
                             @endif
                         </span>
                             </div>
-                            <p>{{ $train->brief }}</p>
+                            <p>{{ $school->brief }}</p>
                         </a>
                     </li>
                 @endforeach
                 @else
-                    {{ $trains }}
+                    {{ $schools }}
                 @endif
             </ul>
         </section>
@@ -667,40 +667,20 @@
             </ul>
             <div id="yxzx" class="row">
                 <ul class='col-sm-5 section6_right'>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
+                    @for($i = 0; $i < 4; $i++)
+                        <li>
+                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                            <p>发布时间 {{ $articles[$i]->addtime }}</p>
+                        </li>
+                    @endfor
                 </ul>
                 <ul class='col-sm-5 section6_right'>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
+                    @for($i = 4; $i < 8; $i++)
+                        <li>
+                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                            <p>发布时间 {{ $articles[$i]->addtime }}</p>
+                        </li>
+                    @endfor
                 </ul>
             </div>
         </section>

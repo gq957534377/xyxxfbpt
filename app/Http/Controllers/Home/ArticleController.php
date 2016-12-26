@@ -230,4 +230,6 @@ class ArticleController extends Controller
     {
        return view('home.comment.index');
     }
+
+
 }
