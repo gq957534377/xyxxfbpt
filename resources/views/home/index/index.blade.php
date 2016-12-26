@@ -248,21 +248,21 @@
         <section id="section3" class="font-size">
             <div class="section_title">
                 <h2>路演活动</h2>
-                <a href="#">查看全部</a>
+                <a href="{{ url('action?type=1') }}">查看全部</a>
             </div>
             <div class="section_titles">
                 <h2>路演活动</h2>
-                <a href="#">查看全部</a>
+                <a href="{{ url('action?type=1') }}">查看全部</a>
             </div>
             <ul class="row">
                 @if(is_array($roadShows))
                 @foreach($roadShows as $roadShow)
                     <li class="col-sm-4">
-                        <a href="#">
+                        <a href="{{ url('action').'/'.$roadShow->guid }}">
                             <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $roadShow->banner }}"/>
                         </a>
                         <div class="ly">
-                            <h3><a href="#">{{ $roadShow->title }}</a></h3>
+                            <h3><a href="{{ url('action').'/'.$roadShow->guid }}">{{ mb_substr($roadShow->title,0,20)."..." }}</a></h3>
                     <span>
                         @if($roadShow->status == 1)
                             报名中
@@ -278,8 +278,8 @@
                     </span>
                         </div>
                 <span>
-    				<span>{{ $roadShow->address }}</span>
-    				<span>{{ $roadShow->start_time }}</span>
+                    <span>{{ mb_substr($roadShow->address,0,4)."..." }}</span>
+    				<span>{{ date('Y-m-d',$roadShow->start_time) }}</span>
     			</span>
                     </li>
                 @endforeach
@@ -308,7 +308,7 @@
                             <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $syb->banner }}"/>
                         </a>
                         <div class="ly">
-                            <h3><a href="#">{{ $syb->title }}</a></h3>
+                            <h3><a href="#">{{ mb_substr($syb->title, 0,20).'...' }}</a></h3>
                     <span>
                         @if($syb->status == 1)
                             报名中
@@ -324,8 +324,8 @@
                     </span>
                         </div>
                 <span>
-    				<span>{{ $syb->address }}</span>
-    				<span>{{ $syb->start_time }}</span>
+    				<span>{{ mb_substr($syb->address,0,4)."..." }}</span>
+    				<span>{{ date('Y-m-d',$syb->start_time) }}</span>
     			</span>
                     </li>
                 @endforeach
@@ -354,7 +354,7 @@
                             <span>第1期</span>
                             <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $train->banner }}"/>
                             <div>
-                                <h3>{{ $train->title }}</h3>
+                                <h3>{{ mb_substr($train->title, 0,20).'...'}}</h3>
                         <span>
                             @if($train->status == 1)
                                 报名中

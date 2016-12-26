@@ -29,7 +29,7 @@
             </div>
             <!-- 头像修改 End -->
             <div class="col-sm-10 col-md-9 col-lg-10 pad-clr">
-                <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname"></span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
+                <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ $userInfo->nickname or '暂无'}}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
                 <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->tel or '暂无'}}</p>
                 <p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6">{{ $userInfo->email or '暂无'}}</p>
             </div>
@@ -109,27 +109,30 @@
                 <p class="col-lg-6 pad-clr">入学年份：<span>2013 年</span></p>
             </div>
 
-            <h4 class="col-xs-12 pad-clr my-home-title">我管理的公司<span class="label label-success hidden">审核通过</span>
-                <a href="javascript:void(0)" class="pull-right fs-14 hidden">编辑</a>
-            </h4>
-            <div class="col-xs-12 pad-clr my-home-content">
-                <div class="com-bot"> <p>入驻英雄会，获取优质创业服务</p>
-                    <a href="{{ route('user.create') }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">创建公司</a>
+            @if(empty($company))
+                <h4 class="col-xs-12 pad-clr my-home-title">我管理的公司<span class="label label-success hidden">审核通过</span>
+                    <a href="javascript:void(0)" class="pull-right fs-14 hidden">编辑</a>
+                </h4>
+                <div class="col-xs-12 pad-clr my-home-content">
+                    <div class="com-bot"> <p>入驻英雄会，获取优质创业服务</p>
+                        <a href="{{ route('user.create') }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">创建公司</a>
 
-                </div></div>
-
-            <h4 class="col-xs-12 pad-clr my-home-title">我管理的公司<span class="label label-success">审核通过</span>
-                <a href="javascript:void(0)" class="pull-right fs-14">编辑</a>
-            </h4>
-            <div class="col-xs-12 pad-clr my-home-content">
-                <p class="col-lg-6 pad-clr">公司名称：<span>龚雯</span></p>
-                <p class="col-lg-6 pad-clr">公司网址：<span>www.aileclick.com</span></p>
-                <p class="col-lg-6 pad-clr">公司简介：<span>爱点击网络</span></p>
-                <p class="col-lg-6 pad-clr">领域：<span>软件与信息服务</span></p>
-                <p class="col-lg-6 pad-clr">所在地：<span>湖北省武汉市江夏区藏龙岛</span></p>
-                <p class="col-lg-6 pad-clr">创始人姓名：<span>龚雯</span></p>
-            </div>
-
+                    </div>
+                </div>
+            @else
+                <h4 class="col-xs-12 pad-clr my-home-title {{ $company->status == 1 ? '' : 'hidden' }}">我管理的公司<span class="label label-warning">{{ $company->status == 1 ? '待审核' : '审核通过' }}</span></h4>
+                <h4 class="col-xs-12 pad-clr my-home-title {{ $company->status == 2 ? '' : 'hidden' }}">我管理的公司<span class="label label-success">{{ $company->status == 2 ? '审核通过' : '待审核' }}</span>
+                    <a href="javascript:void(0)" class="pull-right fs-14">编辑</a>
+                </h4>
+                <div class="col-xs-12 pad-clr my-home-content">
+                    <p class="col-lg-6 pad-clr">公司名称：<span>{{ $company->company or '暂无'}}</span></p>
+                    <p class="col-lg-6 pad-clr">公司网址：<span>{{ $company->url or '暂无'}}</span></p>
+                    <p class="col-lg-6 pad-clr">公司简介：<span>{{ $company->abbreviation or '暂无'}}</span></p>
+                    <p class="col-lg-6 pad-clr">领域：<span>{{ $company->field or '暂无'}}</span></p>
+                    <p class="col-lg-6 pad-clr">所在地：<span>{{ $company->address or '暂无'}}</span></p>
+                    <p class="col-lg-6 pad-clr">创始人姓名：<span>{{ $company->founder_name or '暂无'}}</span></p>
+                </div>
+            @endif
         </div>
         <!--创业者认证通过 结束-->
 

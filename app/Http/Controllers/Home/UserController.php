@@ -112,9 +112,13 @@ class UserController extends Controller
       // 获取到用户的id，返回数据
         $info = self::$userServer->userInfo(['guid'=>$id]);
       // 获取公司信息
-//        $company = self::$userServer
+        $company = self::$userServer->getCompany(['guid'=>$id]);
+        if ($company['StatusCode'] == '400') {
+            $company['ResultData'] = [];
+        }
         return view('home.user.index', [
             'userInfo' => $info['ResultData'],
+            'company'  => $company['ResultData'],
         ]);
     }
 

@@ -719,6 +719,21 @@ class UserService {
 
     }
 
-    //
+    /**
+     * 获取公司信息
+     * @param $where
+     * @return array
+     * @author 刘峻廷
+     */
+    public function getCompany($where)
+    {
+        if (empty($where)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
+
+        $result = self::$companyStore->getOneData(['guid' => $where]);
+
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '请添加公司信息'];
+
+        return ['StatusCode' => '200', 'ResultData' => $result];
+    }
 
 }
