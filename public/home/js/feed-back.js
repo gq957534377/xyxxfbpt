@@ -371,21 +371,20 @@ $(document).ready(function() {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
         $.ajax({
             type : 'post',
             url: "/openim",
             data: {
                 "description": $("#htmlfeedback-input-description").val(),
-                "post_id" : 1,
                 "fb_email" : $("#feedback_email").val()
             },
-
-            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-            async: true,
             success: function(msg){
-                if(result.flag==0) {
-                    $("#htmlfeedback-info").html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 抱歉，提交失败：' + result.msg);
+
+                if(msg.StatusCode == '400') {
+                    $("#htmlfeedback-info").html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 抱歉，提交失败：' + msg.ResultData);
                 } else {
+
                     $("#htmlfeedback-submit").prop('disabled',true);
                     $("#htmlfeedback-info").html("您的意见我们已经收到了，谢谢！");
                     $("body").htmlfeedback("hide");
@@ -403,4 +402,30 @@ $(document).ready(function() {
 
     // 背景颜色设置
 
+});
+
+$(window).scroll(function () {
+    var _stop = $(window).scrollTop();
+    if (_stop == 100) {
+        $('#htmlfeedback-container').show();
+    }
+
+    if(_stop>=100) {
+        $(".go-top").fadeIn();
+        if ($('#htmlfeedback-container').length){
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                // some code..
+            } else {
+                $("#htmlfeedback-container").show();
+            }
+        }
+    }else {
+        $(".go-top").fadeOut();
+    }
+});
+
+
+$(".go-top").click(function(event){
+    $('html,body').animate({scrollTop:0}, 100);
+    return false;
 });

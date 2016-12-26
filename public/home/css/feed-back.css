@@ -124,3 +124,83 @@ div#htmlfeedback-container div#htmlfeedback-more div#htmlfeedback-close:hover {
     text-decoration: underline
 }
 
+
+.fixed-btn .modal.fade.in {
+    top: auto;
+    bottom: 0;
+    height: 188px;
+    width: 128px;
+    padding: 10px;
+    margin: 0;
+    right: 55px;
+    left: auto;
+    text-align: center
+}
+
+.fixed-btn .modal.fade.in h4 {
+    margin: 0 0 10px;
+    font-size: 14px
+}
+
+.fixed-btn .modal.fade.in:after, .fixed-btn .modal.fade.in:before {
+    position: absolute;
+    top: 109px;
+    right: -8px;
+    content: '';
+    display: inline-block;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid transparent;
+    border-left: 9px solid white
+}
+
+.fixed-btn .modal.fade.in:before {
+    right: -9px;
+    border-left: 9px solid #d9d9d9
+}
+
+.fixed-btn {
+    position: fixed;
+    right: 1%;
+    bottom: 5%;
+    width: 40px;
+    border: 1px solid #eee;
+    background-color: white;
+    font-size: 24px;
+    z-index: 1040;
+    -webkit-backface-visibility: hidden
+}
+
+.fixed-btn a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    text-align: center
+}
+
+.fixed-btn a:after {
+    content: ".";
+    font-size: 0;
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle
+}
+
+.fixed-btn a i {
+    vertical-align: middle
+}
+
+.fixed-btn .go-top {
+    border-bottom: 1px solid #eee
+}
+
+.fixed-btn .writer {
+    background-color: #f59e00;
+    font-size: 18px;
+    color: white
+}
+
+.fixed-btn .hide-go-top {
+    display: none;
+    opacity: 0;
+    filter: alpha(opacity=0)
+}

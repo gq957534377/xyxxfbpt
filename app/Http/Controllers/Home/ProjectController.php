@@ -41,19 +41,20 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $where = ['disable'=>'0','status'=>'3'];
-        $res = self::$projectServer->getData($where);
-
-        if (!$res['status']) {
-            $projects = [];
-            return view('home.projects.index', compact('projects'));
-        } else {
-            // 处理内容，限制字数
-            $projects = $res['data'];
-            Common::wordLimit($projects, 'content', 15);
-            return view('home.projects.index', compact('projects'));
-        }
-
+//        $where = ['disable'=>'0','status'=>'3'];
+//        $res = self::$projectServer->getData($where);
+//
+//        if (!$res['status']) {
+//            $projects = [];
+//            return view('home.projects.index', compact('projects'));
+//        } else {
+//            // 处理内容，限制字数
+//            $projects = $res['data'];
+//            Common::wordLimit($projects, 'content', 15);
+//            return view('home.projects.index', compact('projects'));
+//        }
+        $projects = [];
+        return view('home.projects.index', compact('projects'));
     }
 
     /**

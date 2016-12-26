@@ -14,7 +14,6 @@
   var console = window.console || { log: function () {} };
 
   function CropAvatar($element) {
-
     this.$container = $element;
 
     this.$avatarView = this.$container.find('.avatar-view');
@@ -267,6 +266,7 @@
           _this.submitEnd();
         }
       });
+
     },
 
     syncUpload: function () {
