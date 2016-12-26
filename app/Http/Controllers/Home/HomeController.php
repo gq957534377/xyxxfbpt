@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\ProjectService as ProjectServer;
 use App\Services\ActionService as ActionServer;
+use App\Services\ArticleService as ArticleServer;
 use App\Services\PictureService;
 
 
@@ -16,6 +17,7 @@ class HomeController extends Controller
     protected static $projectServer = null;
     protected static $actionServer = null;
     protected static $pictureService = null;
+    protected static $articleServer = null;
 
     /**
      * 构造函数注入
@@ -23,11 +25,16 @@ class HomeController extends Controller
      * @param ProjectService $projectServer
      * @ author 刘峻廷
      */
-    public function __construct(ProjectServer $projectServer, ActionServer $actionServer, PictureService $pictureService)
-    {
+    public function __construct(
+        ProjectServer $projectServer,
+        ActionServer $actionServer,
+        PictureService $pictureService,
+        ArticleServer $articleServer
+    ){
         self::$projectServer = $projectServer;
         self::$actionServer = $actionServer;
         self::$pictureService = $pictureService;
+        self::$articleServer = $articleServer;
     }
 
     /**
@@ -51,31 +58,28 @@ class HomeController extends Controller
         // 创业大赛
         $sybResult = self::$actionServer->takeActions(2);
         // 学习培训活动
-        $trainResult = self::$actionServer->takeActions(3, null, 2);
+        $schollResult = self::$actionServer->takeSchoolData(2);
 
-        if ($trainResult['StatusCode'] == '200') {
-            // 推送内容限定字数
-            self::$actionServer->wordLimit($trainResult['ResultData'], 'brief',60);
-        }
+        // 咨询
+        $articles = self::$articleServer->getTakeArticles(1);
 
         // 轮播图，投资合作管理，
         $cooperResult = self::$pictureService->getPicture(2);
         // 合作机构
         $carouselResult = self::$pictureService->getPicture(3);
-
         // 投资机构
         $investResult = self::$pictureService->getPicture(5);
 
-        $cooper = $cooperResult['ResultData'];
-
-        $carousel = $carouselResult['ResultData'];
-        $invest = $investResult['ResultData'];
-        $projects = $projectResult['ResultData'];
-        $roadShows  = $roadShowResult['ResultData'];
-        $sybs = $sybResult['ResultData'];
-        $trains = $trainResult['ResultData'];
-
-        return view('home.index.index', compact('projects','roadShows', 'sybs', 'trains', 'cooper', 'carousel', 'invest'));
+        return view('home.index.index', [
+            'projects'      => $projectResult['ResultData'],
+            'roadShows'     => $roadShowResult['ResultData'],
+            'sybs'          => $sybResult['ResultData'],
+            'schools'        => $schollResult['ResultData'],
+            'cooper'        => $cooperResult['ResultData'],
+            'carousel'      => $carouselResult['ResultData'],
+            'invest'        => $investResult['ResultData'],
+            'articles'      => $articles['ResultData'],
+        ]);
     }
 
     /**
