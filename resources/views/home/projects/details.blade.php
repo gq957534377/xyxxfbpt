@@ -53,9 +53,9 @@
                         @endif
                     </li>
                     <li class="col-lg-6 col-md-6 col-sm-3">{{date('Y-m-d',$project_details->changetime)}}</li>
-                    <li class="col-lg-6 col-md-6 col-sm-3">￥50-500万</li>
-                    <li class="col-lg-6 col-md-6 col-sm-3">1%-10%</li>
-                    <li class="col-lg-6 col-md-6 col-sm-3">股权融资</li>
+                    {{--<li class="col-lg-6 col-md-6 col-sm-3">￥50-500万</li>--}}
+                    {{--<li class="col-lg-6 col-md-6 col-sm-3">1%-10%</li>--}}
+                    {{--<li class="col-lg-6 col-md-6 col-sm-3">股权融资</li>--}}
                 </ul>
                 <div class="row top_right_4">
                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -145,6 +145,9 @@
                         {{ $project_details->content }}
                     </p>
                     <img src="{{ $project_details->banner_img}}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                </li>
+                <li class="row content-row-left-title">
+                    <h4>项目历程</h4>
                 </li>
                 <li class="row">
                     @if(is_array($project_details->project_experience))

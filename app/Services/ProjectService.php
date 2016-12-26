@@ -63,15 +63,11 @@ class ProjectService {
 
         if (!$data) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 
+
+
         return ['StatusCode' => '200', 'ResultData' => $data];
     }
 
-    public function getAllData()
-    {
-        $data = self::$projectStore->getAllData();
-        if (!$data) return ['status'=>false,'msg'=>'查询失败'];
-        return ['status'=>true,'data'=>$data];
-    }
 
     /**
      * 随机拿取指定条数 数据
