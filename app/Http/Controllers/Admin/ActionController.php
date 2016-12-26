@@ -39,7 +39,7 @@ class ActionController extends Controller
     {
         $data = $request->all();
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        $forPages = 5;//一页的数据条数
+        $forPages = 3;//一页的数据条数
         $status = $data["status"];//文章状态：已发布 待审核 已下架
         $type = (int)$data["type"];//获取文章类型
         $where = [];
@@ -59,13 +59,13 @@ class ActionController extends Controller
             $where['type'] = $type;
         }
         $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create", $list);
-        if($result["StatusCode"] == 200){
+        if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg'],$type);
-                        if ($chage['StatusCode'] != 200){
+                        if ($chage['StatusCode'] != '200'){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
                             $v->status = $status['msg'];

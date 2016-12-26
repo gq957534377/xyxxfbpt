@@ -349,7 +349,7 @@
 
         //分类查看数据
         $('#action').change(function () {
-            if ($(this).val() == 3){
+            if ($(this).val() === '3'){
                 $('#type').css('display','block');
                 $(this).attr('name','');
                 $('#type1').attr('name','type')
@@ -428,7 +428,7 @@
                             $('#alert-form').html('');
                             $('.modal-title').html('提示');
                             if (data) {
-                                if (data.StatusCode == 200) {
+                                if (data.StatusCode === '200') {
                                     alert('发布成功！');
 //                                    $('#alert-info').html('<p>活动发布成功!</p>');
                                     window.history.back(-1);

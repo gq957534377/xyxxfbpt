@@ -44,21 +44,54 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('home.user.index');
+
+
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 显示公司添加页.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-
+        return view('home.user.company');
     }
 
+    /**
+     * 添加公司信息
+     * @param Request $request
+     * @author 刘峻廷
+     */
     public function store(Request $request)
     {
+        $data = $request->all();
+        $validator = Validator::make($request->all(),[
+            'guid' => 'required',
+            'company' => 'required',
+            'abbreviation' => 'required',
+            'address' => 'required',
+            'founder_name' => 'required',
+            'url' => 'required',
+            'field' => 'required',
+            'organize_card' => 'required',
+        ],[
+            'guid.required' => '缺少参数<br>',
+            'company.required' => '请输入公司名称<br>',
+            'abbreviation.required' => '请输入公司简称<br>',
+            'address.required' => '请选择公司所在地<br>',
+            'founder_name.required' => '请输入公司创始人姓名<br>',
+            'url.required' => '请输入公司网址<br>',
+            'field.required' => '请选择行业领域<br>',
+            'organize_card.required' => '请上传组织机构代码证<br>',
+        ]);
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        $data['addtime'] = $_SERVER['REQUEST_TIME'];
+        $result = self::$userServer->addCompany($data);
+
+        return response()->json($result);
 
     }
 
@@ -74,7 +107,10 @@ class UserController extends Controller
         if(empty($id)) return response()->json(['StatusCode' => '400','ResultData' => '服务器数据异常']);
       // 获取到用户的id，返回数据
         $info = self::$userServer->userInfo(['guid'=>$id]);
-        return response()->json($info);
+
+        return view('home.user.index')->with([
+            'userInfo' => $info['ResultData'],
+        ]);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Services\UserService;
+use App\Store\ActionOrderStore;
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -12,10 +13,16 @@ class ActionOrderController extends Controller
 {
     protected  static $actionServer;
     protected  static $userServer;
-    public function __construct(ActionServer $actionServer, UserService $userServer)
+    protected  static $actionOrderStore;
+    public function __construct(
+        ActionServer $actionServer,
+        UserService $userServer,
+        ActionOrderStore $actionOrderStore
+    )
     {
         self::$actionServer = $actionServer;
         self::$userServer = $userServer;
+        self::$actionOrderStore = $actionOrderStore;
     }
 
     /**
@@ -43,11 +50,13 @@ class ActionOrderController extends Controller
     public function create(Request $request)
     {
         $data = $request->all();
-        $users = self::$actionServer->getAction('user_id', ['action_id' => $data['action_id']]);
-        if ($users['status']){
-            $users = $users['msg'];
-        }else{
-            return response() -> json(['StatusCode' => '500', 'ResultData' => $users['msg']]);
+        $users = self::$actionOrderStore->getSomeField(['action_id' => $data['action_id']], 'user_id');
+        if (!$users){
+            if ($users == []){
+                return response() -> json(['StatusCode' => '204', 'ResultData' => '没有用户报名该活动']);
+            }else{
+                return response() -> json(['StatusCode' => '500', 'ResultData' => '服务器出错,获取报名的用户失败']);
+            }
         }
 
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
@@ -66,21 +75,19 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 获取分页数据
-     * @param $request
+     *
+     * @param
      * @return array
      * @author 郭庆
      */
     public function store(Request $request)
     {
-        $data = $request -> all();
-        $result = self::$actionServer -> insertData($data);
-        return response() -> json($result);
+
     }
 
     /**
-     * 拿取一条活动信息详情
-     * @param $id 活动id
+     *
+     * @param
      * @return array
      * @author 郭庆
      */
@@ -90,9 +97,9 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 修改报名状态
-     * @param $request
-     * @param $id 活动id/报名记录id
+     *
+     * @param
+     * @return array
      * @author 郭庆
      */
     public function edit(Request $request, $id)
@@ -101,10 +108,10 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 更改活动信息内容
-     * @param $request
-     * @param $id 所要修改的活动id
-     * author 郭庆
+     *
+     * @param
+     * @return array
+     * @author 郭庆
      */
     public function update(Request $request, $id)
     {
@@ -112,10 +119,10 @@ class ActionOrderController extends Controller
     }
 
     /**
-     * 获取报名情况表信息
-     * @param $id 活动id
+     *
+     * @param
      * @return array
-     * author 郭庆
+     * @author 郭庆
      */
     public function destroy($id)
     {

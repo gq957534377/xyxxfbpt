@@ -15,7 +15,6 @@ use App\Store\ProjectStore;
 use App\Store\SendStore;
 use App\Tools\Common;
 use App\Store\UserStore;
-use Illuminate\Contracts\Logging\Log;
 
 class CommentAndLikeService
 {

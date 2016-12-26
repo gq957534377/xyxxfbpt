@@ -6,6 +6,7 @@ use App\Http\Requests\Request;
 use App\Store\HomeStore;
 use App\Store\UserStore;
 use App\Store\RoleStore;
+use App\Store\CompanyStore as CompanyStore;
 use App\Services\UploadService as UploadServer;
 use App\Tools\Common;
 use App\Tools\CustomPage;
@@ -20,6 +21,7 @@ class UserService {
     protected static $homeStore = null;
     protected static $userStore = null;
     protected static $roleStore = null;
+    protected static $companyStore = null;
     protected static $uploadServer = null;
 
     /**
@@ -32,11 +34,13 @@ class UserService {
         HomeStore $homeStore,
         UserStore $userStore,
         RoleStore $roleStore,
+        CompanyStore $companyStore,
         UploadServer $uploadServer
     ){
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$roleStore = $roleStore;
+        self::$companyStore = $companyStore;
         self::$uploadServer = $uploadServer;
     }
 
@@ -477,73 +481,6 @@ class UserService {
 
 
     /**
-     * 申请成为创业者 或 投资者
-     * @param $data
-     * @return array
-     * @author 刘峻廷
-     */
-    public function applyRole($data)
-    {
-        // 校验当前用户的角色
-        $userInfo = self::$userStore->getOneData(['guid' => $data['guid']]);
-
-        if ($data['role'] == 4) {
-            if ($userInfo->memeber == 4)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
-            // 查看该用户是否已申请
-            $info= self::$roleStore->getRole(['guid' => $data['guid'], 'role' => '4']);
-
-        } else {
-            if ($userInfo->role == 2) {
-                return ['StatusCode' => '400', 'ResultData' => '您已是创业者！'];
-            } else if ($userInfo->role == 3) {
-                return ['StatusCode' => '400', 'ResultData' => '您已是投资者！'];
-            }
-            // 查看该用户是否已申请
-            $info= self::$roleStore->getRole(['guid' => $data['guid']]);
-        }
-
-        // 查询不为空
-        if(!empty($info)) {
-            // 判断审批状态
-            if ($info->status == '5') {
-                return ['StatusCode' => '400', 'ResultData' => '您已有申请项，正在审核中，请耐心等待...'];
-            } else if ($info->status == '7') {
-                return ['StatusCode' => '400', 'ResultData' => '已申请成功，无需再次申请。'];
-            }
-        };
-
-        // 事务处理
-        DB::beginTransaction();
-        try {
-            if ($data['role'] == 4) {
-                $data['realname'] = $userInfo->realname;
-                $data['tel'] = $userInfo->tel;
-            }
-            $result = self::$roleStore->addRole($data);
-
-            // 返回信息处理
-            if(!$result) {
-                Log::error('申请角色失败', $result);
-                return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
-            };
-            // 申请成功后，根据新的用户信息对data_user_info表进行一次数据覆盖更新
-            $user = [];
-            // 申请会员的
-            $user['realname'] = $data['realname'];
-            $user['tel'] = $data['tel'];
-
-
-            self::$userStore->updateUserInfo(['guid' => $data['guid']], $user);
-
-            DB::commit();
-            return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
-        } catch (Exception $e) {
-            DB::rollback();
-            return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
-        }
-    }
-
-    /**
      * 审核成功时修改多个数据表数据
      * @param $data
      * @param $id
@@ -747,15 +684,38 @@ class UserService {
                 if($creatPage){
                     $result["pages"] = $creatPage;
                 }else{
-                    return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
+                    return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
                 }
             }else{
                 $result['totalPage'] = $totalPage;
                 $result["pages"] = '';
             }
-            return ['StatusCode' => 200,'ResultData' => $result];
+            return ['StatusCode' => '200','ResultData' => $result];
         }else{
-            return ['StatusCode' => 500,'ResultData' => '获取报名分页数据失败！'];
+            return ['StatusCode' => '500','ResultData' => '获取报名分页数据失败！'];
         }
+    }
+
+    /**
+     * 添加公司
+     * @param $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function addCompany($data)
+    {
+        // 查询数据表里是否已有数据
+        $result = self::$companyStore->getOneData(['guid' => $data['guid']]);
+
+        if ($result) return ['StatusCode' => '400', 'ResultData' => '已添加'];
+
+        $result = self::$companyStore->addOneData($data);
+
+        if (!$result) {
+            Log::error('添加公司信息失败', $data);
+            return ['StatusCode' => '400', 'ResultData' => '添加失败'];
+        }
+        return ['StatusCode' => '200', 'ResultData' => '创建成功，等待审核'];
+
     }
 }
