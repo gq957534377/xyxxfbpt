@@ -225,7 +225,6 @@
                     'fontfamily', //字体
                     'fontsize', //字号
                     'paragraph', //段落格式
-                    'simpleupload', //单图上传
                     'insertimage', //多图上传
                     'edittable', //表格属性
                     'edittd', //单元格属性
