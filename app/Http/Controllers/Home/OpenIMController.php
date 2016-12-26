@@ -73,13 +73,16 @@ class OpenIMController extends Controller
         // 验证过滤数据
         $validator = Validator::make($request->all(), [
             'description' => 'required|max:400',
+            'fb_email' => 'email',
         ], [
             'description.required' => '意见不能为空',
             'description.max' => '意见最长为400个字符',
+            'fb_email.email' => '联系方式必须为邮箱，或者匿名投稿',
+
         ]);
 
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
-        $result = self::$seedback->saveSeedback($ip, ['description' => $request['description'], 'fb_email' => $request['fb_email']]);
+        $result = self::$seedback->saveSeedback(['description' => $request['description'], 'fb_email' => $request['fb_email'], 'ip' => $ip]);
         return response()->json($result);
     }
 

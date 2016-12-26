@@ -1,7 +1,7 @@
 <div class="zxz-footer">
 
     <div class="fixed-btn">
-        <a class="go-top" href="javascript:void(0)" title="返回顶部"> <i class="fa fa-angle-up"></i></a>
+        <a class="go-top" href="javascript:void(0)" style="display: none;" title="返回顶部"> <i class="fa fa-angle-up"></i></a>
 
         <a class="writer" href="javascript:void(0)" id="custom-service" data-toggle="modal" data-target="#custom-width-modal" title="联系客服"><i class="fa fa-envelope-o" style="font-size: 20px;"></i></a>
 

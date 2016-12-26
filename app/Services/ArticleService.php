@@ -390,7 +390,7 @@ class ArticleService
             unset($data['write']);
             $this->upDta(['guid' => $guid], ['status' => 5]);
         }
-
+        unset($data['write']);
         $data["guid"] = Common::getUuid();
         $data["addtime"] = time();
         $data['user'] = 2;
