@@ -11,13 +11,13 @@
         <div class="row vidio_block">
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 top_left">
                 {{--<img src="{{ asset('home/img/demoimg/test7.jpg') }}">--}}
-                <img src="{{ $project_details->image }}">
+                <img src="{{ $project_details->banner_img }}">
             </div>
             <!--项目主要属性开始-->
             <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 top_right">
                 <div class="row top_right_1">
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 top_right_1_left">
-                        <img src="{{ asset('home/img/demoimg/test8.jpg') }}">
+                        <img src="{{ $project_details->logo_img }}">
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 top_right_1_right">
                         <h2>{{ $project_details->title }}</h2>
@@ -28,26 +28,79 @@
                     <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">北京</span>
                 </div>
                 <ul class="row top_right_3">
+
+                    <li class="col-lg-6 col-md-6 col-sm-3">
+                        @if($project_details->financing_stage == 0)
+                            种子轮
+                        @elseif($project_details->financing_stage == 1)
+                            天使轮
+                        @elseif($project_details->financing_stage == 2)
+                            Pre-A轮
+                        @elseif($project_details->financing_stage == 3)
+                            A轮
+                        @elseif($project_details->financing_stage == 4)
+                            B轮
+                        @elseif($project_details->financing_stage == 5)
+                            C轮
+                        @elseif($project_details->financing_stage == 6)
+                            D轮
+                        @elseif($project_details->financing_stage == 7)
+                            E轮
+                        @elseif($project_details->financing_stage == 8)
+                            F轮已上市
+                        @elseif($project_details->financing_stage == 9)
+                            其他
+                        @endif
+                    </li>
+                    <li class="col-lg-6 col-md-6 col-sm-3">{{date('Y-m-d',$project_details->changetime)}}</li>
                     <li class="col-lg-6 col-md-6 col-sm-3">￥50-500万</li>
-                    <li class="col-lg-6 col-md-6 col-sm-3">尚未获投</li>
                     <li class="col-lg-6 col-md-6 col-sm-3">1%-10%</li>
                     <li class="col-lg-6 col-md-6 col-sm-3">股权融资</li>
-                    <li class="col-lg-6 col-md-6 col-sm-3">2016-12-31</li>
                 </ul>
                 <div class="row top_right_4">
-                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-4">跨境电商</span>
-                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-4">跨境管理系统</span>
+                   <span class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                         @if($project_details->industry == 0)
+                           TMT
+                       @elseif($project_details->industry == 1)
+                           医疗健康
+                       @elseif($project_details->industry == 2)
+                           文化与创意
+                       @elseif($project_details->industry == 3)
+                           智能硬件
+                       @elseif($project_details->industry == 4)
+                           教育
+                       @elseif($project_details->industry == 5)
+                           电商
+                       @elseif($project_details->industry == 6)
+                           旅游
+                       @elseif($project_details->industry == 7)
+                           型农业
+                       @elseif($project_details->industry == 8)
+                           互联网金融
+                       @elseif($project_details->industry == 9)
+                           游戏
+                       @elseif($project_details->industry == 10)
+                           汽车后市场
+                       @elseif($project_details->industry == 11)
+                           企业级服务
+                       @elseif($project_details->industry == 12)
+                           数据服务
+                       @elseif($project_details->industry == 13)
+                           其他
+                       @endif
+                    </span>
                 </div>
-                <div class="row top_right_5">
+                    <div class="row top_right_5">
                     @if($likeStatus == 1)
-                    <span id="like"  data-id="{{$project_details->project_id}}" class="bang col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>
+                    <span id="like"  data-id="{{$project_details->guid}}" class="bang col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>
                     @else
-                        <span id="like"  data-id="{{$project_details->project_id}}" class="col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>
+                        <span id="like"  data-id="{{$project_details->guid}}" class="col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>
                     @endif
                     <span class="col-lg-6 col-md-6 col-sm-6 col-xs-5">12723人看过</span>
                 </div>
-            </div>
+
             <!--项目主要属性结束-->
+        </div>
         </div>
     </section>
     <section class="container-fluid hang content">
@@ -62,14 +115,14 @@
                     <h4>创始人信息</h4>
                 </li>
                 <li class="row">
-                    <img class="col-lg-3 col-md-3 col-sm-3 col-xs-3" src="{{ $userinfo->headpic }}">
+                    <img class="col-lg-3 col-md-3 col-sm-3 col-xs-3" src="{{ $project_details->userInfo->headpic }}">
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                         <div class="row csrxx-1">
-                            <span class="col-lg-3 col-md-3 col-sm-3 ">{{ $userinfo->realname }}</span>
+                            <span class="col-lg-3 col-md-3 col-sm-3 ">{{ $project_details->userInfo->realname }}</span>
                             <span class="col-lg-3 col-md-3 col-sm-3">
-                                @if($userinfo->role == 2)
+                                @if($project_details->userInfo->role == 2)
                                     创业者
-                                @elseif($userinfo->role == 3)
+                                @elseif($project_details->userInfo->role == 3)
                                     投资者
                                 @endif
                             </span>
@@ -91,101 +144,57 @@
                     <p class="col-lg-12 col-md-12 col-sm-12 fwb-p">
                         {{ $project_details->content }}
                     </p>
-                    <img src="{{ $project_details->image }}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                </li>
-                <li class="row content-row-left-title">
-                    <h4>项目历程</h4>
+                    <img src="{{ $project_details->banner_img}}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 </li>
                 <li class="row">
-                    <ul class="row">
-                        <li class="col-lg-2 col-md-2 col-sm-2">
-                            2016年2月
-                        </li>
-                        <li class="col-lg-10 col-md-10 col-sm-10">
-                            完成100期家庭课程 报名家庭1000个
-                        </li>
-                    </ul>
-                    <ul class="row">
-                        <li class="col-lg-2 col-md-2 col-sm-2">
-                            2016年6月
-                        </li>
-                        <li class="col-lg-10 col-md-10 col-sm-10">
-                            完成100期家庭课程 报名家庭1000个
-                        </li>
-                    </ul>
-                    <ul class="row">
-                        <li class="col-lg-2 col-md-2 col-sm-2">
-                            2016年8月
-                        </li>
-                        <li class="col-lg-10 col-md-10 col-sm-10">
-                            完成100期家庭课程 报名家庭1000个
-                        </li>
-                    </ul>
-                    <ul class="row">
-                        <li class="col-lg-2 col-md-2 col-sm-2">
-                            2016年10月
-                        </li>
-                        <li class="col-lg-10 col-md-10 col-sm-10">
-                            完成100期家庭课程 报名家庭1000个
-                        </li>
-                    </ul>
-                    <ul class="row">
-                        <li class="col-lg-2 col-md-2 col-sm-2">
-                            2016年11月
-                        </li>
-                        <li class="col-lg-10 col-md-10 col-sm-10">
-                            完成100期家庭课程 报名家庭1000个
-                        </li>
-                    </ul>
+                    @if(is_array($project_details->project_experience))
+                        @foreach($project_details->project_experience as $temp)
+                            <ul class="row">
+                                <li class="col-lg-2 col-md-2 col-sm-2">
+                                    {{$temp[0]}}
+                                </li>
+                                <li class="col-lg-10 col-md-10 col-sm-10">
+                                    {{$temp[1]}}
+                                </li>
+                            </ul>
+                        @endforeach
+                    @endif
                 </li>
-                <li class="row content-row-left-title">
-                    <h4>项目需求</h4>
-                </li>
-                <li class="row">
-                    <p class="col-lg-12 col-md-12 col-sm-12">
-                        种子轮求融资
-                    </p>
-                </li>
+                {{--<li class="row content-row-left-title">--}}
+                    {{--<h4>项目需求</h4>--}}
+                {{--</li>--}}
+                {{--<li class="row">--}}
+                    {{--<p class="col-lg-12 col-md-12 col-sm-12">--}}
+                        {{--种子轮求融资--}}
+                    {{--</p>--}}
+                {{--</li>--}}
                 <li class="row content-row-left-title">
                     <h4>成员信息</h4>
                 </li>
                 <!--成员信息开始-->
                 <!--循环遍历开始-->
-                <li class="row">
-                    <div class="rowsd">
-                        <img src="{{ $userinfo->headpic }}" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <ul class="col-lg-9 col-md-9 col-sm-9 cyxx-ul">
-                            <li class="row">
-                                <span>CEO</span>
-                                <span>{{ $userinfo->realname }}</span>
-                            </li>
-                            <li class="row">
-                                <span>户外星球创始人</span>
-                            </li>
-                            <li class="row">
-                                <p>中戏导演系毕业，中央3编导，凤凰卫视独立制片人，睿尔旭文化传播创始人，阿卡农庄联合创始人</p>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                @if(is_array($project_details->team_member))
+                    @foreach($project_details->team_member as $item)
+                        <li class="row">
+                            <div class="rowsd">
+                                <img src="{{ $item[1] }}" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <ul class="col-lg-9 col-md-9 col-sm-9 cyxx-ul">
+                                    <li class="row">
+                                        <span>{{ $item[2] }}</span>
+                                        <span>{{ $item[0] }}</span>
+                                    </li>
+                                    {{--<li class="row">--}}
+                                    {{--<span>户外星球创始人</span>--}}
+                                    {{--</li>--}}
+                                    <li class="row">
+                                        <p>{{$item[3]}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                @endforeach
+            @endif
                 <!--循环遍历结束-->
-                <li class="row">
-                    <div class="rowsd">
-                        <img src="{{ asset('home/img/demoimg/test11.jpg') }}" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <ul class="col-lg-9 col-md-9 col-sm-9 cyxx-ul">
-                            <li class="row">
-                                <span>CEO</span>
-                                <span>徐征</span>
-                            </li>
-                            <li class="row">
-                                <span>户外星球创始人</span>
-                            </li>
-                            <li class="row">
-                                <p>中戏导演系毕业，中央3编导，凤凰卫视独立制片人，睿尔旭文化传播创始人，阿卡农庄联合创始人</p>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
                 <!--成员信息结束-->
             </ul>
             <ul class="col-lg-4 col-md-4 col-sm-12">
