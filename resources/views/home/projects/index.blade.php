@@ -53,7 +53,7 @@
                         <p>{{ mb_substr($project->brief_content,0,30).'...' }}</p>
                         <!--p标签内容不可超过40个中文简体字-->
                         <div>
-                            <span>21</span>
+                            {{--<span>21</span>--}}
                             {{--<span>12723</span>--}}
                         </div>
                     </div>

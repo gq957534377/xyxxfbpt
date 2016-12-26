@@ -96,7 +96,7 @@
                     @else
                         <span id="like"  data-id="{{$project_details->guid}}" class="col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>
                     @endif
-                    <span class="col-lg-6 col-md-6 col-sm-6 col-xs-5">12723人看过</span>
+                    {{--<span class="col-lg-6 col-md-6 col-sm-6 col-xs-5">12723人看过</span>--}}
                 </div>
 
             <!--项目主要属性结束-->

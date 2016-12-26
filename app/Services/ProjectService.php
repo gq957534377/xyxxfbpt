@@ -96,18 +96,18 @@ class ProjectService {
         if (isset($data['remark'])) $updateData = ['remark' => $data['remark']];
 
         //整理参数
-        $param = ['project_id'=>$data['id']];
+        $param = ['guid'=>$data['id']];
 
         //根据传入参数指定状态值
         $updateData['status'] = $data['status'];
 
-        $updateData['changetime'] = date("Y-m-d H:i:s", time());
+        $updateData['changetime'] = time();
 
 
         //更新状态值
         $res = self::$projectStore->update($param,$updateData);
-        if ($res==0) return ['status'=>false,'msg'=>'修改失败'];
-        return ['status'=>true,'msg'=>'修改成功'];
+        if ($res==0) return ['StatusCode' => '400', 'ResultData' => '修改数据失败'];
+        return ['StatusCode' => '400','ResultData'=>'修改成功'];
     }
 
     /**
