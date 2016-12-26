@@ -304,11 +304,11 @@ $('#data').on('click', '.btn-success', function () {
     $('#investurl').val($('#img' + id).attr('href'));
 });
 
-// 提交修改信息
+// 提交修改信息 异步
 $('#saveinfo').on('click', function () {
     var id = $('#investid').val();
     var name = $('#investname').val();
-    var url = $('#investurl').val()
+    var url = $('#investurl').val();
 
     // 异步修改
     $.ajax({

@@ -1,6 +1,6 @@
 <!-- 反馈对话框开始 -->
 
-<div id="htmlfeedback-container" class="unselectable" style="display: block;">
+<div id="htmlfeedback-container" class="unselectable" style="display: none;">
     <div id="htmlfeedback-more" style="background-color: rgb(150, 185, 125);">
         <div id="htmlfeedback-info" style="display: inline-block;"><i class="fa fa-comments-o" aria-hidden="true"></i> 我的建议</div>
 
@@ -27,14 +27,11 @@
             </p>
             <br>
             <hr>
-            <p style="margin: 5px;">
-                <strong>联系邮箱：<a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=ssbDyoOAgfLU3crf09venNHd3w" target="_balnk">429240967@qq.com</a></strong>
+            {{--<p style="margin: 5px;">--}}
+                {{--<strong>联系邮箱：<a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&amp;email=ssbDyoOAgfLU3crf09venNHd3w" target="_balnk">{{ $email }}</a></strong>--}}
 
-            </p>
-            <p style="margin: 5px;">
-                <strong>投稿页面：<a href="http://www.runoob.com/tougao" target="_balnk">http://www.runoob.com/tougao</a></strong>
+            {{--</p>--}}
 
-            </p>
         </form>
     </div>
 </div>

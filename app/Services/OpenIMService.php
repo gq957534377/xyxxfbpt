@@ -8,11 +8,13 @@
 
 namespace App\Services;
 
+use App\Redis\BaseRedis;
 use App\Store\OpenIMStore;
 use App\TaoBaoSdk\Top\Request\OpenimUsersAddRequest;
 use App\TaoBaoSdk\Top\Request\OpenimUsersGetRequest;
 use App\TaoBaoSdk\Top\Domains\Userinfos;
 use App\TaoBaoSdk\Top\TopClient;
+
 
 class OpenIMService
 {
@@ -36,7 +38,7 @@ class OpenIMService
      * @return array
      * @author 王通
      */
-    public function saveIM ()
+    public function saveIM()
     {
 
     }
@@ -47,7 +49,7 @@ class OpenIMService
      * @return array
      * @author 王通
      */
-    public function getOpenIM ($uid, $nick, $icon_url, $mobile)
+    public function getOpenIM($uid, $nick, $icon_url, $mobile)
     {
 
         $res = self::$openim->getInfo(['user' => md5($uid)]);
@@ -89,7 +91,7 @@ class OpenIMService
      *
      * @author 王通
      */
-    public function userToIM ($userid, $password, $nick, $icon_url, $mobile)
+    public function userToIM($userid, $password, $nick, $icon_url, $mobile)
     {
         $c = new TopClient;
         $c->appkey = '23560564';
@@ -107,4 +109,6 @@ class OpenIMService
         $resp = $c->execute($req);
         return $resp;
     }
+
+
 }

@@ -57,20 +57,14 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/web_admins/uploadorganizpic', 'WebAdminstrationController@uploadOrganizPic');
         Route::resource('/web_admins', 'WebAdminstrationController');
 
-
-        // 合作机构管理
-        Route::resource('/web_cooper_organiz', 'WebCooperOrganizController');
-
-        // 投资机构管理
-        Route::resource('/web_invest_organiz', 'WebInvestOrganizController');
-
         // 用户管理bate
         Route::resource('/user_management','UserManagementController');
         // 角色申请管理
         Route::resource('/role_management','RoleManagementController');
 
-        // 图片内容管理
-        Route::resource('/picture/carousel', 'PictureOrganizController@carousel');
+        // 意见管理
+        Route::resource('/seedback', 'SeedbackController');
+
 
     });
 });
@@ -105,8 +99,6 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/comment', 'ArticleController@commentShow');
     //学院内容页
     Route::resource('/school', 'SchoolController');
-    //活动报名管理
-    Route::resource('/action_order','ActionOrderController');
     //发布项目
     Route::resource('/project', 'ProjectController');
     //项目列表ajax请求
@@ -146,6 +138,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
 
         //活动管理
         Route::resource('/activity', 'ActivityController');
+        //活动报名管理
+        Route::resource('/action_order','ActionOrderController');
         //投稿管理
         Route::resource('/send/get_article_info', 'SendController@getArticleInfo');
         Route::resource('/send', 'SendController');
