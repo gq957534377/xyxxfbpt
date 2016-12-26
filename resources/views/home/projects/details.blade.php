@@ -21,7 +21,7 @@
                     </div>
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 top_right_1_right">
                         <h2>{{ $project_details->title }}</h2>
-                        <p>精品娱乐内容生产者</p> <!--公司的简短标语-->
+                        <p>{{$project_details->brief_content}}</p> <!--公司的简短标语-->
                     </div>
                 </div>
                 <div class="row top_right_2">
@@ -175,6 +175,7 @@
                     <h4>成员信息</h4>
                 </li>
                 <!--成员信息开始-->
+                <ul class="row">
                 <!--循环遍历开始-->
                 @if(is_array($project_details->team_member))
                     @foreach($project_details->team_member as $item)
@@ -197,24 +198,9 @@
                         </li>
                 @endforeach
             @endif
+                </ul>
                 <!--循环遍历结束-->
-                <!--成员信息结束-->
-            </ul>
-            <ul class="col-lg-4 col-md-4 col-sm-12">
-                <li class="row content_title">
-                    <h3>更多信息</h3>
-                </li>
-                <li class="row gdxx">
-                    <div class="kuang">
-                        @if(session('user')->role != 3)
-                            <div class="gdxx-content"></div>
-                        @else
-                            <a style="position: absolute;top: 50%;left: 36%;" href="{{ $project_details->file }}">项目详细资料</a>
-                        @endif
-                    </div>
-                </li>
-                <!--用户评论开始-->
-                <div class="row pl-block">
+                <div style="background-color: #ffffff;" class="row pl-block">
                     <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
                     <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">更多评论></a>
                     <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -263,6 +249,71 @@
 
                     </ul>
                 </div>
+                <!--成员信息结束-->
+            </ul>
+            <ul class="col-lg-4 col-md-4 col-sm-12">
+                <li class="row content_title">
+                    <h3>更多信息</h3>
+                </li>
+                <li class="row gdxx">
+                    <div class="kuang">
+                        @if(session('user')->role != 3)
+                            <div class="gdxx-content"></div>
+                        @else
+                            <a style="position: absolute;top: 50%;left: 36%;" href="{{ $project_details->file }}">项目详细资料</a>
+                        @endif
+                    </div>
+                </li>
+                <!--用户评论开始-->
+                {{--<div class="row pl-block">--}}
+                    {{--<h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>--}}
+                    {{--<a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">更多评论></a>--}}
+                    {{--<ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
+                        {{--<!---循环遍历开始-->--}}
+                        {{--<li class="row inputs">--}}
+                            {{--<form id="comment" method = 'post'>--}}
+                                {{--<input name="action_id" value="{{ $id}}" hidden>--}}
+                                {{--<input name="type" value="2" hidden>--}}
+                                {{--<textarea name="content" required></textarea>--}}
+                                {{--<button type="submit" class="subbtn btn btn-warning" >提交</button>--}}
+                            {{--</form>--}}
+                        {{--</li>--}}
+                        {{--@if($commentData['StatusCode'] == 200)--}}
+                            {{--@foreach($commentData['ResultData'] as $datas)--}}
+                                {{--<li class="row">--}}
+                                    {{--<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">--}}
+                                        {{--<div class="user-img-bgs">--}}
+                                            {{--<img src="{{ $datas->userImg }}">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">--}}
+                                        {{--<div class="row user-say1">--}}
+                                            {{--<span>{{ $datas->nikename }}</span>--}}
+                                            {{--<span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="row user-say2">--}}
+                                            {{--<p>{{ $datas->content }}</p>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
+                                {{--</li>--}}
+                            {{--@endforeach--}}
+                        {{--@else--}}
+                            {{--<li class="row">--}}
+                                {{--<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">--}}
+
+                                {{--</div>--}}
+                                {{--<div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">--}}
+
+                                    {{--<div class="row user-say2">--}}
+                                        {{--<p>暂无评论</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</li>--}}
+                    {{--@endif--}}
+                    {{--<!---循环遍历结束-->--}}
+
+                    {{--</ul>--}}
+                {{--</div>--}}
                 <!--用户评论结束-->
             </ul>
         </div>
