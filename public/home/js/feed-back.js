@@ -365,23 +365,67 @@ $(document).ready(function() {
         e.preventDefault();
 
         $("#htmlfeedback-more").css({"background-color":"#ffa52e"});
-        $.post(
-            "/feedback/feedback.php",
-            {"description": $("#htmlfeedback-input-description").val(),"post_id" : 1,"fb_email" : $("#feedback_email").val()},
-            function(result){
-                if(result.flag==0) {
-                    $("#htmlfeedback-info").html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 抱歉，提交失败：' + result.msg);
+        $.ajaxSetup({
+            //将laravel的csrftoken加入请求头，所以页面中应该有meta标签，详细写法在上面的form表单部分
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type : 'post',
+            url: "/openim",
+            data: {
+                "description": $("#htmlfeedback-input-description").val(),
+                "fb_email" : $("#feedback_email").val()
+            },
+            success: function(msg){
+
+                if(msg.StatusCode == '400') {
+                    $("#htmlfeedback-info").html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 抱歉，提交失败：' + msg.ResultData);
                 } else {
+
                     $("#htmlfeedback-submit").prop('disabled',true);
                     $("#htmlfeedback-info").html("您的意见我们已经收到了，谢谢！");
                     $("body").htmlfeedback("hide");
                 }
             },
-            "json"
-        )
+            error: function(XMLHttpRequest){
+                var number = XMLHttpRequest.status;
+                var msg = "Error: "+number+",数据异常！";
+                alert(msg);
+            }
+
+        });
 
     });
 
     // 背景颜色设置
 
+});
+
+$(window).scroll(function () {
+    var _stop = $(window).scrollTop();
+    if (_stop == 100) {
+        $('#htmlfeedback-container').show();
+    }
+
+    if(_stop>=100) {
+        $(".go-top").fadeIn();
+        if ($('#htmlfeedback-container').length){
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                // some code..
+            } else {
+                $("#htmlfeedback-container").show();
+            }
+        }
+    }else {
+        $(".go-top").fadeOut();
+    }
+});
+
+
+$(".go-top").click(function(event){
+    $('html,body').animate({scrollTop:0}, 100);
+    return false;
 });

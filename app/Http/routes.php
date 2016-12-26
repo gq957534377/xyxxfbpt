@@ -57,20 +57,14 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/web_admins/uploadorganizpic', 'WebAdminstrationController@uploadOrganizPic');
         Route::resource('/web_admins', 'WebAdminstrationController');
 
-
-        // 合作机构管理
-        Route::resource('/web_cooper_organiz', 'WebCooperOrganizController');
-
-        // 投资机构管理
-        Route::resource('/web_invest_organiz', 'WebInvestOrganizController');
-
         // 用户管理bate
         Route::resource('/user_management','UserManagementController');
         // 角色申请管理
         Route::resource('/role_management','RoleManagementController');
 
-        // 图片内容管理
-        Route::resource('/picture/carousel', 'PictureOrganizController@carousel');
+        // 意见管理
+        Route::resource('/seedback', 'SeedbackController');
+
 
     });
 });
