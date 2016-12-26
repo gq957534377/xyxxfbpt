@@ -95,19 +95,22 @@
 
         <!--创业者认证通过 开始-->
         <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='2' ? '' : 'hidden'}}">
-
+            @if(!empty($syb))
             <h4 class="col-xs-12 pad-clr my-home-title">创业者认证<span class="label label-success">认证成功</span>
                 <a href="{{ route('identity.edit', ['identity' => 'syb','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>
             </h4>
             <div class="col-xs-12 pad-clr my-home-content">
-                <p class="col-lg-6 pad-clr">真实姓名：<span>龚雯</span></p>
-                <p class="col-lg-6 pad-clr">毕业年份：<span>2016 年</span></p>
-                <p class="col-lg-6 pad-clr">身份证号：<span>4201121198711052129</span></p>
-                <p class="col-lg-6 pad-clr">学历层次：<span>硕士</span></p>
-                <p class="col-lg-6 pad-clr">所在院校：<span>长江科学院</span></p>
-                <p class="col-lg-6 pad-clr">专业名称：<span>生命科学</span></p>
-                <p class="col-lg-6 pad-clr">入学年份：<span>2013 年</span></p>
+                <p class="col-lg-6 pad-clr">真实姓名：<span>{{ $syb->realname or '暂无' }}</span></p>
+                <p class="col-lg-6 pad-clr">毕业年份：<span>{{ $syb->finish_school or '暂无' }} 年</span></p>
+                {{--<p class="col-lg-6 pad-clr">身份证号：<span></span></p>--}}
+                <p class="col-lg-6 pad-clr">学历层次：<span>{{ $syb->education or '暂无' }}</span></p>
+                <p class="col-lg-6 pad-clr">所在院校：<span>{{ $syb->school_address or '暂无'}} {{ $syb->school_name or '暂无'}}</span></p>
+                <p class="col-lg-6 pad-clr">专业名称：<span>{{ $syb->major or '暂无'}}</span></p>
+                <p class="col-lg-6 pad-clr">入学年份：<span>{{ $syb->start_school or '暂无'}} 年</span></p>
             </div>
+            @else
+
+            @endif
 
             @if(empty($company))
                 <h4 class="col-xs-12 pad-clr my-home-title">我管理的公司<span class="label label-success hidden">审核通过</span>
@@ -126,7 +129,7 @@
                 </h4>
                 <div class="col-xs-12 pad-clr my-home-content">
                     <p class="col-lg-6 pad-clr">公司名称：<span>{{ $company->company or '暂无'}}</span></p>
-                    <p class="col-lg-6 pad-clr">公司网址：<span>{{ $company->url or '暂无'}}</span></p>
+                    <p class="col-lg-6 pad-clr">公司网址：<span><a href="http://{{ $company->url or '暂无'}}" target="_blank">{{ $company->url or '暂无'}}</a></span></p>
                     <p class="col-lg-6 pad-clr">公司简介：<span>{{ $company->abbreviation or '暂无'}}</span></p>
                     <p class="col-lg-6 pad-clr">领域：<span>{{ $company->field or '暂无'}}</span></p>
                     <p class="col-lg-6 pad-clr">所在地：<span>{{ $company->address or '暂无'}}</span></p>
