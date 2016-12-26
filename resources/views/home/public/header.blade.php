@@ -13,7 +13,7 @@
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
                                 <li role="presentation">
-                                    <a role="menuitem" tabindex="-1" href="{{ url('/user') }}"><i class="fa fa-briefcase"></i> 个人中心</a></li>
+                                    <a role="menuitem" tabindex="-1" href="{{ url('/user').'/'.session('user')->guid }}"><i class="fa fa-briefcase"></i> 个人中心</a></li>
                                 <li role="presentation">
                                     <a role="menuitem" tabindex="-1" href="{{ url('/logout') }}"><i class="fa fa-sign-in"></i> 退出登录</a></li>
                             </ul>

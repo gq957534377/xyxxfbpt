@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
-use Illuminate\Support\Facades\Validator;
 use App\Services\UserService as UserServer;
+use App\Services\UserRoleService as RoleServer;
 use App\Services\UploadService as UploadServer;
 use App\Tools\Avatar;
 
@@ -16,11 +16,16 @@ use App\Tools\Avatar;
 class RoleController extends Controller
 {
     protected static $userServer = null;
+    protected static $roleServer = null;
     protected static $uploadServer = null;
 
-    public function __construct(UserServer $userServer, UploadServer $uploadServer)
-    {
+    public function __construct(
+        UserServer $userServer,
+        RoleServer $roleServer,
+        UploadServer $uploadServer
+    ){
         self::$userServer = $userServer;
+        self::$roleServer = $roleServer;
         self::$uploadServer = $uploadServer;
     }
 
@@ -32,11 +37,8 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         if (isset($request->identity)) {
-            return view('home.user.applyHero');
-        } else {
-            return view('home.user.identity');
+            return view('home.user.'.$request->identity);
         }
-
     }
 
     /**
@@ -59,44 +61,26 @@ class RoleController extends Controller
     {
         // 获取数据
         $data = $request->all();
+
         if (isset($request->role) && $request->role ==4 ) {
-            $result = self::$userServer->applyRole($data);
+            $result = self::$roleServer->applyRole($data);
             return response()->json($result);
         }
-        //验证数据
-        $validator = Validator::make($request->all(),[
-            'guid' => 'required',
-            'role' => 'required',
-            'realname' => 'required|min:2',
-            'subject' => 'required',
-            'tel' => 'required|min:11',
-//            'card_number' => 'required|min:16|max:18',
-            'field' => 'required',
-            'stage' => 'required',
-            'card_pic_a' => 'required',
-            'card_pic_b' => 'required',
-        ],[
-            'guid.required' => '非法操作!<br>',
-            'role.required' => '非法操作!<br>',
-            'realname.required' => '请填写您的真实姓名<br>',
-            'realname.min' => '真实姓名最少两位<br>',
-            'subject' => '请选择主体<br>',
-            'tel.required' => '请填写您的手机号码<br>',
-            'tel.min' => '手机号码标准11位<br>',
-//            'card_number.required' => '请填写您的真实身份证件号',
-//            'card_number.min' => '身份证件号16-18位<br>',
-//            'card_number.max' => '身份证件号16-18位<br>',
-            'field.required' => '请选择领域<br>',
-            'stage.required' => '请选择阶段<br>',
-            'card_pic_a.required' => '请上传您的出身份证正面照',
-            'card_pic_a.required' => '请上传您的出身份证反面照',
-        ]);
-        // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+
+        // 数据验证
+        switch ($request->role) {
+            case '2':
+                $result = self::$roleServer->sybValidator($request);
+                break;
+            case '3':
+                $result = self::$roleServer->investorValidator($request);
+                break;
+        }
+        if ($result['StatusCode'] == '400') return response()->json($result);
 
         $data['addtime'] = $_SERVER['REQUEST_TIME'];
         // 提交数据到业务服务层
-        $info = self::$userServer->applyRole($data);
+        $info = self::$roleServer->applyRole($data);
 
         // 返回状态信息
         return response()->json($info);
@@ -127,9 +111,26 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $role = '';
+        switch ($request->identity) {
+            case 'syb' :
+                $role = '2';
+                break;
+            case 'investor' :
+                $role = '3';
+                break;
+        }
+        $result = self::$roleServer->userInfo(['guid' => $request->id, 'role' => $role]);
+
+        if($result['StatusCode'] == '400') {
+            $result['ResultData'] = [];
+        }
+
+        return view('home.user.edit.'.$request->identity, [
+            'roleInfo' => $result['ResultData']
+        ]);
     }
 
     /**

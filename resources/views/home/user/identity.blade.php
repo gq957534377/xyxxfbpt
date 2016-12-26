@@ -110,7 +110,7 @@
                         <input type="hidden" name="syb_card_a">
                         <div class="col-md-5">
                             <div class="card-view">
-                                <img id="syb_card_a" src="{{ asset('home/img/upload-card.png') }}" style="cursor: pointer;">
+                                <img id="syb_card_a" src="{{ asset('home/img/upload-card.png') }}" >
                             </div>
                         </div>
 

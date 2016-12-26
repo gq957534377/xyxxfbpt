@@ -26,6 +26,18 @@
 .my-company-edit{
     margin-top: 30px;
 }
+
+.organize_card_box {
+    width: 380px;
+    height: 215px;
+    text-align: center;
+}
+.organize_card_box > img{
+    max-width: 380px;
+    height: 215px;
+    text-align: center;
+    cursor: pointer;
+}
 /*768px以下的样式，最小宽度为320px*/
 @media (max-width: 767px) {
     .my-company {

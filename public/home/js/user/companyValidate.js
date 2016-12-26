@@ -8,27 +8,11 @@
     "use strict";//使用严格标准
     // 获取表单元素
     var FormValidator = function(){
-        this.$applyInvestorForm = $("#applyInvestorForm");
+        this.$companyForm = $("#companyForm");
     };
 
     // 初始化
     FormValidator.prototype.init = function() {
-        // 自定义手机验证规则
-        $.validator.addMethod("isMobile", function(value, element) {
-            var length = value.length;
-            var mobile = /^1[34578]\d{9}$/;
-            return this.optional(element) || (length == 11 && mobile.test(value));
-        }, "请正确填写您的手机号码");
-
-        $.validator.addMethod("checkPicSize", function(value,element) {
-            var fileSize=element.files[0].size;
-            var maxSize = 5*1024*1024;
-            if(fileSize > maxSize){
-                return false;
-            }else{
-                return true;
-            }
-        }, "请上传大小在5M以下的图片");
         // ajax 异步
         $.validator.setDefaults({
             // 提交触发事件
@@ -41,27 +25,30 @@
                 });
                 //与正常form不同，通过下面这样来获取需要验证的字段
                 var data = new FormData();
-                data.append( "investor_realname"      , $("input[name= 'investor_realname']").val());
-                data.append( "investor_subject"      , $('select[name = "investor_subject"]').val());
-                data.append( "investor_field"       , $("select[name = 'investor_field']").val());
-                data.append( "investor_stage"       , $("select[name = 'investor_stage']").val());
-                data.append( "investor_card_pic"       , $("input[name= 'investor_card_pic']").val());
+                data.append( "company"        , $("input[name= 'company']").val());
+                data.append( "abbreviation"          , $("input[name= 'abbreviation']").val());
+                data.append( "address"          , $("input[name= 'address']").val());
+                data.append( "founder_name"  , $("input[name= 'founder_name']").val());
+                data.append( "url"     , $("input[name= 'url']").val());
+                data.append( "field"     , $("select[name= 'field']").val());
+                data.append( "organize_card"     , $("input[name= 'organize_card']").val());
                 //开始正常的ajax
                 // 异步登录
                 $.ajax({
                     type: "POST",
-                    url: '/identity',
-                    data: {
-                        "guid": $("#topAvatar").data('id'),
-                        "role": $("input[name= 'investor_role']").val(),
-                        'realname': $("input[name= 'investor_realname']").val(),
-                        'subject': $('select[name = "investor_subject"]').val(),
-                        'field':  $("select[name = 'investor_field']").val(),
-                        'stage':  $("select[name = 'investor_stage']").val(),
-                        'card_pic_a': $("input[name= 'investor_card_pic']").val()
-                    },
+                    url: '/user',
                     beforeSend:function(){
                         $(".loading").css({'width':'80px','height':'80px'}).show();
+                    },
+                    data: {
+                        "guid"      : $("#topAvatar").data('id'),
+                        "company"      : $("input[name= 'company']").val(),
+                        'abbreviation'  : $("input[name= 'abbreviation']").val(),
+                        'address': $("input[name= 'address']").val(),
+                        'founder_name': $("input[name= 'founder_name']").val(),
+                        'url': $("input[name= 'url']").val(),
+                        'field': $("select[name= 'field']").val(),
+                        'organize_card': $("input[name= 'organize_card']").val(),
                     },
                     success:function(data){
                         switch (data.StatusCode){
@@ -80,41 +67,55 @@
             }
         });
         // 验证规则和提示信息
-        this.$applyInvestorForm.validate({
+        this.$companyForm.validate({
             // 验证规则
             rules: {
-                investor_realname: {
+                company: {
                     required: true,
                 },
-                investor_subject: {
+                abbreviation: {
                     required: true,
                 },
-                investor_field: {
+                address: {
                     required: true,
                 },
-                investor_stage: {
+                founder_name: {
+                    required: true,
+                }
+                ,
+                url: {
                     required: true,
                 },
-                investor_card_pic: {
-                    required: true
+                field: {
+                    required: true,
+                },
+                organize_card: {
+                    required: true,
                 }
             },
             // 提示信息
             messages: {
-                investor_realname: {
-                    required: "请填写您的真实姓名！",
+                company: {
+                    required: "请输入公司名称",
                 },
-                investor_subject: {
-                    required: "请选择创业主体！",
+                abbreviation: {
+                    required: "请输入公司简称",
                 },
-                investor_field: {
-                    required: "请选择创业领域"
+                address: {
+                    required: "请选择公司所在地",
                 },
-                investor_stage: {
-                    required: "请选择创业阶段",
+                founder_name: {
+                    required: "请输入公司创始人姓名",
+                }
+                ,
+                url: {
+                    required: "请输入公司网址",
                 },
-                investor_card_pic: {
-                    required: "请上传身份证件照"
+                field: {
+                    required: "请选择行业领域",
+                },
+                organize_card: {
+                    required: "请上传组织机构代码证",
                 }
             }
         });

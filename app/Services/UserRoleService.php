@@ -2,15 +2,13 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Request;
 use App\Store\HomeStore;
 use App\Store\UserStore;
 use App\Store\RoleStore;
 use App\Services\UploadService as UploadServer;
-use App\Tools\Common;
+use Illuminate\Support\Facades\Validator;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 
 class UserRoleService {
     protected static $homeStore = null;
@@ -25,8 +23,12 @@ class UserRoleService {
      * @param UserStore $userStore
      * @param RoleStore $roleStore
      */
-    public function __construct(HomeStore $homeStore ,UserStore $userStore,  RoleStore $roleStore,UploadServer $uploadServer)
-    {
+    public function __construct(
+        HomeStore $homeStore,
+        UserStore $userStore,
+        RoleStore $roleStore,
+        UploadServer $uploadServer
+    ){
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$roleStore = $roleStore;
@@ -45,9 +47,9 @@ class UserRoleService {
 
         $result = self::$roleStore->getRole($where);
         //返回错误状态信息
-        if(!$result) return ['status'=>false,'msg'=>'没有找到'];
+        if(!$result) return ['StatusCode'=> '400','ResultData' => '没有找到'];
         //返回数据
-        return  ['status'=>true,'msg'=>$result];
+        return  ['StatusCode' => '200', 'ResultData' => $result];
     }
 
     /**
@@ -245,6 +247,143 @@ class UserRoleService {
         $res = self::$roleStore->getList($where);
         if ($res==0) return ['status' => '500', 'msg' => '未找到数据'];
         return ['status' => '200', 'data' => $res];
+    }
+
+    /**
+     * 创业者 验证字段
+     * @param $request
+     * @return array
+     * @author 刘峻廷
+     */
+    public function sybValidator($request)
+    {
+        $validator = Validator::make($request->all(),[
+            'guid' => 'required',
+            'role' => 'required',
+            'realname' => 'required|min:2',
+            'card_pic_a' => 'required',
+            'card_pic_b' => 'required',
+            'school_address' => 'required',
+            'school_name' => 'required',
+            'start_school' => 'required',
+            'finish_school' => 'required',
+            'education' => 'required',
+            'major' => 'required',
+
+        ],[
+            'guid.required' => '非法操作!<br>',
+            'role.required' => '非法操作!<br>',
+            'realname.required' => '请填写您的真实姓名<br>',
+            'realname.min' => '真实姓名最少两位<br>',
+            'card_pic_a.required' => '请上传您的出身份证正面照<br>',
+            'card_pic_b.required' => '请上传您的出身份证反面照<br>',
+            'school_address.required' => '请选择您所在院校的省份<br>',
+            'school_name.required' => '请选择您所在院校的名字<br>',
+            'start_school.required' => '请输入您的入学时间<br>',
+            'finish_school.required' => '请输入您的毕业时间<br>',
+            'education.required' => '请输入您的学历<br>',
+            'major.required' => '请输入您的专业名称<br>',
+
+        ]);
+
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return ['StatusCode' => '400','ResultData' => $validator->errors()->all()];
+    }
+
+    /**
+     * 投资者 验证字段
+     * @param $request
+     * @return array
+     * @author 刘峻廷
+     */
+    public function investorValidator($request)
+    {
+        $validator = Validator::make($request->all(),[
+            'guid' => 'required',
+            'role' => 'required',
+            'realname' => 'required|min:2',
+            'subject' => 'required',
+            'field' => 'required',
+            'stage' => 'required',
+            'card_pic_a' => 'required',
+        ],[
+            'guid.required' => '非法操作!<br>',
+            'role.required' => '非法操作!<br>',
+            'realname.required' => '请填写您的真实姓名<br>',
+            'realname.min' => '真实姓名最少两位<br>',
+            'subject.required' => '请选择创业主体<br>',
+            'field.required' => '请选择创业领域<br>',
+            'stage.required' => '请选择创业阶段<br>',
+            'card_pic_a.required' => '请上传身份证件照',
+        ]);
+
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return ['StatusCode' => '400','ResultData' => $validator->errors()->all()];
+    }
+
+    /**
+     * 申请成为创业者 或 投资者
+     * @param $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function applyRole($data)
+    {
+        // 校验当前用户的角色
+        $userInfo = self::$userStore->getOneData(['guid' => $data['guid']]);
+
+        if ($data['role'] == 4) {
+            if ($userInfo->memeber == 4)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
+            // 查看该用户是否已申请
+            $info= self::$roleStore->getRole(['guid' => $data['guid'], 'role' => '4']);
+
+        } else {
+            if ($userInfo->role == 2) {
+                return ['StatusCode' => '400', 'ResultData' => '您已是创业者！'];
+            } else if ($userInfo->role == 3) {
+                return ['StatusCode' => '400', 'ResultData' => '您已是投资者！'];
+            }
+            // 查看该用户是否已申请
+            $info= self::$roleStore->getRole(['guid' => $data['guid']]);
+        }
+
+        // 查询不为空
+        if(!empty($info)) {
+            // 判断审批状态
+            if ($info->status == '5') {
+                return ['StatusCode' => '400', 'ResultData' => '您已有申请项，正在审核中，请耐心等待...'];
+            } else if ($info->status == '7') {
+                return ['StatusCode' => '400', 'ResultData' => '已申请成功，无需再次申请。'];
+            }
+        };
+
+        // 事务处理
+        DB::beginTransaction();
+        try {
+            if ($data['role'] == 4) {
+                $data['realname'] = $userInfo->realname;
+            }
+            $result = self::$roleStore->addRole($data);
+
+            // 返回信息处理
+            if(!$result) {
+                Log::error('申请角色失败', $result);
+                return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
+            };
+            // 申请成功后，根据新的用户信息对data_user_info表进行一次数据覆盖更新
+            $user = [];
+            // 申请会员的
+            $user['realname'] = $data['realname'];
+
+
+            self::$userStore->updateUserInfo(['guid' => $data['guid']], $user);
+
+            DB::commit();
+            return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
+        } catch (Exception $e) {
+            DB::rollback();
+            return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
+        }
     }
 
 }

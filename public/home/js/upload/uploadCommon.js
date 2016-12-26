@@ -26,11 +26,12 @@ uploadCommon.prototype.upload = function (param) {
             processData : false,
             contentType : false,
             beforeSend  : function(){
+                param.imgObj.css({ "width": "80px"});
                 param.imgObj.attr('src', param.loadingPic);
             },
             success     : function(msg){
                 if (msg.StatusCode == '200') {
-                    param.imgObj.attr('src', msg.ResultData);
+                    param.imgObj.attr('src', msg.ResultData).css({ "width": "100%"});
                     param.hideinput.val(msg.ResultData);
                 }else{
                     param.imgObj.attr('src', param.originalPic);
