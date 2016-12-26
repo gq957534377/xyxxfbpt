@@ -1,20 +1,19 @@
 <!-- 反馈对话框开始 -->
 
 <div id="htmlfeedback-container" class="unselectable" style="display: none;">
-    <div id="htmlfeedback-more" style="background-color: rgb(150, 185, 125);">
+    <div id="htmlfeedback-more" style="background-color: #ff9036;">
         <div id="htmlfeedback-info" style="display: inline-block;"><i class="fa fa-comments-o" aria-hidden="true"></i> 我的建议</div>
 
         <div id="htmlfeedback-close" style="display: block;">X</div>
     </div>
-
+    <form id="htmlfeedback-form" method="post">
     <div id="htmlfeedback-container-more" class="expanded" style="display: block;">
         <h3>反馈内容<span style="color:red;display:inline-block;">（*必填）</span></h3>
-
+        <h3><div id="error-info" class="alert alert-danger" style="display: none;"></div></h3>
         <p>
-            <textarea id="htmlfeedback-input-description" name="description" placeholder="欢迎提出您在使用过程中遇到的问题或宝贵建议（400字以内），感谢您对菜鸟教程的支持。"></textarea>
-
+            <textarea id="htmlfeedback-input-description" name="description" placeholder="欢迎提出您在使用过程中遇到的问题或宝贵建议（400字以内），感谢您的支持。"></textarea>
         </p>
-        <form id="htmlfeedback-form">
+
 
 
             <h3>

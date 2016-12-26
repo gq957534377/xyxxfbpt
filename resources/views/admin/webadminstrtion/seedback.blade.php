@@ -49,7 +49,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary">删除</button>
+                <button id="delete-seedback" data-ip="11" type="button" class="btn btn-danger">删除</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -160,15 +160,15 @@
 
 
             $.each(data[0], function (i, v) {
+                obj = JSON.parse(data[1][i]);
                 str += '<tr class="gradeX">';
                 str +=  '<td><input class="checkbox-list" name="Fruit" type="checkbox" data-ip="'+ data[0][i] +'" /></td>';
-                str +=  '<td>' + data[0][i].slice(0, -4) + '</td>';
-                obj = JSON.parse(data[1][i]);
+                str +=  '<td>' + obj.ip + '</td>';
                 str +=  '<td class="seedb-email">' + obj.fb_email + '</td>';
                 str +=  '<td hidden class="seedb-descri">'+ obj.description +'</td>';
                 str +=  '<td>' + obj.description.slice(0, 53) + '</td>';
                 str +=  '<td>';
-                str +=  '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#seedback">详情</button>';
+                str +=  '<button class="btn btn-info btn-xs" data-ip="'+ data[0][i] +'" data-toggle="modal" data-target="#seedback">详情</button>';
                 str +=  '<button id="'+ data[0][i] +'" data-ip="'+ data[0][i] +'" class="btn btn-danger btn-xs">删除</button>';
                 str +=  '</td></tr>';
             });
@@ -247,12 +247,14 @@
         });
 
         /**
-         * 全选，反选
+         * 详情
          *@author 王通
          */
         $('#data').on('click', '.btn-info', function () {
             var email = $(this).parent().siblings('.seedb-email').html();
             var descri = $(this).parent().siblings('.seedb-descri').html();
+            var ip = $(this).data('ip');
+            $('#delete-seedback').attr('data-ip', ip);
             $('#seedback-email').html(email);
             $('#seedback-descri').html(descri);
         });
@@ -281,6 +283,16 @@
          */
         $('#data').on('click', '.btn-danger', function () {
             var me = $(this);
+            deleteSeedback(me);
+        });
+
+        $('.btn-danger').on('click', function () {
+            var me = $(this);
+            deleteSeedback(me);
+            $('#seedback').hide();
+        });
+
+        function deleteSeedback(me) {
             var id = me.data('ip');
             swal({
                 title: "确认删除？",
@@ -299,8 +311,7 @@
                     swal("已取消", "", "error");
                 }
             });
-        });
-
+        }
         /**
          * @param url
          * @param queryString
@@ -324,11 +335,8 @@
                 success : function(msg){
                     if (msg.StatusCode == '200') {
                         swal("删除成功!", "", "success");
-//                        if (obj) {
-//                            delOk(obj, 2);
-//                        }
+
                         $.each(queryString, function (key, val) {
-                            alert(val);
                             var obj = $('input[data-ip="'+val+'"]');
                             delOk(obj, 2);
                         })
