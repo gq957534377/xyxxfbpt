@@ -107,8 +107,8 @@ class Common {
      */
     public static function sendSms($phone,$setSmsParam,$smsFreeSignName,$tmeplateCode)
     {
-        $app_key = '23436923';
-        $app_secret = '8b837e3a344b8cc324de88926426a30a';
+        $app_key = '23578050';
+        $app_secret = '2a07331f605055bb9d70a5220097e2cb';
         // 配置信息
         $config = [
             'app_key'       => $app_key,
