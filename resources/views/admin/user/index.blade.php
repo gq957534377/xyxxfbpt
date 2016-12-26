@@ -302,11 +302,11 @@
                 $('#sex').text(sex);
                 $('#birthday').text(data.birthday);
                 $('#phone').text(data.tel);
-                $('#email').text(data.email);
+                $('#email').text(data.email ? data.email : '--');
                 $('#company').text(data.company);
-                $('#company_position').text(data.company_position ? data.company_position : '');
-                $('#company_address').text(data.company_address ? data.company_address : '');
-                $('#introduction').text(data.introduction ? data.introduction : '');
+                $('#company_position').text(data.company_position ? data.company_position : '--');
+                $('#company_address').text(data.company_address ? data.company_address : '--');
+                $('#introduction').text(data.introduction ? data.introduction : '--');
                 $('#wechat').attr('src',data.wechat);
                 $('#addtime').text(data.addtime);
                 //角色身份选择

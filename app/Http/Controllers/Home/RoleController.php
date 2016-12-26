@@ -11,7 +11,11 @@ use App\Services\UserService as UserServer;
 use App\Services\UserRoleService as RoleServer;
 use App\Services\UploadService as UploadServer;
 use App\Tools\Avatar;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Validator;
+=======
+use Validator;
+>>>>>>> origin/wangtong
 
 
 class RoleController extends Controller

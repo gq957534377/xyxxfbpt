@@ -110,6 +110,7 @@
 
                     //禁用弹出确认框
                     $('.check_pass').click(function(){
+                        //判断是审核通过或者不通过
                         var action = $(this).children().html();
 
                         //获取tr节点
