@@ -15,26 +15,30 @@
 
   function CropAvatar($element) {
 
-    this.$container = $element;
+      this.$container = $element;
 
-    this.$avatarView = this.$container.find('.avatar-view');
-    this.$avatar = this.$avatarView.find('img');
-    this.$avatarModal = $("body").find('#avatar-modal');
-    this.$loading = $("#page-wrapper").find('.loading');
+      this.$avatarView = this.$container.find('.avatar-view');
+      this.$avatar = this.$avatarView.find('img');
+      this.$avatarModal = $("body").find('#avatar-modal');
+      this.$loading = $("#page-wrapper").find('.loading');
 
-    this.$avatarForm = this.$avatarModal.find('.avatar-form');
-    this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
-    this.$avatarScale = this.$avatarForm.find('.avatar-scale').val();
-    this.$avatarSrc = this.$avatarForm.find('.avatar-src');
-    this.$avatarData = this.$avatarForm.find('.avatar-data');
-    this.$avatarInput = this.$avatarForm.find('.avatar-input');
-    this.$avatarSave = this.$avatarForm.find('.avatar-save');
-    this.$avatarBtns = this.$avatarForm.find('.avatar-btns');
+      this.$avatarForm = this.$avatarModal.find('.avatar-form');
+      this.$avatarUpload = this.$avatarForm.find('.avatar-upload');
+      this.$avatarScale = this.$avatarForm.find('.avatar-scale').val();
+      this.$avatarSrc = this.$avatarForm.find('.avatar-src');
+      this.$avatarData = this.$avatarForm.find('.avatar-data');
+      this.$avatarInput = this.$avatarForm.find('.avatar-input');
+      this.$avatarSave = this.$avatarForm.find('.avatar-save');
+      this.$avatarBtns = this.$avatarForm.find('.avatar-btns');
 
-    this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');
-    this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
-
-    this.init();
+      this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');
+      this.$avatarPreview = this.$avatarModal.find('.avatar-preview');
+      // 初始化之前，删除以前绑定的事件
+      this.$avatarView.off('click');
+      this.$avatarInput.off('change');
+      this.$avatarForm.off('submit');
+      this.$avatarBtns.off('click');
+      this.init();
   }
 
   CropAvatar.prototype = {
@@ -267,6 +271,7 @@
           _this.submitEnd();
         }
       });
+
     },
 
     syncUpload: function () {

@@ -308,7 +308,7 @@ $('#data').on('click', '.btn-success', function () {
 $('#saveinfo').on('click', function () {
     var id = $('#investid').val();
     var name = $('#investname').val();
-    var url = $('#investurl').val()
+    var url = $('#investurl').val();
 
     // 异步修改
     $.ajax({
