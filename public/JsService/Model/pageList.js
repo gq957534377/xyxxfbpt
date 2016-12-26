@@ -9,6 +9,7 @@ function getInfoList(data) {
             $('#page').html(data.ResultData.pages);
             getPage();
             // modifyStatus();
+            updates();
             initAlert();
             showInfo();
             checkAction();

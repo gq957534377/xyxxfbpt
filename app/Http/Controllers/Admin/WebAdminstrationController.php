@@ -76,7 +76,7 @@ class WebAdminstrationController extends Controller
                 $result = self::$pictureService->getPicture(2);
                 break;
             default:
-
+                $result = ['StatusCode' => '500', 'ResultData' => '请求错误'];
                 break;
         }
 
@@ -139,9 +139,8 @@ class WebAdminstrationController extends Controller
             'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
 
         ]);
-
         // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['state' => 400, 'result' => $validator->errors()->all()]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
         switch ($data['organiz-type'])
         {
 
@@ -163,9 +162,9 @@ class WebAdminstrationController extends Controller
 
         // 判断上传是否成功
         if ($result['StatusCode'] == '200') {
-            return response()->json(['StatusCode' => 200, 'ResultData' => $result['ResultData']]);
+            return response()->json(['StatusCode' => '200', 'ResultData' => $result['ResultData']]);
         } else {
-            return response()->json(['StatusCode' => 400, 'ResultData' => $result['ResultData']]);
+            return response()->json(['StatusCode' => '400', 'ResultData' => $result['ResultData']]);
         }
 
     }

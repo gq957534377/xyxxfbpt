@@ -45,7 +45,6 @@
                                     <select class="form-control" id="type" name="type">
                                         <option value="1">市场</option>
                                         <option value="2">政策发布</option>
-                                        <option value="3">用户来搞</option>
                                     </select>
                                 </div>
                             </div>

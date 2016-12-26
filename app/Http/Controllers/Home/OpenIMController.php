@@ -7,19 +7,24 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\OpenIMService;
+use App\Services\SeedbackService;
+use Illuminate\Support\Facades\Input;
+use Validator;
 
 class OpenIMController extends Controller
 {
 
     protected static $openim;
+    protected static $seedback;
     /**
      * 单例引入
      * OpenIMService constructor.
      * @param OpenIMStore $openim
      */
-    public function __construct(OpenIMService $openim)
+    public function __construct(OpenIMService $openim, SeedbackService $seedback)
     {
         self::$openim = $openim;
+        self::$seedback = $seedback;
     }
     /**
      * OpenIM 阿里云旺+千牛聊天工具
@@ -64,7 +69,18 @@ class OpenIMController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $ip = $request->getClientIp();
+        // 验证过滤数据
+        $validator = Validator::make($request->all(), [
+            'description' => 'required|max:400',
+        ], [
+            'description.required' => '意见不能为空',
+            'description.max' => '意见最长为400个字符',
+        ]);
+
+        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        $result = self::$seedback->saveSeedback($ip, ['description' => $request['description'], 'fb_email' => $request['fb_email']]);
+        return response()->json($result);
     }
 
     /**
