@@ -82,7 +82,7 @@ $(document).ready(function () {
 
         ajax.ajax({
             type: 'PUT',
-            url: 'user/' + guid,
+            url: '/user/' + guid,
             data: data,
             beforeSend: ajaxBeforeSend($('.loading')),
             success: editReturnInfo
@@ -105,6 +105,8 @@ $(document).ready(function () {
                     $("#userInfoSuccess").html(msg.ResultData).removeClass('hidden');
                     break;
             }
+
+            ajaxAfterSend($('.loading'));
         }
     });
 

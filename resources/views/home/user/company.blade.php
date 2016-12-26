@@ -95,7 +95,7 @@
     <script>
         //  异步上传身份证照
         var upload = new uploadCommon();
-        var originalPic = $(this).attr('src');
+        var originalPic = $("#organize_card_img").attr('src');
 
         $("#organize_card_img").click(function(){
 
