@@ -15,6 +15,7 @@ use App\Tools\Avatar;
 use App\Tools\Upload;
 use App\Services\CommentAndLikeService as CommentServer;
 use Illuminate\Support\Facades\Session;
+use App\Services\ProjectService as ProjectServer;
 
 
 class UserController extends Controller
@@ -22,15 +23,18 @@ class UserController extends Controller
     protected static $userServer = null;
     protected static $uploadServer = null;
     protected  static $commentServer = null;
+    protected  static  $projectServer = null;
 
     public function __construct(
         UserServer $userServer,
         UploadServer $uploadServer,
-        CommentServer $commentServer
+        CommentServer $commentServer,
+        ProjectServer $projectServer
     ){
         self::$userServer = $userServer;
         self::$uploadServer = $uploadServer;
         self::$commentServer = $commentServer;
+        self::$projectServer = $projectServer;
     }
     /**
      * 显示个人中心页
@@ -422,6 +426,9 @@ class UserController extends Controller
 
     public function myProject()
     {
-        return view('home.user.myProject');
+        $user_guid = session('user')->guid;
+        $result = self::$projectServer->getData(['user_guid' => $user_guid]);
+
+        return view('home.user.myProject', ['data' => $result['ResultData']]);
     }
 }

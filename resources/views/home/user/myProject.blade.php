@@ -12,22 +12,35 @@
           <span>我的项目</span>
         </div>
         <ul class="row pad-3">
-          <li class="col-sm-6 col-md-6 col-lg-4 mar-emt15">
-            <div class="content-block">
-              <a href="#">
-                <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{asset('home/img/demoimg/test6.jpg') }}/" alt="">
-              </a>
-              <div>
-                <a href="#">金蟾云</a>
-                <p>金蟾云管理系统，一款基于SAAS的真正简跨境出口电商销售管理系统。。。</p>
-                <!---p标签内容不可超过40个中文简体字--->
+          @if(is_array($data))
+          @foreach($data as $temp)
+            <li class="col-sm-6 col-md-6 col-lg-4 mar-emt15">
+              <div class="content-block">
+                <a href="#">
+                  <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{$temp->banner_img}}">
+                </a>
                 <div>
-                  <span>21</span>
-                  <span class="pull-right">12723</span>
+                  <a href="#">{{$temp->title}}</a>
+                  <p>{{mb_substr($temp->brief_content,0,40,'utf-8')}}...</p>
+                  <!---p标签内容不可超过40个中文简体字--->
+                  <div>
+                    @if($temp->status==0)
+                      审核中
+                    @elseif($temp->status==1)
+                      通过审核
+                    @elseif($temp->status==2)
+                      未通过审核
+                    @endif
+                  </div>
                 </div>
               </div>
-            </div>
-          </li>
+            </li>
+            @endforeach
+          @else
+            <li class="col-sm-12 col-md-12 col-lg-12">
+              <div style="text-align: center;color: #777777">{{$data}}</div>
+            </li>
+          @endif
         </ul>
         <div class="text-center">
           <a href="/project/create" id="toggle-popup" class="btn fs-15 border-no mar-emt15 btn-1 bgc-2 fs-c-1 zxz" role="button">新建项目</a>
