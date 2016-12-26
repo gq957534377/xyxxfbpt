@@ -121,11 +121,17 @@ class UserController extends Controller
         if ($syb['StatusCode'] == '400') {
             $syb['ResultData'] = [];
         }
+    // 获取投资者信息
+        $investor = self::$userServer->roleInfo(['guid' => $id, 'role' => '3']);
+        if ($investor['StatusCode'] == '400') {
+            $investor['ResultData'] = [];
+        }
 
         return view('home.user.index', [
-            'userInfo' => $info['ResultData'],
-            'company'  => $company['ResultData'],
-            'syb'      => $syb['ResultData'],
+            'userInfo'   => $info['ResultData'],
+            'company'    => $company['ResultData'],
+            'syb'        => $syb['ResultData'],
+            'investor'  => $investor['ResultData'],
         ]);
     }
 

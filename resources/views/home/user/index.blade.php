@@ -152,8 +152,8 @@
         <!--投资者认证 未认证 和 审核中-->
 
         <!--投资者认证通过 开始-->
-        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='3' ? '' : 'hidden'}}">
 
+        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='3' ? '' : 'hidden'}}">
             <h4 class="col-xs-12 pad-clr my-home-title">投资者认证<span class="label label-success">认证成功</span>
                 <a href="{{ route('identity.edit', ['identity' => 'investor','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>
             </h4>
@@ -166,7 +166,6 @@
                 <p class="col-lg-6 pad-clr">所在地：<span>湖北省</span></p>
                 <p class="col-lg-6 pad-clr">投资领域：<span>2013 年</span></p>
             </div>
-
         </div>
         <!--投资者认证通过 结束-->
 
