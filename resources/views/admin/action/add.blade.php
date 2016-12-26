@@ -202,6 +202,7 @@
         {{--全局变量的设置--}}
         //富文本配置
         var toolbra = {
+            zIndex : 1,
             toolbars: [
                 [
                     'bold', //加粗
