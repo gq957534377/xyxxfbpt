@@ -105,8 +105,6 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/comment', 'ArticleController@commentShow');
     //学院内容页
     Route::resource('/school', 'SchoolController');
-    //活动报名管理
-    Route::resource('/action_order','ActionOrderController');
     //发布项目
     Route::resource('/project', 'ProjectController');
     //项目列表ajax请求
@@ -146,6 +144,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
 
         //活动管理
         Route::resource('/activity', 'ActivityController');
+        //活动报名管理
+        Route::resource('/action_order','ActionOrderController');
         //投稿管理
         Route::resource('/send/get_article_info', 'SendController@getArticleInfo');
         Route::resource('/send', 'SendController');
