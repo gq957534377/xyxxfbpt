@@ -10,7 +10,7 @@ var creatTable = function(data){
         var image_td = $('<td></td>');
         var image_a = $('<a></a>');
         image_a.attr('href','/project/'+data[i].guid);
-        image_a.attr('target','_blank');
+        image_a.attr('target','_self');
         image_a.html('<button class="btn btn-warning btn-xs">查看详情</button>');
         image_td.html(image_a);
 
@@ -25,8 +25,8 @@ var creatTable = function(data){
 
         var btn_td = $('<td></td>');
 
-        var btn_yes = $('<button class="btn btn-danger btn-xs" style="border-radius:6px">不通过</button>');
-        var btn_no = $('<button class="btn btn-success btn-xs" style="border-radius:6px">通过</button>');
+        var btn_yes = $('<button  class="btn_no btn btn-danger btn-xs" style="border-radius:6px">不通过</button>');
+        var btn_no = $('<button class="btn_yes btn btn-success btn-xs" style="border-radius:6px">通过</button>');
         btn_yes.attr({'id':data[i].guid});
         btn_no.attr({'id':data[i].guid});
         btn_td.append(btn_yes).append(btn_no);
@@ -119,7 +119,7 @@ var fpageClick = function(){
 
             //定义确认通过按钮
             $('#verify_yes_btn').click(function(){
-                statusCheck_yes($(this).attr('pro_id'),3);
+                statusCheck_yes($(this).attr('pro_id'),1);
                 $('#verify_yes').modal('hide');
             });
 
@@ -180,7 +180,7 @@ $(function(){
 
             //定义确认通过按钮
             $('#verify_yes_btn').click(function(){
-                statusCheck_yes($(this).attr('pro_id'),3);
+                statusCheck_yes($(this).attr('pro_id'),1);
                 $('#verify_yes').modal('hide');
             });
 

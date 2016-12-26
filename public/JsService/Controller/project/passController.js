@@ -10,7 +10,7 @@ var fpageClick = function(){
         url:url,
         type:'delete',
         data:{
-            status:'3'
+            status:'1'
         },
         success:function (res) {
             if (res.status!=200) return false;
@@ -59,10 +59,10 @@ $(function(){
         url:'status3',
         type:'put',
         data:{
-            status:'3'
+            status:'1'
         },
         success:function(res){
-            var data = res.data;
+            var data = res.ResultData;
             $('.loading').hide();
             project.creatTable($('#unchecked_table'),data,'已通过',0);
             statusCheck($(".changr_btn"));

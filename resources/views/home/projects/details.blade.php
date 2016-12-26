@@ -53,9 +53,9 @@
                         @endif
                     </li>
                     <li class="col-lg-6 col-md-6 col-sm-3">{{date('Y-m-d',$project_details->changetime)}}</li>
-                    <li class="col-lg-6 col-md-6 col-sm-3">￥50-500万</li>
-                    <li class="col-lg-6 col-md-6 col-sm-3">1%-10%</li>
-                    <li class="col-lg-6 col-md-6 col-sm-3">股权融资</li>
+                    {{--<li class="col-lg-6 col-md-6 col-sm-3">￥50-500万</li>--}}
+                    {{--<li class="col-lg-6 col-md-6 col-sm-3">1%-10%</li>--}}
+                    {{--<li class="col-lg-6 col-md-6 col-sm-3">股权融资</li>--}}
                 </ul>
                 <div class="row top_right_4">
                    <span class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -96,7 +96,7 @@
                     @else
                         <span id="like"  data-id="{{$project_details->guid}}" class="col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>
                     @endif
-                    <span class="col-lg-6 col-md-6 col-sm-6 col-xs-5">12723人看过</span>
+                    {{--<span class="col-lg-6 col-md-6 col-sm-6 col-xs-5">12723人看过</span>--}}
                 </div>
 
             <!--项目主要属性结束-->
@@ -145,6 +145,9 @@
                         {{ $project_details->content }}
                     </p>
                     <img src="{{ $project_details->banner_img}}" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                </li>
+                <li class="row content-row-left-title">
+                    <h4>项目历程</h4>
                 </li>
                 <li class="row">
                     @if(is_array($project_details->project_experience))
