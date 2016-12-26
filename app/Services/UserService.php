@@ -52,6 +52,7 @@ class UserService {
      */
     public function userInfo($where)
     {
+
         $result = self::$userStore->getOneData($where);
         //返回错误状态信息
         if(!$result) return ['StatusCode' => '400','ResultData' => '没有找到该用户信息!'];;
@@ -232,7 +233,8 @@ class UserService {
         if ($pass != $temp->password) return ['StatusCode' => '400','ResultData' => '密码错误！'];
 
         // 返回真，再进行账号状态判断
-        if($temp->status != '1') ['StatusCode' => '400','ResultData' => '账号存在异常，已锁定，请紧快与客服联系！'];
+        if($temp->status == '2') return ['StatusCode' => '400','ResultData' => '账号已被禁用，请紧快与客服联系！'];
+        if($temp->status != '1') return ['StatusCode' => '400','ResultData' => '账号存在异常，已锁定，请紧快与客服联系！'];
 
         // 数据提纯
         unset($temp->password);
