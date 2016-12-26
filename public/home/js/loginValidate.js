@@ -96,14 +96,6 @@
         $.FormValidator.init();
     }(window.jQuery);
 
-// 验证码点击更换
-// var captcha = document.getElementById('captcha');
-// captcha.onclick = function(){
-//         $url = "{{url('/code/captcha')}}";
-//         $url = $url + "/" + Math.random();
-//         this.src = $url;
-//     };
-
 // 验证手机号是否存在
 $('input[name="tel"]').on('change', function () {
     $('#error-info').fadeOut();
@@ -128,5 +120,12 @@ $('input[name="tel"]').on('change', function () {
     //         }
     //     });
     // }
+});
 
+$('.input_checkbox').on('click', function () {
+    var obj = $(this).children('i');
+    obj.toggleClass('fa-check');
+    if (obj.is('.fa-check')) {
+        alert('asdfas');
+    }
 });
