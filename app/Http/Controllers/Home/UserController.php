@@ -62,8 +62,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        // 验证身份，角色判定，创业者才拥有权限
+        if (empty($request->guid)) return ['StatusCode' => '400', 'ResultData' => '请求缺少必要参数'];
+        $role = self::$userServer->userInfo(['guid' => $request->guid])->role;
+
+        if ($role != '2') return ['StatusCode' => '400', 'ResultData' => '请先成为创业者'];
+
         $validator = Validator::make($request->all(),[
-            'guid' => 'required',
             'company' => 'required',
             'abbreviation' => 'required',
             'address' => 'required',
@@ -72,7 +77,6 @@ class UserController extends Controller
             'field' => 'required',
             'organize_card' => 'required',
         ],[
-            'guid.required' => '缺少参数<br>',
             'company.required' => '请输入公司名称<br>',
             'abbreviation.required' => '请输入公司简称<br>',
             'address.required' => '请选择公司所在地<br>',
@@ -103,8 +107,9 @@ class UserController extends Controller
         if(empty($id)) return response()->json(['StatusCode' => '400','ResultData' => '服务器数据异常']);
       // 获取到用户的id，返回数据
         $info = self::$userServer->userInfo(['guid'=>$id]);
-
-        return view('home.user.index')->with([
+      // 获取公司信息
+//        $company = self::$userServer
+        return view('home.user.index', [
             'userInfo' => $info['ResultData'],
         ]);
     }
@@ -373,9 +378,9 @@ class UserController extends Controller
         if (isset($request->phone)) {
             // 发送短信
             return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
-            $info = self::$userServer->sendSmsCode($request->phone);
+//            $info = self::$userServer->sendSmsCode($request->phone);
         }
-        return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
+//        return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
         if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
 
         // 拿到给用户的手机号
