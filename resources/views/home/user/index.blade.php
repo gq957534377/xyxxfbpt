@@ -84,7 +84,7 @@
         <!--创业者认证 未认证 和 审核中-->
         <div class="col-xs-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='2' ? 'hidden' : ''}}">
             <div class="col-xs-12 col-sm-9 pad-clr">
-                <h4 class="col-xs-12 pad-clr my-home-title">创业者认证<span class="label label-warning">审核中</span></h4>
+                <h4 class="col-xs-12 pad-clr my-home-title">创业者认证<span class="label label-warning hidden">审核中</span></h4>
                 <p class="col-xs-12 pad-clr">认证成为创业者，XXXXXXXXXXXX</p>
             </div>
             <div class="col-xs-12 col-sm-3 pad-clr my-home-auth">
@@ -97,7 +97,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='2' ? '' : 'hidden'}}">
             @if(!empty($syb))
             <h4 class="col-xs-12 pad-clr my-home-title">创业者认证<span class="label label-success">认证成功</span>
-                <a href="{{ route('identity.edit', ['identity' => 'syb','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>
+                {{--<a href="{{ route('identity.edit', ['identity' => 'syb','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>--}}
             </h4>
             <div class="col-xs-12 pad-clr my-home-content">
                 <p class="col-lg-6 pad-clr">真实姓名：<span>{{ $syb->realname or '暂无' }}</span></p>
