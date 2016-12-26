@@ -241,6 +241,9 @@
         var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
         var college_type = 4;
 
+        function updates() {
+            
+        }
         //活动类型展示
         function type(type) {
             var res;
