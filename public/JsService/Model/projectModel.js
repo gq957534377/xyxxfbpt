@@ -2,25 +2,25 @@ function Project(){
 
     //绘制后台表格分页表格
  Project.prototype.creatTable=function(dom, data,status,hasBtn){
-    for(i in data.data){
+    for(i in data){
         var tr = $('<tr></tr>');
 
         var title_td = $('<td></td>');
-        title_td.html(data.data[i].title);
+        title_td.html(data[i].title);
 
         var image_td = $('<td></td>');
         var image_a = $('<a></a>');
-        image_a.attr('href',data.data[i].image);
+        image_a.attr('href',data.banner_img);
         image_a.attr('target','_blank');
         image_a.html('<img class="unchecked_img"/>');
-        image_a.find('img').attr('src',data.data[i].image);
+        image_a.find('img').attr('src',data.banner_img);
         image_td.html(image_a);
 
         var file_td = $('<td></td>');
         var file_a = $('<a></a>');
-        file_a.attr('href',data.data[i].file);
+        file_a.attr('href',data.file);
         file_a.attr('target','_blank');
-        file_a.html(data.data[i].file);
+        file_a.html(data.file);
         file_td.html(file_a);
 
         var status_td = $('<td></td>');

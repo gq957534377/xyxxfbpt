@@ -11,6 +11,7 @@ use App\Services\UserService as UserServer;
 use App\Services\UserRoleService as RoleServer;
 use App\Services\UploadService as UploadServer;
 use App\Tools\Avatar;
+use Illuminate\Support\Facades\Validator;
 
 
 class RoleController extends Controller

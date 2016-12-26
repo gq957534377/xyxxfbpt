@@ -112,11 +112,8 @@ class ProjectController extends Controller
 
         // 获取项目属于者具体信息
 
-
-//        $roleResult = self::$userRoleServer->userInfo(['guid' => $project_details->guid]);
-
         $commentData = self::$commentServer->getComent($id,1);
-//        return view('home.project.pro_details')->with('data',$res['data']);
+
         return view('home.projects.details', compact('project_details', 'commentData', 'id', 'likeNum', 'likeStatus'));
     }
 

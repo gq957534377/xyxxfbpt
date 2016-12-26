@@ -75,7 +75,7 @@ class CommentAndLikeService
                 break;
 
             case 2 :
-                $data = self::$projectStore->getOneData(['project_id' => $id]);
+                $data = self::$projectStore->getOneData(['guid' => $id]);
                 break;
 
             default :
@@ -124,12 +124,15 @@ class CommentAndLikeService
      */
     public function getContents($commentData)
     {
+//        dd($commentData);
         foreach ($commentData as $data) {
-            //活动内容表数据
+            //内容表数据
             $contentData = $this->openData($this->getContentInContentId($data->action_id,$data->type));
-            if (empty($contentData)) return ['StatusCode' => '400', 'ResultData' => $data->action_id];
+
+            if (empty($contentData)) break;
 
             $data->contentTitle = $contentData ->title;
+
         }
 
         return ['StatusCode' => '200', 'ResultData' => $commentData];
