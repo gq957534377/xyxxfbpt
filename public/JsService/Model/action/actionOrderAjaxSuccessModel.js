@@ -4,14 +4,15 @@
  */
 //展示活动报名情况表
 function actionOrder(data) {
+    console.log(data);
     $('.loading').hide();
     if (data) {
-        if (data.StatusCode == 200) {
+        if (data.StatusCode === '200') {
             $('#data').html(htmlStr(data.ResultData.data));
             $('#page').html(data.ResultData.pages);
             userInfo();
             pageUrl();
-        } else if (data.StatusCode == 204) {
+        } else if (data.StatusCode === '204') {
             $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
         }else {
             $('#myModal').modal('show');
@@ -57,20 +58,20 @@ function htmlStr( data) {
         str += '<tr class="gradeX">';
         str +=  '<td>' + v.realname + '</td>';
         str +=  '<td>';
-        if(v.role == 1){
+        if(v.role === 1){
             str +=  '<span class="text-info text-xs">普通用户&nbsp;</span>';
         }
-        if(v.role == 2){
+        if(v.role === 2){
             str +=  '<span class="text-warning text-xs">创业者&nbsp;</span>';
         }
-        if(v.role == 3){
+        if(v.role === 3){
             str += '<span class="text-success text-xs">投资者&nbsp;</span>';
         }
-        if(v.memeber == 2){
+        if(v.memeber === 2){
             str += '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
         }
         str += '</td>';
-        if(v.sex == 1){
+        if(v.sex === 1){
             str += '<td>男</td>';
         }else{
             str +=  '<td>女</td>';

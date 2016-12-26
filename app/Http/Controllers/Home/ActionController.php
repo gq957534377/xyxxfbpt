@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Store\ActionOrderStore;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
@@ -15,11 +15,18 @@ class ActionController extends Controller
     protected  static $actionServer;
     protected  static $userServer;
     protected  static $commentServer;
-    public function __construct(ActionServer $actionServer, UserServer $userServer ,CommentServer $commentServer)
+    protected  static $actionOrderStore;
+    public function __construct(
+        ActionServer $actionServer,
+        UserServer $userServer,
+        CommentServer $commentServer,
+        ActionOrderStore $actionOrderStore
+    )
     {
         self::$actionServer = $actionServer;
         self::$userServer = $userServer;
         self::$commentServer = $commentServer;
+        self::$actionOrderStore = $actionOrderStore;
     }
     /**
      * 根据所选活动类型导航，返回相应的列表页+数据.
@@ -41,13 +48,13 @@ class ActionController extends Controller
         $nowPage = 1;
         $result = self::$actionServer->selectData($where, $nowPage, 2, '/action', false, false);
 
-        if($result["StatusCode"] == 200){
+        if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], $data['type']);
-                        if ($chage['StatusCode'] != 200){
+                        if ($chage['StatusCode'] != '200'){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
                             $v->status = $status['msg'];
@@ -59,7 +66,7 @@ class ActionController extends Controller
         if (isset($data['status'])){
             $result['status'] = (int)$data['status'];
         }else{
-            $result['status'] = 204;
+            $result['status'] = '204';
         }
         $result['type'] = $data['type'];
         $result['nowPage'] = $nowPage;
@@ -79,13 +86,13 @@ class ActionController extends Controller
         $nowPage = isset($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
         $result = self::$actionServer->selectData($where, $nowPage, 2, '/action', false, false);
 
-        if($result["StatusCode"] == 200){
+        if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], $where['type']);
-                        if ($chage['StatusCode'] != 200){
+                        if ($chage['StatusCode'] != '200'){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
                             $v->status = $status['msg'];
@@ -98,17 +105,14 @@ class ActionController extends Controller
     }
 
     /**
-     * 向活动表插入数据
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     *
+     * @param
+     * @return array
      * @author 郭庆
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $result = self::$actionServer->actionOrder($data);
-        if(!$result['status']) return response()->json(['StatusCode' => '400', 'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => '200', 'ResultData' => $result['msg']]);
+
     }
 
     /**
@@ -132,18 +136,19 @@ class ActionController extends Controller
             $likeStatus = 2;
         }else{
             $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
-            $action = self::$actionServer->getAction('action_id', ['user_id'=>session('user')->guid]);//当前用户报名参加的所有活动
-            $isLogin = session('user')->guid;
-            if ($action['status']){
-                $isHas = in_array($data["ResultData"]->guid, $action['msg']);
-            }else{
+            $action = self::$actionOrderStore->getSomeField(['user_id'=>session('user')->guid], 'action_id');//当前用户报名参加的所有活动
+            if (!$action){
                 $isHas = false;
+            }else{
+                $isHas = in_array($id, $action);
             }
+            $isLogin = session('user')->guid;
         }
 
         //返回详情页
         return view("home.action.details", [
-            "data" => $data["ResultData"],
+            "list" => 1,
+            "data" => $data,
             'isLogin' => $isLogin,
             'isHas' => $isHas,
             'likeNum' => $likeNum,
@@ -171,30 +176,14 @@ class ActionController extends Controller
     }
 
     /**
-     * 展示评论
-     * @param $id
+     *
+     * @param
      * @return array
      * @author 郭庆
      */
     public function update($id)
     {
-        $result = self::$actionServer->getComment($id);
-        if (!$result['status']){
-            return ['StatusCode' => 400, 'ResultData' => $result['msg']];
-        }else{
-            foreach ($result['msg'] as $v)
-            {
-                $res = self::$userServer->userInfo(['guid' => $v->user_id]);
-                if($res['status']){
-                    $v->user_name = $res['msg']->nickname;
-                    $v->headpic = $res['msg']->headpic;
-                }else{
-                    $v->user_name = '无名英雄';
-                    $v->headpic = '';
-                }
-            }
-        }
-        return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+
     }
 
     /**

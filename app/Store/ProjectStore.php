@@ -69,7 +69,7 @@ class ProjectStore {
      */
     public function getPage($nowPage, $pageNum, $status)
     {
-        return DB::table(self::$table)->where(['status'=>$status])->forPage($nowPage, $pageNum)->orderBy('project_id','desc')->get();
+        return DB::table(self::$table)->where(['status'=>$status])->forPage($nowPage, $pageNum)->orderBy('addtime','desc')->get();
     }
 
     /**

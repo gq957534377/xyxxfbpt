@@ -4,16 +4,15 @@ function getInfoList(data) {
     $('.loading').hide();
     if (data) {
         console.log(data);
-        if (data.StatusCode == 200) {
+        if (data.StatusCode === '200') {
             $('#data').html(listHtml(data));
             $('#page').html(data.ResultData.pages);
             getPage();
             // modifyStatus();
             initAlert();
             showInfo();
-            updates();
             checkAction();
-        } else if (data.StatusCode == 204) {
+        } else if (data.StatusCode === '204') {
             $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
         } else {
             $('#myModal').modal('show');
@@ -31,7 +30,7 @@ function getInfoList(data) {
 function getPage() {
     $('.pagination li').click(function () {
         var class_name = $(this).prop('class');
-        if (class_name == 'disabled' || class_name == 'active') {
+        if (class_name === 'disabled' || class_name === 'active') {
             return false;
         }
 

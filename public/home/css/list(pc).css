@@ -71,6 +71,7 @@
 }
 .content-block>div>h3>a{
   color: #000000;
+  font-size: 16px;
 }
 .content-block>div>h3>a:hover{
   text-decoration: none;

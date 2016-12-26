@@ -55,12 +55,15 @@ class ProjectService {
      * @param $where
      * @return array
      * @author 贾济林
+     * @modify 张洵之
      */
     public function getData($where)
     {
         $data = self::$projectStore->getData($where);
-        if (!$data) return ['status'=> false,'msg'=> '查询失败'];
-        return ['status'=>true,'data'=>$data];
+
+        if (!$data) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $data];
     }
 
     public function getAllData()
@@ -117,12 +120,15 @@ class ProjectService {
      * @param $status
      * @return array
      * @author 贾济林
+     * @modify 张洵之
      */
     public function getFrstPage($num, $status)
     {
         $res = self::$projectStore->getPage('1',$num,$status);
-        if (!$res) return ['status'=>false,'msg'=>'获取失败'];
-        return ['status'=>true,'data'=>$res];
+
+        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $res];
     }
 
     /**
@@ -157,17 +163,33 @@ class ProjectService {
     }
 
     /**
-     * 得到单个用户的所有发布项目
+     * @param string $id 项目guid
      * @return array
-     * @author 贾济林
+     * author 张洵之
      */
-    public function getProject()
+    public function getProject($id)
     {
-        $guid = session('user')->guid;
-        $where = ['guid'=>$guid];
-        $res = self::$projectStore->getData($where);
-        if (!$res) return ['status'=>false,'msg'=>'查询失败'];
-        return ['status'=>true,'data'=>$res];
+        $projectInfoData = self::$projectStore->getOneData(['guid' => $id]);
+
+        if(empty($projectInfoData)) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        $userInfo = self::$userStore->getOneData(['guid' => $projectInfoData->user_guid]);
+
+        if(empty($userInfo)) return ['StatusCode' => '400', 'ResultData' => '未找到发布用户数据'];
+
+        $projectInfoData->project_experience = $this->openData(
+            $projectInfoData->project_experience,
+            '*zxz*',
+            ':::'
+        );
+        $projectInfoData->team_member = $this->openData(
+            $projectInfoData->team_member,
+            '*zxz*',
+            '!,/'
+        );
+        $projectInfoData->userInfo = $userInfo;
+
+        return ['StatusCode' => '200', 'ResultData' => $projectInfoData];
     }
 
     /**
@@ -217,6 +239,12 @@ class ProjectService {
         return ['StatusCode' => '500', 'ResultData' => "服务器端出错"];
     }
 
+    /**
+     * 向项目信息表添加数据
+     * @param $data
+     * @return array
+     * author 张洵之
+     */
     public function addProjects($data)
     {
         $data['user_guid'] = session('user')->guid;
@@ -229,4 +257,24 @@ class ProjectService {
 
         ['StatusCode' => '400', 'ResultData' => '项目添加失败'];
     }
+
+    /**
+     * 将格式化字符串转数组
+     * @param string $str 要转的字符串
+     * @param string $tab1 一级分隔符
+     * @param string $tab2 二级分隔符
+     * @return array
+     * author 张洵之
+     */
+    public function openData($str, $tab1, $tab2)
+    {
+        $arr = explode($tab1,$str);
+        $num = count($arr)-1;
+        unset($arr[$num]);
+        for ($i = 0; $i < $num; $i++){
+            $arr[$i] = explode($tab2, $arr[$i]);
+        }
+        return $arr;
+    }
+
 }

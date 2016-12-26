@@ -41,15 +41,15 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $where = ['disable'=>'0','status'=>'3'];
+        $where = ['status'=>'1'];
         $res = self::$projectServer->getData($where);
 
-        if (!$res['status']) {
+        if ($res['StatusCode'] == '400') {
             $projects = [];
             return view('home.projects.index', compact('projects'));
         } else {
             // 处理内容，限制字数
-            $projects = $res['data'];
+            $projects = $res['ResultData'];
             Common::wordLimit($projects, 'content', 15);
             return view('home.projects.index', compact('projects'));
         }
@@ -100,8 +100,7 @@ class ProjectController extends Controller
     public function show($id)
     {
         // 项目详情
-        $where = ['project_id'=>$id];
-        $res = self::$projectServer->getData($where);
+        $res = self::$projectServer->getProject($id);
         $likeNum = self::$commentServer->likeCount($id);
         if(isset(session('user')->guid)){
             $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);
@@ -109,23 +108,16 @@ class ProjectController extends Controller
             $likeStatus = 3;
         }
 
-        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
-        $project_details = $res['data'][0];
+        $project_details = $res['ResultData'];
 
         // 获取项目属于者具体信息
-        $userResult =self::$userServer->userInfo(['guid' => $project_details->guid]);
 
-        if (!$userResult['StatusCode'] == '400') return response()->json(['status'=>'500','msg'=>'查询失败']);
-        $headpic = $userResult['ResultData']->headpic;
 
-        $roleResult = self::$userRoleServer->userInfo(['guid' => $project_details->guid]);
+//        $roleResult = self::$userRoleServer->userInfo(['guid' => $project_details->guid]);
 
-        if (!$userResult['StatusCode'] == '400') return response()->json(['status'=>'500','msg'=>'查询失败']);
-        $userinfo = $userResult['ResultData'];
-        $userinfo->headpic = $headpic;
         $commentData = self::$commentServer->getComent($id,1);
 //        return view('home.project.pro_details')->with('data',$res['data']);
-        return view('home.projects.details', compact('project_details', 'userinfo', 'commentData', 'id', 'likeNum', 'likeStatus'));
+        return view('home.projects.details', compact('project_details', 'commentData', 'id', 'likeNum', 'likeStatus'));
     }
 
     /**

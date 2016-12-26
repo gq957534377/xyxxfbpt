@@ -684,15 +684,15 @@ class UserService {
                 if($creatPage){
                     $result["pages"] = $creatPage;
                 }else{
-                    return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
+                    return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
                 }
             }else{
                 $result['totalPage'] = $totalPage;
                 $result["pages"] = '';
             }
-            return ['StatusCode' => 200,'ResultData' => $result];
+            return ['StatusCode' => '200','ResultData' => $result];
         }else{
-            return ['StatusCode' => 500,'ResultData' => '获取报名分页数据失败！'];
+            return ['StatusCode' => '500','ResultData' => '获取报名分页数据失败！'];
         }
     }
 

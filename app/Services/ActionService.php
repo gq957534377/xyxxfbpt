@@ -45,21 +45,6 @@ class ActionService
     }
 
     /**
-     * 查询获取某一类型的所有活动
-     * @param int $type 活动类型
-     * @return array 对应类型的所有活动组成的数组
-     * @author 郭庆
-     * @modify 刘峻廷
-     */
-    public function actionTypeData($type)
-    {
-        $data = self::$actionStore->getListData($type);
-
-        if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有本活动信息'];
-        return ['StatusCode' => '200', 'ResultData' => $data];
-    }
-
-    /**
      * 报名活动
      * @param array $data 报名具体信息记录
      * @return array
@@ -70,45 +55,34 @@ class ActionService
         //判断是否已经报名
         $action = self::$actionOrderStore->getSomeField(['user_id' => $data['user_id']], 'action_id');
         $isHas = in_array($data['action_id'], $action);
-        if($isHas) return ['status' => false, 'msg' => '已经报名参加'];
+        if($isHas) return ['StatusCode' => '400', 'ResultData' => "已经报名参加"];
 
         //添加新的报名记录
-        $data['time'] = date("Y-m-d H:i:s", time());
+        $data['addtime'] = time();
         DB::beginTransaction();
         try{
             //插入报名记录
             $result = self::$actionOrderStore->addData($data);
 
             //给活动信息表参与人数字段加1
-            $res = self::$actionStore->incrementData(['guid' => $data['action_id']], 'people',1);
+            if ((int)$data['list'] == 3){
+                $res = self::$collegeStore->incrementData(['guid' => $data['action_id']], 'people',1);
+            }else{
+                $res = self::$actionStore->incrementData(['guid' => $data['action_id']], 'people',1);
+            }
 
             //上述俩个操作全部成功则返回成功
             if($res && $result){
                 DB::commit();
-                return ['status' => true, 'msg' => '报名成功'];
+                return ['StatusCode' => '200', 'ResultData' => "报名成功"];
+            }else{
+                return ['StatusCode' => '500', 'ResultData' => "存储有误，报名失败"];
             }
         }catch (Exception $e){
             //上述操作有一个失败就报错，数据库手动回滚
             \Log::error('报名失败', [$data]);
             DB::rollback();
-            return ['status' => false, 'msg' => '报名失败'];
-        }
-    }
-
-    /**
-     * 获取指定用户所报名参加的所有活动/或者获取报名参加某一个活动的所有用户
-     * @param @user 用户的guid
-     * @return array 返回一个活动id为元素的一维数组
-     * @author 郭庆
-     */
-    public static function getAction($field, $where)
-    {
-        $action = self::$actionOrderStore->getSomeField($where, $field);
-        if ($action) {
-            return ['status' => true, 'msg' => $action];
-        }else{
-            if (!is_array($action)) \Log::info('获取'.$field.'数据失败：'.$action);
-            return ['status' => false, 'msg' => '获取报名活动清单失败'];
+            return ['StatusCode' => '500', 'ResultData' => "服务器繁忙,报名失败"];
         }
     }
 
@@ -240,15 +214,15 @@ class ActionService
                 if($creatPage){
                     $result["pages"] = $creatPage;
                 }else{
-                    return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
+                    return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
                 }
             }else{
                 $result['totalPage'] = $totalPage;
                 $result["pages"] = '';
             }
-            return ['StatusCode' => 200,'ResultData' => $result];
+            return ['StatusCode' => '200','ResultData' => $result];
         }else{
-            return ['StatusCode' => 500,'ResultData' => '获取报名分页数据失败！'];
+            return ['StatusCode' => '500','ResultData' => '获取报名分页数据失败！'];
         }
     }
 
@@ -292,15 +266,15 @@ class ActionService
                 if($creatPage){
                     $result["pages"] = $creatPage;
                 }else{
-                    return ['StatusCode' => 500,'ResultData' => '生成分页样式发生错误'];
+                    return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
                 }
             }else{
                 $result['totalPage'] = $totalPage;
                 $result["pages"] = '';
             }
-            return ['StatusCode' => 200,'ResultData' => $result];
+            return ['StatusCode' => '200','ResultData' => $result];
         }else{
-            return ['StatusCode' => 500,'ResultData' => '获取分页数据失败！'];
+            return ['StatusCode' => '500','ResultData' => '获取分页数据失败！'];
         }
     }
 
@@ -326,7 +300,7 @@ class ActionService
     public function getData($guid, $list)
     {
         if(!$guid){
-            return ['StatusCode'=> 400,'ResultData' => "数据参数有误"];
+            return ['StatusCode'=> '400','ResultData' => "数据参数有误"];
         }
         //查询一条数据活动信息
         if ($list == 3){
@@ -338,10 +312,10 @@ class ActionService
         if($data) {
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
 
-            return ['StatusCode'=> 200,'ResultData' => $data];
+            return ['StatusCode'=> '200','ResultData' => $data];
         }else{
             \Log::info('获取'.$guid.'活动详情出错:'.$data);
-            return ['StatusCode'=> 500,'ResultData' => "获取活动信息失败"];
+            return ['StatusCode'=> '500','ResultData' => "获取活动信息失败"];
         }
     }
 
@@ -355,7 +329,7 @@ class ActionService
     public function changeStatus($guid, $status, $list)
     {
         if (!(isset($guid) && isset($status))) {
-            return ['StatusCode' => 400, 'ResultData' => "参数有误"];
+            return ['StatusCode' => '400', 'ResultData' => "参数有误"];
         }
 
         if ($list == 3) {
@@ -367,10 +341,10 @@ class ActionService
 
         //判断修改结果并返回
         if ($Data) {
-            return ['StatusCode' => 200, 'ResultData' => "修改成功"];
+            return ['StatusCode' => '200', 'ResultData' => "修改成功"];
         } else {
             if ($Data != 0) \Log::info('修改' . $guid . '活动/报名状态出错:' . $Data);
-            return ['StatusCode' => 500, 'ResultData' => "修改失败"];
+            return ['StatusCode' => '500', 'ResultData' => "修改失败"];
         }
     }
 
@@ -401,11 +375,11 @@ class ActionService
         }
 
         if($Data){
-            return ['StatusCode'=> 200,'ResultData' => "修改成功"];
+            return ['StatusCode'=> '200','ResultData' => "修改成功"];
         }else{
-            if($Data == 0) return ['StatusCode'=> 204,'ResultData' => "未作任何更改"];
+            if($Data == 0) return ['StatusCode'=> '204','ResultData' => "未作任何更改"];
             \Log::info('修改'.$where['guid'].'活动出错:'.$Data);
-            return ['StatusCode'=> 500,'ResultData' => "服务器忙,修改失败"];
+            return ['StatusCode'=> '500','ResultData' => "服务器忙,修改失败"];
         }
     }
 
@@ -425,6 +399,159 @@ class ActionService
             if (!is_array($comment)) \Log::info('获取'.$id.'活动的评论出错:'.$comment);
             return ['status' => false, 'msg' => '获取评论信息失败'];
         }
+    }
+
+    /**
+     * 修改活动报名状态
+     * @param $guid ：活动id
+     * @param $status : 当前状态
+     * @return array
+     * @author 郭庆
+     */
+    public function switchStatus($guid, $status)
+    {
+        $res = self::$actionOrderStore->updateData(['action_id' => $guid], ['status' => $status]);
+        if ($res==0) return ['status' => false, 'msg' => '修改失败'];
+        return ['status' => true, 'msg' => '修改成功'];
+    }
+
+
+
+    /**
+     * 拿取三条活动数据
+     * @param $type
+     * @param int $number
+     * @return array
+     * @author 刘峻廷
+     */
+    public function takeActions($type, $status = null,$number = 3)
+    {
+
+        if (!isset($type)) return ['StatusCode' => '401', 'ResultData' => '缺少参数'];
+
+        if (isset($status)) {
+            $where = ['type' => $type, 'status' => $status];
+        } else {
+            $where = ['type' => $type];
+        }
+
+        $result = self::$actionStore->takeActions($where, $number);
+
+        if ($result) return ['StatusCode' => '200', 'ResultData' => $result];
+
+        Log::error('拿取三条活动数据失败', $result);
+
+        return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
+    }
+
+    /**
+     * 字符限制，添加省略号
+     * @param $words
+     * @param $limit
+     * @return string
+     * @author 刘峻廷
+     */
+    public function wordLimit($words, $filed,$limit)
+    {
+        foreach($words as $word){
+            $content = trim($word->$filed);
+            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
+            $word->$filed = $content;
+        }
+
+    }
+
+    /**
+     * 获取指定用户所报名参加的满足限制条件的活动信息
+     * @param [] $actions 活动actions数组
+     * @return array
+     * @author 郭庆
+     */
+    public function getOrderActions($where, $actions, $nowPage, $forPages, $url, $list, $disPlay=true)
+    {
+        if ($list == 3){
+            $count = self::$collegeStore->getActionsCount($where, 'guid', $actions);
+        }else{
+            $count = self::$actionStore->getActionsCount($where, 'guid', $actions);
+        }
+
+        if (!$count) {
+            //如果没有数据直接返回201空数组，函数结束
+            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => ['list'=>$list,'data' => "你还未报名参加任何活动"]];
+            return ['StatusCode' => '400', 'ResultData' => ['list'=>$list,'data' => '数据参数有误']];
+        }
+
+        //计算总页数
+        $totalPage = ceil($count / $forPages);
+        //获取所有数据
+        if ($list == 3){
+            $result['data'] = self::$collegeStore->getActionsPage($where, 'guid', $actions, $nowPage, $forPages);
+        }else{
+            $result['data'] = self::$actionStore->getActionsPage($where, 'guid', $actions, $nowPage, $forPages);
+        }
+        if($result['data']){
+            if ($disPlay && $totalPage > 1) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+
+                if($creatPage){
+                    $result["pages"] = $creatPage;
+                }else{
+                    return ['StatusCode' => '500','ResultData' => ['list'=>$list,'data' => '生成分页样式发生错误']];
+                }
+            }else{
+                $result['totalPage'] = $totalPage;
+                $result["pages"] = '';
+            }
+            $result['list'] = $list;
+            return ['StatusCode' => '200','ResultData' => $result];
+        }else{
+            return ['StatusCode' => '500','ResultData' => ['list'=>$list,'data' => '获取报名分页数据失败！']];
+        }
+    }
+
+
+//暂时没用的方法-------------------------------------------------------------------------------------------------------
+
+    /**
+     * 获取某一类型活动某一短时间的活动列表
+     * @param int $type 活动类型
+     * @param [] $between 时间范围
+     * @return array
+     * @author 郭庆
+     */
+    public static function getActionByTime($type, $between)
+    {
+        $res = self::$actionStore->dateBetween($between);
+        if (!$res) return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
+    }
+
+    /**
+     * 发表评论
+     * @param $data ：评论表字段对应的数据['用户id','活动id','评论内容']
+     * @return array
+     * @author 郭庆
+     */
+    public static function comment($data)
+    {
+        $data["time"] = date("Y-m-d H:i:s", time());
+        $result = self::$commentStore->addData($data);
+        if ($result) return ['status' => true, 'msg' => $result];
+        \Log::info('发表评论' . $data['action_id'] . '失败：' . $result);
+        return ['status' => false, 'msg' => '存储数据发生错误'];
+    }
+
+    /**
+     * 得到指定条件的所有活动id
+     * @param $where
+     * @return array
+     * @author 贾济林
+     */
+    public function getActivityId($where)
+    {
+        $action = self::$actionOrderStore->getActivityId($where, 'action_id');
+        if (empty($action)) return ['status' => false, 'msg' => '查询失败'];
+        return ['status' => true, 'data' => $action];
     }
 
     /**
@@ -488,103 +615,18 @@ class ActionService
         \Log::info('修改'.$action_id.'点赞失败：'.$result);
         return ['status' => false, 'msg' => '操作失败'];
     }
-
     /**
-     * 发表评论
-     * @param $data ：评论表字段对应的数据['用户id','活动id','评论内容']
-     * @return array
-     * @author 郭庆
-     */
-    public static function comment($data)
-    {
-        $data["time"] = date("Y-m-d H:i:s", time());
-        $result = self::$commentStore->addData($data);
-        if($result) return ['status' => true, 'msg' => $result];
-        \Log::info('发表评论'.$data['action_id'].'失败：'.$result);
-        return ['status' => false, 'msg' => '存储数据发生错误'];
-    }
-
-    /**
-     * 修改活动报名状态
-     * @param $guid ：活动id
-     * @param $status : 当前状态
-     * @return array
-     * @author 郭庆
-     */
-    public function switchStatus($guid, $status)
-    {
-        $res = self::$actionOrderStore->updateData(['action_id' => $guid], ['status' => $status]);
-        if ($res==0) return ['status' => false, 'msg' => '修改失败'];
-        return ['status' => true, 'msg' => '修改成功'];
-    }
-
-    /**
-     * 得到指定条件的所有活动id
-     * @param $where
-     * @return array
-     * @author 贾济林
-     */
-    public function getActivityId($where)
-    {
-        $action = self::$actionOrderStore->getActivityId($where, 'action_id');
-        if (empty($action)) return ['status' => false, 'msg' => '查询失败'];
-        return ['status' => true, 'data' => $action];
-    }
-
-    /**
-     * 拿取三条活动数据
-     * @param $type
-     * @param int $number
-     * @return array
-     * @author 刘峻廷
-     */
-    public function takeActions($type, $status = null,$number = 3)
-    {
-
-        if (!isset($type)) return ['StatusCode' => '401', 'ResultData' => '缺少参数'];
-
-        if (isset($status)) {
-            $where = ['type' => $type, 'status' => $status];
-        } else {
-            $where = ['type' => $type];
-        }
-
-        $result = self::$actionStore->takeActions($where, $number);
-
-        if ($result) return ['StatusCode' => '200', 'ResultData' => $result];
-
-        Log::error('拿取三条活动数据失败', $result);
-
-        return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
-    }
-
-    /**
-     * 字符限制，添加省略号
-     * @param $words
-     * @param $limit
-     * @return string
-     * @author 刘峻廷
-     */
-    public function wordLimit($words, $filed,$limit)
-    {
-        foreach($words as $word){
-            $content = trim($word->$filed);
-            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
-            $word->$filed = $content;
-        }
-
-    }
-
-    /**
-     * 获取某一类型活动某一短时间的活动列表
+     * 查询获取某一类型的所有活动
      * @param int $type 活动类型
-     * @param [] $between 时间范围
-     * @return array
+     * @return array 对应类型的所有活动组成的数组
      * @author 郭庆
+     * @modify 刘峻廷
      */
-    public static function getActionByTime($type, $between)
+    public function actionTypeData($type)
     {
-        $res = self::$actionStore->dateBetween($between);
-        if (!$res) return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
+        $data = self::$actionStore->getListData($type);
+
+        if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有本活动信息'];
+        return ['StatusCode' => '200', 'ResultData' => $data];
     }
 }
