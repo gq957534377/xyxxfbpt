@@ -40,6 +40,9 @@
                         <!--路演列表块开始-->
                         <ul class="row rodeing-list">
                             @foreach($ResultData['data'] as $action)
+                                @if($action->status == 4)
+                                    @continue
+                                @endif
                                 <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="row">
                                         <div class="rodeing-img col-lg-4 col-md-4 col-sm-4 col-xs-12">
