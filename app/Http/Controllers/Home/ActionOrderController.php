@@ -54,7 +54,7 @@ class ActionOrderController extends Controller
         $forPages = 1;//一页的数据条数
 
         $result = self::$actionServer->getOrderActions($where, $actions, $nowPage, $forPages, 'action_order/create',$list);
-        $result['status'] = $status;
+        $result['ResultData']['status'] = $status;
         return view('home.user.activity.index',$result);
     }
 

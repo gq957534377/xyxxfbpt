@@ -27,11 +27,11 @@
                 <p>活动状态：</p>
             </div>
             <ul class="col-sm-9 col-md-9 col-lg-10 road-time mar-clr pad-clr">
-                <li class='pad-r2-xs @if($status == 6) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'])}}">全部</a></li>
-                <li class='pad-r2-xs @if($status == 1) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=1')}}">报名中</a></li>
-                <li class='pad-r2-xs @if($status == 5) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=5')}}">等待开始</a></li>
-                <li class='pad-r2-xs @if($status == 2) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=2')}}">进行中</a></li>
-                <li class='pad-r2-xs @if($status == 3) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=3')}}">已结束</a></li>
+                <li class='pad-r2-xs @if($ResultData['status'] == 6) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'])}}">全部</a></li>
+                <li class='pad-r2-xs @if($ResultData['status'] == 1) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=1')}}">报名中</a></li>
+                <li class='pad-r2-xs @if($ResultData['status'] == 5) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=5')}}">等待开始</a></li>
+                <li class='pad-r2-xs @if($ResultData['status'] == 2) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=2')}}">进行中</a></li>
+                <li class='pad-r2-xs @if($ResultData['status'] == 3) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=3')}}">已结束</a></li>
             </ul>
         </div>
 
@@ -96,7 +96,7 @@
 @section('script')
     <script src="{{asset('JsService/Model/date.js')}}"></script>
 <script>
-    var status = "{{$status}}";
+    var status = "{{$ResultData['status']}}";
     var list = "{{$ResultData['list']}}";
     function getPage() {
         $('.pagination li').click(function () {
