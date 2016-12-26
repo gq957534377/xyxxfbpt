@@ -6,6 +6,7 @@ use App\Http\Requests\Request;
 use App\Store\HomeStore;
 use App\Store\UserStore;
 use App\Store\RoleStore;
+use App\Store\CompanyStore as CompanyStore;
 use App\Services\UploadService as UploadServer;
 use App\Tools\Common;
 use App\Tools\CustomPage;
@@ -20,6 +21,7 @@ class UserService {
     protected static $homeStore = null;
     protected static $userStore = null;
     protected static $roleStore = null;
+    protected static $companyStore = null;
     protected static $uploadServer = null;
 
     /**
@@ -32,11 +34,13 @@ class UserService {
         HomeStore $homeStore,
         UserStore $userStore,
         RoleStore $roleStore,
+        CompanyStore $companyStore,
         UploadServer $uploadServer
     ){
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$roleStore = $roleStore;
+        self::$companyStore = $companyStore;
         self::$uploadServer = $uploadServer;
     }
 
@@ -690,5 +694,28 @@ class UserService {
         }else{
             return ['StatusCode' => 500,'ResultData' => '获取报名分页数据失败！'];
         }
+    }
+
+    /**
+     * 添加公司
+     * @param $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function addCompany($data)
+    {
+        // 查询数据表里是否已有数据
+        $result = self::$companyStore->getOneData(['guid' => $data['guid']]);
+
+        if ($result) return ['StatusCode' => '400', 'ResultData' => '已添加'];
+
+        $result = self::$companyStore->addOneData($data);
+
+        if (!$result) {
+            Log::error('添加公司信息失败', $data);
+            return ['StatusCode' => '400', 'ResultData' => '添加失败'];
+        }
+        return ['StatusCode' => '200', 'ResultData' => '创建成功，等待审核'];
+
     }
 }

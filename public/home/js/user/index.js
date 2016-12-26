@@ -114,14 +114,5 @@ $(document).ready(function () {
         $("#userInfoSuccess").addClass('hidden');
     });
 
-    // 城市联动
-    $('#companyAddress').citys({
-        required: false,
-        nodata: 'disabled',
-        onChange: function (data) {
-            var text = data['direct'] ? '(直辖市)' : '';
-            $('#place').val(data['province'] + text + ' ' + data['city'] + ' ' + data['area']);
-        }
-    });
 
 });
