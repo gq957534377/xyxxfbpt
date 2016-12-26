@@ -137,11 +137,6 @@ $(function(){
             $("#unchecked_table").parent().append(data.pages);
             $('.pagination li').click(fpageClick);
 
-            //通过按钮
-            $('.btn_yes').click(function(){
-                $('#verify_yes').modal('show');
-                $('#verify_yes_btn').attr('pro_id',$(this).attr('id'));
-            });
 
             //不通过按钮
             $('.btn_no').click(function(){
@@ -150,11 +145,6 @@ $(function(){
                 $('#verify_no_btn').attr('pro_id',$(this).attr('id'));
             });
 
-            //定义确认通过按钮
-            $('#verify_yes_btn').click(function(){
-                statusCheck_yes($(this).attr('pro_id'),1);
-                $('#verify_yes').modal('hide');
-            });
 
             //定义确认不通过按钮
             $('#verify_no_btn').click(function(){
