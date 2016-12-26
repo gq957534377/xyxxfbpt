@@ -20,53 +20,12 @@
         return bb.getBlob(mimeString)
     }
 
-    function touchToMouseEvent(event) {
-        if (event.originalEvent.touches.length > 1) {
-            return
-        }
-        var touch = event.originalEvent.changedTouches[0];
-        var newEvent = document.createEvent("MouseEvents");
-        var type = null;
-        var simulateClick = false;
-        switch (event.type) {
-            case"touchstart":
-                type = "mousedown";
-                break;
-            case"touchmove":
-                type = "mousemove";
-                break;
-            case"touchend":
-                type = "mouseup";
-                break;
-            default:
-                return
-        }
-        if (event.type == "touchstart") {
-            event.target.startX = touch.clientX;
-            event.target.startY = touch.clientY
-        } else {
-            if (event.type == "touchend") {
-                simulateClick = Math.abs(event.target.startX - touch.clientX) < 10 || Math.abs(event.target.startY - touch.clientY) < 10;
-                if (simulateClick) {
-                    type = "click"
-                }
-            }
-        }
-        newEvent.initMouseEvent(type, true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null);
-        event.target.dispatchEvent(newEvent);
-        event.preventDefault()
-    }
 
     function isCanvasSupported() {
         var elem = document.createElement("canvas");
         return !!(elem.getContext && elem.getContext("2d"))
     }
 
-    function distance(element) {
-        var x = (element.position().left + element.width()) - element.position().left;
-        var y = (element.position().top + element.height()) - element.position().top;
-        return Math.sqrt(x * x + y * y)
-    }
 
     var css = {
         base: {"position": "absolute", "top": 0, "left": 0, "margin": 0, "z-index": 4900},
@@ -88,24 +47,11 @@
     var HTMLFeedback = {};
     HTMLFeedback.instances = {};
     HTMLFeedback.defaults = {
-        uploadAsURI: (BlobBuilder ? false : true),
-        useCanvas: isCanvasSupported(),
-        minimalDistance: 10,
-        color: "rgba(255,255,255,0)",
+
         container: $(document),
         uploadName: "screenshot",
         uploadMIME: "image/png",
-        onRectangleStart: function (rectangle, x, y) {
-        },
-        onRectangleEnd: function (rectangle, x, y) {
-            rectangle.text("点我删除截图");
-            rectangle.mouseover(function (e) {
-                rectangle.text("点我删除截图")
-            });
-            rectangle.mouseout(function (e) {
-                rectangle.text("")
-            })
-        },
+
         onPreRender: function () {
             alert("HTMLFeedback will now create a screenshot of the web elements " + "ONLY. The overlay and feedback window will hide for a second " + "and will then show again. Rendering can take a few seconds.")
         },
@@ -233,50 +179,6 @@
             HTMLFeedback.resize(instance);
             HTMLFeedback.paint(instance)
         });
-        markers.mousedown(function (e) {
-            rectangle = $("<div />").css({
-                "left": e.pageX,
-                "top": e.pageY
-            }).css($.extend(css.rectangle, css.unselectable, {"background-color": instance.options.color}));
-            var rectangleLeft = e.pageX;
-            var rectangleTop = e.pageY;
-            instance.options.onRectangleStart(rectangle, rectangleLeft, rectangleTop);
-            rectangle.appendTo(markers);
-            markers.mousemove(function (e) {
-                rectangle.width(Math.abs(e.pageX - rectangleLeft));
-                rectangle.height(Math.abs(e.pageY - rectangleTop));
-                if (e.pageX < rectangleLeft) {
-                    rectangle.css("left", e.pageX)
-                }
-                if (e.pageY < rectangleTop) {
-                    rectangle.css("top", e.pageY)
-                }
-            })
-        });
-        markers.mouseup(function (e) {
-            var self = rectangle;
-            var remove = (function () {
-                self.remove();
-                HTMLFeedback.paint(instance)
-            });
-            if (distance(self) < options.minimalDistance) {
-                remove()
-            } else {
-                instance.options.onRectangleEnd(self, e.pageX, e.pageY);
-                self.mousedown(function () {
-                    return false
-                });
-                self.click(remove)
-            }
-            markers.unbind("mousemove");
-            HTMLFeedback.paint(instance)
-        });
-        if (isTouchDevice) {
-            instance.markers.bind("touchstart", touchToMouseEvent);
-            instance.markers.bind("touchmove", touchToMouseEvent);
-            instance.markers.bind("touchend", touchToMouseEvent);
-            instance.markers.bind("touchcancel", touchToMouseEvent)
-        }
         HTMLFeedback.hide(instance);
         HTMLFeedback.resize(instance);
         HTMLFeedback.clear(instance)
@@ -328,7 +230,7 @@ $(document).ready(function() {
             $("#htmlfeedback-close").show();
             $("#htmlfeedback-container-more").show("fast").addClass("expanded");
             $("#htmlfeedback-info").html('<i class="fa fa-comments-o" aria-hidden="true"></i> 我的建议');
-            $("#htmlfeedback-more").css({"background-color":"#96b97d"});
+            $("#htmlfeedback-more").css({"background-color":"#ff9036"});
             $("#htmlfeedback-submit").prop('disabled',false);
         },
         onHide: function() {
@@ -361,44 +263,45 @@ $(document).ready(function() {
         }
     });
     // 上传到服务器
-    $("#htmlfeedback-form").submit(function(e) {
-        e.preventDefault();
 
-        $("#htmlfeedback-more").css({"background-color":"#ffa52e"});
-        $.ajaxSetup({
-            //将laravel的csrftoken加入请求头，所以页面中应该有meta标签，详细写法在上面的form表单部分
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $.ajax({
-            type : 'post',
-            url: "/openim",
-            data: {
-                "description": $("#htmlfeedback-input-description").val(),
-                "fb_email" : $("#feedback_email").val()
-            },
-            success: function(msg){
-
-                if(msg.StatusCode == '400') {
-                    $("#htmlfeedback-info").html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 抱歉，提交失败：' + msg.ResultData);
-                } else {
-
-                    $("#htmlfeedback-submit").prop('disabled',true);
-                    $("#htmlfeedback-info").html("您的意见我们已经收到了，谢谢！");
-                    $("body").htmlfeedback("hide");
-                }
-            },
-            error: function(XMLHttpRequest){
-                var number = XMLHttpRequest.status;
-                var msg = "Error: "+number+",数据异常！";
-                alert(msg);
-            }
-
-        });
-
-    });
+    // $("#htmlfeedback-form").submit(function(e) {
+    //     e.preventDefault();
+    //
+    //     $("#htmlfeedback-more").css({"background-color":"#ffa52e"});
+    //     $.ajaxSetup({
+    //         // 将laravel的csrftoken加入请求头，所以页面中应该有meta标签，详细写法在上面的form表单部分
+    //         headers: {
+    //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //         }
+    //     });
+    //
+    //     $.ajax({
+    //         type : 'post',
+    //         url: "/openim",
+    //         data: {
+    //             "description": $("#htmlfeedback-input-description").val(),
+    //             "fb_email" : $("#feedback_email").val()
+    //         },
+    //         success: function(msg){
+    //
+    //             if(msg.StatusCode == '400') {
+    //                 $("#htmlfeedback-info").html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 抱歉，提交失败：' + msg.ResultData);
+    //             } else {
+    //
+    //                 $("#htmlfeedback-submit").prop('disabled',true);
+    //                 $("#htmlfeedback-info").html("您的意见我们已经收到了，谢谢！");
+    //                 $("body").htmlfeedback("hide");
+    //             }
+    //         },
+    //         error: function(XMLHttpRequest){
+    //             var number = XMLHttpRequest.status;
+    //             var msg = "Error: "+number+",数据异常！";
+    //             alert(msg);
+    //         }
+    //
+    //     });
+    //
+    // });
 
     // 背景颜色设置
 
@@ -429,3 +332,94 @@ $(".go-top").click(function(event){
     $('html,body').animate({scrollTop:0}, 100);
     return false;
 });
+
+
+
+!(function ($) {
+    "use strict";//使用严格标准
+    // 获取表单元素
+    var FormValidator = function(){
+        this.$signOnForm = $("#htmlfeedback-form");
+    };
+
+    // 初始化
+    FormValidator.prototype.init = function() {
+
+        // ajax 异步
+        $.validator.setDefaults({
+            // 提交触发事件
+            submitHandler: function() {
+                $.ajaxSetup({
+                    //将laravel的csrftoken加入请求头，所以页面中应该有meta标签，详细写法在上面的form表单部分
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                //与正常form不同，通过下面这样来获取需要验证的字段
+                var data = new FormData();
+                data.append( "description"     , $("#htmlfeedback-input-description").val());
+                data.append( "fb_email"     , $("#feedback_email").val());
+
+                //开始正常的ajax
+                // 异步登录
+                $.ajax({
+                    type: "POST",
+                    url: '/openim',
+                    data: {
+                        'description': $("#htmlfeedback-input-description").val(),
+                        'fb_email': $("#feedback_email").val(),
+                    },
+                    success:function(data){
+                        switch (data.StatusCode){
+                            case '400':
+                                // promptBoxHandle('警告',data.ResultData);
+                                alert('警告,'+data.ResultData);
+                                break;
+                            case '200':
+                                $("#htmlfeedback-submit").prop('disabled',true);
+                                $("#htmlfeedback-info").html("您的意见我们已经收到了，谢谢！");
+                                $("body").htmlfeedback("hide");
+                                break;
+                        }
+                    }
+                });
+            }
+        });
+        // 验证规则和提示信息
+        this.$signOnForm.validate({
+            // 验证规则
+            rules: {
+                description: {
+                    required: true,
+                    maxlength: 400,
+                    minlength: 10
+                },
+                fb_email: {
+                    email:true,
+                }
+            },
+            // 提示信息
+            messages: {
+                description: {
+                    required: "意见不能为空!",
+                    maxlength:"意见最多智能输入400个字符！",
+                    minlength:"意见最少为10个字符！",
+                },
+                fb_email: {
+                    email: "邮箱格式不正确！"
+                }
+            },
+            errorPlacement: function(error, element) {
+                // Append error within linked label
+                $('#error-info').html(error[0].textContent).fadeIn(1000);
+            }
+        });
+    };
+    $.FormValidator = new FormValidator;
+    $.FormValidator.Constructor = FormValidator;
+})(window.jQuery),
+    function($){
+        "use strict";
+        $.FormValidator.init();
+    }(window.jQuery);
+

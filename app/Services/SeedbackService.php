@@ -10,6 +10,7 @@ namespace App\Services;
 
 use App\Redis\BaseRedis;
 use App\Tools\CustomPage;
+use App\Tools\Common;
 
 
 class SeedbackService
@@ -29,14 +30,14 @@ class SeedbackService
      * @return array
      * @author 王通
      */
-    public function saveSeedback($ip, $data)
+    public function saveSeedback($data)
     {
-        $hashKey = $ip . ':' . rand(100,999);
-        if (self::$baseRedis->hSet(self::$dataFeedback, $hashKey, json_encode($data))) {
-            if (self::$baseRedis->addRpush(self::$indexFeedback, $hashKey)) {
+        $guid = Common::getUuid();
+        if (self::$baseRedis->hSet(self::$dataFeedback, $guid, json_encode($data))) {
+            if (self::$baseRedis->addRpush(self::$indexFeedback, $guid)) {
                 return ['StatusCode' => '200', 'ResultData' => '保存成功'];
             }
-            self::$baseRedis->hDel(self::$dataFeedback, $hashKey);
+            self::$baseRedis->hDel(self::$dataFeedback, $guid);
             return ['StatusCode' => '400', 'ResultData' => '保存失败'];
         } else {
             return ['StatusCode' => '400', 'ResultData' => '保存失败'];

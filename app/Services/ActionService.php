@@ -510,6 +510,24 @@ class ActionService
         }
     }
 
+    /**
+     * 根据条件拿取，学院培训数据
+     * @param $number
+     * @return array
+     * @author 刘峻廷
+     */
+    public function takeSchoolData($number)
+    {
+        if (empty($number)) return ['StatusCode' => '400', 'ResultData' => '请求缺少参数'];
+
+        $result = self::$collegeStore->takeSchoolData($number);
+
+        if (!$result) return['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $result];
+    }
+
+
 
 //暂时没用的方法-------------------------------------------------------------------------------------------------------
 

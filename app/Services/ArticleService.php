@@ -15,6 +15,7 @@ use App\Store\LikeStore;
 use App\Tools\Common;
 use App\Services\UserService as UserServer;
 use App\Tools\CustomPage;
+use Illuminate\Support\Facades\Log;
 
 class ArticleService
 {
@@ -389,7 +390,7 @@ class ArticleService
             unset($data['write']);
             $this->upDta(['guid' => $guid], ['status' => 5]);
         }
-
+        unset($data['write']);
         $data["guid"] = Common::getUuid();
         $data["addtime"] = time();
         $data['user'] = 2;
@@ -473,5 +474,25 @@ class ArticleService
             return ['StatusCode' => '400', 'ResultData' => '查询失败'];
         }
 
+    }
+
+    /**
+     * 获取八条文章，根据给定条件
+     * @param $type
+     * @param int $take
+     * @param int $status
+     * @return array
+     * @author 刘峻廷
+     */
+    public function getTakeArticles($type, $take = 8, $status = 1)
+    {
+        if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
+
+        // 获取文章数据
+        $result = self::$articleStore->takeArticles(['type' => '1', 'status' => $status], $take);
+
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $result];
     }
 }

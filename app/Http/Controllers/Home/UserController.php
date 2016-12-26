@@ -110,15 +110,22 @@ class UserController extends Controller
     {
         if(empty($id)) return response()->json(['StatusCode' => '400','ResultData' => '服务器数据异常']);
       // 获取到用户的id，返回数据
-        $info = self::$userServer->userInfo(['guid'=>$id]);
+        $info = self::$userServer->userInfo(['guid' => $id]);
       // 获取公司信息
-        $company = self::$userServer->getCompany(['guid'=>$id]);
+        $company = self::$userServer->getCompany(['guid' => $id]);
         if ($company['StatusCode'] == '400') {
             $company['ResultData'] = [];
         }
+     // 获取创业者信息
+        $syb = self::$userServer->roleInfo(['guid' => $id, 'role'=>'2']);
+        if ($syb['StatusCode'] == '400') {
+            $syb['ResultData'] = [];
+        }
+
         return view('home.user.index', [
             'userInfo' => $info['ResultData'],
             'company'  => $company['ResultData'],
+            'syb'      => $syb['ResultData'],
         ]);
     }
 
@@ -386,9 +393,9 @@ class UserController extends Controller
         if (isset($request->phone)) {
             // 发送短信
             return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
-//            $info = self::$userServer->sendSmsCode($request->phone);
+            $info = self::$userServer->sendSmsCode($request->phone);
         }
-//        return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
+        return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
         if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
 
         // 拿到给用户的手机号

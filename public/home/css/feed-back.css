@@ -47,7 +47,7 @@ div#htmlfeedback-container form input[type=reset], div#htmlfeedback-container fo
     margin-top: 10px;
     height: 30px;
     border: 1px solid #fff;
-    background-color: #96b97d;
+    background-color: #ff9036;
     color: #fff;
     font-size: 12px;
     font-weight: bold
@@ -107,7 +107,7 @@ div#htmlfeedback-container .fb-email {
 
 div#htmlfeedback-container div#htmlfeedback-more {
     display: block;
-    background-color: #96b97d;
+    background-color: #ff9036;
     color: #fff;
     font-size: 14px;
     font-weight: bold;
@@ -186,11 +186,11 @@ div#htmlfeedback-container div#htmlfeedback-more div#htmlfeedback-close:hover {
 }
 
 .fixed-btn a i {
-    vertical-align: middle
+    vertical-align: middle;
 }
 
 .fixed-btn .go-top {
-    border-bottom: 1px solid #eee
+    border-bottom: 1px solid #eee;
 }
 
 .fixed-btn .writer {

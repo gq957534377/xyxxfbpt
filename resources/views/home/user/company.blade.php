@@ -59,9 +59,9 @@
                     <div class="col-sm-8 col-md-6">
                         <select class="form-control chr-c bg-1" name="field">
                             <option value="">请选择领域</option>
-                            <option value="1">互联网</option>
-                            <option value="2">餐饮业</option>
-                            <option value="3">服务业</option>
+                            <option value="互联网">互联网</option>
+                            <option value="餐饮业">餐饮业</option>
+                            <option value="服务业">服务业</option>
                         </select>
                     </div>
                 </div>

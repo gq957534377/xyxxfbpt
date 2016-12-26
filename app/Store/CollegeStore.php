@@ -99,7 +99,7 @@ class CollegeStore
     }
 
     /**
-     * 获取三条活动数据
+     * 获取三条数据
      * @param $type
      * @param int $number
      * @return mixed
@@ -108,6 +108,18 @@ class CollegeStore
     public function takeActions($where,$number)
     {
         return DB::table(self::$table)->where($where)->take($number)->get();
+    }
+
+    /**
+     * 获取三条学院培训数据
+     * @param $where
+     * @param $number
+     * @return mixed
+     * @author 刘峻廷
+     */
+    public function takeSchoolData($number)
+    {
+        return DB::table(self::$table)->where('status', '<', '3')->take($number)->get();
     }
 
     /**
