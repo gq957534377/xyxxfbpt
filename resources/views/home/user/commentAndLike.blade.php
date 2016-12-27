@@ -22,23 +22,31 @@
         <!--导航结束-->
         <div class="active zxz-none col-xs-12 col-sm-9 col-md-9 col-lg-10 fs-15 bgc-1 pad-9">
             @if(!empty($commentData))
+
             @foreach($commentData as $data)
+
             <div class="my-like-box pad-3 bb-1">
                 <p class="col-xs-12">
                     @if($data->type == 1)
                         <a href="{{route('article.show', $data->action_id) }}">
                             <span>文章</span>
+                            @if(!empty($data->contentTitle))
                             {{$data->contentTitle}}
+                             @endif
                         </a>
                     @elseif($data->type == 2)
                         <a href="{{route('project.show', $data->action_id) }}">
                             <span>项目</span>
-                            {{$data->contentTitle}}
+                            @if(!empty($data->contentTitle))
+                                {{$data->contentTitle}}
+                            @endif
                         </a>
                     @elseif($data->type == 3)
                         <a href="{{route('action.show', $data->action_id) }}">
                             <span>活动</span>
-                            {{$data->contentTitle}}
+                            @if(!empty($data->contentTitle))
+                                {{$data->contentTitle}}
+                            @endif
                         </a>
                     @endif
                 </p>
