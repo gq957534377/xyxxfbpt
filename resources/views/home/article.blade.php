@@ -48,7 +48,7 @@
               <div class="row">
                 <div class="col-md-5"></div>
                 <div class="col-md-2">
-                  <a href="#"><button class="btn btn-info">点击加载更多</button></a>
+                  <a href="#"><button class="btn btn-warning">点击加载更多</button></a>
                 </div>
 
               </div>
