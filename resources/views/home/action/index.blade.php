@@ -75,7 +75,7 @@
                             @endforeach
                         </ul>
                         @if($ResultData['totalPage'] > $nowPage)
-                        <a data-name="{{($nowPage+1)}}" data-type="{{$type}}" id="more_list">点击加载更多</a>
+                        <a data-type="{{$type}}" id="more_list">点击加载更多</a>
                         @endif
                             <!--路演列表块结束-->
                         @else
