@@ -6,10 +6,10 @@ use App\Tools\Avatar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Validator;
 use App\Services\UserService as UserServer;
 use App\Services\UserRoleService as RoleServer;
 use App\Services\UploadService as UploadServer;
-use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {

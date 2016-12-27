@@ -54,24 +54,31 @@ function htmlStr( data) {
     //
 
     $.each(data, function (i, v) {
+        console.log(data);
+        v.realname = v.realname?v.realname:'--';
+        v.birthday = v.birthday?v.birthday:'--';
+        v.email    = v.email? v.email : '--';
+        v.headpic  = v.headpic?v.headpic:'/home/img/user_center.jpg';
+        v.introduction = v.introduction?v.introduction:'--';
+        v.addtime = v.addtime?getLocalTime(v.addtime):'--';
 
         str += '<tr class="gradeX">';
         str +=  '<td>' + v.realname + '</td>';
         str +=  '<td>';
-        if(v.role === 1){
+        if(v.role == 1){
             str +=  '<span class="text-info text-xs">普通用户&nbsp;</span>';
         }
-        if(v.role === 2){
+        if(v.role == 2){
             str +=  '<span class="text-warning text-xs">创业者&nbsp;</span>';
         }
-        if(v.role === 3){
+        if(v.role == 3){
             str += '<span class="text-success text-xs">投资者&nbsp;</span>';
         }
-        if(v.memeber === 2){
+        if(v.memeber == 2){
             str += '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
         }
         str += '</td>';
-        if(v.sex === 1){
+        if(v.sex == 1){
             str += '<td>男</td>';
         }else{
             str +=  '<td>女</td>';
@@ -79,10 +86,14 @@ function htmlStr( data) {
 
         str += '<td>' + v.birthday + '</td>';
         str +=  '<td>' + v.tel + '</td>';
-        str +=  '<td>' + (v.email)? + '</td>';
-
+        str +=  '<td>' + v.email + '</td>';
         str +=  '<td>';
-        str +=  '<a href="javascript:;" data-nickname="' + v.nickname?v.nickname:'--' + '" data-realname="'+ v.realname?v.realname:'--' +'" data-role ="'+v.role?v.role:'--'+'" data-brithday="'+v.brithday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+'" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+'" data-headpic="'+v.headpic+'" data-chat="'+v.wechat+'" data-intoduction="'+v.introduction+'" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+'" class="user_info"><button class="btn btn-warning btn-xs" style="border-radius: 6px;">用户详情</button></a>&nbsp';
+        str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
+            '" data-birthday="'+v.birthday+'" data-sex ="'+v.sex+'" data-tel ="'+v.tel+'" data-email="'+v.email+
+            '" data-headpic="'+v.headpic+'" data-introduction="'+v.introduction+
+            '" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+
+            '" class="user_info"><button class="btn btn-warning btn-xs">详情</button></a>';
+
         str +=  '</td></tr>';
     });
     str += '</tbody>' +
@@ -104,10 +115,10 @@ function userInfo() {
     $('.user_info').click(function () {
 
         var data = $(this).data();
-        //alert(realname);
         $('#head').attr('src',data.headpic);
         $('#realname').text(data.realname);
         $('#nickname').text(data.nickname);
+
         switch (data.sex){
             case 1:
                 var sex = '男';
@@ -122,11 +133,7 @@ function userInfo() {
         $('#birthday').text(data.birthday);
         $('#phone').text(data.tel);
         $('#email').text(data.email);
-        $('#company').text(data.company);
-        $('#company_position').text(data.company_position ? data.company_position : '');
-        $('#company_address').text(data.company_address ? data.company_address : '');
-        $('#introduction').text(data.introduction ? data.introduction : '');
-        $('#wechat').attr('src',data.wechat);
+        $('#introduction').text(data.introduction);
         $('#addtime').text(data.addtime);
         //角色身份选择
         switch (data.role){
@@ -161,7 +168,7 @@ function userInfo() {
                 var status = '<strong>当前状态 ：</strong><span class="text-danger text-xs">禁用中&nbsp;</span>';
         }
         $('#status').html(status);
-        $('#introduction').text(data.introduction ? data.introduction : '');
+        $('#introduction').text(data.introduction);
         $('#').text();
 
         $('#user-info').modal('show');
