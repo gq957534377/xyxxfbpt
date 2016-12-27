@@ -346,7 +346,6 @@
             }
         };
 
-
         //分类查看数据
         $('#action').change(function () {
             if ($(this).val() === '3'){
