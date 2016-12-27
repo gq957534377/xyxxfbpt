@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Services\SeedbackService;
+use App\Services\FeedbackService;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class SeedbackController extends Controller
+class FeedbackController extends Controller
 {
 
-    protected static $seedbackService = null;
+    protected static $feedbackService = null;
     // 构造函数注入服务
-    public function __construct(SeedbackService $seedbackService)
+    public function __construct(FeedbackService $feedbackService)
     {
-        self::$seedbackService = $seedbackService;
+        self::$feedbackService = $feedbackService;
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class SeedbackController extends Controller
      */
     public function index()
     {
-        return view('admin.webadminstrtion.seedback');
+        return view('admin.webadminstrtion.feedback');
     }
 
     /**
@@ -58,14 +58,14 @@ class SeedbackController extends Controller
     public function show($id, Request $request)
     {
         $forPages = 2;
-        $url = '/seedback/1';
+        $url = '/feedback/1';
         if ($request['nowPage']) {
             $page = $request['nowPage'];
         } else {
             $page = 1;
         }
 
-        return self::$seedbackService->getSeedbackList($page, $forPages, $url);
+        return self::$feedbackService->getFeedbackList($page, $forPages, $url);
     }
 
     /**
@@ -104,7 +104,7 @@ class SeedbackController extends Controller
         if (empty($request['iparr'])) {
             return response()->json(['StatusCode' => '400', 'ResultData' => '查询失败']);
         }
-        $result = self::$seedbackService->delSeedback($request['iparr']);
+        $result = self::$feedbackService->delFeedback($request['iparr']);
         return $result;
     }
 }

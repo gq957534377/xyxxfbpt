@@ -3,6 +3,7 @@
 
 <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
 <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
+
 @endsection
 @section('content')
 @section('title', '活动管理')
@@ -60,7 +61,7 @@
                 </div>
                 <div class="info">
                     <h4>添加图片</h4>
-                    <p class="text-muted">Graphics Designer</p>
+                    <p class="text-muted"></p>
                 </div>
                 <div class="clearfix"></div>
             </div> <!-- panel-body -->
@@ -96,8 +97,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" id="saveinfo" data-dismiss="modal" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-default" style="border-radius:7px;" data-dismiss="modal">关闭</button>
+                    <button type="button" id="saveinfo" data-dismiss="modal" style="border-radius:7px;" class="btn btn-primary">保存</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -110,5 +111,6 @@
     <script src="{{asset('cropper/js/webOrganiz.js')}}"></script>
     <script src="{{asset('admin/js/jquery.validate.min.js')}}"></script>
     <script src="{{asset('admin/js/web-admin-validator.js')}}"></script>
+    <script src="{{asset('admin/js/sweet-alert.init.js')}}"></script>
     <script type="text/javascript" src="{{asset('admin/js/web-admin.js')}}"></script>
 @endsection

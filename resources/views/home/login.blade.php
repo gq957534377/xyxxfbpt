@@ -36,7 +36,7 @@
 	    					<span class="input_checkbox_title">记住密码</span>
 	    				</label>
 	    			</div>
-	    			{{--<span class="link_pwd"><a href="pages-recoverpw.html">忘记密码？</a></span>--}}
+	    			<span class="link_pwd"><a href="pages-recoverpw.html">忘记密码？</a></span>
 	    		</div>
 				<div class="btn_block">
 					<button type="submit" id="login" class="btn btn-warning btn-block btn-lg">立即登录</button>

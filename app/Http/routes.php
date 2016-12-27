@@ -63,7 +63,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/role_management','RoleManagementController');
 
         // 意见管理
-        Route::resource('/seedback', 'SeedbackController');
+        Route::resource('/feedback', 'FeedbackController');
 
 
     });

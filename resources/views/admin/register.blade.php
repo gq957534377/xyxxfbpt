@@ -46,15 +46,7 @@
                     </div>
                 </div>
 
-                <div class="form-group ">
-                    <div class="col-xs-12">
-                        <label class="cr-styled">
-                            <input type="checkbox" checked>
-                            <i class="fa"></i>
-                            我已阅读并同意相关<strong><a href="#">服务条款和隐私政策</a></strong>
-                        </label>
-                    </div>
-                </div>
+
 
                 <div class="form-group text-right">
                     <div class="col-xs-12">

@@ -730,4 +730,9 @@
     <!-- 英雄会顶级投资机构联盟 End-->
 
 @endsection
+@section('script')
+<script>
+    alert($.cookie('Remember_user'));
+</script>
+@endsection
 
