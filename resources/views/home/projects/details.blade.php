@@ -257,14 +257,7 @@
                 </li>
                 <li class="row gdxx">
                     <div class="kuang">
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        {{--@if(session('user')->role != 3)--}}
-                            {{--<div class="gdxx-content"></div>--}}
-                        {{--@else--}}
-                            {{--<a style="position: absolute;top: 50%;left: 36%;" href="#">项目详细资料</a>--}}
-                        {{--@endif--}}
-=======
+
                         @if(session('user'))
                             @if(session('user')->role != 3)
                                 <div class="gdxx-content"></div>
@@ -276,14 +269,7 @@
                                 <a href="{{route('login.index')}}" style="display: block;height: 100%;width: 100%;"></a>
                             </div>
                         @endif
->>>>>>> origin/zxz
-=======
-                        @if(session('user')->role != 3)
-                            <div class="gdxx-content"></div>
-                        @else
-                            <a style="position: absolute;top: 50%;left: 36%;" href="{{ $project_details->file }}">项目详细资料</a>
-                        @endif
->>>>>>> origin/wangtong
+
                     </div>
                 </li>
                 <!--用户评论开始-->

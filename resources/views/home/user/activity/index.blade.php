@@ -43,9 +43,6 @@
             @elseif($StatusCode === '200')
             <div id="list">
             @foreach($ResultData['data'] as $action)
-                @if($action->status == 4)
-                    @continue
-                    @endif
                 <div class="row mar-clr bb-3">
                     <div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">
                         <a @if($ResultData['list'] == 3) href="{{asset('/school/'.$action->guid)}}" @else href="{{asset('/action/'.$action->guid)}}" @endif><img src="{{ $action->banner }}"  alt=""></a>
