@@ -30,11 +30,11 @@ class TestController extends Controller
         //dd(HASH_PROJECT_INFO_);
         $nums = 5;  //一次获取数据的条数
 
-        $pages= $request->page; //获取当前的偏移量
+        $pages= $request->page ? $request->page : 0; //获取当前的偏移量
 
         $list = self::$article->getArticleList($nums,$pages);
-
-        dd($list);
+        //dd($res);
+        return view('home.article', ['data'=>$list]);
     }
 
     /**
