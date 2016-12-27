@@ -30,8 +30,8 @@
             <!-- 头像修改 End -->
             <div class="col-sm-10 col-md-9 col-lg-10 pad-clr">
                 <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ $userInfo->nickname or '暂无'}}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
-                <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->tel or '暂无'}}</p>
-                <p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6">{{ $userInfo->email or '暂无'}}</p>
+                <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->tel or '--'}}</p>
+                <p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6 {{$userInfo->emails or 'hidden'}}">{{ $userInfo->email or '--'}}</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pad-cr my-home-entrepreneur-info">
@@ -153,17 +153,17 @@
 
         <!--投资者认证通过 开始-->
 
-        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='2' ? '' : 'hidden'}}">
+        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ $userInfo->role=='3' ? '' : 'hidden'}}">
             <h4 class="col-xs-12 pad-clr my-home-title">投资者认证<span class="label label-success">认证成功</span>
                 <a href="{{ route('identity.edit', ['identity' => 'investor','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>
             </h4>
             <div class="col-xs-12 pad-clr my-home-content">
-                <p class="col-lg-6 pad-clr">真实姓名：<span>龚雯</span></p>
-                <p class="col-lg-6 pad-clr">从业年份：<span>21 年</span></p>
-                <p class="col-lg-6 pad-clr">投资规模：<span>10000 万</span></p>
-                <p class="col-lg-6 pad-clr">所在公司：<span>湖北爱点击网络科技有限公司</span></p>
-                <p class="col-lg-6 pad-clr">所在地：<span>湖北省</span></p>
-                <p class="col-lg-6 pad-clr">投资领域：<span>2013 年</span></p>
+                <p class="col-lg-6 pad-clr">真实姓名：<span>{{ $investor->realname or '--'}}</span></p>
+                <p class="col-lg-6 pad-clr">从业年份：<span>{{ $investor->work_year or '--'}}年</span></p>
+                <p class="col-lg-6 pad-clr">投资规模：<span>{{ $investor->scale or '--'}} 万</span></p>
+                <p class="col-lg-6 pad-clr">所在公司：<span>{{ $investor->company or '--'}}</span></p>
+                <p class="col-lg-6 pad-clr">所在地：<span>{{ $investor->company_address or '--'}}</span></p>
+                <p class="col-lg-6 pad-clr">投资领域：<span>{{ $investor->field or '--'}}</span></p>
             </div>
         </div>
         <!--投资者认证通过 结束-->

@@ -302,18 +302,24 @@ class UserRoleService {
             'guid' => 'required',
             'role' => 'required',
             'realname' => 'required|min:2',
-            'subject' => 'required',
+            'work_year' => 'required|integer|digits_between:1,2',
+            'scale' => 'required',
+            'company' => 'required',
+            'company_address' => 'required',
             'field' => 'required',
-            'stage' => 'required',
             'card_pic_a' => 'required',
         ],[
             'guid.required' => '非法操作!<br>',
             'role.required' => '非法操作!<br>',
             'realname.required' => '请填写您的真实姓名<br>',
             'realname.min' => '真实姓名最少两位<br>',
-            'subject.required' => '请选择创业主体<br>',
-            'field.required' => '请选择创业领域<br>',
-            'stage.required' => '请选择创业阶段<br>',
+            'work_year.required' => '请输入从业年份<br>',
+            'work_year.integer' => '请输入整型<br>',
+            'work_year.digits_between' => '请输入两位以内数字<br>',
+            'scale.required' => '请输入投资规模<br>',
+            'company.required' => '请输入公司名称<br>',
+            'company_address.required' => '请输入公司所在地<br>',
+            'field.required' => '请选择行业领域<br>',
             'card_pic_a.required' => '请上传身份证件照',
         ]);
 
@@ -352,7 +358,7 @@ class UserRoleService {
             // 判断审批状态
             if ($info->status == '5') {
                 return ['StatusCode' => '400', 'ResultData' => '您已有申请项，正在审核中，请耐心等待...'];
-            } else if ($info->status == '7') {
+            } else if ($info->status == '6') {
                 return ['StatusCode' => '400', 'ResultData' => '已申请成功，无需再次申请。'];
             }
         };
