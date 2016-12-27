@@ -3,8 +3,12 @@
 @section('title','创新作品详情')
 
 @section('styles')
-    <link href="{{ asset('home/css/common.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('home/css/content(pc).css') }}">
+    <style>
+        ul{
+            list-style: none;
+        }
+    </style>
 @endsection
 
 @section('content')
