@@ -29,7 +29,7 @@
             </div>
             <!-- 头像修改 End -->
             <div class="col-sm-10 col-md-9 col-lg-10 pad-clr">
-                <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ $userInfo->nickname or '暂无'}}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
+                <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ $userInfo->nickname or '--'}}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
                 <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->tel or '--'}}</p>
                 <p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6 {{$userInfo->emails or 'hidden'}}">{{ $userInfo->email or '--'}}</p>
             </div>
@@ -100,13 +100,13 @@
                 {{--<a href="{{ route('identity.edit', ['identity' => 'syb','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>--}}
             </h4>
             <div class="col-xs-12 pad-clr my-home-content">
-                <p class="col-lg-6 pad-clr">真实姓名：<span>{{ $syb->realname or '暂无' }}</span></p>
-                <p class="col-lg-6 pad-clr">毕业年份：<span>{{ $syb->finish_school or '暂无' }} 年</span></p>
+                <p class="col-lg-6 pad-clr">真实姓名：<span>{{ $syb->realname or '--' }}</span></p>
+                <p class="col-lg-6 pad-clr">毕业年份：<span>{{ $syb->finish_school or '--' }} 年</span></p>
                 {{--<p class="col-lg-6 pad-clr">身份证号：<span></span></p>--}}
-                <p class="col-lg-6 pad-clr">学历层次：<span>{{ $syb->education or '暂无' }}</span></p>
-                <p class="col-lg-6 pad-clr">所在院校：<span>{{ $syb->school_address or '暂无'}} {{ $syb->school_name or '暂无'}}</span></p>
-                <p class="col-lg-6 pad-clr">专业名称：<span>{{ $syb->major or '暂无'}}</span></p>
-                <p class="col-lg-6 pad-clr">入学年份：<span>{{ $syb->start_school or '暂无'}} 年</span></p>
+                <p class="col-lg-6 pad-clr">学历层次：<span>{{ $syb->education or '--' }}</span></p>
+                <p class="col-lg-6 pad-clr">所在院校：<span>{{ $syb->school_address or '--'}} {{ $syb->school_name or '暂无'}}</span></p>
+                <p class="col-lg-6 pad-clr">专业名称：<span>{{ $syb->major or '--'}}</span></p>
+                <p class="col-lg-6 pad-clr">入学年份：<span>{{ $syb->start_school or '--'}} 年</span></p>
             </div>
             @else
 
@@ -128,12 +128,12 @@
                     <a href="javascript:void(0)" class="pull-right fs-14">编辑</a>
                 </h4>
                 <div class="col-xs-12 pad-clr my-home-content">
-                    <p class="col-lg-6 pad-clr">公司名称：<span>{{ $company->company or '暂无'}}</span></p>
+                    <p class="col-lg-6 pad-clr">公司名称：<span>{{ $company->company or '--'}}</span></p>
                     <p class="col-lg-6 pad-clr">公司网址：<span><a href="http://{{ $company->url or '暂无'}}" target="_blank">{{ $company->url or '暂无'}}</a></span></p>
                     <p class="col-lg-6 pad-clr">公司简介：<span>{{ $company->abbreviation or '暂无'}}</span></p>
-                    <p class="col-lg-6 pad-clr">领域：<span>{{ $company->field or '暂无'}}</span></p>
-                    <p class="col-lg-6 pad-clr">所在地：<span>{{ $company->address or '暂无'}}</span></p>
-                    <p class="col-lg-6 pad-clr">创始人姓名：<span>{{ $company->founder_name or '暂无'}}</span></p>
+                    <p class="col-lg-6 pad-clr">领域：<span>{{ $company->field or '--'}}</span></p>
+                    <p class="col-lg-6 pad-clr">所在地：<span>{{ $company->address or '--'}}</span></p>
+                    <p class="col-lg-6 pad-clr">创始人姓名：<span>{{ $company->founder_name or '--'}}</span></p>
                 </div>
             @endif
         </div>

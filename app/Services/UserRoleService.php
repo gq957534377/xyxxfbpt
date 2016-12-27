@@ -339,7 +339,7 @@ class UserRoleService {
         $userInfo = self::$userStore->getOneData(['guid' => $data['guid']]);
 
         if ($data['role'] == 4) {
-            if ($userInfo->memeber == 4)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
+            if ($userInfo->memeber == 2)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
             // 查看该用户是否已申请
             $info= self::$roleStore->getRole(['guid' => $data['guid'], 'role' => '4']);
 
@@ -392,4 +392,26 @@ class UserRoleService {
         }
     }
 
+    public function applyRole2($data) {
+        // 校验当前用户的角色
+        $userInfo = self::$userStore->getOneData(['guid' => $data['guid']]);
+
+        // 身份角色先过滤，不让进行二次申请
+
+        if ($data['role'] == 4) {
+            if ($userInfo->memeber == 2)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
+            // 查看该用户是否已申请
+            $info= self::$roleStore->getRole(['guid' => $data['guid'], 'role' => '4']);
+
+        } else {
+            if ($userInfo->role == 2) {
+                return ['StatusCode' => '400', 'ResultData' => '您已是创业者！'];
+            } else if ($userInfo->role == 3) {
+                return ['StatusCode' => '400', 'ResultData' => '您已是投资者！'];
+            }
+            // 查看该用户是否已申请
+            $info= self::$roleStore->getRole(['guid' => $data['guid']]);
+        }
+
+    }
 }

@@ -100,7 +100,6 @@
     <script>
         //  异步上传身份证照
         var upload = new uploadCommon();
-        var originalPic = $(this).attr('src');
 
         $("#investor_card_a").click(function(){
 
@@ -112,7 +111,6 @@
                 url         : '/uploadcard',
                 type        : 'POST',
                 loadingPic  : '/home/img/loading.gif',
-                originalPic : originalPic,
                 hideinput   : $("input[name = 'investor_card_pic']")
             });
         });

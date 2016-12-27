@@ -44,7 +44,7 @@ class RoleStore
     }
 
     /**
-     * 添加申请创业者信息
+     * 添加申请记录信息
      * @param array $data
      * @return bool
      * @author 刘峻廷
