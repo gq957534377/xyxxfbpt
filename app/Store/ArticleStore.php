@@ -137,4 +137,20 @@ class ArticleStore
     {
         return DB::table(self::$table)->where($where)->first();
     }
+
+    /**
+     * 获取八条文章数据
+     * @param $where
+     * @param $number
+     * @return mixed
+     * @author 刘峻廷
+     */
+    public function takeArticles($where, $number)
+    {
+        return DB::table(self::$table)
+            ->where($where)
+            ->orderBy('addtime', 'desc')
+            ->take($number)
+            ->get();
+    }
 }

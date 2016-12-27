@@ -75,51 +75,85 @@
             <div class="container" style="max-width: 1200px;width:100%;">
                 <div style="max-width: 1200px;width:100%; margin:0 auto;" class=" row">
                     <div class="col-sm-7 col-xs-3" style="padding-left:0;">
-                        <h2 class="jx-tit">精选项目</h2>
+                        <h2 class="jx-tit">创新项目</h2>
                     </div>
                     <div class="col-sm-5 col-xs-9 jxxm" style="padding-right:0;">
-                        <li><a class="ckgd" href="#">查看更多</a></li>
-                        <li><a class="wysjx" href="#">我要上精选！</a></li>
+                        <li><a class="ckgd" href="{{route('project.index')}}">查看更多</a></li>
+                        <li><a class="wysjx" href="/user/myProject">我要发布项目！</a></li>
                     </div>
                 </div>
                 <ul class="row">
-                    {{--@if(is_array($projects))--}}
-                        {{--@foreach ($projects as $project)--}}
-                            {{--<li class="col-sm-4">--}}
-                                {{--<a class="new_a" href="{{ route('project.show', $project->project_id) }}">--}}
-                                    {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $project->image }}">--}}
-                                    {{--<div class="companyName">{{ $project->title }}</div>--}}
-                                    {{--<div class="classLabel">--}}
-                                {{--<span>--}}
-                                    {{--@if($project->project_type == 1)--}}
-                                        {{--热门推荐--}}
-                                    {{--@elseif($project->project_type == 2)--}}
-                                        {{--新品上架--}}
-                                    {{--@elseif($project->project_type == 3)--}}
-                                        {{--未来科技--}}
-                                    {{--@elseif($project->project_type == 4)--}}
-                                        {{--健康出行--}}
-                                    {{--@elseif($project->project_type == 5)--}}
-                                        {{--生活美学--}}
-                                    {{--@elseif($project->project_type == 6)--}}
-                                        {{--美食生活--}}
-                                    {{--@elseif($project->project_type == 7)--}}
-                                        {{--流行文化--}}
-                                    {{--@elseif($project->project_type == 8)--}}
-                                        {{--爱心公益--}}
-                                    {{--@endif--}}
-                                {{--</span>--}}
-                                        {{--<span>{{ $project->habitude }}</span>--}}
-                                    {{--</div>--}}
-                                    {{--<p class="new_p">--}}
-                                        {{--{{ $project->content }}--}}
-                                    {{--</p>--}}
-                                {{--</a>--}}
-                            {{--</li>--}}
-                        {{--@endforeach--}}
-                    {{--@else--}}
-                        {{--{{ $projects }}--}}
-                    {{--@endif--}}
+                    @if(is_array($projects))
+                        @foreach ($projects as $project)
+                            <li class="col-sm-4">
+                                <a class="new_a" href="{{ route('project.show', $project->guid) }}">
+                                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $project->banner_img }}">
+                                    <div class="companyName">{{ $project->title }}</div>
+                                    <div class="classLabel">
+                                <span>
+                                    @if($project->industry == 0)
+                                        TMT
+                                    @elseif($project->industry == 1)
+                                        医疗健康
+                                    @elseif($project->industry == 2)
+                                        文化与创意
+                                    @elseif($project->industry == 3)
+                                        智能硬件
+                                    @elseif($project->industry == 4)
+                                        教育
+                                    @elseif($project->industry == 5)
+                                        电商
+                                    @elseif($project->industry == 6)
+                                        旅游
+                                    @elseif($project->industry == 7)
+                                        型农业
+                                    @elseif($project->industry == 8)
+                                        互联网金融
+                                    @elseif($project->industry == 9)
+                                        游戏
+                                    @elseif($project->industry == 10)
+                                        汽车后市场
+                                    @elseif($project->industry == 11)
+                                        企业级服务
+                                    @elseif($project->industry == 12)
+                                        数据服务
+                                    @elseif($project->industry == 13)
+                                        其他
+                                    @endif
+                                </span>
+                                        <span>
+                                             @if($project->financing_stage == 0)
+                                                种子轮
+                                            @elseif($project->financing_stage == 1)
+                                                天使轮
+                                            @elseif($project->financing_stage == 2)
+                                                Pre-A轮
+                                            @elseif($project->financing_stage == 3)
+                                                A轮
+                                            @elseif($project->financing_stage == 4)
+                                                B轮
+                                            @elseif($project->financing_stage == 5)
+                                                C轮
+                                            @elseif($project->financing_stage == 6)
+                                                D轮
+                                            @elseif($project->financing_stage == 7)
+                                                E轮
+                                            @elseif($project->financing_stage == 8)
+                                                F轮已上市
+                                            @elseif($project->financing_stage == 9)
+                                                其他
+                                            @endif
+                                        </span>
+                                    </div>
+                                    <p class="new_p">
+                                        {{ mb_substr($project->content,0,30).'...'}}
+                                    </p>
+                                </a>
+                            </li>
+                        @endforeach
+                    @else
+                        暂无数据
+                    @endif
                 </ul>
             </div>
         </div>
@@ -131,115 +165,115 @@
 
         <!-- 英雄榜 Start -->
         <section id="section2" class="font-size">
-            <div class="row">
-                <h2>英雄榜</h2>
-            </div>
+            {{--<div class="row">--}}
+                {{--<h2>英雄榜</h2>--}}
+            {{--</div>--}}
             <ul>
-                <li class="row">
-                    <a href="#">
-                        <div class="section2_img col-sm-3">
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
-                        </div>
-                        <div class="section2_center col-sm-6">
-                            <div class="section2_center_title">
-                                <h3>小余老师说</h3>
-                                <span>致力于让全国人更懂教育的互联网+教育公司</span>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div>1天</div>
-                                    <div class="section2_hover">成功天数</div>
-                                </li>
-                                <li>
-                                    <div>￥650万</div>
-                                    <div class="section2_hover">成功融资</div>
-                                </li>
-                                <li>
-                                    <div>傅盛</div>
-                                    <div class="section2_hover">领投人</div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="hidden-767 section2_evaluate col-sm-3">
-                            <p>
-                                <span></span>
-                                <span>跟投人评价：</span>
-                                作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。
-                            </p>
-                        </div>
-                    </a>
-                </li>
-                <li class="row">
-                    <a href="#">
-                        <div class="section2_img col-sm-3">
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
-                        </div>
-                        <div class="section2_center col-sm-6">
-                            <div class="section2_center_title">
-                                <h3>小余老师说</h3>
-                                <span>致力于让全国人更懂教育的互联网+教育公司</span>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div>1天</div>
-                                    <div class="section2_hover">成功天数</div>
-                                </li>
-                                <li>
-                                    <div>￥650万</div>
-                                    <div class="section2_hover">成功融资</div>
-                                </li>
-                                <li>
-                                    <div>傅盛</div>
-                                    <div class="section2_hover">领投人</div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="hidden-767 section2_evaluate col-sm-3">
-                            <p>
-                                <span></span>
-                                <span>跟投人评价：</span>
-                                作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。
-                            </p>
-                        </div>
-                    </a>
-                </li>
-                <li class="row">
-                    <a href="#">
-                        <div class="section2_img col-sm-3">
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">
-                        </div>
-                        <div class="section2_center col-sm-6">
-                            <div class="section2_center_title">
-                                <h3>小余老师说</h3>
-                                <span>致力于让全国人更懂教育的互联网+教育公司</span>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div>1天</div>
-                                    <div class="section2_hover">成功天数</div>
-                                </li>
-                                <li>
-                                    <div>￥650万</div>
-                                    <div class="section2_hover">成功融资</div>
-                                </li>
-                                <li>
-                                    <div>傅盛</div>
-                                    <div class="section2_hover">领投人</div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="hidden-767 section2_evaluate col-sm-3">
-                            <p>
-                                <span></span>
-                                <span>跟投人评价：</span>
-                                作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。
-                            </p>
-                        </div>
-                    </a>
-                </li>
+                {{--<li class="row">--}}
+                    {{--<a href="#">--}}
+                        {{--<div class="section2_img col-sm-3">--}}
+                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                        {{--</div>--}}
+                        {{--<div class="section2_center col-sm-6">--}}
+                            {{--<div class="section2_center_title">--}}
+                                {{--<h3>小余老师说</h3>--}}
+                                {{--<span>致力于让全国人更懂教育的互联网+教育公司</span>--}}
+                            {{--</div>--}}
+                            {{--<ul>--}}
+                                {{--<li>--}}
+                                    {{--<div>1天</div>--}}
+                                    {{--<div class="section2_hover">成功天数</div>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                    {{--<div>￥650万</div>--}}
+                                    {{--<div class="section2_hover">成功融资</div>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                    {{--<div>傅盛</div>--}}
+                                    {{--<div class="section2_hover">领投人</div>--}}
+                                {{--</li>--}}
+                            {{--</ul>--}}
+                        {{--</div>--}}
+                        {{--<div class="hidden-767 section2_evaluate col-sm-3">--}}
+                            {{--<p>--}}
+                                {{--<span></span>--}}
+                                {{--<span>跟投人评价：</span>--}}
+                                {{--作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。--}}
+                            {{--</p>--}}
+                        {{--</div>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
+                {{--<li class="row">--}}
+                    {{--<a href="#">--}}
+                        {{--<div class="section2_img col-sm-3">--}}
+                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                        {{--</div>--}}
+                        {{--<div class="section2_center col-sm-6">--}}
+                            {{--<div class="section2_center_title">--}}
+                                {{--<h3>小余老师说</h3>--}}
+                                {{--<span>致力于让全国人更懂教育的互联网+教育公司</span>--}}
+                            {{--</div>--}}
+                            {{--<ul>--}}
+                                {{--<li>--}}
+                                    {{--<div>1天</div>--}}
+                                    {{--<div class="section2_hover">成功天数</div>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                    {{--<div>￥650万</div>--}}
+                                    {{--<div class="section2_hover">成功融资</div>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                    {{--<div>傅盛</div>--}}
+                                    {{--<div class="section2_hover">领投人</div>--}}
+                                {{--</li>--}}
+                            {{--</ul>--}}
+                        {{--</div>--}}
+                        {{--<div class="hidden-767 section2_evaluate col-sm-3">--}}
+                            {{--<p>--}}
+                                {{--<span></span>--}}
+                                {{--<span>跟投人评价：</span>--}}
+                                {{--作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。--}}
+                            {{--</p>--}}
+                        {{--</div>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
+                {{--<li class="row">--}}
+                    {{--<a href="#">--}}
+                        {{--<div class="section2_img col-sm-3">--}}
+                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                        {{--</div>--}}
+                        {{--<div class="section2_center col-sm-6">--}}
+                            {{--<div class="section2_center_title">--}}
+                                {{--<h3>小余老师说</h3>--}}
+                                {{--<span>致力于让全国人更懂教育的互联网+教育公司</span>--}}
+                            {{--</div>--}}
+                            {{--<ul>--}}
+                                {{--<li>--}}
+                                    {{--<div>1天</div>--}}
+                                    {{--<div class="section2_hover">成功天数</div>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                    {{--<div>￥650万</div>--}}
+                                    {{--<div class="section2_hover">成功融资</div>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                    {{--<div>傅盛</div>--}}
+                                    {{--<div class="section2_hover">领投人</div>--}}
+                                {{--</li>--}}
+                            {{--</ul>--}}
+                        {{--</div>--}}
+                        {{--<div class="hidden-767 section2_evaluate col-sm-3">--}}
+                            {{--<p>--}}
+                                {{--<span></span>--}}
+                                {{--<span>跟投人评价：</span>--}}
+                                {{--作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。--}}
+                            {{--</p>--}}
+                        {{--</div>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
             </ul>
         </section>
         <!-- 英雄榜 End -->
@@ -248,21 +282,21 @@
         <section id="section3" class="font-size">
             <div class="section_title">
                 <h2>路演活动</h2>
-                <a href="#">查看全部</a>
+                <a href="{{ route('action.index', ['type' => '1']) }}">查看全部</a>
             </div>
             <div class="section_titles">
                 <h2>路演活动</h2>
-                <a href="#">查看全部</a>
+                <a href="{{ route('action.index', ['type' => '1']) }}">查看全部</a>
             </div>
             <ul class="row">
                 @if(is_array($roadShows))
                 @foreach($roadShows as $roadShow)
                     <li class="col-sm-4">
-                        <a href="#">
+                        <a href="{{ url('action').'/'.$roadShow->guid }}">
                             <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $roadShow->banner }}"/>
                         </a>
                         <div class="ly">
-                            <h3><a href="#">{{ $roadShow->title }}</a></h3>
+                            <h3><a href="{{ url('action').'/'.$roadShow->guid }}">{{ mb_substr($roadShow->title,0,20)."..." }}</a></h3>
                     <span>
                         @if($roadShow->status == 1)
                             报名中
@@ -278,8 +312,8 @@
                     </span>
                         </div>
                 <span>
-    				<span>{{ $roadShow->address }}</span>
-    				<span>{{ $roadShow->start_time }}</span>
+                    <span>{{ mb_substr($roadShow->address,0,4)."..." }}</span>
+    				<span>{{ date('Y-m-d',$roadShow->start_time) }}</span>
     			</span>
                     </li>
                 @endforeach
@@ -294,21 +328,21 @@
         <section id="section3s" class="font-size">
             <div class="section_title">
                 <h2>创业大赛</h2>
-                <a href="#">查看全部</a>
+                <a href="{{ route('action.index', ['type' => '2']) }}">查看全部</a>
             </div>
             <div class="section_titles">
                 <h2>创业大赛</h2>
-                <a href="#">查看全部</a>
+                <a href="{{ route('action.index', ['type' => '2']) }}">查看全部</a>
             </div>
             <ul class="row">
                 @if(is_array($sybs))
                 @foreach($sybs as $syb)
                     <li class="col-sm-4">
-                        <a href="#">
+                        <a href="{{ route('action.show', $syb->guid) }}">
                             <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $syb->banner }}"/>
                         </a>
                         <div class="ly">
-                            <h3><a href="#">{{ $syb->title }}</a></h3>
+                            <h3><a href="{{ route('action.show', $syb->guid) }}">{{ mb_substr($syb->title, 0,20).'...' }}</a></h3>
                     <span>
                         @if($syb->status == 1)
                             报名中
@@ -324,8 +358,8 @@
                     </span>
                         </div>
                 <span>
-    				<span>{{ $syb->address }}</span>
-    				<span>{{ $syb->start_time }}</span>
+    				<span>{{ mb_substr($syb->address,0,4)."..." }}</span>
+    				<span>{{ date('Y-m-d',$syb->start_time) }}</span>
     			</span>
                     </li>
                 @endforeach
@@ -340,41 +374,41 @@
         <section id="section4" class="font-size">
             <div class="section_title">
                 <h2>英雄学院</h2>
-                <a href="#">查看全部</a>
+                <a href="{{ route('school.index', ['type' => '1']) }}">查看全部</a>
             </div>
             <div class="section_titles">
                 <h2>英雄学院</h2>
                 <a href="#">查看全部</a>
             </div>
             <ul class="row">
-                @if(is_array($trains))
-                @foreach($trains as $train)
+                @if(is_array($schools))
+                @foreach($schools as $school)
                     <li class="col-sm-6">
-                        <a href="#">
+                        <a href="{{ route('school.show', $school->guid) }}">
                             <span>第1期</span>
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $train->banner }}"/>
+                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $school->banner }}"/>
                             <div>
-                                <h3>{{ $train->title }}</h3>
+                                <h3>{{ mb_substr($school->title, 0,20).'...'}}</h3>
                         <span>
-                            @if($train->status == 1)
+                            @if($school->status == 1)
                                 报名中
-                            @elseif($train->status == 2)
+                            @elseif($school->status == 2)
                                 进行中
-                            @elseif($train->status == 3)
+                            @elseif($school->status == 3)
                                 已结束
-                            @elseif($train->status == 4)
+                            @elseif($school->status == 4)
                                 已取消
-                            @elseif($train->status == 5)
+                            @elseif($school->status == 5)
                                 报名截止
                             @endif
                         </span>
                             </div>
-                            <p>{{ $train->brief }}</p>
+                            <p>{{ $school->brief }}</p>
                         </a>
                     </li>
                 @endforeach
                 @else
-                    {{ $trains }}
+                    {{ $schools }}
                 @endif
             </ul>
         </section>
@@ -633,40 +667,20 @@
             </ul>
             <div id="yxzx" class="row">
                 <ul class='col-sm-5 section6_right'>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
+                    @for($i = 0; $i < 4; $i++)
+                        <li>
+                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                            <p>发布时间 {{ $articles[$i]->addtime }}</p>
+                        </li>
+                    @endfor
                 </ul>
                 <ul class='col-sm-5 section6_right'>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
-                    <li>
-                        <h3><a href="#">人生必去的Maker Faire | 我们刚刚从台北和旧金山回来</a></h3>
-                        <p>Posteed on 2016/07/03</p>
-                    </li>
+                    @for($i = 4; $i < 8; $i++)
+                        <li>
+                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                            <p>发布时间 {{ $articles[$i]->addtime }}</p>
+                        </li>
+                    @endfor
                 </ul>
             </div>
         </section>

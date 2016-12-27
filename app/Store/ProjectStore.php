@@ -27,7 +27,6 @@ class ProjectStore {
      */
     public function getData($where)
     {
-        dd($where);
         if(empty($where)) return false;
         return DB::table(self::$table)->where($where)->orderBy('addtime','desc')->get();
     }
@@ -45,7 +44,11 @@ class ProjectStore {
     public function takeData($number)
     {
         if (empty($number)) return false;
-        return DB::table(self::$table)->orderByRaw('RAND()')->take($number)->get();
+        return DB::table(self::$table)
+            ->where('status',1)
+            ->orderByRaw('RAND()')
+            ->take($number)
+            ->get();
     }
     /**
      * 更新指定条件的数据

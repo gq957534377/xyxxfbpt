@@ -1,8 +1,9 @@
-@extends('home.layouts.master')
+@extends('admin.layouts.master')
 
 @section('title','创新作品详情')
 
-@section('style')
+@section('styles')
+    <link href="{{ asset('home/css/common.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('home/css/content(pc).css') }}">
 @endsection
 
@@ -207,11 +208,116 @@
                 <!--用户评论结束-->
             </ul>
         </div>
+        <div class="modal fade" id="verify_no">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input class="form-control" placeholder="如果确认不通过，请输入原因" id="verify_remark"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="verify_no_btn">提交</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <div class="modal fade" id="verify_yes">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">提示</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>您确认通过？</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="verify_yes_btn">通过</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
     </section>
     <div style="width:100%;text-align: center;position: fixed;bottom: 60px;z-index: 1;">
-        <button class="btn btn-success btn-lg">通过</button>
-        <button class="btn btn-danger btn-lg">不通过</button>
+        <button pro_id="{{$data->guid}}" class="btn_yes btn btn-success btn-lg">通过</button>
+        <button pro_id="{{$data->guid}}" class="btn_no btn btn-danger btn-lg">不通过</button>
     </div>
 @endsection
+@section('script')
+    <script>
+        $('.btn_yes').click(function(){
+            $('#verify_yes').modal('show');
+            $('#verify_yes_btn').attr('pro_id',$(this).attr('pro_id'));
+        });
 
+        //不通过按钮
+        $('.btn_no').click(function(){
+            $('#verify_no').modal('show');
+            $('#verify_remark').val('');
+            $('#verify_no_btn').attr('pro_id',$(this).attr('pro_id'));
+        });
+        $('#verify_yes_btn').click(function(){
+            statusCheck_yes($(this).attr('pro_id'),1);
+            $('#verify_yes').modal('hide');
+        });
+
+        //定义确认不通过按钮
+        $('#verify_no_btn').click(function(){
+            statusCheck_no($(this).attr('pro_id'),2);
+        })
+        //确认通过
+        var statusCheck_yes = function(id, status){
+            $.ajax({
+                url:'/project',
+                type:'post',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{
+                    id:id,
+                    status:status
+                },
+                success:function(data){
+                    $(".loading").hide();
+                    window.location.href='/project/unchecked'
+                }
+            })
+        };
+
+        //确认不通过事件
+        var statusCheck_no = function(id, status){
+            //控制审核失败原因不能为空
+            if ($('#verify_remark').val()==''){
+                $('#verify_remark').val('请输入审核不通过原因');
+                return false;
+            }
+
+            $.ajax({
+                url:'/project',
+                type:'post',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{
+                    id:id,
+                    status:status,
+                    remark:$('#verify_remark').val()
+                },
+                success:function(data){
+                    if (data.status==200){
+                        $(".loading").hide();
+                        $('#'+id).parents('tr').remove();
+                        $('#verify_no').modal('hide');
+                        window.location.href='/project/unchecked'
+                    }
+                }
+            })
+        };
+    </script>
+@endsection
 
