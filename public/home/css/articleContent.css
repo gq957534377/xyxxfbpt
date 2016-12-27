@@ -10,7 +10,7 @@
   border-right: 1px solid #f3f3f3;
   min-height: 900px;
   padding-right: 0;
-  max-width: 885px;
+  /*max-width: 885px;*/
   padding-bottom: 60px;
 }
 @media screen and (max-width:991px){
