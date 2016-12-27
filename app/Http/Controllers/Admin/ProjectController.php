@@ -107,16 +107,23 @@ class ProjectController extends Controller
      * @param $id
      * @return \Illuminate\Http\JsonResponse
      * @author 贾济林
+     * @modify 张洵之
      */
     public function update(Request $request, $id)
     {
         //整理请求数据
         $data = $request->all();
         $status = $data['status'];
+        if(empty($data['nowPage'])){
+            $nowPage = 1;
+        }else{
+            $nowPage = $data['nowPage'];
+        }
+
         $num = 4;
 
         //获取首页数据
-        $res = self::$projectServer->getFrstPage($num, $status);
+        $res = self::$projectServer->getPage($nowPage,$num,$status);
         //获取分页
         if ($res['StatusCode'] == '400') return response()->json($res);
 
@@ -130,28 +137,12 @@ class ProjectController extends Controller
     }
 
     /**
-     * 获取三种项目状态对应的分页数据
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @author 贾济林
+     * author 张洵之
      */
     public function destroy(Request $request)
     {
-        //整理参数
-        $data = $request->all();
-        $status = $data['status'];
-        $nowPage = $data['nowPage'];
-        $num = 4;
 
-        //获取分页数据
-        $res = self::$projectServer->getPage($nowPage,$num,$status);
-
-        //获取分页
-        $pages = self::getpage($request,$num,$status);
-        //整理返回数据
-        $res['pages'] = $pages;
-        if (!$res['status']) return response()->json(['status'=>'400','msg'=>'查询失败']);
-        return response()->json(['status'=>'200','data'=>$res]);
     }
 
     /**
@@ -183,5 +174,6 @@ class ProjectController extends Controller
         $pages = CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl, '');
         return $pages;
     }
+
 
 }

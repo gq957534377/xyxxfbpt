@@ -53,7 +53,7 @@ class BaseRedis
     public static function getRedis ($key)
     {
         if (!empty($key)) {
-            return Redis::get($key);
+            return \Redis::get($key);
         } else {
             return false;
         }

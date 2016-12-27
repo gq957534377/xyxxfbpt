@@ -244,11 +244,13 @@ class ActionService
         }else{
             $count = self::$collegeStore->getCount($where);
         }
+
         if (!$count) {
-            //如果没有数据直接返回201空数组，函数结束
+            //如果没有数据直接返回204空数组，函数结束
             if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
             return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
         }
+
         //计算总页数
         $totalPage = ceil($count / $forPages);
 
@@ -258,6 +260,7 @@ class ActionService
         }else{
             $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
         }
+
         if($result['data']){
             if ($disPlay && $totalPage > 1) {
                 //创建分页样式
@@ -268,6 +271,7 @@ class ActionService
                 }else{
                     return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
                 }
+
             }else{
                 $result['totalPage'] = $totalPage;
                 $result["pages"] = '';

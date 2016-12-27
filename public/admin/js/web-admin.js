@@ -12,14 +12,17 @@ $('.status1').off('click').on('click', function () {
         case 2:
             $('.avatar-scale').val(224/153);
             $('.organiz-type').val(status);
+            $('.info > h4').html('添加合作机构');
             break;
         case 3:
             $('.avatar-scale').val(224/153);
             $('.organiz-type').val(status);
+            $('.info > h4').html('添加投资机构');
             break;
         case 4:
             $('.avatar-scale').val(192/60);
             $('.organiz-type').val(status);
+            $('.info > h4').html('添加轮播图');
             break;
 
     }
@@ -33,8 +36,8 @@ var height = $(window).height() / 2 - 70;
 
 function ajaxBeforeModel() {
     $('.loading').show().css({
-        'left': 0,
-        'top': 0
+        'left': width,
+        'top': height
     });
 }
 /**
@@ -88,8 +91,7 @@ function listType(type) {
                 }
 
             } else {
-
-                alert(data.ResultData);
+                swal(data.ResultData);
             }
             $('.loading').hide();
         }
@@ -111,12 +113,14 @@ function institutionHtml(data) {
         html += '<img  class="thumb-lg bx-s" src="'+ value.url +'" alt="" style="width: 146%;">';
         html += '</a>';
         html += '<div class="pull-right btn-group-sm">';
-        html += '<a data-id="'+ value.id +'" href="" class="btn btn-success tooltips" data-placement="Top" data-toggle="modal" data-target="#custom-width-modal" data-original-title="Edit">';
-        html += '<i class="fa fa-pencil"></i>';
-        html += '</a>';
-        html += '<a id="'+ value.id +'"  class="btn btn-danger tooltips" data-placement="Top" data-toggle="tooltip" data-original-title="Delete">';
-        html += '<i class="fa fa-close"></i>';
-        html += '</a>';
+        // html += '<a data-id="'+ value.id +'" href="" class="btn btn-success tooltips" data-placement="Top" data-toggle="modal" data-target="#custom-width-modal" data-original-title="Edit">';
+        // html += '<i class="fa fa-pencil"></i>';
+        // html += '</a>';
+        // html += '<a id="'+ value.id +'"  class="btn btn-danger tooltips" data-placement="Top" data-toggle="tooltip" data-original-title="Delete">';
+        // html += '<i class="fa fa-close"></i>';
+        // html += '</a>';
+        html +=  '<button class="btn btn-success btn-xs" data-id="'+ value.id +'" style="border-radius:7px;" data-toggle="modal" data-target="#custom-width-modal">编辑</button> ';
+        html +=  '<button id="'+ value.id +'" data-ip="" style="border-radius:7px;" class="btn btn-danger btn-xs">删除</button>';
         html += '</div>';
         html += '<div class="info text-center">';
         html += '<h4 id="name'+ value.id +'">'+ value.name +'</h4>';
@@ -151,9 +155,10 @@ function carouselHtml (data) {
 //                html += '<a href="" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">';
 //                html += '<i class="fa fa-pencil"></i>';
 //                html += '</a>';
-        html += '<a id="'+ value.id +'"  class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">';
-        html += '<i class="fa fa-close"></i>';
-        html += '</a>';
+//         html += '<a id="'+ value.id +'"  class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">';
+        html +=  '<button id="'+ value.id +'" data-ip="" style="border-radius:7px;" class="btn btn-danger btn-xs">删除</button>';
+        // html += '<i class="fa fa-close"></i>';
+        // html += '</a>';
         html += '</div>';
 
         html += '</div>';
@@ -208,7 +213,7 @@ function contentHtml(data) {
     html += '</div>';
     html += '<div class="form-group">';
     html += '<div class="col-lg-offset-2 col-lg-10">';
-    html += '<button id="text-content-submit" class="btn btn-success" type="button">Save</button>';
+    html += '<button id="text-content-submit" class="btn btn-success" style="border-radius:7px;" type="button">保存</button>';
     html += '</div>';
     html += '</div>';
     html += '</form>';
@@ -238,9 +243,9 @@ $('#data').on('click', '#text-content-submit', function(){
         success:function(data){
             if (data.StatusCode == '200') {
                 listType(1);
-                alert('更新成功');
+                swal("更新成功!");
             } else {
-                alert('失败：' + data.ResultData)
+                swal('失败：' + data.ResultData);
             }
             $('.loading').hide();
         }
@@ -270,38 +275,56 @@ function addHtml() {
 
 // 删除
 $('#data').on('click', '.btn-danger' ,function () {
-    if (!confirm('是否确认删除？')) {
-        return ;
-    }
     var me = $(this);
-    // 异步删除
-    $.ajax({
-        type: "POST",
-        url: '/web_admins/'+ me.attr('id'),
-        data: {
-            '_method': 'DELETE',
-            '_token' : $('meta[name="csrf-token"]').attr('content')
-        },
-        before  : ajaxBeforeModel(),
-        success:function(data){
-            if (data.StatusCode == 200) {
-                me.parent().parent().parent().parent().parent().remove();
-            } else {
-                alert(data.ResultData);
-            }
-            $('.loading').hide();
+    swal({
+        title: "确认删除吗?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确认删除!",
+        cancelButtonText: "取消",
+        closeOnCancel: false
+    },function(isConfirm) {
+        if (isConfirm) {
+            // 异步删除
+            $.ajax({
+                type: "POST",
+                url: '/web_admins/'+ me.attr('id'),
+                data: {
+                    '_method': 'DELETE',
+                    '_token' : $('meta[name="csrf-token"]').attr('content')
+                },
+                before  : ajaxBeforeModel(),
+                success:function(data){
+                    if (data.StatusCode == 200) {
+                        me.parent().parent().parent().parent().parent().remove();
+                        swal("操作成功！");
+                    } else {
+                        swal(data.ResultData);
+                    }
+                    $('.loading').hide();
+                }
+            });
+
+        } else {
+            return;
         }
     });
-});
 
+
+});
+var iName= '';
+var iUrl= '';
 // 编辑信息
 $('#data').on('click', '.btn-success', function () {
-    //alert($(this).data('id'));
+
     var me = $(this);
     var id = me.data('id');
     $('#investid').val(id);
     $('#investname').val($('#name' + id).html());
     $('#investurl').val($('#img' + id).attr('href'));
+    iName = $('#name' + id).html();
+    iUrl = $('#img' + id).attr('href');
 });
 
 // 提交修改信息 异步
@@ -309,7 +332,10 @@ $('#saveinfo').on('click', function () {
     var id = $('#investid').val();
     var name = $('#investname').val();
     var url = $('#investurl').val();
-
+    if (iName == name && iUrl == url) {
+        swal('未做修改');
+        return;
+    }
     // 异步修改
     $.ajax({
         type: "POST",
@@ -322,7 +348,7 @@ $('#saveinfo').on('click', function () {
         },
         before  : ajaxBeforeModel(),
         success:function(data){
-            alert(data.ResultData);
+            swal(data.ResultData);
             updateHtml();
             $('.loading').hide();
         }

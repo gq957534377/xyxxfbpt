@@ -20,7 +20,7 @@
               @foreach($ResultData as $val)
                 <li class="row">
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">
-                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}">
+                    <a href="/article/{{ $val->guid }}"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}"></a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">
                     <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>

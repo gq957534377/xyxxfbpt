@@ -39,6 +39,7 @@
                 </div>
                 <div class="btn_block">
                     <button type="submit" class="btn btn-warning btn-block btn-lg">立即注册</button>
+                    <a href="{{url('/login')}}" type="button" class="btn btn-default btn-block btn-lg">返回登录</a>
                 </div>
     		</form>
 

@@ -109,23 +109,39 @@ class UserController extends Controller
     public function show($id)
     {
         if(empty($id)) return response()->json(['StatusCode' => '400','ResultData' => '服务器数据异常']);
-      // 获取到用户的id，返回数据
+        $roleInfo = [];
+        // 获取到用户的id，返回数据
         $info = self::$userServer->userInfo(['guid' => $id]);
+
+        // 获取 角色信息
+        $result = self::$userServer->getRoleInfo($id, $info['ResultData']->role);
+        // 向session里存角色相关信息
+//        Session::put('roleInfo', $result);
+
       // 获取公司信息
         $company = self::$userServer->getCompany(['guid' => $id]);
         if ($company['StatusCode'] == '400') {
             $company['ResultData'] = [];
         }
+
+
+//        return view('home.user.index');
      // 获取创业者信息
         $syb = self::$userServer->roleInfo(['guid' => $id, 'role'=>'2']);
         if ($syb['StatusCode'] == '400') {
             $syb['ResultData'] = [];
         }
+    // 获取投资者信息
+        $investor = self::$userServer->roleInfo(['guid' => $id, 'role' => '3']);
+        if ($investor['StatusCode'] == '400') {
+            $investor['ResultData'] = [];
+        }
 
         return view('home.user.index', [
-            'userInfo' => $info['ResultData'],
-            'company'  => $company['ResultData'],
-            'syb'      => $syb['ResultData'],
+            'userInfo'   => $info['ResultData'],
+            'company'    => $company['ResultData'],
+            'syb'        => $syb['ResultData'],
+            'investor'  => $investor['ResultData'],
         ]);
     }
 
@@ -476,9 +492,18 @@ class UserController extends Controller
         return response()->json($likeResult);
     }
 
+    /**
+     * 用户中心我的项目
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * author 张洵之
+     */
     public function myProject()
     {
         $user_guid = session('user')->guid;
+        $role = session('user')->role;
+        if($role == 1) {
+            return redirect(route('user.show',$user_guid));
+        }
         $result = self::$projectServer->getData(['user_guid' => $user_guid]);
 
         return view('home.user.myProject', ['data' => $result['ResultData']]);
