@@ -42,7 +42,7 @@
         <div class="row bgc-0">
             <!--活动说明 开始-->
             <div class="col-md-9 col-lg-9 pad-clr mar-b15">
-                <div class="br-1 pad-8 mar-r20 b-n-sm b-n-xs mar-cr-sm mar-cr-xs road-explain">
+                <div class="br-1 pad-8 b-n-sm b-n-xs mar-cr-sm mar-cr-xs road-explain">
                     @if($data['StatusCode'] == '200')
                     <p class="col-sm-6"><span>主办方：</span>{{ $data['ResultData']->author }}</p>
                     <p class="col-sm-12"><span>活动简述：</span>{{ $data['ResultData']->brief }}</p>
@@ -65,8 +65,47 @@
                 </div>
             </div>
             <!--活动说明 结束-->
+
+            <div class="col-lg-3 col-md-3 content-right">
+                <div class="guangao row">
+                    <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/test13.jpg') }}"></a>
+                </div>
+                <div class="row news-list-title">
+                    <h2>7×24h 快讯</h2>
+                </div>
+                <ul class="row news-list">
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
+                        <div class="news-list-time">
+                            <span>两分钟前</span>
+                        </div>
+                    </li>
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
+                        <div class="news-list-time">
+                            <span>两分钟前</span>
+                        </div>
+                    </li>
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
+                        <div class="news-list-time">
+                            <span>两分钟前</span>
+                        </div>
+                    </li>
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
+                        <div class="news-list-time">
+                            <span>两分钟前</span>
+                        </div>
+                    </li>
+                </ul>
+                <!-- <div class="btn-ll">
+                  浏览更多
+                </div> -->
+            </div>
+
             <!--活动评论 开始-->
-            <div class="col-md-3 col-lg-3 road-comment road-banner pl-block">
+            <div class="col-md-9 col-lg-9 road-comment road-banner pl-block">
                 <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
                 <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">更多评论></a>
                 <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
