@@ -24,6 +24,27 @@
             padding: 6px 16px;
         }
 
+        .sweet-alert p {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+        }
+        button.confirm {
+            background-color: #34c73b !important;
+            box-shadow: none !important;
+        }
+        .sweet-alert .sa-icon.sa-success .sa-placeholder {
+            border: 4px solid #34c73b;
+        }
+        .sweet-alert .sa-icon.sa-success .sa-line {
+            background-color: #34c73b;
+        }
+        .sweet-alert .sa-icon.sa-error {
+            border-color: #d74548;
+        }
+        .sweet-alert .sa-icon.sa-error .sa-line {
+            background-color: #d74548;
+        }
     </style>
     <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
     <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
@@ -198,6 +219,10 @@
     {{--时间插件--}}
     <script src="{{asset('/dateTime/build/jquery.datetimepicker.full.js')}}"></script>
     <script src="{{asset('/admin/js/public/dateTime.js')}}"></script>//时间插件配置
+    {{--提示框--}}
+    <script src="http://cdn.rooyun.com/js/classie.js"></script>
+    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     <script type="text/javascript">
         {{--全局变量的设置--}}
         //富文本配置
@@ -406,10 +431,12 @@
                         data.append("address", resul.address);
                         data.append("limit", resul.limit);
                         if (!resul.banner) {
-                            alert("缩略图不能为空");
+                            swal('请填写完毕', '缩略图不能为空', "error");
+//                            alert("缩略图不能为空");
                         }else{
                             if (!resul.describe) {
-                                alert("详情描述不能为空")
+                                swal('请填写完毕', '详情描述不能为空', "error");
+//                                alert("详情描述不能为空")
                             }else{
                                 $.ajax({
                                     url: url,
@@ -422,22 +449,28 @@
                             }
                         }
                         function check(data) {
+                            console.log(data);
                             $('.loading').hide();
-
                             $('#alert-form').html('');
                             $('.modal-title').html('提示');
                             if (data) {
                                 if (data.StatusCode === '200') {
-                                    alert('发布成功！');
-//                                    $('#alert-info').html('<p>活动发布成功!</p>');
-                                    window.history.back(-1);
+                                    swal({
+                                                title: data.ResultData, // 标题，自定
+                                                text: '请到对应活动类型管理列表查看',   // 内容，自定
+                                                type: "success",    // 类型，分别为error、warning、success，以及info
+                                                showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                                                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                                            },
+                                            function (isConfirm) {
+                                                swal(data.ResultData, '请到对应活动类型管理列表查看', "success");
+                                                window.history.back(-1);
+                                            });
                                 } else {
-                                    $('#myModal').modal('show');
-                                    $('#alert-info').html('<p>' + data.ResultData + '  错误代码：' + data.StatusCode + '</p>');
+                                    swal(data.ResultData, '错误代码：' + data.StatusCode, "error");
                                 }
                             } else {
-                                $('#myModal').modal('show');
-                                $('#alert-info').html('<p>未知的错误</p>');
+                                swal('出错了', '错误代码：未知', "error");
                             }
                         }
 
