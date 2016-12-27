@@ -6,18 +6,35 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Services\TestService;
+
+use App\Redis\ArticleCache;
 
 class TestController extends Controller
 {
+    private static $article;    //项目service
+
+    public function __construct(TestService $testService)
+    {
+        self::$article = $testService;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        dd('index');
+        //dd(HASH_PROJECT_INFO_);
+        $nums = 5;  //一次获取数据的条数
+
+        $pages= $request->page; //获取当前的偏移量
+
+        $list = self::$article->getArticleList($nums,$pages);
+
+        dd($list);
     }
 
     /**
@@ -54,7 +71,10 @@ class TestController extends Controller
     public function show($id)
     {
         //
-        dd('show');
+        $article = new ArticleCache();
+        $data = $article->getArticleList();
+
+        dd($data);
 
     }
 

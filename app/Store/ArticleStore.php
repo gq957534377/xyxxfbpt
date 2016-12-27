@@ -153,4 +153,13 @@ class ArticleStore
             ->take($number)
             ->get();
     }
+
+    /**
+     * 获取所有文章列表
+     * @return mixed
+     */
+    public function getAllArticle()
+    {
+        return DB::table(self::$table)->get();
+    }
 }
