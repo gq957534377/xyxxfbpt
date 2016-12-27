@@ -63,6 +63,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
+
         return view('home.user.creatMyProject');
     }
 
@@ -179,7 +180,7 @@ class ProjectController extends Controller
         $validator = \Validator::make($request->all(), [
             'title'   => 'required|max:64',
             'content' => 'required|between:120,800',
-            'brief_content'   => 'required|between:40,200',
+            'brief_content'   => 'required|between:20,60',
             'industry'    => 'required|integer',
             'financing_stage' => 'required|integer',
             'logo_img' => 'required|url|string',
@@ -193,7 +194,7 @@ class ProjectController extends Controller
             'content.required' => '项目详情不可为空',
             'content.between' => '项目详情应在120~800字符之间',
             'brief_content.required' => '项目一句话简介不可为空',
-            'brief_content.between' => '项目一句话简介应在40~200字符之间',
+            'brief_content.between' => '项目一句话简介应在20~60字符之间',
             'industry.required' => '请选一个行业！',
             'industry.integer' => '行业输入类型错误',
             'financing_stage.required' => '请选一个融资阶段！',

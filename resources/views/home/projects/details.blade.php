@@ -202,7 +202,7 @@
                 <!--循环遍历结束-->
                 <div style="background-color: #ffffff;" class="row pl-block">
                     <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
-                    <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">更多评论></a>
+                    {{--<a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">更多评论></a>--}}
                     <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <!---循环遍历开始-->
                         <li class="row inputs">
@@ -257,10 +257,16 @@
                 </li>
                 <li class="row gdxx">
                     <div class="kuang">
-                        @if(session('user')->role != 3)
-                            <div class="gdxx-content"></div>
+                        @if(session('user'))
+                            @if(session('user')->role != 3)
+                                <div class="gdxx-content"></div>
+                            @else
+                                <a style="position: absolute;top: 50%;left: 36%;" href="{{ $project_details->file }}">项目详细资料</a>
+                            @endif
                         @else
-                            <a style="position: absolute;top: 50%;left: 36%;" href="{{ $project_details->file }}">项目详细资料</a>
+                            <div class="gdxx-content">
+                                <a href="{{route('login.index')}}" style="display: block;height: 100%;width: 100%;"></a>
+                            </div>
                         @endif
                     </div>
                 </li>

@@ -220,7 +220,7 @@ class ProjectService {
 
     public function ajaxForClass($type)
     {
-        $where = ['disable'=>'0','status'=>'3'];
+        $where = ['status'=>'1'];
 
         switch ($type) {
             case 0 :

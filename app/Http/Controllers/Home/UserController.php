@@ -476,9 +476,18 @@ class UserController extends Controller
         return response()->json($likeResult);
     }
 
+    /**
+     * 用户中心我的项目
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * author 张洵之
+     */
     public function myProject()
     {
         $user_guid = session('user')->guid;
+        $role = session('user')->role;
+        if($role == 1) {
+            return redirect(route('user.show',$user_guid));
+        }
         $result = self::$projectServer->getData(['user_guid' => $user_guid]);
 
         return view('home.user.myProject', ['data' => $result['ResultData']]);
