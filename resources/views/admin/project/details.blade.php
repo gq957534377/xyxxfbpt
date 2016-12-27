@@ -3,8 +3,12 @@
 @section('title','创新作品详情')
 
 @section('styles')
-    <link href="{{ asset('home/css/common.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('home/css/content(pc).css') }}">
+    <style>
+        ul{
+            list-style: none;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -146,25 +150,25 @@
                 </li>
                 <li class="row">
                     @if(is_array($data->project_experience))
-                    @foreach($data->project_experience as $temp)
-                    <ul class="row">
-                        <li class="col-lg-2 col-md-2 col-sm-2">
-                            {{$temp[0]}}
-                        </li>
-                        <li class="col-lg-10 col-md-10 col-sm-10">
-                            {{$temp[1]}}
-                        </li>
-                    </ul>
-                    @endforeach
+                        @foreach($data->project_experience as $temp)
+                            <ul class="row">
+                                <li class="col-lg-2 col-md-2 col-sm-2">
+                                    {{$temp[0]}}
+                                </li>
+                                <li class="col-lg-10 col-md-10 col-sm-10">
+                                    {{$temp[1]}}
+                                </li>
+                            </ul>
+                        @endforeach
                     @endif
                 </li>
                 {{--<li class="row content-row-left-title">--}}
-                    {{--<h4>项目需求</h4>--}}
+                {{--<h4>项目需求</h4>--}}
                 {{--</li>--}}
                 {{--<li class="row">--}}
-                    {{--<p class="col-lg-12 col-md-12 col-sm-12">--}}
-                        {{--种子轮求融资--}}
-                    {{--</p>--}}
+                {{--<p class="col-lg-12 col-md-12 col-sm-12">--}}
+                {{--种子轮求融资--}}
+                {{--</p>--}}
                 {{--</li>--}}
                 <li class="row content-row-left-title">
                     <h4>成员信息</h4>
@@ -174,25 +178,25 @@
                 @if(is_array($data->team_member))
                     @foreach($data->team_member as $item)
                         <li class="row">
-                    <div class="rowsd">
-                        <img src="{{ $item[1] }}" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                        <ul class="col-lg-9 col-md-9 col-sm-9 cyxx-ul">
-                            <li class="row">
-                                <span>{{ $item[2] }}</span>
-                                <span>{{ $item[0] }}</span>
-                            </li>
-                            {{--<li class="row">--}}
-                                {{--<span>户外星球创始人</span>--}}
-                            {{--</li>--}}
-                            <li class="row">
-                                <p>{{$item[3]}}</p>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                    @endforeach
-                @endif
-                <!--循环遍历结束-->
+                            <div class="rowsd">
+                                <img src="{{ $item[1] }}" class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                <ul class="col-lg-9 col-md-9 col-sm-9 cyxx-ul">
+                                    <li class="row">
+                                        <span>{{ $item[2] }}</span>
+                                        <span>{{ $item[0] }}</span>
+                                    </li>
+                                    {{--<li class="row">--}}
+                                    {{--<span>户外星球创始人</span>--}}
+                                    {{--</li>--}}
+                                    <li class="row">
+                                        <p>{{$item[3]}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                @endforeach
+            @endif
+            <!--循环遍历结束-->
                 <!--成员信息结束-->
             </ul>
             <ul class="col-lg-4 col-md-4 col-sm-12">
@@ -201,7 +205,7 @@
                 </li>
                 <li class="row gdxx">
                     <div class="kuang">
-                            <a style="position: absolute;top: 50%;left: 36%;" href="{{ $data->file }}">项目详细资料</a>
+                        <a style="position: absolute;top: 50%;left: 36%;" href="{{ $data->file }}">项目详细资料</a>
                     </div>
                 </li>
                 <!--用户评论开始-->
@@ -243,7 +247,7 @@
             </div><!-- /.modal-dialog -->
         </div>
     </section>
-    <div style="width:100%;text-align: center;position: fixed;bottom: 60px;z-index: 1;">
+    <div id="ctrl" style="width:100%;text-align: center;position: fixed;bottom: 60px;z-index: 1;">
         <button pro_id="{{$data->guid}}" class="btn_yes btn btn-success btn-lg">通过</button>
         <button pro_id="{{$data->guid}}" class="btn_no btn btn-danger btn-lg">不通过</button>
     </div>
@@ -318,6 +322,10 @@
                 }
             })
         };
+        var arr = window.location.href.split('?');
+        if(arr[arr.length-1] == 'online') {
+            $('#ctrl').remove();
+        }
     </script>
 @endsection
 

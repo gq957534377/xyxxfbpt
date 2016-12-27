@@ -20,8 +20,8 @@
                   <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{$temp->banner_img}}">
                 </a>
                 <div>
-                  <a href="#">{{$temp->title}}</a>
-                  <p>{{mb_substr($temp->brief_content,0,40,'utf-8')}}...</p>
+                  <a href="#" class="ellipse">{{$temp->title}}</a>
+                  <p>{{mb_substr($temp->brief_content,0,38,'utf-8')}}...</p>
                   <!---p标签内容不可超过40个中文简体字--->
                   <div>
                     @if($temp->status==0)

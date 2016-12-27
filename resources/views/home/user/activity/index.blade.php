@@ -36,7 +36,6 @@
         </div>
 
         <!--活动列表块开始-->
-        {{--{{dd($ResultData)}}--}}
         @if($StatusCode === '204')
             <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span style="color: #999999">你还未参加任何活动呦~亲 O(∩_∩)O~</span>
@@ -44,12 +43,9 @@
             @elseif($StatusCode === '200')
             <div id="list">
             @foreach($ResultData['data'] as $action)
-                @if($action->status == 4)
-                    @continue
-                    @endif
                 <div class="row mar-clr bb-3">
                     <div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">
-                        <a @if($ResultData['list'] == 3) href="{{asset('/school/'.$action->guid)}}" @else href="{{asset('/actionl/'.$action->guid)}}" @endif><img src="{{ $action->banner }}"  alt=""></a>
+                        <a @if($ResultData['list'] == 3) href="{{asset('/school/'.$action->guid)}}" @else href="{{asset('/action/'.$action->guid)}}" @endif><img src="{{ $action->banner }}"  alt=""></a>
                     </div>
                     <div class="road-font col-lg-7 col-md-12 col-sm-12 pad-clr">
                         <h2>

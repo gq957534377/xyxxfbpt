@@ -197,6 +197,7 @@
         {{--全局变量的设置--}}
         //富文本配置
         var toolbra = {
+            zIndex : 1,
             toolbars: [
                 [
                     'bold', //加粗
@@ -219,7 +220,6 @@
                     'fontfamily', //字体
                     'fontsize', //字号
                     'paragraph', //段落格式
-                    'simpleupload', //单图上传
                     'insertimage', //多图上传
                     'edittable', //表格属性
                     'edittd', //单元格属性

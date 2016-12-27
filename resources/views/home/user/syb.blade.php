@@ -127,8 +127,6 @@
         //  异步上传身份证照
         var upload = new uploadCommon();
 
-        var originalPic = $(this).attr('src');
-
         $("#syb_card_a").click(function(){
 
             $("#card_upload").trigger('click');
@@ -139,7 +137,6 @@
                 url         : '/uploadcard',
                 type        : 'POST',
                 loadingPic  : '/home/img/loading.gif',
-                originalPic : originalPic,
                 hideinput   : $("input[name = 'syb_card_a']")
             });
         });
@@ -154,7 +151,6 @@
                 url         : '/uploadcard',
                 type        : 'POST',
                 loadingPic  : '/home/img/loading.gif',
-                originalPic : originalPic,
                 hideinput   : $("input[name = 'syb_card_b']")
             });
         });

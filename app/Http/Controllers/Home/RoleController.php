@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Home;
 
 use App\Tools\Avatar;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
+=======
+use App\Tools\Avatar;
+>>>>>>> origin/wangtong
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;

@@ -7,9 +7,9 @@
 $(function() {
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
-        browse_button: 'img_pick',//被点击的东西的id
-        container: 'img_container',//按钮外部的div的id
-        drop_element: 'img_container',
+        browse_button: 'file_pick',//被点击的东西的id
+        container: 'file_container',//按钮外部的div的id
+        drop_element: 'file_container',
         max_file_size: '1000mb',
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
         dragdrop: true,
@@ -23,7 +23,7 @@ $(function() {
             prevent_duplicates: true,
             // Specify what files to browse for
             mime_types: [
-                {title : "Image files", extensions : "jpg,gif,png"}, // 限定jpg,gif,png后缀上传
+                {title : "Image files", extensions : "ppt,word,pdf,rar"}, // 限定jpg,gif,png后缀上传
             ]
         },
         // downtoken_url: '/downtoken',
@@ -77,7 +77,7 @@ $(function() {
                 var res = $.parseJSON(info);
                 var domain = up.getOption('domain');
                 url = domain + encodeURI(res.key);
-                $('input[name=image]').val(url);
+                $('input[name=file]').val(url);
             },
             'Error': function(up, err, errTip) {
                 $('table').show();

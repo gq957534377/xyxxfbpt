@@ -335,7 +335,6 @@
                     'fontfamily', //字体
                     'fontsize', //字号
                     'paragraph', //段落格式
-                    'simpleupload', //单图上传
                     'insertimage', //多图上传
                     'edittable', //表格属性
                     'edittd', //单元格属性
@@ -512,7 +511,7 @@
                                         }else{
                                             swal(data.ResultData, '成功'+statusMessage+'文章', "success");
                                             $('#panel-modal').modal('hide');
-                                            passDom.remove();
+//                                            passDom.remove();
                                                 tr.remove();
                                         }
                                     }

@@ -76,7 +76,7 @@
                 },
                 brief_content: {
                     required: true,
-                    rangelength:[40,200]
+                    rangelength:[20,60]
                 },
                 industry:{
                     required: true,
@@ -112,7 +112,7 @@
                 },
                 brief_content: {
                     required: "此处不可为空！",
-                    rangelength:"应输入40~200个字符！"
+                    rangelength:"应输入20~60个字符！"
                 },
                 industry:{
                     required: "请选一个行业！",
