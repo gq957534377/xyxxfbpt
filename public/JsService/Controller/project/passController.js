@@ -9,7 +9,7 @@ var creatTable = function(data){
 
         var image_td = $('<td></td>');
         var image_a = $('<a></a>');
-        image_a.attr('href','/project/'+data[i].guid);
+        image_a.attr('href','/project/'+data[i].guid+'?online');
         image_a.attr('target','_self');
         image_a.html('<button class="btn btn-warning btn-xs">查看详情</button>');
         image_td.html(image_a);

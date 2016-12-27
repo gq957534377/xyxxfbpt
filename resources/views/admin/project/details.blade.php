@@ -243,7 +243,7 @@
             </div><!-- /.modal-dialog -->
         </div>
     </section>
-    <div style="width:100%;text-align: center;position: fixed;bottom: 60px;z-index: 1;">
+    <div id="ctrl" style="width:100%;text-align: center;position: fixed;bottom: 60px;z-index: 1;">
         <button pro_id="{{$data->guid}}" class="btn_yes btn btn-success btn-lg">通过</button>
         <button pro_id="{{$data->guid}}" class="btn_no btn btn-danger btn-lg">不通过</button>
     </div>
@@ -318,6 +318,10 @@
                 }
             })
         };
+        var arr = window.location.href.split('?');
+        if(arr[arr.length-1] == 'online') {
+            $('#ctrl').remove();
+        }
     </script>
 @endsection
 
