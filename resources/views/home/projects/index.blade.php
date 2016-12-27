@@ -45,12 +45,19 @@
         @foreach($projects as $project)
             <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
                 <div class="content-block">
-                    <a href="{{ route('project.show', $project->guid) }}">
+                    <a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
                         <img src="{{ $project->banner_img }}" alt="">
                     </a>
                     <div>
-                        <h3><a href="{{ route('project.show', $project->guid) }}">{{ $project->title }}</a></h3>
-                        <p>{{ mb_substr($project->brief_content,0,30).'...' }}</p>
+                        <h3><a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
+                                @if(mb_strlen($project->title)>10)
+                                    {{mb_substr($project->title,0,10).'...'}}
+                                @else
+                                    {{$project->title}}
+                                @endif
+                            </a>
+                        </h3>
+                        <p>{{ mb_substr($project->brief_content,0,20).'...' }}</p>
                         <!--p标签内容不可超过40个中文简体字-->
                         <div>
                             {{--<span>21</span>--}}

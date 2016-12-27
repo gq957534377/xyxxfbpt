@@ -7,6 +7,7 @@
   <link href="{{asset('dateTime/jquery.datetimepicker.css')}}" rel="stylesheet">
   <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
   <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/highlight/highlight.css')}}">
 @endsection
 @section('content')
 
@@ -214,9 +215,12 @@
           <!--上传BP 开始 -->
           <div class="form-group mar-b30">
             <label for="upload-bp" class="col-md-3 col-lg-2 control-label pad-cr mar-xs--b">上传BP(选填)</label>
-            <div class="col-md-5 col-lg-5">
-              <input type="button" onclick="inputbp.click()" id="upload-bp" class="upload-button zxz">
-              <input type="file" id="inputbp" class="hidden" >
+            <div class="col-md-3 col-lg-3">
+              <img style="cursor: pointer" src="{{ asset('home/img/projectFile.png')}}">
+              <div id="file_container">
+                <button type="button" id="file_pick">选择文件</button>
+              </div>
+              <input type="hidden" name="file">
             </div>
           </div>
           <!--上传BP 结束-->
@@ -254,6 +258,8 @@
         <div id='rongqi'><div class='avatar-view'><img src="{{ asset('home/img/upload-card.png')}}"  class='rongqiImg'></div></div>
       </div>
       <!--创建我的项目结束-->
+      <input type="hidden" id="domain" value="http://ogd29n56i.bkt.clouddn.com/">
+      <input type="hidden" id="uptoken_url" value="{{url('getQiniuToken')}}">
 @endsection
 
 @section('script')
@@ -426,4 +432,9 @@
     }
     //核心成员代码块结束
   </script>
+  <script type="text/javascript" src="{{url('/qiniu/js/plupload/plupload.full.min.js')}}"></script>
+  <script type="text/javascript" src="{{url('/qiniu/js/plupload/i18n/zh_CN.js')}}"></script>
+  <script type="text/javascript" src="{{url('/qiniu/js/qiniu.js')}}"></script>
+  <script type="text/javascript" src="{{url('/qiniu/js/ui.js')}}"></script>
+  <script type="text/javascript" src="{{url('/qiniu/js/main.js')}}"></script>
 @endsection
