@@ -4,6 +4,31 @@
 
 @section('style')
     <link href="{{ asset('home/css/roading-details.css') }}" rel="stylesheet">
+    <!-- sweet alerts -->
+    <link href="http://cdn.rooyun.com/css/sweet-alert.min.css" rel="stylesheet">
+    <style>
+        .sweet-alert p {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+        }
+        button.confirm {
+            background-color: #34c73b !important;
+            box-shadow: none !important;
+        }
+        .sweet-alert .sa-icon.sa-success .sa-placeholder {
+            border: 4px solid #34c73b;
+        }
+        .sweet-alert .sa-icon.sa-success .sa-line {
+            background-color: #34c73b;
+        }
+        .sweet-alert .sa-icon.sa-error {
+            border-color: #d74548;
+        }
+        .sweet-alert .sa-icon.sa-error .sa-line {
+            background-color: #d74548;
+        }
+    </style>
 @endsection
 
 @section('menu')
@@ -149,8 +174,11 @@
 @endsection
 @section('script')
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
+    {{--提示框--}}
+    <script src="http://cdn.rooyun.com/js/classie.js"></script>
+    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     <script>
-
         var token  = $('meta[name="csrf-token"]').attr('content');
         @if($isLogin && $data['StatusCode'] == '200')
         $('#js_enroll').click(function(){
@@ -163,15 +191,13 @@
                 },
                 data:{user_id:"{{$isLogin}}",action_id:"{{$data['ResultData']->guid}}",list:"{{$list}}"},
                 success:function (data) {
-                    console.log(data);
                     if (data.StatusCode === "200"){
-                        alert("报名成功！");
+                        swal(data.ResultData, '可以到个人中心“我参加的活动”查看', "success");
                         $('#baomingNum').html('已报名'+({{$data['ResultData']->people}}+1)+'人');
                         obj.html("已报名").css({background:"#3E8CE6"}).unbind("click");
                     }else{
-                        alert(data.ResultData+'错误代码：'+data.StatusCode);
+                        swal(data.ResultData, '错误代码：'+data.StatusCode, "error");
                     }
-                    console.log(data);
                 }
             })
         });
