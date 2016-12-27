@@ -134,12 +134,15 @@ class ProjectService {
      * @param $status
      * @return array
      * @author 贾济林
+     * @modify 张洵之
      */
     public function getPage($nowpage, $num, $status)
     {
         $res = self::$projectStore->getPage($nowpage,$num,$status);
-        if (!$res) return ['status'=>false,'msg'=>'获取失败'];
-        return ['status'=>true,'data'=>$res];
+
+        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $res];
     }
 
 

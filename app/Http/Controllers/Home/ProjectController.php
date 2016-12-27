@@ -218,6 +218,18 @@ class ProjectController extends Controller
 
     }
 
+    /**
+     * 返回七牛存储Token
+     * @return \Illuminate\Http\JsonResponse
+     * author 张洵之
+     */
+    public function getToken()
+    {
+        $token = Common::getToken();
+        $result = array('uptoken'=>$token);
+        return response()->json($result);
+    }
+
     //未写完的方法--张洵之
     public function lists(Request $request)
     {

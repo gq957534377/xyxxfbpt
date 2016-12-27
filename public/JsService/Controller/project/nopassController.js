@@ -56,19 +56,24 @@ var statusCheck_yes = function(id, status){
 };
 //分页点击事件
 var fpageClick = function(){
-    var class_name = $(this).prop('class');
+    var class_name = $(this).parent('li').prop('class');
     if(class_name == 'disabled' || class_name == 'active') {
         return false;
     }
-    var url = $(this).children().prop('href');
+    var nowPage = $(this).html();
+
     $.ajax({
-        url:url,
-        type:'delete',
+        url:'status1',
+        type:'put',
         data:{
-            status:'1'
+            status:'2',
+            nowPage : nowPage
         },
         success:function (res) {
-            var data = res.data;
+            if(res.StatusCode == '400'){
+                location.reload(true)
+            }
+            var data = res.ResultData;
             $('.loading').hide();
             $("#unchecked_table thead").html('');
             $("#unchecked_table tbody").html('');
@@ -77,8 +82,8 @@ var fpageClick = function(){
             //绘制待审核表格
             creatTable(data);
 
-            $("#unchecked_table").parent().append(data.pages);
-            $('.pagination li').click(fpageClick);
+            $("#unchecked_table").parent().append(res.pages);
+            $('.pagination li a').click(fpageClick);
 
 
             //通过按钮
@@ -87,12 +92,12 @@ var fpageClick = function(){
                 $('#verify_yes_btn').attr('pro_id',$(this).attr('id'));
             });
 
+
             //定义确认通过按钮
             $('#verify_yes_btn').click(function(){
                 statusCheck_yes($(this).attr('pro_id'),1);
                 $('#verify_yes').modal('hide');
             });
-
         }
     });
     return false;
@@ -128,7 +133,7 @@ $(function(){
             creatTable(data.ResultData);
 
             $("#unchecked_table").parent().append(data.pages);
-            $('.pagination li').click(fpageClick);
+            $('.pagination li a').click(fpageClick);
 
 
             //通过按钮
