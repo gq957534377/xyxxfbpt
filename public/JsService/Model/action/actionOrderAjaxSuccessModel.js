@@ -55,16 +55,16 @@ function htmlStr( data) {
 
     $.each(data, function (i, v) {
         console.log(data);
-        v.realname = v.realname?v.realname:'--';
-        v.birthday = v.birthday?v.birthday:'--';
-        v.email    = v.email? v.email : '--';
-        v.headpic  = v.headpic?v.headpic:'/home/img/user_center.jpg';
-        v.introduction = v.introduction?v.introduction:'--';
-        v.addtime = v.addtime?getLocalTime(v.addtime):'--';
+        v.realname = v.realname ? v.realname : '--';
+        v.birthday = v.birthday ? v.birthday : '--';
+        v.email    = v.email ? v.email : '--';
+        v.headpic  = v.headpic ? v.headpic : '/home/img/user_center.jpg';
+        v.introduction = v.introduction ? v.introduction : '--';
+        v.addtime = v.addtime ? getLocalTime(v.addtime) : '--';
 
         str += '<tr class="gradeX">';
-        str +=  '<td>' + v.realname + '</td>';
-        str +=  '<td>';
+        str += '<td>' + v.realname + '</td>';
+        str += '<td>';
         if(v.role == 1){
             str +=  '<span class="text-info text-xs">普通用户&nbsp;</span>';
         }
