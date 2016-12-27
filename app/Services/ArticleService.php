@@ -15,7 +15,6 @@ use App\Store\LikeStore;
 use App\Tools\Common;
 use App\Services\UserService as UserServer;
 use App\Tools\CustomPage;
-use Illuminate\Support\Facades\Log;
 
 class ArticleService
 {
@@ -286,35 +285,6 @@ class ArticleService
     }
 
     /**
-     * 发表评论
-     * @param $data  数组，['action_id' => '文章ID', 'user_id' => '用户ID', 'count '评论内容']
-     * @return array
-     * @author 郭庆
-     * @modify 王通
-     */
-    public static function comment($data)
-    {
-        $data["time"] = date("Y-m-d H:i:s", time());
-
-
-        // 判断两次评论之间的时间间隔
-        $oldTime = self::getUserCommentTime ($data['action_id'], session('user')->guid);
-        if (($oldTime + config('safety.COMMENT_TIME')) > time()) {
-            return ['StatusCode' => '400', 'ResultData' => '两次评论间隔过短，请稍后重试'];
-        };
-
-        $result = self::$commentStore->addData($data);
-        if($result) {
-            // 获取评论信息
-            $comment = self::getComment($data['action_id'], 1);
-            return ['StatusCode' => '200', 'ResultData' => $comment['ResultData'][0]];
-        }
-
-        return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
-
-    }
-
-    /**
      * 分页查询 得到指定类型的数据
      * @param $request
      * @return array
@@ -322,7 +292,6 @@ class ArticleService
      */
     public function selectTypeData($data)
     {
-
 
         $forPages = 10;          // 每页数据数
         $where = $data;
@@ -355,25 +324,6 @@ class ArticleService
         }else{
             return ['StatusCode' => '200', 'ResultData' => $result];
         }
-    }
-
-    /**
-     * 获取指定用户所发表的所有文章
-     * @param $id
-     * @param $status
-     * @return array
-     * @author 郭庆
-     * @modify 王通
-     */
-    public static function getArticleByUser($id, $status)
-    {
-        $result = self::$articleStore->getData(['user_id' => $id, 'status' => $status]);
-        if($result) {
-            return ['StatusCode' => '200', 'ResultData' => $result];
-        } else {
-            return ['StatusCode' => '201', 'ResultData' => '没有数据'];
-        }
-
     }
 
     /**
@@ -494,5 +444,67 @@ class ArticleService
         if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 
         return ['StatusCode' => '200', 'ResultData' => $result];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //暂时不用的方法--------------------------------------------------------------------------------------------------------------
+    /**
+     * 发表评论
+     * @param $data  数组，['action_id' => '文章ID', 'user_id' => '用户ID', 'count '评论内容']
+     * @return array
+     * @author 郭庆
+     * @modify 王通
+     */
+    public static function comment($data)
+    {
+        $data["time"] = date("Y-m-d H:i:s", time());
+
+
+        // 判断两次评论之间的时间间隔
+        $oldTime = self::getUserCommentTime ($data['action_id'], session('user')->guid);
+        if (($oldTime + config('safety.COMMENT_TIME')) > time()) {
+            return ['StatusCode' => '400', 'ResultData' => '两次评论间隔过短，请稍后重试'];
+        };
+
+        $result = self::$commentStore->addData($data);
+        if($result) {
+            // 获取评论信息
+            $comment = self::getComment($data['action_id'], 1);
+            return ['StatusCode' => '200', 'ResultData' => $comment['ResultData'][0]];
+        }
+
+        return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
+
+    }
+
+    /**
+     * 获取指定用户所发表的所有文章
+     * @param $id
+     * @param $status
+     * @return array
+     * @author 郭庆
+     * @modify 王通
+     */
+    public static function getArticleByUser($id, $status)
+    {
+        $result = self::$articleStore->getData(['user_id' => $id, 'status' => $status]);
+        if($result) {
+            return ['StatusCode' => '200', 'ResultData' => $result];
+        } else {
+            return ['StatusCode' => '201', 'ResultData' => '没有数据'];
+        }
+
     }
 }

@@ -6,6 +6,7 @@ use App\Tools\Avatar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
+use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
@@ -141,7 +142,7 @@ class ArticleController extends Controller
     public function bannerPic(Request $request)
     {
         //数据验证过滤
-        $validator = \Validator::make($request->all(),[
+        $validator = Validator::make($request->all(),[
             'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
         ],[
             'avatar_file.required' => '上传文件为空!',
