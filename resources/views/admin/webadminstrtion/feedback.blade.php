@@ -6,6 +6,7 @@
         table{font-size:14px;}
         .table button{margin-right:15px;}
         .page-title{ padding-bottom: 5px;}
+
     </style>
 @endsection
 {{--展示内容开始--}}
@@ -32,7 +33,7 @@
 {{--展示内容结束--}}
 
 {{--弹出页面 开始--}}
-<div id="seedback" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="feedback" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -41,15 +42,15 @@
             </div>
             <div class="modal-body">
                 <h4>邮箱</h4>
-                <p id="seedback-email"></p>
+                <p id="feedback-email"></p>
                 <hr>
                 <h4>意见内容</h4>
-                <p id="seedback-descri"></p>
+                <p id="feedback-descri"></p>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button id="delete-seedback" data-ip="11" type="button" class="btn btn-danger">删除</button>
+                <button id="delete-feedback" data-ip="11" type="button" class="btn btn-danger">删除</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -60,32 +61,17 @@
 @section('script')
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
-    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
+    <script src="{{asset('admin/js/sweet-alert.init.js')}}"></script>
     <script>
         /**************************************************************************************************/
-        !function($) {
-            "use strict";
 
-            var SweetAlert = function() {};
-
-            //examples
-            SweetAlert.prototype.init = function() {},
-                //init
-                $.SweetAlert = new SweetAlert,
-                $.SweetAlert.Constructor = SweetAlert
-        }(window.jQuery),
-
-            function($) {
-                "use strict";
-                $.SweetAlert.init()
-            }(window.jQuery);
 
 
         //页面默认加载所有可用用户信息
         $(function () {
             $('#user_title').html('<h3>所有意见</h3>');
 
-            var url = '/seedback/1';
+            var url = '/feedback/1';
             //初始化请求参数
             var queryString = {};
             //执行ajax请求
@@ -164,12 +150,12 @@
                 str += '<tr class="gradeX">';
                 str +=  '<td><input class="checkbox-list" name="Fruit" type="checkbox" data-ip="'+ data[0][i] +'" /></td>';
                 str +=  '<td>' + obj.ip + '</td>';
-                str +=  '<td class="seedb-email">' + obj.fb_email + '</td>';
-                str +=  '<td hidden class="seedb-descri">'+ obj.description +'</td>';
+                str +=  '<td class="feedb-email">' + obj.fb_email + '</td>';
+                str +=  '<td hidden class="feedb-descri">'+ obj.description +'</td>';
                 str +=  '<td>' + obj.description.slice(0, 53) + '</td>';
                 str +=  '<td>';
-                str +=  '<button class="btn btn-info btn-xs" data-ip="'+ data[0][i] +'" data-toggle="modal" data-target="#seedback">详情</button>';
-                str +=  '<button id="'+ data[0][i] +'" data-ip="'+ data[0][i] +'" class="btn btn-danger btn-xs">删除</button>';
+                str +=  '<button class="btn btn-info btn-xs" data-ip="'+ data[0][i] +'" style="border-radius:7px;" data-toggle="modal" data-target="#feedback">详情</button>';
+                str +=  '<button id="'+ data[0][i] +'" data-ip="'+ data[0][i] +'" style="border-radius:7px;" class="btn btn-danger btn-xs">删除</button>';
                 str +=  '</td></tr>';
             });
 
@@ -239,7 +225,7 @@
                 }
             }
             if (arr != []) {
-                operation('/seedback/delete', {'iparr' : arr}, 'delete', null);
+                operation('/feedback/delete', {'iparr' : arr}, 'delete', null);
             }
 
             console.log(arr);
@@ -251,12 +237,12 @@
          *@author 王通
          */
         $('#data').on('click', '.btn-info', function () {
-            var email = $(this).parent().siblings('.seedb-email').html();
-            var descri = $(this).parent().siblings('.seedb-descri').html();
+            var email = $(this).parent().siblings('.feedb-email').html();
+            var descri = $(this).parent().siblings('.feedb-descri').html();
             var ip = $(this).data('ip');
-            $('#delete-seedback').attr('data-ip', ip);
-            $('#seedback-email').html(email);
-            $('#seedback-descri').html(descri);
+            $('#delete-feedback').attr('data-ip', ip);
+            $('#feedback-email').html(email);
+            $('#feedback-descri').html(descri);
         });
 
         /**
@@ -283,16 +269,16 @@
          */
         $('#data').on('click', '.btn-danger', function () {
             var me = $(this);
-            deleteSeedback(me);
+            deleteFeedback(me);
         });
 
         $('.btn-danger').on('click', function () {
             var me = $(this);
-            deleteSeedback(me);
-            $('#seedback').hide();
+            deleteFeedback(me);
+            $('#feedback').modal('hide');
         });
 
-        function deleteSeedback(me) {
+        function deleteFeedback(me) {
             var id = me.data('ip');
             swal({
                 title: "确认删除？",
@@ -306,7 +292,7 @@
                 closeOnCancel: false
             }, function(isConfirm){
                 if (isConfirm) {
-                    operation('/seedback/' + id, {'iparr' : [id]}, 'delete', me);
+                    operation('/feedback/' + id, {'iparr' : [id]}, 'delete', me);
                 } else {
                     swal("已取消", "", "error");
                 }
@@ -335,8 +321,7 @@
                 success : function(msg){
                     if (msg.StatusCode == '200') {
                         swal("删除成功!", "", "success");
-
-                        $.each(queryString, function (key, val) {
+                        $.each(queryString.iparr, function (key, val) {
                             var obj = $('input[data-ip="'+val+'"]');
                             delOk(obj, 2);
                         })

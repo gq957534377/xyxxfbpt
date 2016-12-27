@@ -11,17 +11,20 @@ namespace App\Services;
 use App\Redis\BaseRedis;
 use App\Tools\CustomPage;
 use App\Tools\Common;
+use App\Services\SafetyService;
 
 
-class SeedbackService
+class FeedbackService
 {
 
     protected static $baseRedis;
+    protected static $safetyService;
     protected static $dataFeedback = 'DATA_FEED_BACK';
     protected static $indexFeedback = 'INDEX_FEED_BACK_List';
-    function __construct(BaseRedis $baseRedis)
+    function __construct(BaseRedis $baseRedis, SafetyService $safetyService)
     {
         self::$baseRedis = $baseRedis;
+        self::$safetyService = $safetyService;
     }
 
     /**
@@ -30,11 +33,12 @@ class SeedbackService
      * @return array
      * @author 王通
      */
-    public function saveSeedback($data)
+    public function saveFeedback($data)
     {
         $guid = Common::getUuid();
         if (self::$baseRedis->hSet(self::$dataFeedback, $guid, json_encode($data))) {
             if (self::$baseRedis->addRpush(self::$indexFeedback, $guid)) {
+                self::$safetyService->saveIpInSet(SET_FEEDBACK_IP, $data['ip']);
                 return ['StatusCode' => '200', 'ResultData' => '保存成功'];
             }
             self::$baseRedis->hDel(self::$dataFeedback, $guid);
@@ -53,7 +57,7 @@ class SeedbackService
      * @return array
      * @author 王通
      */
-    public function getSeedbackList($nowPage, $forPages, $url)
+    public function getFeedbackList($nowPage, $forPages, $url)
     {
         $data = [];
         // 起始索引
@@ -85,7 +89,7 @@ class SeedbackService
      * @return array
      * @author 王通
      */
-    public function delSeedback($keyArr)
+    public function delFeedback($keyArr)
     {
 
         $result = self::$baseRedis->delPipeline($keyArr, self::$indexFeedback, self::$dataFeedback);

@@ -15,6 +15,7 @@ use App\Store\LikeStore;
 use App\Tools\Common;
 use App\Services\UserService as UserServer;
 use App\Tools\CustomPage;
+use Illuminate\Support\Facades\Log;
 
 class ArticleService
 {

@@ -91,7 +91,6 @@ var fpageClick = function(){
             $("#unchecked_table").parent().append(res.pages);
             $('.pagination li a').click(fpageClick);
 
-
             //不通过按钮
             $('.btn_no').click(function(){
                 $('#verify_no').modal('show');
@@ -132,6 +131,7 @@ $(function(){
                 'top' : height,
             });
         },
+
         success:function(data){
             $('.loading').hide();
 
@@ -142,14 +142,12 @@ $(function(){
             $("#unchecked_table").parent().append(data.pages);
             $('.pagination li a').click(fpageClick);
 
-
             //不通过按钮
             $('.btn_no').click(function(){
                 $('#verify_no').modal('show');
                 $('#verify_remark').val('');
                 $('#verify_no_btn').attr('pro_id',$(this).attr('id'));
             });
-
 
             //定义确认不通过按钮
             $('#verify_no_btn').click(function(){

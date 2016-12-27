@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Inspire::class,
         '\App\Console\Commands\Chage_Action_Status',
+        '\App\Console\Commands\Stat_Test',
     ];
 
     /**
@@ -28,5 +29,6 @@ class Kernel extends ConsoleKernel
         $schedule->command('inspire')
                  ->hourly();
         $schedule->command('chageAction:status')->dailyAt('01:00');
+        $schedule->command('command:name')->everyMinute();
     }
 }
