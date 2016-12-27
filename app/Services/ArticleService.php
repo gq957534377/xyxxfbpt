@@ -194,9 +194,9 @@ class ArticleService
         $data["addtime"] = time();
         $Data = self::$articleStore->upload($where, $data);
         if($Data){
-            return ['StatusCode'=> 200,'ResultData' => "修改成功"];
+            return ['StatusCode'=> '200','ResultData' => "修改成功"];
         }else{
-            return ['StatusCode'=> 400,'ResultData' => "服务器忙,修改失败"];
+            return ['StatusCode'=> '400','ResultData' => "服务器忙,修改失败"];
         }
     }
 

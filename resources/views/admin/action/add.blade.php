@@ -451,8 +451,6 @@
                         function check(data) {
                             console.log(data);
                             $('.loading').hide();
-                            $('#alert-form').html('');
-                            $('.modal-title').html('提示');
                             if (data) {
                                 if (data.StatusCode === '200') {
                                     swal({

@@ -501,7 +501,6 @@
                                 }else{
                                     url = '/article/'+ guid + '/edit/?status=' + status +'&user='+list_user;
                                 }
-                                alert(url);
                                 $.ajax({
                                     url     : url,
                                     success : function (data) {
@@ -568,30 +567,40 @@
                         data.append( "describe", resul.describe);
                         data.append( "banner", resul.banner);
                         data.append( "source", resul.source);
-                        var url = '/article/' + $('input[name=id]').val();
-                        $.ajax({
-                            url     : url,
-                            type:'put',
-                            data:resul,
-                            before  : ajaxBeforeNoHiddenModel,
-                            success : check,
-                            error   : ajaxErrorModel
-                        });
+                        if (!resul.banner) {
+                            swal('请填写完毕', '缩略图不能为空', "error");
+                        }else {
+                            var url = '/article/' + $('input[name=id]').val();
+                            $.ajax({
+                                url: url,
+                                type: 'put',
+                                data: resul,
+                                before: ajaxBeforeNoHiddenModel,
+                                success: check,
+                                error: ajaxErrorModel
+                            });
+                        }
                         function check(data){
                             $('.loading').hide();
-                            $('#myModal').modal('show');
-                            $('#alert-form').html('');
-                            $('.modal-title').html('提示');
                             if (data) {
-                                if (data.StatusCode == 200) {
-                                    $('.bs-example-modal-lg').modal('hide');
-                                    $('#alert-info').html('<p>文章修改成功!</p>');
-                                    listType(resul.type,list_status,list_user);
+                                if (data.StatusCode === '200') {
+                                    swal({
+                                                title: data.ResultData, // 标题，自定
+                                                text: '请到对应文章类型管理列表查看',   // 内容，自定
+                                                type: "success",    // 类型，分别为error、warning、success，以及info
+                                                showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                                                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                                            },
+                                            function (isConfirm) {
+                                                $('.bs-example-modal-lg').modal('hide');
+                                                swal(data.ResultData, '请到对应文章类型管理列表查看', "success");
+                                                listType(resul.type,list_status,list_user);
+                                            });
                                 } else {
-                                    $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                                    swal(data.ResultData, '错误代码：' + data.StatusCode, "error");
                                 }
                             } else {
-                                $('#alert-info').html('<p>未知的错误</p>');
+                                swal('出错了', '错误代码：未知', "error");
                             }
                         }
                     }
@@ -645,36 +654,49 @@
                         data.append( "describe", resul.describe);
                         data.append( "banner", resul.banner);
                         data.append( "source", resul.source);
-                        $('#alert-info').html();
-                        $.ajax({
-                            url     : '/article',
-                            type:'post',
-                            data:resul,
-                            before  : ajaxBeforeNoHiddenModel,
-                            success : check,
-                            error   : ajaxErrorModel
-                        });
+                        if (!resul.banner) {
+                            swal('请填写完毕', '缩略图不能为空', "error");
+                        }else {
+                            if (!resul.describe) {
+                                swal('请填写完毕', '详情描述不能为空', "error");
+                            }else {
+                                $.ajax({
+                                    url: '/article',
+                                    type: 'post',
+                                    data: resul,
+                                    before: ajaxBeforeNoHiddenModel,
+                                    success: check,
+                                    error: ajaxErrorModel
+                                });
+                            }
+                        }
                         function check(data){
                             $('.loading').hide();
-                            $('#myModal').modal('show');
-                            $('#alert-form').html('');
-                            $('.modal-title').html('提示');
                             if (data) {
-                                if (data.StatusCode == 200) {
-                                    $('#con-close-modal').modal('hide');
-                                    $('#alert-info').html('<p>文章发布成功!</p>');
-                                    $('#yz_fb').find('input[name=title]').val('');
-                                    $('#yz_fb').find('input[name=source]').val('');
-                                    $('#yz_fb').find('input[name=banner]').val('');
-                                    $('#article_thumb_img').attr('src','home/img/upload-card.png');
-                                    $('#yz_fb').find('textarea[name=brief]').val('');
-                                    ue.setContent('');
-                                    list(resul.type,list_status,list_user);
+                                if (data.StatusCode === '200') {
+                                    swal({
+                                                title: data.ResultData, // 标题，自定
+                                                text: '请到对应文章类型管理列表查看',   // 内容，自定
+                                                type: "success",    // 类型，分别为error、warning、success，以及info
+                                                showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                                                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                                            },
+                                            function (isConfirm) {
+                                                $('#con-close-modal').modal('hide');
+                                                swal(data.ResultData, '请到对应文章类型管理列表查看', "success");
+                                                $('#yz_fb').find('input[name=title]').val('');
+                                                $('#yz_fb').find('input[name=source]').val('');
+                                                $('#yz_fb').find('input[name=banner]').val('');
+                                                $('#article_thumb_img').attr('src','home/img/upload-card.png');
+                                                $('#yz_fb').find('textarea[name=brief]').val('');
+                                                ue.setContent('');
+                                                listType(resul.type,list_status,list_user);
+                                            });
                                 } else {
-                                    $('#alert-info').html('<p>' + data.ResultData + '</p>');
+                                    swal(data.ResultData, '错误代码：' + data.StatusCode, "error");
                                 }
                             } else {
-                                $('#alert-info').html('<p>未知的错误</p>');
+                                swal('出错了', '错误代码：未知', "error");
                             }
                         }
 
