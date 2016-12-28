@@ -178,6 +178,7 @@
         <!--投资者认证通过 开始-->
 
         <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min{{ (session('user')->role == '23' || session('user')->role == '3') ? 'hidden' : '' }}">
+
             @if(!empty(session('roleInfo')[3] ))
             <h4 class="col-xs-12 pad-clr my-home-title">投资者认证
                 @if(session('roleInfo')[3]->status == 5 )
