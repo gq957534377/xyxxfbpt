@@ -39,19 +39,26 @@ class ProjectController extends Controller
      * @modify 刘峻廷
      * @modify 张洵之
      */
-    public function index()
+    public function index(Request $request)
     {
-        $where = ['status'=>'1'];
-        $res = self::$projectServer->getData($where);
+        $type = $request->input('type');
+
+        if(!empty($type)) {
+            $where = ['status' => '1', 'financing_stage' => $type-1];
+        }else{
+            $where = ['status'=>'1'];
+        }
+
+        $res = self::$projectServer->getData(1,  $where);
 
         if ($res['StatusCode'] == '400') {
             $projects = [];
-            return view('home.projects.index', compact('projects'));
+            return view('home.projects.index', compact('projects', 'type'));
         } else {
-            // 处理内容，限制字数
+
             $projects = $res['ResultData'];
             Common::wordLimit($projects, 'content', 15);
-            return view('home.projects.index', compact('projects'));
+            return view('home.projects.index', compact('projects', 'type'));
         }
 
     }
@@ -187,6 +194,7 @@ class ProjectController extends Controller
             'banner_img' => 'required|url|string',
             'team_member' => 'required|string',
             'project_experience'=> 'string',
+            'file'=> 'string',
             'privacy' => 'required|integer'
         ], [
             'title.required'   => '未填写项目标题',
@@ -208,6 +216,7 @@ class ProjectController extends Controller
             'team_member.required' => '项目核心成员缺失',
             'team_member.string' => '项目核心成员输入类型错误',
             'project_experience.string' =>  '项目历程输入类型错误',
+            'file.string' =>  '文件输入类型错误',
             'privacy.required' => '请为项目设置隐私',
             'privacy.integer' => '隐私设置输入类型错误'
         ]);
