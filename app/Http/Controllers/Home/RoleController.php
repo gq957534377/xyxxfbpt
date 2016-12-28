@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Home;
 
-use Illuminate\Http\Request;
 use App\Tools\Avatar;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
