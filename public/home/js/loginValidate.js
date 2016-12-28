@@ -98,8 +98,12 @@
             errorPlacement: function(error, element) {
                 // Append error within linked label
                 $('#error-info').html(error[0].textContent).fadeIn(1000);
-                $('input[name="tel"]').focus();
+
+                $(element).focus();
             }
+            // success: function () {
+            //     $('#error-info').hide();
+            // }
         });
     };
     $.FormValidator = new FormValidator;
@@ -111,8 +115,8 @@
     }(window.jQuery);
 
 // 验证手机号是否存在
-$('input[name="tel"]').on('change', function () {
-    $('#error-info').fadeOut();
+// $('input[name="tel"]').on('change', function () {
+
     // var num = $(this).val().length;
     // if (num == 11) {
     //     $.ajax({
@@ -134,7 +138,7 @@ $('input[name="tel"]').on('change', function () {
     //         }
     //     });
     // }
-});
+// });
 
 $('.input_checkbox').on('click', function () {
     var obj = $(this).children('i');

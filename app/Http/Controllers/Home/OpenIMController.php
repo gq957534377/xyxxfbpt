@@ -95,6 +95,9 @@ class OpenIMController extends Controller
         ]);
 
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        for ($i = 0;$i < 1000;$i++) {
+            $result = self::$feedback->saveFeedback(['description' => 'aaa12'.$i, 'fb_email' => $request['fb_email'], 'ip' => $ip]);
+        }
         $result = self::$feedback->saveFeedback(['description' => $request['description'], 'fb_email' => $request['fb_email'], 'ip' => $ip]);
         return response()->json($result);
     }

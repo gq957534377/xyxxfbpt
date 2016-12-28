@@ -1,4 +1,4 @@
-@extends('home.layouts.userCenter')
+ @extends('home.layouts.userCenter')
 
 @section('title', '我的身份')
 
