@@ -12,7 +12,7 @@ use App\Redis\ArticleCache;
 
 class TestController extends Controller
 {
-    private static $article;    //项目service
+    private static $article;    //文章service
 
     public function __construct(TestService $testService)
     {
@@ -85,20 +85,6 @@ class TestController extends Controller
     public function edit($id)
     {
         //
-        //dd('edit');
-
-        //dd($postUrl);
-        $csrf_field = csrf_field();
-        $html = <<<UPDATE
-        <form action="/test/1" method="POST">
-            $csrf_field
-            <input type="hidden" name="_method" value="delete"/>
-            <input type="text" name="title" value=""><br/><br/>
-            
-            <input type="submit" value="update"/>
-        </form>
-UPDATE;
-        return $html;
 
     }
 

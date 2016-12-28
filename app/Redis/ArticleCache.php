@@ -5,8 +5,8 @@
  */
 namespace App\Redis;
 
-
 use App\Tools\CustomPage;
+use App\Store\ArticleStore;
 use Illuminate\Support\Facades\Redis;
 
 class ArticleCache
@@ -14,6 +14,13 @@ class ArticleCache
 
     private static $lkey = LIST_ARTICLE_INFO;      //项目列表key
     private static $hkey = HASH_ARTICLE_INFO_;     //项目hash表key
+
+    private static $article_store;
+
+    public function __construct(ArticleStore $articleStore)
+    {
+        self::$article_store = $articleStore;
+    }
 
     /**
      * 判断listkey和hashkey是否存在
@@ -126,12 +133,21 @@ class ArticleCache
 
         //根据获取的list元素 取hash里的集合
         foreach ($list as $v) {
-            $data[] = Redis::hGetall(self::$hkey.$v);
+            //获取一条hash
+            $content = Redis::hGetall(self::$hkey.$v);
+            //给对应的Hash文章增加生命周期
+            $this->setTime(self::$hkey.$v);
+            if(empty($content)){
+                //如果获取的hash为空，说明生命周期结束，就再次去数据库取一条存入缓存
+                $res = self::$article_store->getOneDatas(['guid'=>$v]);
+                //将取出的mysql 文章详情写入redis
+                $this->setOneArticle($res);
+                $data[] = $res;
+            }
+            $data[] = $content;
         }
 
-        if(!$data){
-            return false;
-        }
+
         return $data;
     }
 
