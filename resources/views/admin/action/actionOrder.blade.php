@@ -82,9 +82,6 @@
                             <li style="line-height: 40px"><strong>出生日期 ：</strong><span id="birthday"></span></li>
                             <li style="line-height: 40px"><strong>电话 ：</strong><ins><span id="phone"></span></ins></li>
                             <li style="line-height: 40px"><strong>邮箱 ：</strong><span id="email"></span></li>
-                            <li style="line-height: 40px"><strong>公司 ： </strong><span id="company"></span></li>
-                            <li style="line-height: 40px"><strong>职位 ：</strong><span id="company_position"></span></li>
-                            <li style="line-height: 40px"><strong>公司地址 ：</strong><span id="company_address" class="text-muted"></span></li>
 
                             <li style="line-height: 40px"><span></span></li>
                             <li style="line-height: 40px"><span></span></li>
@@ -99,16 +96,6 @@
                     </div>
                     <div class="col-md-6">
                         <ul class="list-unstyled1">
-                            <li style="line-height: 40px"><strong>微信 ：</strong> <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
-                                    <div class="row">
-                                        <div id="crop-avatar">
-                                            <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
-                                                <img id="wechat" class="img-rounded" src="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
                             <li style="line-height: 40px"><strong>注册时间 ：</strong><span id="addtime"></span></li>
                             <li style="line-height: 40px" id="role"></li>
                             <li style="line-height: 40px" id="status"></li>

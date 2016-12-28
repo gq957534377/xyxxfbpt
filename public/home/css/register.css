@@ -61,4 +61,13 @@
 .phoneNum{
   color: #ba3d3b;
 }
+.btn_block .btn-default{
+  color: #e59b44;
+  border:1px solid #E59B44;
+}
+
+.btn_block .btn-default:hover{
+  color: #FFFFFF;
+  background:#E59B44;
+}
 /**register3样式结束****/

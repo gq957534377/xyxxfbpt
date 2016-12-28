@@ -24,7 +24,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
     Route::get('/logout', 'LoginController@logout');
     // 后台注册页
     Route::resource('/register','RegisterController');
-
     // 后台,中间件检验是否登录
     Route::group(['middleware'=> 'AdminMiddleware'],function() {
         // 后台首页
@@ -63,7 +62,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
         Route::resource('/role_management','RoleManagementController');
 
         // 意见管理
-        Route::resource('/seedback', 'SeedbackController');
+        Route::resource('/feedback', 'FeedbackController');
 
 
     });
@@ -87,7 +86,8 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/crowd_funding', 'CrowdFundingController');
     //活动内容页
     Route::resource('/action', 'ActionController');
-
+    //七牛TokenToken
+    Route::get('/getQiniuToken','ProjectController@getToken');
     // 点赞
     Route::resource('/article/like', 'ArticleController@like');
     //文章内容页 创业政策 市场咨询
@@ -149,6 +149,9 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
 
 
 });
+
+//redis缓存隔离demo路由
+Route::resource('/test','TestController');
 
 
 

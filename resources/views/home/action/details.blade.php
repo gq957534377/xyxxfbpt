@@ -4,6 +4,31 @@
 
 @section('style')
     <link href="{{ asset('home/css/roading-details.css') }}" rel="stylesheet">
+    <!-- sweet alerts -->
+    <link href="http://cdn.rooyun.com/css/sweet-alert.min.css" rel="stylesheet">
+    <style>
+        .sweet-alert p {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+        }
+        button.confirm {
+            background-color: #34c73b !important;
+            box-shadow: none !important;
+        }
+        .sweet-alert .sa-icon.sa-success .sa-placeholder {
+            border: 4px solid #34c73b;
+        }
+        .sweet-alert .sa-icon.sa-success .sa-line {
+            background-color: #34c73b;
+        }
+        .sweet-alert .sa-icon.sa-error {
+            border-color: #d74548;
+        }
+        .sweet-alert .sa-icon.sa-error .sa-line {
+            background-color: #d74548;
+        }
+    </style>
 @endsection
 
 @section('menu')
@@ -14,26 +39,26 @@
     <!--活动详情banner 开始-->
     <section class="container road-banner bgc-1 mar-emt1 pad-7 pad-7-xs">
         @if($data['StatusCode'] == '200')
-        <h4 class="mar-ct mar-b15">{{ $data['ResultData']->title }}</h4>
-        <p class="mar-b15"><span>时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}——{{ date('Y年m月d日 H点',$data['ResultData']->end_time) }}</p>
-        <p class="mar-b15"><span>地点：</span>{{ $data['ResultData']->address }}</p>
-        <p id="baomingNum" class="mar-emt60 mar-b15">已报名{{ $data['ResultData']->people }}人</p>
+            <h4 class="mar-ct mar-b15">{{ $data['ResultData']->title }}</h4>
+            <p class="mar-b15"><span>时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}——{{ date('Y年m月d日 H点',$data['ResultData']->end_time) }}</p>
+            <p class="mar-b15"><span>地点：</span>{{ $data['ResultData']->address }}</p>
+            <p id="baomingNum" class="mar-emt60 mar-b15">已报名{{ $data['ResultData']->people }}人</p>
 
-        <!--两个按钮按照情况只显示一个-->
-        @if($data['ResultData']->status == 1)
-            @if(!$isHas)
-        <button id="js_enroll" type="button" class="btn btn-primary bgc-2 b-n btn-1">我要报名</button>
-            @else
-                <button style="background: #3E8CE6;" type="button" class="btn btn-primary bgc-2 b-n btn-1">已报名</button>
+            <!--两个按钮按照情况只显示一个-->
+            @if($data['ResultData']->status == 1)
+                @if(!$isHas)
+                    <button id="js_enroll" type="button" class="btn btn-primary bgc-2 b-n btn-1">我要报名</button>
+                @else
+                    <button style="background: #3E8CE6;" type="button" class="btn btn-primary bgc-2 b-n btn-1">已报名</button>
+                @endif
+            @elseif($data['ResultData']->status == 5)
+                <button type="button" class="btn btn-info b-n disabled">报名截止</button>
+            @elseif($data['ResultData']->status == 2)
+                <button type="button" class="btn btn-info b-n disabled">活动已开始</button>
             @endif
-        @elseif($data['ResultData']->status == 5)
-            <button type="button" class="btn btn-info b-n disabled">报名截止</button>
-        @elseif($data['ResultData']->status == 2)
-            <button type="button" class="btn btn-info b-n disabled">活动已开始</button>
-        @endif
-            @else
+        @else
             <h4 class="mar-ct mar-b15">{{ $data['ResultData'] }}</h4>
-            @endif
+        @endif
     </section>
     <!--活动详情banner 结束-->
     <!--活动说明 & 评论 开始-->
@@ -42,31 +67,70 @@
         <div class="row bgc-0">
             <!--活动说明 开始-->
             <div class="col-md-9 col-lg-9 pad-clr mar-b15">
-                <div class="br-1 pad-8 mar-r20 b-n-sm b-n-xs mar-cr-sm mar-cr-xs road-explain">
+                <div class="br-1 pad-8 b-n-sm b-n-xs mar-cr-sm mar-cr-xs road-explain">
                     @if($data['StatusCode'] == '200')
-                    <p class="col-sm-6"><span>主办方：</span>{{ $data['ResultData']->author }}</p>
-                    <p class="col-sm-12"><span>活动简述：</span>{{ $data['ResultData']->brief }}</p>
-                    <p class="col-sm-12"><span>活动详情：</span></p>
-                    <div class="col-md-12">
-                        {!! $data['ResultData']->describe !!}
-                    </div>
-                    <p class="col-lg-8 col-md-7 col-sm-7 col-xs-12 @if($likeStatus == 1) taoxin @endif">
+                        <p class="col-sm-6"><span>主办方：</span>{{ $data['ResultData']->author }}</p>
+                        <p class="col-sm-12"><span>活动简述：</span>{{ $data['ResultData']->brief }}</p>
+                        <p class="col-sm-12"><span>活动详情：</span></p>
+                        <div class="col-md-12">
+                            {!! $data['ResultData']->describe !!}
+                        </div>
+                        <p class="col-lg-8 col-md-7 col-sm-7 col-xs-12 @if($likeStatus == 1) taoxin @endif">
                         <span class="collect">
                           <span id="likeFont"></span><span id="likeNum">{{$likeNum}}</span>
                         </span>
-                    </p>
-                    <p class="col-lg-1 col-md-1 col-sm-1 col-xs-3 pad-cr pad-clr-md pad-cl-sm line-h-36">分享到</p>
-                    <div class="bdsharebuttonbox col-lg-3 col-md-4 col-sm-4 col-xs-9 pad-clr pad-l30-md pad-l30-sm">
-                        <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                        </p>
+                        <p class="col-lg-1 col-md-1 col-sm-1 col-xs-3 pad-cr pad-clr-md pad-cl-sm line-h-36">分享到</p>
+                        <div class="bdsharebuttonbox col-lg-3 col-md-4 col-sm-4 col-xs-9 pad-clr pad-l30-md pad-l30-sm">
+                            <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
 
-                    </div>
-                    <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
                     @endif
                 </div>
             </div>
             <!--活动说明 结束-->
+
+            <div class="col-lg-3 col-md-3 content-right">
+                <div class="guangao row">
+                    <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/test13.jpg') }}"></a>
+                </div>
+                <div class="row news-list-title">
+                    <h2>7×24h 快讯</h2>
+                </div>
+                <ul class="row news-list">
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
+                        <div class="news-list-time">
+                            <span>两分钟前</span>
+                        </div>
+                    </li>
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
+                        <div class="news-list-time">
+                            <span>两分钟前</span>
+                        </div>
+                    </li>
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
+                        <div class="news-list-time">
+                            <span>两分钟前</span>
+                        </div>
+                    </li>
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
+                        <div class="news-list-time">
+                            <span>两分钟前</span>
+                        </div>
+                    </li>
+                </ul>
+                <!-- <div class="btn-ll">
+                  浏览更多
+                </div> -->
+            </div>
+
             <!--活动评论 开始-->
-            <div class="col-md-3 col-lg-3 road-comment road-banner pl-block">
+            <div class="col-md-9 col-lg-9 road-comment road-banner pl-block">
                 <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
                 <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">更多评论></a>
                 <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -97,9 +161,9 @@
                                     </div>
                                 </div>
                             </li>
-                        @endforeach
+                    @endforeach
                 @endif
-                    <!---循环遍历结束-->
+                <!---循环遍历结束-->
                 </ul>
                 <div class="clearfix"></div>
             </div>
@@ -110,8 +174,11 @@
 @endsection
 @section('script')
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
+    {{--提示框--}}
+    <script src="http://cdn.rooyun.com/js/classie.js"></script>
+    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     <script>
-
         var token  = $('meta[name="csrf-token"]').attr('content');
         @if($isLogin && $data['StatusCode'] == '200')
         $('#js_enroll').click(function(){
@@ -124,15 +191,13 @@
                 },
                 data:{user_id:"{{$isLogin}}",action_id:"{{$data['ResultData']->guid}}",list:"{{$list}}"},
                 success:function (data) {
-                    console.log(data);
                     if (data.StatusCode === "200"){
-                        alert("报名成功！");
+                        swal(data.ResultData, '可以到个人中心“我参加的活动”查看', "success");
                         $('#baomingNum').html('已报名'+({{$data['ResultData']->people}}+1)+'人');
                         obj.html("已报名").css({background:"#3E8CE6"}).unbind("click");
                     }else{
-                        alert(data.ResultData+'错误代码：'+data.StatusCode);
+                        swal(data.ResultData, '错误代码：'+data.StatusCode, "error");
                     }
-                    console.log(data);
                 }
             })
         });
@@ -162,13 +227,13 @@
         })
         @else
             $('#js_enroll').click(function(){
-                alert('还未登录，请登录！');
-                login();
+            alert('还未登录，请登录！');
+            login();
         });
-            $('.collect').click(function () {
-                alert('还未登录，请登录！');
-                login();
-            });
+        $('.collect').click(function () {
+            alert('还未登录，请登录！');
+            login();
+        });
         $('#comment').click(function () {
             alert('还未登录，请登录！');
             login();

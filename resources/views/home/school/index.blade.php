@@ -32,7 +32,7 @@
                 @foreach($ResultData['data'] as $data)
                     <li class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                         <div class="content-block">
-                            <img src="{{$data->banner}} " onerror="this.src='{{asset('home/img/zxz.png')}}'">
+                            <a href="school/{{$data->guid}}"><img src="{{$data->banner}} " onerror="this.src='{{asset('home/img/zxz.png')}}'"></a>
                             <h2><a href="school/{{$data->guid}}">{{$data->title}}</a></h2>
                             <p>
                                 {{$data->brief}}

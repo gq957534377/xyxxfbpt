@@ -16,11 +16,11 @@
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 content-left">
           <h2>最新文章</h2>
           <ul class="article-list">
-            @if(!empty($StatusCode) && $StatusCode == '200')
-              @foreach($ResultData as $val)
+            @if(!empty($data))
+              @foreach($data as $val)
                 <li class="row">
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">
-                    <a href="/article/{{ $val->guid }}"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}"></a>
+                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}">
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">
                     <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>
@@ -44,6 +44,15 @@
                 <span style="color: #999999;text-align:center;">暂无数据呦~亲 O(∩_∩)O~</span>
               </li>
             @endif
+            <li>
+              <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-2">
+                  <a href="#"><button class="btn btn-warning">点击加载更多</button></a>
+                </div>
+
+              </div>
+            </li>
           </ul>
 
         </div>
@@ -89,5 +98,28 @@
       <!--内容结束--->
 @endsection
 @section('script')
-<script src="{{ asset('/home/js/articleScroll.js') }}"></script>
+{{--<script src="{{ asset('/home/js/articleScroll.js') }}"></script>--}}
+
+  <script>
+          str += '<li class="row">';
+          str += '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">';
+          str +='<img onerror="this.src='+ +'" src="'+ +'">';
+          str +='</div>';
+          str +='<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">';
+          str +='<h3><a href="/article/'+v.guid+'">'+ v.title +'</a></h3>';
+          str +='<p>'+v.brief+'</p>';
+          str +='<div class="row list-font-bottom">';
+          str +='<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">'+v.addtime+'</span>';
+          str +='<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">';
+          str +='<div class="bg-mg">';
+          str +='<div class="bg-mg-f">';
+          str +='<img  src="'+v.headPic+'">';
+          str +='</div>';
+          str +='</div>';
+          str +='<div class="bg-mg-name">'+v.author+'</div>';
+          str +='</span>';
+          str +='</div>';
+          str +='</div>';
+          str +='</li>';
+  </script>
 @endsection

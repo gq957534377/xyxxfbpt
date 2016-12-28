@@ -18,6 +18,11 @@
 <!-- skycons -->
 <script src="{{ asset('admin/js/skycons.min.js') }}" type="text/javascript"></script>
 
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+<!--[if lt IE 9]>
+<script src="http://cdn.rooyun.com/js/html5shiv.js"></script>
+<script src="http://cdn.rooyun.com/js/respond.min.js"></script>
+<![endif]-->
 <!--Morris Chart-->
 <script src="{{ asset('admin/js/morris.min.js') }}"></script>
 <script src="{{ asset('admin/js/raphael.min.js') }}"></script>
@@ -26,3 +31,4 @@
 
 <!-- alert -->
 <script src="{{ asset('admin/js/sweet-alert.min.js') }}"></script>
+

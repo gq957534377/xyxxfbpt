@@ -6,6 +6,14 @@
 // 文档地址 http://www.runoob.com/jquery/jquery-plugin-validate.html
 !(function ($) {
     "use strict";//使用严格标准
+    if (sessionStorage.getItem('remember_user') != null && sessionStorage.getItem('remember_pwd') != null) {
+        $("input[name= 'tel']").val(sessionStorage.getItem('remember_user'));
+        $("input[name= 'password']").val(sessionStorage.getItem('remember_pwd'));
+    } else {
+        $("input[name= 'tel']").val('');
+        $("input[name= 'password']").val('');
+        $('.input_checkbox').children('i').toggleClass('fa-check');
+    }
     // 获取表单元素
     var FormValidator = function(){
         this.$signOnForm = $("#signOnForm");
@@ -50,6 +58,12 @@
                                 $('#error-info').html('警告,'+data.ResultData).fadeIn(1000);
                                 break;
                             case '200':
+                                if ($('.input_checkbox').children('i').is('.fa-check')) {
+                                    sessionStorage.setItem("remember_user", $("input[name= 'tel']").val());
+                                    sessionStorage.setItem("remember_pwd", $("input[name= 'password']").val());
+                                } else {
+                                    sessionStorage.clear();
+                                }
                                 window.location = '/';
                                 break;
                         }
@@ -96,14 +110,6 @@
         $.FormValidator.init();
     }(window.jQuery);
 
-// 验证码点击更换
-// var captcha = document.getElementById('captcha');
-// captcha.onclick = function(){
-//         $url = "{{url('/code/captcha')}}";
-//         $url = $url + "/" + Math.random();
-//         this.src = $url;
-//     };
-
 // 验证手机号是否存在
 $('input[name="tel"]').on('change', function () {
     $('#error-info').fadeOut();
@@ -128,5 +134,10 @@ $('input[name="tel"]').on('change', function () {
     //         }
     //     });
     // }
+});
+
+$('.input_checkbox').on('click', function () {
+    var obj = $(this).children('i');
+    obj.toggleClass('fa-check');
 
 });

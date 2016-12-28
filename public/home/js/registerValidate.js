@@ -84,6 +84,7 @@
                             case '400':
 
                                 $('#error-info').html('警告' + data.ResultData).fadeIn(1000);
+                                $('#error-info').fadeOut(2000);
                                 break;
                             case '200':
 
@@ -190,6 +191,7 @@
             errorPlacement: function(error, element) {
                 // Append error within linked label
                 $('#error-info').html(error[0].textContent).fadeIn(1000);
+                $('#error-info').fadeOut(2000);
                 $('input[name="tel"]').focus();
             }
         });
@@ -215,10 +217,12 @@ function formValidate(phone) {
     // 判断手机号
     if($.trim(phone).length == 0){
         $('#error-info').html('警告' + '请输入手机号').fadeIn(1000);
+        $('#error-info').fadeOut(2000);
         exit();
     } else {
         if(isPhoneNo($.trim(phone))== false) {
             $('#error-info').html('警告' + '手机号不正确').fadeIn(1000);
+            $('#error-info').fadeOut(2000);
             exit();
         }
     }
@@ -240,11 +244,13 @@ $("#signUpForm").on('click','#sendCode',function(){
                 case '400':
                     // promptBoxHandle('警告',data.ResultData);
                     $('#error-info').html(data.ResultData).fadeIn(1000);
+                    $('#error-info').fadeOut(2000);
                     setTime($("#sendCode"));
                     break;
 
                 case '200':
                     $('#error-info').html(data.ResultData).fadeIn(1000);
+                    $('#error-info').fadeOut(2000);
                     setTime($("#sendCode"));
                     break;
             }

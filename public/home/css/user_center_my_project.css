@@ -21,8 +21,9 @@
 .content-block{
     width: 95%;
     max-width: 268px;
-    max-height: 310px;
+    height: 282px;
     border: 1px solid #eeeeee;
+    background-color: #ffffff;
 }
 .content-block>a>img{
     width: 100%;
@@ -36,6 +37,7 @@
     margin: 0 0 5% 0;
     font-size: 16px;
     color: #000000;
+    overflow: hidden;
 }
 .content-block>div>h3>a:hover{
     text-decoration: none;
