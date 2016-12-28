@@ -68,4 +68,15 @@ class PictureStore
             ->update($field);
     }
 
+    /**
+     * 获取所有的投资机构和合作机构
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public static function getGroup()
+    {
+        return DB::table(self::$table)->wherein('type',[3,5])->get();
+    }
+
 }

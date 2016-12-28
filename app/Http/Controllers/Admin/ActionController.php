@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Store\PictureStore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Validator;
@@ -11,9 +12,11 @@ use App\Services\ActionService as ActionServer;
 class ActionController extends Controller
 {
     protected  static $actionServer;
-    public function __construct(ActionServer $actionServer)
+    protected  static $pictureStore;
+    public function __construct(ActionServer $actionServer, PictureStore $pictureStore)
     {
         self::$actionServer = $actionServer;
+        self::$pictureStore = $pictureStore;
     }
 
     /**
@@ -150,7 +153,8 @@ class ActionController extends Controller
      */
     public function actionAdd()
     {
-
+        $group = self::$pictureStore->getGroup();
+        dd($group);
         return view('admin.action.add');
     }
     /**
