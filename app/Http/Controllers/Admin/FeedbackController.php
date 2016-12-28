@@ -34,7 +34,7 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -57,6 +57,16 @@ class FeedbackController extends Controller
      */
     public function show($id, Request $request)
     {
+        $data = $request->all();
+
+        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
+        $forPages = 5;//一页的数据条数
+        $where = [];
+        $where['status'] = 1;
+        $result = self::$feedbackService->getFeedbackList($where, $nowPage, $forPages, "/feedback/1");
+        return response()->json($result);
+
+
         $forPages = 2;
         $url = '/feedback/1';
         if ($request['nowPage']) {
@@ -65,7 +75,7 @@ class FeedbackController extends Controller
             $page = 1;
         }
 
-        //return self::$feedbackService->getFeedbackList($where, $nowPage, $forPages, $url, $disPlay = true);
+        return self::$feedbackService->getFeedbackList($page, $forPages, $url);
     }
 
     /**

@@ -158,15 +158,11 @@ class FeedbackService
      */
     public function delFeedback($keyArr)
     {
-        $time = date('Y-m-d', time());
-        $result = self::$baseRedis->delPipeline($keyArr, LIST_FEED_BACK_INDEX . $time, HASH_FEED_BACK . $time);
-        if (!empty($result[0]) && !empty($result[1])) {
+        $result = self::$feedbackStore->delFeedback($keyArr);
+        if ($result) {
             return ['StatusCode' => '200', 'ResultData' => '删除成功'];
         } else {
             return ['StatusCode' => '400', 'ResultData' => '删除失败'];
         }
-
-
-
     }
 }
