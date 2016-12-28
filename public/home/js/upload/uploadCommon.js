@@ -26,7 +26,7 @@ uploadCommon.prototype.upload = function (param) {
             processData : false,
             contentType : false,
             beforeSend  : function(){
-                param.imgObj.css({ "width": "80px"});
+                // param.imgObj.css({ "width": "80px"});
                 param.imgObj.attr('src', param.loadingPic);
             },
             success     : function(msg){

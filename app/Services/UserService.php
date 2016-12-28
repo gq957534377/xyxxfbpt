@@ -8,6 +8,7 @@ use App\Store\UserStore;
 use App\Store\RoleStore;
 use App\Store\CompanyStore as CompanyStore;
 use App\Services\UploadService as UploadServer;
+use App\Services\UserRoleService as UserRoleServer;
 use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,7 @@ class UserService {
     protected static $roleStore = null;
     protected static $companyStore = null;
     protected static $uploadServer = null;
+    protected static $userRoleServer = null;
 
     /**
      * UserService constructor.
@@ -34,13 +36,15 @@ class UserService {
         UserStore $userStore,
         RoleStore $roleStore,
         CompanyStore $companyStore,
-        UploadServer $uploadServer
+        UploadServer $uploadServer,
+        UserRoleServer $userRoleServer
     ){
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$roleStore = $roleStore;
         self::$companyStore = $companyStore;
         self::$uploadServer = $uploadServer;
+        self::$userRoleServer = $userRoleServer;
     }
 
     /**
@@ -313,6 +317,8 @@ class UserService {
                 return ['StatusCode' => '400','ResultData' => '账号异常，请联系管理员！'];
             }
         }
+        // 获取用户相关角色信息
+        self::$userRoleServer->getRoleInfo($userInfo->guid);
 
         //获取角色状态
         $temp->role = $userInfo->role;
@@ -324,6 +330,7 @@ class UserService {
         $temp->memeber = $userInfo->memeber;
 
         Session::put('user', $temp);
+
         return ['StatusCode' => '200','ResultData' => '登录成功！'];
     }
 

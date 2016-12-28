@@ -9,6 +9,7 @@
 @section('content')
     <!--我管理的公司开始-->
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 my-company">
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
         <div class="basic-info">
             <span>我管理的公司</span>
 

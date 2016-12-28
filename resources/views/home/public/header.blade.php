@@ -9,7 +9,9 @@
                     <ul class="navbar-right">
                         <li id="fat-menu" class="dropdown">
                             <a id="drop3" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img id="topAvatar" class="img-circle" src="{{ session('user')->headpic }}" alt="头像" title="" data-id="{{ session('user')->guid }}">
+                                <img id="topAvatar" class="img-circle"
+                                     src="{{ empty(session('user')->headpic) ? asset('home/img/user_center.jpg') : session('user')->headpic }}"
+                                     alt="头像" title="" data-id="{{ session('user')->guid }}">
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
                                 <li role="presentation">
