@@ -8,8 +8,6 @@ namespace App\Services;
 use App\Tools\CustomPage;
 use App\Redis\ArticleCache;
 use App\Store\ArticleStore;
-use Mockery\Exception;
-
 
 class TestService
 {
@@ -23,12 +21,13 @@ class TestService
     }
 
     /**
-     * 获取所有文章列表
-     * @return mixed
+     * 获取分页文章列表
+     * @param  int $nums 一页的条数
+     * @param  int $pages 页数
+     * @return object|void  返回获取的list
      */
     public function getArticleList($nums,$pages)
     {
-
         //判断article缓存是否存在
         if(!self::$article_cache->exists()){
             //获取数据库里的所有文章列表,并且转对象为数组
@@ -38,12 +37,10 @@ class TestService
             if(count($article_list)){
                 self::$article_cache->setArticleList($article_list);
             }
-
         }
 
         //直接读取缓存数据,并把数组转换为对象
         $list = CustomPage::arrayToObject(self::$article_cache->getArticleList($nums,$pages));
-
 
         return $list;
 
