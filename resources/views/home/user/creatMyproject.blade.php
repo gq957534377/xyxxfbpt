@@ -9,6 +9,11 @@
   <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
   <link rel="stylesheet" type="text/css" href="{{url('/qiniu/js/highlight/highlight.css')}}">
 @endsection
+<div id="juhua">
+  <div>我们正在全力上传亲的文件O(∩_∩)O~,请亲耐心等待动画结束</div>
+  <img src="{{asset('home/img/loads.gif')}}">
+</div>
+<div id="errInfo"></div>
 @section('content')
 
       <!--创建我的项目开始-->
@@ -216,11 +221,12 @@
           <div class="form-group mar-b30">
             <label for="upload-bp" class="col-md-3 col-lg-2 control-label pad-cr mar-xs--b">上传BP(选填)</label>
             <div class="col-md-3 col-lg-3">
-              <img style="cursor: pointer" src="{{ asset('home/img/projectFile.png')}}">
-              <div id="file_container">
+              <img id="uplodeImgs" style="cursor: pointer" src="{{ asset('home/img/projectFile.png')}}">
+              <div class="shuoming">请上传ppt、word、pdf等格式的BP文件</div>
+              <div class="hiddens" id="file_container">
                 <button type="button" id="file_pick">选择文件</button>
               </div>
-              <input type="hidden" name="file">
+              <input class="hiddens" type="text" name="files">
             </div>
           </div>
           <!--上传BP 结束-->
@@ -251,7 +257,6 @@
 
         </form>
         <!--表单结束-->
-
       </div>
       <div id="fask">
         @include('home.public.card')
@@ -431,6 +436,9 @@
       return newArr.join('*zxz*');
     }
     //核心成员代码块结束
+    $('#uplodeImgs').click(function () {
+      $('#file_pick').trigger('click');
+    })
   </script>
   <script type="text/javascript" src="{{url('/qiniu/js/plupload/plupload.full.min.js')}}"></script>
   <script type="text/javascript" src="{{url('/qiniu/js/plupload/i18n/zh_CN.js')}}"></script>

@@ -71,9 +71,9 @@ class ProjectStore {
      * @return mixed
      * author 贾济林
      */
-    public function getPage($nowPage, $pageNum, $status)
+    public function getPage($nowPage, $pageNum, $where)
     {
-        return DB::table(self::$table)->where(['status'=>$status])->forPage($nowPage, $pageNum)->orderBy('addtime','desc')->get();
+        return DB::table(self::$table)->where($where)->forPage($nowPage, $pageNum)->orderBy('addtime','desc')->get();
     }
 
     /**
@@ -99,4 +99,8 @@ class ProjectStore {
     {
         return DB::table(self::$table)->where($where)->first();
     }
+
+    /**
+     *
+     */
 }

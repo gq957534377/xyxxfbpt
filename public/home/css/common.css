@@ -1033,3 +1033,19 @@ body .list-inline > li {
         text-align: center !important;
     }
 }
+.loads{
+    width: 100%;
+    max-width: 130px;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid #eeeeee;
+    cursor: pointer;
+    line-height: 32px;
+    color: #999999;
+}
+.loads:after{
+    content: "点击加载更多";
+}
+.loads:hover{
+    color:#FF9036;
+}

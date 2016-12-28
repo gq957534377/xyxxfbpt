@@ -504,7 +504,7 @@ class UserController extends Controller
         if($role == 1) {
             return redirect(route('user.show',$user_guid));
         }
-        $result = self::$projectServer->getData(['user_guid' => $user_guid]);
+        $result = self::$projectServer->getData(1, ['user_guid' => $user_guid]);
 
         return view('home.user.myProject', ['data' => $result['ResultData']]);
     }
