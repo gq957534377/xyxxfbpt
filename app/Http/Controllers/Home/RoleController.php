@@ -59,12 +59,12 @@ class RoleController extends Controller
     {
         // 获取数据
         $data = $request->all();
+        $data['addtime'] = $_SERVER['REQUEST_TIME'];
 
         if (isset($request->role) && $request->role ==4 ) {
             $result = self::$roleServer->applyRole($data);
             return response()->json($result);
         }
-
         // 数据验证
         switch ($request->role) {
             case '2':
@@ -74,9 +74,9 @@ class RoleController extends Controller
                 $result = self::$roleServer->investorValidator($request);
                 break;
         }
+
         if ($result['StatusCode'] == '400') return response()->json($result);
 
-        $data['addtime'] = $_SERVER['REQUEST_TIME'];
         // 提交数据到业务服务层
         $info = self::$roleServer->applyRole($data);
 

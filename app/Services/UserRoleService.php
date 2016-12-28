@@ -5,15 +5,25 @@ namespace App\Services;
 use App\Store\HomeStore;
 use App\Store\UserStore;
 use App\Store\RoleStore;
+use App\Store\ApplySybStore;
+use App\Store\ApplyInvestorStore;
+use App\Store\ApplyMemberStore;
+use App\Store\CompanyStore;
 use App\Services\UploadService as UploadServer;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
+
 
 class UserRoleService {
     protected static $homeStore = null;
     protected static $userStore = null;
     protected static $roleStore = null;
+    protected static $applySybStore = null;
+    protected static $applyInvestorStore = null;
+    protected static $applyMemberStore = null;
+    protected static $companyStore = null;
     protected static $uploadServer = null;
 
 
@@ -27,11 +37,19 @@ class UserRoleService {
         HomeStore $homeStore,
         UserStore $userStore,
         RoleStore $roleStore,
+        ApplySybStore $applySybStore,
+        ApplyInvestorStore $applyInvestorStore,
+        ApplyMemberStore $applyMemberStore,
+        CompanyStore $companyStore,
         UploadServer $uploadServer
     ){
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$roleStore = $roleStore;
+        self::$applySybStore = $applySybStore;
+        self::$applyInvestorStore = $applyInvestorStore;
+        self::$applyMemberStore = $applyMemberStore;
+        self::$companyStore = $companyStore;
         self::$uploadServer = $uploadServer;
     }
 
@@ -265,8 +283,8 @@ class UserRoleService {
             'card_pic_b' => 'required',
             'school_address' => 'required',
             'school_name' => 'required',
-            'start_school' => 'required',
-            'finish_school' => 'required',
+            'enrollment_year' => 'required',
+            'graduation_year' => 'required',
             'education' => 'required',
             'major' => 'required',
 
@@ -279,8 +297,8 @@ class UserRoleService {
             'card_pic_b.required' => '请上传您的出身份证反面照<br>',
             'school_address.required' => '请选择您所在院校的省份<br>',
             'school_name.required' => '请选择您所在院校的名字<br>',
-            'start_school.required' => '请输入您的入学时间<br>',
-            'finish_school.required' => '请输入您的毕业时间<br>',
+            'enrollment_year.required' => '请输入您的入学时间<br>',
+            'graduation_year.required' => '请输入您的毕业时间<br>',
             'education.required' => '请输入您的学历<br>',
             'major.required' => '请输入您的专业名称<br>',
 
@@ -333,86 +351,143 @@ class UserRoleService {
      * @return array
      * @author 刘峻廷
      */
-    public function applyRole($data)
-    {
-        // 校验当前用户的角色
-        $userInfo = self::$userStore->getOneData(['guid' => $data['guid']]);
+//    public function applyRole($data)
+//    {
+//        // 校验当前用户的角色
+//        $userInfo = self::$userStore->getOneData(['guid' => $data['guid']]);
+//
+//        if ($data['role'] == 4) {
+//            if ($userInfo->memeber == 2)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
+//            // 查看该用户是否已申请
+//            $info= self::$roleStore->getRole(['guid' => $data['guid'], 'role' => '4']);
+//
+//        } else {
+//            if ($userInfo->role == 2) {
+//                return ['StatusCode' => '400', 'ResultData' => '您已是创业者！'];
+//            } else if ($userInfo->role == 3) {
+//                return ['StatusCode' => '400', 'ResultData' => '您已是投资者！'];
+//            }
+//            // 查看该用户是否已申请
+//            $info= self::$roleStore->getRole(['guid' => $data['guid']]);
+//        }
+//
+//        // 查询不为空
+//        if(!empty($info)) {
+//            // 判断审批状态
+//            if ($info->status == '5') {
+//                return ['StatusCode' => '400', 'ResultData' => '您已有申请项，正在审核中，请耐心等待...'];
+//            } else if ($info->status == '6') {
+//                return ['StatusCode' => '400', 'ResultData' => '已申请成功，无需再次申请。'];
+//            }
+//        };
+//
+//        // 事务处理
+//        DB::beginTransaction();
+//        try {
+//            if ($data['role'] == 4) {
+//                $data['realname'] = $userInfo->realname;
+//            }
+//            $result = self::$roleStore->addRole($data);
+//
+//            // 返回信息处理
+//            if(!$result) {
+//                Log::error('申请角色失败', $result);
+//                return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
+//            };
+//            // 申请成功后，根据新的用户信息对data_user_info表进行一次数据覆盖更新
+//            $user = [];
+//            // 申请会员的
+//            $user['realname'] = $data['realname'];
+//
+//
+//            self::$userStore->updateUserInfo(['guid' => $data['guid']], $user);
+//
+//            DB::commit();
+//            return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
+//        } catch (Exception $e) {
+//            DB::rollback();
+//            return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
+//        }
+//    }
 
-        if ($data['role'] == 4) {
-            if ($userInfo->memeber == 2)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
-            // 查看该用户是否已申请
-            $info= self::$roleStore->getRole(['guid' => $data['guid'], 'role' => '4']);
-
-        } else {
-            if ($userInfo->role == 2) {
-                return ['StatusCode' => '400', 'ResultData' => '您已是创业者！'];
-            } else if ($userInfo->role == 3) {
-                return ['StatusCode' => '400', 'ResultData' => '您已是投资者！'];
-            }
-            // 查看该用户是否已申请
-            $info= self::$roleStore->getRole(['guid' => $data['guid']]);
-        }
-
-        // 查询不为空
-        if(!empty($info)) {
-            // 判断审批状态
-            if ($info->status == '5') {
-                return ['StatusCode' => '400', 'ResultData' => '您已有申请项，正在审核中，请耐心等待...'];
-            } else if ($info->status == '6') {
-                return ['StatusCode' => '400', 'ResultData' => '已申请成功，无需再次申请。'];
-            }
-        };
-
-        // 事务处理
-        DB::beginTransaction();
-        try {
-            if ($data['role'] == 4) {
-                $data['realname'] = $userInfo->realname;
-            }
-            $result = self::$roleStore->addRole($data);
-
-            // 返回信息处理
-            if(!$result) {
-                Log::error('申请角色失败', $result);
-                return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
-            };
-            // 申请成功后，根据新的用户信息对data_user_info表进行一次数据覆盖更新
-            $user = [];
-            // 申请会员的
-            $user['realname'] = $data['realname'];
-
-
-            self::$userStore->updateUserInfo(['guid' => $data['guid']], $user);
-
-            DB::commit();
-            return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
-        } catch (Exception $e) {
-            DB::rollback();
-            return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
-        }
-    }
-
-    public function applyRole2($data) {
+    /**
+     * 申请角色
+     * @param array $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function applyRole($data) {
         // 校验当前用户的角色
         $userInfo = self::$userStore->getOneData(['guid' => $data['guid']]);
 
         // 身份角色先过滤，不让进行二次申请
-        if ($data['role'] == 4) {
-            if ($userInfo->memeber == 2)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
-            // 查看该用户是否已申请
-            $info= self::$roleStore->getRole(['guid' => $data['guid'], 'role' => '4']);
-
-        } else {
-            if ($userInfo->role == 2) {
-                return ['StatusCode' => '400', 'ResultData' => '您已是创业者！'];
-            } else if ($userInfo->role == 3) {
-                return ['StatusCode' => '400', 'ResultData' => '您已是投资者！'];
-            } else if ($userInfo->role == 23) {
-                return ['StatusCode' => '400', 'ResultData' => '您已是创业者和投资者，无需再次申请！'];
-            }
-            // 查看该用户是否已申请
-            $info= self::$roleStore->getRole(['guid' => $data['guid']]);
+        switch ($data['role']) {
+            case '2':
+                if ($userInfo->role == '2') return  ['StatusCode' => '400', 'ResultData' => '您已是创业者，无需申请！'];
+                $info = self::$applySybStore->getOneData(['guid' => $data['guid']]);
+                break;
+            case '3':
+                if ($userInfo->role == '3') return  ['StatusCode' => '400', 'ResultData' => '您已是投资者，无需申请！'];
+                $info = self::$applyInvestorStore->getOneData(['guid' => $data['guid']]);
+                break;
+            case '4':
+                if ($userInfo->role == '4') return  ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员，无需申请！'];
+                $info = self::$applyMemberStore->getOneData(['guid' => $data['guid']]);
+                break;
         }
+
+        // 返回查询记录存在，并且状态不是7的都不允许再次申请
+        if (!empty($info)) {
+            if ($info->status != '7') return ['StatusCode' => '400', 'ResultData' => '已申请，正在审核中'];
+        }
+
+        // 通过后，申请角色
+        switch ($data['role']) {
+            case '2':
+                $result = self::$applySybStore->addOneData($data);
+                break;
+            case '3':
+                $result = self::$applyInvestorStore->addOneData($data);
+                break;
+            case '4':
+                $result = self::$applyMemberStore->addOneData($data);
+                break;
+        }
+
+        if (!$result) {
+            \Log::error('添加角色申请记录失败', $data);
+            return ['StatusCode' => '400', 'ResutlData' => '添加角色申请记录失败，请重新申请'];
+        }
+
+        //申请成功，session存入
+        $roleInfo = [ $data['role'] => $data];
+        Session::put('roleInfo', $roleInfo);
+
+        return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
+    }
+
+    /**
+     * 获取角色信息，存入session
+     * @param $guid
+     * @author 刘峻廷
+     */
+    public function getRoleInfo($guid)
+    {
+        $syb = self::$applySybStore->getOneData(['guid' => $guid]);
+
+        // 如果是创业者了，获取下公司信息
+        if ($syb && $syb->status == '6') {
+            $company = self::$companyStore->getOneData(['guid' => $guid]);
+            $syb->company = $company;
+        }
+
+        $investor = self::$applyInvestorStore->getOneData(['guid' => $guid]);
+
+        // 往session里存入
+        $roleInfo[2] = $syb;
+        $roleInfo[3] = $investor;
+
+        Session::put('roleInfo', $roleInfo);
 
     }
 }
