@@ -34,7 +34,7 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -65,7 +65,7 @@ class FeedbackController extends Controller
             $page = 1;
         }
 
-        return self::$feedbackService->getFeedbackList($page, $forPages, $url);
+        //return self::$feedbackService->getFeedbackList($where, $nowPage, $forPages, $url, $disPlay = true);
     }
 
     /**
