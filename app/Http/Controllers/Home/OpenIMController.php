@@ -40,6 +40,8 @@ class OpenIMController extends Controller
      */
     public function index()
     {
+        $resultCookie = \App\Tools\Common::checkCookie('feedback', '联系客服');
+        if ($resultCookie != 'ok') return $resultCookie;
         // 判断用户是否登录，如果未登录则临时生成一个随机数，账号密码写入OpenIM服务器以便用户登录使用
         if (!empty(session('user')->guid)) {
             $uid = session('user')->guid;
@@ -75,6 +77,8 @@ class OpenIMController extends Controller
      */
     public function store(Request $request)
     {
+        $resultCookie = \App\Tools\Common::checkCookie('feedback', '意见反馈');
+        if ($resultCookie != 'ok') return $resultCookie;
         $ip = $request->getClientIp();
 //        if (self::$safetyService->checkIpInSet(SET_FEEDBACK_IP, $ip)) {
 //            return ['StatusCode' => '400','ResultData' => '谢谢支持，您已经提过意见了，请明天再来'];

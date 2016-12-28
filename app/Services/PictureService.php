@@ -38,7 +38,7 @@ class PictureService
             // 判断图片信息是否保存成功
             if (self::$picturestore->savePicture([
                 'url' => $res['msg'],
-                'status' => 2,
+                'type' => 2,
                 'addtime' => time()])
             ) {
                 return ['StatusCode' => '200', 'ResultData' => '图片保存成功'];
@@ -61,7 +61,7 @@ class PictureService
             // 判断图片信息是否保存成功
             if (self::$picturestore->savePicture([
                 'url' => $res['msg'],
-                'status' => 3,
+                'type' => 3,
                 'pointurl' => $data['url'],
                 'name' => $data['name'],
                 'addtime' => time(),
@@ -86,7 +86,7 @@ class PictureService
             // 判断图片信息是否保存成功
             if (self::$picturestore->savePicture([
                 'url' => $res['msg'],
-                'status' => 5,
+                'type' => 5,
                 'pointurl' => $data['url'],
                 'name' => $data['name'],
                 'addtime' => time(),
@@ -103,7 +103,7 @@ class PictureService
      */
     public function getPicture ($val)
     {
-        $res = self::$picturestore->getPicture(['status' => $val]);
+        $res = self::$picturestore->getPicture(['type' => $val]);
         // 判断有没有请求道数据
         if (empty($res)) {
             return ['StatusCode' => '201', 'ResultData' => '没有数据'];
