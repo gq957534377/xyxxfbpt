@@ -667,7 +667,7 @@
             </ul>
             <div id="yxzx" class="row">
                 <ul class='col-sm-5 section6_right'>
-                    @for($i = 0; $i < floor(count($articles)/2); $i++)
+                    @for($i = 0; $i < round(count($articles)/2); $i++)
                         <li>
                             <h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
                             <p>发布时间 {{ $articles[$i]->addtime }}</p>
@@ -675,7 +675,7 @@
                     @endfor
                 </ul>
                 <ul class='col-sm-5 section6_right'>
-                    @for($i = floor(count($articles)/2); $i < count($articles); $i++)
+                    @for($i = round(count($articles)/2); $i < count($articles); $i++)
                         <li>
                             <h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
                             <p>发布时间 {{ $articles[$i]->addtime }}</p>

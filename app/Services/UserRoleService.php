@@ -397,7 +397,6 @@ class UserRoleService {
         $userInfo = self::$userStore->getOneData(['guid' => $data['guid']]);
 
         // 身份角色先过滤，不让进行二次申请
-
         if ($data['role'] == 4) {
             if ($userInfo->memeber == 2)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
             // 查看该用户是否已申请
@@ -408,6 +407,8 @@ class UserRoleService {
                 return ['StatusCode' => '400', 'ResultData' => '您已是创业者！'];
             } else if ($userInfo->role == 3) {
                 return ['StatusCode' => '400', 'ResultData' => '您已是投资者！'];
+            } else if ($userInfo->role == 23) {
+                return ['StatusCode' => '400', 'ResultData' => '您已是创业者和投资者，无需再次申请！'];
             }
             // 查看该用户是否已申请
             $info= self::$roleStore->getRole(['guid' => $data['guid']]);
