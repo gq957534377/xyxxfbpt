@@ -157,9 +157,10 @@ class ArticleStore
     /**
      * 获取所有文章列表
      * @return mixed
+     * @author lw beta
      */
     public function getAllArticle()
     {
-        return DB::table(self::$table)->get();
+        return DB::table(self::$table)->orderBy('addtime','desc')->get();
     }
 }

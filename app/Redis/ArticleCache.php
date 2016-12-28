@@ -1,4 +1,8 @@
 <?php
+/**
+ * article redis 缓存仓库
+ * @author lw  beta
+ */
 namespace App\Redis;
 
 
@@ -8,53 +12,149 @@ use Illuminate\Support\Facades\Redis;
 class ArticleCache
 {
 
-    private static $lkey = LIST_PROJECT_INFO;      //项目列表key
-    private static $hkey = HASH_PROJECT_INFO_;     //项目hash表key
+    private static $lkey = LIST_ARTICLE_INFO;      //项目列表key
+    private static $hkey = HASH_ARTICLE_INFO_;     //项目hash表key
 
     /**
-     * 判断listkey是否存在
-     * @return mixed
+     * 判断listkey和hashkey是否存在
+     * @param $type string list为查询listkey,否则查询hashkey
+     * @param $index string   唯一识别码 guid
+     * @return bool
      */
-    public function exists()
+    public function exists($type = 'list', $index = '')
     {
-        return Redis::exists(self::$lkey);
-    }
-
-    /**
-     * 列表信息写入缓存
-     * @param $data
-     */
-    public function setArticleList($data)
-    {
-        foreach ($data as $v){
-            Redis::rpush(self::$lkey,$v['guid']);
-            Redis::hMset(self::$hkey.$v['guid'],$v);
+        if($type == 'list'){
+            return Redis::exists(self::$lkey);  //查询listkey是否存在
+        }else{
+            return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
         }
 
     }
 
     /**
+     * 将mysql获取的列表信息写入redis缓存
+     * @param $data  array   mysql 获取的信息
+     */
+    public function setArticleList($data)
+    {
+        //获取原始信息长度
+        $count = count($data);
+
+        //执行写操作
+        $this->insertCache($data);
+
+        //获取存入的list缓存长度
+        $length = $this->getLength();
+
+        if($length < $count){
+
+        }
+
+    }
+
+    /**
+     * 写入redis
+     * @param $data
+     * @return bool
+     */
+    protected function insertCache($data)
+    {
+        if (empty($data)) return false;
+        foreach ($data as $v){
+            //执行写list操作
+            Redis::rpush(self::$lkey, $v['guid']);
+
+            //如果hash存在则不执行写操作
+            if(!$this->exists($type = '', $v['guid'])){
+
+                $index = self::$hkey.$v['guid'];
+                //写入hash
+                Redis::hMset($index, $v);
+                //设置生命周期
+                $this->setTime($index);
+            }
+
+        }
+    }
+
+    /**
+     * 写入一条hash 文章详情
+     * @param $data
+     * @return bool
+     */
+    public function setOneArticle($data)
+    {
+        if(empty($data)) return false;
+        return Redis::hMset(self::$hkey.$data['guid'], $data);
+    }
+
+    /**
+     * 获取一条文章详情
+     * @param $guid
+     * @return array
+     */
+    public function getOneArticle($guid)
+    {
+        if(!$guid) return false;
+
+        $index = self::$hkey.$guid;
+        //获取一条详情
+        $data = Redis::hGetall($index);
+        //重设生命周期 1800秒
+        $this->setTime($index);
+        return $data;
+    }
+
+    /**
      * 获取redis缓存里的文章列表数据
+     * @param $nums int  一次获取的条数
+     * @param  $pages int  当前页数
      * @return array
      */
     public function getArticleList($nums,$pages)
     {
         //起始偏移量
-        $offset = $nums * $pages;
+        $offset = $nums * ($pages-1);
 
         //获取条数
-        $totals = $offset+$nums - 1;
+        $totals = $offset + $nums - 1;
 
         //获取缓存的列表索引
         $list = Redis::lrange(self::$lkey, $offset,$totals);
 
         $data = [];
 
+        //根据获取的list元素 取hash里的集合
         foreach ($list as $v) {
             $data[] = Redis::hGetall(self::$hkey.$v);
         }
 
+        if(!$data){
+            return false;
+        }
         return $data;
+    }
+
+    /**
+     * 获取 现有list 的长度
+     * @return bool
+     */
+    protected function getLength()
+    {
+        if($this->exists('list')){
+            return Redis::llen(self::$lkey);
+        }
+        return false;
+    }
+
+    /**
+     * 设置hash缓存的生命周期
+     * @param $key  string  需要设置的key
+     * @param int $time  设置的时间 默认半个小时
+     */
+    public function setTime($key, $time = 1800)
+    {
+        Redis::expire($key, $time);
     }
 
     /**

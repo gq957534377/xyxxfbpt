@@ -30,11 +30,11 @@ class TestController extends Controller
         //dd(HASH_PROJECT_INFO_);
         $nums = 5;  //一次获取数据的条数
 
-        $pages= $request->page ? $request->page : 0; //获取当前的偏移量
+        $pages= $request->page ? $request->page : 1; //获取当前的偏移量
 
         $list = self::$article->getArticleList($nums,$pages);
-        //dd($res);
-        return view('home.article', ['data'=>$list]);
+        //dd($list);
+        return view('article', ['data'=>$list]);
     }
 
     /**
@@ -44,10 +44,8 @@ class TestController extends Controller
      */
     public function create(Request $request)
     {
-        //
-        //dd($request->input('id'));
 
-       return view('welcome');
+
     }
 
     /**
@@ -68,13 +66,13 @@ class TestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
         //
-        $article = new ArticleCache();
-        $data = $article->getArticleList();
+        $data = self::$article->getOneArticle($request->guid);
+        //dd($data);
+        return view('articledetail',['ResultData'=>$data]);
 
-        dd($data);
 
     }
 
