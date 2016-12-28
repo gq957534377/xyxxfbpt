@@ -18,16 +18,35 @@
                     <div class="form-group mar-b30">
                         <label for="real-name" class="col-md-2 control-label"><span class="form-star">*</span>真实姓名</label>
                         <div class="col-md-5">
-                            <input autofocus name="investor_realname" type="text" class="form-control form-title" value="{{ $roleInfo->realname or ''}}" disabled>
+                            <input autofocus  type="text" class="form-control form-title" value="{{ $roleInfo->realname }}" disabled>
                         </div>
                     </div>
                     <div class="form-group mar-b30">
-                        <label for="investors" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>投资主体</label>
+                        <label for="investors" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>从业年份</label>
                         <div class="col-md-5">
-                            <select name="investor_subject" class="form-control chr-c bg-1">
-                                <option value="个人" selected ="{{  $roleInfo->subject == '个人' ? 'selected' : ''  }}">个人</option>
-                                <option value="公司" selected ="{{  $roleInfo->subject == '公司' ? 'selected' : ''  }}">公司</option>
-                            </select>
+                            <input autofocus type="text" class="form-control form-title" maxlength="2" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="{{ $roleInfo->work_year }} 年" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-group mar-b30">
+                        <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>投资规模</label>
+                        <div class="col-md-5">
+                            <input autofocus name="investor_scale" type="text" class="form-control form-title" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="{{ $roleInfo->scale }} 万" placeholder="投资规模，请填写数字,单位（万">
+                        </div>
+                    </div>
+
+                    <div class="form-group mar-b30">
+                        <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>所在公司</label>
+                        <div class="col-md-5">
+                            <input autofocus type="text" class="form-control form-title" value="{{ $roleInfo->company }}" disabled >
+                        </div>
+                    </div>
+
+
+                    <div class="form-group mar-b30">
+                        <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>所在地</label>
+                        <div class="col-md-5">
+                            <input autofocus type="text" class="form-control form-title" value="{{ $roleInfo->company_address }}" disabled >
                         </div>
                     </div>
 
@@ -36,29 +55,17 @@
                         <div class="col-md-5">
                             <select name="investor_field" class="form-control chr-c bg-1" id="invest-area">
                                 <option value="">请选择领域</option>
-                                <option value="1" selected ="{{  $roleInfo->field == '1' ? 'selected' : ''  }}">互联网</option>
-                                <option value="2" selected ="{{  $roleInfo->field == '2' ? 'selected' : ''  }}">餐饮业</option>
-                                <option value="3" selected ="{{  $roleInfo->field == '3' ? 'selected' : ''  }}">旅游业</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group mar-b30">
-                        <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>投资阶段</label>
-                        <div class="col-md-5">
-                            <select class="form-control chr-c bg-1" name="investor_stage">
-                                <option value="">请选择阶段</option>
-                                <option value="1" selected ="{{  $roleInfo->stage == '1' ? 'selected' : ''  }}">投资初期</option>
-                                <option value="2" selected ="{{  $roleInfo->stage == '2' ? 'selected' : ''  }}">投资中期</option>
-                                <option value="3" selected ="{{  $roleInfo->stage == '3' ? 'selected' : ''  }}">投资后期</option>
+                                <option value="互联网">互联网</option>
+                                <option value="餐饮业">餐饮业</option>
+                                <option value="旅游业">旅游业</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group mar-b30">
                         <label for="inputfile" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>上传名片</label>
-                        <input type="hidden" name="investor_card_pic">
                         <div class="col-md-5 upload_box">
-                            <img  id="investor_card_a" src="{{ $roleInfo->card_pic_a or asset('home/img/upload_normal.jpg') }}" disabled>
+                            <img src="{{ $roleInfo->card_pic_a or asset('home/img/upload_normal.jpg') }}" >
                         </div>
                     </div>
 

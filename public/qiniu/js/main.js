@@ -7,9 +7,9 @@
 $(function() {
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
-        browse_button: 'img_pick',//被点击的东西的id
-        container: 'img_container',//按钮外部的div的id
-        drop_element: 'img_container',
+        browse_button: 'file_pick',//被点击的东西的id
+        container: 'file_container',//按钮外部的div的id
+        drop_element: 'file_container',
         max_file_size: '1000mb',
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
         dragdrop: true,
@@ -23,7 +23,7 @@ $(function() {
             prevent_duplicates: true,
             // Specify what files to browse for
             mime_types: [
-                {title : "Image files", extensions : "jpg,gif,png"}, // 限定jpg,gif,png后缀上传
+                {title : "Image files", extensions : "pptx,docx,pdf,doc,ppt"}, // 限定jpg,gif,png后缀上传
             ]
         },
         // downtoken_url: '/downtoken',
@@ -41,8 +41,7 @@ $(function() {
         log_level: 5,
         init: {
             'FilesAdded': function(up, files) {
-                $('table').show();
-                $('#success').hide();
+                $('#juhua').show();
                 plupload.each(files, function(file) {
                     var progress = new FileProgress(file, 'fsUploadProgress');
                     progress.setStatus("等待中...");
@@ -59,7 +58,6 @@ $(function() {
 
             // 上传过程这个函数会不断的执行,直到上传完成
             'UploadProgress': function(up, file) {
-                $('._block').hide();
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 var chunk_size = plupload.parseSize(this.getOption('chunk_size'));
                 progress.setProgress(file.percent + "%", file.speed, chunk_size);
@@ -73,11 +71,13 @@ $(function() {
                 var progress = new FileProgress(file, 'fsUploadProgress');
                 progress.setComplete(up, info);
 
-                //上传完成时将url放入隐藏的input[name=image]
+                //上传完成时将url放入隐藏的input[name=file]
                 var res = $.parseJSON(info);
                 var domain = up.getOption('domain');
                 url = domain + encodeURI(res.key);
-                $('input[name=image]').val(url);
+                $('input[name=files]').val(url);
+                $('#juhua').hide();
+                $('.shuoming').html('文件已上传！');
             },
             'Error': function(up, err, errTip) {
                 $('table').show();

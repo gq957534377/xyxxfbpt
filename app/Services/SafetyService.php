@@ -6,16 +6,77 @@
  * Time: 21:48
  */
 
-namespace App\Tools;
+namespace App\Services;
 
 use App\Redis\BaseRedis;
-use Faker\Provider\Base;
 use Illuminate\Support\Facades\Log;
 use Storage;
 
-class Safety
+class SafetyService
 {
 
+    /**
+     * 把IP写入指定的set中
+     * @param $ip
+     * @return bool false代表写入失败，黑名单中已存在，true代表成功
+     * @author 王通
+     */
+    public function saveIpInSet($setKey, $ip)
+    {
+        return BaseRedis::addSet($setKey, $ip);
+    }
+    /**
+     * 检查IP有没有存在于set中
+     * @param $ip 要判断的ip
+     * @return bool    true 代表已经被加入黑名单，false，没有被加入黑名单
+     * @author 王通
+     */
+    public function checkIpInSet($setKey, $ip)
+    {
+        $date = $setKey . date('Y-m-D',time());
+        if (BaseRedis::checkSet($date, $ip)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 得到string的值
+     * @param $key
+     * @return bool|string
+     * @author 王通
+     */
+    public function getString($key)
+    {
+        if (empty($key)) return false;
+        return BaseRedis::getRedis($key);
+    }
+
+    /**
+     * 得到list记录条数
+     * @param $key
+     * @return bool|int
+     * @author 王通
+     */
+    public function getLLen ($key)
+    {
+        if (empty($key)) return false;
+        return BaseRedis::getLLen($key);
+    }
+
+    /**
+     * 指定键自增一
+     * @param $key
+     * @return bool
+     */
+    public function getCount($key)
+    {
+        if (empty($key)) return false;
+        $k = BaseRedis::incrRedis($key);
+        return $k;
+
+    }
     /**
      * 请求数量，以及通过sessionID验证
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -50,21 +111,7 @@ class Safety
         }
     }
 
-    /**
-     * 检查IP有没有被加入黑名单
-     * @param $ip 要判断的ip
-     * @return bool    true 代表已经被加入黑名单，false，没有被加入黑名单
-     * @author 王通
-     */
-    public static function checkIpBlackList($ip)
-    {
-        $date = config('safety.BLACKLIST') . date('Y-m-D',time());
-        if (BaseRedis::checkSet($date, $ip)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 
     /**
      * 把IP加入黑名单
@@ -135,7 +182,7 @@ class Safety
         // 限制三次验证码时间
         $requestTime = config('safety.SMS_REQUEST_TIME');
         // 限制验证码输出次数
-        $smsLimitNum =config('safety.SMS_LIMIT_NUM');
+        $smsLimitNum = config('safety.SMS_LIMIT_NUM');
 
         // 判断固定IP指定时间段内，请求次数有没有达到限制
         // 如果没有开始累计，则把验证码存到Redis里
@@ -189,4 +236,5 @@ class Safety
             return false;
         }
     }
+
 }

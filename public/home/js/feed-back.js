@@ -373,7 +373,7 @@ $(".go-top").click(function(event){
                         switch (data.StatusCode){
                             case '400':
                                 // promptBoxHandle('警告',data.ResultData);
-                                alert('警告,'+data.ResultData);
+                                $("#htmlfeedback-info").html(data.ResultData);
                                 break;
                             case '200':
                                 $("#htmlfeedback-submit").prop('disabled',true);
@@ -412,6 +412,9 @@ $(".go-top").click(function(event){
             errorPlacement: function(error, element) {
                 // Append error within linked label
                 $('#error-info').html(error[0].textContent).fadeIn(1000);
+            },
+            success: function() {
+                $('#error-info').hide();
             }
         });
     };

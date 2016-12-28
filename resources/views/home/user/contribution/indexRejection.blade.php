@@ -51,9 +51,10 @@
                         <div class="clearfix"></div>
                     </div>
                 @endforeach
+                    {!! $ResultData['pages'] !!}
             @endif
         @endif
-        {!! $ResultData['pages'] !!}
+
 
       </div>
       <!--我的投稿 已发表结束-->

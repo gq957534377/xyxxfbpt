@@ -120,7 +120,7 @@
               </ul>
 
             </div>
-          </div>
+            </div>
         </section>
 
     @endif

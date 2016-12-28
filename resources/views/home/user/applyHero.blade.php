@@ -105,6 +105,7 @@
                 error: function(XMLHttpRequest){
                     var number = XMLHttpRequest.status;
                     var msg = "Error: "+number+",数据异常！";
+                    $('.loading').hide();
                     alert(msg);
                 }
 

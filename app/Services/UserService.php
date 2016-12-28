@@ -8,9 +8,9 @@ use App\Store\UserStore;
 use App\Store\RoleStore;
 use App\Store\CompanyStore as CompanyStore;
 use App\Services\UploadService as UploadServer;
+use App\Services\UserRoleService as UserRoleServer;
 use App\Tools\Common;
 use App\Tools\CustomPage;
-use App\Tools\Safety;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -23,6 +23,7 @@ class UserService {
     protected static $roleStore = null;
     protected static $companyStore = null;
     protected static $uploadServer = null;
+    protected static $userRoleServer = null;
 
     /**
      * UserService constructor.
@@ -35,13 +36,15 @@ class UserService {
         UserStore $userStore,
         RoleStore $roleStore,
         CompanyStore $companyStore,
-        UploadServer $uploadServer
+        UploadServer $uploadServer,
+        UserRoleServer $userRoleServer
     ){
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$roleStore = $roleStore;
         self::$companyStore = $companyStore;
         self::$uploadServer = $uploadServer;
+        self::$userRoleServer = $userRoleServer;
     }
 
     /**
@@ -88,7 +91,60 @@ class UserService {
         //返回数据
         return  ['StatusCode' => '200', 'ResultData' => $result];
     }
+    /**
+     * 根据当前用户的角色，查询不同的申请记录信息
+     * @param array $where  2 param guid role
+     * @author 刘峻廷
+     */
+    public function getRoleInfo($guid, $role)
+    {
+        if ($role == '23') {
+            $syb = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '2']);
 
+            if (!$syb) {
+                Log::error('角色23用户,创业者信息记录丢失', ['guid' => $guid]);
+                $syb = [];
+            }
+
+            $investor = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '3']);
+
+            if (!$investor) {
+                Log::error('角色23用户,投资者信息记录丢失', ['guid' => $guid]);
+                $investor = [];
+            }
+
+            return $roleInfo = [
+                    'syb'      => $syb,
+                    'investor' => $investor
+                ];
+        }
+        // 根据当前用户的角色，查询不同的申请记录信息
+        switch ($role) {
+            case '1' :
+                $result = self::$roleStore->getOneRoleDate(['guid' => $guid]);
+                break;
+            case '2' :
+                $result = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '3']);
+                break;
+            case '3' :
+                $result = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '2']);
+                break;
+        }
+
+        // 没有申请记录返回 false
+        if (!$result) return false;
+
+        switch ($result->role) {
+            case '2' :
+                $roleInfo = ['syb' => $result];
+                break;
+            case '3' :
+                $roleInfo = ['syb' => $result];
+                break;
+        }
+
+        return $roleInfo;
+    }
     /**
      * 注册用户
      * @param $data
@@ -261,6 +317,8 @@ class UserService {
                 return ['StatusCode' => '400','ResultData' => '账号异常，请联系管理员！'];
             }
         }
+        // 获取用户相关角色信息
+        self::$userRoleServer->getRoleInfo($userInfo->guid);
 
         //获取角色状态
         $temp->role = $userInfo->role;
@@ -272,6 +330,7 @@ class UserService {
         $temp->memeber = $userInfo->memeber;
 
         Session::put('user', $temp);
+
         return ['StatusCode' => '200','ResultData' => '登录成功！'];
     }
 
@@ -290,7 +349,7 @@ class UserService {
         $name = '英雄,';
         $number = mt_rand(100000, 999999);
         $content = ['name' => $name,'number' => $number];
-        $result = Safety::checkIpSMSCode(\Request::getClientIp(), $number);
+        $result = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
         if ($result) {
             return ['StatusCode' => '400','ResultData' => '获取验证码次数过多，请稍后再试'];
         }

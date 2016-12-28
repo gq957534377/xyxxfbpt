@@ -6,7 +6,7 @@ function uploadCommon()
 }
 
 uploadCommon.prototype.upload = function (param) {
-
+    var originalImg = param.imgObj.attr('src');
     param.inputObj.on('change', function(){
         var obj = this;
         var formData = new FormData();
@@ -26,7 +26,7 @@ uploadCommon.prototype.upload = function (param) {
             processData : false,
             contentType : false,
             beforeSend  : function(){
-                param.imgObj.css({ "width": "80px"});
+                // param.imgObj.css({ "width": "80px"});
                 param.imgObj.attr('src', param.loadingPic);
             },
             success     : function(msg){
@@ -34,7 +34,8 @@ uploadCommon.prototype.upload = function (param) {
                     param.imgObj.attr('src', msg.ResultData).css({ "width": "100%"});
                     param.hideinput.val(msg.ResultData);
                 }else{
-                    param.imgObj.attr('src', param.originalPic);
+                    param.imgObj.css({ "width": "100%"});
+                    param.imgObj.attr('src', originalImg);
                     alert(msg.ResultData);
                 }
             },
@@ -42,7 +43,7 @@ uploadCommon.prototype.upload = function (param) {
                 var number = XMLHttpRequest.status;
                 var info = "错误号:"+number+",文件上传失败!";
                 // 将菊花图换成原图
-                param.imgObj.attr('src', param.originalPic);
+                param.imgObj.attr('src', originalImg);
 
                 alert(info);
             },

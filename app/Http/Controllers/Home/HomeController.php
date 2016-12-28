@@ -69,8 +69,9 @@ class HomeController extends Controller
         $carouselResult = self::$pictureService->getPicture(3);
         // 投资机构
         $investResult = self::$pictureService->getPicture(5);
-
-        return view('home.index.index', [
+        // 设置cookie
+        $cookie = \App\Tools\Common::generateCookie('feedback');
+        return response()->view('home.index.index', [
             'projects'      => $projectResult['ResultData'],
             'roadShows'     => $roadShowResult['ResultData'],
             'sybs'          => $sybResult['ResultData'],
@@ -79,7 +80,7 @@ class HomeController extends Controller
             'carousel'      => $carouselResult['ResultData'],
             'invest'        => $investResult['ResultData'],
             'articles'      => $articles['ResultData'],
-        ]);
+        ])->withCookie($cookie);
     }
 
     /**

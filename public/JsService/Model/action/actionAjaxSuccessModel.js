@@ -110,32 +110,5 @@ function showInfoList(data){
     }
 }
 
-//展示活动报名情况表
-function actionOrder(data) {
-    $('.loading').hide();
-    if (data) {
-        if (data.StatusCode === '200') {
-            $('#list_baoming').html('');
-            data = data.ResultData;
-            data.map(function (item) {
-                var html = '<tr><td>'+item.user_id+'</td><td>'+item.time+'</td><td>';
-                if (item.status === 1) {
-                    html += '<a href="javascript:;" data-name="' + item.id + '" data-status="3" class="action_status"><button class="btn-danger">禁用</button></a>';
-                } else if (item.status === 3) {
-                    html += '<a href="javascript:;" data-name="' + item.id + '" data-status="1" class="action_status"><button class="btn-primary">启用</button></a>';
-                }
-                html+= '</td></tr>';
-                $('#list_baoming').append(html);
-            });
-            actionStatus();
-        } else {
-            $('#baoming').modal('hide');
-            $('#myModal').modal('show');
-            $('#alert-info').html('<p>' + data.ResultData + '  错误代码：'+data.StatusCode + '</p>');
-        }
-    } else {
-        $('#myModal').modal('show');
-        $('#alert-info').html('<p>未知的错误</p>');
-    }
-}
+
 

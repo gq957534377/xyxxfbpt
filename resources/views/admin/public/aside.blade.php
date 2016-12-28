@@ -36,16 +36,16 @@
             {{--项目发布--}}
             <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">项目发布管理</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
-                    <li><a href="{{url('project/unchecked')}}">待审核项目管理</a></li>
-                    <li><a href="{{url('project/pass')}}">已通过项目管理</a></li>
-                    <li><a href="{{url('project/nopass')}}">未通过项目管理</a></li>
+                    <li><a href="{{url('project/unchecked')}}">待审核项目</a></li>
+                    <li><a href="{{url('project/pass')}}">已上线项目</a></li>
+                    <li><a href="{{url('project/nopass')}}">回收站</a></li>
                 </ul>
             </li>
             {{--网站管理--}}
             <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">网站管理</span><span class="menu-arrow"></span></a>
                 <ul class="list-unstyled">
                     <li><a href="{{ url('/web_admins?type=1') }}">网站内容管理</a></li>
-                    <li><a href="{{url('/seedback')}}">建议管理</a></li>
+                    <li><a href="{{url('/feedback')}}">建议管理</a></li>
                 </ul>
             </li>
             {{--<li class="has-submenu">--}}

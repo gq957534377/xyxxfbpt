@@ -170,7 +170,7 @@
         </div>
     </div>
     <div class="modal-footer" id="caozuo">
-        <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-white" onClick='avascript :history.back(-1);'>取消</button>
         <button type="submit" class="road_update btn btn-primary" id="add_road">修改</button>
     </div>
 </form>
@@ -197,6 +197,7 @@
         {{--全局变量的设置--}}
         //富文本配置
         var toolbra = {
+            zIndex : 1,
             toolbars: [
                 [
                     'bold', //加粗
@@ -219,7 +220,6 @@
                     'fontfamily', //字体
                     'fontsize', //字号
                     'paragraph', //段落格式
-                    'simpleupload', //单图上传
                     'insertimage', //多图上传
                     'edittable', //表格属性
                     'edittd', //单元格属性
@@ -340,7 +340,6 @@
             }
         };
 
-
         //分类查看数据
         $('#action').change(function () {
             if ($(this).val() === '3'){
@@ -401,10 +400,12 @@
                         data.append("address", resul.address);
                         data.append("limit", resul.limit);
                         if (!resul.banner) {
-                            alert("缩略图不能为空");
+                            swal('请填写完毕', '缩略图不能为空', "error");
+//                            alert("缩略图不能为空");
                         }else{
                             if (!resul.describe) {
-                                alert("详情描述不能为空")
+                                swal('请填写完毕', '详情描述不能为空', "error");
+//                                alert("详情描述不能为空")
                             }else{
                                 $.ajax({
                                     url: url,
@@ -417,22 +418,26 @@
                             }
                         }
                         function check(data) {
+                            console.log(data);
                             $('.loading').hide();
-
-                            $('#alert-form').html('');
-                            $('.modal-title').html('提示');
                             if (data) {
                                 if (data.StatusCode === '200') {
-                                    alert('修改成功！');
-//                                    $('#alert-info').html('<p>活动发布成功!</p>');
-                                    window.history.back(-1);
+                                    swal({
+                                                title: data.ResultData, // 标题，自定
+                                                text: '请到对应活动类型管理列表查看',   // 内容，自定
+                                                type: "success",    // 类型，分别为error、warning、success，以及info
+                                                showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                                                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                                            },
+                                            function (isConfirm) {
+                                                swal(data.ResultData, '请到对应活动类型管理列表查看', "success");
+                                                window.history.back(-1);
+                                            });
                                 } else {
-                                    $('#myModal').modal('show');
-                                    $('#alert-info').html('<p>' + data.ResultData + '  错误代码：' + data.StatusCode + '</p>');
+                                    swal(data.ResultData, '错误代码：' + data.StatusCode, "error");
                                 }
                             } else {
-                                $('#myModal').modal('show');
-                                $('#alert-info').html('<p>未知的错误</p>');
+                                swal('出错了', '错误代码：未知', "error");
                             }
                         }
 

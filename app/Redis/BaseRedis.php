@@ -53,13 +53,46 @@ class BaseRedis
     public static function getRedis ($key)
     {
         if (!empty($key)) {
-            return Redis::get($key);
+            return \Redis::get($key);
         } else {
             return false;
         }
 
     }
 
+    /**
+     * 得到列表的长度
+     * @param $key
+     * @return bool|int
+     * @author 王通
+     */
+    public static function getLLen($key)
+    {
+        if (!empty($key)) {
+            return \Redis::lLen($key);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 通过索引获取指定列表键值
+     * @param $key
+     * @param $index
+     * @return bool|String
+     * @author 王通
+     */
+    public static function getListInIndex($key, $index)
+    {
+        //if (empty($key) || empty($index)) return false;
+        return \Redis::lIndex($key, $index);
+    }
+
+    public static function getHMGet($key, $val)
+    {
+        //if (empty($key) || empty($val)) return false;
+        return \Redis::hMGet($key, $val);
+    }
 
     /**
      * 制定键累加，并且返回当前累加的值
@@ -80,7 +113,7 @@ class BaseRedis
      */
     public static function existsRedis ($key)
     {
-        return Redis::Exists($key);
+        return \Redis::Exists($key);
     }
 
     /**

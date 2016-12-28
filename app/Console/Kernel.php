@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\Inspire::class,
         '\App\Console\Commands\Chage_Action_Status',
+        '\App\Console\Commands\Save_Feedback',
     ];
 
     /**
@@ -28,5 +29,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('inspire')
                  ->hourly();
         $schedule->command('chageAction:status')->dailyAt('01:00');
+
+        $schedule->command('save:feedback')->dailyAt('23:00');;
     }
 }

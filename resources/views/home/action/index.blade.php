@@ -45,7 +45,7 @@
                                 <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="row">
                                         <div class="rodeing-img col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <img src="{{ $action->banner }}"  onerror="this.src='{{asset('home/img/zxz.png')}}'">
+                                            <a href="{{ route('action.show', $action->guid) }}"><img src="{{ $action->banner }}"  onerror="this.src='{{asset('home/img/zxz.png')}}'"></a>
                                         </div>
                                         <div class="rodeing-font col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                             <h2>
@@ -75,7 +75,7 @@
                             @endforeach
                         </ul>
                         @if($ResultData['totalPage'] > $nowPage)
-                        <a data-name="{{($nowPage+1)}}" data-type="{{$type}}" id="more_list">点击加载更多</a>
+                        <a data-type="{{$type}}" id="more_list">点击加载更多</a>
                         @endif
                             <!--路演列表块结束-->
                         @else
@@ -113,8 +113,6 @@
         var nowPage = 2;
         var type = $('#more_list').data('type');
         $('#more_list').click(function () {
-//            nowPage = $(this).data('name');
-//            type = $(this).data('type');
             var url="action/create";
             $.ajax({
                 url:url,
@@ -127,7 +125,8 @@
                         $('.rodeing-list').append('<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+
                                 '<div class="row">'+
                                 '<div class="rodeing-img col-lg-4 col-md-4 col-sm-4 col-xs-12">'+
-                                '<img src="'+action.banner+'"  onerror="this.src=\'home/img/zxz.png\'">'+
+                                '<a href="/action/'+action.guid+'">'+
+                                '<img src="'+action.banner+'"  onerror="this.src=\'home/img/zxz.png\'"></a>'+
                                 '</div>'+
                                 '<div class="rodeing-font col-lg-8 col-md-8 col-sm-8 col-xs-12">'+
                                 '<h2>'+
@@ -149,7 +148,6 @@
                     }else {
                         $('#more_list').remove();
                     }
-//                    $('#more_list').attr('data-name',(nowPage));
                     console.log(data);
                     console.log(nowPage+'---'+data.ResultData['totalPage']);
                 }

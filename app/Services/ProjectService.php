@@ -29,37 +29,16 @@ class ProjectService {
     }
 
     /**
-     * 提交项目
-     * @param $request
-     * @return array
-     * @author 贾济林
-     */
-    public function addProject($request)
-    {
-        //拼装需要插入project_info的数据
-        $data = $request->all();
-        $data['status']='1';
-        $guid =session('user')->guid;
-        $data['guid']=$guid;
-
-        $data['addtime'] = date("Y-m-d H:i:s", time());
-        $data['changetime'] = date("Y-m-d H:i:s", time());
-
-        $res = self::$projectStore->addData($data);
-        if($res==0) return ['status'=> true,'msg'=>'插入失败'];
-        return ['status'=> false,'msg'=>'插入成功'];
-    }
-
-    /**
      * 获取指定条件的数据
      * @param $where
      * @return array
      * @author 贾济林
      * @modify 张洵之
      */
-    public function getData($where)
+    public function getData($nowPage, $where)
     {
-        $data = self::$projectStore->getData($where);
+        $pageNum = 8;//一页数据量
+        $data = self::$projectStore->getPage($nowPage, $pageNum, $where);
 
         if (!$data) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 
@@ -89,6 +68,7 @@ class ProjectService {
      * @param $data
      * @return array
      * @author 贾济林
+     * @modify 张洵之
      */
     public function changeStatus($data)
     {
@@ -120,7 +100,9 @@ class ProjectService {
      */
     public function getFrstPage($num, $status)
     {
-        $res = self::$projectStore->getPage('1',$num,$status);
+        $where = ['status' => $status];
+
+        $res = self::$projectStore->getPage('1',$num,$where);
 
         if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
 
@@ -134,12 +116,17 @@ class ProjectService {
      * @param $status
      * @return array
      * @author 贾济林
+     * @modify 张洵之
      */
     public function getPage($nowpage, $num, $status)
     {
-        $res = self::$projectStore->getPage($nowpage,$num,$status);
-        if (!$res) return ['status'=>false,'msg'=>'获取失败'];
-        return ['status'=>true,'data'=>$res];
+        $where = ['status' => $status];
+
+        $res = self::$projectStore->getPage($nowpage,$num,$where);
+
+        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $res];
     }
 
 
@@ -218,9 +205,10 @@ class ProjectService {
         return ['status'=>true,'msg'=>'修改成功'];
     }
 
+    //-----未完成张洵之
     public function ajaxForClass($type)
     {
-        $where = ['disable'=>'0','status'=>'3'];
+        $where = ['status'=>'1'];
 
         switch ($type) {
             case 0 :

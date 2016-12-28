@@ -9,6 +9,7 @@
 @section('content')
     <!--我的身份开始-->
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 identity-info">
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
         <!--认证投资人开始-->
         <div class="investor">
             <div>
@@ -22,12 +23,36 @@
                         </div>
                     </div>
                     <div class="form-group mar-b30">
-                        <label for="investors" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>投资主体</label>
+                        <label for="investors" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>从业年份</label>
                         <div class="col-md-5">
-                            <select name="investor_subject" class="form-control chr-c bg-1">
-                                <option value="个人">个人</option>
-                                <option value="公司">公司</option>
-                            </select>
+                            <input autofocus name="investor_work_year" type="text" class="form-control form-title" maxlength="2" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="工龄，请填写两位以内的数字">
+                        </div>
+                    </div>
+
+                    <div class="form-group mar-b30">
+                        <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>投资规模</label>
+                        <div class="col-md-5">
+                            <input autofocus name="investor_scale" type="text" class="form-control form-title" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="投资规模，请填写数字,单位（万）">
+                        </div>
+                    </div>
+
+                    <div class="form-group mar-b30">
+                        <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>所在公司</label>
+                        <div class="col-md-5">
+                            <input autofocus name="investor_company" type="text" class="form-control form-title" placeholder="请输入所在公司">
+                        </div>
+                    </div>
+
+
+                    <div class="form-group mar-b30">
+                        <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>所在地</label>
+                        <div id="companyAddress" class="col-md-5 " class="citys">
+                            <p>
+                                <select class="form-control form-title" name="province"></select> <br>
+                                <select class="form-control" name="city"></select> <br>
+                                <select class="form-control" name="area"></select>
+                            </p>
+                            <input id="address" class="form-control" name="investor_company_address" type="text" readonly>
                         </div>
                     </div>
 
@@ -36,20 +61,9 @@
                         <div class="col-md-5">
                             <select name="investor_field" class="form-control chr-c bg-1" id="invest-area">
                                 <option value="">请选择领域</option>
-                                <option value="1">互联网</option>
-                                <option value="2">餐饮业</option>
-                                <option value="3">旅游业</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group mar-b30">
-                        <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>投资阶段</label>
-                        <div class="col-md-5">
-                            <select class="form-control chr-c bg-1" name="investor_stage">
-                                <option value="">请选择阶段</option>
-                                <option value="1">投资初期</option>
-                                <option value="2">投资中期</option>
-                                <option value="3">投资后期</option>
+                                <option value="互联网">互联网</option>
+                                <option value="餐饮业">餐饮业</option>
+                                <option value="旅游业">旅游业</option>
                             </select>
                         </div>
                     </div>
@@ -81,12 +95,12 @@
 @endsection
 
 @section('script')
+    <script src="{{asset('home/js/jquery.citys.js')}}"></script>
     <script src="{{ asset('home/js/user/applyInvestorValidate.js') }}"></script>
     <script src="{{asset('home/js/upload/uploadCommon.js')}}"></script>
     <script>
         //  异步上传身份证照
         var upload = new uploadCommon();
-        var originalPic = $(this).attr('src');
 
         $("#investor_card_a").click(function(){
 
@@ -98,9 +112,18 @@
                 url         : '/uploadcard',
                 type        : 'POST',
                 loadingPic  : '/home/img/loading.gif',
-                originalPic : originalPic,
                 hideinput   : $("input[name = 'investor_card_pic']")
             });
+        });
+
+        // 城市联动
+        $('#companyAddress').citys({
+            required: false,
+            nodata: 'disabled',
+            onChange: function (data) {
+                var text = data['direct'] ? '(直辖市)' : '';
+                $('#address').val(data['province'] + text + ' ' + data['city'] + ' ' + data['area']);
+            }
         });
     </script>
 @endsection

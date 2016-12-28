@@ -9,7 +9,7 @@
 @section('content')
     <!--认证创业者开始-->
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 my-education">
-
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
         <div class="basic-info">
             <span>认证创业者</span>
 
@@ -127,8 +127,6 @@
         //  异步上传身份证照
         var upload = new uploadCommon();
 
-        var originalPic = $(this).attr('src');
-
         $("#syb_card_a").click(function(){
 
             $("#card_upload").trigger('click');
@@ -139,7 +137,6 @@
                 url         : '/uploadcard',
                 type        : 'POST',
                 loadingPic  : '/home/img/loading.gif',
-                originalPic : originalPic,
                 hideinput   : $("input[name = 'syb_card_a']")
             });
         });
@@ -154,7 +151,6 @@
                 url         : '/uploadcard',
                 type        : 'POST',
                 loadingPic  : '/home/img/loading.gif',
-                originalPic : originalPic,
                 hideinput   : $("input[name = 'syb_card_b']")
             });
         });

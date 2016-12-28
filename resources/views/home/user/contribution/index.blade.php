@@ -93,7 +93,6 @@
                      <input hidden type="text" id="status" name="status" value="2">
              </form>
           </div>
-          <button class="btn btn-info btn-sm" id="sa-basic">Click me</button>
           @include('home.public.card')
 
 

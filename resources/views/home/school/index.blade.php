@@ -23,7 +23,7 @@
     <!---类型选择层结束---->
     <!---内容层开始---->
     <section class="container-fluid">
-        <ul class="row content">
+        <ul class="row content school_list">
             @if($StatusCode == 204)
                 <div style=" height:160px;width: 100%;text-align: center;font-size: 20px;line-height: 160px;color: #ddd8d5">
                     哎呦喂，亲，暂无数据哦O(∩_∩)O~
@@ -32,7 +32,7 @@
                 @foreach($ResultData['data'] as $data)
                     <li class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                         <div class="content-block">
-                            <img src="{{$data->banner}} " onerror="this.src='{{asset('home/img/zxz.png')}}'">
+                            <a href="school/{{$data->guid}}"><img src="{{$data->banner}} " onerror="this.src='{{asset('home/img/zxz.png')}}'"></a>
                             <h2><a href="school/{{$data->guid}}">{{$data->title}}</a></h2>
                             <p>
                                 {{$data->brief}}
@@ -43,20 +43,17 @@
                         </div>
                     </li>
                 @endforeach
-                @if($ResultData['totalPage'] > $nowPage)
-                    <a data-name="{{($nowPage+1)}}" data-type="{{$type}}" id="more_list">点击加载更多</a>
-                @endif
             @else
                 <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <span style="color: #999999">出错了~{{$ResultData}}O(∩_∩)O~</span>
                 </li>
             @endif
         </ul>
+        @if($ResultData['totalPage'] > $nowPage)
+            <a data-type="{{$type}}" id="more_list">点击加载更多</a>
+        @endif
     </section>
     <!---类型内容层结束---->
-@endsection
-@section('script')
-    <script src="{{ asset('JsService/Model/date.js') }} "></script>
 @endsection
 @section('script')
     <script src="{{ asset('JsService/Model/date.js') }} "></script>
@@ -72,9 +69,8 @@
         var nowPage = 2;
         var type = $('#more_list').data('type');
         $('#more_list').click(function () {
-//            nowPage = $(this).data('name');
-//            type = $(this).data('type');
-            var url="action/create";
+            alert(111);
+            var url="school/create";
             $.ajax({
                 url:url,
                 type:'get',
@@ -83,24 +79,14 @@
                     console.log(data);
 
                     data['ResultData']['data'].map(function (action) {
-                        $('.rodeing-list').append('<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+
-                                '<div class="row">'+
-                                '<div class="rodeing-img col-lg-4 col-md-4 col-sm-4 col-xs-12">'+
-                                '<img src="'+action.banner+'"  onerror="this.src=\'home/img/zxz.png\'">'+
-                                '</div>'+
-                                '<div class="rodeing-font col-lg-8 col-md-8 col-sm-8 col-xs-12">'+
+                        $('.school_list').append('<li class="col-lg-3 col-md-3 col-sm-4 col-xs-12"><div class="content-block">' +
+                                '<a href="/school/'+action.guid+'">'+
+                                '<img src="'+action.banner+'"  onerror="this.src=\'home/img/zxz.png\'"></a>'+
                                 '<h2>'+
-                                '<a href="/action/'+action.guid+'">'+action.title+
-                                '</a>'+
-                                '</h2>'+
-                                '<p>'+action.brief+'</p>'+
-                                '<div class="rodeing-class">'+
-                                '<ul class="row">'+
-                                '<li class="col-lg-6 col-md-6 col-sm-6 col-xs-3">'+type_list(action.type)+
-                                '</li>'+
-                                '<li class="col-lg-6 col-md-6 col-sm-6 col-xs-9">'+action.author+'</li>'+
-                                '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+getLocalTime(action.start_time)+'——'+getLocalTime(action.end_time)+'</li>'+
-                                '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">'+action.address+'</li></ul></div></div></div></li>'
+                                '<a href="/school/'+action.guid+'">'+action.title+
+                                '</a></h2>'+
+                                '<p>'+action.brief+'</p><div>'+
+                                '<span>'+getLocalTime(action.addtime)+'</span></div></div></li>'
                         );
                     });
                     if (nowPage<data.ResultData['totalPage']){
@@ -115,4 +101,4 @@
         });
 
     </script>
-    @endsection
+@endsection

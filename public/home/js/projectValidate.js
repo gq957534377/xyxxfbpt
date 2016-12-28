@@ -50,13 +50,14 @@
                         'logo_img':$("input[name= 'logo_img']").val(),
                         'banner_img':$("input[name= 'banner_img']").val(),
                         'team_member':$("input[name= 'team_member']").val(),
-                        "privacy":$("input[name= 'privacy']").val()
+                        'file':$("input[name= 'files']").val(),
+                        'privacy':$("input[name= 'privacy']").val()
                     },
                     success:function(data){
                         switch (data.StatusCode){
                             case '400':
                                 // promptBoxHandle('警告',data.ResultData);
-                                alert('警告,'+data.ResultData);
+                                $('#errInfo').html(data.ResultData).show();
                                 break;
                             case '200':
                                 window.location = '/user/myProject';
@@ -76,7 +77,7 @@
                 },
                 brief_content: {
                     required: true,
-                    rangelength:[40,200]
+                    rangelength:[20,60]
                 },
                 industry:{
                     required: true,
@@ -112,7 +113,7 @@
                 },
                 brief_content: {
                     required: "此处不可为空！",
-                    rangelength:"应输入40~200个字符！"
+                    rangelength:"应输入20~60个字符！"
                 },
                 industry:{
                     required: "请选一个行业！",

@@ -6,18 +6,35 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Services\TestService;
+
+use App\Redis\ArticleCache;
 
 class TestController extends Controller
 {
+    private static $article;    //文章service
+
+    public function __construct(TestService $testService)
+    {
+        self::$article = $testService;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        dd('index');
+        //dd(HASH_PROJECT_INFO_);
+        $nums = 5;  //一次获取数据的条数
+
+        $pages= $request->page ? $request->page : 1; //获取当前的偏移量
+
+        $list = self::$article->getArticleList($nums,$pages);
+        //dd($list);
+        return view('article', ['data'=>$list]);
     }
 
     /**
@@ -27,10 +44,8 @@ class TestController extends Controller
      */
     public function create(Request $request)
     {
-        //
-        //dd($request->input('id'));
 
-       return view('welcome');
+
     }
 
     /**
@@ -51,10 +66,13 @@ class TestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
         //
-        dd('show');
+        $data = self::$article->getOneArticle($request->guid);
+        //dd($data);
+        return view('articledetail',['ResultData'=>$data]);
+
 
     }
 
@@ -67,20 +85,6 @@ class TestController extends Controller
     public function edit($id)
     {
         //
-        //dd('edit');
-
-        //dd($postUrl);
-        $csrf_field = csrf_field();
-        $html = <<<UPDATE
-        <form action="/test/1" method="POST">
-            $csrf_field
-            <input type="hidden" name="_method" value="delete"/>
-            <input type="text" name="title" value=""><br/><br/>
-            
-            <input type="submit" value="update"/>
-        </form>
-UPDATE;
-        return $html;
 
     }
 
