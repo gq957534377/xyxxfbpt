@@ -195,7 +195,7 @@
         </div>
     </div>
     <div class="modal-footer" id="caozuo">
-        <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-white" onClick='avascript :history.back(-1);'>取消</button>
         <button type="submit" data-name="" class="road_update btn btn-primary" id="add_road">发布活动</button>
     </div>
 </form>

@@ -366,16 +366,10 @@ class ActionService
         $data['deadline'] = strtotime($data['deadline']);
         unset($data['list']);
 
-        //检测时间是否符合标准
-        $temp = $this->checkTime($data);
-        if($temp["status"]){
-            if ($list == 3){
-                $Data = self::$collegeStore->upload($where, $data);
-            }else{
-                $Data = self::$actionStore->upload($where, $data);
-            }
-        }else{
-            return ['StatusCode' => '400', 'ResultData' => $temp['msg']];
+        if ($list == 3) {
+            $Data = self::$collegeStore->upload($where, $data);
+        } else {
+            $Data = self::$actionStore->upload($where, $data);
         }
 
         if($Data){

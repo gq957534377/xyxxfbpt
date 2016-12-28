@@ -215,28 +215,55 @@
                 success:function (data) {
                     switch (data.StatusCode){
                         case '200':obj.parent('p').toggleClass('taoxin');$('#likeNum').html(num+temp);break;
-                        case '400':alert(data.ResultData);break;
+                        case '400':swal('警告', data.ResultData, "waring");break;
                     }
                 },
                 error: function(XMLHttpRequest){
                     var number = XMLHttpRequest.status;
                     var msg = "Error: "+number+",数据异常！";
-                    alert(msg);
+                    swal('点赞失败', msg, "error");
                 }
             })
         })
         @else
             $('#js_enroll').click(function(){
-            alert('还未登录，请登录！');
-            login();
+            swal({
+                        title: '请登录后操作', // 标题，自定
+                        text: '请登陆后再报名参加',   // 内容，自定
+                        type: "warning",    // 类型，分别为error、warning、success，以及info
+                        showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                        confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                    },
+                    function (isConfirm) {
+                        swal('请登录后操作', '请登陆后再进行报名参加', "waring");
+                        login();
+                    });
         });
         $('.collect').click(function () {
-            alert('还未登录，请登录！');
-            login();
+            swal({
+                    title: '请登录后操作', // 标题，自定
+                            text: '请登陆后再进行点赞操作',   // 内容，自定
+                            type: "warning",    // 类型，分别为error、warning、success，以及info
+                            showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                            confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                },
+                function (isConfirm) {
+                    swal('请登录后操作', '请登陆后再进行点赞操作', "warning");
+                    login();
+                });
         });
         $('#comment').click(function () {
-            alert('还未登录，请登录！');
-            login();
+            swal({
+                        title: '请登录后操作', // 标题，自定
+                        text: '请登陆后再进行评论',   // 内容，自定
+                        type: "warning",    // 类型，分别为error、warning、success，以及info
+                        showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                        confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                    },
+                    function (isConfirm) {
+                        swal('请登录后操作', '请登陆后再进行评论', "warning");
+                        login();
+                    });
         });
         @endif
         function login() {
