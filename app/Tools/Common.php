@@ -7,6 +7,7 @@
  */
 namespace App\Tools;
 
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -20,6 +21,8 @@ use Flc\Alidayu\App;
 use Flc\Alidayu\Requests\AlibabaAliqinFcSmsNumSend;
 use Qiniu\Auth;
 use Qiniu\Storage\UploadManager;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -227,5 +230,77 @@ class Common {
             $word->$filed = $content;
         }
 
+    }
+
+
+    /**
+     * 产生cookie
+     *
+     * @return string
+     *
+     * @author 郭鹏超
+     */
+    public static function generateCookie($key)
+    {
+        // 检查传过来的key是否为空
+        if (empty($key)) return false;
+        // 对cookie进行加密
+        $value = md5(REGISTER_SIGNATURE . $key);
+        return cookie($key, $value, COOKIE_LIFETIME);
+    }
+
+    /**
+     * 判断cookie是否正确,如果错误,再生成cookie再返回回去
+     *
+     * @param $key
+     * @return $this|string
+     *
+     * @author 郭鹏超
+     */
+    public static function checkCookie($key, $msg)
+    {
+        // 获取cookie
+        $cookie = Cookie::get($key);
+
+        // 进行cookie比较
+        if($cookie != md5(REGISTER_SIGNATURE . $key)) {
+            $cookie = Common::generateCookie($key);
+            return response()
+                ->json(['StatusCode' => '400', 'ResultData' => $msg . '失败,请重试!'])
+                ->withCookie($cookie);
+        }
+
+        return 'ok';
+    }
+
+    /**
+     * 写入文件内容
+     *
+     * @param $content
+     * @param string $type
+     * @return bool
+     *
+     * @author 郭鹏超
+     */
+
+    public static function writeFile($content, $type = '')
+    {
+        // 判断是否有内容
+        if (empty($content)) return false;
+
+        // 如果是数组或对象,转成json
+        if (is_object($content) || is_array($content)) {
+            $content = json_encode($content);
+        }
+
+        // 判断是否增加时间戳前缀
+        if (empty($type)) {
+            $content = '[紧急] ' . date('H:i:s', $_SERVER['REQUEST_TIME']) . $content . "\n";
+        }
+
+        // 文件名
+        $date = date('Ymd', $_SERVER['REQUEST_TIME']);
+        // 追加写文件
+        return Storage::disk('local')->append($date . '.txt', $content);
     }
 }

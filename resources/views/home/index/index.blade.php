@@ -25,7 +25,7 @@
                             @endif
                         @endforeach
                         @else
-                           {{ $coopoer }}
+                           {{ $cooper }}
                         @endif
                     </ol>
 
@@ -48,7 +48,7 @@
                             @endif
                         @endforeach
                         @else
-                            <li>{{ $coopoer }}</li>
+                            <li>{{ $cooper }}</li>
                         @endif
                     </div>
 

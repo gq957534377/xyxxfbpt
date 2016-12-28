@@ -21,10 +21,9 @@ class SafetyService
      * @return bool false代表写入失败，黑名单中已存在，true代表成功
      * @author 王通
      */
-    public static function saveIpInSet($setKey, $ip)
+    public function saveIpInSet($setKey, $ip)
     {
-        $date = $setKey . date('Y-m-D',time());
-        return BaseRedis::addSet($date, $ip);
+        return BaseRedis::addSet($setKey, $ip);
     }
     /**
      * 检查IP有没有存在于set中
@@ -32,7 +31,7 @@ class SafetyService
      * @return bool    true 代表已经被加入黑名单，false，没有被加入黑名单
      * @author 王通
      */
-    public static function checkIpInSet($setKey, $ip)
+    public function checkIpInSet($setKey, $ip)
     {
         $date = $setKey . date('Y-m-D',time());
         if (BaseRedis::checkSet($date, $ip)) {
@@ -40,6 +39,43 @@ class SafetyService
         } else {
             return false;
         }
+    }
+
+    /**
+     * 得到string的值
+     * @param $key
+     * @return bool|string
+     * @author 王通
+     */
+    public function getString($key)
+    {
+        if (empty($key)) return false;
+        return BaseRedis::getRedis($key);
+    }
+
+    /**
+     * 得到list记录条数
+     * @param $key
+     * @return bool|int
+     * @author 王通
+     */
+    public function getLLen ($key)
+    {
+        if (empty($key)) return false;
+        return BaseRedis::getLLen($key);
+    }
+
+    /**
+     * 指定键自增一
+     * @param $key
+     * @return bool
+     */
+    public function getCount($key)
+    {
+        if (empty($key)) return false;
+        $k = BaseRedis::incrRedis($key);
+        return $k;
+
     }
     /**
      * 请求数量，以及通过sessionID验证
