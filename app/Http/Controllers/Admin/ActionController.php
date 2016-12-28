@@ -150,6 +150,7 @@ class ActionController extends Controller
      */
     public function actionAdd()
     {
+
         return view('admin.action.add');
     }
     /**
