@@ -178,37 +178,32 @@
         <!--投资者认证 未认证 和 审核中-->
 
         <!--投资者认证通过 开始-->
-        @if(!empty(session('roleInfo')[3]))
-        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min">
+
+        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ session('user')->role == '2' ? '' : 'hidden' }}">
+            @if(!empty(session('roleInfo')[3]))
             <h4 class="col-xs-12 pad-clr my-home-title">投资者认证
-                    <span class="label label-warning">审核中</span>
+                @if(session('roleInfo')[3]->status == 5 )
+                    <span class="label label-warning"> 待审核 </span>
+                @elseif(session('roleInfo')[3]->status == 6 )
+                    <span class="label label-success"> 审核通过 </span>
+                @else
+                    <span class="label label-danger"> 审核失败 </span>
+                @endif
                 <a href="{{ route('identity.edit', ['identity' => 'investor','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>
             </h4>
             <div class="col-xs-12 pad-clr my-home-content">
-                <p class="col-lg-6 pad-clr">真实姓名：<span></span></p>
-                <p class="col-lg-6 pad-clr">从业年份：<span>年</span></p>
-                <p class="col-lg-6 pad-clr">投资规模：<span>万</span></p>
-                <p class="col-lg-6 pad-clr">所在公司：<span></span></p>
-            <p class="col-lg-6 pad-clr">所在地：    <span></span></p>
-                <p class="col-lg-6 pad-clr">投资领域：<span></span></p>
+                <p class="col-lg-6 pad-clr">真实姓名：<span>{{ empty(session('roleInfo')[3]->realname) ? '--' : session('roleInfo')[3]->realname }}</span></p>
+                <p class="col-lg-6 pad-clr">从业年份：<span>{{ empty(session('roleInfo')[3]->work_year) ? '--' : session('roleInfo')[3]->work_year }}年</span></p>
+                <p class="col-lg-6 pad-clr">投资规模：<span>{{ empty(session('roleInfo')[3]->scale) ? '--' : session('roleInfo')[3]->scale }} 万</span></p>
+                <p class="col-lg-6 pad-clr">所在公司：<span>{{ empty(session('roleInfo')[3]->company) ? '--' : session('roleInfo')[3]->company }}</span></p>
+            <p class="col-lg-6 pad-clr">所在地：    <span>{{ empty(session('roleInfo')[3]->company_address) ? '--' : session('roleInfo')[3]->company_address }}</span></p>
+                <p class="col-lg-6 pad-clr">投资领域：<span>{{ empty(session('roleInfo')[3]->field) ? '--' : session('roleInfo')[3]->field }}</span></p>
             </div>
-        </div>
-        @else
-            <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ session('user')->role == '3' ? '' : 'hidden' }}">
-                <h4 class="col-xs-12 pad-clr my-home-title">投资者认证
+            @else
 
-                    <a href="{{ route('identity.edit', ['identity' => 'investor','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>
-                </h4>
-                <div class="col-xs-12 pad-clr my-home-content">
-                    <p class="col-lg-6 pad-clr">真实姓名：<span></span></p>
-                    <p class="col-lg-6 pad-clr">从业年份：<span>年</span></p>
-                    <p class="col-lg-6 pad-clr">投资规模：<span> 万</span></p>
-                    <p class="col-lg-6 pad-clr">所在公司：<span></span></p>
-                    <p class="col-lg-6 pad-clr">所在地：    <span></span></p>
-                    <p class="col-lg-6 pad-clr">投资领域：<span></span></p>
-                </div>
-            </div>
-        @endif
+            @endif
+        </div>
+
         <!--投资者认证通过 结束-->
 
     </div>
