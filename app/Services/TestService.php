@@ -49,7 +49,7 @@ class TestService
     /**
      * 根据list页传递的文章guid获取一条文章
      * @param $guid  文章guid
-     * @return array
+     * @return
      */
     public function getOneArticle($guid)
     {
