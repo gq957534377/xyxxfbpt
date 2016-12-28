@@ -154,7 +154,6 @@ class ActionController extends Controller
     public function actionAdd()
     {
         $group = self::$pictureStore->getGroup();
-        dd($group);
         return view('admin.action.add');
     }
     /**
