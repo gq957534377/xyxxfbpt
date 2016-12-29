@@ -10,6 +10,7 @@ use App\Store\ApplyInvestorStore;
 use App\Store\ApplyMemberStore;
 use App\Store\CompanyStore;
 use App\Services\UploadService as UploadServer;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Tools\CustomPage;
@@ -459,8 +460,13 @@ class UserRoleService {
             return ['StatusCode' => '400', 'ResutlData' => '添加角色申请记录失败，请重新申请'];
         }
 
+        // 补充数据
+        $data['status'] = 5;
+        $data['id'] = $result;
+        $role = $data['role'];
         //申请成功，session存入
-        $roleInfo = [ $data['role'] => $data];
+        $data = (object)$data;
+        $roleInfo = [ $role => $data];
         Session::put('roleInfo', $roleInfo);
 
         return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
@@ -490,4 +496,34 @@ class UserRoleService {
         Session::put('roleInfo', $roleInfo);
 
     }
+
+    /**
+     * 修改申请角色信息
+     * @param $where
+     * @param $data
+     * @return array
+     * @author 刘峻廷
+     */
+    public function updateRoleInfo($where, $data)
+    {
+        switch ($data['role']) {
+            case '2':
+                beack;
+            case '3':
+                $result = self::$applyInvestorStore->updataOneData(['id' => $where], $data);
+                break;
+        }
+
+        if (!$result) {
+            Log::error('更新申请角色信息失败', $data);
+            return ['StatusCode' => '400', 'ResultData' => '更新申请角色信息失败'];
+        }
+
+        // 更新session
+        session('roleInfo')[$data['role']]->scale = $data['scale'];
+        session('roleInfo')[$data['role']]->filed = $data['field'];
+
+        return ['StatusCode' => '200', 'ResultData' => '更新申请角色信息成功'];
+    }
+
 }

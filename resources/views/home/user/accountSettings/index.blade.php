@@ -90,7 +90,7 @@
                 <p class="col-xs-12 col-sm-12 pad-clr fs-c-5">安全邮箱将可用于登录和修改密码</p>
             </div>
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 pad-clr">
-                <a href="javascript:void(0);" class="btn btn-0 bgc-0 fs-c-4 b-all-2 wid-3 fs-16 zxz" id="changeEmail">更换</a>
+                <a href="javascript:void(0);" class="btn btn-0 bgc-0 fs-c-4 b-all-2 wid-3 fs-16 zxz" id="changeEmail">{{ isset($accountInfo->email) ? '更换' : '绑定'}}</a>
             </div>
         </div>
         <div class="binding col-xs-12 bb-1 pad-clr">
