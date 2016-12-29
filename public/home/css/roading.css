@@ -21,7 +21,7 @@
 }
 .nav-status-bar > div:last-child {
   height: 4px;
-  width: 10%;
+  width: 110px;
   background-color: #ff9035;
   position: absolute;
   top: 51px;
@@ -35,7 +35,7 @@
 .nav-status-bar-type > li {
   list-style-type: none;
   float: left;
-  padding: 10px 15px;
+  padding: 8px 15px;
   border-top: 1px solid #f3f3f3;
   border-bottom: 1px solid #f3f3f3;
   border-left: 1px solid #f3f3f3;
@@ -53,13 +53,6 @@
   background-color: #ff9035;
   color: #000000;
 }
-.nav-status-bar-type > {
-
-}
-.nav-status-bar-type > {
-
-}
-
 
 body a{
   color: #000000;
@@ -140,6 +133,9 @@ a:hover{
   }
   .rodeing-img > a > img {
     max-width: 283px;
+  }
+  .nav-status-bar-type > li {
+    padding: 8px 10px;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {

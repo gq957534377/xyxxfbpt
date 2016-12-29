@@ -27,8 +27,8 @@
         </div>
 
         <ul class="nav-status-bar-type col-xs-12 pad-clr">
-            <li class="nav-status-bar-type-active">所有</li>
-            <li class="">报名中</li>
+            <li class="">所有</li>
+            <li class="nav-status-bar-type-active">报名中</li>
             <li class="">进行中</li>
             <li class="">往期回顾</li>
         </ul>

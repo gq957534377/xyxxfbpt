@@ -1,5 +1,4 @@
 .road-banner {
-    max-height: 310px;
     color: #fff;
     font-size: 16px;
     background: url("../img/act-xq.jpg") no-repeat center;
@@ -28,7 +27,7 @@
     margin-bottom: 15px;
     padding-top: 10px;
     padding-left: 15px;
-    border: 1.5px dashed #d3d3d3;
+    border: 1px dashed #d3d3d3;
 }
 .sponsor > p > span {
     font-weight: bold;
@@ -89,6 +88,7 @@
     margin: 0;
     font-size: 17px;
     padding: 0;
+    color: #333333;
 }
 .pl-block >a{
     padding: 0;
@@ -102,6 +102,10 @@
     resize: none;
     border: 1px solid #dfdfdf;
     border-radius: 6px;
+    color: #333;
+}
+#commentlist {
+    display: inline-block;
 }
 .user-img{
     padding: 20px 0;
