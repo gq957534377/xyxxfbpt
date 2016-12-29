@@ -20,7 +20,7 @@
             <li class="col-lg-2 col-md-2 col-sm-2 col-xs-5">融资阶段：</li>
             <li class="col-lg-2 col-md-2 col-sm-2 col-xs-6 form-group">
                 <div class="btn-group">
-                    <button id="upId" type="button" class="btn">
+                    <button id="typeId" data-id="@if(empty($type)){!! 0 !!}@else{{$type}}@endif" type="button" class="btn">
                         @if(empty($type))
                             默认
                         @else
@@ -102,15 +102,56 @@
             </li>
         @endforeach
     </ul>
-    <div class="loads">
-
-    </div>
+    @if($num>8)
+        <div class="loads"></div>
+    @endif
 </section>
-{{--{{route('projectList')}}--}}
 <!--主体内容行结束-->
 @endsection
 @section('script')
     <script>
+        var nowPage = 1;
+        $('.loads').click(function () {
+            nowPage++;
+            var typeId = $('#typeId').attr('data-id');
+            $.ajax({
+                url:'{{route('projectList')}}',
+                type:'post',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{
+                    nowPage:nowPage,
+                    typeId:typeId
+                },
+                success:function (data) {
 
+                    if(data.StatusCode == "400" || data.ResultData.length<8) {
+                        $('.loads').remove();
+                    }
+                    createDom(data.ResultData)
+                }
+            })
+        })
+        function createDom(data) {
+
+            if(typeof data == "string") return;
+
+            var html='';
+            for(var i=0;i<data.length;i++) {
+                html += "<li class='col-lg-3 col-md-3 col-sm-6 col-xs-6'>";
+                html +=     "<div class='content-block'>";
+                html +=         "<a href='/project/"+data[i].guid+"' title='"+data[i].title+"'>";
+                html +=             "<img src='"+data[i].banner_img+"'>"
+                html +=         "</a>"
+                html +=         "<div>"
+                html +=         "<h3><a href='/project/"+data[i].guid+"' title='"+data[i].title+"'>"
+                html +=             data[i].title.substr(0,10);
+                html +=         "</a></h3>"
+                html +=         "<p>"+data[i].brief_content.substr(0,20)+"</p>";
+                html +=         "<div></div></div></div></li>"
+            }
+            $('.content').append(html);
+        }
     </script>
 @endsection

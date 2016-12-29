@@ -35,14 +35,11 @@ class ProjectService {
      * @author 贾济林
      * @modify 张洵之
      */
-    public function getData($nowPage, $where)
+    public function getData($nowPage,$pageNum, $where)
     {
-        $pageNum = 8;//一页数据量
         $data = self::$projectStore->getPage($nowPage, $pageNum, $where);
 
         if (!$data) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
-
-
 
         return ['StatusCode' => '200', 'ResultData' => $data];
     }
@@ -205,24 +202,6 @@ class ProjectService {
         return ['status'=>true,'msg'=>'修改成功'];
     }
 
-    //-----未完成张洵之
-    public function ajaxForClass($type)
-    {
-        $where = ['status'=>'1'];
-
-        switch ($type) {
-            case 0 :
-                $result = $this->getData($where);
-                break;
-//            case 1 :
-//                $result = $this->getDatas();
-        }
-
-        if(is_array($result)) return ['StatusCode' => '200', 'ResultData' => $result];
-
-        return ['StatusCode' => '500', 'ResultData' => "服务器端出错"];
-    }
-
     /**
      * 向项目信息表添加数据
      * @param $data
@@ -261,4 +240,10 @@ class ProjectService {
         return $arr;
     }
 
+    public function getCount($where)
+    {
+        $result = self::$projectStore->getCount($where);
+
+        return $result;
+    }
 }

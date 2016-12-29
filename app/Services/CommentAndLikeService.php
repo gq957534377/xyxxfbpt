@@ -129,9 +129,12 @@ class CommentAndLikeService
             //内容表数据
             $contentData = $this->openData($this->getContentInContentId($data->action_id,$data->type));
 
-            if (empty($contentData)) break;
+            if (empty($contentData)) {
+                $data->contentTitle = "内容已被删除";
 
-            $data->contentTitle = $contentData ->title;
+            }else{
+                $data->contentTitle = $contentData ->title;
+            }
 
         }
 
