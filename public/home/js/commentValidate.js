@@ -40,11 +40,9 @@
                     success:function(data){
                         switch (data.StatusCode){
                             case '400':
-                                // promptBoxHandle('警告',data.ResultData);
-                                alert(data.ResultData);
+                                swal('警告', data.ResultData, "waring");
                                 break;
                             case '401':
-                                alert(data.ResultData);
                                 window.location.href = '/login';
                                 break;
                             case '200':
@@ -65,7 +63,7 @@
                                 html += '</div>';
                                 html += '</li>';
                                 $('#commentlist').find('li').eq(0).after(html);
-                                $('#commentlist').find('li').eq(6).remove();
+                                $("textarea[name= 'content']").val("");
                                 break;
                         }
                     }

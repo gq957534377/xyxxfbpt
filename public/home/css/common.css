@@ -1036,7 +1036,7 @@ body .list-inline > li {
 .loads{
     width: 100%;
     max-width: 130px;
-    margin: 0 auto;
+    margin: 0 auto 30px;
     text-align: center;
     border: 1px solid #eeeeee;
     cursor: pointer;

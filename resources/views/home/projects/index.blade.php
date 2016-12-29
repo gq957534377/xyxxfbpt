@@ -76,31 +76,35 @@
 <!--主体内容行开始-->
 <section class="hang container-fluid">
     <ul class="row content">
-        @foreach($projects as $project)
-            <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                <div class="content-block">
-                    <a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
-                        <img src="{{ $project->banner_img }}" alt="">
-                    </a>
-                    <div>
-                        <h3><a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
-                                @if(mb_strlen($project->title)>10)
-                                    {{mb_substr($project->title,0,10).'...'}}
-                                @else
-                                    {{$project->title}}
-                                @endif
-                            </a>
-                        </h3>
-                        <p>{{ mb_substr($project->brief_content,0,20).'...' }}</p>
-                        <!--p标签内容不可超过40个中文简体字-->
+        @if(!empty($projects))
+            @foreach($projects as $project)
+                <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <div class="content-block">
+                        <a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
+                            <img src="{{ $project->banner_img }}" alt="">
+                        </a>
                         <div>
-                            {{--<span>21</span>--}}
-                            {{--<span>12723</span>--}}
+                            <h3><a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
+                                    @if(mb_strlen($project->title)>10)
+                                        {{mb_substr($project->title,0,10).'...'}}
+                                    @else
+                                        {{$project->title}}
+                                    @endif
+                                </a>
+                            </h3>
+                            <p>{{ mb_substr($project->brief_content,0,20).'...' }}</p>
+                            <!--p标签内容不可超过40个中文简体字-->
+                            <div>
+                                {{--<span>21</span>--}}
+                                {{--<span>12723</span>--}}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
-        @endforeach
+                </li>
+            @endforeach
+        @else
+            <div style="color: #CCCCCC;">暂无数据呦，亲 O(∩_∩)O~</div>
+        @endif
     </ul>
     @if($num>8)
         <div class="loads"></div>
