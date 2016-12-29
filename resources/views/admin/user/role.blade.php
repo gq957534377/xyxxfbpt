@@ -507,7 +507,7 @@
                 str +=  '</td>';
                 str +=  '<td>';
                 if(v.status == 5 || v.status == 7){
-                    str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
+                    str +=  '<a href="javascript:;" data-guid="' + v.guid + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
                             '" data-brithday="'+v.birthday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+
                             '" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+
                             '" data-headpic="'+v.headpic+'" data-wechat="'+v.wechat+'" data-introduction="'+v.introduction+

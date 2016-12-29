@@ -41,7 +41,7 @@ class SchoolController extends Controller
             $where['status'] = $data['status'];
         }
         $nowPage = 1;
-        $result = self::$actionServer->selectData($where, $nowPage, 10, '/action', true, false);
+        $result = self::$actionServer->selectData($where, $nowPage, 4, '/action', true, false);
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
@@ -73,9 +73,29 @@ class SchoolController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        // 获取活动类型 -> 活动类型的所有数据
+        $where = ['type'=>$request->type];
+        $nowPage = isset($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
+        $result = self::$actionServer->selectData($where, $nowPage, 4, '/action', false, false);
+
+        if($result["StatusCode"] == '200'){
+            foreach ($result['ResultData']['data'] as $v){
+                $status = self::$actionServer->setStatusByTime($v);
+                if ($status['status']){
+                    if (!is_string($status['msg'])){
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], $where['type']);
+                        if ($chage['StatusCode'] != '200'){
+                            Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
+                        }else{
+                            $v->status = $status['msg'];
+                        }
+                    }
+                }
+            }
+        }
+        return response()->json($result);
     }
 
     /**

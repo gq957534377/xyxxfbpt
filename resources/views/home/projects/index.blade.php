@@ -17,18 +17,52 @@
 <section class="hang container-fluid">
     <form>
         <ul class="row selected">
-            <li class="col-lg-2 col-md-2 col-sm-2 col-xs-5">上线日期：</li>
+            <li class="col-lg-2 col-md-2 col-sm-2 col-xs-5">融资阶段：</li>
             <li class="col-lg-2 col-md-2 col-sm-2 col-xs-6 form-group">
                 <div class="btn-group">
-                    <button data-id="0" id="upId" type="button" class="btn">默认</button>
+                    <button id="upId" type="button" class="btn">
+                        @if(empty($type))
+                            默认
+                        @else
+                            @if($type == 1)
+                                种子轮
+                            @elseif($type == 2)
+                                天使轮
+                            @elseif($type == 3)
+                                Pre-A轮
+                            @elseif($type == 4)
+                                A轮
+                            @elseif($type == 5)
+                                B轮
+                            @elseif($type == 6)
+                                C轮
+                            @elseif($type == 7)
+                                D轮
+                            @elseif($type == 8)
+                                E轮
+                            @elseif($type == 9)
+                                F轮已上市
+                            @elseif($type == 10)
+                                其他
+                            @endif
+                        @endif
+                    </button>
                     <button  type="button"  class="btn dropdown-toggle" data-toggle="dropdown">
                         <span class="caret"></span>
                         <span class="sr-only"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li data-id="1"><a href="#">最近三天</a></li>
-                        <li data-id="2"><a href="#">最近一周</a></li>
-                        <li data-id="3"><a href="#">最近一月</a></li>
+                        <li><a href="{{route('project.index', ['type' =>1])}}">种子轮</a></li>
+                        <li><a href="{{route('project.index', ['type' =>2])}}">天使轮</a></li>
+                        <li><a href="{{route('project.index', ['type' =>3])}}">Pre-A轮</a></li>
+                        <li><a href="{{route('project.index', ['type' =>4])}}">A轮</a></li>
+                        <li><a href="{{route('project.index', ['type' =>5])}}">B轮</a></li>
+                        <li><a href="{{route('project.index', ['type' =>6])}}">C轮</a></li>
+                        <li><a href="{{route('project.index', ['type' =>7])}}">D轮</a></li>
+                        <li><a href="{{route('project.index', ['type' =>8])}}">E轮</a></li>
+                        <li><a href="{{route('project.index', ['type' =>9])}}">F轮已上市</a></li>
+                        <li><a href="{{route('project.index', ['type' =>10])}}">其他</a></li>
+                        <li><a href="{{route('project.index')}}">默认</a></li>
                     </ul>
                 </div>
             </li>
@@ -68,37 +102,15 @@
             </li>
         @endforeach
     </ul>
+    <div class="loads">
+
+    </div>
 </section>
+{{--{{route('projectList')}}--}}
 <!--主体内容行结束-->
 @endsection
 @section('script')
     <script>
-        $('.dropdown-menu li').click(function () {
-            //请求类型0-默认 1-最近三天 2-最近一周 3-最近一月
-            var type =$(this).attr('data-id');
-            var obj = $(this)
-            $.ajax({
-                type:'post',
-                url:'{{route('projectList')}}',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data:{type:type},
-                success:function (data) {
 
-                    changeStyle(obj);
-                }
-            })
-
-        })
-        //ajax请求成功后修改按钮样式的方法
-        function changeStyle(obj) {
-            var nowId = obj.attr('data-id');
-            var nowName = obj.children('a').html();
-            var upIds = $('#upId').attr('data-id');
-            var upName = $('#upId').html();
-            obj.attr('data-id',upIds).children('a').html(upName);
-            $('#upId').attr('data-id',nowId).html(nowName);
-        }
     </script>
 @endsection
