@@ -13,6 +13,7 @@ use App\Store\ActionOrderStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
 use App\Store\CollegeStore;
+use App\Store\PictureStore;
 use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
@@ -29,19 +30,23 @@ class ActionService
     protected static $actionOrderStore;
     protected static $common;
     protected static $likeStore;
+    protected static $pictureStore;
 
     public function __construct(
         ActionStore $actionStore,
         CollegeStore $collegeStore,
         ActionOrderStore $actionOrderStore,
         CommentStore $commentStore,
-        LikeStore $likeStore)
+        LikeStore $likeStore,
+        PictureStore $pictureStore
+    )
     {
         self::$actionStore      = $actionStore;
         self::$commentStore     = $commentStore;
         self::$actionOrderStore = $actionOrderStore;
         self::$likeStore        = $likeStore;
         self::$collegeStore     = $collegeStore;
+        self::$pictureStore     = $pictureStore;
     }
 
     /**
@@ -315,7 +320,18 @@ class ActionService
 
         if($data) {
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
-
+            $group = self::$pictureStore->getPicture(['id'=>$data->group]);
+            if (!empty($group)){
+                $group = $group[0];
+            }else{
+                if ($group == []){
+                    $group = '个人';
+                }else{
+                    \Log::info('获取'.$guid.'活动详情的组织机构失败:'.$group);
+                    return ['StatusCode'=> '500','ResultData' => "获取活动信息失败"];
+                }
+            }
+            $data->group = $group;
             return ['StatusCode'=> '200','ResultData' => $data];
         }else{
             \Log::info('获取'.$guid.'活动详情出错:'.$data);

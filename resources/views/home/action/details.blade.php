@@ -69,7 +69,12 @@
             <div class="col-md-9 col-lg-9 pad-clr mar-b15">
                 <div class="br-1 pad-8 b-n-sm b-n-xs mar-cr-sm mar-cr-xs road-explain">
                     @if($data['StatusCode'] == '200')
-                        <p class="col-sm-6"><span>主办方：</span>{{ $data['ResultData']->author }}</p>
+                        @if(is_object($data['ResultData']->group))
+                            <p class="col-sm-12"><span>主办机构：</span><a target="_blank" href="http://{{$data['ResultData']->group->pointurl}}">{{ $data['ResultData']->group->name }}</a></p>
+                            @else
+                            <p class="col-sm-12"><span>主办机构：</span>{{ $data['ResultData']->group }}</p>
+                            @endif
+                        <p class="col-sm-12"><span>负责人：</span>{{ $data['ResultData']->author }}</p>
                         <p class="col-sm-12"><span>活动简述：</span>{{ $data['ResultData']->brief }}</p>
                         <p class="col-sm-12"><span>活动详情：</span></p>
                         <div class="col-md-12">
