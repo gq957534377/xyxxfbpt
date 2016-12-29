@@ -85,6 +85,7 @@
                 ,
                 url: {
                     required: true,
+                    url:true
                 },
                 field: {
                     required: true,
@@ -110,6 +111,7 @@
                 ,
                 url: {
                     required: "请输入公司网址",
+                    url: "请输入正确的URL地址"
                 },
                 field: {
                     required: "请选择行业领域",
