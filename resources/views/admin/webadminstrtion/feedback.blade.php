@@ -145,17 +145,17 @@
                 '<tbody>';
 
 
-            $.each(data[0], function (i, v) {
-                obj = JSON.parse(data[1][i]);
+            $.each(data.data, function (i, v) {
+                console.log(v);
                 str += '<tr class="gradeX">';
-                str +=  '<td><input class="checkbox-list" name="Fruit" type="checkbox" data-ip="'+ data[0][i] +'" /></td>';
-                str +=  '<td>' + obj.ip + '</td>';
-                str +=  '<td class="feedb-email">' + obj.fb_email + '</td>';
-                str +=  '<td hidden class="feedb-descri">'+ obj.description +'</td>';
-                str +=  '<td>' + obj.description.slice(0, 53) + '</td>';
+                str +=  '<td><input class="checkbox-list" name="Fruit" type="checkbox" data-ip="'+ v.guid +'" /></td>';
+                str +=  '<td>' + v.ip + '</td>';
+                str +=  '<td class="feedb-email">' + v.email + '</td>';
+                str +=  '<td hidden class="feedb-descri">'+ v.feedback +'</td>';
+                str +=  '<td>' + v.feedback.slice(0, 53) + '</td>';
                 str +=  '<td>';
-                str +=  '<button class="btn btn-info btn-xs" data-ip="'+ data[0][i] +'" style="border-radius:7px;" data-toggle="modal" data-target="#feedback">详情</button>';
-                str +=  '<button id="'+ data[0][i] +'" data-ip="'+ data[0][i] +'" style="border-radius:7px;" class="btn btn-danger btn-xs">删除</button>';
+                str +=  '<button class="btn btn-info btn-xs" data-ip="'+ v.guid +'" style="border-radius:7px;" data-toggle="modal" data-target="#feedback">详情</button>';
+                str +=  '<button id="'+ v.guid +'" data-ip="'+ v.guid +'" style="border-radius:7px;" class="btn btn-danger btn-xs">删除</button>';
                 str +=  '</td></tr>';
             });
 
@@ -168,7 +168,7 @@
                 '<div class="col-sm-4" id="page"></div>' +
                 '</div>';
 
-            str += data[2];
+            str += data.pages;
             return str;
         }
         /**

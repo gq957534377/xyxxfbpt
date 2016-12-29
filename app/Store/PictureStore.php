@@ -39,6 +39,7 @@ class PictureStore
         if (empty($where)) return false;
         return DB::table(self::$table)
             ->where($where)
+            ->where('status', '<>', 4)
             ->get();
     }
     /**

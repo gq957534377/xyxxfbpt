@@ -37,13 +37,15 @@ class LoginController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 修改密码
      *
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function create()
     {
-        //
+        if (!empty(session('user'))) return redirect('/');
+        return view('home.changePasswd');
     }
 
     /**
@@ -83,7 +85,7 @@ class LoginController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -98,15 +100,28 @@ class LoginController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 忘记密码，修改密码
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @author 王通
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $data = $request->all();
+//        dd(session('sms'), $data);
+        $sms = session('sms');
+        if ($data['code'] != $sms['smsCode']) {
+            return response()->json(['StatusCode' => '400','ResultData' => ['验证码错误!']]);
+        } elseif ($data['tel'] != $sms['phone']) {
+            return response()->json(['StatusCode' => '400','ResultData' => ['请输入正确手机号!']]);
+        } elseif ($data['password'] != $data['confirm_password']) {
+            return response()->json(['StatusCode' => '400','ResultData' => ['两次密码不相同!']]);
+        }
+        $result = self::$userServer->talChangePassword($data);
+        return response()->json($result);
     }
 
     /**
@@ -162,5 +177,31 @@ class LoginController extends Controller
         \Session::forget('roleInfo');
 
         return redirect('/');
+    }
+
+    /**
+     * 发送短信验证码短信
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     * @author 王通
+     */
+    public function sendSms($id)
+    {
+        // 判断存在
+        if (empty($id)) return false;
+
+        // 手机号校验
+        $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
+        if(!preg_match($preg, $id)) return response()->json(['StatusCode'=>'200','ResultData' =>'请输入正确的手机号！']);
+        // 查询该手机是否已注册
+        $info = self::$userServer->userInfo(['tel' => $id]);
+
+        if($info['StatusCode'] != '200') return response()->json(['StatusCode'=>'400','ResultData' => '没有获取到手机号信息，请输入正确手机号']);
+
+        // 真，发送短信
+        $info = self::$userServer->sendSmsCode($id);
+
+        return response()->json($info);
+
     }
 }
