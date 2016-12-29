@@ -79,6 +79,9 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::get('/code/captcha/{tmp}', 'LoginController@captcha');
     // 前台登录页
     Route::resource('/login', 'LoginController');
+
+    // 获取修改密码的验证码
+    Route::resource('/changepwd/code', 'LoginController@sendSms');
     // 前台注册页
     Route::resource('/register/checkphoto', 'RegisterController@checkPhoto');
     Route::resource('/register', 'RegisterController');
@@ -136,8 +139,6 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
 
         Route::resource('/project_user','ProjectUsersController');
 
-        //活动管理
-        Route::resource('/activity', 'ActivityController');
         //活动报名管理
         Route::resource('/action_order','ActionOrderController');
         //投稿管理

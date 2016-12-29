@@ -37,24 +37,25 @@
 
 @section('content')
     <!--活动详情banner 开始-->
-    <section class="container road-banner bgc-1 mar-emt1 pad-7 pad-7-xs">
+    <section class="container road-banner mar-emt1">
         @if($data['StatusCode'] == '200')
-            <h4 class="mar-ct mar-b15">{{ $data['ResultData']->title }}</h4>
-            <p class="mar-b15"><span>时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}——{{ date('Y年m月d日 H点',$data['ResultData']->end_time) }}</p>
-            <p class="mar-b15"><span>地点：</span>{{ $data['ResultData']->address }}</p>
-            <p id="baomingNum" class="mar-emt60 mar-b15">已报名{{ $data['ResultData']->people }}人</p>
+            <h1 class="mar-ct">{{ $data['ResultData']->title }}</h1>
+            <p class=""><span>活动时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}——{{ date('Y年m月d日 H点',$data['ResultData']->end_time) }}</p>
+            <p class=""><span>报名截止时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}</p>
+            <p class=""><span>活动地点：</span>{{ $data['ResultData']->address }}</p>
+            <p id="baomingNum" class="mar-b15">已报名{{ $data['ResultData']->people }}人 &nbsp;限额({{ $data['ResultData']->people }})人</p>
 
             <!--两个按钮按照情况只显示一个-->
             @if($data['ResultData']->status == 1)
                 @if(!$isHas)
-                    <button id="js_enroll" type="button" class="btn btn-primary bgc-2 b-n btn-1">我要报名</button>
+                    <button id="js_enroll" type="button" class="btn road-banner-join">我要报名</button>
                 @else
-                    <button style="background: #3E8CE6;" type="button" class="btn btn-primary bgc-2 b-n btn-1">已报名</button>
+                    <button type="button" class="btn road-banner-join">已报名</button>
                 @endif
             @elseif($data['ResultData']->status == 5)
-                <button type="button" class="btn btn-info b-n disabled">报名截止</button>
+                <button type="button" class="btn road-banner-join disabled">报名截止</button>
             @elseif($data['ResultData']->status == 2)
-                <button type="button" class="btn btn-info b-n disabled">活动已开始</button>
+                <button type="button" class="btn road-banner-join disabled">活动已开始</button>
             @endif
         @else
             <h4 class="mar-ct mar-b15">{{ $data['ResultData'] }}</h4>
@@ -69,9 +70,15 @@
             <div class="col-md-9 col-lg-9 pad-clr mar-b15">
                 <div class="br-1 pad-8 b-n-sm b-n-xs mar-cr-sm mar-cr-xs road-explain">
                     @if($data['StatusCode'] == '200')
-                        <p class="col-sm-6"><span>主办方：</span>{{ $data['ResultData']->author }}</p>
-                        <p class="col-sm-12"><span>活动简述：</span>{{ $data['ResultData']->brief }}</p>
-                        <p class="col-sm-12"><span>活动详情：</span></p>
+                        <div class="sponsor">
+                        @if(is_object($data['ResultData']->group))
+                            <p class=""><span>主办机构：</span><a target="_blank" href="http://{{$data['ResultData']->group->pointurl}}">{{ $data['ResultData']->group->name }}</a></p>
+                            @else
+                            <p class=""><span>主办机构：</span>{{ $data['ResultData']->group }}</p>
+                            @endif
+                        <p class=""><span>负责人：</span>{{ $data['ResultData']->author }}</p>
+                        <p class=""><span>活动简述：</span>{{ $data['ResultData']->brief }}</p>
+                        </div>
                         <div class="col-md-12">
                             {!! $data['ResultData']->describe !!}
                         </div>
@@ -173,11 +180,11 @@
     <!--活动说明 & 评论 结束-->
 @endsection
 @section('script')
-    <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     {{--提示框--}}
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
+    <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script>
         var token  = $('meta[name="csrf-token"]').attr('content');
         @if($isLogin && $data['StatusCode'] == '200')
@@ -194,7 +201,7 @@
                     if (data.StatusCode === "200"){
                         swal(data.ResultData, '可以到个人中心“我参加的活动”查看', "success");
                         $('#baomingNum').html('已报名'+({{$data['ResultData']->people}}+1)+'人');
-                        obj.html("已报名").css({background:"#3E8CE6"}).unbind("click");
+                        obj.html("已报名").unbind("click");
                     }else{
                         swal(data.ResultData, '错误代码：'+data.StatusCode, "error");
                     }

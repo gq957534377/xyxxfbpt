@@ -91,10 +91,32 @@ function listType(type) {
                 }
 
             } else {
+                switch (type)
+                {
+                    case 1:
+                        contentHtml([]);
+                        $('.add-picture').hide();
+                        break;
+                    case 2:
+
+                        institutionHtml([]);
+                        $('.text-coutent').show();
+                        $('.add-picture').show();
+                        break;
+                    case 3:
+
+                        institutionHtml([]);
+                        $('.text-coutent').show();
+                        $('.add-picture').show();
+                        break;
+                    case 4:
+                        carouselHtml([]);
+                        $('.add-picture').show();
+                        $('.text-coutent').hide();
+                        break;
+
+                }
                 swal(data.ResultData);
-                institutionHtml([]);
-                $('.text-coutent').show();
-                $('.add-picture').show();
             }
             $('.loading').hide();
         }

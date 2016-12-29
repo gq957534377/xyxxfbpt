@@ -116,8 +116,11 @@
                     <label for="field-3">所属机构</label>
                     <div for="field-3">
                         <select class="form-control" id="group" name="group">
-                            <option value="1">英雄会</option>
-                            <option value="2">兄弟会</option>
+                            @if($StatusCode == '200')
+                                @foreach($ResultData as $v)
+                                    <option value="{{$v->id}}">{{$v->name}}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                 </div>
@@ -224,6 +227,33 @@
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     <script type="text/javascript">
+        @if($StatusCode != '200')
+                @if($ResultData == '204')
+                swal({
+                    title: '没有组织机构', // 标题，自定
+                    text: "{{$ResultData}}",   // 内容，自定
+                    type: "waring",    // 类型，分别为error、warning、success，以及info
+                    showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                    confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                },
+                function (isConfirm) {
+                    swal('没有组织机构', "{{$ResultData}}", "warning");
+                    window.history.back(-1);
+                });
+        @else
+                swal({
+                    title: '出错了', // 标题，自定
+                    text: "{{$ResultData}}",   // 内容，自定
+                    type: "error",    // 类型，分别为error、warning、success，以及info
+                    showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                    confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                },
+                function (isConfirm) {
+                    swal('出错了', "{{$ResultData}}", "error");
+                    window.history.back(-1);
+                });
+        @endif
+        @endif
         {{--全局变量的设置--}}
         //富文本配置
         var toolbra = {

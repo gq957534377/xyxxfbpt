@@ -81,6 +81,7 @@ class HomeController extends Controller
             'invest'        => $investResult['ResultData'],
             'articles'      => $articles['ResultData'],
         ])->withCookie($cookie);
+
     }
 
     /**

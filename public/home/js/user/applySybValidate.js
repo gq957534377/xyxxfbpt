@@ -19,15 +19,47 @@
             var mobile = /^1[34578]\d{9}$/;
             return this.optional(element) || (length == 11 && mobile.test(value));
         }, "请正确填写您的手机号码");
+
         $.validator.addMethod("amountLimit", function(value, element) {
             var returnVal = false;
             var amountStart = $("input[name= 'syb_start_school']").val();
             var amountEnd = $("input[name= 'syb_finish_school']").val();
-            if(parseFloat(amountEnd)>parseFloat(amountStart)){
+            if(parseFloat(amountEnd) >= parseFloat(amountStart)){
                 returnVal = true;
             }
             return returnVal;
         },"毕业时间必须大于入学时间");
+
+        $.validator.addMethod("nowDate", function(value, element) {
+            var returnVal = false;
+            var amountStart = $("input[name= 'syb_start_school']").val();
+            var amountEnd = $("input[name= 'nowDate']").val();
+            if(parseFloat(amountEnd)>parseFloat(amountStart)){
+                returnVal = true;
+            }
+            return returnVal;
+        },"你入学年份输入错误");
+
+        $.validator.addMethod("checkPicSize", function(value,element) {
+            var fileSize=element.files[0].size;
+            var maxSize = 2*1024*1024;
+            if(fileSize > maxSize){
+                return false;
+            }else{
+                return true;
+            }
+        }, "请上传大小在2M以下的图片");
+
+        $.validator.addMethod("chinese", function(value, element) {
+            var chinese = /^[\u4e00-\u9fa5]+$/;
+            return this.optional(element) || (chinese.test(value));
+        }, "只能输入中文");
+
+        // 字符验证
+        $.validator.addMethod("stringCheck", function(value, element) {
+            return this.optional(element) || /^[u0391-uFFE5w]+$/.test(value);
+        }, "只能包括中文字、英文字母、数字和下划线");
+
         // ajax 异步
         $.validator.setDefaults({
             // 提交触发事件
@@ -63,8 +95,8 @@
                         'realname'  : $("input[name= 'syb_realname']").val(),
                         'card_pic_a': $("input[name= 'syb_card_a']").val(),
                         'card_pic_b': $("input[name= 'syb_card_b']").val(),
-                        'school_address': $("select[name= 'syb_school_address']").val(),
-                        'school_name': $("select[name= 'syb_school_name']").val(),
+                        'school_address': $("input[name= 'syb_school_address']").val(),
+                        'school_name': $("input[name= 'syb_school_name']").val(),
                         'enrollment_year': $("input[name= 'syb_start_school']").val(),
                         'graduation_year': $("input[name= 'syb_finish_school']").val(),
                         'education': $("select[name= 'syb_education']").val(),
@@ -92,26 +124,35 @@
             rules: {
                 syb_realname: {
                     required: true,
+                    chinese: true,
+                    minlength: 2
                 },
                 syb_card_a: {
                     required: true,
+                    checkPicSize: true,
                 },
                 syb_card_b: {
                     required: true,
+                    checkPicSize: true,
                 },
                 syb_school_address: {
                     required: true,
+                    chinese: true,
                 }
                 ,
                 syb_school_name: {
                     required: true,
+                    chinese: true,
                 },
                 syb_start_school: {
                     required: true,
+                    nowDate : true,
+                    digits : true,
                 },
                 syb_finish_school: {
                     required: true,
-                    amountLimit: true
+                    amountLimit: true,
+                    digits: true,
                 },
                 syb_education: {
                     required: true,
@@ -125,6 +166,7 @@
             messages: {
                 syb_realname: {
                     required: "请填写您的真实姓名！",
+                    minlength : "最少两位"
                 },
                 syb_card_a: {
                     required: "请上传身份证证件照正面"
@@ -140,9 +182,11 @@
                 },
                 syb_start_school: {
                     required: "请输入您的入学时间",
+                    digits: '必须输入两位以内的整数。',
                 },
                 syb_finish_school: {
                     required: "请输入您的毕业时间",
+                    digits: '必须输入两位以内的整数。',
                 },
                 syb_education: {
                     required: "请输入您的学历",

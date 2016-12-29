@@ -29,20 +29,43 @@ class SendController extends Controller
     public function index(Request $request)
     {
 
-        // 判断有没有传递参数
+//        // 判断有没有传递参数
+
         $data = $request->all();
-        // 判断有没有传过来数据
-        if (empty($request['status'])) {
-            $data["status"] = 1;
-        } else if ($request['status'] >= 5) {
-            $data["status"] = 5;
+        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
+        $forPages = 5;//一页的数据条数
+        // 判断现在查询的是哪一类数据
+        if (empty(session('status'))) {
+            if (empty($data["status"])) {
+                session(['status' => '2']);
+            } else {
+                session(['status' => $data["status"]]);
+            }
         } else {
-            $data["status"] = $request["status"];// 文章状态：开始前 进行中  结束
+            if (!empty($data["status"])) {
+                session(['status' => $data["status"]]);
+            }
         }
+        // 设置索要查询的类型
+        $data["status"] = session('status');
+        $status = session('status');//文章状态：已发布 待审核 已下架
+        $type = 1;//获取文章类型
+
+
+        $where = [];
+        if($status){
+            $where["status"] = $status;
+        }
+        if($type!="null"){
+            if ($type != 3){
+                $where["type"] = $type;
+            }
+        }
+        $where['user_id'] = session('user')->guid;
 
         // 分页查询 得到指定类型的数据
-        $result = self::$articleServer->selectTypeData(['status' => $data['status'], 'user_id' => session('user')->guid]);
-
+        $result = self::$articleServer->selectData($where, $nowPage, $forPages, "/send");
+        $result['TypeDataNum'] = self::$articleServer->selectTypeDataNum($where)['ResultData'];
         switch ($data['status'])
         {
             case 1: case 2:

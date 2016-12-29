@@ -39,6 +39,7 @@ class PictureStore
         if (empty($where)) return false;
         return DB::table(self::$table)
             ->where($where)
+            ->where('status', '<>', 4)
             ->get();
     }
     /**
@@ -66,6 +67,17 @@ class PictureStore
         return DB::table(self::$table)
             ->where($where)
             ->update($field);
+    }
+
+    /**
+     * 获取所有的投资机构和合作机构
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public static function getGroup()
+    {
+        return DB::table(self::$table)->wherein('type',[3,5])->get();
     }
 
 }

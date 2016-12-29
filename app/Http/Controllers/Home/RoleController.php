@@ -140,7 +140,23 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(),[
+            'role' => 'required',
+            'scale' => 'required|numeric',
+            'field' => 'required|',
+        ],[
+            'role.required' => '非法操作!<br>',
+            'scale.required' => '请输入投资规模<br>',
+            'scale.numeric:' => '必须输入数字<br>',
+            'field.required' => '请选择行业领域<br>',
+        ]);
 
+        // 数据验证失败，响应信息
+        if ($validator->fails()) return ['StatusCode' => '400','ResultData' => $validator->errors()->all()];
+
+        $result = self::$roleServer->updateRoleInfo($id, $request->all());
+
+        return response()->json($result);
     }
 
     /**

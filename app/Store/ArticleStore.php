@@ -124,7 +124,9 @@ class ArticleStore
      */
     public function getCount ($where)
     {
-        return DB::table(self::$table)->where($where)->count();
+        return DB::table(self::$table)
+            ->where($where)
+            ->count();
     }
 
     /**

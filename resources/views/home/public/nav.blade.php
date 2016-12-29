@@ -10,22 +10,23 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="{{ route('index') }}">奇力首页</a></li>
-                <li><a href="{{ route('project.index') }}">创新作品</a></li>
-                {{--<li class="dropdown">--}}
+                <li class="active nav-child"><a href="{{ route('index') }}">奇力首页</a></li>
+                <li class="nav-child"><a href="{{ route('project.index') }}">创新作品</a></li>
+                {{--<li class="dropdown nav-child">--}}
                     {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">项目投资<span class="caret"></span></a>--}}
                     {{--<ul class="dropdown-menu" role="menu">--}}
                         {{--<li><a href="#">项目投资</a></li>--}}
                         {{--<li><a href="#">众筹项目</a></li>--}}
                     {{--</ul>--}}
                 {{--</li>--}}
-                <li><a href="/school?type=1">英雄学院</a></li>
-                <li><a href="/article?type=1">市场咨询</a></li>
-                <li><a href="/article?type=2">创业政策</a></li>
-                <li class="dropdown">
+                <li class="nav-child"><a href="/school?type=1">英雄学院</a></li>
+                <li class="nav-child"><a href="/article?type=1">市场咨询</a></li>
+                <li class="nav-child"><a href="/article?type=2">创业政策</a></li>
+                <li class="dropdown nav-child">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">路演活动<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="{{ route('action.index', ['type' => '1']) }}">路演活动</a></li>
+                        <li class="nav-child-li"><a href="{{ route('action.index', ['type' => '1']) }}">路演活动</a></li>
+                        <li role="presentation" class="divider"></li>
                         <li><a href="{{ route('action.index', ['type' => '2']) }}">创业大赛</a></li>
                     </ul>
                 </li>

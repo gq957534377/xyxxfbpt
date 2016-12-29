@@ -11,6 +11,7 @@
 
 @section('content')
     <!--我的主页内容开始-->
+    {{--{{dd(session()->all())}}--}}
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 my-home fs-c-4 fs-14">
         <!--基本信息开始-->
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 pad-cl my-home-basic">
@@ -149,7 +150,7 @@
 
                 <div class="col-xs-12 pad-clr my-home-content">
                     <p class="col-lg-6 pad-clr">公司名称：<span>{{ empty(session('roleInfo')[2]->company->company) ? '--' : session('roleInfo')[2]->company->company}}</span></p>
-                    <p class="col-lg-6 pad-clr">公司网址：<span><a href="http://{{ empty(session('roleInfo')[2]->company->url) ? '--' : session('roleInfo')[2]->company->url }}" target="_blank">{{ empty(session('roleInfo')[2]->company->url) ? '--' : session('roleInfo')[2]->company->url }}</a></span></p>
+                    <p class="col-lg-6 pad-clr">公司网址：<span><a href="{{ empty(session('roleInfo')[2]->company->url) ? '--' : session('roleInfo')[2]->company->url }}" target="_blank">{{ empty(session('roleInfo')[2]->company->url) ? '--' : session('roleInfo')[2]->company->url }}</a></span></p>
                     <p class="col-lg-6 pad-clr">公司简介：<span>{{ empty(session('roleInfo')[2]->company->abbreviation) ? '--' : session('roleInfo')[2]->company->abbreviation }}</span></p>
                     <p class="col-lg-6 pad-clr">领域：<span>{{ empty(session('roleInfo')[2]->company->field) ? '--' : session('roleInfo')[2]->company->field }}</span></p>
                     <p class="col-lg-6 pad-clr">所在地：<span>{{ empty(session('roleInfo')[2]->company->address) ? '--' : session('roleInfo')[2]->company->address }}</span></p>
@@ -176,10 +177,7 @@
         <!--投资者认证 未认证 和 审核中-->
 
         <!--投资者认证通过 开始-->
-
-
         <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ (session('user')->role == '23' || !empty(session('roleInfo')[3]) || session('user')->role == '3')  ? '' : 'hidden' }}">
-
             @if(!empty(session('roleInfo')[3]))
             <h4 class="col-xs-12 pad-clr my-home-title">投资者认证
                 @if(session('roleInfo')[3]->status == 5 )

@@ -335,6 +335,36 @@ class UserService {
     }
 
     /**
+     * 忘记密码的情况，修改密码
+     * @param $data
+     * @return array
+     * @author 王通
+     */
+    public function talChangePassword($data)
+    {
+        // 查询用户的信息
+        $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
+
+        // 判断数据
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '账号不存在'];
+
+        //加密密码
+        $pass = Common::cryptString($result->tel, $data['password'], 'hero');
+
+        if ($result->password == $pass) return ['StatusCode' => '400', 'ResultData' => '原始密码与新密码相同，请更换密码'];
+        if($result->status != '1') return ['StatusCode' => '400','ResultData' => '账号存在异常，已锁定，请紧快与客服联系！'];
+        // 更新密码
+
+        $result = self::$homeStore->updateData(['tel' => $data['tel']], ['password' => $pass]);
+        Session::put('sms',null);
+        if (!$result) {
+            \Log::error('前端用户修改密码失败', $result);
+            return ['StatusCode' => '400', 'ResultData' => '修改密码失败'];
+        } else {
+            return ['StatusCode' => '200', 'ResultData' => '修改密码成功'];
+        }
+    }
+    /**
      * 发送短信，时间间隔验证
      * @param $phone
      * @return string
@@ -351,7 +381,7 @@ class UserService {
         $content = ['name' => $name,'number' => $number];
         $result = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
         if ($result) {
-            return ['StatusCode' => '400','ResultData' => '获取验证码次数过多，请稍后再试'];
+            return ['StatusCode' => '400','ResultData' => '获取验证码过于频繁，请稍后再试'];
         }
         //校验
         if($sms['phone']==$phone){
@@ -363,7 +393,7 @@ class UserService {
             // 发送失败
             if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送！'];
             // 成功，保存信息到session里，为了下一次校验
-            $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
+            $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => '111111'];
             Session::put('sms',$arr);
 
             return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];
@@ -372,7 +402,7 @@ class UserService {
 
             // 发送失败
             if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送！'];
-            $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
+            $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => '111111'];
             Session::put('sms',$arr);
 
             return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];

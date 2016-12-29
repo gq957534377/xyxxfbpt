@@ -15,6 +15,7 @@
 
             <form id="applySybForm" class="form-horizontal my-education-edit" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
                 <input type="hidden" name="role" value="2">
+                <input type="hidden" name="nowDate" value="{{ date('Y') }}">
                 <div class="form-group mar-b30">
                     <label for="form-title" class="col-md-3 col-lg-2 control-label mar-b10"><span class="form-star">*</span>真实姓名</label>
                     <div class="col-md-6">
@@ -57,33 +58,42 @@
                 <div class="form-group mar-b30 line-h-3">
                     <label for="institutions_address" class="col-sm-12 col-md-3 col-lg-2 control-label pad-cr mar-xs--b"><span class="form-star">*</span>所在院校</label>
                     <div class="col-sm-8 col-md-6 mar-b10">
-                        <select class="form-control chr-c bg-1" name="syb_school_address">
-                            <option value="">请选择院校所在省</option>
-                            <option value="湖北省">湖北省</option>
-                            <option value="江西省">江西省</option>
-                        </select>
+                        {{--<select class="form-control chr-c bg-1" name="syb_school_address">--}}
+                            {{--<option value="">请选择院校所在省</option>--}}
+                            {{--<option value="湖北省">湖北省</option>--}}
+                            {{--<option value="江西省">江西省</option>--}}
+                        {{--</select>--}}
+                        <input type="text" class="form-control form-title" name="syb_school_address" placeholder="请选择院校所在省">
                     </div>
                     <label for="institutions_name" class="hidden"></label>
                     <div class="col-md-offset-3 col-lg-offset-2 col-sm-8 col-md-6">
-                        <select class="form-control chr-c bg-1" name="syb_school_name">
-                            <option value="">请选择所在院校</option>
-                            <option value="武汉大学">武汉大学</option>
-                            <option value="江西财经大学">江西财经大学</option>
-                        </select>
+                        {{--<select class="form-control chr-c bg-1" name="syb_school_name">--}}
+                            {{--<option value="">请选择所在院校</option>--}}
+                            {{--<option value="武汉大学">武汉大学</option>--}}
+                            {{--<option value="江西财经大学">江西财经大学</option>--}}
+                        {{--</select>--}}
+                        <input type="text" class="form-control form-title" name="syb_school_name" placeholder="请选择所在院校">
+                    </div>
+                </div>
+
+                <div class="form-group mar-b30 mar-b15-xs">
+                    <label for="work-position" class="col-md-3 col-lg-2 control-label mar-b10"><span class="form-star">*</span>专业名称</label>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control form-title" name="syb_major" placeholder="请输入专业名称">
                     </div>
                 </div>
 
                 <div class="form-group mar-b30">
                     <label for="wechat-num" class="col-md-3 col-lg-2 control-label mar-b10"><span class="form-star">*</span>入学时间</label>
                     <div class="col-md-6">
-                        <input type="text" name="syb_start_school" class="form-control form-title" placeholder="例如：2016">
+                        <input type="text" name="syb_start_school" class="form-control form-title" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="例如：2016">
                     </div>
                 </div>
 
                 <div class="form-group mar-b30 mar-b15-xs">
                     <label for="work-company" class="col-md-3 col-lg-2 control-label mar-b10"><span class="form-star">*</span>毕业时间</label>
                     <div class="col-md-6">
-                        <input type="text" name="syb_finish_school" class="form-control" placeholder="例如：2016">
+                        <input type="text" name="syb_finish_school" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" placeholder="例如：2016">
                     </div>
                 </div>
 
@@ -98,13 +108,6 @@
                             <option value="硕士">硕士</option>
                             <option value="博士">博士</option>
                         </select>
-                    </div>
-                </div>
-
-                <div class="form-group mar-b30 mar-b15-xs">
-                    <label for="work-position" class="col-md-3 col-lg-2 control-label mar-b10"><span class="form-star">*</span>专业名称</label>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control form-title" name="syb_major" placeholder="请输入专业名称">
                     </div>
                 </div>
 
