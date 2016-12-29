@@ -37,24 +37,25 @@
 
 @section('content')
     <!--活动详情banner 开始-->
-    <section class="container road-banner bgc-1 mar-emt1 pad-7 pad-7-xs">
+    <section class="container road-banner mar-emt1 pad-7-xs">
         @if($data['StatusCode'] == '200')
-            <h4 class="mar-ct mar-b15">{{ $data['ResultData']->title }}</h4>
-            <p class="mar-b15"><span>时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}——{{ date('Y年m月d日 H点',$data['ResultData']->end_time) }}</p>
-            <p class="mar-b15"><span>地点：</span>{{ $data['ResultData']->address }}</p>
-            <p id="baomingNum" class="mar-emt60 mar-b15">已报名{{ $data['ResultData']->people }}人</p>
+            <h1 class="mar-ct">{{ $data['ResultData']->title }}</h1>
+            <p class=""><span>活动时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}——{{ date('Y年m月d日 H点',$data['ResultData']->end_time) }}</p>
+            <p class=""><span>报名截止时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}</p>
+            <p class=""><span>活动地点：</span>{{ $data['ResultData']->address }}</p>
+            <p id="baomingNum" class="mar-b15">已报名{{ $data['ResultData']->people }}人 &nbsp;限额({{ $data['ResultData']->people }})人</p>
 
             <!--两个按钮按照情况只显示一个-->
             @if($data['ResultData']->status == 1)
                 @if(!$isHas)
-                    <button id="js_enroll" type="button" class="btn btn-primary bgc-2 b-n btn-1">我要报名</button>
+                    <button id="js_enroll" type="button" class="btn road-banner-join">我要报名</button>
                 @else
-                    <button style="background: #3E8CE6;" type="button" class="btn btn-primary bgc-2 b-n btn-1">已报名</button>
+                    <button type="button" class="btn road-banner-join zxz">已报名</button>
                 @endif
             @elseif($data['ResultData']->status == 5)
-                <button type="button" class="btn btn-info b-n disabled">报名截止</button>
+                <button type="button" class="btn road-banner-join disabled">报名截止</button>
             @elseif($data['ResultData']->status == 2)
-                <button type="button" class="btn btn-info b-n disabled">活动已开始</button>
+                <button type="button" class="btn road-banner-join disabled">活动已开始</button>
             @endif
         @else
             <h4 class="mar-ct mar-b15">{{ $data['ResultData'] }}</h4>
