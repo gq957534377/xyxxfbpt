@@ -178,11 +178,11 @@
     <!--活动说明 & 评论 结束-->
 @endsection
 @section('script')
-    <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     {{--提示框--}}
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
+    <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script>
         var token  = $('meta[name="csrf-token"]').attr('content');
         @if($isLogin && $data['StatusCode'] == '200')

@@ -11,6 +11,7 @@
 
 @section('content')
     <!--我的主页内容开始-->
+    {{--{{dd(session()->all())}}--}}
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 my-home fs-c-4 fs-14">
         <!--基本信息开始-->
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 pad-cl my-home-basic">

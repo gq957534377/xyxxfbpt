@@ -482,7 +482,7 @@ class UserRoleService {
         $syb = self::$applySybStore->getOneData(['guid' => $guid]);
 
         // 如果是创业者了，获取下公司信息
-        if ($syb && $syb->status == '6') {
+        if ($syb && $syb->status == 6) {
             $company = self::$companyStore->getOneData(['guid' => $guid]);
             $syb->company = $company;
         }
