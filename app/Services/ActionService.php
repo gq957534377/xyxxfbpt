@@ -193,45 +193,6 @@ class ActionService
     }
 
     /**
-     * 获取报名信息
-     * @param $guid
-     * @return array
-     * @author 郭庆
-     */
-    public function getOrderInfo($where, $nowPage, $forPages, $url, $disPlay=true)
-    {
-        $count = self::$actionOrderStore->getCount($where);
-        if (!$count) {
-            //如果没有数据直接返回201空数组，函数结束
-            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
-            return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
-        }
-        //计算总页数
-        $totalPage = ceil($count / $forPages);
-        //获取所有数据
-        $result['data'] = self::$actionOrderStore->forPage($nowPage, $forPages, $where);
-
-        if($result['data']){
-            if ($disPlay && $totalPage > 1) {
-                //创建分页样式
-                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
-
-                if($creatPage){
-                    $result["pages"] = $creatPage;
-                }else{
-                    return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
-                }
-            }else{
-                $result['totalPage'] = $totalPage;
-                $result["pages"] = '';
-            }
-            return ['StatusCode' => '200','ResultData' => $result];
-        }else{
-            return ['StatusCode' => '500','ResultData' => '获取报名分页数据失败！'];
-        }
-    }
-
-    /**
      * 分页查询
      * @param array $where 查询条件
      * @param int $nowPage  当前页
@@ -414,22 +375,6 @@ class ActionService
             return ['status' => false, 'msg' => '获取评论信息失败'];
         }
     }
-
-    /**
-     * 修改活动报名状态
-     * @param $guid ：活动id
-     * @param $status : 当前状态
-     * @return array
-     * @author 郭庆
-     */
-    public function switchStatus($guid, $status)
-    {
-        $res = self::$actionOrderStore->updateData(['action_id' => $guid], ['status' => $status]);
-        if ($res==0) return ['status' => false, 'msg' => '修改失败'];
-        return ['status' => true, 'msg' => '修改成功'];
-    }
-
-
 
     /**
      * 拿取三条活动数据
@@ -660,5 +605,58 @@ class ActionService
 
         if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有本活动信息'];
         return ['StatusCode' => '200', 'ResultData' => $data];
+    }
+
+    /**
+     * 获取报名信息
+     * @param $guid
+     * @return array
+     * @author 郭庆
+     */
+    public function getOrderInfo($where, $nowPage, $forPages, $url, $disPlay=true)
+    {
+        $count = self::$actionOrderStore->getCount($where);
+        if (!$count) {
+            //如果没有数据直接返回201空数组，函数结束
+            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
+            return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
+        }
+        //计算总页数
+        $totalPage = ceil($count / $forPages);
+        //获取所有数据
+        $result['data'] = self::$actionOrderStore->forPage($nowPage, $forPages, $where);
+
+        if($result['data']){
+            if ($disPlay && $totalPage > 1) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+
+                if($creatPage){
+                    $result["pages"] = $creatPage;
+                }else{
+                    return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
+                }
+            }else{
+                $result['totalPage'] = $totalPage;
+                $result["pages"] = '';
+            }
+            return ['StatusCode' => '200','ResultData' => $result];
+        }else{
+            return ['StatusCode' => '500','ResultData' => '获取报名分页数据失败！'];
+        }
+    }
+
+    /**
+     * 修改活动报名状态
+     * @param $guid ：活动id
+     * @param $status : 当前状态
+     * @return array
+     * @author 郭庆
+     */
+    public function switchStatus($guid, $status)
+    {
+        $res = self::$actionOrderStore->updateData(['action_id' => $guid], ['status' => $status]);
+        if ($res==0) return ['status' => false, 'msg' => '修改失败'];
+        return ['status' => true, 'msg' => '修改成功'];
     }
 }
