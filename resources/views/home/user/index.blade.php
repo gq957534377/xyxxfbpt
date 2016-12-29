@@ -127,7 +127,7 @@
 
             @if(empty(session('roleInfo')[2]->company))
                 <h4 class="col-xs-12 pad-clr my-home-title">我管理的公司
-                    <a href="javascript:void(0)" class="pull-right fs-14 hidden">编辑</a>
+                    {{--<a href="javascript:void(0)" class="pull-right fs-14 hidden">编辑</a>--}}
                 </h4>
                 <div class="col-xs-12 pad-clr my-home-content">
                     <div class="com-bot"> <p>入驻英雄会，获取优质创业服务</p>
