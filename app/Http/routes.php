@@ -139,8 +139,6 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
 
         Route::resource('/project_user','ProjectUsersController');
 
-        //活动管理
-        Route::resource('/activity', 'ActivityController');
         //活动报名管理
         Route::resource('/action_order','ActionOrderController');
         //投稿管理

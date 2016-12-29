@@ -177,7 +177,7 @@
                 html +=             likeData[data]['contentTitle'];
                 html +=         "</a></p>";
                 html +=     "<p class='col-xs-12 mar-cb'>";
-                html +=         likeData[data]['time'];
+                html +=         new Date(parseInt(likeData[data]['addtime']) * 1000).toLocaleString().substr(0,17);
                 html +=     "</p><div class='clearfix'></div></div>";
             }
             $('#js_ajaxReplace').html(html);

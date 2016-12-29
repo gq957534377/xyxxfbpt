@@ -101,6 +101,13 @@ class ProjectStore {
     }
 
     /**
-     *
+     * 统计数量
+     * @param array $where
+     * @return mixed
+     * author 张洵之
      */
+    public function getCount($where)
+    {
+        return DB::table(self::$table)->where($where)->count();
+    }
 }

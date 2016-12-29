@@ -1,6 +1,36 @@
 .road-banner {
-    min-height: 100px;
-    font-size: 14px;
+    color: #fff;
+    font-size: 16px;
+    background: url("../img/act-xq.jpg") no-repeat center;
+    padding: 2em 2em 1em 2em;
+}
+.road-banner > h1 {
+    display: inline-block;
+    padding-bottom: .5em;
+    border-bottom: 1px solid #ffffff;
+    margin-bottom: .5em;
+}
+.road-banner-join {
+    font-size: 16px;
+    padding: 6px 20px;
+    background-color: transparent;
+    border-radius: 0;
+    border: 1px solid #ffffff;
+}
+.road-banner-join:hover {
+    color: #333333;
+    background-color: #ffffff;
+}
+.sponsor {
+    width: 96%;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    padding-top: 10px;
+    padding-left: 15px;
+    border: 1px dashed #d3d3d3;
+}
+.sponsor > p > span {
+    font-weight: bold;
 }
 .road-explain {
     font-size: 14px;
@@ -58,6 +88,7 @@
     margin: 0;
     font-size: 17px;
     padding: 0;
+    color: #333333;
 }
 .pl-block >a{
     padding: 0;
@@ -71,6 +102,10 @@
     resize: none;
     border: 1px solid #dfdfdf;
     border-radius: 6px;
+    color: #333;
+}
+#commentlist {
+    display: inline-block;
 }
 .user-img{
     padding: 20px 0;
@@ -140,6 +175,16 @@
     .user-img{
         margin-left: 5%;
     }
+    .road-banner > h1 {
+        font-size: 24px;
+        margin-bottom: 5px;
+    }
+    .road-banner {
+        padding: 1em 1em 1em 1em;
+    }
+    .road-banner > p {
+        margin-bottom: 5px;
+    }
 }
 /*********评论区样式结束************/
 
@@ -197,6 +242,20 @@
 @media (min-width: 768px) and (max-width: 991px) {
     .pl-block{
         margin-bottom: 2em;
+    }
+    .road-banner {
+        padding: 1em 2em 1em 2em;
+    }
+    .road-banner > h1 {
+        margin-bottom: .5em;
+    }
+    .sponsor {
+        width: 98%;
+    }
+}
+@media (max-width: 767px) {
+    .sponsor {
+        width: 91%;
     }
 }
 /********右侧样式结束*****/

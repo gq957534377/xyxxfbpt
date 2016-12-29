@@ -52,29 +52,18 @@
                 });
                 //与正常form不同，通过下面这样来获取需要验证的字段
                 var data = new FormData();
-                data.append( "investor_realname"      , $("input[name= 'investor_realname']").val());
-                data.append( "investor_work_year"      , $('input[name = "investor_work_year"]').val());
+                data.append( "investor_role"      , $('input[name = "investor_role"]').val());
                 data.append( "investor_scale"      , $('input[name = "investor_scale"]').val());
-                data.append( "investor_company"      , $('input[name = "investor_company"]').val());
-                data.append( "investor_company_address"      , $('input[name = "investor_company_address"]').val());
                 data.append( "investor_field"       , $("input[name = 'investor_field']").val());
-                data.append( "investor_card_pic"       , $("input[name= 'investor_card_pic']").val());
                 //开始正常的ajax
                 // 异步登录
                 $.ajax({
-                    type: "POST",
-                    url: '/identity',
+                    type: "PUT",
+                    url: '/identity/'+ $('input[name = "investor_id"]').val(),
                     data: {
-                        "guid": $("#topAvatar").data('id'),
-                        "role": $("input[name= 'investor_role']").val(),
-                        'realname': $("input[name= 'investor_realname']").val(),
-                        'work_year': $('input[name = "investor_work_year"]').val(),
+                        'role' : $('input[name = "investor_role"]').val(),
                         'scale': $('input[name = "investor_scale"]').val(),
-                        'company': $('input[name = "investor_company"]').val(),
-                        'company_address': $('input[name = "investor_company_address"]').val(),
-                        // 'field':  $("select[name = 'investor_field']").val(),
-                        'field':  $("input[name = 'investor_field']").val(),
-                        'card_pic_a': $("input[name= 'investor_card_pic']").val()
+                        'field': $("input[name = 'investor_field']").val(),
                     },
                     beforeSend:function(){
                         $(".loading").css({'width':'80px','height':'80px'}).show();
@@ -99,62 +88,23 @@
         this.$applyInvestorForm.validate({
             // 验证规则
             rules: {
-                investor_realname: {
-                    required: true,
-                    chinese: true,
-                    minlength: 2
-                },
-                investor_work_year: {
-                    required: true,
-                    digits:true,
-                    maxlength : 2,
-                },
                 investor_scale: {
                     required: true,
                     digits:true
                 },
-                investor_company: {
-                    required: true,
-                    chinese: true,
-                },
-                investor_company_address: {
-                    required: true,
-                },
                 investor_field: {
                     required: true,
-                },
-                investor_card_pic: {
-                    required: true,
-                    checkPicSize: true
                 }
             },
             // 提示信息
             messages: {
-                investor_realname: {
-                    required: "请填写您的真实姓名！",
-                    minlength : "最少两位"
-                },
-                investor_work_year: {
-                    required: "请输入从业年份",
-                    digits: '必须输入两位以内的整数。',
-                    maxlength: "请输入两位以内数字"
-                },
                 investor_scale: {
                     required: "请输入投资规模",
                     digits: '必须输入整数。',
                 },
-                investor_company: {
-                    required: "请输入所在公司名称",
-                },
-                investor_company_address: {
-                    required: "请输入公司所在地",
-                },
                 investor_field: {
                     required: "请选择创业领域"
                 },
-                investor_card_pic: {
-                    required: "请上传身份证件照"
-                }
             }
         });
     };

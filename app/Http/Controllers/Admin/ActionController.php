@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Store\PictureStore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Validator;
@@ -11,9 +12,11 @@ use App\Services\ActionService as ActionServer;
 class ActionController extends Controller
 {
     protected  static $actionServer;
-    public function __construct(ActionServer $actionServer)
+    protected  static $pictureStore;
+    public function __construct(ActionServer $actionServer, PictureStore $pictureStore)
     {
         self::$actionServer = $actionServer;
+        self::$pictureStore = $pictureStore;
     }
 
     /**
@@ -25,7 +28,9 @@ class ActionController extends Controller
     public function index(Request $request)
     {
         $type = (int)$request->get('type');
-        return view('admin.action.index',['type'=>$type]);
+
+
+        return view('admin.action.index',['type' => $type]);
     }
 
     /**
@@ -58,6 +63,7 @@ class ActionController extends Controller
             $list = false;
             $where['type'] = $type;
         }
+
         $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create", $list);
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
@@ -74,6 +80,7 @@ class ActionController extends Controller
                 }
             }
         }
+
         return response() -> json($result);
     }
 
@@ -150,8 +157,16 @@ class ActionController extends Controller
      */
     public function actionAdd()
     {
-
-        return view('admin.action.add');
+        $group = self::$pictureStore->getGroup();
+        if (!empty($group)){
+            return view('admin.action.add', ['StatusCode' => '200', 'ResultData' => $group]);
+        }else{
+            if ($group == []){
+                return view('admin.action.add', ['StatusCode' => '204', 'ResultData' => '暂时没有合作机构或投资机构，请添加后再进行发布']);
+            }else{
+                return view('admin.action.add', ['StatusCode' => '500', 'ResultData' => '服务器忙，请稍后重试']);
+            }
+        }
     }
     /**
      * 返回活动修改视图
@@ -161,8 +176,12 @@ class ActionController extends Controller
      */
     public function actionChange($id, $list)
     {
+        //旧信息
         $result = self::$actionServer -> getData($id,$list);
         $result['list'] = (int)$list;
+
+        $group = self::$pictureStore->getGroup();
+        $result['group'] = $group;
         return view('admin.action.edit', $result);
     }
     /**
@@ -174,5 +193,16 @@ class ActionController extends Controller
     public function actionOrder($id)
     {
         return view('admin.action.order');
+    }
+
+    /**
+     * 获取组织机构列表
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function getGroup()
+    {
+        return $this->validatesRequestErrorBag;
     }
 }

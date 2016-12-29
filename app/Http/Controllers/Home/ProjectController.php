@@ -20,11 +20,6 @@ class ProjectController extends Controller
     protected static $userServer = null;
     protected static $commentServer = null;
 
-
-    /**单例引入projectService
-     * ProjectController constructor.
-     * @param ProjectService $projectService
-     */
     public function __construct(ProjectService $projectService, UserService $userServer, UserRoleService $userRoleServer, CommentAndLikeService $commentServer)
     {
         self::$projectServer = $projectService;
@@ -49,28 +44,27 @@ class ProjectController extends Controller
             $where = ['status'=>'1'];
         }
 
-        $res = self::$projectServer->getData(1,  $where);
+        $res = self::$projectServer->getData(1, 8,$where);
+        $num = self::$projectServer->getCount($where);
 
         if ($res['StatusCode'] == '400') {
             $projects = [];
-            return view('home.projects.index', compact('projects', 'type'));
+            return view('home.projects.index', compact('projects', 'type', 'num'));
         } else {
-
             $projects = $res['ResultData'];
             Common::wordLimit($projects, 'content', 15);
-            return view('home.projects.index', compact('projects', 'type'));
+            return view('home.projects.index', compact('projects', 'type', 'num'));
         }
 
     }
 
     /**
-     * 根据用户session得到角色值
+     * 返回创建项目视图
      * @return \Illuminate\Http\JsonResponse
-     * @author 贾济林
+     * @author 张洵之
      */
     public function create()
     {
-
         return view('home.user.creatMyProject');
     }
 
@@ -109,7 +103,11 @@ class ProjectController extends Controller
     {
         // 项目详情
         $res = self::$projectServer->getProject($id);
+
+        if($res['StatusCode'] == '400') return view('errors.404');
+
         $likeNum = self::$commentServer->likeCount($id);
+
         if(isset(session('user')->guid)){
             $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);
         }else{
@@ -117,66 +115,46 @@ class ProjectController extends Controller
         }
 
         $project_details = $res['ResultData'];
-
         // 获取项目属于者具体信息
-
         $commentData = self::$commentServer->getComent($id,1);
-
-        return view('home.projects.details', compact('project_details', 'commentData', 'id', 'likeNum', 'likeStatus'));
+        return view('home.projects.details', compact(
+            'project_details', //内容详情数据
+            'commentData', //评论内容数据
+            'id', //项目guid
+            'likeNum', //点赞数
+            'likeStatus'//点赞状态
+        ));
     }
 
     /**
-     * 返回七牛upToken
      * @return \Illuminate\Http\JsonResponse
-     * @author 贾济林
+     *
      */
     public function edit($id)
     {
-        // 需要填写你的 Access Key 和 Secret Key
-        $accessKey = 'VsAP-hK_hVPKiq5CQcoxWNhBT9ZpZ1Ii4z3O_W51';
-        $secretKey = '5dqfmvL15DFoAK1QzaVF2TwVzwJllOF8K4Puf1Po';
 
-        // 构建鉴权对象
-        $auth = new Auth($accessKey, $secretKey);
-
-        // 要上传的空间
-        $bucket = 'jacklin';
-
-        // 生成上传 Token
-        $token = $auth->uploadToken($bucket);
-        $a = array('uptoken'=>$token);
-        return response()->json($a);
     }
 
     /**
-     * 返回个人项目列表
      * @param Request $request
      * @param $id
      * @return mixed
-     * @author 贾济林
      */
     public function update(Request $request, $id)
     {
-        $res = self::$projectServer->getProject();
-        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
-        return response()->json(['status'=>'200','data'=>$res['data']]);
+
     }
 
     /**
-     * 获得指定id的项目数据
      * @param $id
      * @return mixed
-     * @author 贾济林
      */
     public function destroy($id)
     {
-        $where = ['project_id'=>$id];
-        $res = self::$projectServer->getData($where);
-        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
-        return response()->json(['status'=>'200','data'=>$res['data']]);
     }
 
-    /**对前台加载的数据进行验证
+    /**
+     * 对前台加载的数据进行验证
      * @param $request
      * @return \Illuminate\Http\JsonResponse
      * @author 贾济林
@@ -239,24 +217,25 @@ class ProjectController extends Controller
         return response()->json($result);
     }
 
-    //未写完的方法--张洵之
+    /**
+     * 项目列表页ajax请求处理器
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * author 张洵之
+     */
     public function lists(Request $request)
     {
-        $type = (int)$request->input('type');
-        $result = self::$projectServer->ajaxForClass();
+        $type = (int)$request->input('typeId');
+        $nowPage = (int)$request->input('nowPage');
+
+        if($type-1>0) {
+            $where = ['status' => '1', 'financing_stage' => $type-1];
+        }else{
+            $where = ['status'=>'1'];
+        }
+
+        $result = self::$projectServer->getData($nowPage, 8 , $where);
         return response()->json($result);
     }
 
-    /**
-     * 根据用户session得到角色值
-     * @return \Illuminate\Http\JsonResponse
-     * @author 贾济林
-     */
-//    public function getRole()
-//    {
-//        $guid = session('user')->guid;
-//        $res = self::$projectServer->getRole($guid);
-//        if (!$res['status']) return response()->json(['status'=>'500','msg'=>'查询失败']);
-//        return response()->json(['status'=>'200','data'=>$res['data']]);
-//    }
 }

@@ -16,11 +16,11 @@
           @foreach($data as $temp)
             <li class="col-sm-6 col-md-6 col-lg-4 mar-emt15">
               <div class="content-block">
-                <a href="#">
+                <a href="@if($temp->status==1){{route('project.show',['id' => $temp->guid])}}@else#@endif">
                   <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{$temp->banner_img}}">
                 </a>
                 <div>
-                  <a href="#" class="ellipse">{{$temp->title}}</a>
+                  <a href="@if($temp->status==1){{route('project.show',['id' => $temp->guid])}}@else#@endif" class="ellipse">{{$temp->title}}</a>
                   <p>{{mb_substr($temp->brief_content,0,38,'utf-8')}}...</p>
                   <!---p标签内容不可超过40个中文简体字--->
                   <div>
@@ -42,6 +42,11 @@
             </li>
           @endif
         </ul>
+          @if(!empty($pageView))
+              <div style="text-align: center">
+                  {!! $pageView['pages'] !!}
+              </div>
+          @endif
         <div class="text-center">
           <a href="/project/create" id="toggle-popup" class="btn fs-15 border-no mar-emt15 btn-1 bgc-2 fs-c-1 zxz" role="button">新建项目</a>
         </div>

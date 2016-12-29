@@ -156,4 +156,5 @@ class PictureService
             return ['StatusCode' => '400', 'ResultData' => '更新失败'];
         }
     }
+
 }

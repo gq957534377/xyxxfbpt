@@ -2,6 +2,29 @@
 
 @section('style')
     <link href="{{ asset('home/css/articleContent.css') }}" rel="stylesheet">
+    <style>
+        .sweet-alert p {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+        }
+        button.confirm {
+            background-color: #34c73b !important;
+            box-shadow: none !important;
+        }
+        .sweet-alert .sa-icon.sa-success .sa-placeholder {
+            border: 4px solid #34c73b;
+        }
+        .sweet-alert .sa-icon.sa-success .sa-line {
+            background-color: #34c73b;
+        }
+        .sweet-alert .sa-icon.sa-error {
+            border-color: #d74548;
+        }
+        .sweet-alert .sa-icon.sa-error .sa-line {
+            background-color: #d74548;
+        }
+    </style>
 @endsection
 
 @section('menu')
@@ -127,10 +150,9 @@
 @endsection
 
 @section('script')
-
+    <script src="http://cdn.rooyun.com/js/classie.js"></script>
+    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script src="{{ asset('home/js/article.js') }}"></script>
-    <script>
-
-    </script>
 @endsection

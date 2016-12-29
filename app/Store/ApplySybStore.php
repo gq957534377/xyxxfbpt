@@ -35,7 +35,7 @@ class ApplySybStore
     public function addOneData($data)
     {
         if (empty($data)) return false;
-        return DB::table(self::$table)->insert($data);
+        return DB::table(self::$table)->insertGetId($data);
     }
 
     /**
