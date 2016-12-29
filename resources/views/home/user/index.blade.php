@@ -150,7 +150,7 @@
 
                 <div class="col-xs-12 pad-clr my-home-content">
                     <p class="col-lg-6 pad-clr">公司名称：<span>{{ empty(session('roleInfo')[2]->company->company) ? '--' : session('roleInfo')[2]->company->company}}</span></p>
-                    <p class="col-lg-6 pad-clr">公司网址：<span><a href="http://{{ empty(session('roleInfo')[2]->company->url) ? '--' : session('roleInfo')[2]->company->url }}" target="_blank">{{ empty(session('roleInfo')[2]->company->url) ? '--' : session('roleInfo')[2]->company->url }}</a></span></p>
+                    <p class="col-lg-6 pad-clr">公司网址：<span><a href="{{ empty(session('roleInfo')[2]->company->url) ? '--' : session('roleInfo')[2]->company->url }}" target="_blank">{{ empty(session('roleInfo')[2]->company->url) ? '--' : session('roleInfo')[2]->company->url }}</a></span></p>
                     <p class="col-lg-6 pad-clr">公司简介：<span>{{ empty(session('roleInfo')[2]->company->abbreviation) ? '--' : session('roleInfo')[2]->company->abbreviation }}</span></p>
                     <p class="col-lg-6 pad-clr">领域：<span>{{ empty(session('roleInfo')[2]->company->field) ? '--' : session('roleInfo')[2]->company->field }}</span></p>
                     <p class="col-lg-6 pad-clr">所在地：<span>{{ empty(session('roleInfo')[2]->company->address) ? '--' : session('roleInfo')[2]->company->address }}</span></p>
