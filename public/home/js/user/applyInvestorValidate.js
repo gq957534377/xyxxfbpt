@@ -22,13 +22,20 @@
 
         $.validator.addMethod("checkPicSize", function(value,element) {
             var fileSize=element.files[0].size;
-            var maxSize = 5*1024*1024;
+            var maxSize = 2*1024*1024;
             if(fileSize > maxSize){
                 return false;
             }else{
                 return true;
             }
-        }, "请上传大小在5M以下的图片");
+        }, "请上传大小在2M以下的图片");
+
+        $.validator.addMethod("chinese", function(value, element) {
+            var chinese = /^[\u4e00-\u9fa5]+$/;
+            return this.optional(element) || (chinese.test(value));
+        }, "只能输入中文");
+
+
         // ajax 异步
         $.validator.setDefaults({
             // 提交触发事件
@@ -89,6 +96,8 @@
             rules: {
                 investor_realname: {
                     required: true,
+                    chinese: true,
+                    minlength: 2
                 },
                 investor_work_year: {
                     required: true,
@@ -109,17 +118,19 @@
                     required: true,
                 },
                 investor_card_pic: {
-                    required: true
+                    required: true,
+                    checkPicSize: true
                 }
             },
             // 提示信息
             messages: {
                 investor_realname: {
                     required: "请填写您的真实姓名！",
+                    minlength : "最少两位"
                 },
                 investor_work_year: {
                     required: "请输入从业年份",
-                    digits: '必须输入整数。',
+                    digits: '必须输入两位以内的整数。',
                     maxlength: "请输入两位以内数字"
                 },
                 investor_scale: {

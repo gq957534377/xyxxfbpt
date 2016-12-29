@@ -90,7 +90,7 @@
                 <p class="col-xs-12 pad-clr">认证成为创业者，XXXXXXXXXXXX</p>
             </div>
             <div class="col-xs-12 col-sm-3 pad-clr my-home-auth">
-                @if(!empty(session('roleInfo')[2]) && session('roleInfo')[2]->status ==7 )
+                @if(empty(session('roleInfo')[2]))
                 <a href="{{ route('identity.index', ['identity' => 'syb']) }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
                 @endif
             </div>
@@ -98,7 +98,7 @@
         <!--创业者认证 已认证 和 审核中-->
 
         <!--创业者认证通过 开始-->
-        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ (session('user')->role == '23' || session('user')->role == '2') ? '' : 'hidden' }}">
+        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ (session('user')->role == '23' || !empty(session('roleInfo')[2]) || session('user')->role == '2') ? '' : 'hidden' }}">
             @if(!empty(session('roleInfo')[2]))
             <h4 class="col-xs-12 pad-clr my-home-title">创业者认证
                 @if(session('roleInfo')[2]->status == '5')
@@ -145,7 +145,7 @@
                         <span class="label label-danger"> 审核失败 </span>
                     @endif
                 </h4>
-                    <a href="javascript:void(0)" class="col-xs-2 pull-right fs-14 text-right">编辑</a>
+                    {{--<a href="javascript:void(0)" class="col-xs-2 pull-right fs-14 text-right">编辑</a>--}}
 
                 <div class="col-xs-12 pad-clr my-home-content">
                     <p class="col-lg-6 pad-clr">公司名称：<span>{{ empty(session('roleInfo')[2]->company->company) ? '--' : session('roleInfo')[2]->company->company}}</span></p>
@@ -166,7 +166,7 @@
                 <p class="col-xs-12 pad-clr">认证成为投资人，参加路演活动发现更多好项目！</p>
             </div>
             <div class="col-xs-12 col-sm-3 pad-clr my-home-auth">
-                @if(!empty(session('roleInfo')[3]) && session('roleInfo')[3]->status ==7 )
+                @if(empty(session('roleInfo')[3]))
                     <a href="{{ route('identity.index', ['identity' => 'investor']) }}"
                        class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no"
                        role="button">去认证</a>
@@ -178,9 +178,9 @@
         <!--投资者认证通过 开始-->
 
 
-        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min{{ (session('user')->role == '23' || session('user')->role == '3') ? '' : 'hidden' }}">
+        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ (session('user')->role == '23' || !empty(session('roleInfo')[3]) || session('user')->role == '3')  ? '' : 'hidden' }}">
 
-            @if(!empty(session('roleInfo')[3] ))
+            @if(!empty(session('roleInfo')[3]))
             <h4 class="col-xs-12 pad-clr my-home-title">投资者认证
                 @if(session('roleInfo')[3]->status == 5 )
                     <span class="label label-warning"> 待审核 </span>

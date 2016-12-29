@@ -18,27 +18,27 @@
                     <div class="form-group mar-b30">
                         <label for="real-name" class="col-md-2 control-label"><span class="form-star">*</span>真实姓名</label>
                         <div class="col-md-5">
-                            <input autofocus  type="text" class="form-control form-title" value="{{ $roleInfo->realname }}" disabled>
+                            <input autofocus  type="text" class="form-control form-title" value="{{ empty(session('roleInfo')[3]->realname) ? '--' : session('roleInfo')[3]->realname }}" disabled>
                         </div>
                     </div>
                     <div class="form-group mar-b30">
                         <label for="investors" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>从业年份</label>
                         <div class="col-md-5">
-                            <input autofocus type="text" class="form-control form-title" maxlength="2" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="{{ $roleInfo->work_year }} 年" disabled>
+                            <input autofocus type="text" class="form-control form-title" maxlength="2" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="{{ empty(session('roleInfo')[3]->work_year) ? '--' : session('roleInfo')[3]->work_year }} 年" disabled>
                         </div>
                     </div>
 
                     <div class="form-group mar-b30">
                         <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>投资规模</label>
                         <div class="col-md-5">
-                            <input autofocus name="investor_scale" type="text" class="form-control form-title" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="{{ $roleInfo->scale }} 万" placeholder="投资规模，请填写数字,单位（万">
+                            <input autofocus name="investor_scale" type="text" class="form-control form-title" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" value="{{ empty(session('roleInfo')[3]->scale) ? '--' : session('roleInfo')[3]->scale }} 万" placeholder="投资规模，请填写数字,单位（万">
                         </div>
                     </div>
 
                     <div class="form-group mar-b30">
                         <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>所在公司</label>
                         <div class="col-md-5">
-                            <input autofocus type="text" class="form-control form-title" value="{{ $roleInfo->company }}" disabled >
+                            <input autofocus type="text" class="form-control form-title" value="{{ empty(session('roleInfo')[3]->company) ? '--' : session('roleInfo')[3]->company }}" disabled >
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@
                     <div class="form-group mar-b30">
                         <label for="invest-step" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>所在地</label>
                         <div class="col-md-5">
-                            <input autofocus type="text" class="form-control form-title" value="{{ $roleInfo->company_address }}" disabled >
+                            <input autofocus type="text" class="form-control form-title" value="{{ empty(session('roleInfo')[3]->company_address) ? '--' : session('roleInfo')[3]->company_address }}" disabled >
                         </div>
                     </div>
 
@@ -65,7 +65,7 @@
                     <div class="form-group mar-b30">
                         <label for="inputfile" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>上传名片</label>
                         <div class="col-md-5 upload_box">
-                            <img src="{{ $roleInfo->card_pic_a or asset('home/img/upload_normal.jpg') }}" >
+                            <img src="{{ empty(session('roleInfo')[3]->card_pic_a) ? '--' : session('roleInfo')[3]->card_pic_a }}" >
                         </div>
                     </div>
 
