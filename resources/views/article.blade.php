@@ -18,12 +18,13 @@
           <ul class="article-list">
             @if(!empty($data))
               @foreach($data as $val)
+
                 <li class="row">
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">
                     <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}">
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">
-                    <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>
+                    <h3><a href="/test/show/?guid={{ $val->guid }}">{{ $val->title }}</a></h3>
                     <p>{{ $val->brief }}</p>
                     <div class="row list-font-bottom">
                       <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ date('Y-m-d H:i', $val->addtime) }}</span>
@@ -38,6 +39,7 @@
                     </div>
                   </div>
                 </li>
+
               @endforeach
             @else
               <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -48,7 +50,7 @@
               <div class="row">
                 <div class="col-md-5"></div>
                 <div class="col-md-2">
-                  <a href="#"><button class="btn btn-warning">点击加载更多</button></a>
+                  <a href="#"><button class="btn btn-warning btn-sm">点击加载更多</button></a>
                 </div>
 
               </div>

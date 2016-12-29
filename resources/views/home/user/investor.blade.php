@@ -9,6 +9,7 @@
 @section('content')
     <!--我的身份开始-->
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 identity-info">
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
         <!--认证投资人开始-->
         <div class="investor">
             <div>

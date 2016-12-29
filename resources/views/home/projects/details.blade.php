@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <div class="row top_right_2">
-                    <span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">北京</span>
+                    {{--<span class="col-lg-12 col-md-12 col-sm-12 col-xs-12">北京</span>--}}
                 </div>
                 <ul class="row top_right_3">
 
@@ -119,16 +119,20 @@
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                         <div class="row csrxx-1">
                             <span class="col-lg-3 col-md-3 col-sm-3 ">{{ $project_details->userInfo->realname }}</span>
-                            <span class="col-lg-3 col-md-3 col-sm-3">
-                                @if($project_details->userInfo->role == 2)
+                            {{--<span class="col-lg-3 col-md-3 col-sm-3">--}}
+                                {{--@if($project_details->userInfo->role == 2)--}}
+                                    {{--创业者--}}
+                                {{--@elseif($project_details->userInfo->role == 3)--}}
+                                    {{--投资者--}}
+                                {{--@endif--}}
+                            {{--</span>--}}
+                        </div>
+                        <div class="row csrxx-2">
+                            <span class="col-lg-12 col-md-12 col-sm-12">杭州糖礼记科技信息有限公司 | @if($project_details->userInfo->role == 2)
                                     创业者
                                 @elseif($project_details->userInfo->role == 3)
                                     投资者
-                                @endif
-                            </span>
-                        </div>
-                        <div class="row csrxx-2">
-                            <span class="col-lg-12 col-md-12 col-sm-12">杭州糖礼记科技信息有限公司 | 创始人</span>
+                                @endif</span>
                         </div>
                         <div class="row csrxx-3">
                             <p class="col-lg-12 col-md-12 col-sm-12">
@@ -232,18 +236,6 @@
                                     </div>
                                 </li>
                             @endforeach
-                        @else
-                            <li class="row">
-                                <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-
-                                </div>
-                                <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-
-                                    <div class="row user-say2">
-                                        <p>暂无评论</p>
-                                    </div>
-                                </div>
-                            </li>
                     @endif
                     <!---循环遍历结束-->
 
@@ -259,10 +251,10 @@
                     <div class="kuang">
 
                         @if(session('user'))
-                            @if(session('user')->role != 3)
-                                <div class="gdxx-content"></div>
-                            @else
+                            @if(session('user')->role == 3||session('user')->guid == $project_details->user_guid)
                                 <a style="position: absolute;top: 50%;left: 36%;" href="{{ $project_details->file }}">项目详细资料</a>
+                            @else
+                                <div class="gdxx-content"> <a href="{{ url('/user').'/'.session('user')->guid }}" style="display: block;height: 100%;width: 100%;"></a></div>
                             @endif
                         @else
                             <div class="gdxx-content">

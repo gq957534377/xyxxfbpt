@@ -92,6 +92,9 @@ function listType(type) {
 
             } else {
                 swal(data.ResultData);
+                institutionHtml([]);
+                $('.text-coutent').show();
+                $('.add-picture').show();
             }
             $('.loading').hide();
         }

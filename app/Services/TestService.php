@@ -1,13 +1,13 @@
 <?php
-
+/**
+ * article 缓存服务
+ * @author lw  beta
+ */
 namespace App\Services;
 
 use App\Tools\CustomPage;
 use App\Redis\ArticleCache;
 use App\Store\ArticleStore;
-
-
-
 
 class TestService
 {
@@ -21,8 +21,10 @@ class TestService
     }
 
     /**
-     * 获取所有文章列表
-     * @return mixed
+     * 获取分页文章列表
+     * @param  int $nums 一页的条数
+     * @param  int $pages 页数
+     * @return object|void  返回获取的list
      */
     public function getArticleList($nums,$pages)
     {
@@ -32,13 +34,35 @@ class TestService
             $article_list = CustomPage::objectToArray(self::$article_store->getAllArticle());
 
             //存入redis缓存
-            self::$article_cache->setArticleList($article_list);
+            if(count($article_list)){
+                self::$article_cache->setArticleList($article_list);
+            }
         }
 
         //直接读取缓存数据,并把数组转换为对象
         $list = CustomPage::arrayToObject(self::$article_cache->getArticleList($nums,$pages));
 
-
         return $list;
+
+    }
+
+    /**
+     * 根据list页传递的文章guid获取一条文章
+     * @param $guid  文章guid
+     * @return
+     */
+    public function getOneArticle($guid)
+    {
+        if(!self::$article_cache->exists('',$guid)){
+            //读取数据库
+            $content = CustomPage::objectToArray(self::$article_store->getOneDatas(['guid'=>$guid]));
+
+            //写入hash缓存
+            if ($content){
+                self::$article_cache->setOneArticle($content);
+            }
+        }
+
+        return CustomPage::arrayToObject(self::$article_cache->getOneArticle($guid));
     }
 }
