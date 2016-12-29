@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Store\PictureStore;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,6 +16,7 @@ class WebAdminstrationController extends Controller
 {
     protected static $webAdmin;
     protected static $pictureService;
+    protected static $pictureStore;
     /** 单例引入
      *
      * @param WebAdminService $webAdminService
@@ -22,10 +24,12 @@ class WebAdminstrationController extends Controller
      */
     public function __construct(
         WebAdminService $webAdminService,
-        PictureService $pictureService
+        PictureService $pictureService,
+        PictureStore $pictureStore
     ) {
         self::$webAdmin = $webAdminService;
         self::$pictureService = $pictureService;
+        self::$pictureStore = $pictureStore;
     }
     /**
      * 网站管理页面
@@ -74,6 +78,10 @@ class WebAdminstrationController extends Controller
             case '4':
                 // 轮播图管理Ajax请求
                 $result = self::$pictureService->getPicture(2);
+                break;
+            case '23':
+                //机构获取
+                $result = self::$pictureStore->getGroup();
                 break;
             default:
                 $result = ['StatusCode' => '500', 'ResultData' => '请求错误'];

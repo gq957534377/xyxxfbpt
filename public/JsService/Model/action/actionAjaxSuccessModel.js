@@ -38,21 +38,6 @@ function listHtml(data){
     return html;
 }
 
-//所属机构展示
-function group(type) {
-    var res;
-    switch (type){
-        case '1':
-            res = '英雄会';
-            break;
-        case '2':
-            res = '兄弟会';
-            break;
-        default:
-            break;
-    }
-    return res;
-}
 //活动状态
 function status(status) {
     var res;
