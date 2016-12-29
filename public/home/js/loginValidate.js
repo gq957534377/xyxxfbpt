@@ -97,13 +97,16 @@
             },
             errorPlacement: function(error, element) {
                 // Append error within linked label
-                $('#error-info').html(error[0].textContent).fadeIn(1000);
+                if (error[0].textContent != '') {
+                    $('#error-info').html(error[0].textContent).fadeIn(1000);
+                }
 
-                $(element).focus();
+
+                //$(element).focus();
+            },
+            success: function () {
+                $('#error-info').hide();
             }
-            // success: function () {
-            //     $('#error-info').hide();
-            // }
         });
     };
     $.FormValidator = new FormValidator;

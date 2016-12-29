@@ -12,12 +12,13 @@
 @section('content')
     <!--内容开始--->
     <section class="container-fluid">
+      <input id="article-type" type="text" hidden value="{{ $type or 1 }}">
       <div class="row content">
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 content-left">
           <h2>最新文章</h2>
           <ul class="article-list">
             @if(!empty($StatusCode) && $StatusCode == '200')
-              @foreach($ResultData as $val)
+              @foreach($ResultData['data'] as $val)
                 <li class="row">
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">
                     <a href="/article/{{ $val->guid }}"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}"></a>
@@ -45,7 +46,7 @@
               </li>
             @endif
           </ul>
-
+          <div class="loads"></div>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 content-right">
           <div class="guangao row">

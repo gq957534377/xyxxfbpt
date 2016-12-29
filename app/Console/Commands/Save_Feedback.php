@@ -58,7 +58,7 @@ class Save_Feedback extends Command
             return ;
         } else {
             // 如果记录数超过警告界限，log日志打印警告
-            if ($count > REDIS_FEEDBACK_WARNING) \Log::info(date('Y-m-d', time()) .'超过设定警戒线'. REDIS_FEEDBACK_WARNING .'，请管理员查看是否异常！');
+            if ($count >= REDIS_FEEDBACK_WARNING) \Log::info(date('Y-m-d', time()) .'超过设定警戒线'. REDIS_FEEDBACK_WARNING .'，请管理员查看是否异常！');
             $arr = [];
             // 循环得到哈希中的所有数据
             for ($i = 0; $i < $count; $i++) {

@@ -52,7 +52,7 @@ class ArticleService
     {
         $data = self::$articleStore->getData(['type' => $type, 'status' => 1]);
 
-        if($data) return ['StatusCode' => '200', 'ResultData' => $data];
+        if($data) return ['StatusCode' => '200', 'ResultData' => $data, 'type' => $type];
         return ['StatusCode' => '201', 'ResultData' => '暂时没有本文章信息'];
 
     }
@@ -110,6 +110,7 @@ class ArticleService
                     return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
                 }
             }else{
+                $result['totalPage'] = $totalPage;
                 $result["pages"] = '';
             }
             return ['StatusCode' => '200','ResultData' => $result];
@@ -292,24 +293,9 @@ class ArticleService
      * @return array
      * @author 王通
      */
-    public function selectTypeData($data)
+    public function selectTypeDataNum($data)
     {
 
-        $forPages = 10;          // 每页数据数
-        $where = $data;
-        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        unset($where['nowPage']);
-        unset($where['totalPage']);
-
-        $creatPage = Common::getPageUrls($data, "data_article_info", "/send", $forPages, null, $where);
-
-        if(isset($creatPage)){
-            $result["pages"] = $creatPage['pages'];
-        }else{
-            return ['StatusCode' => '403', 'ResultData' => '生成分页样式发生错误'];
-        }
-        // 得到分页数据
-        $Data = self::$articleStore->forPage($nowPage, $forPages, $where);
         // 得到已发表的数量
         $result['trailNum'] = self::$articleStore->getCount(['status' => 1,'user_id' => $data['user_id']]);
         // 得到审核中的数量
@@ -320,12 +306,8 @@ class ArticleService
         $result['draftNum'] = self::$articleStore->getCount(['status' => 4,'user_id' => $data['user_id']]);
 
         // 判断有没有分页数据
-        if(!empty($Data)){
-            $result["data"] = $Data;
-            return ['StatusCode' => '200', 'ResultData' => $result];
-        }else{
-            return ['StatusCode' => '200', 'ResultData' => $result];
-        }
+        return ['StatusCode' => '200', 'ResultData' => $result];
+
     }
 
     /**
