@@ -197,7 +197,7 @@ var messages    = {
                                 window.open('/send/1?title=' + title + '&brief=' + brief + '&describe=' + describe + '&source=' + source + '&verif_code=' + verif_code + '&src=' + src);
                                 break;
                             case '200.1':
-                                window.open('/send/' + data.ResultData);
+                                newWin("/send/" + data.ResultData, 'liulan1');
                                 break;
                         }
                     }
@@ -223,4 +223,14 @@ var messages    = {
     }(window.jQuery);
 
 
-
+function newWin(url, id) {
+    var a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('target', '_blank');
+    a.setAttribute('id', id);
+    // 防止反复添加
+    if(!document.getElementById(id)) {
+        document.body.appendChild(a);
+    }
+    a.click();
+}
