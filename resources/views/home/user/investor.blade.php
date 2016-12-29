@@ -4,6 +4,7 @@
 
 @section('style')
     <link href="{{ asset('home/css/user_center_identity-info.css') }}" rel="stylesheet">
+    <link href="{{ asset('home/css/change/zyzn_1.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -59,12 +60,13 @@
                     <div class="form-group mar-b30">
                         <label for="invest-area" class="col-md-2 control-label pad-cr"><span class="form-star">*</span>投资领域</label>
                         <div class="col-md-5">
-                            <select name="investor_field" class="form-control chr-c bg-1" id="invest-area">
-                                <option value="">请选择领域</option>
-                                <option value="互联网">互联网</option>
-                                <option value="餐饮业">餐饮业</option>
-                                <option value="旅游业">旅游业</option>
-                            </select>
+                            {{--<select name="investor_field" class="form-control chr-c bg-1" id="invest-area">--}}
+                                {{--<option value="">请选择领域</option>--}}
+                                {{--<option value="互联网">互联网</option>--}}
+                                {{--<option value="餐饮业">餐饮业</option>--}}
+                                {{--<option value="旅游业">旅游业</option>--}}
+                            {{--</select>--}}
+                            <input class="nation form-control chr-c bg-1" name="investor_field" data-value="" onclick="appendhybar(this,'duoxuan');" type="text" placeholder="请选择投资领域">
                         </div>
                     </div>
 
@@ -98,6 +100,9 @@
     <script src="{{asset('home/js/jquery.citys.js')}}"></script>
     <script src="{{ asset('home/js/user/applyInvestorValidate.js') }}"></script>
     <script src="{{asset('home/js/upload/uploadCommon.js')}}"></script>
+    <script src="{{asset('home/js/change/load_hycode.js')}}"></script>
+    <script src="{{asset('home/js/change/hgz_hycode.js')}}"></script>
+    {{--<script src="{{asset('home/js/change/hgz_zncode.js')}}"></script>--}}
     <script>
         //  异步上传身份证照
         var upload = new uploadCommon();
@@ -124,6 +129,11 @@
                 var text = data['direct'] ? '(直辖市)' : '';
                 $('#address').val(data['province'] + text + ' ' + data['city'] + ' ' + data['area']);
             }
+        });
+
+
+        $('input[name = "filed"]').change(function(){
+            alert($('input[name = "filed"]').val());
         });
     </script>
 @endsection
