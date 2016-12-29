@@ -22,6 +22,17 @@
     color: #333333;
     background-color: #ffffff;
 }
+.sponsor {
+    width: 96%;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    padding-top: 10px;
+    padding-left: 15px;
+    border: 1.5px dashed #d3d3d3;
+}
+.sponsor > p > span {
+    font-weight: bold;
+}
 .road-explain {
     font-size: 14px;
 }
@@ -233,6 +244,14 @@
     }
     .road-banner > h1 {
         margin-bottom: .5em;
+    }
+    .sponsor {
+        width: 98%;
+    }
+}
+@media (max-width: 767px) {
+    .sponsor {
+        width: 91%;
     }
 }
 /********右侧样式结束*****/

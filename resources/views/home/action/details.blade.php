@@ -37,7 +37,7 @@
 
 @section('content')
     <!--活动详情banner 开始-->
-    <section class="container road-banner mar-emt1 pad-7-xs">
+    <section class="container road-banner mar-emt1">
         @if($data['StatusCode'] == '200')
             <h1 class="mar-ct">{{ $data['ResultData']->title }}</h1>
             <p class=""><span>活动时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}——{{ date('Y年m月d日 H点',$data['ResultData']->end_time) }}</p>
@@ -50,7 +50,7 @@
                 @if(!$isHas)
                     <button id="js_enroll" type="button" class="btn road-banner-join">我要报名</button>
                 @else
-                    <button type="button" class="btn road-banner-join zxz">已报名</button>
+                    <button type="button" class="btn road-banner-join">已报名</button>
                 @endif
             @elseif($data['ResultData']->status == 5)
                 <button type="button" class="btn road-banner-join disabled">报名截止</button>
@@ -70,8 +70,10 @@
             <div class="col-md-9 col-lg-9 pad-clr mar-b15">
                 <div class="br-1 pad-8 b-n-sm b-n-xs mar-cr-sm mar-cr-xs road-explain">
                     @if($data['StatusCode'] == '200')
-                        <p class="col-sm-6"><span>主办方：</span>{{ $data['ResultData']->author }}</p>
-                        <p class="col-sm-12"><span>活动简述：</span>{{ $data['ResultData']->brief }}</p>
+                        <div class="sponsor">
+                            <p class=""><span>主办机构：</span>{{ $data['ResultData']->author }}</p>
+                            <p class=""><span>活动简述：</span>{{ $data['ResultData']->brief }}</p>
+                        </div>
                         <p class="col-sm-12"><span>活动详情：</span></p>
                         <div class="col-md-12">
                             {!! $data['ResultData']->describe !!}
