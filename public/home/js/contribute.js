@@ -51,8 +51,8 @@ $(function () {
  */
 $('.bg-del').on('click', function () {
     me = $(this);
-
-    deleteAjax(me.data('delete'));
+    deleteAjax ('DELETE', {'id' : [me.data('delete')]});
+    // deleteAjax(me.data('delete'));
 });
 
 

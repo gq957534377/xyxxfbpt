@@ -20,7 +20,7 @@ class BaseRedis
     public static function setRedis ($key, $val)
     {
         if (!empty($key) && !empty($val)) {
-            return Redis::set($key, $val);
+            return  Redis::set($key, $val);
         } else {
             return false;
         }
