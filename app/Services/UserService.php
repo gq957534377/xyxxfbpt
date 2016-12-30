@@ -376,9 +376,8 @@ class UserService {
         $nowTime = $_SERVER['REQUEST_TIME'];
         // 判断该号码两分中内是否发过短信
         $sms = Session::get('sms');
-        $name = '英雄,';
         $number = mt_rand(100000, 999999);
-        $content = ['name' => $name,'number' => $number];
+        $content = ['phone' => $phone,'number' => $number];
         $result = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
         if ($result) {
             return ['StatusCode' => '400','ResultData' => '获取验证码过于频繁，请稍后再试'];
@@ -388,7 +387,7 @@ class UserService {
             // 两分之内，不在发短信
             if(($sms['time'] + 60)> $nowTime ) return ['StatusCode' => '400','ResultData' => '短信已发送，请等待两分钟！'];
             // 两分钟之后，可以再次发送
-            $resp = Common::sendSms($phone,$content,'兄弟会','SMS_25700502');
+            $resp = Common::sendSms($phone,$content,'奇立英雄会','SMS_34865398');
 
             // 发送失败
             if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送！'];
@@ -398,7 +397,7 @@ class UserService {
 
             return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];
         }else{
-            $resp =  Common::sendSms($phone, $content, '兄弟会', 'SMS_25700502');
+            $resp =  Common::sendSms($phone, $content, '奇立英雄会', 'SMS_34865398');
 
             // 发送失败
             if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送！'];

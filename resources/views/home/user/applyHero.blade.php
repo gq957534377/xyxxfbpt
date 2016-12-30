@@ -10,7 +10,7 @@
     <!--琦立英雄会报名 开始-->
     <div id="applyHeroMemeberBox" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 pad-clr bgc-1 pos-1">
 
-        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right">
 
         <div class="center-block pad-5 text-center">
             <div class="banner-img text-center">
@@ -38,6 +38,7 @@
 
 @section('script')
     <script src="{{asset('home/js/ajaxRequire.js')}}"></script>
+
     <script>
         var guid = $('#topAvatar').data('id');
         // 异步先获取信息
@@ -93,12 +94,21 @@
                     switch (msg.StatusCode){
                         case '400':
                             $(".loading").hide();
-                            alert(msg.ResultData);
+                            swal('警告', msg.ResultData, "warning");
                             break;
                         case '200':
-                            $('#toggle-popup').html('待审核').attr('disabled', 'true').unbind('click');
+//                            $('#toggle-popup').html('待审核').attr('disabled', 'true').unbind('click');
                             $(".loading").hide();
-                            alert(msg.ResultData);
+                            swal({
+                                    title: '提示', // 标题，自定
+                                    text: '申请成功，3个工作日内，会有相关人员联系您，请保持电话畅通...',   // 内容，自定
+                                    type: "success",    // 类型，分别为error、warning、success，以及info
+                                    showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                                    confirmButtonColor: '#ff9036',  // 确认用途的按钮颜色，自定
+                                },
+                                function (isConfirm) {
+                                    swal('提示', msg.ResultData, "success");
+                                });
                             break;
                     }
                 },
@@ -106,7 +116,7 @@
                     var number = XMLHttpRequest.status;
                     var msg = "Error: "+number+",数据异常！";
                     $('.loading').hide();
-                    alert(msg);
+                    aswal('警告', msg, "warning");
                 }
 
             });

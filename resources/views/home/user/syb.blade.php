@@ -9,7 +9,7 @@
 @section('content')
     <!--认证创业者开始-->
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 my-education">
-        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" >
         <div class="basic-info">
             <span>认证创业者</span>
 
@@ -45,7 +45,7 @@
                             <div class="col-xs-12 col-sm-8 pad-clr upload-active bgc-6">
                                 <img  id="syb_card_b" src="{{ asset('home/img/upload_normal.jpg') }}" >
                                 {{--公用一个上传input--}}
-                                <input type="file" name="card_pic" id="card_upload" style="display: none;">
+                                <input type="file" name="card_pic" id="card_upload">
                                 {{--公用一个上传input--}}
 
                             </div>

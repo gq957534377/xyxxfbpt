@@ -457,7 +457,7 @@ class UserRoleService {
 
         if (!$result) {
             \Log::error('添加角色申请记录失败', $data);
-            return ['StatusCode' => '400', 'ResutlData' => '添加角色申请记录失败，请重新申请'];
+            return ['StatusCode' => '400', 'ResultData' => '添加角色申请记录失败，请重新申请'];
         }
 
         // 补充数据
@@ -482,10 +482,11 @@ class UserRoleService {
         $syb = self::$applySybStore->getOneData(['guid' => $guid]);
 
         // 如果是创业者了，获取下公司信息
-        if ($syb && $syb->status == 6) {
-            $company = self::$companyStore->getOneData(['guid' => $guid]);
-            $syb->company = $company;
+        $company = self::$companyStore->getOneData(['guid' => $guid]);
+        if (!$company) {
+            $company = [];
         }
+        $syb->company = $company;
 
         $investor = self::$applyInvestorStore->getOneData(['guid' => $guid]);
 

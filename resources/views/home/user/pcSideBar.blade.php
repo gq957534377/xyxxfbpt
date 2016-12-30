@@ -2,7 +2,7 @@
     <aside class="hidden-xs">
         <ul id="js_zxz" class="list-unstyled">
             <li><a zxz-data="user" href="{{ route('user.show', ['id' => session('user')->guid]) }}">我的主页</a></li>
-            <li><a zxz-data="identity" href="{{ route('identity.index', ['identity' => 'applyHero']) }}">英雄会报名</a></li>
+            {{--<li><a zxz-data="identity" href="{{ route('identity.index', ['identity' => 'applyHero']) }}">英雄会报名</a></li>--}}
             @if(session('user')->role == 2)
             <li><a zxz-data="myProject" href="/user/myProject">我的项目</a></li>
             @endif

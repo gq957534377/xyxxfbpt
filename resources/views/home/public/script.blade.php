@@ -6,8 +6,8 @@
 <script src="{{asset('home/js/openim.js')}}"></script>
 <script src="{{asset('home/js/usercenter.js')}}"></script>
 
-
-<script src="{{ asset('home/js/sweet-alert.min.js') }}"></script>
+<script src="{{asset('home/js/sweet-alert.min.js')}}"></script>
+<script src="{{asset('home/js/sweet-alert.init.js')}}"></script>
 
 <!-- 意见反馈 -->
 <script src="{{ asset('home/js/feed-back.js') }}"></script>

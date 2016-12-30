@@ -116,7 +116,9 @@ class UserController extends Controller
         // 获取 角色信息
 //        $result = self::$userServer->getRoleInfo($id, $info['ResultData']->role);
 
-        return view('home.user.index');
+        return view('home.user.index', [
+            'userInfo'   => $info['ResultData']
+        ]);
 //      // 获取公司信息
 //        $company = self::$userServer->getCompany(['guid' => $id]);
 //        if ($company['StatusCode'] == '400') {
@@ -362,8 +364,8 @@ class UserController extends Controller
                 if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 
                 // 验证码比对
-                // Session::get('sms')
-                if ($request->captcha != '342766475') return response()->json(['StatusCode' => '400','ResultData' => '输入的验证码错误！']);
+                // Session::get('sms')['smsCode']
+                if ($request->captcha != Session::get('sms')['smsCode']) return response()->json(['StatusCode' => '400','ResultData' => '输入的验证码错误！']);
 
                 // 看是否是第三步 验证新手机的验证码
                 if (isset($request->tel)) {
@@ -406,9 +408,8 @@ class UserController extends Controller
         if (isset($request->phone)) {
             // 发送短信
             return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
-            $info = self::$userServer->sendSmsCode($request->phone);
         }
-        return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
+
         if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
 
         // 拿到给用户的手机号

@@ -122,6 +122,45 @@
     line-height: 35px;
 }
 
+/*头像*/
+.ibox-content {
+    display: inline-block;
+    padding-left: 20px;
+    vertical-align: middle;
+}
+.avatar-view {
+    width: 70px;
+    border: none;
+    border-radius: 0px;
+    box-shadow: none;
+}
+.user_avatar {
+    margin-left: 0px;
+}
+/*头像模态框*/
+#userInfoModal {
+    top: 20%;
+    left: 8%;
+    border-radius: 5px;
+}
+.modal-dialog {
+    position: relative;
+}
+.loading {
+    left:45%;
+    top:45%;
+    position: absolute;
+    z-index: 9999;
+    display: none;
+}
+/*用户昵称Modal*/
+.nickname {
+    line-height: 34px;
+}
+.userEditBox {
+    margin-top: 10px;
+}
+
 
 @media (max-width: 767px) {
     .my-home > div:nth-child(2) {

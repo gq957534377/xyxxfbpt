@@ -8,9 +8,10 @@
 @endsection
 
 @section('content')
+    {{--{{ dd(session()->all()) }}--}}
     <!--我的身份开始-->
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 identity-info">
-        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right">
         <!--认证投资人开始-->
         <div class="investor">
             <div>
@@ -76,7 +77,7 @@
                         <div class="col-md-5 upload_box">
                             <img  id="investor_card_a" src="{{ asset('home/img/upload_normal.jpg') }}" >
                             {{--公用一个上传input--}}
-                            <input type="file" name="card_pic" id="card_upload" style="display: none;">
+                            <input type="file" name="card_pic" id="card_upload">
                             {{--公用一个上传input--}}
                         </div>
                     </div>
@@ -131,9 +132,16 @@
             }
         });
 
-
-        $('input[name = "filed"]').change(function(){
-            alert($('input[name = "filed"]').val());
+        $('input[name = "card_pic"]').change(function(){
+            console.log($(this).context.files[0].size);
+            var fileSize=$(this).context.files[0].size;
+            var maxSize = 2*1024*1024;
+            if(fileSize > maxSize){
+                alert("请上传大小在2M以下的图片");
+                return false;
+            }else{
+                return true;
+            }
         });
     </script>
 @endsection
