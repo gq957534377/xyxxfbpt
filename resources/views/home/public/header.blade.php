@@ -24,7 +24,7 @@
                     {{--</ul>--}}
                     <a class="pad-l12-xs" href="{{ url('/logout') }}">退出</a>
                     <span class="hidden-xs">|</span>
-                    <a class="hidden-xs" href="{{ url('/user').'/'.session('user')->guid }}">{{ session('user')->nickname }}</a>
+                    <a class="hidden-xs" href="{{ url('/user').'/'.session('user')->guid }}"><mark>{{ session('user')->nickname }}</mark>
                     <a href="{{ url('/user').'/'.session('user')->guid }}"><img id="topAvatar" class="img-circle" src="{{ empty(session('user')->headpic) ? asset('home/img/user_center.jpg') : session('user')->headpic }}" data-id="{{ session('user')->guid }}"></a>
 
                 </div>
