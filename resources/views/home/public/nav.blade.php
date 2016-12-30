@@ -27,9 +27,9 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">英雄学院<span class="caret"></span></a>
                     <ul class="dropdown-menu qili-dropdown" role="menu">
-                        <li class=""><a href="{{ route('action.index', ['type' => '1']) }}">企业管理</a></li>
-                        <li class=""><a href="{{ route('action.index', ['type' => '2']) }}">资金管理</a></li>
-                        <li class=""><a href="{{ route('action.index', ['type' => '2']) }}">人才管理</a></li>
+                        <li class=""><a href="/school?type=1">企业管理</a></li>
+                        <li class=""><a href="/school?type=2">资金管理</a></li>
+                        <li class=""><a href="/school?type=3">人才管理</a></li>
                     </ul>
                 </li>
                 <li class="hidden-xs hidden-sm"></li>
