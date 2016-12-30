@@ -150,6 +150,9 @@ footer {
     text-decoration: none;
     background: no-repeat top center;
 }
+.footer-center > a:hover {
+    color: #ffffff;
+}
 .footer-right {
     padding: 2.1em 0 2.1em 15.5%;
     /*padding: 2.1em 0 2.1em 17.5%;*/

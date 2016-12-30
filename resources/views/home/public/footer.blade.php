@@ -26,8 +26,8 @@
             </div>
             <div class="footer-center col-xs-12  col-sm-4 col-md-4 col-lg-5">
                 <a href="#">关于我们</a>
-                <a href="#">新人课堂</a>
-                <a href="#">常见问题</a>
+                <a href="#">免责条款</a>
+                <a href="#">版权声明</a>
             </div>
             <div class="footer-right col-xs-12  col-sm-4 col-md-4 col-lg-4">
                 <span>关注奇立英雄会微信号</span>
