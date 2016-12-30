@@ -82,7 +82,11 @@ class ActionController extends Controller
     public function create(Request $request)
     {
         // 获取活动类型 -> 活动类型的所有数据
-        $where = ['type'=>$request->type];
+        if ($request->status != 204 && !empty($request->status)){
+            $where = ['type'=> $request->type, 'status' => $request->status];
+        }else{
+            $where = ['type'=> $request->type];
+        }
         $nowPage = isset($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
         $result = self::$actionServer->selectData($where, $nowPage, 2, '/action', false, false);
 
