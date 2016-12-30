@@ -29,16 +29,31 @@ class PictureStore
     }
 
     /**
-     * 得到指定类型的数据
-     * @param $where
-     * @return bool
-     * @author 王通
-     */
+ * 得到指定类型的数据
+ * @param $where
+ * @return bool
+ * @author 王通
+ */
     public function getPicture ($where)
     {
         if (empty($where)) return false;
         return DB::table(self::$table)
             ->where($where)
+            ->where('status', '<>', 4)
+            ->get();
+    }
+
+    /**
+     * 得到指定类型的数据 IN一次性获取
+     * @param $where
+     * @return bool
+     * @author 王通
+     */
+    public function getPictureIn ($where)
+    {
+        if (empty($where)) return false;
+        return DB::table(self::$table)
+            ->whereIn('type', $where)
             ->where('status', '<>', 4)
             ->get();
     }

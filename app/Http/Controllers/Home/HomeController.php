@@ -10,6 +10,7 @@ use App\Services\ProjectService as ProjectServer;
 use App\Services\ActionService as ActionServer;
 use App\Services\ArticleService as ArticleServer;
 use App\Services\PictureService;
+use App\Store\RollingPictureStore;
 
 
 class HomeController extends Controller
@@ -18,6 +19,7 @@ class HomeController extends Controller
     protected static $actionServer = null;
     protected static $pictureService = null;
     protected static $articleServer = null;
+    protected static $rollingPictureStore = null;
 
     /**
      * 构造函数注入
@@ -29,12 +31,14 @@ class HomeController extends Controller
         ProjectServer $projectServer,
         ActionServer $actionServer,
         PictureService $pictureService,
-        ArticleServer $articleServer
+        ArticleServer $articleServer,
+        RollingPictureStore $rollingPictureStore
     ){
         self::$projectServer = $projectServer;
         self::$actionServer = $actionServer;
         self::$pictureService = $pictureService;
         self::$articleServer = $articleServer;
+        self::$rollingPictureStore = $rollingPictureStore;
     }
 
     /**
@@ -63,12 +67,10 @@ class HomeController extends Controller
         // 咨询
         $articles = self::$articleServer->getTakeArticles(1);
 
-        // 轮播图，投资合作管理，
-        $cooperResult = self::$pictureService->getPicture(2);
-        // 合作机构
-        $carouselResult = self::$pictureService->getPicture(3);
-        // 投资机构
-        $investResult = self::$pictureService->getPicture(5);
+        // 投资合作机构管理，
+        $picArr = self::$pictureService->getPictureIn([3, 5]);
+        // 轮播图
+        $rollingPic = self::$rollingPictureStore->getAllPic();
         // 设置cookie
         $cookie = \App\Tools\Common::generateCookie('feedback');
         return response()->view('home.index.index', [
@@ -76,9 +78,8 @@ class HomeController extends Controller
             'roadShows'     => $roadShowResult['ResultData'],
             'sybs'          => $sybResult['ResultData'],
             'schools'        => $schollResult['ResultData'],
-            'cooper'        => $cooperResult['ResultData'],
-            'carousel'      => $carouselResult['ResultData'],
-            'invest'        => $investResult['ResultData'],
+            'picArr'        => $picArr['ResultData'],
+            'rollingPic'        => $rollingPic,
             'articles'      => $articles['ResultData'],
         ])->withCookie($cookie);
 

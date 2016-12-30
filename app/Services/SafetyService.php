@@ -33,7 +33,9 @@ class SafetyService
      */
     public function checkIpInSet($setKey, $ip)
     {
+
         $date = $setKey . date('Y-m-D',time());
+
         if (BaseRedis::checkSet($date, $ip)) {
             return true;
         } else {

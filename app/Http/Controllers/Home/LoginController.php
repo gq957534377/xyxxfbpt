@@ -37,7 +37,7 @@ class LoginController extends Controller
     }
 
     /**
-     * 修改密码
+     * 修改密码界面
      *
      * @return \Illuminate\Http\Response
      * @author 王通

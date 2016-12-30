@@ -62,9 +62,7 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('home/js/contribute.js') }}"></script>
-    <script>
-        // 删除某条记录
+    <script src="{{ asset('home/js/sweet-alert.min.js') }}"></script>
+    <script src="{{ asset('home/js/contribute.js') }}"></script>
 
-    </script>
 @endsection

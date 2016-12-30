@@ -1,7 +1,22 @@
 /**
  * Created by wangt on 2016/12/13.
  */
+!function($) {
+    "use strict";
 
+    var SweetAlert = function() {};
+
+    //examples
+    SweetAlert.prototype.init = function() {},
+        //init
+        $.SweetAlert = new SweetAlert,
+        $.SweetAlert.Constructor = SweetAlert
+}(window.jQuery),
+
+    function($) {
+        "use strict";
+        $.SweetAlert.init()
+    }(window.jQuery);
 //  document.onselectstart = new Function("return false");
 //     按钮状态
 var status = 0;
@@ -95,29 +110,28 @@ function deleteAjax(method, id)
             switch (msg.StatusCode){
                 case '404':
                     $(".loading").hide();
-                    alert(msg.ResultData);
+                    swal(msg.ResultData);
 
                     break;
                 case '400':
                     $(".loading").hide();
-                    alert(msg.ResultData);
+                    swal(msg.ResultData);
                     break;
                 case '200':
                     console.log(id.id);
                     $(".loading").hide();
                     $.each(id.id, function (key, val) {
-
                         $('#' + val).parent().parent().parent().remove();
                     })
 
-                    alert('删除成功');
+                    swal('删除成功');
                     break;
             }
         },
         error: function(XMLHttpRequest){
             var number = XMLHttpRequest.status;
             var msg = "Error: "+number+",数据异常！";
-            alert(msg);
+            swal(msg);
         }
 
     });

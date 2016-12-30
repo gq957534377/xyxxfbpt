@@ -1,3 +1,21 @@
+!function($) {
+    "use strict";
+
+    var SweetAlert = function() {};
+
+    //examples
+    SweetAlert.prototype.init = function() {},
+        //init
+        $.SweetAlert = new SweetAlert,
+        $.SweetAlert.Constructor = SweetAlert
+}(window.jQuery),
+
+    function($) {
+        "use strict";
+        $.SweetAlert.init()
+    }(window.jQuery);
+
+
 $(function () {
     // 异步写入
     var guid = $("#write").val();
@@ -13,7 +31,7 @@ $(function () {
                 console.log(data);
                 switch (data.StatusCode){
                     case '400':
-                        alert('警告' + data.ResultData);
+                        swal('警告' + data.ResultData);
                         break;
                     case '200':
                         $("input[name= 'title']").val(data.ResultData.title);
@@ -25,7 +43,7 @@ $(function () {
                 }
             },
             error:function (data) {
-                alert(data);
+                swal(data);
             }
         });
     }
@@ -190,10 +208,10 @@ var messages    = {
                     success:function(data){
                         switch (data.StatusCode){
                             case '400':
-                                alert('警告' + data.ResultData);
+                                swal('警告' + data.ResultData);
                                 break;
                             case '200':
-                                alert('插入成功');
+                                swal('插入成功');
                                 window.open('/send/1?title=' + title + '&brief=' + brief + '&describe=' + describe + '&source=' + source + '&verif_code=' + verif_code + '&src=' + src);
                                 break;
                             case '200.1':

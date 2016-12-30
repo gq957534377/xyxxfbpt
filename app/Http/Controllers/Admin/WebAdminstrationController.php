@@ -11,12 +11,14 @@ use App\Services\WebAdminService;
 use Validator;
 use App\Tools\Avatar;
 use App\Services\PictureService;
+use App\Store\RollingPictureStore;
 
 class WebAdminstrationController extends Controller
 {
     protected static $webAdmin;
     protected static $pictureService;
     protected static $pictureStore;
+    protected static $rollingPictureStore;
     /** 单例引入
      *
      * @param WebAdminService $webAdminService
@@ -25,11 +27,13 @@ class WebAdminstrationController extends Controller
     public function __construct(
         WebAdminService $webAdminService,
         PictureService $pictureService,
-        PictureStore $pictureStore
+        PictureStore $pictureStore,
+        RollingPictureStore $rollingPictureStore
     ) {
         self::$webAdmin = $webAdminService;
         self::$pictureService = $pictureService;
         self::$pictureStore = $pictureStore;
+        self::$rollingPictureStore = $rollingPictureStore;
     }
     /**
      * 网站管理页面
@@ -67,17 +71,22 @@ class WebAdminstrationController extends Controller
                 break;
             case '2':
                 // 合作机构Ajax请求
-                $result = self::$pictureService->getPicture(3);
+                $result = self::$pictureService->getPicture([3]);
                 return response()->json($result);
                 break;
             case '3':
                 // 投资机构Ajax请求
-                $result = self::$pictureService->getPicture(5);
+                $result = self::$pictureService->getPicture([5]);
                 return response()->json($result);
                 break;
             case '4':
                 // 轮播图管理Ajax请求
-                $result = self::$pictureService->getPicture(2);
+                $data = self::$rollingPictureStore->getAllPic();
+                if (empty($data)) {
+                    $result = ['StatusCode' => '400', 'ResultData' => '请求错误'];
+                } else {
+                    $result =  ['StatusCode' => '200', 'ResultData' => $data];
+                }
                 break;
             case '23':
                 //机构获取
@@ -219,8 +228,9 @@ class WebAdminstrationController extends Controller
      * @return \Illuminate\Http\Response
      * @author 王通
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        return self::$pictureService->delPicture($id);
+        if (empty($request['type'])) return response()->json(['StatusCode' => '400', 'ResultData' => '参数错误']);
+        return self::$pictureService->delPicture($id, $request['type']);
     }
 }

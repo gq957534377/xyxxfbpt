@@ -145,9 +145,6 @@ class ArticleService
             return ['StatusCode' => '200', 'ResultData' => $data];
 
         }
-        //查询一条数据文章信息
-        $data = self::$articleStore->getOneData(["guid" => $guid]);
-        if($data) return ['StatusCode' => true, 'ResultData' => $data];
         return ['StatusCode' => '201', 'ResultData' => "没有该文章信息！"];
     }
 
