@@ -65,6 +65,7 @@ class RoleController extends Controller
             $result = self::$roleServer->applyRole($data);
             return response()->json($result);
         }
+
         // 数据验证
         switch ($request->role) {
             case '2':

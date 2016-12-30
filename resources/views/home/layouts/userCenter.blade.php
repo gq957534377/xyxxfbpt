@@ -8,7 +8,7 @@
 
     @include('home.public.style')
     <link href="{{ asset('home/css/user_center_aside.css') }}" rel="stylesheet">
-
+    <link href="{{ asset('home/css/sweet-alert.min.css') }}" rel="stylesheet">
     @yield('style')
 
 </head>

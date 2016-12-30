@@ -3,10 +3,9 @@
 @section('title','用户中心')
 
 @section('style')
-    <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
-    <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
-    <link href="{{asset('home/css/user_center_my_home.css')}}" rel="stylesheet"/>
-    <link href="{{ asset('css/sweet-alert.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('cropper/css/cropper.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('cropper/css/sitelogo.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('home/css/user_center_my_home.css') }}" rel="stylesheet"/>
 
 @endsection
 
@@ -31,9 +30,9 @@
             </div>
             <!-- 头像修改 End -->
             <div class="col-sm-10 col-md-9 col-lg-10 pad-clr">
-                <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ empty(session('user')->nickname) ? '--' : session('user')->nickname }}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
-                <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ empty(session('user')->tel) ? '--' : session('user')->tel }}</p>
-                <p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6 {{ empty(session('user')->emails) ? 'hidden' : ''}}">{{ empty(session('user')->emails) ? 'hidden' : session('user')->emails }}</p>
+                <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ $userInfo->nickname or '--'}}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
+                <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->tel or '--'}}</p>
+                <p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6 {{$userInfo->emails or 'hidden'}}">{{ $userInfo->email or '--'}}</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pad-cr my-home-entrepreneur-info">
@@ -62,10 +61,6 @@
                     </div>
                     <!--第一步 填写-->
                     <div class="modal-body key-step-one">
-                        <!-- 错误提示 Start-->
-                        <div id="userInfoError" class="col-xs-12 alert alert-danger hidden"></div>
-                        <div id="userInfoSuccess" class="col-xs-12 alert alert-success hidden"></div>
-                        <!-- 错误提示 End-->
                         <div class="col-xs-12">
                             <label class="col-xs-12 control-label mar-b5 nickname">用户昵称</label>
                             <div class="col-xs-12">
@@ -81,7 +76,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal -->
         </div>
-        <!--修改密码 结束-->
+        <!--修改昵称 结束-->
 
         <!--创业者认证 未认证 和 审核中-->
         <div class="col-xs-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min
@@ -216,6 +211,8 @@
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
     <script src="{{asset('cropper/js/main.js')}}"></script>
     <script src="{{asset('home/js/ajax/ajaxCommon.js')}}"></script>
+
+
     {{--用户中心--}}
     <script src="{{ asset('home/js/user/index.js') }}"></script>
 @endsection

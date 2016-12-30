@@ -116,7 +116,9 @@ class UserController extends Controller
         // 获取 角色信息
 //        $result = self::$userServer->getRoleInfo($id, $info['ResultData']->role);
 
-        return view('home.user.index');
+        return view('home.user.index', [
+            'userInfo'   => $info['ResultData']
+        ]);
 //      // 获取公司信息
 //        $company = self::$userServer->getCompany(['guid' => $id]);
 //        if ($company['StatusCode'] == '400') {
