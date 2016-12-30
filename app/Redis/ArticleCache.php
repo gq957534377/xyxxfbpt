@@ -134,19 +134,20 @@ class ArticleCache
         //根据获取的list元素 取hash里的集合
         foreach ($list as $v) {
             //获取一条hash
-            $content = Redis::hGetall(self::$hkey.$v);
-            //给对应的Hash文章增加生命周期
-            $this->setTime(self::$hkey.$v);
-            if(empty($content)){
-                //如果获取的hash为空，说明生命周期结束，就再次去数据库取一条存入缓存
-                $res = self::$article_store->getOneDatas(['guid'=>$v]);
+            if($this->exists('',$v)){
+                $content = Redis::hGetall(self::$hkey.$v);
+                //给对应的Hash文章增加生命周期
+                $this->setTime(self::$hkey.$v);
+                $data[] = $content;
+            }else{
+                //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
+                $res = CustomPage::objectToArray(self::$article_store->getOneDatas(['guid'=>$v]));
                 //将取出的mysql 文章详情写入redis
                 $this->setOneArticle($res);
                 $data[] = $res;
             }
-            $data[] = $content;
-        }
 
+        }
 
         return $data;
     }
