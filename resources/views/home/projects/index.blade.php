@@ -133,6 +133,7 @@
                 },
                 success:function (data) {
 
+
                     if(data.StatusCode == "400" || data.ResultData.length<4) {
                         $('.loads').remove();
                     }

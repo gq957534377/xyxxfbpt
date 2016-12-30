@@ -24,7 +24,7 @@
                             <div class="col-sm-6">
                                 <label for="inputEmail3" class="col-sm-3 control-label">url</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="url" placeholder="url">
+                                    <input type="text" class="form-control" name="url" placeholder="格式：http://您的链接地址">
                                 </div>
                             </div>
                         </div>

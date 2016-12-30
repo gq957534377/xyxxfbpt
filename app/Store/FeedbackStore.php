@@ -40,6 +40,7 @@ class FeedbackStore
     {
         return DB::table(self::$table)
             ->where($where)
+            ->where('status', '<>', 2)
             ->orderBy("addtime", $sort)
             ->forPage($page, $tolPage)
             ->get();
@@ -54,6 +55,6 @@ class FeedbackStore
     public function delFeedback($arr)
     {
         if (empty($arr)) return false;
-        return DB::table(self::$table)->whereIn('guid', $arr)->delete();
+        return DB::table(self::$table)->whereIn('guid', $arr)->update(['status' => 2]);
     }
 }

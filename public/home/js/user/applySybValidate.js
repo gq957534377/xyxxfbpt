@@ -34,7 +34,9 @@
             var returnVal = false;
             var amountStart = $("input[name= 'syb_start_school']").val();
             var amountEnd = $("input[name= 'nowDate']").val();
+
             if(parseFloat(amountEnd) >= parseFloat(amountStart)){
+
                 returnVal = true;
             }
             return returnVal;

@@ -145,7 +145,7 @@ function institutionHtml(data) {
         // html += '<i class="fa fa-close"></i>';
         // html += '</a>';
         html +=  '<button class="btn btn-success btn-xs" data-id="'+ value.id +'" style="border-radius:7px;" data-toggle="modal" data-target="#custom-width-modal">编辑</button> ';
-        html +=  '<button id="'+ value.id +'" data-ip="" style="border-radius:7px;" class="btn btn-danger btn-xs">删除</button>';
+        html +=  '<button id="'+ value.id +'" data-ip="" style="border-radius:7px;" data-count="organization" class="btn btn-danger btn-xs">删除</button>';
         html += '</div>';
         html += '<div class="info text-center">';
         html += '<h4 id="name'+ value.id +'">'+ value.name +'</h4>';
@@ -181,7 +181,7 @@ function carouselHtml (data) {
 //                html += '<i class="fa fa-pencil"></i>';
 //                html += '</a>';
 //         html += '<a id="'+ value.id +'"  class="btn btn-danger tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete">';
-        html +=  '<button id="'+ value.id +'" data-ip="" style="border-radius:7px;" class="btn btn-danger btn-xs">删除</button>';
+        html +=  '<button id="'+ value.id +'" data-ip="" style="border-radius:7px;" data-count="rolling" class="btn btn-danger btn-xs">删除</button>';
         // html += '<i class="fa fa-close"></i>';
         // html += '</a>';
         html += '</div>';
@@ -301,6 +301,7 @@ function addHtml() {
 // 删除
 $('#data').on('click', '.btn-danger' ,function () {
     var me = $(this);
+    var type = me.data('count');
     swal({
         title: "确认删除吗?",
         type: "warning",
@@ -317,7 +318,8 @@ $('#data').on('click', '.btn-danger' ,function () {
                 url: '/web_admins/'+ me.attr('id'),
                 data: {
                     '_method': 'DELETE',
-                    '_token' : $('meta[name="csrf-token"]').attr('content')
+                    '_token' : $('meta[name="csrf-token"]').attr('content'),
+                    'type' : type
                 },
                 before  : ajaxBeforeModel(),
                 success:function(data){

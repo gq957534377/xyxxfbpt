@@ -61,11 +61,13 @@ class FeedbackService
                 $data = self::$baseRedis->selHGetAll(HASH_FEED_BACK . $time);
             }
             Common::writeFile($data);
+            self::$safetyService->saveIpInSet(SET_FEEDBACK_IP . $time, $data['ip']);
         } else {
             // 小于500条写入redis(以下失效时间均为2天)
             self::$baseRedis->hSet(HASH_FEED_BACK . $time, $guid, json_encode($data));
             self::$baseRedis->addRpush(LIST_FEED_BACK_INDEX . $time, $guid);
             self::$safetyService->saveIpInSet(SET_FEEDBACK_IP . $time, $data['ip']);
+
         }
         // 不管写文件还是redis,都在自增
         self::$safetyService->getCount(STRING_FEEDBACK_COUNT . $time);

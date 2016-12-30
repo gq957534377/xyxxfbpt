@@ -21,7 +21,9 @@
         }, "请正确填写您的手机号码");
 
         $.validator.addMethod("checkPicSize", function(value,element) {
+
             var fileSize=element.context.files[0].size;
+
             var maxSize = 2*1024*1024;
             if(fileSize > maxSize){
                 return false;
@@ -72,6 +74,7 @@
                         'scale': $('input[name = "investor_scale"]').val(),
                         'company': $('input[name = "investor_company"]').val(),
                         'company_address': $('input[name = "investor_company_address"]').val(),
+
                         'field':  $("input[name = 'investor_field']").val(),
                         'card_pic_a': $("input[name= 'investor_card_pic']").val()
                     },
@@ -135,6 +138,7 @@
                 },
                 investor_card_pic: {
                     required: true,
+
                 }
             },
             // 提示信息

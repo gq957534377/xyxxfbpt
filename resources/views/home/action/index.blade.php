@@ -13,6 +13,7 @@
         <img src="{{ asset('home/img/demoimg/dd.jpg') }}">
     </section>
     <section class="container">
+
         <div class="nav-status-bar col-xs-12 pad-clr">
             <span>创业大赛</span>
             <span class="pull-right">创业大赛</span>

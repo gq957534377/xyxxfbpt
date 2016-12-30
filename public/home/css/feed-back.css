@@ -18,7 +18,12 @@ div#htmlfeedback-container {
 }
 
 div#htmlfeedback-container.expanded {
-    width: 400px
+    width: 400px;
+    display: block;
+}
+.red {
+    color:red;
+    display:inline-block;
 }
 
 div#htmlfeedback-container-more {
@@ -117,7 +122,8 @@ div#htmlfeedback-container div#htmlfeedback-more {
 
 div#htmlfeedback-container div#htmlfeedback-more div#htmlfeedback-close {
     padding-right: 5px;
-    float: right
+    float: right;
+    display: block;
 }
 
 div#htmlfeedback-container div#htmlfeedback-more div#htmlfeedback-close:hover {
@@ -203,4 +209,13 @@ div#htmlfeedback-container div#htmlfeedback-more div#htmlfeedback-close:hover {
     display: none;
     opacity: 0;
     filter: alpha(opacity=0)
+}
+.unselectable {
+    display: none;
+}
+.htmlfeedback-info {
+    display: inline-block;
+}
+#error-info {
+    display: none;
 }

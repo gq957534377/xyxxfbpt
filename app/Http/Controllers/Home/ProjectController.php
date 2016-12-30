@@ -235,6 +235,7 @@ class ProjectController extends Controller
         }
 
         $result = self::$projectServer->getData($nowPage, 4 , $where);
+
         return response()->json($result);
     }
 

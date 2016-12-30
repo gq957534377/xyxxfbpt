@@ -88,7 +88,11 @@
             </div>
             <div class="col-xs-12 col-sm-3 pad-clr my-home-auth">
                 @if(empty(session('roleInfo')[2]))
+<<<<<<< HEAD
                     <a href="{{ route('identity.index', ['identity' => 'syb']) }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
+=======
+                <a href="{{ route('identity.index', ['identity' => 'syb']) }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
+>>>>>>> origin/wangtong
                 @endif
             </div>
         </div>
@@ -142,7 +146,6 @@
                         <span class="label label-danger"> 审核失败 </span>
                     @endif
                 </h4>
-                {{--<a href="javascript:void(0)" class="col-xs-2 pull-right fs-14 text-right">编辑</a>--}}
 
                 <div class="col-xs-12 pad-clr my-home-content">
                     <p class="col-lg-6 pad-clr">公司名称：<span>{{ empty(session('roleInfo')[2]->company->company) ? '--' : session('roleInfo')[2]->company->company}}</span></p>
@@ -196,6 +199,7 @@
                     <p class="col-lg-6 pad-clr">所在地：    <span>{{ empty(session('roleInfo')[3]->company_address) ? '--' : session('roleInfo')[3]->company_address }}</span></p>
                     <p class="col-lg-6 pad-clr">投资领域：<span>{{ empty(session('roleInfo')[3]->field) ? '--' : session('roleInfo')[3]->field }}</span></p>
                 </div>
+
             @else
 
             @endif

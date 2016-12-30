@@ -265,6 +265,7 @@
         function group(id) {
             var result = '个人';
             $.each(groupMessage,function (i,v) {
+
                 if (v.id == id){
                     result = v.name;
                 }

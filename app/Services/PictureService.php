@@ -10,19 +10,22 @@ namespace App\Services;
 
 use App\Store\PictureStore;
 use App\Tools\Avatar;
+use App\Store\RollingPictureStore;
 
 class PictureService
 {
     protected static $picturestore;
     protected static $avatar;
+    protected static $rollingPictureStore;
     /** 单例引入
      *
      * @param WebAdminService $webAdminService
      * @author 王通
      */
-    public function __construct(PictureStore $picturestore)
+    public function __construct(PictureStore $picturestore, RollingPictureStore $rollingPictureStore)
     {
         self::$picturestore = $picturestore;
+        self::$rollingPictureStore = $rollingPictureStore;
     }
     /**
      * 保存轮播图
@@ -36,9 +39,8 @@ class PictureService
         // 判断是否上传成功
         if ($res['status'] == '200') {
             // 判断图片信息是否保存成功
-            if (self::$picturestore->savePicture([
+            if (self::$rollingPictureStore->savePicture([
                 'url' => $res['msg'],
-                'type' => 2,
                 'addtime' => time()])
             ) {
                 return ['StatusCode' => '200', 'ResultData' => '图片保存成功'];
@@ -113,6 +115,21 @@ class PictureService
     }
 
     /**
+     * 得到所有指定类型图片
+     * @author 王通
+     */
+    public function getPictureIn ($val)
+    {
+        $res = self::$picturestore->getPictureIn($val);
+        // 判断有没有请求道数据
+        if (empty($res)) {
+            return ['StatusCode' => '201', 'ResultData' => '没有数据'];
+        } else {
+            return ['StatusCode' => '200', 'ResultData' => $res];
+        }
+    }
+
+    /**
      * 得到所有图片
      * @author 王通
      */
@@ -132,9 +149,15 @@ class PictureService
      * @param $id
      * @author 王通
      */
-    public function delPicture ($id)
+    public function delPicture ($id, $type)
     {
-        $res = self::$picturestore->updatePic(['id' => $id], ['status' => 4]);
+        if ($type == 'rolling') {
+            $res = self::$rollingPictureStore->updataRolling(['id' => $id], ['status' => 4]);
+        } else {
+            $res = self::$picturestore->updatePic(['id' => $id], ['status' => 4]);
+        }
+
+
         if ($res) {
             return ['StatusCode' => '200', 'ResultData' => '删除成功'];
         } else {

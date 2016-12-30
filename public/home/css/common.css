@@ -1059,3 +1059,18 @@ body .list-inline > li {
 .loads:hover{
     color:#FF9036;
 }
+.go-top {
+    display: none;
+}
+.fa-envelope-o {
+    font-size: 20px;
+}
+#custom-width-modal {
+    display: none;
+}
+#custom-width-modal div div, #custom-width-modal div div div {
+    width: 700px;height: 470px;
+}
+#error-info {
+    display: none;
+}
