@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    var guid = $('#topAvatar').attr('data-id');
+    var guid = $('#topAvatar').data('id');
     // 个人资料
     var user_avatar = $(".user_avatar");
     var user_nickname = $(".user_nickname");
@@ -20,28 +20,28 @@ $(document).ready(function () {
     //     success: userInfoReturn
     // });
 
-    function userInfoReturn(msg) {
-        // 将传过json格式转换为json对象
-        switch (msg.StatusCode) {
-            case '200':
-                console.log(msg.ResultData);
-
-                user_avatar.attr('src', msg.ResultData.headpic);
-                user_nickname.html(msg.ResultData.nickname);
-                user_tel.html(msg.ResultData.tel);
-                user_email.html(msg.ResultData.email);
-                // 隐藏表单数据信息
-                hide_avatar.attr('src', msg.ResultData.headpic);
-                hide_nickname.empty().val(msg.ResultData.nickname);
-
-                $(".loading").hide();
-                break;
-            case '400':
-                alert(msg.ResultData);
-                $(".loading").hide();
-                break;
-        }
-    }
+    // function userInfoReturn(msg) {
+    //     // 将传过json格式转换为json对象
+    //     switch (msg.StatusCode) {
+    //         case '200':
+    //             console.log(msg.ResultData);
+    //
+    //             user_avatar.attr('src', msg.ResultData.headpic);
+    //             user_nickname.html(msg.ResultData.nickname);
+    //             user_tel.html(msg.ResultData.tel);
+    //             user_email.html(msg.ResultData.email);
+    //             // 隐藏表单数据信息
+    //             hide_avatar.attr('src', msg.ResultData.headpic);
+    //             hide_nickname.empty().val(msg.ResultData.nickname);
+    //
+    //             $(".loading").hide();
+    //             break;
+    //         case '400':
+    //             alert(msg.ResultData);
+    //             $(".loading").hide();
+    //             break;
+    //     }
+    // }
 
     //        测量 滚动条宽度的函数 开始
     function measure() { // thx walsh
@@ -96,13 +96,24 @@ $(document).ready(function () {
             switch (msg.StatusCode) {
                 case '400':
                     $(".loading").hide();
-                    $("#userInfoError").html(msg.ResultData).removeClass('hidden');
+                    swal('警告', msg.ResultData, "warning");
+                    $('input[name="nickname"]').val('');
                     break;
                 case '200':
                     $(".loading").hide();
                     user_nickname.html($('input[name="nickname"]').val());
 
-                    $("#userInfoSuccess").html(msg.ResultData).removeClass('hidden');
+                    swal({
+                            title: '提示', // 标题，自定
+                            text: '昵称修改成功',   // 内容，自定
+                            type: "success",    // 类型，分别为error、warning、success，以及info
+                            showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                            confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                        },
+                        function (isConfirm) {
+                            swal('提示', msg.ResultData, "success");
+                            $(".userInfoReset").click();
+                        });
                     break;
             }
 

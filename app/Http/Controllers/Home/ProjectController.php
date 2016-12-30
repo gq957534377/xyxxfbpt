@@ -234,7 +234,8 @@ class ProjectController extends Controller
             $where = ['status'=>'1'];
         }
 
-        $result = self::$projectServer->getData($nowPage, 8 , $where);
+        $result = self::$projectServer->getData($nowPage, 4 , $where);
+
         return response()->json($result);
     }
 

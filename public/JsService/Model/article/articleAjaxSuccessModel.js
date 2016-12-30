@@ -5,7 +5,6 @@
 
 function listHtml(data){
     var html = '';
-    console.log(data);
     html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th style="text-align:center;">文章类型</th><th style="text-align:center;">文章标题</th><th style="text-align:center;">发布人</th><th style="text-align:center;">发布时间</th><th style="text-align:center;">文章状态</th><th style="text-align:center;">文章来源</th><th style="text-align:center;">操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
@@ -88,7 +87,6 @@ function showInfoList(data){
     if (data) {
         if (data.StatusCode == 200) {
             data = data.ResultData;
-            console.log(data);
             $('#xq_title').html(data.title);
             $('#xq_time_author').html(getLocalTime(data.addtime)+'     发表人：'+ data.author);
             $('#xq_banner').attr('src',data.banner);

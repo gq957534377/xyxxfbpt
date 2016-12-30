@@ -25,6 +25,16 @@
 .join-popup-close {
     height: 0;
 }
+
+.loading {
+    left:45%;
+    top:45%;
+    position: absolute;
+    z-index: 9999;
+    display: none;
+}
+
+
 /*768px以下的样式，最小宽度为320px*/
 @media (max-width: 767px) {
     .join-popup-xs {

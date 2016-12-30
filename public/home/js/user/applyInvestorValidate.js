@@ -21,7 +21,9 @@
         }, "请正确填写您的手机号码");
 
         $.validator.addMethod("checkPicSize", function(value,element) {
-            var fileSize=element.files[0].size;
+
+            var fileSize=element.context.files[0].size;
+
             var maxSize = 2*1024*1024;
             if(fileSize > maxSize){
                 return false;
@@ -72,7 +74,7 @@
                         'scale': $('input[name = "investor_scale"]').val(),
                         'company': $('input[name = "investor_company"]').val(),
                         'company_address': $('input[name = "investor_company_address"]').val(),
-                        // 'field':  $("select[name = 'investor_field']").val(),
+
                         'field':  $("input[name = 'investor_field']").val(),
                         'card_pic_a': $("input[name= 'investor_card_pic']").val()
                     },
@@ -84,11 +86,22 @@
                             case '400':
                                 // promptBoxHandle('警告',data.ResultData);
                                 $(".loading").hide();
-                                alert('警告,'+data.ResultData);
+                                swal('警告', data.ResultData, "warning");
                                 break;
                             case '200':
                                 $(".loading").hide();
-                                alert('提示,'+data.ResultData);
+
+                                swal({
+                                        title: '提示', // 标题，自定
+                                        text: '申请成功',   // 内容，自定
+                                        type: "success",    // 类型，分别为error、warning、success，以及info
+                                        showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                                        confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                                    },
+                                    function (isConfirm) {
+                                        swal('提示', data.ResultData, "success");
+                                        $(".userInfoReset").click();
+                                    });
                                 break;
                         }
                     }
@@ -125,7 +138,7 @@
                 },
                 investor_card_pic: {
                     required: true,
-                    checkPicSize: true
+
                 }
             },
             // 提示信息

@@ -23,6 +23,7 @@ class SafetyService
      */
     public function saveIpInSet($setKey, $ip)
     {
+
         return BaseRedis::addSet($setKey, $ip);
     }
     /**
@@ -33,7 +34,9 @@ class SafetyService
      */
     public function checkIpInSet($setKey, $ip)
     {
-        $date = $setKey . date('Y-m-D',time());
+
+        $date = $setKey;
+
         if (BaseRedis::checkSet($date, $ip)) {
             return true;
         } else {

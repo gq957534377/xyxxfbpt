@@ -4,12 +4,13 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('home/css/user_center_my_company.css') }}">
+    <link href="{{ asset('home/css/change/zyzn_1.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
     <!--我管理的公司开始-->
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 my-company">
-        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right">
         <div class="basic-info">
             <span>我管理的公司</span>
 
@@ -51,19 +52,20 @@
                 <div class="form-group mar-b30 mar-b15-xs">
                     <label for="work-position" class="col-md-3 col-lg-2 control-label mar-b10"><span class="form-star">&nbsp;</span>公司网址</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control form-title" name="url" placeholder="">
+                        <input type="text" class="form-control form-title" name="url" placeholder="请输入网站地址,例如:http://www.hero.app">
                     </div>
                 </div>
 
                 <div class="form-group mar-b30 line-h-3">
                     <label for="invest-area" class="col-sm-12 col-md-3 col-lg-2 control-label pad-cr mar-xs--b"><span class="form-star">*</span>领域</label>
                     <div class="col-sm-8 col-md-6">
-                        <select class="form-control chr-c bg-1" name="field">
-                            <option value="">请选择领域</option>
-                            <option value="互联网">互联网</option>
-                            <option value="餐饮业">餐饮业</option>
-                            <option value="服务业">服务业</option>
-                        </select>
+                        {{--<select class="form-control chr-c bg-1" name="field">--}}
+                            {{--<option value="">请选择领域</option>--}}
+                            {{--<option value="互联网">互联网</option>--}}
+                            {{--<option value="餐饮业">餐饮业</option>--}}
+                            {{--<option value="服务业">服务业</option>--}}
+                        {{--</select>--}}
+                        <input class="nation form-control chr-c bg-1" name="field" data-value="" onclick="appendhybar(this,'duoxuan');" type="text" placeholder="请选择行业领域">
                     </div>
                 </div>
 
@@ -73,7 +75,7 @@
                     <div class="organize_card_box col-md-6 move-front">
                         <img  id="organize_card_img" src="{{ asset('home/img/upload_normal.jpg') }}" >
                         {{--公用一个上传input--}}
-                        <input type="file" name="card_pic" id="card_upload" style="display: none;">
+                        <input type="file" name="card_pic" id="card_upload">
                         {{--公用一个上传input--}}
                     </div>
                 </div>
@@ -92,6 +94,8 @@
 @section('script')
     <script src="{{asset('home/js/jquery.citys.js')}}"></script>
     <script src="{{asset('home/js/upload/uploadCommon.js')}}"></script>
+    <script src="{{asset('home/js/change/load_hycode.js')}}"></script>
+    <script src="{{asset('home/js/change/hgz_hycode.js')}}"></script>
     <script src="{{asset('home/js/user/companyValidate.js')}}"></script>
     <script>
         //  异步上传身份证照

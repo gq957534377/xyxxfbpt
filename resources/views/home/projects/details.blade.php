@@ -3,30 +3,7 @@
 @section('title','创新作品详情')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('home/css/content(pc).css') }}">
-    <style>
-        .sweet-alert p {
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 22px;
-        }
-        button.confirm {
-            background-color: #34c73b !important;
-            box-shadow: none !important;
-        }
-        .sweet-alert .sa-icon.sa-success .sa-placeholder {
-            border: 4px solid #34c73b;
-        }
-        .sweet-alert .sa-icon.sa-success .sa-line {
-            background-color: #34c73b;
-        }
-        .sweet-alert .sa-icon.sa-error {
-            border-color: #d74548;
-        }
-        .sweet-alert .sa-icon.sa-error .sa-line {
-            background-color: #d74548;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('home/css/content.css') }}">
 @endsection
 
 @section('content')
@@ -141,7 +118,7 @@
                     <img class="col-lg-3 col-md-3 col-sm-3 col-xs-3" src="{{ $project_details->userInfo->headpic }}">
                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                         <div class="row csrxx-1">
-                            <span class="col-lg-3 col-md-3 col-sm-3 ">{{ $project_details->userInfo->realname }}</span>
+                            <span class="col-lg-12 col-md-12 col-sm-12 ">{{ $project_details->userInfo->realname }}</span>
                             {{--<span class="col-lg-3 col-md-3 col-sm-3">--}}
                                 {{--@if($project_details->userInfo->role == 2)--}}
                                     {{--创业者--}}
@@ -275,69 +252,19 @@
 
                         @if(session('user'))
                             @if(session('user')->role == 3||session('user')->guid == $project_details->user_guid)
-                                <a style="position: absolute;top: 50%;left: 36%;" href="{{ $project_details->file }}">项目详细资料</a>
+                                <a class="projectZiliao" href="{{ $project_details->file }}">项目详细资料</a>
                             @else
                                 <div class="gdxx-content"> <a href="{{ url('/user').'/'.session('user')->guid }}" style="display: block;height: 100%;width: 100%;"></a></div>
                             @endif
                         @else
                             <div class="gdxx-content">
-                                <a href="{{route('login.index')}}" style="display: block;height: 100%;width: 100%;"></a>
+                                <a href="{{route('login.index')}}" class="ziliaoWu"></a>
                             </div>
                         @endif
 
                     </div>
                 </li>
                 <!--用户评论开始-->
-                {{--<div class="row pl-block">--}}
-                    {{--<h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>--}}
-                    {{--<a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">更多评论></a>--}}
-                    {{--<ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                        {{--<!---循环遍历开始-->--}}
-                        {{--<li class="row inputs">--}}
-                            {{--<form id="comment" method = 'post'>--}}
-                                {{--<input name="action_id" value="{{ $id}}" hidden>--}}
-                                {{--<input name="type" value="2" hidden>--}}
-                                {{--<textarea name="content" required></textarea>--}}
-                                {{--<button type="submit" class="subbtn btn btn-warning" >提交</button>--}}
-                            {{--</form>--}}
-                        {{--</li>--}}
-                        {{--@if($commentData['StatusCode'] == 200)--}}
-                            {{--@foreach($commentData['ResultData'] as $datas)--}}
-                                {{--<li class="row">--}}
-                                    {{--<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">--}}
-                                        {{--<div class="user-img-bgs">--}}
-                                            {{--<img src="{{ $datas->userImg }}">--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">--}}
-                                        {{--<div class="row user-say1">--}}
-                                            {{--<span>{{ $datas->nikename }}</span>--}}
-                                            {{--<span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="row user-say2">--}}
-                                            {{--<p>{{ $datas->content }}</p>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</li>--}}
-                            {{--@endforeach--}}
-                        {{--@else--}}
-                            {{--<li class="row">--}}
-                                {{--<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">--}}
-
-                                {{--</div>--}}
-                                {{--<div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">--}}
-
-                                    {{--<div class="row user-say2">--}}
-                                        {{--<p>暂无评论</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</li>--}}
-                    {{--@endif--}}
-                    {{--<!---循环遍历结束-->--}}
-
-                    {{--</ul>--}}
-                {{--</div>--}}
-                <!--用户评论结束-->
             </ul>
         </div>
     </section>

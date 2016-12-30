@@ -107,8 +107,8 @@
         <!--修改手机号 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeTelModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" style="position: relative;">
-                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+            <div class="modal-dialog">
+                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" >
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改手机号</h4>
@@ -140,7 +140,7 @@
                     <div class="modal-footer border-no h-align-1">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="step_one">下一步</button>
                         <button type="button" class="btn btn-default tel_btn_reset" data-dismiss="modal">取消</button>
-                        <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
+                        {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
                     <!--第一步 获取验证码 结束-->
 
@@ -212,7 +212,7 @@
                         <!--发送提示    &    验证错误提示  开始-->
                         <div id="errorBox3" class="alert alert-danger hidden">验证码验证失败！</div>
                         <!--////////////////////-->
-                        <p id="sendSmsSuccessTwo" class="fs-c-5 hidden" style="margin-top: 25px;">
+                        <p id="sendSmsSuccessTwo" class="fs-c-5 hidden">
                             含有验证码的短信已发送至手机：
                             <span id="newSmsBox" class="fs-c-6"></span>
                         </p>
@@ -230,7 +230,7 @@
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_three">下一步</button>
                         <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
-                        <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
+                        {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
                     <!--第四步 修改成功-->
                     <div class="modal-body tel-step-four hidden">
@@ -263,8 +263,8 @@
         <!--修改邮箱 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" style="position: relative;">
-                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+            <div class="modal-dialog">
+                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" >
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改邮箱</h4>
@@ -294,7 +294,7 @@
                         <div id="errorEmailBox_two" class="alert alert-danger hidden">验证码验证失败！</div>
                         <!--Email 错误提示 End-->
                         <!--////////////////////-->
-                        <p class="fs-c-0 fw-1">我们向: <span id="toEmail" style="color: #ff9035;">15110313915@qq.com</span>发送了验证邮件<br>请你输入邮箱中的验证码</p>
+                        <p class="fs-c-0 fw-1">我们向: <span id="toEmail">15110313915@qq.com</span>发送了验证邮件<br>请你输入邮箱中的验证码</p>
                         <!--发送提示    &    验证错误提示  结束-->
 
                         <div class="form-group mar-cb">
@@ -312,7 +312,7 @@
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_two">下一步</button>
                         <button type="button" class="btn btn-default" id="email_return">返回</button>
                         <button type="button" class="btn btn-default btn_email_reset pull-right" data-dismiss="modal">取消</button>
-                        <p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>
+                        {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
                     <!--第三步 修改成功-->
                     <div class="modal-body email-step-three hidden">
@@ -329,8 +329,8 @@
         <!--修改密码 开始-->
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="changeKeyModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" style="position: relative;">
-                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+            <div class="modal-dialog">
+                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right">
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改密码</h4>

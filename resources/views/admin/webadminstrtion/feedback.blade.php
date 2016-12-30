@@ -1,13 +1,6 @@
 @extends('admin.layouts.master')
 @section('styles')
-    <style>
-        .loading{z-index:999;position:absolute;display: none;}
-        #alert-info{padding-left:10px;}
-        table{font-size:14px;}
-        .table button{margin-right:15px;}
-        .page-title{ padding-bottom: 5px;}
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{asset('admin/js/seedback.css')}}"/>
 @endsection
 {{--展示内容开始--}}
 @section('content')
@@ -24,7 +17,7 @@
     </div>
 
     {{--表格盒子开始--}}
-    <div class="panel" id="data" style="text-align: center">
+    <div class="panel" id="data">
 
     </div>
     {{--表格盒子结束--}}
@@ -33,7 +26,7 @@
 {{--展示内容结束--}}
 
 {{--弹出页面 开始--}}
-<div id="feedback" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+<div id="feedback" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

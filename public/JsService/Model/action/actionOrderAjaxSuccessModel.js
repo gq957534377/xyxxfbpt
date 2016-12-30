@@ -4,7 +4,6 @@
  */
 //展示活动报名情况表
 function actionOrder(data) {
-    console.log(data);
     $('.loading').hide();
     if (data) {
         if (data.StatusCode === '200') {
@@ -54,7 +53,6 @@ function htmlStr( data) {
     //
 
     $.each(data, function (i, v) {
-        console.log(data);
         v.realname = v.realname ? v.realname : '--';
         v.birthday = v.birthday ? v.birthday : '--';
         v.email    = v.email ? v.email : '--';

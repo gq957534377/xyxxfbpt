@@ -1,36 +1,50 @@
-<div class="nav-fixd">
-    <nav class="container-fluid naves">
+<nav class="container-fluid navbar navbar-default nav-fixd naves" role="navigation">
+    <div class="container pad-clr">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#qili-navbar-collapse">
+                <span class="sr-only">切换导航</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li class="active nav-child"><a href="{{ route('index') }}">奇力首页</a></li>
-                <li class="nav-child"><a href="{{ route('project.index') }}">创新作品</a></li>
-                {{--<li class="dropdown nav-child">--}}
+        <div class="collapse navbar-collapse pad-clr nav-opening" id="qili-navbar-collapse">
+            <ul class="nav-content pad-cl">
+                <li class=""><a href="{{ route('index') }}">奇力首页</a></li>
+                <li class="hidden-xs"><div></div></li>
+                <li class=""><a href="{{ route('project.index') }}">创新作品</a></li>
+                <li class="hidden-xs"></li>
+                {{--<li class="dropdown">--}}
                     {{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">项目投资<span class="caret"></span></a>--}}
-                    {{--<ul class="dropdown-menu" role="menu">--}}
-                        {{--<li><a href="#">项目投资</a></li>--}}
-                        {{--<li><a href="#">众筹项目</a></li>--}}
+                    {{--<ul class="dropdown-menu qili-dropdown" role="menu">--}}
+                        {{--<li class=""><a href="{{ route('action.index', ['type' => '1']) }}">企业管理</a></li>--}}
+                        {{--<li class=""><a href="{{ route('action.index', ['type' => '2']) }}">资金管理</a></li>--}}
+                        {{--<li class=""><a href="{{ route('action.index', ['type' => '2']) }}">人才管理</a></li>--}}
                     {{--</ul>--}}
                 {{--</li>--}}
-                <li class="nav-child"><a href="/school?type=1">英雄学院</a></li>
-                <li class="nav-child"><a href="/article?type=1">市场咨询</a></li>
-                <li class="nav-child"><a href="/article?type=2">创业政策</a></li>
-                <li class="dropdown nav-child">
+                {{--<li class="hidden-xs"></li>--}}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">英雄学院<span class="caret"></span></a>
+                    <ul class="dropdown-menu qili-dropdown" role="menu">
+                        <li class=""><a href="/school?type=1">企业管理</a></li>
+                        <li class=""><a href="/school?type=2">资金管理</a></li>
+                        <li class=""><a href="/school?type=3">人才管理</a></li>
+                    </ul>
+                </li>
+                <li class="hidden-xs"></li>
+                <li class=""><a href="/article?type=1">市场咨询</a></li>
+                <li class="hidden-xs"></li>
+                <li class=""><a href="/article?type=2">创业政策</a></li>
+                <li class="hidden-xs"></li>
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">路演活动<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="nav-child-li"><a href="{{ route('action.index', ['type' => '1']) }}">路演活动</a></li>
-                        <li role="presentation" class="divider"></li>
-                        <li><a href="{{ route('action.index', ['type' => '2']) }}">创业大赛</a></li>
+                    <ul class="dropdown-menu qili-dropdown" role="menu">
+                        <li class=""><a href="{{ route('action.index', ['type' => '1']) }}">路演活动</a></li>
+                        <li class=""><a href="{{ route('action.index', ['type' => '2']) }}">创业大赛</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
-    </nav>
-</div>
+    </div>
+</nav>

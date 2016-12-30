@@ -172,6 +172,24 @@
 .tel-step-four > p {
     margin-top: 50px;
 }
+
+.modal-dialog {
+    position: relative;
+}
+.loading {
+    left:45%;
+    top:45%;
+    position: absolute;
+    z-index: 9999;
+    display: none;
+}
+#sendSmsSuccessTwo{
+    margin-top: 25px;
+}
+#toEmail {
+    color: #ff9035;
+}
+
 @media (max-width: 767px) {
     .security-graph {
         padding-top: 1.5em;

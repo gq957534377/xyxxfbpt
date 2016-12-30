@@ -107,8 +107,11 @@
     {{--富文本--}}
     <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
     <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
+    {{--弹窗--}}
+    <script src="{{ asset('home/js/sweet-alert.min.js') }}"></script>
     {{--验证--}}
-    <script src="http://cdn.rooyun.com/js/jquery.validate.min.js"></script>
+
+    <script src="{{asset('home/js/jquery.validate.min.js')}}"></script>
 
     {{--图片上传--}}
     <script src="{{asset('cropper/js/cropper.min.js')}}"></script>

@@ -265,7 +265,7 @@
         function group(id) {
             var result = '个人';
             $.each(groupMessage,function (i,v) {
-                console.log(v.id);
+
                 if (v.id == id){
                     result = v.name;
                 }
@@ -375,7 +375,6 @@
                                 $.ajax({
                                     url     : url,
                                     success : function (data) {
-                                        console.log(data);
                                         if(data.statusCode != '200'){
                                             swal(data.ResultData, statusMessage + '失败', "danger");
                                         }

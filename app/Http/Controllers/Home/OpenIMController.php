@@ -80,9 +80,10 @@ class OpenIMController extends Controller
         $resultCookie = \App\Tools\Common::checkCookie('feedback', '意见反馈');
         if ($resultCookie != 'ok') return $resultCookie;
         $ip = $request->getClientIp();
-//        if (self::$safetyService->checkIpInSet(SET_FEEDBACK_IP, $ip)) {
-//            return ['StatusCode' => '400','ResultData' => '谢谢支持，您已经提过意见了，请明天再来'];
-//        };
+
+        if (self::$safetyService->checkIpInSet(SET_FEEDBACK_IP . date('Y-m-d', time()), $ip)) {
+            return ['StatusCode' => '400','ResultData' => '谢谢支持，您已经提过意见了，请明天再来'];
+        };
         // 验证过滤数据
         $validator = Validator::make($request->all(), [
             'description' => 'required|max:400',

@@ -504,7 +504,6 @@
                                 $.ajax({
                                     url     : url,
                                     success : function (data) {
-                                        console.log(data);
                                         if(data.StatusCode != 200){
                                             swal(data.ResultData, statusMessage + '文章失败', "danger");
                                         }else{
@@ -560,7 +559,6 @@
                             brief:$('#yz_xg').find('textarea[name=brief]').val(),
                             describe:ue1.getContent(),
                         };
-                        console.log(resul);
                         data.append( "type"      , resul.type);
                         data.append( "title"      , resul.title);
                         data.append( "brief"   , resul.brief);
@@ -647,7 +645,6 @@
                             brief:$('textarea[name=brief]').val(),
                             describe:$('textarea[name=describe]').val(),
                         };
-                        console.log(resul);
                         data.append( "type"      , resul.type);
                         data.append( "title"      , resul.title);
                         data.append( "brief"   , resul.brief);

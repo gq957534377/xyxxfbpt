@@ -1,7 +1,7 @@
 @extends('home.layouts.master')
 
 @section('style')
-    <link href="{{ asset('home/css/index(pc).css') }}" rel="stylesheet">
+    <link href="{{ asset('home/css/index.css') }}" rel="stylesheet">
 
 @endsection
 
@@ -16,39 +16,47 @@
                 <div id="carousel-example-generic" class="carousel slide animated rotateInUpLeft" data-ride="carousel">
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
-                        @if( is_array($cooper) )
-                        @foreach($cooper as $key => $val)
-                            @if($key == 0)
+                        @if( is_array($rollingPic) )
+                            <?php $f = true; ?>
+                        @foreach($rollingPic as $key => $val)
+
+                            @if($f)
+                                            <?php $f = false; ?>
                                 <li data-target="#carousel-example-generic" data-slide-to="{{$key}}" class="active"></li>
                             @else
                                 <li data-target="#carousel-example-generic" data-slide-to="{{$key}}"></li>
                             @endif
+
                         @endforeach
                         @else
-                           {{ $cooper }}
+                           {{ $rollingPic }}
                         @endif
                     </ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
-                        @if( is_array($cooper) )
-                        @foreach($cooper as $key => $val)
-                            @if($key == 0)
-                                <div class="item active">
-                                    <img  onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
-                                    <div class="carousel-caption">
-                                    </div>
-                                </div>
-                            @else
-                                <div class="item">
-                                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
-                                    <div class="carousel-caption">
-                                    </div>
-                                </div>
-                            @endif
+                        @if( is_array($rollingPic) )
+                            <?php $f = true; ?>
+                        @foreach($rollingPic as $key => $val)
+
+                                    @if($f)
+                                            <?php $f = false; ?>
+                                        <div class="item active">
+                                            <img  onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
+                                            <div class="carousel-caption">
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="item">
+                                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
+                                            <div class="carousel-caption">
+                                            </div>
+                                        </div>
+                                    @endif
+
                         @endforeach
                         @else
-                            <li>{{ $cooper }}</li>
+                            <li>{{ $rollingPic }}</li>
                         @endif
                     </div>
 
@@ -689,12 +697,14 @@
         <section id="section7" class="font-size">
             <h2>英雄会合作机构</h2>
             <ul class="row">
-                @if(is_array($carousel))
-                @foreach($carousel as $val)
-                <li class="col-sm-2"><a href="{{ $val->pointurl }}"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"></a></li>
+                @if(is_array($picArr))
+                @foreach($picArr as $val)
+                        @if($val->type == 3)
+                            <li class="col-sm-2"><a href="{{ $val->pointurl }}"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"></a></li>
+                        @endif
                 @endforeach
                 @else
-                  {{ $carousel }}
+                  {{ $picArr }}
                 @endif
             </ul>
         </section>
@@ -709,19 +719,21 @@
         <section id="section9" class="font-size">
             <h2>英雄会顶级投资机构联盟</h2>
             <ul class="row">
-                @if(is_array($invest))
-                @foreach($invest as $val)
-                    <li class="col-sm-2">
-                        <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"/>
-                        <a href="{{ $val->pointurl }}">
-                            <div>
-                                <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/cross.png') }}"/>
-                            </div>
-                        </a>
-                    </li>
+                @if(is_array($picArr))
+                @foreach($picArr as $val)
+                        @if($val->type == 5)
+                            <li class="col-sm-2">
+                                <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"/>
+                                <a href="{{ $val->pointurl }}">
+                                    <div>
+                                        <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/cross.png') }}"/>
+                                    </div>
+                                </a>
+                            </li>
+                        @endif
                 @endforeach
                 @else
-                  {{ $invest }}
+                  {{ $picArr }}
                 @endif
 
             </ul>

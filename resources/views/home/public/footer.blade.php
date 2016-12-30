@@ -1,18 +1,18 @@
 <div class="zxz-footer">
 
     <div class="fixed-btn">
-        <a class="go-top" href="javascript:void(0)" style="display: none;" title="返回顶部"> <i class="fa fa-angle-up"></i></a>
+        <a class="go-top" href="javascript:void(0)" title="返回顶部"> <i class="fa fa-angle-up"></i></a>
 
-        <a class="writer" href="javascript:void(0)" id="custom-service" data-toggle="modal" data-target="#custom-width-modal" title="联系客服"><i class="fa fa-envelope-o" style="font-size: 20px;"></i></a>
+        <a class="writer" href="javascript:void(0)" id="custom-service" data-toggle="modal" data-target="#custom-width-modal" title="联系客服"><i class="fa fa-envelope-o"></i></a>
 
     </div>
 
     <footer class="container-fluid">
-        <div  id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true" style="display: none;">
+        <div  id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog"  aria-hidden="true">
             <div  class="modal-dialog modal-full">
-                <div style="width: 700px;height: 470px;" class="modal-content">
+                <div class="modal-content">
 
-                    <div  class="demo" id="openim" style="width: 700px;height: 470px;"></div>
+                    <div  class="demo" id="openim"></div>
 
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -26,8 +26,8 @@
             </div>
             <div class="footer-center col-xs-12  col-sm-4 col-md-4 col-lg-5">
                 <a href="#">关于我们</a>
-                <a href="#">新人课堂</a>
-                <a href="#">常见问题</a>
+                <a href="#">免责条款</a>
+                <a href="#">版权声明</a>
             </div>
             <div class="footer-right col-xs-12  col-sm-4 col-md-4 col-lg-4">
                 <span>关注奇立英雄会微信号</span>

@@ -35,7 +35,7 @@
                             <label class="1">
                                 <input type="checkbox" class="checkbox-contri" name="itemId"  id="{{ $val->guid }}"/>
                             </label>
-                            <a class="a-style-1" href="/market/{{ $val->guid }}">{{ $val->title }}</a>
+                            <a class="a-style-1" href="/article/{{ $val->guid }}">{{ $val->title }}</a>
                         </div>
                         <div class="dis-in-bl col-sm-4 pad-clr mar-eml2-xs mar-emt03-xs hidden-xs">
                             <span data-delete="{{ $val->guid }}" class="bg-area bg-del pull-right"></span>
@@ -62,9 +62,7 @@
 @endsection
 
 @section('script')
-<script src="{{ asset('home/js/contribute.js') }}"></script>
-    <script>
-        // 删除某条记录
+    <script src="{{ asset('home/js/sweet-alert.min.js') }}"></script>
+    <script src="{{ asset('home/js/contribute.js') }}"></script>
 
-    </script>
 @endsection

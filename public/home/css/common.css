@@ -150,6 +150,9 @@ footer {
     text-decoration: none;
     background: no-repeat top center;
 }
+.footer-center > a:hover {
+    color: #ffffff;
+}
 .footer-right {
     padding: 2.1em 0 2.1em 15.5%;
     /*padding: 2.1em 0 2.1em 17.5%;*/
@@ -537,6 +540,9 @@ body .list-inline > li {
 .mar-emt15{
     margin-top: 1.5em !important;
 }
+.mar-emt30{
+    margin-top: 3em;
+}
 .mar-emt50{
     margin-top: 5em;
 }
@@ -697,28 +703,6 @@ body .list-inline > li {
     background: #ff9035;
     color: #fff;
 }
-
-/* .tab-info-top > a:hover {
-    background-color: #ff9035;
-    color: white;
-}
-.tab-info-top > a:hover > span {
-    display: block;
-    position: absolute;
-    top: 100%;
-    left: 44%;
-    right: 45%;
-    z-index: 999;
-}
-.triangle-down {
-    width: 12px;
-    height: 6px;
-    border-top: 7px solid #ff9035;
-    border-right: 6px solid transparent;
-    border-left: 6px solid transparent;
-    display: none;
-} */
-
 /*选项卡 end*/
 
 /*position定位*/
@@ -737,6 +721,23 @@ body .list-inline > li {
 .pos-1 {
     position: relative;
 }
+
+/*关于我们样式 开始*/
+.qili-about-us {
+    position: relative;
+}
+.qili-about-us > ul > li {
+    /*padding-left: 60px;*/
+    /*padding-right: 60px;*/
+}
+.qili-about-us > div {
+    position: absolute;
+    top: 0;
+    left: 180px;
+}
+/*关于我们样式 结束*/
+
+
 /*阻止鼠标双击时文本被选中*/
 /*例子*/
 /*<div onselectstart="return false;" style="-moz-user-select:none;">*/
@@ -1058,4 +1059,19 @@ body .list-inline > li {
 }
 .loads:hover{
     color:#FF9036;
+}
+.go-top {
+    display: none;
+}
+.fa-envelope-o {
+    font-size: 20px;
+}
+#custom-width-modal {
+    display: none;
+}
+#custom-width-modal div div, #custom-width-modal div div div {
+    width: 700px;height: 470px;
+}
+#error-info {
+    display: none;
 }

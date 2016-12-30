@@ -4,7 +4,6 @@
  */
 function listHtml(data){
     var html = '';
-    console.log(data);
     html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th style="text-align:center;">活动类型</th><th style="text-align:center;">活动主题</th><th style="text-align:center;">负责人</th><th style="text-align:center;">活动时间</th><th style="text-align:center;">截止报名</th><th style="text-align:center;">报名人数限定</th><th style="text-align:center;">报名人数</th><th style="text-align:center;">操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
@@ -69,7 +68,6 @@ function showInfoList(data){
     if (data) {
         if (data.StatusCode === '200') {
             data = data.ResultData;
-            console.log(data);
             $('#xq_title').val(data.title);
             $('#xq_author').val(data.author);
             $('#xq_type').val(type(data.type));

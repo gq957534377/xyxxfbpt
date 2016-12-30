@@ -30,7 +30,7 @@
                 @foreach($ResultData['data'] as $val)
                     <div class="contribute-box pad-3 bb-1">
                         <div class="dis-in-bl pad-clr col-xs-12 col-sm-8">
-                            <a class="a-style-1" href="/market/{{ $val->guid }}">{{ $val->title }}</a>
+                            <a class="a-style-1" href="/article/{{ $val->guid }}">{{ $val->title }}</a>
                         </div>
                         <div class="col-xs-12 pad-clr">
                             <p class="mar-cb mar-eml2 mar-emt03">{{ date('Y-m-d H:i:s', $val->addtime) }}</p>
