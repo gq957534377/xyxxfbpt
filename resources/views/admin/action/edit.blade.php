@@ -448,7 +448,6 @@
                             }
                         }
                         function check(data) {
-                            console.log(data);
                             $('.loading').hide();
                             if (data) {
                                 if (data.StatusCode === '200') {
