@@ -15,8 +15,13 @@
     <section class="container">
 
         <div class="nav-status-bar col-xs-12 pad-clr">
+            @if($type == 1)
+            <span>路演活动</span>
+            <span class="pull-right">路演活动</span>
+            @elseif($type == 2)
             <span>创业大赛</span>
             <span class="pull-right">创业大赛</span>
+            @endif
             <span class="pull-right">＞</span>
             <span class="pull-right">活动</span>
             <div></div>

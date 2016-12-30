@@ -69,6 +69,15 @@
     padding-left: 1em;
     padding-right: 1em;
 }
+.my-home-info-edit {
+    padding-left: 2.5em;
+    color: #6699ff;
+    background: url("../img/pen.png") no-repeat 35% center;
+}
+.my-home-info-edit:hover {
+    color: #ff9035;
+    text-decoration: none;
+}
 .my-home-title {
     color: #333;
     font-weight: 900;

@@ -71,6 +71,9 @@ aside ul li:nth-child(7) > a:hover {
 }
 
 @media (max-width: 767px) {
+    body {
+        padding-top: 80px;
+    }
     .user-center {
         width: 100%;
         /*margin-top: 2em;*/

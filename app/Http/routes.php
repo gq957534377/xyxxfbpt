@@ -154,6 +154,11 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
 //redis缓存隔离demo路由
 Route::resource('/test','TestController');
 
+//about静态页面 临时
+Route::get('/about', function () {
+    return view('home.about.index');
+});
+
 
 
 

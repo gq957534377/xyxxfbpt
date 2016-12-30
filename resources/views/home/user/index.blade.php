@@ -88,11 +88,7 @@
             </div>
             <div class="col-xs-12 col-sm-3 pad-clr my-home-auth">
                 @if(empty(session('roleInfo')[2]))
-<<<<<<< HEAD
                     <a href="{{ route('identity.index', ['identity' => 'syb']) }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
-=======
-                <a href="{{ route('identity.index', ['identity' => 'syb']) }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">去认证</a>
->>>>>>> origin/wangtong
                 @endif
             </div>
         </div>
@@ -128,7 +124,7 @@
 
             @if(empty(session('roleInfo')[2]->company))
                 <h4 class="col-xs-12 pad-clr my-home-title">我管理的公司
-                    {{--<a href="javascript:void(0)" class="pull-right fs-14 hidden">编辑</a>--}}
+                    {{--<a href="javascript:void(0)" class="pull-right fs-14 hidden fw-0 my-home-info-edit">编辑</a>--}}
                 </h4>
                 <div class="col-xs-12 pad-clr my-home-content">
                     <div class="com-bot"> <p>入驻英雄会，获取优质创业服务</p>
@@ -146,7 +142,7 @@
                         <span class="label label-danger"> 审核失败 </span>
                     @endif
                 </h4>
-
+                    {{--<a href="javascript:void(0)" class="col-xs-2 pull-right fs-14 fw-0 my-home-info-edit">编辑</a>--}}
                 <div class="col-xs-12 pad-clr my-home-content">
                     <p class="col-lg-6 pad-clr">公司名称：<span>{{ empty(session('roleInfo')[2]->company->company) ? '--' : session('roleInfo')[2]->company->company}}</span></p>
                     <p class="col-lg-6 pad-clr">公司网址：<span><a href="{{ empty(session('roleInfo')[2]->company->url) ? '--' : session('roleInfo')[2]->company->url }}" target="_blank">{{ empty(session('roleInfo')[2]->company->url) ? '--' : session('roleInfo')[2]->company->url }}</a></span></p>
@@ -181,10 +177,10 @@
                 <h4 class="col-xs-12 pad-clr my-home-title">投资者认证
                     @if(session('roleInfo')[3]->status == 5 )
                         <span class="label label-warning"> 待审核 </span>
-                        <a href="{{ route('identity.edit', ['identity' => 'investor','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>
+                        <a href="{{ route('identity.edit', ['identity' => 'investor','id' => session('user')->guid]) }}" class="pull-right fs-14 fw-0 my-home-info-edit">编辑</a>
                     @elseif(session('roleInfo')[3]->status == 6 )
                         <span class="label label-success"> 认证成功 </span>
-                        <a href="{{ route('identity.edit', ['identity' => 'investor','id' => session('user')->guid]) }}" class="pull-right fs-14">编辑</a>
+                        <a href="{{ route('identity.edit', ['identity' => 'investor','id' => session('user')->guid]) }}" class="pull-right fs-14 fw-0 my-home-info-edit">编辑</a>
                     @else
                         <span class="label label-danger"> 审核失败 </span>
                         <a href="{{ route('identity.index', ['identity' => 'investor']) }}" class="pull-right fs-14">重新认证</a>
