@@ -10,7 +10,7 @@
     <!--琦立英雄会报名 开始-->
     <div id="applyHeroMemeberBox" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 pad-clr bgc-1 pos-1">
 
-        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+        <img src="{{asset('home/img/load.gif')}}" class="loading pull-right">
 
         <div class="center-block pad-5 text-center">
             <div class="banner-img text-center">

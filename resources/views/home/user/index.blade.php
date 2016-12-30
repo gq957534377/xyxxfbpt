@@ -6,6 +6,7 @@
     <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
     <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
     <link href="{{asset('home/css/user_center_my_home.css')}}" rel="stylesheet"/>
+    {{--<link href="{{ asset('css/sweet-alert.min.css') }}" rel="stylesheet">--}}
 
 @endsection
 
@@ -16,12 +17,12 @@
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 pad-cl my-home-basic">
             <!-- 头像修改 Start -->
             <div class="col-sm-2 col-md-3 col-lg-2 pad-clr">
-                <div class="ibox-content" style="display: inline-block;padding-left: 20px;vertical-align: middle;">
+                <div class="ibox-content">
                     <div class="row">
                         <div id="crop-avatar">
-                            <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
+                            <div class="avatar-view" title="">
                                 <img class="user_avatar img-circle"
-                                     src="{{ empty(session('user')->headpic) ? asset('home/img/user_center.jpg') : session('user')->headpic }}" alt="Logo" style="margin-left: 0px;">
+                                     src="{{ empty(session('user')->headpic) ? asset('home/img/user_center.jpg') : session('user')->headpic }}" alt="Logo">
                             </div>
                         </div>
                     </div>
@@ -51,9 +52,9 @@
         <!--修改头像弹出框 End-->
 
         <!-- 模态框（Modal） -->
-        <div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog" style="top: 20%;left: 8%;border-radius: 5px;">
-            <div class="modal-dialog" style="position: relative;">
-                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" style="left:45%;top:45%;position: absolute;z-index: 9999;display: none;" >
+        <div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right" >
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改昵称</h4>
@@ -65,11 +66,11 @@
                         <div id="userInfoSuccess" class="col-xs-12 alert alert-success hidden"></div>
                         <!-- 错误提示 End-->
                         <div class="col-xs-12">
-                            <label class="col-xs-12 control-label mar-b5" style="line-height: 34px;">用户昵称</label>
+                            <label class="col-xs-12 control-label mar-b5 nickname">用户昵称</label>
                             <div class="col-xs-12">
                                 <input type="text" name="nickname" class="form-control form-title"  placeholder="输入新的昵称" id="">
                             </div>
-                            <div class="col-xs-12" style="margin-top: 10px;">
+                            <div class="col-xs-12 userEditBox">
                                 <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="editSubmit">保存</button>
                                 <button type="button" class="btn btn-default userInfoReset" data-dismiss="modal">取消</button>
                             </div>

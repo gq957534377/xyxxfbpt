@@ -13,6 +13,16 @@
 
     // 初始化
     FormValidator.prototype.init = function() {
+
+        $.validator.addMethod("chinese", function(value, element) {
+            var chinese = /^[\u4e00-\u9fa5]+$/;
+            return this.optional(element) || (chinese.test(value));
+        }, "只能输入中文");
+
+        // 字符验证
+        $.validator.addMethod("stringCheck", function(value, element) {
+            return this.optional(element) || /^[u0391-uFFE5w]+$/.test(value);
+        }, "只能包括中文字、英文字母、数字和下划线");
         // ajax 异步
         $.validator.setDefaults({
             // 提交触发事件
@@ -30,7 +40,7 @@
                 data.append( "address"          , $("input[name= 'address']").val());
                 data.append( "founder_name"  , $("input[name= 'founder_name']").val());
                 data.append( "url"     , $("input[name= 'url']").val());
-                data.append( "field"     , $("select[name= 'field']").val());
+                data.append( "field"     , $("input[name= 'field']").val());
                 data.append( "organize_card"     , $("input[name= 'organize_card']").val());
                 //开始正常的ajax
                 // 异步登录
@@ -47,7 +57,7 @@
                         'address': $("input[name= 'address']").val(),
                         'founder_name': $("input[name= 'founder_name']").val(),
                         'url': $("input[name= 'url']").val(),
-                        'field': $("select[name= 'field']").val(),
+                        'field': $("input[name= 'field']").val(),
                         'organize_card': $("input[name= 'organize_card']").val(),
                     },
                     success:function(data){
@@ -72,15 +82,18 @@
             rules: {
                 company: {
                     required: true,
+                    chinese: true,
                 },
                 abbreviation: {
                     required: true,
+                    chinese: true,
                 },
                 address: {
                     required: true,
                 },
                 founder_name: {
                     required: true,
+                    chinese: true,
                 }
                 ,
                 url: {

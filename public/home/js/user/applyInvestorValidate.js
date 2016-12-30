@@ -21,7 +21,7 @@
         }, "请正确填写您的手机号码");
 
         $.validator.addMethod("checkPicSize", function(value,element) {
-            var fileSize=element.files[0].size;
+            var fileSize=element.context.files[0].size;
             var maxSize = 2*1024*1024;
             if(fileSize > maxSize){
                 return false;
@@ -125,7 +125,6 @@
                 },
                 investor_card_pic: {
                     required: true,
-                    checkPicSize: true
                 }
             },
             // 提示信息
