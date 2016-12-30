@@ -96,6 +96,7 @@ class userManagementService
     }
 
     /**     分页HTML字符串拼装
+     * @param $url url选择 user 为用户常规管理   role 为用户审核管理
      * @param $count    总条数
      * @param $nowPage  当前页
      * @param $pageNums     每页条数
@@ -103,12 +104,19 @@ class userManagementService
      * @return string   返回拼装好的HTML字符串
      * @author lw
      */
-    public function paramHandle($count, $nowPage, $pageNums, $search)
+    public function paramHandle($url, $count, $nowPage, $pageNums, $search)
     {
         //总页数
         $totalPage = ceil($count / $pageNums);
         //分页求情的地址
-        $baseUrl   = url('/user_management/show');
+        switch($url){
+            case 'user':
+                $url = '/user_management/show';
+                break;
+            case 'role':
+                $url = '/role_management/show';
+        }
+        $baseUrl   = url($url);
 
         if($nowPage <= 0){
             $nowPage = 1;

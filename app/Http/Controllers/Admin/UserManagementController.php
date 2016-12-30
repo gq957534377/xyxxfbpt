@@ -97,7 +97,7 @@ class UserManagementController extends Controller
         $search = ['key' => $data['key']];  //查询参数拼装
 
         //获取分页字符串
-        $pageStr = self::$users->paramHandle($count, $nowPage, $pageNums, $search);
+        $pageStr = self::$users->paramHandle('uesr',$count, $nowPage, $pageNums, $search);
 
         //获取对应页的数据
         $Data = self::$users->getTypelist($table, $where, $nowPage, $pageNums);

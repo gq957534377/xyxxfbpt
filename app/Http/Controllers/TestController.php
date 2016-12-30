@@ -42,9 +42,11 @@ class TestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
 
+        $data = \DB::table('data_picture')->whereIn('type',[2,3,5])->where('status','<>',4)->get();
+        dd($data);
 
     }
 

@@ -321,7 +321,7 @@
             $('#user_title').html('<h3>待审核用户</h3>');
             var key = 15;   //默认请求所有待审核用户
 
-            var url = '/user_management/show';
+            var url = '/role_management/show';
 
             //初始化请求参数
             var queryString = {
@@ -345,7 +345,7 @@
             $('#user_title').html('<h3>' + title + '</h3>');
 
             //获取参数
-            var url = '/user_management/show';  //请求url
+            var url = '/role_management/show';  //请求url
 
             //初始化请求参数
             var queryString = {
