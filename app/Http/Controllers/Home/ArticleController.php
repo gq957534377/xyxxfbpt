@@ -32,9 +32,11 @@ class ArticleController extends Controller
     public function index(Request $request)
     {
         if (!empty($request['type'])) {
-            $res = self::$articleServer->selectByType($request['type']);
-
-            return view('home.article.index', $res);
+            $where["status"] = 1;
+            $where['type'] = $request['type'];
+            $result = self::$articleServer->selectData($where, 1, 5, "/article/create",false);
+            $result['type'] = $request['type'];
+            return view('home.article.index', $result);
         }
 
         return view('errors.404');
@@ -64,7 +66,7 @@ class ArticleController extends Controller
                 $where["type"] = $type;
             }
         }
-        $result = self::$articleServer->selectData($where, $nowPage, $forPages, "/article/create");
+        $result = self::$articleServer->selectData($where, $nowPage, $forPages, "/article/create",false);
         return response()->json($result);
     }
 

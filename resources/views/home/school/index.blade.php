@@ -50,7 +50,7 @@
             @endif
         </ul>
         @if($ResultData['totalPage'] > $nowPage)
-            <a data-type="{{$type}}" id="more_list">点击加载更多</a>
+            <div data-type="{{$type}}" class="loads" id="more_list"></div>
         @endif
     </section>
     <!---类型内容层结束---->
@@ -69,7 +69,6 @@
         var nowPage = 2;
         var type = $('#more_list').data('type');
         $('#more_list').click(function () {
-            alert(111);
             var url="school/create";
             $.ajax({
                 url:url,

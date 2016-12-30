@@ -20,7 +20,7 @@
             <li class="col-lg-2 col-md-2 col-sm-2 col-xs-5">融资阶段：</li>
             <li class="col-lg-2 col-md-2 col-sm-2 col-xs-6 form-group">
                 <div class="btn-group">
-                    <button id="upId" type="button" class="btn">
+                    <button id="typeId" data-id="@if(empty($type)){!! 0 !!}@else{{$type}}@endif" type="button" class="btn">
                         @if(empty($type))
                             默认
                         @else
@@ -76,41 +76,86 @@
 <!--主体内容行开始-->
 <section class="hang container-fluid">
     <ul class="row content">
-        @foreach($projects as $project)
-            <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                <div class="content-block">
-                    <a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
-                        <img src="{{ $project->banner_img }}" alt="">
-                    </a>
-                    <div>
-                        <h3><a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
-                                @if(mb_strlen($project->title)>10)
-                                    {{mb_substr($project->title,0,10).'...'}}
-                                @else
-                                    {{$project->title}}
-                                @endif
-                            </a>
-                        </h3>
-                        <p>{{ mb_substr($project->brief_content,0,20).'...' }}</p>
-                        <!--p标签内容不可超过40个中文简体字-->
+        @if(!empty($projects))
+            @foreach($projects as $project)
+                <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <div class="content-block">
+                        <a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
+                            <img src="{{ $project->banner_img }}" alt="">
+                        </a>
                         <div>
-                            {{--<span>21</span>--}}
-                            {{--<span>12723</span>--}}
+                            <h3><a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
+                                    @if(mb_strlen($project->title)>10)
+                                        {{mb_substr($project->title,0,10).'...'}}
+                                    @else
+                                        {{$project->title}}
+                                    @endif
+                                </a>
+                            </h3>
+                            <p>{{ mb_substr($project->brief_content,0,20).'...' }}</p>
+                            <!--p标签内容不可超过40个中文简体字-->
+                            <div>
+                                {{--<span>21</span>--}}
+                                {{--<span>12723</span>--}}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </li>
-        @endforeach
+                </li>
+            @endforeach
+        @else
+            <div style="color: #CCCCCC;">暂无数据呦，亲 O(∩_∩)O~</div>
+        @endif
     </ul>
-    <div class="loads">
-
-    </div>
+    @if($num>8)
+        <div class="loads"></div>
+    @endif
 </section>
-{{--{{route('projectList')}}--}}
 <!--主体内容行结束-->
 @endsection
 @section('script')
     <script>
+        var nowPage = 1;
+        $('.loads').click(function () {
+            nowPage++;
+            var typeId = $('#typeId').attr('data-id');
+            $.ajax({
+                url:'{{route('projectList')}}',
+                type:'post',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data:{
+                    nowPage:nowPage,
+                    typeId:typeId
+                },
+                success:function (data) {
 
+                    if(data.StatusCode == "400" || data.ResultData.length<8) {
+                        $('.loads').remove();
+                    }
+                    createDom(data.ResultData)
+                }
+            })
+        })
+        function createDom(data) {
+
+            if(typeof data == "string") return;
+
+            var html='';
+            for(var i=0;i<data.length;i++) {
+                html += "<li class='col-lg-3 col-md-3 col-sm-6 col-xs-6'>";
+                html +=     "<div class='content-block'>";
+                html +=         "<a href='/project/"+data[i].guid+"' title='"+data[i].title+"'>";
+                html +=             "<img src='"+data[i].banner_img+"'>"
+                html +=         "</a>"
+                html +=         "<div>"
+                html +=         "<h3><a href='/project/"+data[i].guid+"' title='"+data[i].title+"'>"
+                html +=             data[i].title.substr(0,10);
+                html +=         "</a></h3>"
+                html +=         "<p>"+data[i].brief_content.substr(0,20)+"</p>";
+                html +=         "<div></div></div></div></li>"
+            }
+            $('.content').append(html);
+        }
     </script>
 @endsection

@@ -244,6 +244,35 @@
         function updates() {
             
         }
+
+        function groups() {
+            var result;
+            $.ajax({
+                url:'/web_admins/create?type=23',
+                type:'get',
+                async: false,
+                success:function (data) {
+                    result = data;
+                },
+                error:function () {
+                  result = '获取机构列表失败'
+                }
+            });
+            return result;
+        }
+
+        groupMessage = groups();
+        function group(id) {
+            var result = '个人';
+            $.each(groupMessage,function (i,v) {
+                console.log(v.id);
+                if (v.id == id){
+                    result = v.name;
+                }
+            });
+            return result;
+        }
+
         //活动类型展示
         function type(type) {
             var res;

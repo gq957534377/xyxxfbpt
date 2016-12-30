@@ -24,7 +24,6 @@ class FeedbackStore
      */
     public function getCount($where)
     {
-        if (empty($where)) return false;
         return DB::table(self::$table)->where($where)->count();
     }
 
@@ -44,5 +43,17 @@ class FeedbackStore
             ->orderBy("addtime", $sort)
             ->forPage($page, $tolPage)
             ->get();
+    }
+
+    /**
+     * 删除指定数据
+     * @param $arr  数组，一次性删除多条
+     * @return bool
+     * @author 王通
+     */
+    public function delFeedback($arr)
+    {
+        if (empty($arr)) return false;
+        return DB::table(self::$table)->whereIn('guid', $arr)->delete();
     }
 }

@@ -150,16 +150,22 @@ class Common {
     public static function  getPageUrls($data, $table, $url, $n,$filed,$where)
     {
         if(empty($table) || empty($url)) return false;
+
         $nowPage   = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-        if($filed){
+
+        if($filed) {
             $count = DB::table($table)->whereIn($filed,$where)->count();
         }else{
             $count = DB::table($table)->where($where)->count();
         }
+
         $totalPage = ceil($count / $n);
         $baseUrl   = url($url);
+
         if($nowPage <= 0) $nowPage = 1;
+
         if($nowPage > $totalPage) $nowPage = $totalPage;
+
         return [
             'nowPage' => $nowPage,
             'totalPage'=> (int)$totalPage,

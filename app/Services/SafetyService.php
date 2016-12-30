@@ -195,7 +195,7 @@ class SafetyService
         } else {
             // 判断一分钟之内，有没有请求过验证码
             if (BaseRedis::existsRedis($SMSVal)) {
-                Log::warning('!!! 在'.$overtime . '秒内，来自于' . $ip .'请求次数超过两次，疑似被攻击。');
+                Log::warning('!!! 在'.$overtime . '秒内，来自于' . $ip .'请求次数超过两次，疑似短信接口被攻击。');
                 return true;
             }
             // 判断指定时间段，请求次数有没有超过三次
@@ -206,7 +206,7 @@ class SafetyService
                 BaseRedis::incrRedis($SMSNum);
                 return false;
             } else {
-                Log::warning('!!! 在'.$requestTime . '秒内，来自于' . $ip .'请求次数达到超过警戒线，'. $smsLimitNum .'次！！');
+                Log::warning('!!! 在'.$requestTime . '秒内，来自于' . $ip .'短信接口请求次数达到超过警戒线，'. $smsLimitNum .'次！！');
                 self::addIpBlackList($ip);
                 return true;
             }

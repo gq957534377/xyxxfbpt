@@ -9,7 +9,7 @@ body{
 	padding-top: 129.6px
 }
 input{
-  border: 0px;
+  border: 0;
 }
 .nav-fixd{
   display: inline-block;
@@ -67,7 +67,7 @@ input{
   }
 }
 .naves .nav>li>a{
-  font-size: 14px;
+  font-size: 16px;
 }
 .naves .nav>li:nth-child(1){
   padding-left: 0;
@@ -83,4 +83,18 @@ input{
 .hang>img{
   width: 100%;
 }
+
+/*wang fei long start*/
+body .nav-child > a {
+  padding: 10px 25px;
+}
+.nav-child-li {
+}
+.nav-child-li > a {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+/*wang fei long end*/
+
+
 /******导航样式结束***********/

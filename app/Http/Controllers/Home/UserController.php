@@ -493,15 +493,37 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      * author 张洵之
      */
-    public function myProject()
+    public function myProject(Request $request)
     {
         $user_guid = session('user')->guid;
         $role = session('user')->role;
+
         if($role == 1) {
             return redirect(route('user.show',$user_guid));
         }
-        $result = self::$projectServer->getData(1, ['user_guid' => $user_guid]);
 
-        return view('home.user.myProject', ['data' => $result['ResultData']]);
+        $where = ['user_guid' => $user_guid];
+        $nowPage = $request->input('nowPage');
+        $pageNum = 6;//一页的数据量
+
+        if(!$nowPage) {
+            $nowPage = 1;
+        }
+
+        $pageView = Common::getPageUrls(
+            $request,
+            'data_project_info',
+            '/user/myProject',
+            $pageNum,
+            null,
+            $where
+            );
+
+        if($pageView['totalPage']<=1) {
+            $pageView =[];
+        }
+
+        $result = self::$projectServer->getData($nowPage, $pageNum,$where);
+        return view('home.user.myProject', ['data' => $result['ResultData'], 'pageView'=>$pageView]);
     }
 }

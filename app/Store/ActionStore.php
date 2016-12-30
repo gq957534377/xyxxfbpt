@@ -66,17 +66,6 @@ class ActionStore
     }
 
     /**
-     * 查询某一类型活动列表业所需的活动
-     * @param
-     * @return array
-     * @author 郭庆
-     */
-    public static function getListData($type)
-    {
-        return DB::table(self::$table)->where(['type' => $type])->where('status', '!=', '4')->get();
-    }
-
-    /**
      * 更新数据
      * @param $where
      * @param $data
@@ -122,16 +111,6 @@ class ActionStore
     }
 
     /**
-     * 获取固定时间范围开始的活动
-     * @param [] $between 时间范围
-     * @return array
-     * @author 郭庆
-     */
-    public static function dateBetween($between)
-    {
-        return DB::table(self::$table)->whereBetween('start_time', $between)->get();
-    }
-    /**
      * 获取满足指定字段的集合的所有数据
      * @param string $field 字段
      * @param  [] $array 集合
@@ -158,5 +137,42 @@ class ActionStore
             ->where($where)
             ->whereIn($field, $array)
             ->count();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //无用方法---------------------------------------------------------------------------------------------------
+    /**
+     * 查询某一类型活动列表业所需的活动
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public static function getListData($type)
+    {
+        return DB::table(self::$table)->where(['type' => $type])->where('status', '!=', '4')->get();
+    }
+
+    /**
+     * 获取固定时间范围开始的活动
+     * @param [] $between 时间范围
+     * @return array
+     * @author 郭庆
+     */
+    public static function dateBetween($between)
+    {
+        return DB::table(self::$table)->whereBetween('start_time', $between)->get();
     }
 }
