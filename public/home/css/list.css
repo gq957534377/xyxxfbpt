@@ -134,3 +134,15 @@
   color:#999999;
 }
 /******主题内容样式结束******/
+.lis1{
+  animation-delay:0.1s;
+}
+.lis2{
+  animation-delay:0.2s;
+}
+.lis3{
+  animation-delay:0.3s;
+}
+.lis0{
+   animation-delay:0s;
+}

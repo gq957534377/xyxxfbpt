@@ -1,7 +1,7 @@
 @extends('home.layouts.master')
 
 @section('style')
-    <link href="{{ asset('home/css/index(pc).css') }}" rel="stylesheet">
+    <link href="{{ asset('home/css/index.css') }}" rel="stylesheet">
 
 @endsection
 

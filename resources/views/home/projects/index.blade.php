@@ -3,7 +3,8 @@
 @section('title', '创新作品')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('home/css/list(pc).css') }}">
+    <link rel="stylesheet" href="{{ asset('home/css/animate.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('home/css/list.css') }}">
 @endsection
 
 @section('content')
@@ -77,8 +78,10 @@
 <section class="hang container-fluid">
     <ul class="row content">
         @if(!empty($projects))
+            {{-- */$i=0;/* --}}
             @foreach($projects as $project)
-                <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                {{-- */$i++;/* --}}
+                <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6 animated @if($i<=4)fadeInLeft @else fadeInRight @endif ">
                     <div class="content-block">
                         <a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
                             <img src="{{ $project->banner_img }}" alt="">
@@ -114,7 +117,7 @@
 @endsection
 @section('script')
     <script>
-        var nowPage = 1;
+        var nowPage = 2;//当前页数
         $('.loads').click(function () {
             nowPage++;
             var typeId = $('#typeId').attr('data-id');
@@ -130,7 +133,7 @@
                 },
                 success:function (data) {
 
-                    if(data.StatusCode == "400" || data.ResultData.length<8) {
+                    if(data.StatusCode == "400" || data.ResultData.length<4) {
                         $('.loads').remove();
                     }
                     createDom(data.ResultData)
@@ -142,8 +145,16 @@
             if(typeof data == "string") return;
 
             var html='';
+            if(nowPage%2==0){
+                var n = -1;
+                var s = 3;
+            }else {
+                var n = 1;
+                var s = 0;
+            }
             for(var i=0;i<data.length;i++) {
-                html += "<li class='col-lg-3 col-md-3 col-sm-6 col-xs-6'>";
+                var  fanNum = s+n*i
+                html += "<li class='col-lg-3 col-md-3 col-sm-6 col-xs-6 lis"+fanNum+" animated bounceInUp'>";
                 html +=     "<div class='content-block'>";
                 html +=         "<a href='/project/"+data[i].guid+"' title='"+data[i].title+"'>";
                 html +=             "<img src='"+data[i].banner_img+"'>"
@@ -153,7 +164,7 @@
                 html +=             data[i].title.substr(0,10);
                 html +=         "</a></h3>"
                 html +=         "<p>"+data[i].brief_content.substr(0,20)+"</p>";
-                html +=         "<div></div></div></div></li>"
+                html +=         "<div></div></div></div></li>";
             }
             $('.content').append(html);
         }
