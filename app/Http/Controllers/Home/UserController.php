@@ -5,10 +5,9 @@ namespace App\Http\Controllers\Home;
 use App\Tools\Common;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use App\Services\UserService as UserServer;
+use App\Services\UserRoleService as UserRoleServer;
 use App\Services\UploadService as UploadServer;
 use Illuminate\Support\Facades\Validator;
 use App\Tools\Avatar;
@@ -21,17 +20,20 @@ use App\Services\ProjectService as ProjectServer;
 class UserController extends Controller
 {
     protected static $userServer = null;
+    protected static $userRoleServer = null;
     protected static $uploadServer = null;
     protected  static $commentServer = null;
     protected  static  $projectServer = null;
 
     public function __construct(
         UserServer $userServer,
+        UserRoleServer $userRoleServer,
         UploadServer $uploadServer,
         CommentServer $commentServer,
         ProjectServer $projectServer
     ){
         self::$userServer = $userServer;
+        self::$userRoleServer = $userRoleServer;
         self::$uploadServer = $uploadServer;
         self::$commentServer = $commentServer;
         self::$projectServer = $projectServer;
@@ -113,35 +115,13 @@ class UserController extends Controller
         // 获取到用户的id，返回数据
         $info = self::$userServer->userInfo(['guid' => $id]);
 
-        // 获取 角色信息
-//        $result = self::$userServer->getRoleInfo($id, $info['ResultData']->role);
+        // 获取用户相关角色信息
+        $roleInfo = self::$userRoleServer->getRoleInfo($id);
 
         return view('home.user.index', [
-            'userInfo'   => $info['ResultData']
+            'userInfo'   => $info['ResultData'],
+            'roleInfo'   => $roleInfo,
         ]);
-//      // 获取公司信息
-//        $company = self::$userServer->getCompany(['guid' => $id]);
-//        if ($company['StatusCode'] == '400') {
-//            $company['ResultData'] = [];
-//        }
-//
-//     // 获取创业者信息
-//        $syb = self::$userServer->roleInfo(['guid' => $id, 'role'=>'2']);
-//        if ($syb['StatusCode'] == '400') {
-//            $syb['ResultData'] = [];
-//        }
-//    // 获取投资者信息
-//        $investor = self::$userServer->roleInfo(['guid' => $id, 'role' => '3']);
-//        if ($investor['StatusCode'] == '400') {
-//            $investor['ResultData'] = [];
-//        }
-//
-//        return view('home.user.index', [
-//            'userInfo'   => $info['ResultData'],
-//            'company'    => $company['ResultData'],
-//            'syb'        => $syb['ResultData'],
-//            'investor'  => $investor['ResultData'],
-//        ]);
     }
 
     /**
