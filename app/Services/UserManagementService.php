@@ -199,10 +199,10 @@ class userManagementService
 
     /**
      * 审核用户操作
-     * @param $guid
-     * @param $role
-     * @param $status
-     * @return bool
+     * @param  string $guid 需要审核的用户
+     * @param  int $role  审核的角色 2：创业者  3 投资者 4 英雄会员
+     * @param  int $status 通过的状态  6 审核通过  7 拒绝
+     * @return bool 成功 return true   失败  return false
      */
     public function changeApplyStatus($guid, $role, $status)
     {
@@ -242,7 +242,6 @@ class userManagementService
             //审核通过
             switch ($role){
                 case 2:
-
                     //通过用户审核创业者
                     DB::beginTransaction();
                     $res1 = self::$data_apply_syb->changeStatus($where, ['status'=>6]);    //  status = 6
