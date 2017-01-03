@@ -177,4 +177,10 @@ class UserStore
             ->forPage($page,$pageNum)
             ->get();
     }
+
+    public function changeMember($where)
+    {
+        return DB::table(self::$table)->where($where)->update(['memeber'=> 2]);
+
+    }
 }

@@ -237,8 +237,6 @@ class userManagementService
 
             }
         }else if($status['status'] == 6){
-
-
             //审核通过
             switch ($role){
                 case 2:
@@ -257,9 +255,9 @@ class userManagementService
                 case 3:
                     //通过用户审核创业者
                     DB::beginTransaction();
-                    $res1 = self::$data_apply_investor->changeStatus($where, $status);    //  status = 6
-                    $res2 = self::$data_user_info->changeStatus($where, ['role'=>3]);   //用户信息角色改为role=3
-                    if(!$res1 || !$res2){
+                    $res3 = self::$data_apply_investor->changeStatus($where, $status);    //  status = 6
+                    $res4 = self::$data_user_info->changeStatus($where, ['role'=>3]);   //用户信息角色改为role=3
+                    if(!$res3 || !$res4){
                         DB::rollBack();
                         return false;
                     }
@@ -270,9 +268,9 @@ class userManagementService
                 case 4:
                     //通过用户审核英雄会员
                     DB::beginTransaction();
-                    $res1 = self::$data_apply_member->changeStatus($where, $status);    //  status = 6
-                    $res2 = self::$data_user_info->changeStatus($where, ['memeber'=>2]);   //用户信息角色改为role=3
-                    if(!$res1 || !$res2){
+                    $res5 = self::$data_apply_member->changeStatus($where, ['status' => 6]);    //  status = 6
+                    $res6 = self::$data_user_info->changeMember($where);   //用户信息角色 memeber=2
+                    if(!$res5 || !$res6){
                         DB::rollBack();
                         return false;
                     }
