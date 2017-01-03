@@ -42,7 +42,7 @@ class CommentAndLikeService
     }
 
     /**
-     * 分页获得当前用户的评论信息
+     * 分页获得用户的评论信息
      * @param array $where 查询条件
      * @param int $page 页码
      * @return array

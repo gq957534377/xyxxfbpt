@@ -40,7 +40,8 @@
 @include('home.public.footer')
 
 @include('home.public.script')
-
+<script src="{{asset('home/js/sweet-alert.min.js')}}"></script>
+<script src="{{asset('home/js/sweet-alert.init.js')}}"></script>
 @yield('script')
 
 </body>
