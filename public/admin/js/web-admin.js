@@ -12,17 +12,17 @@ $('.status1').off('click').on('click', function () {
         case 2:
             $('.avatar-scale').val(224/153);
             $('.organiz-type').val(status);
-            $('.info > h4').html('添加合作机构');
+            $('#crop-avatar3 button').html('添加合作机构');
             break;
         case 3:
             $('.avatar-scale').val(224/153);
             $('.organiz-type').val(status);
-            $('.info > h4').html('添加投资机构');
+            $('#crop-avatar3 button').html('添加投资机构');
             break;
         case 4:
             $('.avatar-scale').val(192/60);
             $('.organiz-type').val(status);
-            $('.info > h4').html('添加轮播图');
+            $('#crop-avatar3 button').html('添加轮播图');
             break;
 
     }
@@ -134,7 +134,7 @@ function institutionHtml(data) {
         html += '<div class="panel">';
         html += '<div class="panel-body">';
         html += '<div class="media-main">';
-        html += '<a id="img'+ value.id +'" class="pull-left" href="'+ value.pointurl +'">';
+        html += '<a id="img'+ value.id +'" class="pull-left" href="'+ value.pointurl +'" target="_blank">';
         html += '<img  class="thumb-lg bx-s" src="'+ value.url +'" alt="" style="width: 146%;">';
         html += '</a>';
         html += '<div class="pull-right btn-group-sm">';

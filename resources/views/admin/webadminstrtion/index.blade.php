@@ -40,34 +40,26 @@
     </div>
     <hr>
 
+    <div class="row col-sm-12">
+        <div class="col-sm-6 add-picture" hidden>
+            <div class="panel-body">
+                <input type="hidden" name="investor_card_pic">
+                <a class="pull-left" href="#">
+                    <div id="crop-avatar3">
+                        <div class="avatar-view" title="">
+                            <button id="headpic" class="btn btn-primary" src="{{ asset('/admin/images/jiahao.jpg') }}" alt="Avatar">添加</button>
+                        </div>
+                    </div>
+                </a>
+            </div> <!-- panel-body -->
+        </div> <!-- end col -->
+    </div>
     <div id="margin_data" style="position: relative;">
         {{--<img src="{{ asset('admin/images/load.gif') }}" class="loading">--}}
         <div id="data"></div>
     </div>
 
-    <div class="row col-sm-12">
-    <div class="col-sm-6 add-picture pull-right" hidden>
-        <div class="panel">
-            <div class="panel-body">
-                <div class="media-main">
-                    <input type="hidden" name="investor_card_pic">
-                    <a class="pull-left" href="#">
-                        <div id="crop-avatar3">
-                            <div class="avatar-view" title="">
-                                <img id="headpic" class="thumb-lg" src="{{ asset('/admin/images/jiahao.jpg') }}" alt="Avatar"/>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="info">
-                    <h4>添加图片</h4>
-                    <p class="text-muted"></p>
-                </div>
-                <div class="clearfix"></div>
-            </div> <!-- panel-body -->
-        </div> <!-- panel -->
-    </div> <!-- end col -->
-    </div>
+
 
     <div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" style="width:55%;">

@@ -18,7 +18,7 @@
       this.$container = $element;
 
       this.$avatarView = this.$container.find('.avatar-view');
-      this.$avatar = this.$avatarView.find('img');
+      this.$avatar = this.$avatarView.find('button');
       this.$avatarModal = $("body").find('#avatar-modal');
       this.$loading = $("#page-wrapper").find('.loading');
 
