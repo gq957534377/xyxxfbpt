@@ -169,7 +169,9 @@
 .userEditBox {
     margin-top: 10px;
 }
-
+.nickname_sub {
+    margin-top: 5px;
+}
 
 @media (max-width: 767px) {
     .my-home > div:nth-child(2) {
