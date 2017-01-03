@@ -83,7 +83,7 @@ class RoleManagementController extends Controller
             return response()->json(['StatusCode' => 400]);
         }
 
-        $pageNums = 2;  //一页的数据条数
+        $pageNums = 3;  //一页的数据条数
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;   //获取当前页
         $search = ['key' => $key];  //查询参数拼装
 
@@ -99,6 +99,7 @@ class RoleManagementController extends Controller
     }
 
     /**
+     * 用户审核操作
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
@@ -106,8 +107,20 @@ class RoleManagementController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        //
-        dd($id);
+        //获取审核的用户guid
+        $guid = $request->guid;
+
+        //获取用户审核类型
+        $role = $request->role;
+
+        //获取status
+        $status = $id;
+
+        $update = self::$users->changeApplyStatus($guid, $role, $status);
+
+        if(!$update) return response()->json(['statusCode' => 400,'resultData' =>'操作失败！']);
+        return response()->json(['statusCode' => 200,'resultData' =>'操作成功！']);
+
     }
 
     /**

@@ -62,7 +62,7 @@ class HomeStore {
      * @return bool 成功true ，失败 false；
      * @author lw
      */
-    public function changeSatus($where, $status)
+    public function changeStatus($where, $status)
     {
         if(empty($where)) return false;
 
