@@ -37,7 +37,7 @@ class WebAdminStore
         if (empty($id)) return false;
         return DB::table(self::$table)
             ->where('id', $id)
-            ->update(['state' => '4']);
+            ->update(['status' => '4']);
     }
 
     /**
@@ -50,7 +50,7 @@ class WebAdminStore
         if (empty($data)) return false;
         return DB::table(self::$table)
             ->where($data)
-            ->where('state', '<>', 4)
+            ->where('status', '<>', 4)
             ->select('id')
             ->first();
     }
@@ -63,7 +63,7 @@ class WebAdminStore
     public function getConfig ()
     {
         return DB::table(self::$table)
-            ->where('state', '<>', 4)
+            ->where('status', '<>', 4)
             ->get();
     }
 
@@ -76,7 +76,7 @@ class WebAdminStore
     public function getWebInfo ()
     {
         return DB::table(self::$table)
-            ->where('state', 1)
+            ->where('status', 1)
             ->whereIn('name',['tel', 'time', 'email', 'record'])
             ->get();
     }

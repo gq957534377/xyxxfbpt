@@ -49,10 +49,7 @@ class OpenIMController extends Controller
             $icon_url = session('user')->headpic ? session('user')->headpic : null;
             $mobile = session('user')->tel;
         } else {
-            $uid = time() . '' . mt_rand(1,1000);
-            $nick = '游客';
-            $icon_url =  null;
-            $mobile = null;
+            return response()->json(['StatusCode' => '400', 'ResultData' => '请先登录！']);
         }
 
         $res = self::$openim->getOpenIM($uid, $nick, $icon_url, $mobile);
@@ -66,7 +63,7 @@ class OpenIMController extends Controller
      */
     public function create()
     {
-        //
+        return view('home.public.openimLeft');
     }
 
     /**

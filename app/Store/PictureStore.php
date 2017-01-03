@@ -13,7 +13,7 @@ use DB;
 class PictureStore
 {
     // 表名
-    protected static $table = "data_picture";
+    protected static $table = "data_picture_info";
 
 
     /**
@@ -66,7 +66,7 @@ class PictureStore
     public function getPictureAll ()
     {
         return DB::table(self::$table)
-            ->where('state', '<>', 4)
+            ->where('status', '<>', 4)
             ->get();
     }
 
