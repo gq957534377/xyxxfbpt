@@ -139,7 +139,8 @@ class WebAdminstrationController extends Controller
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 
         // 管理页面文字信息
-        $info = self::$webAdmin->saveWebAdmin($request->all());
+        $data = $request->except('_token');
+        $info = self::$webAdmin->saveWebAdmin($data);
 
         if ($info['status'] == '200') {
             return ['StatusCode' => '200', 'ResultData' => $info['msg']];

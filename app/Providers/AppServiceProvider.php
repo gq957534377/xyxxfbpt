@@ -14,20 +14,33 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(WebAdminService $webadmin)
     {
-        $res = $webadmin->getWebInfo();
+        view()->composer('home/public/footer', function ($view) use ($webadmin) {
+            $res = $webadmin->getWebInfo();
 
-        if (!empty($res) && $res['StatusCode'] = '200') {
-            view()->share($res['ResultData'][0]->name, $res['ResultData'][0]->value);
-            view()->share($res['ResultData'][1]->name, $res['ResultData'][1]->value);
-            view()->share($res['ResultData'][2]->name, $res['ResultData'][2]->value);
-            view()->share($res['ResultData'][3]->name, $res['ResultData'][3]->value);
-        } else {
-            view()->share('email', '*****@***');
-            view()->share('time', '*********');
-            view()->share('tel', '***********');
-            view()->share('record', '***********');
-        }
-
+            if (!empty($res) && $res['StatusCode'] == '200') {
+                foreach ($res['ResultData'] as $val) {
+                    switch ($val->type) {
+                        case 1:
+                            $view->with('email', $val->value);
+                            break;
+                        case 2:
+                            $view->with('time', $val->value);
+                            break;
+                        case 3:
+                            $view->with('tel', $val->value);
+                            break;
+                        case 4:
+                            $view->with('record', $val->value);
+                            break;
+                    }
+                }
+            } else {
+                view()->share('email', '*****@***');
+                view()->share('time', '*********');
+                view()->share('tel', '***********');
+                view()->share('record', '***********');
+            }
+        });
     }
 
     /**

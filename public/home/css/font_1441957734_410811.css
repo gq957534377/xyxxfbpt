@@ -1,3 +1,7 @@
+*{margin: 0;padding:0}
+html,body{
+  overflow: hidden;
+}
 
 @font-face {font-family: "iconfont";
   src: url('//at.alicdn.com/t/font_1441957733_9847126.eot'); /* IE9*/
@@ -23,3 +27,44 @@
 .icon-chaxun:before { content: "\e605"; }
 .icon-face:before { content: "\e606"; }
 .icon-photo:before { content: "\e607"; }
+.plugin-wrap{
+  width: 160px;
+  margin: 0 auto;
+}
+
+.plugin-wrap a{
+  display: block;
+  width: 50px;
+  height: 80px;
+  float: left;
+  color: #333;
+  text-decoration: none;
+  font-size: 12px;
+  text-align: center;
+  margin: 10px;
+}
+
+.plugin-wrap a span{
+  display: block;
+  width: 50px;
+  height: 50px;
+  background: #f9f3f3;
+  border-radius: 100%;
+  margin-bottom: 5px;
+}
+
+.plugin-wrap a span .iconfont{
+  font-size: 26px;
+  line-height: 50px;
+  color: #ff6d71;
+}
+
+.tab{
+  width: 100%;
+  height: 30px;
+  background: #f6f6f6;
+  line-height:30px;
+  text-align:center;
+  color: #dc2a2e;
+  font-size:12px;
+}

@@ -45,7 +45,7 @@ class OpenIMController extends Controller
         // 判断用户是否登录，如果未登录则临时生成一个随机数，账号密码写入OpenIM服务器以便用户登录使用
         if (!empty(session('user')->guid)) {
             $uid = session('user')->guid;
-            $nick = session('user')->nickname ? session('user')->nickname : session('user')->tel;
+            $nick = session('user')->tel;
             $icon_url = session('user')->headpic ? session('user')->headpic : null;
             $mobile = session('user')->tel;
         } else {

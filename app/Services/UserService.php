@@ -379,7 +379,7 @@ class UserService {
             // 发送失败
             if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送！'];
             // 成功，保存信息到session里，为了下一次校验
-            $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => '111111'];
+            $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
             Session::put('sms',$arr);
 
             return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];
@@ -388,7 +388,7 @@ class UserService {
 
             // 发送失败
             if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送！'];
-            $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => '111111'];
+            $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
             Session::put('sms',$arr);
 
             return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];

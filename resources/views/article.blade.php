@@ -1,7 +1,7 @@
 @extends('home.layouts.master')
 
 @section('style')
-  <link rel="stylesheet" href="{{ asset('home/css/list(pc).css') }}">
+  <link rel="stylesheet" href="{{ asset('home/css/list.css') }}">
   <link href="{{ asset('home/css/zhengce.css') }}" rel="stylesheet">
 @endsection
 
