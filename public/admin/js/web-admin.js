@@ -12,17 +12,17 @@ $('.status1').off('click').on('click', function () {
         case 2:
             $('.avatar-scale').val(224/153);
             $('.organiz-type').val(status);
-            $('.info > h4').html('添加合作机构');
+            $('#crop-avatar3 button').html('添加合作机构');
             break;
         case 3:
             $('.avatar-scale').val(224/153);
             $('.organiz-type').val(status);
-            $('.info > h4').html('添加投资机构');
+            $('#crop-avatar3 button').html('添加投资机构');
             break;
         case 4:
             $('.avatar-scale').val(192/60);
             $('.organiz-type').val(status);
-            $('.info > h4').html('添加轮播图');
+            $('#crop-avatar3 button').html('添加轮播图');
             break;
 
     }
