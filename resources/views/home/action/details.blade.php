@@ -83,9 +83,9 @@
                             {!! $data['ResultData']->describe !!}
                         </div>
                         <p class="col-lg-8 col-md-7 col-sm-7 col-xs-12 @if($likeStatus == 1) taoxin @endif">
-                        <span class="collect">
-                          <span id="likeFont"></span><span id="likeNum">{{$likeNum}}</span>
-                        </span>
+                        {{--<span class="collect">--}}
+                          {{--<span id="likeFont"></span><span id="likeNum">{{$likeNum}}</span>--}}
+                        {{--</span>--}}
                         </p>
                         <p class="col-lg-1 col-md-1 col-sm-1 col-xs-3 pad-cr pad-clr-md pad-cl-sm line-h-36">分享到</p>
                         <div class="bdsharebuttonbox col-lg-3 col-md-4 col-sm-4 col-xs-9 pad-clr pad-l30-md pad-l30-sm">
@@ -208,30 +208,30 @@
                 }
             })
         });
-        $('.collect').click(function () {
-            var obj = $(this);
-            var temp = obj.parent('p').is('.taoxin')?-1:1;
-            var num = parseInt($('#likeNum').html())
-            $.ajax({
-                type:"get",
-                url:"/action/{{$data['ResultData']->guid}}/edit",
-                headers: {
-                    'X-CSRF-TOKEN': token
-                },
-                data:{type:3},
-                success:function (data) {
-                    switch (data.StatusCode){
-                        case '200':obj.parent('p').toggleClass('taoxin');$('#likeNum').html(num+temp);break;
-                        case '400':swal('警告', data.ResultData, "waring");break;
-                    }
-                },
-                error: function(XMLHttpRequest){
-                    var number = XMLHttpRequest.status;
-                    var msg = "Error: "+number+",数据异常！";
-                    swal('点赞失败', msg, "error");
-                }
-            })
-        })
+        {{--$('.collect').click(function () {--}}
+            {{--var obj = $(this);--}}
+            {{--var temp = obj.parent('p').is('.taoxin')?-1:1;--}}
+            {{--var num = parseInt($('#likeNum').html())--}}
+            {{--$.ajax({--}}
+                {{--type:"get",--}}
+                {{--url:"/action/{{$data['ResultData']->guid}}/edit",--}}
+                {{--headers: {--}}
+                    {{--'X-CSRF-TOKEN': token--}}
+                {{--},--}}
+                {{--data:{type:3},--}}
+                {{--success:function (data) {--}}
+                    {{--switch (data.StatusCode){--}}
+                        {{--case '200':obj.parent('p').toggleClass('taoxin');$('#likeNum').html(num+temp);break;--}}
+                        {{--case '400':swal('警告', data.ResultData, "waring");break;--}}
+                    {{--}--}}
+                {{--},--}}
+                {{--error: function(XMLHttpRequest){--}}
+                    {{--var number = XMLHttpRequest.status;--}}
+                    {{--var msg = "Error: "+number+",数据异常！";--}}
+                    {{--swal('点赞失败', msg, "error");--}}
+                {{--}--}}
+            {{--})--}}
+        {{--})--}}
         @else
             $('#js_enroll').click(function(){
             swal({
@@ -246,19 +246,19 @@
                         login();
                     });
         });
-        $('.collect').click(function () {
-            swal({
-                    title: '请登录后操作', // 标题，自定
-                            text: '请登陆后再进行点赞操作',   // 内容，自定
-                            type: "warning",    // 类型，分别为error、warning、success，以及info
-                            showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
-                            confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
-                },
-                function (isConfirm) {
-                    swal('请登录后操作', '请登陆后再进行点赞操作', "warning");
-                    login();
-                });
-        });
+//        $('.collect').click(function () {
+//            swal({
+//                    title: '请登录后操作', // 标题，自定
+//                            text: '请登陆后再进行点赞操作',   // 内容，自定
+//                            type: "warning",    // 类型，分别为error、warning、success，以及info
+//                            showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+//                            confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+//                },
+//                function (isConfirm) {
+//                    swal('请登录后操作', '请登陆后再进行点赞操作', "warning");
+//                    login();
+//                });
+//        });
         $('#comment').click(function () {
             swal({
                         title: '请登录后操作', // 标题，自定
