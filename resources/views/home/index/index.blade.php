@@ -305,7 +305,7 @@
                         </a>
                         <div class="ly">
                             <h3><a href="{{ url('action').'/'.$roadShow->guid }}">{{ mb_substr($roadShow->title,0,20)."..." }}</a></h3>
-                    <span>
+                    <span @if($roadShow->status == 3||$roadShow->status == 4||$roadShow->status == 5) style="background:#f0f0f0;color: #c4c4c4" @endif>
                         @if($roadShow->status == 1)
                             报名中
                         @elseif($roadShow->status == 2)
@@ -351,7 +351,7 @@
                         </a>
                         <div class="ly">
                             <h3><a href="{{ route('action.show', $syb->guid) }}">{{ mb_substr($syb->title, 0,20).'...' }}</a></h3>
-                    <span>
+                    <span @if($syb->status == 3||$syb->status == 4||$syb->status == 5) style="background:#f0f0f0;color: #c4c4c4" @endif>
                         @if($syb->status == 1)
                             报名中
                         @elseif($syb->status == 2)
@@ -393,11 +393,11 @@
                 @foreach($schools as $school)
                     <li class="col-sm-6">
                         <a href="{{ route('school.show', $school->guid) }}">
-                            <span>第1期</span>
+                            {{--<span>第1期</span>--}}
                             <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $school->banner }}"/>
                             <div>
                                 <h3>{{ mb_substr($school->title, 0,20).'...'}}</h3>
-                        <span>
+                        <span @if($school->status == 1||$school->status == 2) style="background: #F68D3C;color: #ffffff" @endif>
                             @if($school->status == 1)
                                 报名中
                             @elseif($school->status == 2)
