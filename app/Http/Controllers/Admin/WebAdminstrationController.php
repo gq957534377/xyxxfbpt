@@ -157,15 +157,32 @@ class WebAdminstrationController extends Controller
     public function uploadOrganizPic (Request $request)
     {
         $data = $request->all();
-
+        if ($data['organiz-type'] != 4) {
+            $valid = [
+                'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp',
+                'name' => 'required|max:50',
+                'url' => 'required|max:80|active_url',
+            ];
+            $message = [
+                'avatar_file.required' => '上传文件为空!',
+                'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。',
+                'name.required' => '姓名不能为空',
+                'url.required' => 'url不能为空',
+                'name.max' => '姓名不能超过50个字符',
+                'url.max' => 'URL不能超过80个字符',
+                'url.active_url' => 'URL格式错误，正确格式示例：http://www.hero.app',
+            ];
+        } else {
+            $valid = [
+                'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp',
+            ];
+            $message = [
+                'avatar_file.required' => '上传文件为空!',
+                'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。',
+            ];
+        }
         //数据验证过滤
-        $validator = Validator::make($data, [
-            'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
-        ],[
-            'avatar_file.required' => '上传文件为空!',
-            'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
-
-        ]);
+        $validator = Validator::make($data, $valid, $message);
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
         switch ($data['organiz-type'])

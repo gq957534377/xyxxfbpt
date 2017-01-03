@@ -24,7 +24,7 @@
             var returnVal = false;
             var amountStart = $("input[name= 'syb_start_school']").val();
             var amountEnd = $("input[name= 'syb_finish_school']").val();
-            if(parseFloat(amountEnd) >= parseFloat(amountStart)){
+            if(parseFloat(amountEnd) > parseFloat(amountStart)){
                 returnVal = true;
             }
             return returnVal;
@@ -115,7 +115,7 @@
                                 $(".loading").hide();
                                 swal({
                                         title: '提示', // 标题，自定
-                                        text: '申请成功',   // 内容，自定
+                                        text: '申请成功，等待审核，3个工作日之内...',   // 内容，自定
                                         type: "success",    // 类型，分别为error、warning、success，以及info
                                         showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
                                         confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
@@ -123,7 +123,9 @@
                                     function (isConfirm) {
                                         swal('提示', data.ResultData, "success");
                                         $(".userInfoReset").click();
+                                        window.location.href = '/user/'+ $("#topAvatar").data('id');
                                     });
+
                                 break;
                         }
                     }

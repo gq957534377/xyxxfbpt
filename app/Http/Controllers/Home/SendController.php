@@ -66,6 +66,7 @@ class SendController extends Controller
         // 分页查询 得到指定类型的数据
         $result = self::$articleServer->selectData($where, $nowPage, $forPages, "/send");
         $result['TypeDataNum'] = self::$articleServer->selectTypeDataNum($where)['ResultData'];
+        $result['status'] = $data['status'];
         switch ($data['status'])
         {
             case 1: case 2:
@@ -200,7 +201,7 @@ class SendController extends Controller
     {
         $data = $request->all();
         $data['user'] = 2;
-        $result = self::$articleServer->upDta(['guid' => $id], $data);
+        $result = self::$articleServer->upDta([' ' => $id], $data);
         if($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
         return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }

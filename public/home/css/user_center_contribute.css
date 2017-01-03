@@ -63,7 +63,9 @@
 .bg-del:hover {
     background: url("../img/del-org.png") no-repeat center;
 }
-
+.selected {
+    background-color: #ff9036;
+}
 @media (max-width: 767px) {
 }
 /*屏幕宽度大于等于768px小于992px时,bootstrap row容器宽度750px*/
