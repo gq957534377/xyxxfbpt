@@ -45,8 +45,8 @@
         <div id="data"></div>
     </div>
 
-
-    <div class="col-sm-10 add-picture" hidden>
+    <div class="row col-sm-12">
+    <div class="col-sm-6 add-picture pull-right" hidden>
         <div class="panel">
             <div class="panel-body">
                 <div class="media-main">
@@ -67,7 +67,7 @@
             </div> <!-- panel-body -->
         </div> <!-- panel -->
     </div> <!-- end col -->
-
+    </div>
 
     <div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" style="width:55%;">
