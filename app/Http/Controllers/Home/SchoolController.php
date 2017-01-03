@@ -41,7 +41,7 @@ class SchoolController extends Controller
             $where['status'] = $data['status'];
         }
         $nowPage = 1;
-        $result = self::$actionServer->selectData($where, $nowPage, 4, '/action', true, false);
+        $result = self::$actionServer->selectData($where, $nowPage, 4, '/school', true, false);
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
@@ -65,6 +65,7 @@ class SchoolController extends Controller
         }
         $result['type'] = $data['type'];
         $result['nowPage'] = $nowPage;
+
         return view('home.school.index', $result);
     }
 
@@ -76,9 +77,14 @@ class SchoolController extends Controller
     public function create(Request $request)
     {
         // 获取活动类型 -> 活动类型的所有数据
-        $where = ['type'=>$request->type];
+        // 获取活动类型 -> 活动类型的所有数据
+        if ($request->status != 204 && !empty($request->status)){
+            $where = ['type'=> $request->type, 'status' => $request->status];
+        }else{
+            $where = ['type'=> $request->type];
+        }
         $nowPage = isset($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
-        $result = self::$actionServer->selectData($where, $nowPage, 4, '/action', false, false);
+        $result = self::$actionServer->selectData($where, $nowPage, 4, '/school', true, false);
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){

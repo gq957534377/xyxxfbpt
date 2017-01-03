@@ -29,44 +29,86 @@
         </div>
 
         <ul class="nav-status-bar-type col-xs-12 pad-clr">
-            <li @if($status == 204)class="nav-status-bar-type-active" @endif><a href="school?type=1">企业管理</a></li>
-            <li @if($status == 1)class="nav-status-bar-type-active" @endif><a href="school?type=2">资金管理</a></li>
-            <li @if($status == 5)class="nav-status-bar-type-active" @endif><a href="school?type=3">人才管理</a></li>
+            <li @if($status == 204)class="nav-status-bar-type-active" @endif><a href="/school?type={{$type}}">所有</a></li>
+            <li @if($status == 1)class="nav-status-bar-type-active" @endif><a href="/school?type={{$type}}&status=1">报名中</a></li>
+            <li @if($status == 5)class="nav-status-bar-type-active" @endif><a href="/school?type={{$type}}&status=5">等待开始</a></li>
+            <li @if($status == 2)class="nav-status-bar-type-active" @endif><a href="/school?type={{$type}}&status=2">进行中</a></li>
+            <li @if($status == 3)class="nav-status-bar-type-active" @endif><a href="/school?type={{$type}}&status=3">已结束</a></li>
         </ul>
 
     </section>
     <!---类型选择层结束---->
     <!---内容层开始---->
-    <section class="container-fluid">
-        <ul class="row content school_list">
-            @if($StatusCode == 204)
-                <div style=" height:160px;width: 100%;text-align: center;font-size: 20px;line-height: 160px;color: #ddd8d5">
-                    哎呦喂，亲，暂无数据哦O(∩_∩)O~
-                </div>
-            @elseif($StatusCode == 200)
-                @foreach($ResultData['data'] as $data)
-                    <li class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
-                        <div class="content-block">
-                            <a href="school/{{$data->guid}}"><img src="{{$data->banner}} " onerror="this.src='{{asset('home/img/zxz.png')}}'"></a>
-                            <h2><a href="school/{{$data->guid}}">{{$data->title}}</a></h2>
-                            <p>
-                                {{$data->brief}}
-                            </p>
-                            <div>
-                                <span>{{date('Y年m月d日 H:m', $data->addtime)}}</span>
-                            </div>
-                        </div>
+    <section class="container">
+        <div class="row add-margin-bottom">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+                @if($StatusCode == '204')
+                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <span style="color: #999999">暂无数据呦~亲 O(∩_∩)O~</span>
                     </li>
-                @endforeach
-            @else
-                <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <span style="color: #999999">出错了~{{$ResultData}}O(∩_∩)O~</span>
-                </li>
-            @endif
-        </ul>
-        @if($ResultData['totalPage'] > $nowPage)
-            <div data-type="{{$type}}" class="loads" id="more_list"></div>
-        @endif
+                @else
+                    @if($StatusCode == '200')
+                    <!--列表块开始-->
+                        <ul class="row rodeing-list">
+                            @foreach($ResultData['data'] as $action)
+                                @if($action->status != 4)
+                                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="row">
+                                            <div class="rodeing-img col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                <a href="{{ route('school.show', $action->guid) }}"><img src="{{ $action->banner }}"  onerror="this.src='{{asset('home/img/zxz.png')}}'"></a>
+                                            </div>
+                                            <div class="rodeing-font col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                                <h2>
+                                                    <a href="{{ route('school.show', $action->guid) }}">
+                                                        {{ $action->title }}
+                                                    </a>
+                                                </h2>
+                                                <div class="rodeing-class">
+                                                    <ul class="row">
+                                                        <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ date('Y年m月d日 H:m',$action->start_time) }}——{{ date('Y年m月d日 H:m',$action->end_time) }}</li>
+                                                        <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ $action->address }}</li>
+                                                        <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            @if($action->status == 1)
+                                                                <span class="road-banner-join">报名中</span>
+                                                            @elseif($action->status == 2)
+                                                                <span class="road-banner-join">进行中</span>
+                                                            @elseif($action->status == 3)
+                                                                <span class="road-banner-join">已结束</span>
+                                                            @elseif($action->status == 5)
+                                                                <span class="road-banner-join">报名已经截止</span>
+                                                            @endif
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                        @if($ResultData['totalPage'] > $nowPage)
+                            <div data-type="{{$type}}" data-status="{{$status}}" class="loads" id="more_list"></div>
+                        @endif
+                    <!--列表块结束-->
+                    @else
+                        <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <span style="color: #999999">出错了~{{$ResultData}}O(∩_∩)O~</span>
+                        </li>
+                    @endif
+
+                @endif
+
+            </div>
+
+            <!----广告位开始----->
+            <div class="guanggao col-lg-3 col-md-3 col-sm-12 hidden-xs ">
+                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/demoimg/test13.jpg') }}" alt=""></a>
+                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/demoimg/test13.jpg') }}" alt=""></a>
+                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/demoimg/test13.jpg') }}" alt=""></a>
+            </div>
+            <!----广告位结束----->
+        </div>
     </section>
     <!---类型内容层结束---->
 @endsection
@@ -74,42 +116,57 @@
     <script src="{{ asset('JsService/Model/date.js') }} "></script>
     <script>
 
-        var type_list = function(type) {
-            if (type == 1){
-                return "路演活动";
-            }else{
-                return "创业大赛";
+        function status(status) {
+            var result;
+            switch (status){
+                case 1:
+                    result = '报名中';
+                    break;
+                case 2:
+                    result = '进行中';
+                    break;
+                case 3:
+                    result = '已结束';
+                    break;
+                case 5:
+                    result = '报名已经截止';
+                    break;
             }
+            return result;
         }
         var nowPage = 2;
         var type = $('#more_list').data('type');
+        var sta = $('#more_list').data('status');
+
         $('#more_list').click(function () {
             var url="school/create";
             $.ajax({
                 url:url,
                 type:'get',
-                data:{'nowPage':nowPage,'type':type},
+                data:{'nowPage':nowPage,'type':type,'status':sta},
                 success:function (data) {
-                    console.log(data);
 
                     data['ResultData']['data'].map(function (action) {
-                        $('.school_list').append('<li class="col-lg-3 col-md-3 col-sm-4 col-xs-12"><div class="content-block">' +
-                                '<a href="/school/'+action.guid+'">'+
-                                '<img src="'+action.banner+'"  onerror="this.src=\'home/img/zxz.png\'"></a>'+
-                                '<h2>'+
-                                '<a href="/school/'+action.guid+'">'+action.title+
-                                '</a></h2>'+
-                                '<p>'+action.brief+'</p><div>'+
-                                '<span>'+getLocalTime(action.addtime)+'</span></div></div></li>'
-                        );
+                        var html = '';
+                        html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
+                        html += '<div class="row">';
+                        html += '<div class="rodeing-img col-lg-4 col-md-4 col-sm-4 col-xs-12">';
+                        html += '<a href="/school/' + action.guid + '"><img src="' + action.banner + '"  onerror="this.src=\'home/img/zxz.png\'"></a></div>';
+                        html += '<div class="rodeing-font col-lg-8 col-md-8 col-sm-8 col-xs-12">';
+                        html += '<h2><a href="/school/' + action.guid + '">' + action.title + '</a></h2>';
+                        html += '<div class="rodeing-class">';
+                        html += '<ul class="row">';
+                        html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' + getLocalTime(action.start_time) + '——' + getLocalTime(action.end_time) + '</li>';
+                        html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' + action.address + '</li>';
+                        html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><span class="road-banner-join">' + status(action.status) + '</span></li></ul></div></div></div></li>';
+
+                        $('.rodeing-list').append(html);
                     });
                     if (nowPage<data.ResultData['totalPage']){
-                        nowPage+=1;
+                        nowPage++;
                     }else {
                         $('#more_list').remove();
                     }
-//                    $('#more_list').attr('data-name',(nowPage));
-                    console.log("{{$nowPage}}");
                 }
             });
         });
