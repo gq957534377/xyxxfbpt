@@ -11,10 +11,10 @@
       <!--导航开始-->
       <div class="tab-info-top col-xs-12 col-sm-9 col-md-9 col-lg-10 pad-clr">
             <a id="contribute" class="hidden-xs" href="/send?status=5">&nbsp;&nbsp;投稿&nbsp;&nbsp;<span class="triangle-down left-2"></span></a>
-            <a class="pad-tab-top-info-xs" href="/send?status=2">审核中({{ $TypeDataNum['releaseNum'] or 0 }})<span class="triangle-down left-2"></span></a>
-            <a class="pad-tab-top-info-xs" href="/send?status=1">已发表({{ $TypeDataNum['trailNum'] or 0 }})<span class="triangle-down left-2"></span></a>
-            <a class="pad-tab-top-info-xs" href="/send?status=3">已退稿({{ $TypeDataNum['notNum'] or 0 }})<span class="triangle-down left-2"></span></a>
-            <a class="pad-tab-top-info-xs" href="/send?status=4">草稿箱({{ $TypeDataNum['draftNum'] or 0 }})<span class="triangle-down left-2"></span></a>
+            <a class="pad-tab-top-info-xs {{ $status == 2 ? 'selected' : '' }}" href="/send?status=2">审核中({{ $TypeDataNum['releaseNum'] or 0 }})<span class="triangle-down left-2"></span></a>
+            <a class="pad-tab-top-info-xs {{ $status == 1 ? 'selected' : '' }}" href="/send?status=1">已发表({{ $TypeDataNum['trailNum'] or 0 }})<span class="triangle-down left-2"></span></a>
+            <a class="pad-tab-top-info-xs {{ $status == 3 ? 'selected' : '' }}" href="/send?status=3">已退稿({{ $TypeDataNum['notNum'] or 0 }})<span class="triangle-down left-2"></span></a>
+            <a class="pad-tab-top-info-xs {{ $status == 4 ? 'selected' : '' }}" href="/send?status=4">草稿箱({{ $TypeDataNum['draftNum'] or 0 }})<span class="triangle-down left-2"></span></a>
       </div>
       <!--导航结束-->
       <div id="contributeNav" class="col-xs-12 col-sm-9 col-md-9 col-lg-10 fs-15 bgc-1 pad-2">
@@ -38,7 +38,9 @@
                         <div class="clearfix"></div>
                     </div>
                 @endforeach
-                    {!! $ResultData['pages'] !!}
+                    <div class="text-center">
+                        {!! $ResultData['pages'] !!}
+                    </div>
             @endif
         @endif
 

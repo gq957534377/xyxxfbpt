@@ -90,14 +90,14 @@
                        @endif
                     </span>
                 </div>
-                    <div class="row top_right_5">
-                    @if($likeStatus == 1)
-                    <span id="like"  data-id="{{$project_details->guid}}" class="bang col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>
-                    @else
-                        <span id="like"  data-id="{{$project_details->guid}}" class="col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>
-                    @endif
+                    {{--<div class="row top_right_5">--}}
+                    {{--@if($likeStatus == 1)--}}
+                    {{--<span id="like"  data-id="{{$project_details->guid}}" class="bang col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>--}}
+                    {{--@else--}}
+                        {{--<span id="like"  data-id="{{$project_details->guid}}" class="col-lg-6 col-md-6 col-sm-6 col-xs-5">点赞（<span id="likeNum">{{$likeNum}}</span>）</span>--}}
+                    {{--@endif--}}
                     {{--<span class="col-lg-6 col-md-6 col-sm-6 col-xs-5">12723人看过</span>--}}
-                </div>
+                {{--</div>--}}
 
             <!--项目主要属性结束-->
         </div>
@@ -127,18 +127,18 @@
                                 {{--@endif--}}
                             {{--</span>--}}
                         </div>
-                        <div class="row csrxx-2">
-                            <span class="col-lg-12 col-md-12 col-sm-12">杭州糖礼记科技信息有限公司 | @if($project_details->userInfo->role == 2)
-                                    创业者
-                                @elseif($project_details->userInfo->role == 3)
-                                    投资者
-                                @endif</span>
-                        </div>
-                        <div class="row csrxx-3">
-                            <p class="col-lg-12 col-md-12 col-sm-12">
-                                牛津大学数学系本科、硕士毕业，帝国理工大学金融系硕士，毕业后就职于美银美林，2010年回国后分别任职于中信证券、中德证券、十年投融资经验，专注于TMT和金融行业
-                            </p>
-                        </div>
+                        {{--<div class="row csrxx-2">--}}
+                            {{--<span class="col-lg-12 col-md-12 col-sm-12">杭州糖礼记科技信息有限公司 | @if($project_details->userInfo->role == 2)--}}
+                                    {{--创业者--}}
+                                {{--@elseif($project_details->userInfo->role == 3)--}}
+                                    {{--投资者--}}
+                                {{--@endif</span>--}}
+                        {{--</div>--}}
+                        {{--<div class="row csrxx-3">--}}
+                            {{--<p class="col-lg-12 col-md-12 col-sm-12">--}}
+                                {{--牛津大学数学系本科、硕士毕业，帝国理工大学金融系硕士，毕业后就职于美银美林，2010年回国后分别任职于中信证券、中德证券、十年投融资经验，专注于TMT和金融行业--}}
+                            {{--</p>--}}
+                        {{--</div>--}}
                     </div>
                 </li>
                 <li class="row content-row-left-title">
@@ -275,33 +275,33 @@
     <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script>
-        $('#like').click(function () {
-            var temp = $(this).is('.bang')?-1:1;
-            var str = $(this).is('.bang')?"点赞":"已赞";
-            var num = parseInt($('#likeNum').html());
-            var nowLikeNum = temp+num;
-            var contentId = $(this).data('id');
-            $.ajax({
-                type:'get',
-                url:'/action/'+contentId+'/edit',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data:{type:2},
-                success:function (data) {
-                    switch (data.StatusCode){
-                        case '200':$('#like').toggleClass('bang').html(str+"（<span id='likeNum'>"+nowLikeNum+"</span>）");break;
-                        case '400':alert(data.ResultData);break;
-                        case '401':alert(data.ResultData);window.location.href = "{{route('login.index')}}";break;
-                    }
-                },
-                error: function(XMLHttpRequest){
-                    var number = XMLHttpRequest.status;
-                    var msg = "Error: "+number+",数据异常！";
-                    alert(msg);
-                }
-            })
-        })
+        {{--$('#like').click(function () {--}}
+            {{--var temp = $(this).is('.bang')?-1:1;--}}
+            {{--var str = $(this).is('.bang')?"点赞":"已赞";--}}
+            {{--var num = parseInt($('#likeNum').html());--}}
+            {{--var nowLikeNum = temp+num;--}}
+            {{--var contentId = $(this).data('id');--}}
+            {{--$.ajax({--}}
+                {{--type:'get',--}}
+                {{--url:'/action/'+contentId+'/edit',--}}
+                {{--headers: {--}}
+                    {{--'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+                {{--},--}}
+                {{--data:{type:2},--}}
+                {{--success:function (data) {--}}
+                    {{--switch (data.StatusCode){--}}
+                        {{--case '200':$('#like').toggleClass('bang').html(str+"（<span id='likeNum'>"+nowLikeNum+"</span>）");break;--}}
+                        {{--case '400':alert(data.ResultData);break;--}}
+                        {{--case '401':alert(data.ResultData);window.location.href = "{{route('login.index')}}";break;--}}
+                    {{--}--}}
+                {{--},--}}
+                {{--error: function(XMLHttpRequest){--}}
+                    {{--var number = XMLHttpRequest.status;--}}
+                    {{--var msg = "Error: "+number+",数据异常！";--}}
+                    {{--alert(msg);--}}
+                {{--}--}}
+            {{--})--}}
+        {{--})--}}
     </script>
 @endsection
 

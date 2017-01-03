@@ -460,15 +460,6 @@ class UserRoleService {
             return ['StatusCode' => '400', 'ResultData' => '添加角色申请记录失败，请重新申请'];
         }
 
-        // 补充数据
-        $data['status'] = 5;
-        $data['id'] = $result;
-        $role = $data['role'];
-        //申请成功，session存入
-        $data = (object)$data;
-        $roleInfo = [ $role => $data];
-        Session::put('roleInfo', $roleInfo);
-
         return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
     }
 
@@ -479,24 +470,28 @@ class UserRoleService {
      */
     public function getRoleInfo($guid)
     {
+
         $syb = self::$applySybStore->getOneData(['guid' => $guid]);
-
-        // 如果是创业者了，获取下公司信息
-
-        $company = self::$companyStore->getOneData(['guid' => $guid]);
-        if (!$company) {
-            $company = [];
+        if (!$syb) {
+            $roleInfo[2] = null;
+        }else{
+            // 如果是创业者了，获取下公司信息
+            $company = self::$companyStore->getOneData(['guid' => $guid]);
+            if (!$company) {
+                $company = [];
+            }
+            $syb->company = $company;
         }
-        $syb->company = $company;
 
         $investor = self::$applyInvestorStore->getOneData(['guid' => $guid]);
-
+        if (!$investor) {
+            $roleInfo[3] = null;
+        }
         // 往session里存入
         $roleInfo[2] = $syb;
         $roleInfo[3] = $investor;
 
-        Session::put('roleInfo', $roleInfo);
-
+        return $roleInfo;
     }
 
     /**

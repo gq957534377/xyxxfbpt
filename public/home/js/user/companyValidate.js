@@ -80,6 +80,7 @@
                                     function (isConfirm) {
                                         swal('提示', data.ResultData, "success");
                                         $(".userInfoReset").click();
+                                        window.location.href = '/user/'+ $("#topAvatar").data('id');
                                     });
                                 break;
                         }
