@@ -724,16 +724,39 @@ body .list-inline > li {
 
 /*关于我们样式 开始*/
 .qili-about-us {
-    position: relative;
+    border: 2px solid #f3f3f3;
 }
 .qili-about-us > ul > li {
-    /*padding-left: 60px;*/
-    /*padding-right: 60px;*/
+    cursor: pointer;
+}
+.qili-about-us > ul > li > p {
+    font-weight: bold;
+    text-align: center;
+    line-height: 2.8em;
 }
 .qili-about-us > div {
-    position: absolute;
-    top: 0;
-    left: 180px;
+    border-left: 2px solid #f3f3f3;
+    min-height: 800px;
+    height: 100%;
+    padding: 0 20px;
+}
+.qili-about-us > div > p:nth-child(1) {
+    font-size: 24px;
+    color: #ff9035;
+    padding: .8em 0;
+    border-bottom: 1px solid #f3f3f3;
+    box-shadow: 0 1px 0 #f3f3f3;
+}
+.qili-about-us > div > img {
+    display: block;
+    margin: 2em auto 2em auto;
+    max-width: 100%;
+}
+.qili-about-us > div > p:nth-child(3) {
+}
+.qili-about-us-active {
+    background-color: #f3f3f3;
+    border-right: 4px solid #ff9035;
 }
 /*关于我们样式 结束*/
 
