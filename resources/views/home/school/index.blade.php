@@ -13,13 +13,13 @@
     <section class="container mar-b10">
 
         <div class="nav-status-bar col-xs-12 pad-clr">
-            @if($status == '204')
+            @if($type == 1)
                 <span>企业管理</span>
                 <span class="pull-right">企业管理</span>
-            @elseif($status == '1')
+            @elseif($type == 2)
                 <span>资金管理</span>
                 <span class="pull-right">资金管理</span>
-            @elseif($status == '5')
+            @elseif($type == 3)
                 <span>人才管理</span>
                 <span class="pull-right">人才管理</span>
             @endif
