@@ -26,13 +26,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a  class="user_role_list" key="9" title="待审核创业者用户" >创业者</a>
+                    <a  class="user_role_list" key="0" title="待审核创业者用户" >创业者</a>
                 </li>
                 <li>
-                    <a  class="user_role_list" key="10" title="待审核投资者用户" >投资者</a>
+                    <a  class="user_role_list" key="1" title="待审核投资者用户" >投资者</a>
                 </li>
                 <li>
-                    <a   class="user_role_list" key="11"  title="待审核英雄会成员">英雄会成员</a>
+                    <a   class="user_role_list" key="2"  title="待审核英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -42,13 +42,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a class="user_role_list" key="12" title="审核失败创业者用户">创业者</a>
+                    <a class="user_role_list" key="3" title="审核失败创业者用户">创业者</a>
                 </li>
                 <li>
-                    <a  class="user_role_list" key="13" title="审核失败投资者用户">投资者</a>
+                    <a  class="user_role_list" key="4" title="审核失败投资者用户">投资者</a>
                 </li>
                 <li>
-                    <a class="user_role_list" key="14" title="审核失败英雄会成员">英雄会成员</a>
+                    <a class="user_role_list" key="5" title="审核失败英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -161,7 +161,8 @@
                     $('.check_pass').click(function(){
                         //判断是审核通过或者不通过
                         var action = $(this).children().html();
-
+                        var guid = $(this).data('guid');
+                        alert(guid);return;
                         //获取tr节点
                         switch (action){
                             case '通过':
@@ -188,9 +189,11 @@
                             if (isConfirm) {
                                 //发送请求
                                 $.ajax({
-                                    url :'/role_management/'+id+'/edit', //参数2 为禁用,1 为启用
+                                    url :'/role_management/'+status+'/edit', //参数2 为禁用,1 为启用
                                     type : 'get',
-                                    data : {guid : guid},
+                                    data : {
+                                        guid : guid
+                                    },
                                     success : function (msg) {
                                         if(msg.statusCode == 400){
                                             swal(msg.resultData, action + '用户'+ +'申请失败', "danger");
@@ -319,7 +322,7 @@
         //页面默认加载所有可用用户信息
         $(function () {
             $('#user_title').html('<h3>待审核用户</h3>');
-            var key = 15;   //默认请求所有待审核用户
+            var key = 1;   //默认请求所有待审核用户
 
             var url = '/role_management/show';
 

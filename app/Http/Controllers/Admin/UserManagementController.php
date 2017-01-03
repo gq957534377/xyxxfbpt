@@ -3,15 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
-
-use App\Store\UserStore;
-use App\Store\RoleStore;
 use App\Services\userManagementService as Users;
-
 
 class UserManagementController extends Controller
 {
@@ -69,21 +62,16 @@ class UserManagementController extends Controller
         $data = $request->all();
 
         //参数范围限制
-        if($data['key'] < 0 || $data['key'] > 16){
+        if($data['key'] < 0 || $data['key'] > 9){
             return view('404');
         }
         //参数规则
-        $roles = self::$users->roles();
+        $roles = self::$users->userRoles();
 
         //查询条件
         $where = $roles[$data['key']];
 
-        //表名选择,并获取数据的条数
-        if($data['key'] > 8){
-            $table = 'data_role_info';
-        }else{
-            $table = 'data_user_info';
-        }
+        $table = 'data_user_info';
 
         //获取条数
         $count = self::$users->getCount($table, $where);
@@ -97,7 +85,7 @@ class UserManagementController extends Controller
         $search = ['key' => $data['key']];  //查询参数拼装
 
         //获取分页字符串
-        $pageStr = self::$users->paramHandle('uesr',$count, $nowPage, $pageNums, $search);
+        $pageStr = self::$users->paramHandle('user',$count, $nowPage, $pageNums, $search);
 
         //获取对应页的数据
         $Data = self::$users->getTypelist($table, $where, $nowPage, $pageNums);
