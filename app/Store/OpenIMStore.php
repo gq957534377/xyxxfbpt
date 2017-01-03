@@ -11,7 +11,7 @@ use DB;
 class OpenIMStore
 {
 
-    protected static $table = 'data_im_users';
+    protected static $table = 'data_im_login';
 
     /**
      * 判断账号是会否存在

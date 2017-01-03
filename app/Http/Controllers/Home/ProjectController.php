@@ -106,13 +106,13 @@ class ProjectController extends Controller
 
         if($res['StatusCode'] == '400') return view('errors.404');
 
-        $likeNum = self::$commentServer->likeCount($id);
-
-        if(isset(session('user')->guid)){
-            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);
-        }else{
-            $likeStatus = 3;
-        }
+//        $likeNum = self::$commentServer->likeCount($id);
+//        //判断点赞状态
+//        if(isset(session('user')->guid)){
+//            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);
+//        }else{
+//            $likeStatus = 3;
+//        }
 
         $project_details = $res['ResultData'];
         // 获取项目属于者具体信息
@@ -120,9 +120,9 @@ class ProjectController extends Controller
         return view('home.projects.details', compact(
             'project_details', //内容详情数据
             'commentData', //评论内容数据
-            'id', //项目guid
-            'likeNum', //点赞数
-            'likeStatus'//点赞状态
+            'id'//项目guid
+//            'likeNum', //点赞数
+//            'likeStatus'//点赞状态
         ));
     }
 
