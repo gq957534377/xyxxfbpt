@@ -1,23 +1,6 @@
 /**
  * Created by wangt on 2016/12/9.
  */
-!function($) {
-    "use strict";
-
-    var SweetAlert = function() {};
-
-    //examples
-    SweetAlert.prototype.init = function() {},
-        //init
-        $.SweetAlert = new SweetAlert,
-        $.SweetAlert.Constructor = SweetAlert
-}(window.jQuery),
-
-    function($) {
-        "use strict";
-        $.SweetAlert.init()
-    }(window.jQuery);
-
 
 $(function () {
     $('#custom-service').on('click',function () {
@@ -54,15 +37,13 @@ $(function () {
         $.ajax({
             type : 'get',
             url: '/openim',
-            processData: false, // 告诉jQuery不要去处理发送的数据
-            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-            async: true,
+
             success: function(msg){
 
                 switch (msg.StatusCode){
                     case '400':
-                        alert(msg.ResultData);
-                        $("#custom-width-modal").modal("hide");
+                        // alert(msg.ResultData);
+                        // $("#custom-width-modal").modal("hide");
                         break;
                     case '200':
                         OpenIM(msg.ResultData);
