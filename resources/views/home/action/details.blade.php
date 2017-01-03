@@ -43,7 +43,7 @@
             <p class=""><span>活动时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}——{{ date('Y年m月d日 H点',$data['ResultData']->end_time) }}</p>
             <p class=""><span>报名截止时间：</span>{{ date('Y年m月d日 H点',$data['ResultData']->start_time) }}</p>
             <p class=""><span>活动地点：</span>{{ $data['ResultData']->address }}</p>
-            <p id="baomingNum" class="mar-b15">已报名{{ $data['ResultData']->people }}人 &nbsp;限额({{ $data['ResultData']->people }})人</p>
+            <p id="baomingNum" class="mar-b15">已报名{{ $data['ResultData']->people }}人 &nbsp;限额({{ $data['ResultData']->limit }})人</p>
 
             <!--两个按钮按照情况只显示一个-->
             @if($data['ResultData']->status == 1)
@@ -56,6 +56,8 @@
                 <button type="button" class="btn road-banner-join disabled">报名截止</button>
             @elseif($data['ResultData']->status == 2)
                 <button type="button" class="btn road-banner-join disabled">活动已开始</button>
+            @elseif($data['ResultData']->status == 3)
+                <button type="button" class="btn road-banner-join disabled">活动已结束</button>
             @endif
         @else
             <h4 class="mar-ct mar-b15">{{ $data['ResultData'] }}</h4>
