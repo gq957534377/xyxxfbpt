@@ -3,7 +3,7 @@
 @section('title', '创新作品')
 
 @section('style')
-    <link rel="stylesheet" href="{{ asset('home/css/school.css') }}">
+    <link rel="stylesheet" href="{{ asset('home/css/roading.css') }}">
 @endsection
 @section('content')
     <section class="bannerimg hang">
@@ -13,15 +13,18 @@
     <section class="container mar-b10">
 
         <div class="nav-status-bar col-xs-12 pad-clr">
-            @if($type == 1)
-                <span>路演活动</span>
-                <span class="pull-right">路演活动</span>
-            @elseif($type == 2)
-                <span>创业大赛</span>
-                <span class="pull-right">创业大赛</span>
+            @if($status == '204')
+                <span>企业管理</span>
+                <span class="pull-right">企业管理</span>
+            @elseif($status == '1')
+                <span>资金管理</span>
+                <span class="pull-right">资金管理</span>
+            @elseif($status == '5')
+                <span>人才管理</span>
+                <span class="pull-right">人才管理</span>
             @endif
             <span class="pull-right">＞</span>
-            <span class="pull-right">活动</span>
+            <span class="pull-right">英雄学院</span>
             <div></div>
         </div>
 
