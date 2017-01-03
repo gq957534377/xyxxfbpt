@@ -8,7 +8,7 @@
             @endif
             <li><a zxz-data="activity" href="/action_order?list=1&type=1&status=1">参加的活动</a></li>
             <li><a zxz-data="send" href="{{ route('send.index') }}">我的投稿</a></li>
-            <li><a zxz-data="commentandlike" href="{{ route('commentlike') }}">点赞和评论</a></li>
+            <li><a zxz-data="commentandlike" href="{{ route('commentlike') }}">我的评论</a></li>
             <li><a zxz-data="account" href="{{ route('user.edit', ['id' => session('user')->guid]) }}">账号设置</a></li>
         </ul>
     </aside>
