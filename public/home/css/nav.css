@@ -41,7 +41,7 @@ body{
   width: 125px;
 }
 .nav-content > li:nth-child(2n) {
-  width: 80px; /*导航栏为六个时*/
+  width: 84px; /*导航栏为六个时*/
   /*width: 46px; 导航栏为七个时*/
 }
 .nav-content > li:nth-child(2n-1):hover {
