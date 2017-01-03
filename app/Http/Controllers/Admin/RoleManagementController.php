@@ -62,22 +62,19 @@ class RoleManagementController extends Controller
     {   //数据初始化
         $data = $request->all();
 
+        $key = $data['key'];
+
         //参数范围限制
-        if($data['key'] < 0 || $data['key'] > 16){
+        if($key < 0 || $key > 5){
             return view('404');
         }
         //参数规则
-        $roles = self::$users->roles();
+        $roles = self::$users->applyRoles();
 
         //查询条件
-        $where = $roles[$data['key']];
-
-        //表名选择,并获取数据的条数
-        if($data['key'] > 8){
-            $table = 'data_role_info';
-        }else{
-            $table = 'data_user_info';
-        }
+        $where = ['status'=>$roles[$key]['status']];
+        //dd($where);
+        $table = $roles[$key]['table'];
 
         //获取条数
         $count = self::$users->getCount($table, $where);
@@ -86,9 +83,9 @@ class RoleManagementController extends Controller
             return response()->json(['StatusCode' => 400]);
         }
 
-        $pageNums = 5;  //一页的数据条数
+        $pageNums = 3;  //一页的数据条数
         $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;   //获取当前页
-        $search = ['key' => $data['key']];  //查询参数拼装
+        $search = ['key' => $key];  //查询参数拼装
 
         //获取分页字符串
         $pageStr = self::$users->paramHandle('role',$count, $nowPage, $pageNums, $search);
@@ -102,14 +99,28 @@ class RoleManagementController extends Controller
     }
 
     /**
+     * 用户审核操作
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        //
+        //获取审核的用户guid
+        $guid = $request->guid;
+
+        //获取用户审核类型
+        $role = $request->role;
+
+        //获取status
+        $status = $id;
+
+        $update = self::$users->changeApplyStatus($guid, $role, $status);
+
+        if(!$update) return response()->json(['statusCode' => 400,'resultData' =>'操作失败！']);
+        return response()->json(['statusCode' => 200,'resultData' =>'操作成功！']);
+
     }
 
     /**

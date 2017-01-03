@@ -26,13 +26,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a  class="user_role_list" key="9" title="待审核创业者用户" >创业者</a>
+                    <a  class="user_role_list" key="0" title="待审核创业者用户" >创业者</a>
                 </li>
                 <li>
-                    <a  class="user_role_list" key="10" title="待审核投资者用户" >投资者</a>
+                    <a  class="user_role_list" key="1" title="待审核投资者用户" >投资者</a>
                 </li>
                 <li>
-                    <a   class="user_role_list" key="11"  title="待审核英雄会成员">英雄会成员</a>
+                    <a   class="user_role_list" key="2"  title="待审核英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -42,13 +42,13 @@
             </button>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a class="user_role_list" key="12" title="审核失败创业者用户">创业者</a>
+                    <a class="user_role_list" key="3" title="审核失败创业者用户">创业者</a>
                 </li>
                 <li>
-                    <a  class="user_role_list" key="13" title="审核失败投资者用户">投资者</a>
+                    <a  class="user_role_list" key="4" title="审核失败投资者用户">投资者</a>
                 </li>
                 <li>
-                    <a class="user_role_list" key="14" title="审核失败英雄会成员">英雄会成员</a>
+                    <a class="user_role_list" key="5" title="审核失败英雄会成员">英雄会成员</a>
                 </li>
             </ul>
         </div>
@@ -89,6 +89,7 @@
                                     </div>
                                 </div>
                             </li>
+                            <li><input type="hidden" id="guid" name="guid"  /><input type="hidden" id="role" name="role"  /></li>
                             <li><strong>真实姓名 ：</strong><mark><span id="realname"></span></mark></li>
                             <li><strong>昵称 ：</strong><span id="nickname"></span></li>
                             <li><strong>性别 ：</strong><span id="sex"></span></li>
@@ -161,8 +162,9 @@
                     $('.check_pass').click(function(){
                         //判断是审核通过或者不通过
                         var action = $(this).children().html();
+                        var guid = $('#guid').val();
+                        var role = $('#role').val();
 
-                        //获取tr节点
                         switch (action){
                             case '通过':
                                 var status = 6;
@@ -188,16 +190,20 @@
                             if (isConfirm) {
                                 //发送请求
                                 $.ajax({
-                                    url :'/role_management/'+id+'/edit', //参数2 为禁用,1 为启用
+                                    url :'/role_management/'+status+'/edit', //参数2 为禁用,1 为启用
                                     type : 'get',
-                                    data : {guid : guid},
+                                    data : {
+                                        guid : guid,
+                                        role : role
+                                    },
                                     success : function (msg) {
                                         if(msg.statusCode == 400){
-                                            swal(msg.resultData, action + '用户'+ +'申请失败', "danger");
+                                            swal(msg.resultData, action + '角色申请失败', "danger");
                                             $('#con123').modal('hide');
                                             return;
                                         }
-                                        swal(msg.resultData, '用户审核'+action + '', "success");
+
+                                        swal(msg.resultData, '角色申请 '+action + '', "success");
                                         $('#con123').modal('hide');
                                         //成功后删除当前行
                                         tr.remove();
@@ -245,7 +251,9 @@
                 var guid = $(this).data('name');
                 tr = $(this).parent().parent();
                 var data = $(this).data();
-                //alert(realname);
+
+                $('#guid').val(data.guid);
+                $('#role').val(data.role);
                 $('#headpic').attr('src',data.headpic);
                 $('#realname').text(data.realname);
                 $('#nickname').text(data.nickname);
@@ -318,8 +326,8 @@
 
         //页面默认加载所有可用用户信息
         $(function () {
-            $('#user_title').html('<h3>待审核用户</h3>');
-            var key = 15;   //默认请求所有待审核用户
+            $('#user_title').html('<h3>待审核创业者</h3>');
+            var key = 0;   //默认请求所有待审核用户
 
             var url = '/role_management/show';
 
@@ -507,7 +515,7 @@
                 str +=  '</td>';
                 str +=  '<td>';
                 if(v.status == 5 || v.status == 7){
-                    str +=  '<a href="javascript:;" data-guid="' + v.guid + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
+                    str +=  '<a href="javascript:;" data-guid="' + v.guid + '" data-role="'+v.role+'" data-realname="'+ v.realname +'" data-role ="'+v.role+
                             '" data-brithday="'+v.birthday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+
                             '" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+
                             '" data-headpic="'+v.headpic+'" data-wechat="'+v.wechat+'" data-introduction="'+v.introduction+

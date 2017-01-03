@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Store\UserStore;
-use App\Store\RoleStore;
+use App\Store\ApplySybStore;
+use App\Store\ApplyInvestorStore;
+use App\Store\ApplyMemberStore;
 use App\Store\HomeStore;
 
 use App\Tools\CustomPage;
@@ -12,13 +14,22 @@ use Illuminate\Support\Facades\DB;
 class userManagementService
 {
     protected static $data_user_info;    //data_user_info 数据仓库
-    protected static $data_role_info;    //data_role_info 数据仓库
-    protected static $data_user_login;    //data_user_login 数据仓库
+    protected static $data_apply_syb;    //data_apply_syb 申请创业者数据仓库
+    protected static $data_apply_investor;  //data_apply_investor 申请投资者
+    protected static $data_apply_member;    //data_apply_member 申请英雄会会员
+    protected static $data_user_login;    //data_user_login 用户登录数据仓库
 
-   public function __construct(UserStore $userStore, RoleStore $roleStore, HomeStore $homeStore)
-   {
+   public function __construct(
+       UserStore $userStore,
+       ApplySybStore $applySybStore,
+       ApplyInvestorStore $applyInvestorStore,
+       ApplyMemberStore $applyMemberStore,
+       HomeStore $homeStore
+   ){
        self::$data_user_info = $userStore;
-       self::$data_role_info = $roleStore;
+       self::$data_apply_syb = $applySybStore;
+       self::$data_apply_investor = $applyInvestorStore;
+       self::$data_apply_member = $applyMemberStore;
        self::$data_user_login = $homeStore;
    }
 
@@ -30,16 +41,26 @@ class userManagementService
      */
     public function getCount($table, $where)
     {
-        //获取data_uer_info表的条数
-        if ($table == 'data_user_info' ){
-            return self::$data_user_info->getUserCount($where);
-        }
-        //获取data_role_info表的条数,待审核和审核失败
-        if($table == 'data_role_info'){
-            return self::$data_role_info->getRoleCount($where);
-        }
+        switch ($table){
+            case 'data_user_info':
+                return self::$data_user_info->getUserCount($where);
+            break;
 
+            case 'data_apply_syb':
+                return self::$data_apply_syb->getSybCount($where);
+            break;
 
+            case 'data_apply_investor':
+                return self::$data_apply_investor->getInvCount($where);
+                break;
+
+            case 'data_apply_member':
+                return self::$data_apply_member->getMemCount($where);
+                break;
+
+            default:
+                return '';
+        }
     }
 
     /** 获取用户列表或者审核列表信息
@@ -52,24 +73,39 @@ class userManagementService
      */
     public function getTypelist($table, $where, $nowPage, $pageNums)
     {
-        if ($table == 'data_user_info' ){
-            return self::$data_user_info->getUserTypelist($where, $nowPage, $pageNums);
-        }
+        switch ($table){
+            case 'data_user_info':
+                return self::$data_user_info->getUserTypelist($where, $nowPage, $pageNums);
+            break;
 
-        if ($table == 'data_role_info' ){
-            return self::$data_role_info->getRoleTypelist($where, $nowPage, $pageNums);
+            case 'data_apply_syb':
+                return self::$data_apply_syb->getSybList($where, $nowPage, $pageNums);
+            break;
+
+            case 'data_apply_investor':
+                return self::$data_apply_investor->getInvList($where, $nowPage, $pageNums);
+            break;
+
+            case 'data_apply_member':
+                return self::$data_apply_member->getMemberList($where, $nowPage, $pageNums);
+            break;
+            default:
+                return '';
+
+
+
         }
     }
 
     /**
-     * 参数规则
+     * user类型参数规则
      * @return array 返回请求的参数匹配规则
      * @author lw
      */
-    public function roles()
+    public function userRoles()
     {
          //参数规则
-        $roles = [
+        $userRoles = [
                 //查询data_user_info表,
                 ['status' => 1],    //查询所有可用用户
                 ['status' => 1, 'role' => 1],    //查询data_user_info表,普通用户
@@ -80,19 +116,26 @@ class userManagementService
                 ['status' => 2, 'role' => 2],     //'已禁用创业者用户' =>
                 ['status' => 2, 'role' => 3],     //'已禁用投资者用户' =>
                 ['status' => 2, 'memeber' => 2],    //'已禁用英雄会成员' =>
-                //user页面默认加载所有正常用户信息
-
-                //查询data_role_info表
-                ['status' => 5, 'role' => 2],     //查询data_role_info表,'待审核创业者用户' =>
-                ['status' => 5, 'role' => 3],     //  '待审核投资者用户' =>
-                ['status' => 5, 'role' => 4],     //'待审核投资者用户' =>
-                ['status' => 7, 'role' => 2],    // '审核失败创业者用户' =>
-                ['status' => 7, 'role' => 3],    //'审核失败投资者用户' =>
-                ['status' => 7, 'role' => 4],    //'审核失败英雄会成员' =>
-                //role页面默认加载所有待审核用户
-                ['status' => 5]
         ];
-        return $roles;
+        return $userRoles;
+    }
+
+    /**
+     * 角色申请规则
+     * @return array
+     */
+    public function applyRoles()
+    {
+        $applyRoles = [
+            ['table' => 'data_apply_syb','status' => 5],    //待审核创业者
+            ['table' => 'data_apply_investor','status' => 5],   //待审核投资者
+            ['table' => 'data_apply_member','status' => 5],   //待审核投资者
+
+            ['table' => 'data_apply_syb','status' => 7],    //待审核创业者
+            ['table' => 'data_apply_investor','status' => 7],   //待审核投资者
+            ['table' => 'data_apply_member','status' => 7],   //待审核投资者
+        ];
+        return $applyRoles;
     }
 
     /**     分页HTML字符串拼装
@@ -144,7 +187,7 @@ class userManagementService
     {
         DB::beginTransaction();
             $res1 = self::$data_user_info->changeStatus($where, $status);
-            $res2 = self::$data_user_login->changeSatus($where, $status);
+            $res2 = self::$data_user_login->changeStatus($where, $status);
 
         if(!$res1 || !$res2) {
             DB::rollBack();
@@ -152,6 +195,92 @@ class userManagementService
         }
         DB::commit();
         return true;
+    }
+
+    /**
+     * 审核用户操作
+     * @param  string $guid 需要审核的用户
+     * @param  int $role  审核的角色 2：创业者  3 投资者 4 英雄会员
+     * @param  int $status 通过的状态  6 审核通过  7 拒绝
+     * @return bool 成功 return true   失败  return false
+     */
+    public function changeApplyStatus($guid, $role, $status)
+    {
+        $where = ['guid'=>$guid];
+        $status = ['status'=>$status];
+
+        //拒绝通过操作
+        if($status['status']==7){
+            switch ($role){
+                //审核创业者
+                case 2:
+                    $res = self::$data_apply_syb->changeStatus($where, $status);
+                    if(!$res) return false;
+                    return true;
+                    break;
+
+                case 3:
+                    //投资者
+                    $res = self::$data_apply_investor->changeStatus($where, $status);
+                    if(!$res) return false;
+                    return true;
+                    break;
+
+                case 4:
+                    //英雄会会员
+                    $res = self::$data_apply_member->changeStatus($where, $status);
+                    if(!$res) return false;
+                    return true;
+                    break;
+
+
+
+            }
+        }else if($status['status'] == 6){
+            //审核通过
+            switch ($role){
+                case 2:
+                    //通过用户审核创业者
+                    DB::beginTransaction();
+                    $res1 = self::$data_apply_syb->changeStatus($where, ['status'=>6]);    //  status = 6
+                    $res2 = self::$data_user_info->changeStatus($where, ['role'=>2]);   //用户信息角色改为role=2
+                    if(!$res1 || !$res2){
+                        DB::rollBack();
+                        return false;
+                    }
+                    DB::commit();
+                    return true;
+                break;
+
+                case 3:
+                    //通过用户审核创业者
+                    DB::beginTransaction();
+                    $res3 = self::$data_apply_investor->changeStatus($where, $status);    //  status = 6
+                    $res4 = self::$data_user_info->changeStatus($where, ['role'=>3]);   //用户信息角色改为role=3
+                    if(!$res3 || !$res4){
+                        DB::rollBack();
+                        return false;
+                    }
+                    DB::commit();
+                    return true;
+                    break;
+
+                case 4:
+                    //通过用户审核英雄会员
+                    DB::beginTransaction();
+                    $res5 = self::$data_apply_member->changeStatus($where, ['status' => 6]);    //  status = 6
+                    $res6 = self::$data_user_info->changeMember($where);   //用户信息角色 memeber=2
+                    if(!$res5 || !$res6){
+                        DB::rollBack();
+                        return false;
+                    }
+                    DB::commit();
+                    return true;
+                    break;
+            }
+        }
+
+
     }
 
 
