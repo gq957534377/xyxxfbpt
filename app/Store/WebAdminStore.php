@@ -12,7 +12,7 @@ use DB;
 
 class WebAdminStore
 {
-    protected static $table = 'data_web_administrate';
+    protected static $table = 'data_web_info';
 
     /**
      * 更新网站管理表数据
@@ -77,7 +77,6 @@ class WebAdminStore
     {
         return DB::table(self::$table)
             ->where('status', 1)
-            ->whereIn('name',['tel', 'time', 'email', 'record'])
             ->get();
     }
 }

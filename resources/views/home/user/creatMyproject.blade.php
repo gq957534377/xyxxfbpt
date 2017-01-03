@@ -327,7 +327,16 @@
           $(this).addClass('hiddens');
         }
       }else {
-        alert('历程时间与对应历程不可为空！')
+        swal({
+                  title: '警告', // 标题，自定
+                  text: '历程时间与对应历程不可为空！',   // 内容，自定
+                  type: "warning",    // 类型，分别为error、warning、success，以及info
+                  showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                  confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                },
+                function (isConfirm) {
+                  swal('警告', '历程时间与对应历程不可为空！', "waring");
+                });
       }
     });
     function expBriefAdd(str) {
@@ -375,7 +384,16 @@
           changeCYNum();
         }
       }else {
-        alert('请为核心成员添加对应内容');
+        swal({
+                  title: '警告', // 标题，自定
+                  text: '请为核心成员添加对应内容',   // 内容，自定
+                  type: "warning",    // 类型，分别为error、warning、success，以及info
+                  showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                  confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                },
+                function (isConfirm) {
+                  swal('警告', '请为核心成员添加对应内容', "waring");
+                });
       }
     });
     $('#delPeople').click(function () {

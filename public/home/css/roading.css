@@ -1,16 +1,16 @@
 .nav-status-bar {
   padding-bottom: 5px;
-  border-bottom: 4px solid #f3f3f3;
+  border-bottom: 3px solid #f3f3f3;
   position: relative;
 }
 .nav-status-bar > span {
+  margin-top: 5px;
   line-height: 42px;
-  font-size: 16px;
   color: #8f8f8f;
 }
 .nav-status-bar > span:nth-child(1){
   font-size: 20px;
-  color: #000;
+  color: #333;
   margin-left: -7px;
 }
 .nav-status-bar > span:nth-child(1)::before{
@@ -20,17 +20,16 @@
   top: 2px;
 }
 .nav-status-bar > div:last-child {
-  height: 4px;
+  height: 3px;
   width: 110px;
   background-color: #ff9035;
   position: absolute;
-  top: 51px;
+  top: 52px;
 }
 .nav-status-bar-type {
   margin-top: 15px;
   margin-bottom: 5px;
   display: inline-block;
-  font-size: 16px;
 }
 .nav-status-bar-type > li {
   list-style-type: none;
@@ -51,17 +50,21 @@
 }
 .nav-status-bar-type-active {
   background-color: #ff9035;
-  color: #000000;
+}
+.nav-status-bar-type-active a {
+  color: #ffffff !important;
 }
 .add-margin-bottom {
   margin-bottom: 3em;
 }
 body a{
-  color: #000000;
+  color: #333333;
 }
 a:hover{
   text-decoration: none;
-  color: #000000;
+}
+a:visited {
+  text-decoration: none;
 }
 .zxz-footer a:hover{
   color: inherit;

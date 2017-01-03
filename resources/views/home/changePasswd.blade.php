@@ -2,6 +2,7 @@
 
 @section('style')
   <link href="{{ asset('home/css/change-passwd.css') }}" rel="stylesheet">
+  <link href="{{ asset('home/css/sweet-alert.min.css') }}" rel="stylesheet">
 
 @endsection
 
@@ -29,14 +30,14 @@
               <div class="form-group mar-b30">
                 <label for="wechat-num" class="col-lg-offset-1 col-sm-3 col-lg-2 control-label mar-b10 pad-cr">新密码：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control form-title" id="password" name="password" placeholder="">
+                  <input type="password" class="form-control form-title" id="password" name="password" placeholder="">
                 </div>
               </div>
 
               <div class="form-group mar-b30 mar-b15-xs">
                 <label for="work-company" class="col-lg-offset-1 col-sm-3 col-lg-2 control-label mar-b10 pad-cr">确认新密码：</label>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" name="confirm_password" id="" placeholder="">
+                  <input type="password" class="form-control" name="confirm_password" id="" placeholder="">
                 </div>
               </div>
               <div class="form-group mar-b30 mar-b15-xs">

@@ -41,7 +41,7 @@ class WebAdminService
         }
         // 把取到的数据，格式化成['name' => 'value'] 格式 并且返回
         foreach ($obj as $val) {
-            $arr[$val->name] = $val->value;
+            $arr[$val->type] = $val->value;
         }
         return ['StatusCode'=>'200','ResultData'=>$arr];
     }
@@ -61,10 +61,25 @@ class WebAdminService
 
             // 循环指定数据，写入数据库 （ps:因最多为四条，并且需要判断传过来具体数据，暂用循环。）
             foreach ($data as $key => $val) {
-                $info = [];
-                $info = ['name' => $key, 'value' => $val, 'add_time' => time()];
-                $id = self::$webAdminStore->selectWebAdminId(['name' => $key]);
-
+                switch ($key)
+                {
+                    case 'email':
+                        $info = ['type' => 1, 'value' => $val, 'add_time' => time()];
+                        $id = self::$webAdminStore->selectWebAdminId(['type' => 1]);
+                        break;
+                    case 'time':
+                        $info = ['type' => 2, 'value' => $val, 'add_time' => time()];
+                        $id = self::$webAdminStore->selectWebAdminId(['type' => 2]);
+                        break;
+                    case 'tel':
+                        $info = ['type' => 3, 'value' => $val, 'add_time' => time()];
+                        $id = self::$webAdminStore->selectWebAdminId(['type' => 3]);
+                        break;
+                    case 'record':
+                        $info = ['type' => 4, 'value' => $val, 'add_time' => time()];
+                        $id = self::$webAdminStore->selectWebAdminId(['type' => 4]);
+                        break;
+                }
                 // 判断是否有指定类型的数据，如果没有则直接插入，有则删除之后再插入
                 if (!empty($id)) {
                     self::$webAdminStore->delWebAdmin($id->id);

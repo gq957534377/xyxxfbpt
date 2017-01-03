@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Store\PictureStore;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Services\WebAdminService;
 use Validator;
-use App\Tools\Avatar;
 use App\Services\PictureService;
 use App\Store\RollingPictureStore;
 
@@ -114,7 +112,6 @@ class WebAdminstrationController extends Controller
      *  管理界面文字信息
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -139,7 +136,8 @@ class WebAdminstrationController extends Controller
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 
         // 管理页面文字信息
-        $info = self::$webAdmin->saveWebAdmin($request->all());
+        $data = $request->except('_token');
+        $info = self::$webAdmin->saveWebAdmin($data);
 
         if ($info['status'] == '200') {
             return ['StatusCode' => '200', 'ResultData' => $info['msg']];

@@ -3,7 +3,6 @@
 function getInfoList(data) {
     $('.loading').hide();
     if (data) {
-        console.log(data);
         if (data.StatusCode === '200') {
             $('#data').html(listHtml(data));
             $('#page').html(data.ResultData.pages);
