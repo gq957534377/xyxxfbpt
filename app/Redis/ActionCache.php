@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Redis;
 class ActionCache
 {
 
-    private static $lkey = LIST_ARTICLE_INFO;      //项目列表key
-    private static $hkey = HASH_ARTICLE_INFO_;     //项目hash表key
+    private static $lkey = LIST_ACTION_INFO_INFO;      //项目列表key
+    private static $hkey = HASH_ACTION_INFO_;     //项目hash表key
 
     private static $action_store;
 
@@ -28,7 +28,7 @@ class ActionCache
      * @param $index string   唯一识别码 guid
      * @return bool
      */
-    public function exists($type = 'list', $index = '')
+    public function exists($type = '', $index = '')
     {
         if($type == 'list'){
             return Redis::exists(self::$lkey);  //查询listkey是否存在
@@ -69,7 +69,7 @@ class ActionCache
         if (empty($data)) return false;
         foreach ($data as $v){
             //执行写list操作
-            Redis::rpush(self::$lkey, $v['guid']);
+            Redis::rpush(self::$lkey.$v['type'], $v['guid']);
 
             //如果hash存在则不执行写操作
             if(!$this->exists($type = '', $v['guid'])){
