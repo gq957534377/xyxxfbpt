@@ -75,6 +75,10 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
 Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台首页
     Route::resource('/', 'HomeController@index');
+    // 关于我们
+    Route::get('/about', function () {
+        return view('home.about.index');
+    });
     // 验证码
     Route::get('/code/captcha/{tmp}', 'LoginController@captcha');
     // 前台登录页
@@ -153,11 +157,6 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
 
 //redis缓存隔离demo路由
 Route::resource('/test','TestController');
-
-//about静态页面 临时
-Route::get('/about', function () {
-    return view('home.about.index');
-});
 
 
 

@@ -7,8 +7,8 @@
 @section('content')
 <div class="container-fluid bgc-1">
     <div class="container mar-emt15 mar-b30">
-        <div class="col-lg-offset-1 col-lg-10 pad-clr qili-about-us">
-            <ul class="col-lg-2 pad-clr">
+        <div class="col-sm-offset-1 col-sm-10 pad-clr qili-about-us">
+            <ul class="col-sm-2 pad-clr">
                 <li class="mar-emt30">
                     <p>About</p>
                 </li>
@@ -22,7 +22,7 @@
                     <p>版权声明</p>
                 </li>
             </ul>
-            <div class="bgc-0 col-lg-10 pad-clr">
+            <div class="bgc-0 col-sm-10 pad-clr">
                 <p>关于我们</p>
                 <img class="img-responsive" src="{{asset('home/img/demoimg/about-us.jpg')}}">
                 <p class="indent">
@@ -31,7 +31,7 @@
                     创业者在“磁场”中释放巨大的创造力，也不断刷新着英雄会平台的自主创新能力。奇立英雄会正在完善创新创业政策体系，着力打造“国际创新创业中心”。<br><br>
                 </p>
             </div>
-            <div class="bgc-0 col-lg-10 pad-clr hidden">
+            <div class="bgc-0 col-sm-10 pad-clr hidden">
                 <p>免责声明</p>
                 <img class="img-responsive" src="{{asset('home/img/demoimg/about-us.jpg')}}">
                 <p>
@@ -68,7 +68,7 @@
                     如果有问题请 email或电话联系奇立英雄会 相关编辑，我们会在最短的时间内进行处理。<br><br>
                 </p>
             </div>
-            <div class="bgc-0 col-lg-10 pad-clr hidden">
+            <div class="bgc-0 col-sm-10 pad-clr hidden">
                 <p>版权申明</p>
                 <img class="img-responsive" src="{{asset('home/img/demoimg/about-us.jpg')}}">
                 <p>
