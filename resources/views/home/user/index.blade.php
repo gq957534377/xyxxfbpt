@@ -70,7 +70,7 @@
                             <div class="col-xs-12">
                                 <input type="text" name="nickname" class="form-control form-title"  placeholder="输入新的昵称">
                             </div>
-                            <div class="col-xs-12">
+                            <div class="col-xs-12 nickname_sub">
                                 <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="editSubmit">保存</button>
                                 <button type="button" class="btn btn-default userInfoReset" data-dismiss="modal">取消</button>
                             </div>
