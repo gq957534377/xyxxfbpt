@@ -2,9 +2,9 @@
 
     <div class="fixed-btn">
         <a class="go-top" href="javascript:void(0)" title="返回顶部"> <i class="fa fa-angle-up"></i></a>
-
+        @if(!empty(session('user')))
         <a class="writer" href="javascript:void(0)" id="custom-service" data-toggle="modal" data-target="#custom-width-modal" title="联系客服"><i class="fa fa-envelope-o"></i></a>
-
+        @endif
     </div>
 
     <footer class="container-fluid">
@@ -12,7 +12,7 @@
             <div  class="modal-dialog modal-full">
                 <div class="modal-content">
 
-                    <div  class="demo" id="openim"></div>
+                    <div id="openim"></div>
 
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

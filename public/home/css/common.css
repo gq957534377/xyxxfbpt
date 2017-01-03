@@ -1092,9 +1092,14 @@ body .list-inline > li {
 #custom-width-modal {
     display: none;
 }
-#custom-width-modal div div, #custom-width-modal div div div {
-    width: 700px;height: 470px;
+#custom-width-modal>div>div {
+    width: 781px;height: 472px;
+}
+
+#custom-width-modal>div>div>div {
+    width: 780px;height: 470px;
 }
 #error-info {
     display: none;
 }
+

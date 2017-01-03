@@ -203,7 +203,7 @@ function carouselHtml (data) {
  * @param data
  */
 function contentHtml(data) {
-
+    console.log(data);
     html = '';
     html += '<div class="row">';
     html += '<div class="col-sm-11">';
@@ -215,25 +215,25 @@ function contentHtml(data) {
     html += '<div class="form-group ">';
     html += '<label for="cemail" class="control-label col-lg-2">客服电话：</label>';
     html += '<div class="col-lg-8">';
-    html += '<input class="form-control " id="tel" type="text" name="tel" required="" aria-required="true" value="' + data.tel  + '">';
+    html += '<input class="form-control " id="tel" type="text" name="tel" required="" aria-required="true" value="' + (data[3]? data[3] : '')  + '">';
     html += '</div>';
     html += '</div>';
     html += ' <div class="form-group ">';
     html += '<label for="cemail" class="control-label col-lg-2">客服邮箱：</label>';
     html += '<div class="col-lg-8">';
-    html += '<input class="form-control " id="cemail" type="email" name="email" required="" aria-required="true" value="' + data.email + '">';
+    html += '<input class="form-control " id="cemail" type="email" name="email" required="" aria-required="true" value="' + (data[1] ? data[1] : '') + '">';
     html += '</div>';
     html += '</div>';
     html += '<div class="form-group ">';
     html += '<label for="cemail" class="control-label col-lg-2">工作时间：</label>';
     html += '<div class="col-lg-8">';
-    html += '<input class="form-control " id="time" type="text" name="time" required="" aria-required="true" value="' + data.time + '" >';
+    html += '<input class="form-control " id="time" type="text" name="time" required="" aria-required="true" value="' + (data[2] ? data[2] : '') + '" >';
     html += '</div>';
     html += '</div>';
     html += '<div class="form-group ">';
     html += '<label for="curl" class="control-label col-lg-2">备案内容：</label>';
     html += '<div class="col-lg-8">';
-    html += '<input class="form-control " id="record" type="text" name="record" value="' + data.record + '">';
+    html += '<input class="form-control " id="record" type="text" name="record" value="' + (data[4] ? data[4] : '') + '">';
     html += '</div>';
     html += '</div>';
     html += '<div class="form-group">';
