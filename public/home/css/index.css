@@ -1021,6 +1021,7 @@ body>.container-fluid .wysjx:hover{
 	height: auto;
 	margin: 0 auto;
 }
+
 /*******************小于767的样式***********************/
 @media screen and (max-width:767px) {
 	.wysjx{
