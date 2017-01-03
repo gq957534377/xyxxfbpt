@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('admin/js/seedback.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('admin/css/seedback.css')}}"/>
 @endsection
 {{--展示内容开始--}}
 @section('content')
@@ -158,10 +158,10 @@
                 '</div>' +
                 '<div class="row">' +
                 '<div class="col-sm-8"></div>' +
-                '<div class="col-sm-4" id="page"></div>' +
                 '</div>';
-
+            str += '<div id="page" class="pull-right">';
             str += data.pages;
+            str += '</div>;'
             return str;
         }
         /**

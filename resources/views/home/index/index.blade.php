@@ -743,8 +743,6 @@
 
 @endsection
 @section('script')
-<script>
-    alert($.cookie('Remember_user'));
-</script>
+
 @endsection
 

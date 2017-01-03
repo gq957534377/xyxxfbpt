@@ -13,7 +13,7 @@
       <!--我的投稿 已发表开始-->
       <!--导航开始-->
       <div class="tab-info-top col-xs-12 col-sm-9 col-md-9 col-lg-10 pad-clr">
-        <a id="contribute" class="hidden-xs" href="/send?status=5">&nbsp;&nbsp;投稿&nbsp;&nbsp;<span class="triangle-down left-2"></span></a>
+        <a id="contribute" class="hidden-xs selected" href="/send?status=5">&nbsp;&nbsp;投稿&nbsp;&nbsp;<span class="triangle-down left-2"></span></a>
         <a class="pad-tab-top-info-xs" href="/send?status=2">审核中({{ $TypeDataNum['releaseNum'] or 0 }})<span class="triangle-down left-2"></span></a>
         <a class="pad-tab-top-info-xs" href="/send?status=1">已发表({{ $TypeDataNum['trailNum'] or 0 }})<span class="triangle-down left-2"></span></a>
         <a class="pad-tab-top-info-xs" href="/send?status=3">已退稿({{ $TypeDataNum['notNum'] or 0 }})<span class="triangle-down left-2"></span></a>
