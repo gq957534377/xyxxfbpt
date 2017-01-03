@@ -183,14 +183,14 @@ class Common {
     public static function getToken()
     {
         // 需要填写你的 Access Key 和 Secret Key
-        $accessKey = 'VsAP-hK_hVPKiq5CQcoxWNhBT9ZpZ1Ii4z3O_W51';
-        $secretKey = '5dqfmvL15DFoAK1QzaVF2TwVzwJllOF8K4Puf1Po';
+        $accessKey = 'c_M1yo7k90djYAgDst93NM3hLOz1XqYIKYhaNJZ4';
+        $secretKey = 'Gb2K_HZbepbu-A45y646sP1NNZF3AqzY_w680d5h';
 
         // 构建鉴权对象
         $auth = new Auth($accessKey, $secretKey);
 
         // 要上传的空间
-        $bucket = 'jacklin';
+        $bucket = 'yingxionghui';
 
         // 生成上传 Token
         $token = $auth->uploadToken($bucket);
@@ -214,7 +214,7 @@ class Common {
 
         // 调用 UploadManager 的 putFile 方法进行文件的上传
         list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
-        $res = ['status' => true, 'url'=> 'http://ogd29n56i.bkt.clouddn.com/'.$key];
+        $res = ['status' => true, 'url'=> 'http://oj6lmh2uo.bkt.clouddn.com/'.$key];
 
         if (!$err==null) return ['status' => false, 'msg' => $err];
 
