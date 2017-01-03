@@ -10,15 +10,27 @@
         <img src="{{ asset('home/img/demoimg/dd.jpg') }}">
     </section>
     <!---类型选择层开始---->
-    <section class="container-fluid rodeing-type">
-        <ul class="row">
-            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a class="@if($type == 1) active @endif"
-                                                               href="school?type=1">企业管理</a></li>
-            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a class="@if($type == 2) active @endif"
-                                                               href="school?type=2">资金管理</a></li>
-            <li class='col-lg-1 col-md-1 col-sm-1 col-xs-2'><a class="@if($type == 3) active @endif"
-                                                               href="school?type=3">人才管理</a></li>
+    <section class="container mar-b10">
+
+        <div class="nav-status-bar col-xs-12 pad-clr">
+            @if($type == 1)
+                <span>路演活动</span>
+                <span class="pull-right">路演活动</span>
+            @elseif($type == 2)
+                <span>创业大赛</span>
+                <span class="pull-right">创业大赛</span>
+            @endif
+            <span class="pull-right">＞</span>
+            <span class="pull-right">活动</span>
+            <div></div>
+        </div>
+
+        <ul class="nav-status-bar-type col-xs-12 pad-clr">
+            <li @if($status == 204)class="nav-status-bar-type-active" @endif><a href="school?type=1">企业管理</a></li>
+            <li @if($status == 1)class="nav-status-bar-type-active" @endif><a href="school?type=2">资金管理</a></li>
+            <li @if($status == 5)class="nav-status-bar-type-active" @endif><a href="school?type=3">人才管理</a></li>
         </ul>
+
     </section>
     <!---类型选择层结束---->
     <!---内容层开始---->

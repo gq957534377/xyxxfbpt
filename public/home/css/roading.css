@@ -4,6 +4,7 @@
   position: relative;
 }
 .nav-status-bar > span {
+  margin-top: 5px;
   line-height: 42px;
   font-size: 16px;
   color: #8f8f8f;
