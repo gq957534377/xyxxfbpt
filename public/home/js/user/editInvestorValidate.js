@@ -78,6 +78,7 @@
                             case '200':
                                 $(".loading").hide();
                                 alert('提示,'+data.ResultData);
+                                window.location.href = '/user/'+ $("#topAvatar").data('id');
                                 break;
                         }
                     }

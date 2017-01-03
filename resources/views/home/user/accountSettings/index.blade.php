@@ -548,7 +548,18 @@
                         $('.tel-step-three + div').addClass('hidden');
                         $('.tel-step-four').removeClass('hidden');
                         $('.tel-step-four + div').removeClass('hidden');
-                        window.location.href = '/logout';
+                        swal({
+                                title: '提示', // 标题，自定
+                                text: '手机绑定成功，准备重新登录...',   // 内容，自定
+                                type: "success",    // 类型，分别为error、warning、success，以及info
+                                showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                            },
+                            function (isConfirm) {
+                                swal('提示', msg.ResultData, "success");
+                                $(".userInfoReset").click();
+                                window.location.href = '/logout';
+                            });
                     } else {
                         $('#errorBox3').html(msg.ResultData).removeClass('hidden');
                     }
@@ -670,6 +681,18 @@
                         $('.email-step-two + div').addClass('hidden');
                         $('.email-step-three').removeClass('hidden');
                         $('.email-step-three + div').removeClass('hidden');
+                        swal({
+                                title: '提示', // 标题，自定
+                                text: '邮箱邦定成功，准备重新登录...',   // 内容，自定
+                                type: "success",    // 类型，分别为error、warning、success，以及info
+                                showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                            },
+                            function (isConfirm) {
+                                swal('提示', msg.ResultData, "success");
+                                $(".userInfoReset").click();
+                                window.location.href = '/logout';
+                            });
                     } else {
                         $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
 
@@ -775,7 +798,18 @@
                         $('.key-step-one + div').addClass('hidden');
                         $('.key-step-two').removeClass('hidden');
                         $('.key-step-two + div').removeClass('hidden');
-                        window.location.href = '/logout';
+                        swal({
+                                title: '提示', // 标题，自定
+                                text: '密码修改成功，准备重新登录...',   // 内容，自定
+                                type: "success",    // 类型，分别为error、warning、success，以及info
+                                showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                            },
+                            function (isConfirm) {
+                                swal('提示', msg.ResultData, "success");
+                                $(".userInfoReset").click();
+                                window.location.href = '/logout';
+                            });
                     } else {
                         $("#errorPasswordBox_one").html(msg.ResultData).removeClass('hidden');
                     }
@@ -885,7 +919,7 @@
                 if (countdown == 0) {
                     obj.show();
                     objLabel.addClass('hidden');
-                    countdown = 10;
+                    countdown = 60;
                     return;
                 } else {
                     obj.hide();

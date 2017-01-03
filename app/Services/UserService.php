@@ -159,11 +159,6 @@ class UserService {
         // 返回真，用户存在
         if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
 
-        // 进行检验手机号是否唯一
-        $result = self::$userStore->getOneData(['tel' => $data['tel']]);
-        // 返回真，用户存在
-        if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
-
         // 返回假，添加数据，先对数据提纯
         $data['guid'] = Common::getUuid();
         $data['password'] = Common::cryptString($data['tel'], $data['password'], 'hero');
@@ -209,11 +204,6 @@ class UserService {
     {
         // 检验用户是否被注册
         $result = self::$homeStore->getOneData(['email' => $data['email']]);
-        // 返回真，用户存在
-        if($result) return ['status' => '400','msg' => '用户已存在！'];
-
-        // 进行检验手机号是否唯一
-        $result = self::$userStore->getOneData(['tel' => $data['phone']]);
         // 返回真，用户存在
         if($result) return ['status' => '400','msg' => '用户已存在！'];
 
@@ -290,7 +280,6 @@ class UserService {
 
         // 返回真，再进行账号状态判断
         if($temp->status == '2') return ['StatusCode' => '400','ResultData' => '账号已被禁用，请紧快与客服联系！'];
-        if($temp->status != '1') return ['StatusCode' => '400','ResultData' => '账号存在异常，已锁定，请紧快与客服联系！'];
 
         // 数据提纯
         unset($temp->password);
@@ -317,8 +306,6 @@ class UserService {
                 return ['StatusCode' => '400','ResultData' => '账号异常，请联系管理员！'];
             }
         }
-        // 获取用户相关角色信息
-        self::$userRoleServer->getRoleInfo($userInfo->guid);
 
         //获取角色状态
         $temp->role = $userInfo->role;
@@ -540,6 +527,8 @@ class UserService {
         $info = self::$userStore->updateUserInfo($where, $data);
 
         if(!$info) return ['StatusCode' => '400','ResultData' => '修改失败，您并没有做什么修改！'];
+
+        session('user')->nickname = $data['nickname'];
 
         return ['StatusCode' => '200','ResultData' => '更新成功!'];
     }

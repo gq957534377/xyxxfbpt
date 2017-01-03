@@ -102,6 +102,7 @@ $(document).ready(function () {
                 case '200':
                     $(".loading").hide();
                     user_nickname.html($('input[name="nickname"]').val());
+                    $("#nicknameBox").html($('input[name="nickname"]').val());
 
                     swal({
                             title: '提示', // 标题，自定
