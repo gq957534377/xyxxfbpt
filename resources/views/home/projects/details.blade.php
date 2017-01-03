@@ -127,18 +127,18 @@
                                 {{--@endif--}}
                             {{--</span>--}}
                         </div>
-                        <div class="row csrxx-2">
-                            <span class="col-lg-12 col-md-12 col-sm-12">杭州糖礼记科技信息有限公司 | @if($project_details->userInfo->role == 2)
-                                    创业者
-                                @elseif($project_details->userInfo->role == 3)
-                                    投资者
-                                @endif</span>
-                        </div>
-                        <div class="row csrxx-3">
-                            <p class="col-lg-12 col-md-12 col-sm-12">
-                                牛津大学数学系本科、硕士毕业，帝国理工大学金融系硕士，毕业后就职于美银美林，2010年回国后分别任职于中信证券、中德证券、十年投融资经验，专注于TMT和金融行业
-                            </p>
-                        </div>
+                        {{--<div class="row csrxx-2">--}}
+                            {{--<span class="col-lg-12 col-md-12 col-sm-12">杭州糖礼记科技信息有限公司 | @if($project_details->userInfo->role == 2)--}}
+                                    {{--创业者--}}
+                                {{--@elseif($project_details->userInfo->role == 3)--}}
+                                    {{--投资者--}}
+                                {{--@endif</span>--}}
+                        {{--</div>--}}
+                        {{--<div class="row csrxx-3">--}}
+                            {{--<p class="col-lg-12 col-md-12 col-sm-12">--}}
+                                {{--牛津大学数学系本科、硕士毕业，帝国理工大学金融系硕士，毕业后就职于美银美林，2010年回国后分别任职于中信证券、中德证券、十年投融资经验，专注于TMT和金融行业--}}
+                            {{--</p>--}}
+                        {{--</div>--}}
                     </div>
                 </li>
                 <li class="row content-row-left-title">
