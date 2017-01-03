@@ -81,10 +81,10 @@ var fpageClick = function(){
 
             //绘制待审核表格
             creatTable(data);
-
+            $("#unchecked_table").parent().children('ul').remove();
             $("#unchecked_table").parent().append(res.pages);
             $('.pagination li a').click(fpageClick);
-
+            $("#unchecked_table").parent().children('ul').css({'float':'right','margin-right':'120px'});
 
             //通过按钮
             $('.btn_yes').click(function(){
@@ -128,13 +128,16 @@ $(function(){
         success:function(data){
             $('.loading').hide();
 
-            if (data.StatusCode == '400') return '暂时没有数据哦';
+            if (data.StatusCode == '400') {
+                $("#unchecked_table tbody").append("<tr><td>暂无数据哦，亲O(∩_∩)O~</td></tr>");
+                return ;
+            }
 
             creatTable(data.ResultData);
 
             $("#unchecked_table").parent().append(data.pages);
             $('.pagination li a').click(fpageClick);
-
+            $("#unchecked_table").parent().children('ul').css({'float':'right','margin-right':'120px'});
 
             //通过按钮
             $('.btn_yes').click(function(){

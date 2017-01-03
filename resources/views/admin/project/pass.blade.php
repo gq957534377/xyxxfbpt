@@ -9,7 +9,6 @@
         .unchecked_table td{max-width:200px;overflow: hidden;}
         .unchecked_table button{font-size: 10px;}
         .loading{z-index:999;position:absolute;display: none;}
-        .unchecked_img{width:100%}
     </style>
 @endsection
 
