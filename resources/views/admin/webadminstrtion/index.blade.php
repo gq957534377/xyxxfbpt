@@ -46,27 +46,27 @@
     </div>
 
     <div class="row col-sm-12">
-    <div class="col-sm-6 add-picture pull-right" hidden>
-        <div class="panel">
-            <div class="panel-body">
-                <div class="media-main">
-                    <input type="hidden" name="investor_card_pic">
-                    <a class="pull-left" href="#">
-                        <div id="crop-avatar3">
-                            <div class="avatar-view" title="">
-                                <img id="headpic" class="thumb-lg" src="{{ asset('/admin/images/jiahao.jpg') }}" alt="Avatar"/>
+        <div class="col-sm-6 add-picture pull-right" hidden>
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="media-main">
+                        <input type="hidden" name="investor_card_pic">
+                        <a class="pull-left" href="#">
+                            <div id="crop-avatar3">
+                                <div class="avatar-view" title="">
+                                    <button id="headpic" class="thumb-lg" src="{{ asset('/admin/images/jiahao.jpg') }}" alt="Avatar"></button>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="info">
-                    <h4>添加图片</h4>
-                    <p class="text-muted"></p>
-                </div>
-                <div class="clearfix"></div>
-            </div> <!-- panel-body -->
-        </div> <!-- panel -->
-    </div> <!-- end col -->
+                        </a>
+                    </div>
+                    <div class="info">
+                        <h4>添加图片</h4>
+                        <p class="text-muted"></p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div> <!-- panel-body -->
+            </div> <!-- panel -->
+        </div> <!-- end col -->
     </div>
 
     <div id="custom-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
