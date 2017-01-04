@@ -132,7 +132,7 @@ $(document).ready(function () {
     $(".toTheProject").click(function(){
         ajax.ajax({
             type: 'GET',
-            url: '/user/myproject',
+            url: '/user/myProject',
             beforeSend: ajaxBeforeSend($('.loading')),
             success: function (msg) {
                 switch (msg.StatusCode) {
@@ -141,7 +141,7 @@ $(document).ready(function () {
                         swal('警告', msg.ResultData, "warning");
                         break;
                     case '200':
-                          window.location.href = '/myProject';
+                          window.location.href = '/user/myProject';
                         break;
                 }
 
@@ -149,4 +149,5 @@ $(document).ready(function () {
             }
         });
     });
+
 });

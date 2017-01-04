@@ -121,6 +121,9 @@
 #card_upload {
     display: none;
 }
+.scaleSuffix {
+    line-height: 34px;
+}
 
 @media (max-width: 767px) {
     /*我是创业者*/

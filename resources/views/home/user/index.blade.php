@@ -162,7 +162,7 @@
         <!--投资者认证 未认证 和 审核中-->
         <div class="col-xs-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min
                         @if(empty($roleInfo[3]))
-                            {{ ( $userInfo->role == 23 || $userInfo->role == 3) ? 'hidden' : ''}}
+                            {{ ( $userInfo->role == 23 || $userInfo->role == 3) ? 'hidden' : '' }}
                         @else
                             hidden
                         @endif
@@ -179,7 +179,7 @@
 
         <!--投资者认证通过 开始-->
         @if(!empty($roleInfo[3]))
-        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ !empty($roleInfo[2]) ? '' : 'hidden'}}">
+        <div class="col-xs-12 col-sm-12 col-md-12 pad-clr b-all-3 bgc-0 my-home-info my-home-min {{ !empty($roleInfo[3]) ? '' : 'hidden'}}">
             <h4 class="col-xs-12 pad-clr my-home-title">投资者认证
                 @if($roleInfo[3]->status == 5 )
                     <span class="label label-warning"> 待审核 </span>
