@@ -178,6 +178,9 @@ class UserService {
             return ['status' => '500', 'msg' => '数据写入失败！'];
         };
 
+//        $countUsers = self::$userStore->countUsers();
+//        $nickname = '网站第'.($countUsers+1).'位成员';
+
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
         $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
 

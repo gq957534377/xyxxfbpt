@@ -41,8 +41,8 @@
                 <p class="mar-cb"><a href="{{ route('commentlike') }}">评论</a></p>
             </div>
             <div class="b-all-3 bgc-0">
-                <p>999</p>
-                <p class="mar-cb"><a href="">项目</a></p>
+                <p>{{ isset($countProjects) ? $countProjects : 0 }}</p>
+                <p class="mar-cb"><a href="javascript:void(0);" class="toTheProject">项目</a></p>
             </div>
         </div>
         <!--基本信息结束-->
