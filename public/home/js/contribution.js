@@ -152,10 +152,10 @@ var messages    = {
     },
     source: {
         required: '来源不能为空',
-        maxlength: '来源最大长度为80个字符',
+        maxlength: '来源最大长度为80个字符'
     },
     verif_code: {
-        required: '验证码能为空',
+        required: '验证码不能为空',
         maxlength: '验证码最大长度为10'
     },
 };
@@ -211,8 +211,17 @@ var messages    = {
                                 swal('警告' + data.ResultData);
                                 break;
                             case '200':
-                                swal('插入成功');
-                                window.open('/send/1?title=' + title + '&brief=' + brief + '&describe=' + describe + '&source=' + source + '&verif_code=' + verif_code + '&src=' + src);
+                                swal({
+                                    title: '通知',
+                                    text: "保存成功!",
+                                    type: "success",
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#0f0',
+                                    confirmButtonText: "确定！"
+                                }, function(){
+                                    window.location.href="/send?status=2";
+                                });
+
                                 break;
                             case '200.1':
                                 newWin("/send/" + data.ResultData, 'liulan1');

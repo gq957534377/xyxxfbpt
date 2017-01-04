@@ -33,7 +33,7 @@
                     </ul>
                 </li>
                 <li class="hidden-xs"></li>
-                <li class=""><a href="/article?type=1">市场咨询</a></li>
+                <li class=""><a href="/article?type=1">市场资讯</a></li>
                 <li class="hidden-xs"></li>
                 <li class=""><a href="/article?type=2">创业政策</a></li>
                 <li class="hidden-xs"></li>

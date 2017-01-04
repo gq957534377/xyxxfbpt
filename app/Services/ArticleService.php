@@ -15,7 +15,7 @@ use App\Store\LikeStore;
 use App\Tools\Common;
 use App\Services\UserService as UserServer;
 use App\Tools\CustomPage;
-use Illuminate\Support\Facades\Log;
+
 
 class ArticleService
 {
@@ -316,6 +316,7 @@ class ArticleService
     public function addArticle($data)
     {
         unset($data['verif_code']);
+        // 判断是否为修改文稿内容
         if (!empty($data['write'])) {
             $guid = $data['write'];
             unset($data['write']);
@@ -340,7 +341,7 @@ class ArticleService
         $result = self::$articleStore->insertData($data);
 
         //判断插入是否成功，并返回结果
-        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => $result];
+        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => '保存成功'];
         return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
     }
 
@@ -421,6 +422,26 @@ class ArticleService
 
         // 获取文章数据
         $result = self::$articleStore->takeArticles(['type' => '1', 'status' => $status], $take);
+
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $result];
+    }
+
+    /**
+     * 获取四条随机文章，根据给定条件
+     * @param $type
+     * @param int $take
+     * @param int $status
+     * @return array
+     * @author 王通
+     */
+    public function getRandomArticles($type, $take = 4, $status = 1)
+    {
+        if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
+        $start = self::$articleStore->getCount(['type' => $type, 'status' => $status]);
+        // 获取文章数据
+        $result = self::$articleStore->RandomArticles(['type' => $type, 'status' => $status], $take, rand(1, $start - $take));
 
         if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 

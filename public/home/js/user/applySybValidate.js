@@ -139,7 +139,8 @@
                 syb_realname: {
                     required: true,
                     chinese: true,
-                    minlength: 2
+                    minlength: 2,
+                    maxlength: 16
                 },
                 syb_card_a: {
                     required: true,
@@ -180,7 +181,8 @@
             messages: {
                 syb_realname: {
                     required: "请填写您的真实姓名！",
-                    minlength : "最少两位"
+                    minlength : "最少两位",
+                    maxlength : "最长16位"
                 },
                 syb_card_a: {
                     required: "请上传身份证证件照正面"

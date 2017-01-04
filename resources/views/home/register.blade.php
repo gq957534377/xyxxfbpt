@@ -9,6 +9,7 @@
 @section('style')
 <link rel="stylesheet" href="{{ asset('home/css/base.css') }}">
 <link rel="stylesheet" href="{{ asset('home/css/register.css') }}">
+<link href="{{ asset('home/css/sweet-alert.min.css') }}" rel="stylesheet">
 @endsection
 
 
@@ -34,7 +35,7 @@
                 </ul>
                 <div class="input_block_2">
                     <span>
-                      点击“立即注册”，即表示您同意并愿意遵守<a href="#">注册用户协议</a>
+                      点击“立即注册”，表示您同意并愿意遵守<a href="#">注册用户协议</a>
                     </span>
                 </div>
                 <div class="btn_block">
@@ -49,5 +50,6 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('home/js/sweet-alert.min.js') }}"></script>
     <script src="{{ asset('home/js/registerValidate.js') }}"></script>
 @endsection

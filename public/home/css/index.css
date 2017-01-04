@@ -872,6 +872,8 @@ body .change-row-margin{
 #section7{
 	border-top: 1px solid #d1d1d1;
 	margin: 34px auto;
+	max-width: 1200px;
+	width: 100%;
 }
 #section7 >h2{
 	width: 182px;
@@ -983,7 +985,6 @@ body .change-row-margin{
 }
 body> a,body>.container-fluid a:hover,body >.container-fluid a:focus{
 	text-decoration:none ;
-	color: #FF9036;
 }
 #section1 .new_a:hover .new_p{
 	color: #9a9899;

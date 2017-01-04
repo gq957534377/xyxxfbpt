@@ -254,7 +254,7 @@
                     <div class="kuang">
 
                         @if(session('user'))
-                            @if(session('user')->role == 3||session('user')->guid == $project_details->user_guid)
+                            @if(session('user')->role == 23||session('user')->role == 3||session('user')->guid == $project_details->user_guid)
                                 <a class="projectZiliao" href="{{ $project_details->file }}">项目详细资料</a>
                             @else
                                 <div class="gdxx-content"> <a href="{{ url('/user').'/'.session('user')->guid }}" style="display: block;height: 100%;width: 100%;"></a></div>

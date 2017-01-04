@@ -76,9 +76,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 关于我们
-    Route::get('/about', function () {
-        return view('home.about.index');
-    });
+    Route::get('/about','HomeController@aboutWe');
     // 验证码
     Route::get('/code/captcha/{tmp}', 'LoginController@captcha');
     // 前台登录页
@@ -135,6 +133,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::post('/user/commentandlike','UserController@getLike')->name('getLike');
         //我的项目
         Route::get('/user/myProject','UserController@myProject');
+        Route::get('/user/realname/{guid}','UserController@getRealName');
         Route::resource('/user','UserController');
         // 前台登出
         Route::get('/logout','LoginController@logout');

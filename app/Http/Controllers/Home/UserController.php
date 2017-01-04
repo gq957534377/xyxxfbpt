@@ -118,9 +118,13 @@ class UserController extends Controller
         // 获取用户相关角色信息
         $roleInfo = self::$userRoleServer->getRoleInfo($id);
 
+        // 获取用户的项目
+        $countProjects =self::$projectServer->getCount(['guid' => $id]);
+
         return view('home.user.index', [
-            'userInfo'   => $info['ResultData'],
-            'roleInfo'   => $roleInfo,
+            'userInfo'     => $info['ResultData'],
+            'roleInfo'     => $roleInfo,
+            'countProject' => $countProjects,
         ]);
     }
 
@@ -374,7 +378,6 @@ class UserController extends Controller
             break;
         }
 
-
     }
 
     /**
@@ -387,7 +390,9 @@ class UserController extends Controller
     {
         if (isset($request->phone)) {
             // 发送短信
-            return response()->json(['StatusCode' => '200', 'ResultData' => 'OK']);
+            $info = self::$userServer->sendSmsCode($request->phone);
+
+            return response()->json($info);
         }
 
         if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
@@ -480,8 +485,8 @@ class UserController extends Controller
         $user_guid = session('user')->guid;
         $role = session('user')->role;
 
-        if($role == 1) {
-            return redirect(route('user.show',$user_guid));
+        if($role == 1 || $role == 3) {
+            return redirect(route('user.show',$user_guid))->with(['errorNumber' => '403']);
         }
 
         $where = ['user_guid' => $user_guid];
@@ -507,5 +512,21 @@ class UserController extends Controller
 
         $result = self::$projectServer->getData($nowPage, $pageNum,$where);
         return view('home.user.myProject', ['data' => $result['ResultData'], 'pageView'=>$pageView]);
+    }
+
+    /**
+     * 获取用户真实姓名
+     * @param $guid
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
+    public function getRealName($guid)
+    {
+        if (!isset($guid)) return response()->json(['StatusCode' => '400','ResultData' => '请求参数缺失']);
+
+        $result = self::$userServer->userInfo(['guid' => $guid]);
+
+        return response()->json($result);
+
     }
 }

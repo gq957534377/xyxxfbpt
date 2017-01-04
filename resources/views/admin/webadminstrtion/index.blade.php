@@ -6,7 +6,7 @@
 
 @endsection
 @section('content')
-@section('title', '活动管理')
+@section('title', '网站管理')
 {{-- 弹出表单开始 --}}
 <!--继承组件-->
 <!--替换按钮ID-->
@@ -54,7 +54,7 @@
             </div> <!-- panel-body -->
         </div> <!-- end col -->
     </div>
-    <div id="margin_data" style="position: relative;">
+    <div id="margin_data" style="">
         {{--<img src="{{ asset('admin/images/load.gif') }}" class="loading">--}}
         <div id="data"></div>
     </div>

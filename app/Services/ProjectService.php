@@ -2,30 +2,25 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Request;
 use App\Store\ProjectStore;
-use App\Store\RoleStore;
 use App\Store\UserStore;
 use App\Tools\Common;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 
 class ProjectService {
     protected static $projectStore = null;
     protected static $userStore = null;
-    protected static $roleStore = null;
 
     /**
      * 构造函数注入
      * ProjectService constructor.
      *
      */
-    public function __construct(ProjectStore $projectStore, UserStore $userStore, RoleStore $roleStore)
-    {
+    public function __construct(
+        ProjectStore $projectStore,
+        UserStore $userStore
+   ){
         self::$projectStore = $projectStore;
         self::$userStore    = $userStore;
-        self::$roleStore    = $roleStore;
     }
 
     /**
@@ -128,21 +123,7 @@ class ProjectService {
 
 
     /**
-     * 获得某个用户的角色值
-     * @param $guid
-     * @return array
-     * @anthor 贾济林
-     */
-    public function getRole($guid)
-    {
-        $param = ['guid'=>$guid];
-        $data = self::$roleStore->getRole($param);
-        if (!$data) return ['status'=>false,'msg'=>'查询失败'];
-        $role = $data->role;
-        return ['status'=>true,'data'=>$role];
-    }
-
-    /**
+     * 取出详情数据
      * @param string $id 项目guid
      * @return array
      * author 张洵之
@@ -181,25 +162,32 @@ class ProjectService {
      */
     public function updateData($data,$where)
     {
-        //重新提交后，将status改为1
-        $data['status'] = 1;
-
+        //重新提交后，将status改为0
+        $data['status'] = 0;
+        $data['changetime'] = time();
         $res = self::$projectStore->update($where,$data);
-        if ($res==0) return ['status'=>false,'msg'=>'更新失败'];
-        return ['status'=>true,'msg'=>'更新成功'];
+
+        if ($res==0) return ['StatusCode' => '400', 'ResultData' => '更新失败'];
+
+        return ['StatusCode' => '200', 'ResultData' => '更新成功'];
     }
 
     /**
-     * 修改个人项目启用禁用
+     * 软删除某个项目
      * @param $where
      * @param $data
      * @return array
+     * @author 张洵之
      */
-    public function changeAble($where,$data)
+    public function deletProject($where)
     {
+        $data['status'] = 3;
+        $data['changetime'] = time();
         $res = self::$projectStore->update($where,$data);
-        if ($res==0) return ['status'=>false,'msg'=>'修改失败'];
-        return ['status'=>true,'msg'=>'修改成功'];
+
+        if ($res==0) return ['StatusCode' => '400', 'ResultData' => '删除失败'];
+
+        return ['StatusCode' => '200', 'ResultData' => '删除成功'];
     }
 
     /**
@@ -218,7 +206,7 @@ class ProjectService {
 
         if($result) return ['StatusCode' => '200', 'ResultData' => '添加成功'];
 
-        ['StatusCode' => '400', 'ResultData' => '项目添加失败'];
+        return ['StatusCode' => '400', 'ResultData' => '项目添加失败'];
     }
 
     /**
@@ -240,10 +228,42 @@ class ProjectService {
         return $arr;
     }
 
+    /**
+     * 返回条件下的项目数量
+     * @param $where
+     * @return mixed
+     * author 张洵之
+     */
     public function getCount($where)
     {
         $result = self::$projectStore->getCount($where);
 
         return $result;
+    }
+
+    /**
+     * 返回一条数据
+     * @param $where
+     * @return array
+     * author 张洵之
+     */
+    public function getOneData($where)
+    {
+        $result = self::$projectStore->getOneData($where);
+
+        if(empty($result)) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        $result -> ex = $this->openData(
+            $result->project_experience,
+            '*zxz*',
+            ':::'
+        );
+        $result -> person =$this->openData(
+            $result->team_member,
+            '*zxz*',
+            '!,/'
+        );
+
+        return ['StatusCode' => '200', 'ResultData' => $result];
     }
 }

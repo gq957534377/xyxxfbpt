@@ -64,6 +64,7 @@
 
 @endsection
 @section('script')
+    <script src="{{ asset('home/js/sweet-alert.min.js') }}"></script>
     <script src="{{asset('admin/js/sweet-alert.init.js')}}"></script>
   <script>
       // 手机号验证规则

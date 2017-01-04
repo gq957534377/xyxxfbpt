@@ -11,7 +11,7 @@
                 <div class="modal-body">
                     <div class="avatar-body">
                         <div class="avatar-upload">
-                            {{--<input class="avatar-scale" name="avatar-scale" value="1.6" type="hidden">--}}
+                            <input class="avatar-scale" name="avatar-scale" value="1.6" type="hidden">
                             <input class="avatar-src" name="avatar_src" type="hidden">
                             <input class="avatar-data" name="avatar_data" type="hidden">
                             <label for="avatarInput">图片上传</label>
