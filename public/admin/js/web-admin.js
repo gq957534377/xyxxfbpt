@@ -10,12 +10,12 @@ $('.status1').off('click').on('click', function () {
             $('.avatar-scale').val('1');
             break;
         case 2:
-            $('.avatar-scale').val(224/153);
+            $('.avatar-scale').val(225/140);
             $('.organiz-type').val(status);
             $('#crop-avatar3 button').html('添加合作机构');
             break;
         case 3:
-            $('.avatar-scale').val(224/153);
+            $('.avatar-scale').val(225/140);
             $('.organiz-type').val(status);
             $('#crop-avatar3 button').html('添加投资机构');
             break;
