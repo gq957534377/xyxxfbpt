@@ -216,7 +216,7 @@ var messages    = {
                                     text: "保存成功!",
                                     type: "success",
                                     showCancelButton: true,
-                                    confirmButtonColor: "#0f0",
+                                    confirmButtonColor: '#0f0',
                                     confirmButtonText: "确定！"
                                 }, function(){
                                     window.location.href="/send?status=2";
