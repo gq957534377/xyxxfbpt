@@ -100,30 +100,16 @@
                 <h2>你可能感兴趣的文章</h2>
               </div>
               <ul class="row news-list">
-                <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-                  <div class="news-list-time">
-                    <span>两分钟前</span>
-                  </div>
-                </li>
-                <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-                  <div class="news-list-time">
-                    <span>两分钟前</span>
-                  </div>
-                </li>
-                <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-                  <div class="news-list-time">
-                    <span>两分钟前</span>
-                  </div>
-                </li>
-                <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-                  <div class="news-list-time">
-                    <span>两分钟前</span>
-                  </div>
-                </li>
+                  @if(!empty($StatusCode) && $StatusCode == '200' && $RandomList['StatusCode'] == '200')
+                      @foreach($RandomList['ResultData'] as $key => $val)
+                          <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>
+                              <div class="news-list-time">
+                                  <span>{{ date('Y-m-d', $val->addtime) }}</span>
+                              </div>
+                          </li>
+                      @endforeach
+                  @endif
               </ul>
 
             </div>
