@@ -211,8 +211,17 @@ var messages    = {
                                 swal('警告' + data.ResultData);
                                 break;
                             case '200':
-                                swal('插入成功');
-                                window.open('/send/1?title=' + title + '&brief=' + brief + '&describe=' + describe + '&source=' + source + '&verif_code=' + verif_code + '&src=' + src);
+                                swal({
+                                    title: '通知',
+                                    text: "保存成功!",
+                                    type: "success",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#0f0",
+                                    confirmButtonText: "确定！"
+                                }, function(){
+                                    window.location.href="/send?status=2";
+                                });
+
                                 break;
                             case '200.1':
                                 newWin("/send/" + data.ResultData, 'liulan1');
