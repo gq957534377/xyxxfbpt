@@ -132,13 +132,13 @@
                                 <input type="text" class="form-control form-title" id="captcha" placeholder="输入验证码">
                             </div>
                             <label for="captcha" id="resend_captcha_label" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
-                            <div class="col-sm-3 control-label line-h-1">
-                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha">发送</button>
+                            <div class="col-sm-3 control-label line-h-1" id="resend_captcha">
+                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" >发送</button>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer border-no h-align-1">
-                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="step_one">下一步</button>
+                    <div class="modal-footer border-no h-align-1" id="step_one">
+                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" >下一步</button>
                         <button type="button" class="btn btn-default tel_btn_reset" data-dismiss="modal">取消</button>
                         {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
@@ -182,8 +182,8 @@
                             </label>
                         </div>
                     </div>
-                    <div class="modal-footer border-no h-align-1 hidden">
-                        <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_two">下一步</button>
+                    <div class="modal-footer border-no h-align-1 hidden"  id="step_two">
+                        <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" >下一步</button>
                         <button type="button" class="btn btn-default" id="tel_return">返回</button>
                         <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
                     </div>
@@ -222,13 +222,13 @@
                                 <input type="text" class="form-control form-title" id="captcha_two" placeholder="验证码">
                             </div>
                             <label id="resend_captcha_laravel_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
-                            <div class="col-sm-3 control-label line-h-1">
-                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_two">重新发送</button>
+                            <div class="col-sm-3 control-label line-h-1" id="resend_captcha_two">
+                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" >重新发送</button>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
-                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_three">下一步</button>
+                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs pull-left"  id="step_three">下一步</button>
                         <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
                         {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
@@ -494,6 +494,8 @@
                 function stepTwo (msg)
                 {
                     if (msg.StatusCode == '200') {
+                        $('#sendSmsSuccessTwo').removeClass('hidden');
+                        setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
                         $("#newSmsBox").text(msg.ResultData);
                         $('.tel-step-two').addClass('hidden');
                         $('.tel-step-two + div').addClass('hidden');
@@ -688,7 +690,6 @@
                             function (isConfirm) {
                                 swal('提示', msg.ResultData, "success");
                                 $(".userInfoReset").click();
-                                window.location.href = '/logout';
                             });
                     } else {
                         $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');

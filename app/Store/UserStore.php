@@ -64,44 +64,6 @@ class UserStore
 
     }
 
-    /**
-     * 获取分页数据
-     * @param array $condition
-     * @return mixed
-     * @author 王飞龙
-     */
-    public function getUsersData($nowPage, $condition = [])
-    {
-        if(empty($nowPage)) return false;
-        // 检验条件是否存在
-        if(empty($condition)) DB::table(self::$table)->forPage($nowPage, PAGENUM)->get();
-        // 获取数据
-        return DB::table(self::$table)->where($condition)->forPage($nowPage, PAGENUM)->get();
-    }
-
-    /**
-     * 依条件获取记录条数
-     * @param $condition
-     * @return mixed
-     * @author 王飞龙
-     */
-    function getUsersNumber($condition = [])
-    {
-        if(empty($condition)) return DB::table(self::$table)->count();
-        return DB::table(self::$table)->where($condition)->count();
-    }
-
-    /**
-     * 删除数据
-     * @param array $condition
-     * @return bool
-     * @author 王飞龙
-     */
-    function deleteData($condition = [])
-    {
-        if(empty($condition)) return false;
-        return DB::table(self::$table)->where($condition)->delete();
-    }
 
     /**
      * 获取分页数据

@@ -122,7 +122,7 @@ class ArticleStore
      * @return mixed
      * @author 王通
      */
-    public function getCount ($where)
+    public function getCount($where)
     {
         return DB::table(self::$table)
             ->where($where)
@@ -152,6 +152,22 @@ class ArticleStore
         return DB::table(self::$table)
             ->where($where)
             ->orderBy('addtime', 'desc')
+            ->take($number)
+            ->get();
+    }
+
+    /**
+     * 获取指定条数随机数据
+     * @param $where
+     * @param $number
+     * @return mixed
+     * @author 王通
+     */
+    public function RandomArticles($where, $number, $start)
+    {
+        return DB::table(self::$table)
+            ->where($where)
+            ->skip($start)
             ->take($number)
             ->get();
     }

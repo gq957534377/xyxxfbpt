@@ -150,6 +150,7 @@ class ProjectController extends Controller
     }
 
     /**
+     * 修改用户中心项目
      * @param Request $request
      * @param $id
      * @return mixed
@@ -177,11 +178,19 @@ class ProjectController extends Controller
     }
 
     /**
+     * 删除项目
      * @param $id
      * @return mixed
      */
     public function destroy($id)
     {
+        $project_id = $id;
+        $user_guid = session('user')->guid;
+
+        if (empty($user_guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '非法请求！']);
+
+        $result = self::$projectServer->deletProject(['guid' => $project_id, 'user_guid' => $user_guid]);
+        return response()->json($result);
     }
 
     /**

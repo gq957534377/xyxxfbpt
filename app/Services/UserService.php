@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Store\HomeStore;
 use App\Store\UserStore;
-use App\Store\RoleStore;
 use App\Store\CompanyStore as CompanyStore;
 use App\Services\UploadService as UploadServer;
 use App\Services\UserRoleService as UserRoleServer;
@@ -15,11 +14,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Mail;
 
-
 class UserService {
     protected static $homeStore = null;
     protected static $userStore = null;
-    protected static $roleStore = null;
     protected static $companyStore = null;
     protected static $uploadServer = null;
     protected static $userRoleServer = null;
@@ -28,19 +25,16 @@ class UserService {
      * UserService constructor.
      * @param HomeStore $homeStore
      * @param UserStore $userStore
-     * @param RoleStore $roleStore
      */
     public function __construct(
         HomeStore $homeStore,
         UserStore $userStore,
-        RoleStore $roleStore,
         CompanyStore $companyStore,
         UploadServer $uploadServer,
         UserRoleServer $userRoleServer
     ){
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
-        self::$roleStore = $roleStore;
         self::$companyStore = $companyStore;
         self::$uploadServer = $uploadServer;
         self::$userRoleServer = $userRoleServer;
@@ -62,88 +56,6 @@ class UserService {
         return ['StatusCode' => '200','ResultData' => $result];
     }
 
-    /**
-     * 获取申请角色信息
-     * @param $where
-     * @return array
-     * @author 刘峻廷
-     */
-    public function roleInfo($where, $model = null)
-    {
-        if (isset($model)) {
-            $result = self::$roleStore->getRole($where);
-
-            // 申请记录表有读取申请记录表，没有读取用户信息表
-            if (!$result) {
-                $result = self::$userStore->getOneData($where);
-            }
-        } else {
-            $result = self::$roleStore->getOneRoleDate($where);
-
-            // 申请记录表有读取申请记录表，没有读取用户信息表
-            if (!$result) {
-                $result = self::$userStore->getOneData($where);
-            }
-        }
-        //返回错误状态信息
-        if(!$result) return ['StatusCode' => '400', 'ResultData' => '没有找到'];
-        //返回数据
-        return  ['StatusCode' => '200', 'ResultData' => $result];
-    }
-    /**
-     * 根据当前用户的角色，查询不同的申请记录信息
-     * @param array $where  2 param guid role
-     * @author 刘峻廷
-     */
-    public function getRoleInfo($guid, $role)
-    {
-        if ($role == '23') {
-            $syb = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '2']);
-
-            if (!$syb) {
-                Log::error('角色23用户,创业者信息记录丢失', ['guid' => $guid]);
-                $syb = [];
-            }
-
-            $investor = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '3']);
-
-            if (!$investor) {
-                Log::error('角色23用户,投资者信息记录丢失', ['guid' => $guid]);
-                $investor = [];
-            }
-
-            return $roleInfo = [
-                    'syb'      => $syb,
-                    'investor' => $investor
-                ];
-        }
-        // 根据当前用户的角色，查询不同的申请记录信息
-        switch ($role) {
-            case '1' :
-                $result = self::$roleStore->getOneRoleDate(['guid' => $guid]);
-                break;
-            case '2' :
-                $result = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '3']);
-                break;
-            case '3' :
-                $result = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '2']);
-                break;
-        }
-
-        // 没有申请记录返回 false
-        if (!$result) return false;
-
-        switch ($result->role) {
-            case '2' :
-                $roleInfo = ['syb' => $result];
-                break;
-            case '3' :
-                $roleInfo = ['syb' => $result];
-                break;
-        }
-
-        return $roleInfo;
-    }
     /**
      * 注册用户
      * @param $data
@@ -178,12 +90,9 @@ class UserService {
             return ['status' => '500', 'msg' => '数据写入失败！'];
         };
 
-//        $countUsers = self::$userStore->countUsers();
-//        $nickname = '网站第'.($countUsers+1).'位成员';
-
+        $countUsers = self::$userStore->countUsers();
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
-        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
-
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg', 'addtime' => $data['addtime']]);
         if (!$userInfo) {
             Log::error('用户注册信息写入失败', $userInfo);
             DB::rollback();
@@ -383,7 +292,7 @@ class UserService {
             // 成功，保存信息到session里，为了下一次校验
             $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
             Session::put('sms',$arr);
-
+            Log::info(date('Y-m-d', $nowTime) . \Request::getClientIp() . '请求短信');
             return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];
         }else{
             $resp =  Common::sendSms($phone, $content, '奇立英雄会', 'SMS_34865398');
@@ -397,122 +306,6 @@ class UserService {
         }
     }
 
-    /**
-     * 获取符合请求的所有用户记录
-     * @param $data
-     * @return array|bool
-     * @author 王飞龙
-     */
-    public function getData($data)
-    {
-        if (isset($data['memeber'])) {
-
-            if (!isset($data['status'])) return ['status' => false, 'data' => '请求参数错误'];
-
-            if (!in_array($data['memeber'], ['1', '2', '3', '4', '5', '6'])) return ['status' => false, 'data' => '请求参数错误'];
-
-            // 当前页
-            $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-
-            //获取数据
-
-            $userData = self::$userStore->getUsersData($nowPage, ['memeber' => $data['memeber']]);
-            
-        } else {
-            //data中若有key为name的数据，则调用getOneData()
-            if (isset($data['name']))
-                return self::getOneData($data);
-
-            //进一步判断data中的数据
-            if(!isset($data['role']) || !isset($data['status']))
-                return ['status' => false, 'data' => '请求参数错误'];
-
-            // 1 普通用户 ；2 创业者 ；3 投资者
-            if(!in_array($data['role'], ['1', '2', '3', '4']))
-                return ['status' => false, 'data' => '请求参数错误'];
-
-            $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-
-            //获取数据
-            $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
-        }
-
-        
-        //对获取的数据做判断
-        if ($userData === false)
-            return ['status' => false, 'data' => '缺少分页信息，数据获取失败'];
-        if ($userData === [])
-            return ['status' => 'empty', 'data' => '没有查询到数据'];
-
-        //获取分页
-        $userPage = self::getPage($data, 'user/create');
-
-        //判断分页获取情况
-        if (!$userPage)
-            return ['status' => false, 'data' => '分页获取失败'];
-
-        //拼装数据，返回所需格式
-        $result = array_merge(['data'=> $userData], $userPage['data']);
-
-        //判断
-        if (!$result)
-            return ['status' => false, 'data' => '系统错误'];
-
-        //正确数据
-        return ['status' => true, 'data' => $result];
-    }
-
-    /**
-     * 获取分页
-     * @param $data
-     * @param $url
-     * @return array
-     * @author 王飞龙
-     */
-    private static function getPage($data, $url)
-    {
-
-        $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-
-        if (isset($data['memeber'])) {
-            $count = self::$userStore->getUsersNumber(['memeber' => $data['memeber'], 'status' => $data['status']]);
-        } else {
-            $count = self::$userStore
-                ->getUsersNumber(['role' => $data['role'], 'status' => $data['status']]);
-        }
-
-        $totalPage = ceil($count / PAGENUM);
-        $baseUrl   = url($url);
-
-        if($nowPage <= 0)
-            $nowPage = 1;
-        if($nowPage > $totalPage)
-            $nowPage = $totalPage;
-
-        return [
-            'status' => true,
-            'data' => [
-                'nowPage' => $nowPage,
-                'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl, null)
-            ]
-        ];
-    }
-
-    /**
-     * 获取一条用户信息
-     * @param $data
-     * @return array
-     * @Author wang fei long
-     */
-    public static function getOneData($data)
-    {
-        $result = self::$userStore->getOneData(['guid' => $data['name']]);
-
-        if (!$result)
-            return ['status' => false, 'data' => '系统错误'];
-
-        return ['status' => true, 'data' => $result];
-    }
 
     /**
      * 修改用户信息
@@ -558,31 +351,6 @@ class UserService {
         session('user')->headpic = $avatarName;
         return ['StatusCode' => '200','ResultData' => $avatarName];
 
-    }
-
-
-    /**
-     * 审核成功时修改多个数据表数据
-     * @param $data
-     * @param $id
-     * @return array
-     * @author 王飞龙
-     */
-    public function checkPass($data, $id){
-
-        //判断请求合法性
-        if (!isset($data['role']) || !isset($data['status']))
-            return ['status'=>true,'data'=>'请求参数错误！'];
-        //使用事务
-        $result = DB::transaction(function () use ($data, $id){
-            self::$roleStore->updateUserInfo(['guid' => $id], ['status' => $data['status']]);
-            self::$userStore->updateUserInfo(['guid' => $id], ['role' => $data['role']]);
-        });
-
-        if(!$result)
-            return ['status'=>true,'data'=>'修改成功！'];
-        else
-            return ['status'=>false,'data'=>'修改失败，请重试！'];
     }
 
     /**
@@ -711,14 +479,26 @@ class UserService {
      */
     public function changeTel($guid, $data)
     {
+        // 执行事务
+        \DB::beginTransaction();
+
         $result = self::$homeStore->updateData(['guid' => $guid], ['tel' => $data]);
 
         if (!$result) {
-            \Log::error('用户账号手机绑定修改失败', $data);
+            \Log::error('用户账号手机绑定修改失败', ['guid' => $guid, ['tel' => $data]]);
             return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
-        } else {
-            return ['StatusCode' => '200', 'ResultData' => '手机改绑成功，请重新登录!'];
         }
+
+        $result = self::$userStore->updateUserInfo(['guid' => $guid], ['tel' => $data]);
+
+        if (!$result) {
+            \Log::error('用户账号手机绑定，更新用户中心信息表失败', ['guid' => $guid], ['tel' => $data]);
+            \DB::rollback();
+            return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
+        }
+        \DB::commit();
+        return ['StatusCode' => '200', 'ResultData' => '手机改绑成功，请重新登录!'];
+
     }
 
     /**
