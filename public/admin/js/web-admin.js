@@ -173,8 +173,8 @@ function carouselHtml (data) {
         html += '<div class="panel">';
         html += '<div class="panel-body">';
         html += '<div class="media-main">';
-        html += '<a class="pull-left" href="#">';
-        html += '<img class="thumb-lg bx-s" src="'+ value.url +'" alt="" style="width: 250%;">';
+        html += '<a id="rollingpic" class="pull-left" href="#" style="width: 250px;">';
+        html += '<img class="thumb-lg bx-s" src="'+ value.url +'" alt="" style="width: 100%;">';
         html += '</a>';
         html += '<div class="pull-right btn-group-sm">';
 //                html += '<a href="" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">';
