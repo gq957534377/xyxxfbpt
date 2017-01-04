@@ -673,7 +673,9 @@
                     <h2>市场资讯</h2>
                 </li>
             </ul>
+
             <div id="yxzx" class="row">
+                @if(is_array($articles))
                 <ul class='col-sm-5 section6_right'>
                     @for($i = 0; $i < round(count($articles)/2); $i++)
                         <li>
@@ -690,6 +692,9 @@
                         </li>
                     @endfor
                 </ul>
+                @else
+                    {{ $articles }}
+                @endif
             </div>
         </section>
         <!----英雄社区与市场咨询结束----->
