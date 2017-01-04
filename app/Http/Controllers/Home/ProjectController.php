@@ -132,6 +132,7 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
+        empty(session('user')->guid) ;
 
     }
 
