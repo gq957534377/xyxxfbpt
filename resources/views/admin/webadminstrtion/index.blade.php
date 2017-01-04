@@ -6,7 +6,7 @@
 
 @endsection
 @section('content')
-@section('title', '活动管理')
+@section('title', '网站管理')
 {{-- 弹出表单开始 --}}
 <!--继承组件-->
 <!--替换按钮ID-->

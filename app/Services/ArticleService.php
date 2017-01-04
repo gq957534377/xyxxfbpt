@@ -316,6 +316,7 @@ class ArticleService
     public function addArticle($data)
     {
         unset($data['verif_code']);
+        // 判断是否为修改文稿内容
         if (!empty($data['write'])) {
             $guid = $data['write'];
             unset($data['write']);
@@ -340,7 +341,7 @@ class ArticleService
         $result = self::$articleStore->insertData($data);
 
         //判断插入是否成功，并返回结果
-        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => $result];
+        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => '保存成功'];
         return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
     }
 

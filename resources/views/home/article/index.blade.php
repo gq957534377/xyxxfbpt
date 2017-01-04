@@ -15,7 +15,11 @@
       <input id="article-type" type="text" hidden value="{{ $type or 1 }}">
       <div class="row content">
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 content-left">
-          <h2>最新文章</h2>
+          @if(empty($type) || $type == 1)
+              <h2>市场咨询</h2>
+          @else
+              <h2>创业政策</h2>
+          @endif
           <ul class="article-list">
             @if(!empty($StatusCode) && $StatusCode == '200')
               @foreach($ResultData['data'] as $val)
@@ -46,7 +50,9 @@
               </li>
             @endif
           </ul>
-          <div class="loads"></div>
+          @if(!empty($StatusCode) && $StatusCode == '200' && $ResultData['totalPage'] != 1)
+              <div class="loads"></div>
+          @endif
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 content-right">
           <div class="guangao row">
