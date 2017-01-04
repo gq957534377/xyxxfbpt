@@ -39,7 +39,8 @@
 
         // 字符验证
         $.validator.addMethod("stringCheck", function(value, element) {
-            return this.optional(element) || /^[u0391-uFFE5w]+$/.test(value);
+            var string = /^[a-zA-Z\u4e00-\u9fa5][a-zA-Z0-9\u4e00-\u9fa5]+$/;
+            return this.optional(element) || string.test(value);
         }, "只能包括中文字、英文字母、数字和下划线");
 
         // ajax 异步
@@ -129,7 +130,7 @@
                 },
                 investor_company: {
                     required: true,
-                    chinese: true,
+                    stringCheck: true,
                 },
                 investor_company_address: {
                     required: true,

@@ -124,14 +124,14 @@
                                     str += '</ul>';
                                     str += '<div class="input_block_2">';
                                     str += '<span>';
-                                    str += '密码长度8-16位，其中数字，字母和符号至少包含两种';
+                                    str += '密码长度6-16位，其中数字，字母和符号至少包含两种';
                                     str += '</span>';
                                     str += '</div>';
                                     str += '<div class="btn_block">';
                                     str += '<button type="submit" class="btn btn-warning btn-block btn-lg">下一步</button>';
                                     str += '</div>';
                                 } else {
-                                    alert('提示\n' + data.ResultData);
+                                    swal('提示\n' + data.ResultData);
                                     setTimeout('delayer()', 3000);
                                 }
 

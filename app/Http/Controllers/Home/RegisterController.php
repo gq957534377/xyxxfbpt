@@ -61,6 +61,9 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
+        // 登陆安全验证
+        $result = \App\Tools\Common::checkCookie('checkCode', '登陆');
+        if ($result != 'ok') return $result;
         $data = $request->all();
 
         if (empty($data['stage'])) {
@@ -130,9 +133,9 @@ class RegisterController extends Controller
                 break;
             case '2':
                 $sms = session('sms');
-//                if ($data['sms'] != $sms['smsCode'] || session('tel') != $sms['phone']) {
-//                    return response()->json(['StatusCode' => '400','ResultData' => ['验证码错误!']]);
-//                }
+                if ($data['sms'] != $sms['smsCode'] || session('tel') != $sms['phone']) {
+                    return response()->json(['StatusCode' => '400','ResultData' => ['验证码错误!']]);
+                }
                 return response()->json(['StatusCode'=>'200', 'ResultData' => '2', 'Tel' => session('tel')]);
                 break;
             case '3':

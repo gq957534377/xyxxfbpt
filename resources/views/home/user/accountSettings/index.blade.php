@@ -453,7 +453,6 @@
 
                 function stepOne (msg) {
                     if (msg.StatusCode == '200') {
-                        alert(msg.ResultData);
                         $('#sendSmsSuccess').addClass('hidden');
                         $('.tel-step-one').addClass('hidden');
                         $('.tel-step-one + div').addClass('hidden');
@@ -495,7 +494,6 @@
                 function stepTwo (msg)
                 {
                     if (msg.StatusCode == '200') {
-                        alert(msg.ResultData);
                         $("#newSmsBox").text(msg.ResultData);
                         $('.tel-step-two').addClass('hidden');
                         $('.tel-step-two + div').addClass('hidden');
@@ -543,7 +541,6 @@
                 function StepThree (msg)
                 {
                     if (msg.StatusCode == '200') {
-                        alert(msg.ResultData);
                         $('.tel-step-three').addClass('hidden');
                         $('.tel-step-three + div').addClass('hidden');
                         $('.tel-step-four').removeClass('hidden');
@@ -553,7 +550,7 @@
                                 text: '手机绑定成功，准备重新登录...',   // 内容，自定
                                 type: "success",    // 类型，分别为error、warning、success，以及info
                                 showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
-                                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                                confirmButtonColor: '#34c73b',  // 确认用途的按钮颜色，自定
                             },
                             function (isConfirm) {
                                 swal('提示', msg.ResultData, "success");
@@ -686,7 +683,7 @@
                                 text: '邮箱邦定成功，准备重新登录...',   // 内容，自定
                                 type: "success",    // 类型，分别为error、warning、success，以及info
                                 showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
-                                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                                confirmButtonColor: '#34c73b',  // 确认用途的按钮颜色，自定
                             },
                             function (isConfirm) {
                                 swal('提示', msg.ResultData, "success");
@@ -803,7 +800,7 @@
                                 text: '密码修改成功，准备重新登录...',   // 内容，自定
                                 type: "success",    // 类型，分别为error、warning、success，以及info
                                 showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
-                                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+                                confirmButtonColor: '#34c73b',  // 确认用途的按钮颜色，自定
                             },
                             function (isConfirm) {
                                 swal('提示', msg.ResultData, "success");
@@ -852,7 +849,7 @@
                         setTime($("#resend_captcha"), $("#resend_captcha_label"));
 
                     } else {
-                        alert(msg.ResultData);
+                        swal('警告', msg.ResultData, "warning");
                     }
 
                     $("#errorBox").addClass('hidden');
@@ -877,7 +874,7 @@
                         setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
 
                     } else {
-                        alert(msg.ResultData);
+                        swal('警告', msg.ResultData, "warning");
                     }
                     $("#errorBox2").addClass('hidden');
                     ajaxAfterSend($('.loading'));

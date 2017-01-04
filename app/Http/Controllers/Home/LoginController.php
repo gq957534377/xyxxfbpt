@@ -45,7 +45,8 @@ class LoginController extends Controller
     public function create()
     {
         if (!empty(session('user'))) return redirect('/');
-        return view('home.changePasswd');
+        $cookie = \App\Tools\Common::generateCookie('changePasswd');
+        return response()->view('home.changePasswd')->withCookie($cookie);
     }
 
     /**
@@ -109,7 +110,9 @@ class LoginController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        // 登陆安全验证
+        $result = \App\Tools\Common::checkCookie('changePasswd', '登陆');
+        if ($result != 'ok') return $result;
         $data = $request->all();
 //        dd(session('sms'), $data);
         $sms = session('sms');
