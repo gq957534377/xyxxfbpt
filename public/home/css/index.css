@@ -985,7 +985,6 @@ body .change-row-margin{
 }
 body> a,body>.container-fluid a:hover,body >.container-fluid a:focus{
 	text-decoration:none ;
-	color: #FF9036;
 }
 #section1 .new_a:hover .new_p{
 	color: #9a9899;
