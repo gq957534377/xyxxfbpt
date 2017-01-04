@@ -31,6 +31,7 @@
                     @elseif($temp->status==2)
                       未通过审核
                         <i id="editProject" style="color: #FF9036;font-size: 16px;cursor: pointer;float: right">查看</i>
+                          <i id="delProject" style="color: #FF0000;font-size: 16px;cursor: pointer;float: right">删除</i>git
                         <div id="becouse" style="display: none">{{$temp->remark}}</div>
                         <div id="project_id" style="display: none">{{$temp->guid}}</div>
                     @endif
@@ -65,11 +66,20 @@
                         title: '未通过原因', // 标题，自定
                         text: $('#becouse').html(),   // 内容，自定
                         type: "warning",    // 类型，分别为error、warning、success，以及info
-                        showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                        showCancelButton: true, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
                         confirmButtonColor: '#34c73b',  // 确认用途的按钮颜色，自定
+                        confirmButtonText: "重新编辑",
+                        cancelButtonText: "关闭",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
                     },
                     function (isConfirm) {
-                        window.location.href = '/project/'+ $("#project_id").html()+'/edit';
+                        if (isConfirm) {
+                            window.location.href = '/project/'+ $("#project_id").html()+'/edit';
+                        } else {
+                            swal("温馨提醒", "您未对该项目作出更改", "success");
+                        }
+
                     });
         })
     </script>

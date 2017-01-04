@@ -132,7 +132,7 @@ $(document).ready(function () {
     $(".toTheProject").click(function(){
         ajax.ajax({
             type: 'GET',
-            url: '/user/myproject',
+            url: '/user/myProject',
             beforeSend: ajaxBeforeSend($('.loading')),
             success: function (msg) {
                 switch (msg.StatusCode) {

@@ -15,7 +15,6 @@
 </div>
 <div id="errInfo"></div>
 @section('content')
-{{dd($data)}}
       <!--创建我的项目开始-->
       <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 my-project-upload">
         <div>
@@ -102,12 +101,15 @@
           </div>
           <div class="form-group mar-b15 mar-b15-xs line-h-3">
             <div class="col-xs-9 col-sm-10 col-md-offset-3 col-lg-offset-2 col-md-6">
-              <input type="hidden" id="expStore" name="project_experience">
+              <input type="hidden" id="expStore" name="project_experience" value="{{$data->project_experience}}">
               <input id="exp_text" type="text" class="form-control form-title" id="project-content" placeholder="此处填写本次历程内容">
             </div>
           </div>
           <!--项目历程 结束-->
           <ul id="exp_brief">
+            @foreach($data->ex as $exData)
+              <li style="float: none">{{$exData[0]}}:{{$exData[1]}}</li>
+            @endforeach
           </ul>
           <!--添加 删除 开始-->
           <div class="form-group">
@@ -116,7 +118,7 @@
               <button id="add_Pro_Exp" type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 wid-2-xs">添加</button>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-              <button id="del_Pro_Exp" type="button" class="hiddens btn btn-1 bgc-2 fs-c-1 zxz wid-2 wid-2-xs">删除</button>
+              <button id="del_Pro_Exp" type="button" class="@if(empty($data->project_experience)) hiddens @endif btn btn-1 bgc-2 fs-c-1 zxz wid-2 wid-2-xs">删除</button>
             </div>
           </div>
           <!--添加 删除 结束-->
@@ -144,7 +146,7 @@
           <!--需求简述 结束-->
           <!--上传logo 开始 -->
           <div class="form-group mar-b30">
-            <input id="logoUrl" style="border:0;position: absolute;z-index: -1;" type="text" name="logo_img" value="">
+            <input id="logoUrl" value="{{ $data->logo_img }}" style="border:0;position: absolute;z-index: -1;" type="text" name="logo_img" value="">
             <label for="upload-logo" class="col-md-3 col-lg-2 control-label pad-cr mar-xs--b"><span class="form-star">*</span>上传logo</label>
             <div class="col-md-5 col-lg-5">
               <div id="logo" class="col-md-6">
@@ -157,7 +159,7 @@
           <!--上传 logo 结束-->
           <!--上传banner 开始-->
           <div class="form-group mar-b30">
-            <input id="bannerUrl" style="border:0;position: absolute;z-index: -1;" type="text" name="banner_img">
+            <input id="bannerUrl" value="{{ $data->banner_img }}" style="border:0;position: absolute;z-index: -1;" type="text" name="banner_img">
             <label for="upload-banner" class="col-md-3 col-lg-2 control-label pad-cr mar-xs--b"><span class="form-star">*</span>上传banner</label>
             <div class="col-md-5 col-lg-5">
               <div id="banner" class="col-md-6">
@@ -171,8 +173,13 @@
 
           <!--添加核心成员 开始-->
           <div class="form-group mar-b15 line-h-3">
-            <span class="col-md-12 col-lg-12 control-label mar-b10 dis-in-bl mar-xs--b"><span class="form-star">*</span>核心成员<span id="chengyuanNum">(0个)</span></span>
+            <span class="col-md-12 col-lg-12 control-label mar-b10 dis-in-bl mar-xs--b"><span class="form-star">*</span>核心成员<span id="chengyuanNum">({{count($data->person)}}个)</span></span>
             <ul id="chengyuan">
+              {{-- */$i=1;/* --}}
+              @foreach($data->person as $person)
+                <li>{{$i}}.{{$person[0]}}</li>
+                {{-- */$i++;/* --}}
+              @endforeach
             </ul>
             <div class="col-md-9 col-lg-10">
               <div class="row mar-clr">
@@ -200,7 +207,7 @@
                 <label for="member-introduce" class="col-xs-3 col-sm-2 col-md-2 col-lg-1 control-label pad-clr mar-b10 text-c-sm text-c-xs">简介</label>
                 <div class="col-xs-9 col-sm-9 col-md-8 col-lg-8 pad-clr">
                   <textarea class="form-control text-r ht-8" id="member-introduce" placeholder=""></textarea>
-                  <input id="peopleStore" style="border:0;position: absolute;z-index: -1;" type="text" name="team_member">
+                  <input value="{{$data->team_member}}" id="peopleStore" style="border:0;position: absolute;z-index: -1;" type="text" name="team_member">
                 </div>
               </div>
             </div>
@@ -212,7 +219,7 @@
               <button id="addPeople" type="button"  class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 wid-2-xs">添加</button>
             </div>
             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2">
-              <button id="delPeople" type="button" class="hiddens btn btn-1 bgc-2 fs-c-1 zxz wid-2 wid-2-xs">删除</button>
+              <button id="delPeople" type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 wid-2-xs">删除</button>
             </div>
           </div>
           <!--添加 删除 结束-->
@@ -226,9 +233,10 @@
               <div class="hiddens" id="file_container">
                 <button type="button" id="file_pick">选择文件</button>
               </div>
-              <input class="hiddens" type="text" name="files">
+              <input class="hiddens" value="{{$data->file}}" type="text" name="files">
             </div>
           </div>
+          <div id="guids" class="hiddens">{{$data->guid}}</div>
           <!--上传BP 结束-->
           <div class="form-group mar-b30">
             <label for="project-details" class="col-md-3 col-lg-2 control-label mar-b10 mar-xs--b"><span class="form-star">*</span>隐私设置</label>
@@ -270,7 +278,7 @@
 @section('script')
   <script src="{{asset('dateTime/build/jquery.datetimepicker.full.js')}}"></script>
   <script src="{{asset('home/js/dateTime.js')}}"></script>
-  <script src="{{asset('home/js/projectValidate.js')}}"></script>
+  <script src="{{asset('home/js/editProjectValidate.js')}}"></script>
   <script src="{{asset('cropper/js/cropper.min.js')}}"></script>
   <script src="{{asset('cropper/js/projectCreatCooper.js')}}"></script>
   <script>
@@ -308,7 +316,7 @@
     //图片上传结束
 
     //项目历程代码块开始
-    var expNum = 0;
+    var expNum = parseInt('{{count($data->ex)}}');
     $('#add_Pro_Exp').click(function () {
       var time = $('#pro_exp_time').val();
       var content = $('#exp_text').val();
@@ -319,7 +327,7 @@
         var temp2 = time +":::"+ content+ "*zxz*";
         $('#expStore').val(temp1+temp2);
         expNum++;
-        expBriefAdd(content);
+        expBriefAdd(time,content);
         if(expNum == 1){
           $('#del_Pro_Exp').removeClass('hiddens');
         }
@@ -339,13 +347,13 @@
                 });
       }
     });
-    function expBriefAdd(str) {
-      if(str.length<=4){
-        var newStr = expNum+'.'+str;
+    function expBriefAdd(str1,str2) {
+      if(str2.length<=15){
+        var newStr =str2;
       }else {
-        var newStr =expNum+'.'+ str.substring(0,4)+'...';
+        var newStr =str2.substring(0,15)+'...';
       }
-      $('#exp_brief').append("<li>"+newStr+"</li>");
+      $('#exp_brief').append("<li style='float: none'>"+str1+':'+newStr+"</li>");
     }
     $('#del_Pro_Exp').click(function () {
       $('#expStore').val(delPeopleStr($('#expStore').val()));
@@ -363,7 +371,7 @@
     //项目历程代码块结束
 
     //核心成员代码块开始
-    var chengyuanNum = 0;
+    var chengyuanNum = parseInt("{{count($data->person)}}");
     $('#addPeople').click(function () {
       var peoplesName = $('#member-name').val();
       var peoplesPosition = $("#member-position").val();
@@ -434,16 +442,6 @@
     function changeCYNum() {
       $('#chengyuanNum').html("("+chengyuanNum+")个")
     }
-
-    function clearHiddenInput() {
-      $('#peopleStore').val('');
-      $('#expStore').val('');
-      $('#logoUrl').val('');
-      $('#bannerUrl').val('');
-      $('#touxiangUrl').val('');
-    }
-
-    clearHiddenInput();
 
     function delPeopleStr(str) {
       var newArr = str.split('*zxz*');
