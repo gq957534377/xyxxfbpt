@@ -76,9 +76,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 关于我们
-    Route::get('/about', function () {
-        return view('home.about.index');
-    });
+    Route::get('/about','HomeController@aboutWe');
     // 验证码
     Route::get('/code/captcha/{tmp}', 'LoginController@captcha');
     // 前台登录页
