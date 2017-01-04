@@ -218,7 +218,7 @@ class ProjectService {
 
         if($result) return ['StatusCode' => '200', 'ResultData' => '添加成功'];
 
-        ['StatusCode' => '400', 'ResultData' => '项目添加失败'];
+        return ['StatusCode' => '400', 'ResultData' => '项目添加失败'];
     }
 
     /**
@@ -240,10 +240,31 @@ class ProjectService {
         return $arr;
     }
 
+    /**
+     * 返回条件下的项目数量
+     * @param $where
+     * @return mixed
+     * author 张洵之
+     */
     public function getCount($where)
     {
         $result = self::$projectStore->getCount($where);
 
         return $result;
+    }
+
+    /**
+     * 返回一条数据
+     * @param $where
+     * @return array
+     * author 张洵之
+     */
+    public function getOneData($where)
+    {
+        $result = self::$projectStore->getOneData($where);
+
+        if(empty($result)) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $result];
     }
 }

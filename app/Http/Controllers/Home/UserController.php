@@ -484,8 +484,8 @@ class UserController extends Controller
         $user_guid = session('user')->guid;
         $role = session('user')->role;
 
-        if($role == 1) {
-            return redirect(route('user.show',$user_guid));
+        if($role == 1 || $role == 3) {
+            return redirect(route('user.show',$user_guid))->with(['errors' => 403]);
         }
 
         $where = ['user_guid' => $user_guid];

@@ -30,6 +30,9 @@
                       通过审核
                     @elseif($temp->status==2)
                       未通过审核
+                        <i id="editProject" style="color: #FF9036;font-size: 16px;cursor: pointer;float: right">查看</i>
+                        <div id="becouse" style="display: none">{{$temp->remark}}</div>
+                        <div id="project_id" style="display: none">{{$temp->guid}}</div>
                     @endif
                   </div>
                 </div>
@@ -55,5 +58,19 @@
 @endsection
 
 @section('script')
+    <script>
+        $('#editProject').click(function () {
 
+            swal({
+                        title: '未通过原因', // 标题，自定
+                        text: $('#becouse').html(),   // 内容，自定
+                        type: "warning",    // 类型，分别为error、warning、success，以及info
+                        showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                        confirmButtonColor: '#34c73b',  // 确认用途的按钮颜色，自定
+                    },
+                    function (isConfirm) {
+                        window.location.href = '/project/'+ $("#project_id").html()+'/edit';
+                    });
+        })
+    </script>
 @endsection
