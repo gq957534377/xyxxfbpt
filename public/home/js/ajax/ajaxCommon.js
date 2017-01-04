@@ -40,7 +40,7 @@ ajaxCommon.prototype.ajax = function (param) {
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             var number = XMLHttpRequest.status;
             var info = "系统错误: 错误号为" + number + ",数据异常!";
-
+            ajaxAfterSend($('.loading'));
             swal('警告', info, "warning");
         }
 
