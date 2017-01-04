@@ -21,7 +21,7 @@
                     <div class="form-group mar-b30">
                         <label for="real-name" class="col-md-2 control-label"><span class="form-star">*</span>真实姓名</label>
                         <div class="col-md-5">
-                            <input autofocus name="investor_realname" type="text" class="form-control form-title" placeholder="请输入您的姓名！">
+                            <input autofocus name="investor_realname" type="text" maxlength="16" class="form-control form-title" placeholder="请输入您的姓名！">
                         </div>
                     </div>
                     <div class="form-group mar-b30">
