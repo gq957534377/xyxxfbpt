@@ -266,7 +266,7 @@ class ProjectService {
 
         if(empty($result)) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 
-        $this->openData(
+        $result = $this->openData(
             $result->project_experience,
             '*zxz*',
             ':::'
