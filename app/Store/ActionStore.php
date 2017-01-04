@@ -48,11 +48,20 @@ class ActionStore
     public function forPage($page, $tolPage, $where)
     {
         if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
-        return DB::table(self::$table)
-           ->where($where)
-           ->orderBy("addtime","desc")
-           ->forPage($page,$tolPage)
-           ->get();
+        if (!empty($where['status']) && $where['status'] == 4){
+            return DB::table(self::$table)
+                ->where($where)
+                ->orderBy("addtime","desc")
+                ->forPage($page,$tolPage)
+                ->get();
+        }else{
+            return DB::table(self::$table)
+                ->where($where)
+                ->Where('status', '<>', 4)
+                ->orderBy("addtime","desc")
+                ->forPage($page,$tolPage)
+                ->get();
+        }
     }
 
     /**
@@ -107,7 +116,14 @@ class ActionStore
      */
     public function getCount ($where)
     {
-        return DB::table(self::$table)->where($where)->count();
+        if (!empty($where['status']) && $where['status'] == 4){
+            return DB::table(self::$table)->where($where)->count();
+        }else{
+            return DB::table(self::$table)
+                ->where($where)
+                ->where('status', '<>', 4)
+                ->count();
+        }
     }
 
     /**

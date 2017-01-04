@@ -55,7 +55,7 @@ class ActionController extends Controller
         if ($type == 3) {
             if (isset($data['college_type'])){
                 if ($data['college_type'] != 4){
-                    $where['type'] = $data['college_type'];
+                    $where['type'] = (int)$data['college_type'];
                 }
             }
             $list = true;

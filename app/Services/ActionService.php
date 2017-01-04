@@ -210,7 +210,6 @@ class ActionService
         }else{
             $count = self::$collegeStore->getCount($where);
         }
-
         if (!$count) {
             //如果没有数据直接返回204空数组，函数结束
             if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
@@ -226,7 +225,6 @@ class ActionService
         }else{
             $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
         }
-
         if($result['data']){
             if ($disPlay && $totalPage > 1) {
                 //创建分页样式
@@ -491,9 +489,9 @@ class ActionService
      * @param int $take
      * @param int $status
      * @return array
-     * @author 王通
+     * @author 郭庆
      */
-    public function getRandomArticles($type, $take = 4, $status = 1)
+    public function getRandomActions($type, $take = 4, $status = 1)
     {
         if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
         $start = self::$articleStore->getCount(['type' => $type, 'status' => $status]);

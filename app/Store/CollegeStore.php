@@ -47,12 +47,22 @@ class CollegeStore
      */
     public function forPage($page, $tolPage, $where)
     {
+//        dd($where);
         if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
-        return DB::table(self::$table)
-           ->where($where)
-           ->orderBy("addtime","desc")
-           ->forPage($page,$tolPage)
-           ->get();
+        if (!empty($where['status']) && $where['status'] == 4){
+            return DB::table(self::$table)
+                ->where($where)
+                ->orderBy("addtime","desc")
+                ->forPage($page,$tolPage)
+                ->get();
+        }else{
+            return DB::table(self::$table)
+                ->where($where)
+                ->Where('status', '<>', 4)
+                ->orderBy("addtime","desc")
+                ->forPage($page,$tolPage)
+                ->get();
+        }
     }
 
     /**
@@ -130,7 +140,15 @@ class CollegeStore
      */
     public function getCount ($where)
     {
-        return DB::table(self::$table)->where($where)->count();
+//        dd($where);
+        if (!empty($where['status']) && $where['status'] == 4){
+            return DB::table(self::$table)->where($where)->count();
+        }else{
+            return DB::table(self::$table)
+                ->where($where)
+                ->where('status', '<>', 4)
+                ->count();
+        }
     }
 
     /**

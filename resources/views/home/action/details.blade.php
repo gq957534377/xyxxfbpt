@@ -58,6 +58,8 @@
                 <button type="button" class="btn road-banner-join disabled">活动已开始</button>
             @elseif($data['ResultData']->status == 3)
                 <button type="button" class="btn road-banner-join disabled">活动已结束</button>
+            @elseif($data['ResultData']->status == 4)
+                <button type="button" class="btn road-banner-join disabled">活动已取消</button>
             @endif
         @else
             <h4 class="mar-ct mar-b15">{{ $data['ResultData'] }}</h4>
