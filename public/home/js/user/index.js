@@ -132,11 +132,11 @@ $(document).ready(function () {
     $(".toTheProject").click(function(){
         ajax.ajax({
             type: 'GET',
-            url: '/user/myProject',
+            url: '/user/myproject',
             beforeSend: ajaxBeforeSend($('.loading')),
             success: function (msg) {
                 switch (msg.StatusCode) {
-                    case '400':
+                    case '403':
                         $(".loading").hide();
                         swal('警告', msg.ResultData, "warning");
                         break;
