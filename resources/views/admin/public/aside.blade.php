@@ -15,9 +15,9 @@
         <ul class="list-unstyled">
             {{--<li class="active"><a href="{{url('/')}}"><i class="zmdi zmdi-view-dashboard"></i> <span class="nav-label">控制台</span></a></li>--}}
 
-            <li>
-                <a href="{{url('user')}}"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span></a>
-            </li>
+            {{--<li>--}}
+                {{--<a href="{{url('user')}}"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span></a>--}}
+            {{--</li>--}}
 
             {{--<li class="has-submenu">--}}
                 {{--<a href="{{url('project_approval')}}"><i class="fa fa-dollar"></i> <span class="nav-label">众筹管理</span></a>--}}

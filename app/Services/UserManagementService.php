@@ -7,6 +7,7 @@ use App\Store\ApplySybStore;
 use App\Store\ApplyInvestorStore;
 use App\Store\ApplyMemberStore;
 use App\Store\HomeStore;
+use App\Store\CompanyStore;
 
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
@@ -18,19 +19,22 @@ class userManagementService
     protected static $data_apply_investor;  //data_apply_investor 申请投资者
     protected static $data_apply_member;    //data_apply_member 申请英雄会会员
     protected static $data_user_login;    //data_user_login 用户登录数据仓库
+    protected static $data_company_info;    //用户公司数据仓库
 
    public function __construct(
        UserStore $userStore,
        ApplySybStore $applySybStore,
        ApplyInvestorStore $applyInvestorStore,
        ApplyMemberStore $applyMemberStore,
-       HomeStore $homeStore
+       HomeStore $homeStore,
+       CompanyStore $companyStore
    ){
        self::$data_user_info = $userStore;
        self::$data_apply_syb = $applySybStore;
        self::$data_apply_investor = $applyInvestorStore;
        self::$data_apply_member = $applyMemberStore;
        self::$data_user_login = $homeStore;
+       self::$data_company_info = $companyStore;
    }
 
     /** 获取条数
@@ -243,7 +247,12 @@ class userManagementService
                     //通过用户审核创业者
                     DB::beginTransaction();
                     $res1 = self::$data_apply_syb->changeStatus($where, ['status'=>6]);    //  status = 6
-                    $res2 = self::$data_user_info->changeStatus($where, ['role'=>2]);   //用户信息角色改为role=2
+                    //普通用户提升为2 如果已经是投资者 改为23
+                    if(self::$data_user_info->getOneData($where)->role == 1){
+                        $res2 = self::$data_user_info->changeStatus($where, ['role'=>2]);  //用户信息角色改为role=3
+                    }else{
+                        $res2 = self::$data_user_info->changeStatus($where, ['role'=>23]);
+                    }   //用户信息角色改为role=2
                     if(!$res1 || !$res2){
                         DB::rollBack();
                         return false;
@@ -253,10 +262,16 @@ class userManagementService
                 break;
 
                 case 3:
-                    //通过用户审核创业者
+                    //通过用户审核投资者
                     DB::beginTransaction();
                     $res3 = self::$data_apply_investor->changeStatus($where, $status);    //  status = 6
-                    $res4 = self::$data_user_info->changeStatus($where, ['role'=>3]);   //用户信息角色改为role=3
+                    //普通用户提升为3 如果已经是创业者 改为23
+                    if(self::$data_user_info->getOneData($where)->role == 1){
+                        $res4 = self::$data_user_info->changeStatus($where, ['role'=>3]);   //用户信息角色改为role=3
+                    }else{
+                        $res4 = self::$data_user_info->changeStatus($where, ['role'=>23]);
+                    }
+
                     if(!$res3 || !$res4){
                         DB::rollBack();
                         return false;
@@ -277,6 +292,13 @@ class userManagementService
                     DB::commit();
                     return true;
                     break;
+
+                case 5:
+                    //通过公司审核
+                    $res7 = self::$data_company_info->changeStatus($where,['status' => 6]);
+                    if(!$res7) return false;
+                    return true;
+                break;
             }
         }
 
