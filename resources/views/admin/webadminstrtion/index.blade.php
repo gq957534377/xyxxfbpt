@@ -54,7 +54,7 @@
             </div> <!-- panel-body -->
         </div> <!-- end col -->
     </div>
-    <div id="margin_data" style="position: relative;">
+    <div id="margin_data" style="">
         {{--<img src="{{ asset('admin/images/load.gif') }}" class="loading">--}}
         <div id="data"></div>
     </div>
