@@ -19,7 +19,7 @@
                 <div class="form-group mar-b30">
                     <label for="form-title" class="col-md-3 col-lg-2 control-label mar-b10"><span class="form-star">*</span>真实姓名</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="syb_realname" placeholder="">
+                        <input type="text" class="form-control" maxlength="16" name="syb_realname" placeholder="">
                     </div>
                 </div>
 

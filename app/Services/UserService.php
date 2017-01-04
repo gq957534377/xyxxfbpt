@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Store\HomeStore;
 use App\Store\UserStore;
-use App\Store\RoleStore;
 use App\Store\CompanyStore as CompanyStore;
 use App\Services\UploadService as UploadServer;
 use App\Services\UserRoleService as UserRoleServer;
@@ -19,7 +18,6 @@ use Mail;
 class UserService {
     protected static $homeStore = null;
     protected static $userStore = null;
-    protected static $roleStore = null;
     protected static $companyStore = null;
     protected static $uploadServer = null;
     protected static $userRoleServer = null;
@@ -28,19 +26,16 @@ class UserService {
      * UserService constructor.
      * @param HomeStore $homeStore
      * @param UserStore $userStore
-     * @param RoleStore $roleStore
      */
     public function __construct(
         HomeStore $homeStore,
         UserStore $userStore,
-        RoleStore $roleStore,
         CompanyStore $companyStore,
         UploadServer $uploadServer,
         UserRoleServer $userRoleServer
     ){
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
-        self::$roleStore = $roleStore;
         self::$companyStore = $companyStore;
         self::$uploadServer = $uploadServer;
         self::$userRoleServer = $userRoleServer;
@@ -62,88 +57,6 @@ class UserService {
         return ['StatusCode' => '200','ResultData' => $result];
     }
 
-    /**
-     * 获取申请角色信息
-     * @param $where
-     * @return array
-     * @author 刘峻廷
-     */
-    public function roleInfo($where, $model = null)
-    {
-        if (isset($model)) {
-            $result = self::$roleStore->getRole($where);
-
-            // 申请记录表有读取申请记录表，没有读取用户信息表
-            if (!$result) {
-                $result = self::$userStore->getOneData($where);
-            }
-        } else {
-            $result = self::$roleStore->getOneRoleDate($where);
-
-            // 申请记录表有读取申请记录表，没有读取用户信息表
-            if (!$result) {
-                $result = self::$userStore->getOneData($where);
-            }
-        }
-        //返回错误状态信息
-        if(!$result) return ['StatusCode' => '400', 'ResultData' => '没有找到'];
-        //返回数据
-        return  ['StatusCode' => '200', 'ResultData' => $result];
-    }
-    /**
-     * 根据当前用户的角色，查询不同的申请记录信息
-     * @param array $where  2 param guid role
-     * @author 刘峻廷
-     */
-    public function getRoleInfo($guid, $role)
-    {
-        if ($role == '23') {
-            $syb = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '2']);
-
-            if (!$syb) {
-                Log::error('角色23用户,创业者信息记录丢失', ['guid' => $guid]);
-                $syb = [];
-            }
-
-            $investor = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '3']);
-
-            if (!$investor) {
-                Log::error('角色23用户,投资者信息记录丢失', ['guid' => $guid]);
-                $investor = [];
-            }
-
-            return $roleInfo = [
-                    'syb'      => $syb,
-                    'investor' => $investor
-                ];
-        }
-        // 根据当前用户的角色，查询不同的申请记录信息
-        switch ($role) {
-            case '1' :
-                $result = self::$roleStore->getOneRoleDate(['guid' => $guid]);
-                break;
-            case '2' :
-                $result = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '3']);
-                break;
-            case '3' :
-                $result = self::$roleStore->getOneRoleDate(['guid' => $guid, 'role' => '2']);
-                break;
-        }
-
-        // 没有申请记录返回 false
-        if (!$result) return false;
-
-        switch ($result->role) {
-            case '2' :
-                $roleInfo = ['syb' => $result];
-                break;
-            case '3' :
-                $roleInfo = ['syb' => $result];
-                break;
-        }
-
-        return $roleInfo;
-    }
     /**
      * 注册用户
      * @param $data
@@ -178,11 +91,9 @@ class UserService {
             return ['status' => '500', 'msg' => '数据写入失败！'];
         };
 
-//        $countUsers = self::$userStore->countUsers();
-//        $nickname = '网站第'.($countUsers+1).'位成员';
-
+        $countUsers = self::$userStore->countUsers();
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
-        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'nickname' => '', 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
 
         if (!$userInfo) {
             Log::error('用户注册信息写入失败', $userInfo);
@@ -558,31 +469,6 @@ class UserService {
         session('user')->headpic = $avatarName;
         return ['StatusCode' => '200','ResultData' => $avatarName];
 
-    }
-
-
-    /**
-     * 审核成功时修改多个数据表数据
-     * @param $data
-     * @param $id
-     * @return array
-     * @author 王飞龙
-     */
-    public function checkPass($data, $id){
-
-        //判断请求合法性
-        if (!isset($data['role']) || !isset($data['status']))
-            return ['status'=>true,'data'=>'请求参数错误！'];
-        //使用事务
-        $result = DB::transaction(function () use ($data, $id){
-            self::$roleStore->updateUserInfo(['guid' => $id], ['status' => $data['status']]);
-            self::$userStore->updateUserInfo(['guid' => $id], ['role' => $data['role']]);
-        });
-
-        if(!$result)
-            return ['status'=>true,'data'=>'修改成功！'];
-        else
-            return ['status'=>false,'data'=>'修改失败，请重试！'];
     }
 
     /**
