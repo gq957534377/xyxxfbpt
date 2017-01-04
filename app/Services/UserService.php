@@ -182,7 +182,7 @@ class UserService {
 //        $nickname = '网站第'.($countUsers+1).'位成员';
 
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
-        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg', 'addtime' => $data['addtime']]);
 
         if (!$userInfo) {
             Log::error('用户注册信息写入失败', $userInfo);
