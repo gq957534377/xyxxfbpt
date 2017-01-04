@@ -87,7 +87,7 @@ class WebAdminstrationController extends Controller
                 // 轮播图管理Ajax请求
                 $data = self::$rollingPictureStore->getAllPic();
                 if (empty($data)) {
-                    $result = ['StatusCode' => '400', 'ResultData' => '请求错误'];
+                    $result = ['StatusCode' => '204', 'ResultData' => '没有数据'];
                 } else {
                     $result =  ['StatusCode' => '200', 'ResultData' => $data];
                 }

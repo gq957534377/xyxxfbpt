@@ -9,6 +9,7 @@
 @section('style')
 <link rel="stylesheet" href="{{ asset('home/css/base.css') }}">
 <link rel="stylesheet" href="{{ asset('home/css/register.css') }}">
+<link href="{{ asset('home/css/sweet-alert.min.css') }}" rel="stylesheet">
 @endsection
 
 
@@ -49,5 +50,6 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('home/js/sweet-alert.min.js') }}"></script>
     <script src="{{ asset('home/js/registerValidate.js') }}"></script>
 @endsection

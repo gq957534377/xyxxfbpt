@@ -143,7 +143,7 @@
                 str += '<tr class="gradeX">';
                 str +=  '<td><input class="checkbox-list" name="Fruit" type="checkbox" data-ip="'+ v.guid +'" /></td>';
                 str +=  '<td>' + v.ip + '</td>';
-                str +=  '<td class="feedb-email">' + v.email + '</td>';
+                str +=  '<td class="feedb-email">' + (v.email ? v.email : '--') + '</td>';
                 str +=  '<td hidden class="feedb-descri">'+ v.feedback +'</td>';
                 str +=  '<td>' + v.feedback.slice(0, 53) + '</td>';
                 str +=  '<td>';

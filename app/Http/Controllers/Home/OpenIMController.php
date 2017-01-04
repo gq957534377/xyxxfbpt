@@ -72,7 +72,7 @@ class OpenIMController extends Controller
     public function store(Request $request)
     {
         $resultCookie = \App\Tools\Common::checkCookie('feedback', '意见反馈');
-        if ($resultCookie != 'ok') return $resultCookie;
+        if ($resultCookie != 'ok') return response()->json($resultCookie);
         $ip = $request->getClientIp();
 
         if (self::$safetyService->checkIpInSet(SET_FEEDBACK_IP . date('Y-m-d', time()), $ip)) {

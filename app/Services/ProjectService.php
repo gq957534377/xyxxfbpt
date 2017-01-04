@@ -143,6 +143,7 @@ class ProjectService {
     }
 
     /**
+     * 取出详情数据
      * @param string $id 项目guid
      * @return array
      * author 张洵之
@@ -181,12 +182,14 @@ class ProjectService {
      */
     public function updateData($data,$where)
     {
-        //重新提交后，将status改为1
-        $data['status'] = 1;
+        //重新提交后，将status改为0
+        $data['status'] = 0;
 
         $res = self::$projectStore->update($where,$data);
-        if ($res==0) return ['status'=>false,'msg'=>'更新失败'];
-        return ['status'=>true,'msg'=>'更新成功'];
+
+        if ($res==0) return ['StatusCode' => '400', 'ResultData' => '更新失败'];
+
+        return ['StatusCode' => '200', 'ResultData' => '更新成功'];
     }
 
     /**
@@ -264,6 +267,17 @@ class ProjectService {
         $result = self::$projectStore->getOneData($where);
 
         if(empty($result)) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        $result -> ex = $this->openData(
+            $result->project_experience,
+            '*zxz*',
+            ':::'
+        );
+        $result -> person =$this->openData(
+            $result->team_member,
+            '*zxz*',
+            '!,/'
+        );
 
         return ['StatusCode' => '200', 'ResultData' => $result];
     }

@@ -673,7 +673,6 @@
                     <h2>市场资讯</h2>
                 </li>
             </ul>
-
             <div id="yxzx" class="row">
                 @if(is_array($articles))
                 <ul class='col-sm-5 section6_right'>
