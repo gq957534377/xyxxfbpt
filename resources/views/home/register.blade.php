@@ -49,5 +49,6 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('home/js/sweet-alert.min.js') }}"></script>
     <script src="{{ asset('home/js/registerValidate.js') }}"></script>
 @endsection

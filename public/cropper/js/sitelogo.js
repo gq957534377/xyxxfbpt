@@ -147,7 +147,7 @@
             this.url = URL.createObjectURL(file);
             this.startCropper();
           } else {
-              this.alert('请上传图片格式文件,例如:jpg|jpeg|png|gif');
+              this.alert('请上传图片格式文件,例如:jpg|jpeg|gif');
               return false;
           }
         }
@@ -188,7 +188,7 @@
       if (file.type) {
         return /^image\/\w+$/.test(file.type);
       } else {
-        return /\.(jpg|jpeg|png|gif)$/.test(file);
+        return /\.(jpg|jpeg|gif)$/.test(file);
       }
     },
 

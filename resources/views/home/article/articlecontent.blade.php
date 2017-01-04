@@ -2,28 +2,9 @@
 
 @section('style')
     <link href="{{ asset('home/css/articleContent.css') }}" rel="stylesheet">
+    <link href="{{ asset('home/css/sweet-alert.min.css') }}" rel="stylesheet">
     <style>
-        .sweet-alert p {
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 22px;
-        }
-        button.confirm {
-            background-color: #34c73b !important;
-            box-shadow: none !important;
-        }
-        .sweet-alert .sa-icon.sa-success .sa-placeholder {
-            border: 4px solid #34c73b;
-        }
-        .sweet-alert .sa-icon.sa-success .sa-line {
-            background-color: #34c73b;
-        }
-        .sweet-alert .sa-icon.sa-error {
-            border-color: #d74548;
-        }
-        .sweet-alert .sa-icon.sa-error .sa-line {
-            background-color: #d74548;
-        }
+
     </style>
 @endsection
 
@@ -53,21 +34,21 @@
                 </div>
                 <div class="fwb col-lg-12 col-md-12 col-sm-12 col-xs-12">{!! $ResultData->describe !!}</div>
               </div>
-              <div class="row article-bottom">
-                  @if($ResultData->like)
-                        <span id="like" data-id="{{ $ResultData->guid }}" class="taoxin col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
-                             <span></span><span id="likeNum">{{ $ResultData->likeNum}}</span>
-                        </span>
-                  @else
-                      <span id="like" data-id="{{ $ResultData->guid }}" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
-                            <span></span> <span id="likeNum">{{ $ResultData->likeNum}}</span>
-                        </span>
-                  @endif
-                <span class="col-lg-10 col-md-10 col-sm-10 col-xs-12 fenxiang">
-                  <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
-<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-                </span>
-              </div>
+              {{--<div class="row article-bottom">--}}
+                  {{--@if($ResultData->like)--}}
+                        {{--<span id="like" data-id="{{ $ResultData->guid }}" class="taoxin col-lg-2 col-md-2 col-sm-2 col-xs-2 ">--}}
+                             {{--<span></span><span id="likeNum">{{ $ResultData->likeNum}}</span>--}}
+                        {{--</span>--}}
+                  {{--@else--}}
+                      {{--<span id="like" data-id="{{ $ResultData->guid }}" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">--}}
+                            {{--<span></span> <span id="likeNum">{{ $ResultData->likeNum}}</span>--}}
+                        {{--</span>--}}
+                  {{--@endif--}}
+                {{--<span class="col-lg-10 col-md-10 col-sm-10 col-xs-12 fenxiang">--}}
+                  {{--<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>--}}
+{{--<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>--}}
+                {{--</span>--}}
+              {{--</div>--}}
                 <!--评论区域开始-->
                 <div class="row pl-block">
                     <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>

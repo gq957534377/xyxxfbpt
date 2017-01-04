@@ -132,9 +132,9 @@ function institutionHtml(data) {
     $.each(data, function (key, value) {
         html += '<div class="col-sm-6">';
         html += '<div class="panel">';
-        html += '<div class="panel-body">';
-        html += '<div class="media-main">';
-        html += '<a id="img'+ value.id +'" class="pull-left" href="'+ value.pointurl +'" target="_blank">';
+        html += '<div class="panel-body" >';
+        html += '<div class="media-main" style="background-color: #FFFFFF;">';
+        html += '<a id="img'+ value.id +'" class="pull-left" href="'+ value.pointurl +'" target="_blank" >';
         html += '<img  class="thumb-lg bx-s" src="'+ value.url +'" alt="" style="width: 146%;">';
         html += '</a>';
         html += '<div class="pull-right btn-group-sm">';

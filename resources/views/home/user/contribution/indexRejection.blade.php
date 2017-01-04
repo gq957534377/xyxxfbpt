@@ -1,6 +1,6 @@
  @extends('home.layouts.userCenter')
 
-@section('title', '我的身份')
+@section('title', '我的投稿')
 
 @section('style')
   <link href="{{ asset('home/css/user_center_contribute.css') }}" rel="stylesheet">
