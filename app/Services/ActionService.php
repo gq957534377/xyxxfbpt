@@ -485,6 +485,47 @@ class ActionService
         return ['StatusCode' => '200', 'ResultData' => $result];
     }
 
+    /**
+     * 获取四条随机活动，根据给定条件
+     * @param $type
+     * @param int $take
+     * @param int $status
+     * @return array
+     * @author 王通
+     */
+    public function getRandomArticles($type, $take = 4, $status = 1)
+    {
+        if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
+        $start = self::$articleStore->getCount(['type' => $type, 'status' => $status]);
+        // 获取文章数据
+        $result = self::$articleStore->RandomArticles(['type' => $type, 'status' => $status], $take, rand(1, $start - $take));
+
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $result];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //暂时没用的方法-------------------------------------------------------------------------------------------------------
