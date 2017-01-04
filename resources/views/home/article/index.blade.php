@@ -10,6 +10,9 @@
 @endsection
 
 @section('content')
+  <section class="bannerimg hang">
+    <img src="{{ asset('home/img/demoimg/dd.jpg') }}">
+  </section>
     <!--内容开始--->
     <section class="container-fluid">
       <input id="article-type" type="text" hidden value="{{ $type or 1 }}">
