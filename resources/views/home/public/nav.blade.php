@@ -11,7 +11,7 @@
         </div>
         <div class="collapse navbar-collapse pad-clr nav-opening" id="qili-navbar-collapse">
             <ul class="nav-content pad-cl">
-                <li class=""><a href="{{ route('index') }}">奇力首页</a></li>
+                <li class="nav-content-active"><a href="{{ route('index') }}">奇力首页</a></li>
                 <li class="hidden-xs"><div></div></li>
                 <li class=""><a href="{{ route('project.index') }}">创新作品</a></li>
                 <li class="hidden-xs"></li>
@@ -27,7 +27,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">英雄学院<span class="caret"></span></a>
                     <ul class="dropdown-menu qili-dropdown" role="menu">
-                        <li class=""><a href="/school?type=1">企业管理</a></li>
+                        <li class="nav-content-active-dropdown"><a href="/school?type=1">企业管理</a></li>
                         <li class=""><a href="/school?type=2">资金管理</a></li>
                         <li class=""><a href="/school?type=3">人才管理</a></li>
                     </ul>
@@ -48,3 +48,16 @@
         </div>
     </div>
 </nav>
+<script>
+    $(function () {
+//        $('.qili-about-us ul li').on('click', function () {
+//            if($(this).index() > 0) {
+//                if(! $(this).hasClass('qili-about-us-active')) {
+//                    $('.qili-about-us ul li').removeClass('qili-about-us-active');
+//                    $(this).addClass('qili-about-us-active');
+//                    $('.qili-about-us div').addClass('hidden').eq($(this).index() - 1).removeClass('hidden');
+//                }
+//            }
+//        });
+    });
+</script>

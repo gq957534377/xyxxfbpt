@@ -44,6 +44,19 @@ body{
   width: 84px; /*导航栏为六个时*/
   /*width: 46px; 导航栏为七个时*/
 }
+.nav-content-active {
+  background-color: #ffffff;
+}
+.nav-content-active > a {
+  color: #ff9035 !important;
+}
+.nav-content-active-dropdown {
+  background-color: #ff9035 !important;
+}
+.nav-content-active-dropdown > a {
+  color: #ffffff !important;
+}
+
 .nav-content > li:nth-child(2n-1):hover {
   background-color: #ffffff;
 }
