@@ -513,4 +513,20 @@ class UserController extends Controller
         $result = self::$projectServer->getData($nowPage, $pageNum,$where);
         return view('home.user.myProject', ['data' => $result['ResultData'], 'pageView'=>$pageView]);
     }
+
+    /**
+     * 获取用户真实姓名
+     * @param $guid
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
+    public function getRealName($guid)
+    {
+        if (!isset($guid)) return response()->json(['StatusCode' => '400','ResultData' => '请求参数缺失']);
+
+        $result = self::$userServer->userInfo(['guid' => $guid]);
+
+        return response()->json($result);
+
+    }
 }

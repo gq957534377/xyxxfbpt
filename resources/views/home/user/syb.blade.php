@@ -126,9 +126,11 @@
 @section('script')
     <script src="{{ asset('home/js/user/applySybValidate.js') }}"></script>
     <script src="{{asset('home/js/upload/uploadCommon.js')}}"></script>
+    <script src="{{asset('home/js/ajax/ajaxCommon.js')}}"></script>
     <script>
         //  异步上传身份证照
         var upload = new uploadCommon();
+        var ajax = new ajaxCommon();
 
         $("#syb_card_a").click(function(){
 
@@ -156,6 +158,29 @@
                 loadingPic  : '/home/img/loading.gif',
                 hideinput   : $("input[name = 'syb_card_b']")
             });
+        });
+
+        // 获取用户真实姓名
+        ajax.ajax({
+            url      :   '/user/realname' + '/'+$('#topAvatar').data('id'),
+            type     :   'GET',
+            beforeSend: ajaxBeforeSend($('.loading')),
+            success  :   function(msg){
+                ajaxAfterSend($('.loading'));
+                switch (msg.StatusCode){
+                    case '400':
+                        $('input[name="syb_realname"]').attr('disabled', false);
+                        break;
+                    case '200':
+                        if (msg.ResultData.realname == '') {
+                            $('input[name="syb_realname"]').attr('disabled', false);
+                        }else {
+                            $('input[name="syb_realname"]').val(msg.ResultData.realname).attr('disabled', true);
+                        }
+
+                        break;
+                }
+            },
         });
 
     </script>

@@ -21,7 +21,7 @@
                     <div class="form-group mar-b30">
                         <label for="real-name" class="col-md-2 control-label"><span class="form-star">*</span>真实姓名</label>
                         <div class="col-md-5">
-                            <input autofocus name="investor_realname" type="text" maxlength="16" class="form-control form-title" placeholder="请输入您的姓名！">
+                            <input autofocus name="investor_realname" type="text" maxlength="16" class="form-control form-title" placeholder="请输入您的姓名！" >
                         </div>
                     </div>
                     <div class="form-group mar-b30">
@@ -102,13 +102,14 @@
     <script src="{{asset('home/js/jquery.citys.js')}}"></script>
     <script src="{{ asset('home/js/user/applyInvestorValidate.js') }}"></script>
     <script src="{{asset('home/js/upload/uploadCommon.js')}}"></script>
+    <script src="{{asset('home/js/ajax/ajaxCommon.js')}}"></script>
     <script src="{{asset('home/js/change/load_hycode.js')}}"></script>
     <script src="{{asset('home/js/change/hgz_hycode.js')}}"></script>
     {{--<script src="{{asset('home/js/change/hgz_zncode.js')}}"></script>--}}
     <script>
         //  异步上传身份证照
         var upload = new uploadCommon();
-
+        var ajax = new ajaxCommon();
         $("#investor_card_a").click(function(){
 
             $("#card_upload").trigger('click');
@@ -144,5 +145,30 @@
                 return true;
             }
         });
+
+        // 获取用户真实姓名
+        ajax.ajax({
+            url      :   '/user/realname' + '/'+$('#topAvatar').data('id'),
+            type     :   'GET',
+            beforeSend: ajaxBeforeSend($('.loading')),
+            success  :   function(msg){
+                ajaxAfterSend($('.loading'));
+               switch (msg.StatusCode){
+                   case '400':
+                       $('input[name="investor_realname"]').attr('disabled', false);
+                       break;
+                   case '200':
+                       if (msg.ResultData.realname == '') {
+                           $('input[name="investor_realname"]').attr('disabled', false);
+                       }else {
+                           $('input[name="investor_realname"]').val(msg.ResultData.realname).attr('disabled', true);
+                       }
+
+                       break;
+               }
+            },
+        });
+
+
     </script>
 @endsection

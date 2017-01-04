@@ -9,6 +9,7 @@ use App\Store\ApplyInvestorStore;
 use App\Store\ApplyMemberStore;
 use App\Store\CompanyStore;
 use App\Services\UploadService as UploadServer;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -157,7 +158,7 @@ class UserRoleService {
         if (!empty($info)) {
             if ($info->status != '7') return ['StatusCode' => '400', 'ResultData' => '已申请，正在审核中'];
         }
-
+        \DB::beginTransaction();
         // 通过后，申请角色
         switch ($data['role']) {
             case '2':
@@ -176,6 +177,14 @@ class UserRoleService {
             return ['StatusCode' => '400', 'ResultData' => '添加角色申请记录失败，请重新申请'];
         }
 
+        $result = self::$userStore->updateUserInfo(['guid' => $data['guid']], ['realname' => $data['realname']]);
+
+        if (!$result) {
+            \Log::error('添加角色申请记录成功，同步更新用户信息失败', ['guid' => $data['guid']], ['realname' => $data['realname']]);
+            \DB::rollBack();
+            return ['StatusCode' => '400', 'ResultData' => '添加角色申请记录失败，请重新申请'];
+        }
+        \DB::commit();
         return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
     }
 

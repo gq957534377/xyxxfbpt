@@ -308,122 +308,6 @@ class UserService {
         }
     }
 
-    /**
-     * 获取符合请求的所有用户记录
-     * @param $data
-     * @return array|bool
-     * @author 王飞龙
-     */
-    public function getData($data)
-    {
-        if (isset($data['memeber'])) {
-
-            if (!isset($data['status'])) return ['status' => false, 'data' => '请求参数错误'];
-
-            if (!in_array($data['memeber'], ['1', '2', '3', '4', '5', '6'])) return ['status' => false, 'data' => '请求参数错误'];
-
-            // 当前页
-            $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-
-            //获取数据
-
-            $userData = self::$userStore->getUsersData($nowPage, ['memeber' => $data['memeber']]);
-            
-        } else {
-            //data中若有key为name的数据，则调用getOneData()
-            if (isset($data['name']))
-                return self::getOneData($data);
-
-            //进一步判断data中的数据
-            if(!isset($data['role']) || !isset($data['status']))
-                return ['status' => false, 'data' => '请求参数错误'];
-
-            // 1 普通用户 ；2 创业者 ；3 投资者
-            if(!in_array($data['role'], ['1', '2', '3', '4']))
-                return ['status' => false, 'data' => '请求参数错误'];
-
-            $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-
-            //获取数据
-            $userData = self::$userStore->getUsersData($nowPage, ['role' => $data['role'], 'status' => $data['status']]);
-        }
-
-        
-        //对获取的数据做判断
-        if ($userData === false)
-            return ['status' => false, 'data' => '缺少分页信息，数据获取失败'];
-        if ($userData === [])
-            return ['status' => 'empty', 'data' => '没有查询到数据'];
-
-        //获取分页
-        $userPage = self::getPage($data, 'user/create');
-
-        //判断分页获取情况
-        if (!$userPage)
-            return ['status' => false, 'data' => '分页获取失败'];
-
-        //拼装数据，返回所需格式
-        $result = array_merge(['data'=> $userData], $userPage['data']);
-
-        //判断
-        if (!$result)
-            return ['status' => false, 'data' => '系统错误'];
-
-        //正确数据
-        return ['status' => true, 'data' => $result];
-    }
-
-    /**
-     * 获取分页
-     * @param $data
-     * @param $url
-     * @return array
-     * @author 王飞龙
-     */
-    private static function getPage($data, $url)
-    {
-
-        $nowPage = isset($data['nowPage']) ? ($data['nowPage'] + 0) : 1;
-
-        if (isset($data['memeber'])) {
-            $count = self::$userStore->getUsersNumber(['memeber' => $data['memeber'], 'status' => $data['status']]);
-        } else {
-            $count = self::$userStore
-                ->getUsersNumber(['role' => $data['role'], 'status' => $data['status']]);
-        }
-
-        $totalPage = ceil($count / PAGENUM);
-        $baseUrl   = url($url);
-
-        if($nowPage <= 0)
-            $nowPage = 1;
-        if($nowPage > $totalPage)
-            $nowPage = $totalPage;
-
-        return [
-            'status' => true,
-            'data' => [
-                'nowPage' => $nowPage,
-                'pages'   => CustomPage::getSelfPageView($nowPage, $totalPage, $baseUrl, null)
-            ]
-        ];
-    }
-
-    /**
-     * 获取一条用户信息
-     * @param $data
-     * @return array
-     * @Author wang fei long
-     */
-    public static function getOneData($data)
-    {
-        $result = self::$userStore->getOneData(['guid' => $data['name']]);
-
-        if (!$result)
-            return ['status' => false, 'data' => '系统错误'];
-
-        return ['status' => true, 'data' => $result];
-    }
 
     /**
      * 修改用户信息
@@ -597,14 +481,26 @@ class UserService {
      */
     public function changeTel($guid, $data)
     {
+        // 执行事务
+        \DB::beginTransaction();
+
         $result = self::$homeStore->updateData(['guid' => $guid], ['tel' => $data]);
 
         if (!$result) {
-            \Log::error('用户账号手机绑定修改失败', $data);
+            \Log::error('用户账号手机绑定修改失败', ['guid' => $guid, ['tel' => $data]]);
             return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
-        } else {
-            return ['StatusCode' => '200', 'ResultData' => '手机改绑成功，请重新登录!'];
         }
+
+        $result = self::$userStore->updateUserInfo(['guid' => $guid], ['tel' => $data]);
+
+        if (!$result) {
+            \Log::error('用户账号手机绑定，更新用户中心信息表失败', ['guid' => $guid], ['tel' => $data]);
+            \DB::rollback();
+            return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
+        }
+        \DB::commit();
+        return ['StatusCode' => '200', 'ResultData' => '手机改绑成功，请重新登录!'];
+
     }
 
     /**
