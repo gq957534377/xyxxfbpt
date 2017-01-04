@@ -63,33 +63,21 @@
             <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/demoimg/zf'.$i.'.jpg') }}"></a>
           </div>
           <div class="row news-list-title">
-            <h2>7×24h 快讯</h2>
+            <h2>您可能感兴趣的内容</h2>
           </div>
           <ul class="row news-list">
-            <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-              <div class="news-list-time">
-                <span>两分钟前</span>
-              </div>
-            </li>
-            <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-              <div class="news-list-time">
-                <span>两分钟前</span>
-              </div>
-            </li>
-            <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-              <div class="news-list-time">
-                <span>两分钟前</span>
-              </div>
-            </li>
-            <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-              <div class="news-list-time">
-                <span>两分钟前</span>
-              </div>
-            </li>
+
+            @if(!empty($StatusCode) && $StatusCode == '200' && $ResultData['RandomList']['StatusCode'] == '200')
+                @foreach($ResultData['RandomList']['ResultData'] as $key => $val)
+                <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                  <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>
+                  <div class="news-list-time">
+                    <span>{{ date('Y-m-d', $val->addtime) }}</span>
+                  </div>
+                </li>
+                @endforeach
+            @endif
+
           </ul>
           <!-- <div class="btn-ll">
             浏览更多
