@@ -46,7 +46,9 @@
               </li>
             @endif
           </ul>
-          <div class="loads"></div>
+          @if(!empty($StatusCode) && $StatusCode == '200')
+              <div class="loads"></div>
+          @endif
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 content-right">
           <div class="guangao row">
