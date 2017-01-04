@@ -63,7 +63,7 @@
                         {{--<a href="pages-recoverpw.html"><i class="fa fa-lock m-r-5"></i> 忘记密码 ?</a>--}}
                     </div>
                     <div class="col-sm-5 text-right">
-                        <a href="{{url('/register')}}">注册账号</a>
+                        {{--<a href="{{url('/register')}}">注册账号</a>--}}
                     </div>
                 </div>
             </form>

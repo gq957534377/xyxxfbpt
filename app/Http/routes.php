@@ -23,7 +23,7 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
     // 后台登出
     Route::get('/logout', 'LoginController@logout');
     // 后台注册页
-    Route::resource('/register','RegisterController');
+   // Route::resource('/register','RegisterController');
     // 后台,中间件检验是否登录
     Route::group(['middleware'=> 'AdminMiddleware'],function() {
         // 后台首页
@@ -156,4 +156,4 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
 });
 
 //redis缓存隔离demo路由
-Route::resource('/test','TestController');
+//Route::resource('/test','TestController');
