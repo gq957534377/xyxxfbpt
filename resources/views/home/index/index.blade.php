@@ -673,24 +673,24 @@
                     <h2>市场资讯</h2>
                 </li>
             </ul>
-            {{--<div id="yxzx" class="row">--}}
-                {{--<ul class='col-sm-5 section6_right'>--}}
-                    {{--@for($i = 0; $i < round(count($articles)/2); $i++)--}}
-                        {{--<li>--}}
-                            {{--<h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>--}}
-                            {{--<p>发布时间 {{ $articles[$i]->addtime }}</p>--}}
-                        {{--</li>--}}
-                    {{--@endfor--}}
-                {{--</ul>--}}
-                {{--<ul class='col-sm-5 section6_right'>--}}
-                    {{--@for($i = round(count($articles)/2); $i < count($articles); $i++)--}}
-                        {{--<li>--}}
-                            {{--<h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>--}}
-                            {{--<p>发布时间 {{ $articles[$i]->addtime }}</p>--}}
-                        {{--</li>--}}
-                    {{--@endfor--}}
-                {{--</ul>--}}
-            {{--</div>--}}
+            <div id="yxzx" class="row">
+                <ul class='col-sm-5 section6_right'>
+                    @for($i = 0; $i < round(count($articles)/2); $i++)
+                        <li>
+                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                            <p>发布时间 {{ $articles[$i]->addtime }}</p>
+                        </li>
+                    @endfor
+                </ul>
+                <ul class='col-sm-5 section6_right'>
+                    @for($i = round(count($articles)/2); $i < count($articles); $i++)
+                        <li>
+                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                            <p>发布时间 {{ $articles[$i]->addtime }}</p>
+                        </li>
+                    @endfor
+                </ul>
+            </div>
         </section>
         <!----英雄社区与市场咨询结束----->
         <!----英雄会友情机构开始----->
