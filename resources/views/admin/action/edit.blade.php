@@ -96,7 +96,7 @@
                         <select class="form-control" id="group" name="group">
                             @if(!empty($group))
                                 @foreach($group as $v)
-                                    <option value="{{$v->id}}" @if($ResultData->group == $v->id) selected @endif>{{$v->name}}</option>
+                                    <option value="{{$v->id}}" @if($ResultData->group->id == $v->id) selected @endif>{{$v->name}}</option>
                                 @endforeach
                                 @endif
                         </select>

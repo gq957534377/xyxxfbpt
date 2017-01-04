@@ -497,7 +497,11 @@
                                 //发送请求
                                 var url;
                                 if(status == 3 && list_user == 2){
-                                    url = '/article/'+ passId + '/edit/?status=' + status +'&user='+list_user+'&reason='+$('#reason').val();
+                                    if (passId){
+                                        url = '/article/'+ passId + '/edit/?status=' + status +'&user='+list_user+'&reason='+$('#reason').val();
+                                    }else {
+                                        url = '/article/'+ guid + '/edit/?status=' + status +'&user='+list_user+'&reason='+$('#reason').val();
+                                    }
                                 }else{
                                     url = '/article/'+ guid + '/edit/?status=' + status +'&user='+list_user;
                                 }

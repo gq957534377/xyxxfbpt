@@ -44,6 +44,18 @@ class PictureStore
     }
 
     /**
+     * 得到指定id的数据
+     * @param
+     * @author 郭庆
+     */
+    public function getOnePicture ($where)
+    {
+        if (empty($where)) return false;
+        return DB::table(self::$table)
+            ->where($where)
+            ->first();
+    }
+    /**
      * 得到指定类型的数据 IN一次性获取
      * @param $where
      * @return bool

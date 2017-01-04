@@ -80,15 +80,18 @@ class ProjectController extends Controller
         //验证请求数据
         $role = session('user')->role;
 
-        if ($role != 2) return response()->json(['status'=>'400','msg'=>'非创业者不可创建项目']);
+        if ($role = 2 || $role = 23){
+            $validataResult = $this->addDataValidator($request);
 
-        $validataResult = $this->addDataValidator($request);
+            if($validataResult) return $validataResult;
 
-        if($validataResult) return $validataResult;
+            $data = $request->all();
+            $result = self::$projectServer->addProjects($data);
+            return response()->json($result);
+        }else{
+            return response()->json(['StatusCode' => 400, 'ResultData' => '非创业者不可创建项目']);
+        }
 
-        $data = $request->all();
-        $result = self::$projectServer->addProjects($data);
-        return response()->json($result);
     }
 
     /**
@@ -132,7 +135,18 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
+        if(empty(session('user')->guid)){
+            return redirect('/login');
+        } ;
 
+        $where = ['guid' => $id, 'user_guid' => session('user')->guid, 'status' => 2];
+        $data = self::$projectServer->getOneData($where);
+
+        if($data['StatusCode'] == '400'){
+            return view('errors.404');
+        } ;
+
+        return view('home.user.editMyProject', ['data' => $data['ResultData']]);
     }
 
     /**
@@ -142,6 +156,23 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $guid = $id;
+        $role = session('user')->role;
+
+        if(empty($guid)) return response()->json(['StatusCode' => 400, 'ResultData' => '项目不存在']);
+
+        if ($role = 2 || $role = 23){
+
+            $validataResult = $this->addDataValidator($request);
+
+            if($validataResult) return $validataResult;
+
+            $data = $request->all();
+            $result = self::$projectServer->updateData($data,['guid'=>$guid]);
+            return response()->json($result);
+        }else{
+            return response()->json(['StatusCode' => 400, 'ResultData' => '非创业者不可创建项目']);
+        }
 
     }
 
