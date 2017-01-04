@@ -730,6 +730,9 @@ body .change-row-margin{
 #section6{
 	max-width: 1200px;
 	width: 100%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 /***pc版英雄社区与市场咨询区域样式开始****/
 .section6_top{
@@ -871,6 +874,7 @@ body .change-row-margin{
 /***pc版英雄会友情机构区域样式开始****/
 #section7{
 	border-top: 1px solid #d1d1d1;
+	display: block;
 	margin: 34px auto;
 	max-width: 1200px;
 	width: 100%;
@@ -923,6 +927,9 @@ body .change-row-margin{
 /***pc版英雄会顶级投资机构联盟区域样式开始****/
 #section9{
 	background: #f2f3f7;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 #section9 h2{
 	margin: 0 auto;
