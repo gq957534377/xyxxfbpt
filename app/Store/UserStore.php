@@ -39,6 +39,16 @@ class UserStore
     }
 
     /**
+     * 统计当前有多少个用户
+     * @return mixed
+     * @author 刘峻廷
+     */
+    public function countUsers()
+    {
+        return DB::table(self::$table)->count();
+    }
+
+    /**
      * 更新指定用户数据
      * @param array $where
      * @param array $data

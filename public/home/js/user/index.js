@@ -128,5 +128,25 @@ $(document).ready(function () {
         $("#userInfoSuccess").addClass('hidden');
     });
 
+    // 点击项目进入项目页
+    $(".toTheProject").click(function(){
+        ajax.ajax({
+            type: 'GET',
+            url: '/user/myProject',
+            beforeSend: ajaxBeforeSend($('.loading')),
+            success: function (msg) {
+                switch (msg.StatusCode) {
+                    case '403':
+                        $(".loading").hide();
+                        swal('警告', msg.ResultData, "warning");
+                        break;
+                    case '200':
+                          window.location.href = '/myProject';
+                        break;
+                }
 
+                ajaxAfterSend($('.loading'));
+            }
+        });
+    });
 });
