@@ -13,6 +13,9 @@
 @endsection
 
 @section('content')
+    <section class="bannerimg hang">
+        <img src="{{ asset('home/img/demoimg/dd.jpg') }}">
+    </section>
     @if(!empty($StatusCode) && $StatusCode == '200')
         <section class="container-fluid">
           <div class="row content">

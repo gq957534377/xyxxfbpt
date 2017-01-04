@@ -152,10 +152,10 @@ var messages    = {
     },
     source: {
         required: '来源不能为空',
-        maxlength: '来源最大长度为80个字符',
+        maxlength: '来源最大长度为80个字符'
     },
     verif_code: {
-        required: '验证码能为空',
+        required: '验证码不能为空',
         maxlength: '验证码最大长度为10'
     },
 };

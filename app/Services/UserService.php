@@ -383,7 +383,7 @@ class UserService {
             // 成功，保存信息到session里，为了下一次校验
             $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
             Session::put('sms',$arr);
-
+            Log::info(date('Y-m-d', $nowTime) . \Request::getClientIp() . '请求短信');
             return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];
         }else{
             $resp =  Common::sendSms($phone, $content, '奇立英雄会', 'SMS_34865398');
