@@ -143,6 +143,7 @@ class ProjectService {
     }
 
     /**
+     * 取出详情数据
      * @param string $id 项目guid
      * @return array
      * author 张洵之
@@ -264,6 +265,17 @@ class ProjectService {
         $result = self::$projectStore->getOneData($where);
 
         if(empty($result)) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        $this->openData(
+            $result->project_experience,
+            '*zxz*',
+            ':::'
+        );
+         $this->openData(
+            $result->team_member,
+            '*zxz*',
+            '!,/'
+        );
 
         return ['StatusCode' => '200', 'ResultData' => $result];
     }
