@@ -61,6 +61,9 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
+        // 登陆安全验证
+        $result = \App\Tools\Common::checkCookie('checkCode', '登陆');
+        if ($result != 'ok') return $result;
         $data = $request->all();
 
         if (empty($data['stage'])) {
