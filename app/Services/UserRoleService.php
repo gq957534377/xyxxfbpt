@@ -290,18 +290,18 @@ class UserRoleService {
             'major' => 'required',
 
         ],[
-            'guid.required' => '非法操作!<br>',
-            'role.required' => '非法操作!<br>',
-            'realname.required' => '请填写您的真实姓名<br>',
-            'realname.min' => '真实姓名最少两位<br>',
-            'card_pic_a.required' => '请上传您的出身份证正面照<br>',
-            'card_pic_b.required' => '请上传您的出身份证反面照<br>',
-            'school_address.required' => '请选择您所在院校的省份<br>',
-            'school_name.required' => '请选择您所在院校的名字<br>',
-            'enrollment_year.required' => '请输入您的入学时间<br>',
-            'graduation_year.required' => '请输入您的毕业时间<br>',
-            'education.required' => '请输入您的学历<br>',
-            'major.required' => '请输入您的专业名称<br>',
+            'guid.required' => '非法操作',
+            'role.required' => '非法操作',
+            'realname.required' => '请填写您的真实姓名',
+            'realname.min' => '真实姓名最少两位',
+            'card_pic_a.required' => '请上传您的出身份证正面照',
+            'card_pic_b.required' => '请上传您的出身份证反面照',
+            'school_address.required' => '请选择您所在院校的省份',
+            'school_name.required' => '请选择您所在院校的名字',
+            'enrollment_year.required' => '请输入您的入学时间',
+            'graduation_year.required' => '请输入您的毕业时间',
+            'education.required' => '请输入您的学历',
+            'major.required' => '请输入您的专业名称',
 
         ]);
 
@@ -328,88 +328,23 @@ class UserRoleService {
             'field' => 'required',
             'card_pic_a' => 'required',
         ],[
-            'guid.required' => '非法操作!<br>',
-            'role.required' => '非法操作!<br>',
-            'realname.required' => '请填写您的真实姓名<br>',
-            'realname.min' => '真实姓名最少两位<br>',
-            'work_year.required' => '请输入从业年份<br>',
-            'work_year.integer' => '请输入整型<br>',
-            'work_year.digits_between' => '请输入两位以内数字<br>',
-            'scale.required' => '请输入投资规模<br>',
-            'company.required' => '请输入公司名称<br>',
-            'company_address.required' => '请输入公司所在地<br>',
-            'field.required' => '请选择行业领域<br>',
+            'guid.required' => '非法操作',
+            'role.required' => '非法操作',
+            'realname.required' => '请填写您的真实姓名',
+            'realname.min' => '真实姓名最少两位',
+            'work_year.required' => '请输入从业年份',
+            'work_year.integer' => '请输入整型',
+            'work_year.digits_between' => '请输入两位以内数字',
+            'scale.required' => '请输入投资规模',
+            'company.required' => '请输入公司名称',
+            'company_address.required' => '请输入公司所在地',
+            'field.required' => '请选择行业领域',
             'card_pic_a.required' => '请上传身份证件照',
         ]);
 
         // 数据验证失败，响应信息
         if ($validator->fails()) return ['StatusCode' => '400','ResultData' => $validator->errors()->all()];
     }
-
-    /**
-     * 申请成为创业者 或 投资者
-     * @param $data
-     * @return array
-     * @author 刘峻廷
-     */
-//    public function applyRole($data)
-//    {
-//        // 校验当前用户的角色
-//        $userInfo = self::$userStore->getOneData(['guid' => $data['guid']]);
-//
-//        if ($data['role'] == 4) {
-//            if ($userInfo->memeber == 2)  return ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员！'];
-//            // 查看该用户是否已申请
-//            $info= self::$roleStore->getRole(['guid' => $data['guid'], 'role' => '4']);
-//
-//        } else {
-//            if ($userInfo->role == 2) {
-//                return ['StatusCode' => '400', 'ResultData' => '您已是创业者！'];
-//            } else if ($userInfo->role == 3) {
-//                return ['StatusCode' => '400', 'ResultData' => '您已是投资者！'];
-//            }
-//            // 查看该用户是否已申请
-//            $info= self::$roleStore->getRole(['guid' => $data['guid']]);
-//        }
-//
-//        // 查询不为空
-//        if(!empty($info)) {
-//            // 判断审批状态
-//            if ($info->status == '5') {
-//                return ['StatusCode' => '400', 'ResultData' => '您已有申请项，正在审核中，请耐心等待...'];
-//            } else if ($info->status == '6') {
-//                return ['StatusCode' => '400', 'ResultData' => '已申请成功，无需再次申请。'];
-//            }
-//        };
-//
-//        // 事务处理
-//        DB::beginTransaction();
-//        try {
-//            if ($data['role'] == 4) {
-//                $data['realname'] = $userInfo->realname;
-//            }
-//            $result = self::$roleStore->addRole($data);
-//
-//            // 返回信息处理
-//            if(!$result) {
-//                Log::error('申请角色失败', $result);
-//                return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
-//            };
-//            // 申请成功后，根据新的用户信息对data_user_info表进行一次数据覆盖更新
-//            $user = [];
-//            // 申请会员的
-//            $user['realname'] = $data['realname'];
-//
-//
-//            self::$userStore->updateUserInfo(['guid' => $data['guid']], $user);
-//
-//            DB::commit();
-//            return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
-//        } catch (Exception $e) {
-//            DB::rollback();
-//            return ['StatusCode' => '400', 'ResultData' => '申请失败，请重新申请...'];
-//        }
-//    }
 
     /**
      * 申请角色

@@ -118,9 +118,13 @@ class UserController extends Controller
         // 获取用户相关角色信息
         $roleInfo = self::$userRoleServer->getRoleInfo($id);
 
+        // 获取用户的项目
+        $countProjects =self::$projectServer->getCount(['guid' => $id]);
+
         return view('home.user.index', [
-            'userInfo'   => $info['ResultData'],
-            'roleInfo'   => $roleInfo,
+            'userInfo'     => $info['ResultData'],
+            'roleInfo'     => $roleInfo,
+            'countProject' => $countProjects,
         ]);
     }
 
