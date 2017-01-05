@@ -9,6 +9,7 @@
 
 namespace App\Services;
 use App\Redis\ActionCache;
+use App\Redis\CollegeCache;
 use App\Store\ActionStore;
 use App\Store\ActionOrderStore;
 use App\Store\CommentStore;
@@ -33,6 +34,7 @@ class ActionService
     protected static $likeStore;
     protected static $pictureStore;
     protected static $actionCache;
+    protected static $collegeCache;
 
     public function __construct(
         ActionStore $actionStore,
@@ -41,7 +43,8 @@ class ActionService
         CommentStore $commentStore,
         LikeStore $likeStore,
         PictureStore $pictureStore,
-        ActionCache $actionCache
+        ActionCache $actionCache,
+        CollegeCache $collegeCache
     )
     {
         self::$actionStore      = $actionStore;
@@ -51,6 +54,7 @@ class ActionService
         self::$collegeStore     = $collegeStore;
         self::$pictureStore     = $pictureStore;
         self::$actionCache      = $actionCache;
+        self::$collegeCache     = $collegeCache;
     }
 
     /**
@@ -209,7 +213,17 @@ class ActionService
     public function selectData($where, $nowPage, $forPages, $url, $list, $disPlay=true)
     {
         //判断action缓存是否存在
-        if(!self::$actionCache->exists($where['type'].':'.$where['status'])){
+        if (!$list){
+            $exist = !empty($where['status']) ? self::$actionCache->exists($where['type'].':'.$where['status']) : self::$actionCache->exists($where['type']);
+        }else{
+            if (empty($where['type'])){
+                $exist = self::$collegeCache->exists('-'.':'.$where['status']);
+            }else{
+                $exist = !empty($where['status']) ? self::$collegeCache->exists($where['type'].':'.$where['status']) : self::$collegeCache->exists($where['type']);
+            }
+        }
+        if(!$exist){
+            Log::info('到数据库里');
             //获取数据库里的所有文章列表,并且转对象为数组
             if(!$list){
                 $count = self::$actionStore->getCount($where);
@@ -222,87 +236,62 @@ class ActionService
                 return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
             }
 
-            //计算总页数
-            $totalPage = ceil($count / $forPages);
-
             //获取对应页的数据
             if ($list){
                 $result['data'] = self::$collegeStore->forPage($nowPage, $forPages, $where);
                 //存入redis缓存
-                $redis_list = CustomPage::objectToArray(self::$actionStore->getData($where));
+                $redis_list = CustomPage::objectToArray(self::$collegeStore->getData($where));
+                self::$collegeCache->setCollegeList($where, $redis_list);
             }else{
                 $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
                 //存入redis缓存
                 $redis_list = CustomPage::objectToArray(self::$actionStore->getData($where));
+                self::$actionCache->setActionList($where, $redis_list);
             }
-            if($result['data']){
 
-                if(count($redis_list)){
-                    self::$actionCache->setActionList($where['type'], $where['status'], $redis_list);
-                }
-
-                if ($disPlay && $totalPage > 1) {
-                    //创建分页样式
-                    $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
-
-                    if($creatPage){
-                        $result["pages"] = $creatPage;
-                    }else{
-                        return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
-                    }
-
-                }else{
-                    $result['totalPage'] = $totalPage;
-                    $result["pages"] = '';
-                }
-                return ['StatusCode' => '200','ResultData' => $result];
-            }else{
-                return ['StatusCode' => '500','ResultData' => '获取分页数据失败！'];
-            }
         }else{
-            //查询总记录数
-            if(!$list){
-                $lists = self::$actionCache->getActionList($where['type'], $where['status'], $forPages, $nowPage);
+            Log::info('到redis里');
+            if ($list){
+                $count = self::$collegeCache->getLength($where);
             }else{
-                $lists = self::$actionCache->getActionList($where['type'], $where['status'], $forPages, $nowPage);
+                $count = self::$actionCache->getLength($where);
             }
 
-            $count = count($lists);
+            //查询总记录数
             if (!$count) {
                 //如果没有数据直接返回204空数组，函数结束
                 if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
                 return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
             }
 
-            //计算总页数
-            $totalPage = ceil($count / $forPages);
-
-            //获取对应页的数据
-            if ($list){
-                $result['data'] = CustomPage::arrayToObject(self::$actionCache->getActionList($where['type'], $where['status'], $forPages, $nowPage));
+            if(!$list){
+                $result['data'] = \Qiniu\json_decode(json_encode(self::$actionCache->getActionList($where, $forPages, $nowPage)));
             }else{
-                $result['data'] = CustomPage::arrayToObject(self::$actionCache->getActionList($where['type'], $where['status'], $forPages, $nowPage));
+                $result['data'] = \Qiniu\json_decode(json_encode(self::$collegeCache->getCollegeList($where, $forPages, $nowPage)));
             }
+        }
 
-            if($result['data']){
-                if ($disPlay && $totalPage > 1) {
-                    //创建分页样式
-                    $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+        //计算总页数
+        $totalPage = ceil($count / $forPages);
 
-                    if($creatPage){
-                        $result["pages"] = $creatPage;
-                    }else{
-                        return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
-                    }
+        if($result['data']){
+            if ($disPlay && $totalPage > 1) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
 
+                if($creatPage){
+                    $result["pages"] = $creatPage;
                 }else{
-                    $result['totalPage'] = $totalPage;
-                    $result["pages"] = '';
+                    return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
                 }
-                return ['StatusCode' => '200','ResultData' => $result];
+
             }else{
-                return ['StatusCode' => '500','ResultData' => '获取分页数据失败！'];
+                $result['totalPage'] = $totalPage;
+                $result["pages"] = '';
             }
+            return ['StatusCode' => '200','ResultData' => $result];
+        }else{
+            return ['StatusCode' => '500','ResultData' => '获取分页数据失败！'];
         }
     }
 

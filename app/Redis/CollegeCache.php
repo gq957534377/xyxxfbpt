@@ -1,25 +1,25 @@
 <?php
 /**
- * action redis 缓存仓库
+ * college redis 缓存仓库
  * @author lw  beta
  */
 namespace App\Redis;
 
 use App\Tools\CustomPage;
-use App\Store\ActionStore;
+use App\Store\CollegeStore;
 use Illuminate\Support\Facades\Redis;
 
-class ActionCache
+class CollegeCache
 {
 
-    private static $lkey = LIST_ACTION_;      //项目列表key
-    private static $hkey = HASH_ACTION_INFO_;     //项目hash表key
+    private static $lkey = LIST_COLLEGE_;      //项目列表key
+    private static $hkey = HASH_COLLEGE_INFO_;     //项目hash表key
 
-    private static $action_store;
+    private static $college_store;
 
-    public function __construct(ActionStore $actionStore)
+    public function __construct(CollegeStore $collegeStore)
     {
-        self::$action_store = $actionStore;
+        self::$college_store = $collegeStore;
     }
 
     /**
@@ -41,11 +41,8 @@ class ActionCache
      * 将mysql获取的列表信息写入redis缓存
      * @param $data  array   mysql 获取的信息
      */
-    public function setActionList($where, $data)
+    public function setCollegeList($where, $data)
     {
-        //获取原始信息长度
-        $count = count($data);
-
         //执行写操作
         $this->insertCache($where, $data);
     }
@@ -95,7 +92,7 @@ class ActionCache
      * @param $data
      * @return bool
      */
-    public function setOneAction($data)
+    public function setOneCollege($data)
     {
         if(empty($data)) return false;
         return Redis::hMset(self::$hkey.$data['guid'], $data);
@@ -105,7 +102,7 @@ class ActionCache
      * 获取一条文章详情
      * @param $guid
      */
-    public function getOneAction($guid)
+    public function getOneCollege($guid)
     {
         if(!$guid) return false;
 
@@ -123,7 +120,7 @@ class ActionCache
      * @param  $pages int  当前页数
      * @return array
      */
-    public function getActionList($where, $nums, $pages)
+    public function getCollegeList($where, $nums, $pages)
     {
         //起始偏移量
         $offset = $nums * ($pages-1);
@@ -154,9 +151,9 @@ class ActionCache
                 $data[] = $content;
             }else{
                 //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
-                $res = CustomPage::objectToArray(self::$action_store->getOneData(['guid'=>$v]));
+                $res = CustomPage::objectToArray(self::$college_store->getOneData(['guid'=>$v]));
                 //将取出的mysql 文章详情写入redis
-                $this->setOneAction($res);
+                $this->setOneCollege($res);
                 $data[] = $res;
             }
 
