@@ -161,27 +161,29 @@
         });
 
         // 获取用户真实姓名
-//        ajax.ajax({
-//            url      :   '/user/realname' + '/'+$('#topAvatar').data('id'),
-//            type     :   'GET',
-//            beforeSend: ajaxBeforeSend($('.loading')),
-//            success  :   function(msg){
-//                ajaxAfterSend($('.loading'));
-//                switch (msg.StatusCode){
-//                    case '400':
-//                        $('input[name="syb_realname"]').attr('disabled', false);
-//                        break;
-//                    case '200':
-//                        if (msg.ResultData.realname == '') {
-//                            $('input[name="syb_realname"]').attr('disabled', false);
-//                        }else {
-//                            $('input[name="syb_realname"]').val(msg.ResultData.realname).attr('disabled', true);
-//                        }
-//
-//                        break;
-//                }
-//            },
-//        });
+
+        ajax.ajax({
+            url      :   '/user/realname' + '/'+$('#topAvatar').data('id'),
+            type     :   'GET',
+            beforeSend: ajaxBeforeSend($('.loading')),
+            success  :   function(msg){
+                ajaxAfterSend($('.loading'));
+                console.log(msg.ResultData.realname.length);
+                switch (msg.StatusCode){
+                    case '400':
+                        $('input[name="syb_realname"]').attr('disabled', false);
+                        break;
+                    case '200':
+                        if (msg.ResultData.realname.length <= 0) {
+                            $('input[name="syb_realname"]').attr('disabled', false);
+                        }else {
+                            $('input[name="syb_realname"]').val(msg.ResultData.realname).attr('disabled', true);
+                        }
+                        break;
+                }
+            },
+        });
+
 
     </script>
 @endsection
