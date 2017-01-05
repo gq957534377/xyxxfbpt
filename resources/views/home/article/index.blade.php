@@ -20,8 +20,8 @@
       <div class="row content">
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 content-left">
           @if(empty($type) || $type == 1)
-              <h2>市场咨询</h2>
-              @section('title', '市场咨询')
+              <h2>市场咨讯</h2>
+              @section('title', '市场咨讯')
           @else
               <h2>创业政策</h2>
               @section('title', '创业政策')
