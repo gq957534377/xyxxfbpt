@@ -9,7 +9,7 @@
     <form id="htmlfeedback-form" method="post">
         <div id="htmlfeedback-container-more" class="expanded">
             <h3>反馈内容<span style="color:red;display:inline-block;">（*必填）</span></h3>
-            <h3><div id="error-info" class="alert alert-danger"></div></h3>
+            <h3><div id="error-info-feed" class="alert alert-danger" hidden></div></h3>
             <p>
                 <textarea id="htmlfeedback-input-description" name="description" placeholder="欢迎提出您在使用过程中遇到的问题或宝贵建议（400字以内），感谢您的支持。"></textarea>
             </p>

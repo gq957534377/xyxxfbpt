@@ -52,7 +52,6 @@
                     <!--列表块开始-->
                         <ul class="row rodeing-list">
                             @foreach($ResultData['data'] as $action)
-                                @if($action->status != 4)
                                     <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="row">
                                             <div class="rodeing-img col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -84,7 +83,6 @@
                                             </div>
                                         </div>
                                     </li>
-                                @endif
                             @endforeach
                         </ul>
                         @if($ResultData['totalPage'] > $nowPage)
@@ -127,6 +125,9 @@
                     break;
                 case 3:
                     result = '已结束';
+                    break;
+                case 4:
+                    result = '已取消';
                     break;
                 case 5:
                     result = '报名已经截止';
@@ -173,3 +174,30 @@
 
     </script>
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

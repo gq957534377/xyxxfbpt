@@ -177,9 +177,9 @@ class LoginController extends Controller
         $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
         if(!preg_match($preg, $id)) return response()->json(['StatusCode'=>'200','ResultData' =>'请输入正确的手机号！']);
         // 查询该手机是否已注册
-        $info = self::$userServer->userInfo(['tel' => $id]);
+        $info = self::$userServer->checkUser(['tel' => $id]);
 
-        if($info['StatusCode'] != '200') return response()->json(['StatusCode'=>'400','ResultData' => '没有获取到手机号信息，请输入正确手机号']);
+        if($info['StatusCode'] != '200') return response()->json(['StatusCode'=>'400','ResultData' => '该手机号暂未注册，请输入正确手机号']);
 
         // 真，发送短信
         $info = self::$userServer->sendSmsCode($id);

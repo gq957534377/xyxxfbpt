@@ -180,8 +180,8 @@
                 },
                 tel: {
                     required: "请输入手机号",
-                    minlength: "密码长度小于11位",
-                    maxlength: "密码长度大于11位",
+                    minlength: "手机号长度小于11位",
+                    maxlength: "手机号长度大于11位",
                     isMobile: "手机号码不对"
                 },
                 code: {

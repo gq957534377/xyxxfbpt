@@ -1,5 +1,5 @@
 @extends('home.layouts.master')
-
+@section('title', '详情')
 @section('style')
     <link href="{{ asset('home/css/articleContent.css') }}" rel="stylesheet">
     <link href="{{ asset('home/css/sweet-alert.min.css') }}" rel="stylesheet">
