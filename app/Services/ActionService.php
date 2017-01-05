@@ -8,6 +8,7 @@
  */
 
 namespace App\Services;
+use App\Redis\ActionCache;
 use App\Store\ActionStore;
 use App\Store\ActionOrderStore;
 use App\Store\CommentStore;
@@ -31,6 +32,7 @@ class ActionService
     protected static $common;
     protected static $likeStore;
     protected static $pictureStore;
+    protected static $actionCache;
 
     public function __construct(
         ActionStore $actionStore,
@@ -38,7 +40,8 @@ class ActionService
         ActionOrderStore $actionOrderStore,
         CommentStore $commentStore,
         LikeStore $likeStore,
-        PictureStore $pictureStore
+        PictureStore $pictureStore,
+        ActionCache $actionCache
     )
     {
         self::$actionStore      = $actionStore;
@@ -47,6 +50,7 @@ class ActionService
         self::$likeStore        = $likeStore;
         self::$collegeStore     = $collegeStore;
         self::$pictureStore     = $pictureStore;
+        self::$actionCache      = $actionCache;
     }
 
     /**
@@ -204,6 +208,21 @@ class ActionService
      */
     public function selectData($where, $nowPage, $forPages, $url, $list, $disPlay=true)
     {
+        //判断article缓存是否存在
+        if(!self::$article_cache->exists()){
+            //获取数据库里的所有文章列表,并且转对象为数组
+            $article_list = CustomPage::objectToArray(self::$article_store->getAllArticle());
+
+            //存入redis缓存
+            if(count($article_list)){
+                self::$article_cache->setArticleList($article_list);
+            }
+        }
+
+        //直接读取缓存数据,并把数组转换为对象
+        $list = CustomPage::arrayToObject(self::$article_cache->getArticleList($nums,$pages));
+
+
         //查询总记录数
         if(!$list){
             $count = self::$actionStore->getCount($where);
