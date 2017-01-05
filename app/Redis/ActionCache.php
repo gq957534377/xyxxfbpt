@@ -35,7 +35,6 @@ class ActionCache
         }else{
             return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
         }
-
     }
 
     /**
