@@ -42,13 +42,13 @@ class ActionCache
      * 将mysql获取的列表信息写入redis缓存
      * @param $data  array   mysql 获取的信息
      */
-    public function setActionList($data)
+    public function setActionList($type, $data)
     {
         //获取原始信息长度
         $count = count($data);
 
         //执行写操作
-        $this->insertCache($data);
+        $this->insertCache($type, $data);
 
         //获取存入的list缓存长度
         $length = $this->getLength();
@@ -64,15 +64,15 @@ class ActionCache
      * @param $data
      * @return bool
      */
-    protected function insertCache($data)
+    protected function insertCache($type, $data)
     {
         if (empty($data)) return false;
         foreach ($data as $v){
             //执行写list操作
-            Redis::rpush(self::$lkey, $v['guid']);
+            Redis::rpush(self::$lkey.$type, $v['guid']);
 
             //如果hash存在则不执行写操作
-            if(!$this->exists($type = '', $v['guid'])){
+            if(!$this->exists($v['guid'], false)){
 
                 $index = self::$hkey.$v['guid'];
                 //写入hash
@@ -98,7 +98,6 @@ class ActionCache
     /**
      * 获取一条文章详情
      * @param $guid
-     * @return array
      */
     public function getOneAction($guid)
     {
@@ -118,7 +117,7 @@ class ActionCache
      * @param  $pages int  当前页数
      * @return array
      */
-    public function getActionList($nums,$pages)
+    public function getActionList($type, $status, $nums, $pages)
     {
         //起始偏移量
         $offset = $nums * ($pages-1);
@@ -126,8 +125,19 @@ class ActionCache
         //获取条数
         $totals = $offset + $nums - 1;
 
-        //获取缓存的列表索引
-        $list = Redis::lrange(self::$lkey, $offset,$totals);
+        if (!empty($type)){
+            if (!empty($status)){
+                //获取缓存的列表索引
+                $list = Redis::lrange(self::$lkey.$type.':'.$status, $offset,$totals);
+            }else{
+//                $lists = Redis::
+            }
+        }else{
+            return [];
+        }
+
+
+
 
         $data = [];
 
