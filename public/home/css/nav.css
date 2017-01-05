@@ -25,13 +25,13 @@ body{
   text-align: center;
   list-style-type: none;
   float: left;
-  height: 43px;
+  height: 45px;
 }
 .nav-content > li > a {
   display: inline-block;
   color: #ffffff;
   width: 100%;
-  line-height: 43px;
+  line-height: 45px;
   text-decoration: none;
 }
 .nav-content > li > a:hover {
