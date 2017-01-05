@@ -146,17 +146,27 @@ class ArticleService
             }
         } else {
             // 直接读取缓存数据,并把数组转换为对象
-            $this->selectArticleRedis($forPages, $nowPage, $where['type']);
+            $result = $this->selectArticleRedis($forPages, $nowPage, $where['type']);
         }
 
         return $result;
     }
 
+    /**
+     * 读取redis数据，并且把得到的数据转换成对象
+     * @param $forPages
+     * @param $nowPage
+     * @param $type
+     * @return array
+     * @author 王通
+     */
     public function selectArticleRedis($forPages, $nowPage, $type)
     {
+        $count = self::$articleCache->getLength($type);
         $totalPage = ceil($count / $forPages);
-        $result = CustomPage::arrayToObject(self::$articleCache->getArticleList($forPages, $nowPage, $type));
-
+        $result['data'] = CustomPage::arrayToObject(self::$articleCache->getArticleList($forPages, $nowPage, $type));
+        $result['totalPage'] = $totalPage;
+        return ['StatusCode' => '200','ResultData' => $result];
 
     }
     /**
@@ -168,7 +178,7 @@ class ArticleService
      */
     public function getData($guid)
     {
-        $data = self::$articleStore->getOneData(["guid" => $guid]);
+        $data = self::$articleCache->getOneArticle($guid);
         // 判断有没有取到数据
         if ($data) {
             // 如果登录，则判断点赞记录
@@ -380,8 +390,11 @@ class ArticleService
         }
         $result = self::$articleStore->insertData($data);
 
-        //判断插入是否成功，并返回结果
-        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => '保存成功'];
+        //判断插入是否成功，如果成功则写入redis并返回结果
+        if(isset($result)) {
+            self::$articleCache->insertCache($data);
+            return ['StatusCode' => '200', 'ResultData' => '保存成功'];
+        }
         return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
     }
 
@@ -478,14 +491,29 @@ class ArticleService
      */
     public function getRandomArticles($type, $take = 4, $status = 1)
     {
-        if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
-        $start = self::$articleStore->getCount(['type' => $type, 'status' => $status]);
-        // 获取文章数据
-        $result = self::$articleStore->RandomArticles(['type' => $type, 'status' => $status], $take, rand(1, $start - $take));
-
-        if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
-
+        if(!self::$articleCache->existsArticleList($type)){
+            if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
+            $start = self::$articleStore->getCount(['type' => $type, 'status' => $status]);
+            // 获取文章数据
+            $result = self::$articleStore->RandomArticles(['type' => $type, 'status' => $status], $take, rand(1, $start - $take));
+            if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+        } else {
+            $result = $this->getRandomRedisArticle($type, $take);
+        }
         return ['StatusCode' => '200', 'ResultData' => $result];
+    }
+
+    protected function getRandomRedisArticle($type, $num)
+    {
+        $count = self::$articleCache->getLength($type);
+        $numArr = range(0, $count - 1);
+        shuffle ($numArr);
+        $nowPageArr = array_slice($numArr, 0, $num);
+        for ($i = 0; $i < $num; $i++) {
+            $data[$i] = CustomPage::arrayToObject(self::$articleCache->getArticleList(1, $nowPageArr[$i], $type)[0]);
+        }
+        $result = $data;
+        return $result;
     }
 
 

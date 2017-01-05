@@ -37,8 +37,8 @@ class ArticleController extends Controller
             $where["status"] = 1;
             $where['type'] = $request['type'];
             $result = self::$articleServer->selectArticle($where, 1, self::$forPages, "/article/create", false);
-            dd($result);
             $result['type'] = $request['type'];
+            // 随机取四条文章信息
             $randomList = self::$articleServer->getRandomArticles($where['type'], 4, 1);
             $result['ResultData']['RandomList'] = $randomList;
 
