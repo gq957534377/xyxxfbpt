@@ -13,6 +13,9 @@
         .list-unstyled > li:nth-child(1){
             margin-bottom: 25px;
         }
+        table td{
+            text-align : center;
+        }
     </style>
 @endsection
 {{--展示内容开始--}}
@@ -442,79 +445,158 @@
             //公共表格头
             str +=  '<div class="panel-body">' +
                     '<table class="table table-bordered table-striped">' +
-                    '<thead>' +
-                    '<tr>' +
-                    '<th class ="text-center">姓名</th>' +
-                    '<th class ="text-center">类型</th>' +
-                    '<th class ="text-center">性别</th>' +
-                    '<th class ="text-center">生日</th>' +
-                    '<th class ="text-center">手机</th>' +
-                    '<th class ="text-center">邮箱</th>' +
-                    '<th class ="text-center">用户状态</th>' +
-                    '<th class ="text-center">操作</th>' +
-                    '</tr>' +
-                    '</thead>'+
-                    '<tbody>';
+                    '<thead>';
+            switch(data[0].role){
+                case 2: //创业者列表
+                    str +=  '<tr>' +
+                        '<th class ="text-center">姓名</th>' +
+                        '<th class ="text-center">类型</th>' +
+                        '<th class ="text-center">学校</th>' +
+                        '<th class ="text-center">学历</th>' +
+                        '<th class ="text-center">专业</th>' +
+                        '<th class ="text-center">申请时间</th>' +
+                        '<th class ="text-center">用户状态</th>' +
+                        '<th class ="text-center">操作</th>' +
+                        '</tr>' +
+                        '</thead>'+
+                        '<tbody>';
+                    break;
+                case 3: //投资者列表
+                str +=  '<tr>' +
+                        '<th class ="text-center">姓名</th>' +
+                        '<th class ="text-center">类型</th>' +
+                        '<th class ="text-center">工作年限</th>' +
+                        '<th class ="text-center">投资规模</th>' +
+                        '<th class ="text-center">公司</th>' +
+                        '<th class ="text-center">申请时间</th>' +
+                        '<th class ="text-center">用户状态</th>' +
+                        '<th class ="text-center">操作</th>' +
+                        '</tr>' +
+                        '</thead>'+
+                        '<tbody>';
+                break;
+                case 4: //英雄会员列表
+                    str +=  '<tr>' +
+                            '<th class ="text-center">姓名</th>' +
+                            '<th class ="text-center">类型</th>' +
+                            '<th class ="text-center">工作年限</th>' +
+                            '<th class ="text-center">投资规模</th>' +
+                            '<th class ="text-center">公司</th>' +
+                            '<th class ="text-center">申请时间</th>' +
+                            '<th class ="text-center">用户状态</th>' +
+                            '<th class ="text-center">操作</th>' +
+                            '</tr>' +
+                            '</thead>'+
+                            '<tbody>';
+                    break;
+
+            }
+
 
             //
 
             $.each(data, function (i, v) {
+                var time = new Date(v.addtime*1000);
 
                 str += '<tr class="gradeX">';
                 str +=  '<td>' + v.realname + '</td>';
-                str +=  '<td>';
-                if(v.role == 1){
-                    str +=  '<span class="text-info text-xs">普通用户&nbsp;</span>';
-                }
-                if(v.role == 2){
-                    str +=  '<span class="text-warning text-xs">创业者&nbsp;</span>';
-                }
-                if(v.role == 3){
-                    str += '<span class="text-success text-xs">投资者&nbsp;</span>';
-                }
-                if(v.memeber == 2){
-                    str += '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
-                }
-                str += '</td>';
-                if(v.sex == 1){
-                    str += '<td>男</td>';
-                }else{
-                    str +=  '<td>女</td>';
+
+                switch (v.role){
+                    case 2:
+                        str +=  '<td>';
+                        str +=  '<span class="text-warning text-xs">创业者&nbsp;</span>';
+                        str += '</td>';
+                        str += '<td>';
+                        str += v.school_name;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.education;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.major;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += time.getFullYear() +'-'+ time.getMonth() + 1 +'-' +time.getDate()+ ' ' +time.getHours()+':'+time.getMinutes() + ':' + time.getSeconds();
+                        str += '</td>';
+                            switch (v.status){
+                                case 5:
+                                    str +=  '<td>';
+                                    str += '<span class="text-danger text-xs">待审核&nbsp; </span><span class="text-info text-xs">创业者</span>';
+                                    str +=  '</td>';
+                                    break;
+                                case 7:
+                                    str +=  '<td>';
+                                    str += '<span class="text-danger text-xs">未通过&nbsp; </span><span class="text-info text-xs">创业者</span>';
+                                    str +=  '</td>';
+                                    break;
+
+
+                            }
+                        break;
+
+                    case 3:
+                        str +=  '<td>';
+                        str += '<span class="text-success text-xs">投资者&nbsp;</span>';
+                        str += '</td>';
+                        str += '<td>';
+                        str += v.work_year;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.scale + '万';
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.company;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += time.getFullYear() +'-'+ time.getMonth() + 1 +'-' +time.getDate()+ ' ' +time.getHours()+':'+time.getMinutes() + ':' + time.getSeconds();
+                        str += '</td>';
+                        switch (v.status){
+                            case 5:
+                                str +=  '<td>';
+                                str += '<span class="text-danger text-xs">待审核&nbsp;</span><span class="text-success text-xs">投资者</span>';
+                                str +=  '</td>';
+                                break;
+                            case 7:
+                                str +=  '<td>';
+                                str += '<span class="text-danger text-xs">未通过&nbsp;</span><span class="text-success text-xs">投资者</span>';
+                                str +=  '</td>';
+                                break;
+                        }
+                        break;
+
+                    case 4:
+                        str +=  '<td>';
+                        str += '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
+                        str += '</td>';
+                        str += '<td>';
+                        str += v.school_name;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.education;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.major;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += time.getFullYear() +'-'+ time.getMonth() + 1 +'-' +time.getDate()+ ' ' +time.getHours()+':'+time.getMinutes() + ':' + time.getSeconds();
+                        str += '</td>';
+                        switch (v.status){
+                            case 5:
+                                str +=  '<td>';
+                                str += '<span class="text-danger text-xs">待审核&nbsp;</span><span class="text-warning text-xs">英雄会员</span>';
+                                str +=  '</td>';
+                                break;
+                            case 7:
+                                str +=  '<td>';
+                                str += '<span class="text-danger text-xs">未通过&nbsp;</span><span class="text-warning text-xs">英雄会员</span>';
+                                str +=  '</td>';
+                                break;
+                        }
                 }
 
-                str += '<td>';
-                str += v.birthday ? v.birthday : '';
-                str += '</td>';
-                str +=  '<td>';
-                str += v.tel ? v.tel : '';
-                str += '</td>';
-                str +=  '<td>';
-                str += v.email ? v.email : '';
-                str += '</td>';
-                str +=  '<td>';
 
-                if(v.status == 5 && v.role == 2){
-                    str += '<span class="text-danger text-xs">待审核&nbsp; </span><span class="text-info text-xs">创业者</span>';
-                }
-                if(v.status == 5 && v.role == 3){
-                    str += '<span class="text-danger text-xs">待审核&nbsp;</span><span class="text-success text-xs">投资者</span>';
-                }
-                if(v.status == 5 && v.role == 4){
-                    str += '<span class="text-danger text-xs">待审核&nbsp;</span><span class="text-warning text-xs">英雄会员</span>';
-                }
-
-                if(v.status == 7 && v.role == 2){
-                    str += '<span class="text-danger text-xs">未通过&nbsp; </span><span class="text-info text-xs">创业者</span>';
-                }
-                if(v.status == 7 && v.role == 3){
-                    str += '<span class="text-danger text-xs">未通过&nbsp;</span><span class="text-success text-xs">投资者</span>';
-                }
-                if(v.status == 7 && v.role == 4){
-                    str += '<span class="text-danger text-xs">未通过&nbsp;</span><span class="text-warning text-xs">英雄会员</span>';
-                }
-                str +=  '</td>';
-                str +=  '<td>';
                 if(v.status == 5 || v.status == 7){
+                    str += '<td>';
                     str +=  '<a href="javascript:;" data-guid="' + v.guid + '" data-role="'+v.role+'" data-realname="'+ v.realname +'" data-role ="'+v.role+
                             '" data-brithday="'+v.birthday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+
                             '" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+

@@ -146,6 +146,7 @@
             }
         });
 
+
         // 获取用户真实姓名
         ajax.ajax({
             url      :   '/user/realname' + '/'+$('#topAvatar').data('id'),
@@ -168,7 +169,6 @@
                }
             },
         });
-
 
     </script>
 @endsection

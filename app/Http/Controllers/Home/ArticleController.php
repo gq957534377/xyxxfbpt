@@ -31,11 +31,15 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
+
         if (!empty($request['type'])) {
             $where["status"] = 1;
             $where['type'] = $request['type'];
             $result = self::$articleServer->selectData($where, 1, 5, "/article/create",false);
             $result['type'] = $request['type'];
+            $randomList = self::$articleServer->getRandomArticles($where['type'], 4, 1);
+            $result['ResultData']['RandomList'] = $randomList;
+
             return view('home.article.index', $result);
         }
 
@@ -96,16 +100,20 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $res = self::$articleServer->getData($id);
-        $res['ResultData']->likeNum = self::$commentServer->likeCount($id);
+        $result = self::$articleServer->getData($id);
+
+        $result['ResultData']->likeNum = self::$commentServer->likeCount($id);
         // 判断有没有文章信息
-        if ($res['StatusCode'] == '200') {
+        if ($result['StatusCode'] == '200') {
+            $randomList = self::$articleServer->getRandomArticles($result['ResultData']->type, 4, 1);
+            $result['RandomList'] = $randomList;
+
             // 获取评论表+like表中某一个文章的评论
-            $comment = self::$commentServer->getComent($id,1);
+            $comment = self::$commentServer->getComent($id, 1);
             // 判断有没有评论信息
-            $res['ResultData']->comment = $comment;
+            $result['ResultData']->comment = $comment;
         }
-        return view('home.article.articlecontent', $res);
+        return view('home.article.articlecontent', $result);
     }
 
     /**

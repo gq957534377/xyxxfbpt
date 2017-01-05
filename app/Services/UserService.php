@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Mail;
 
-
 class UserService {
     protected static $homeStore = null;
     protected static $userStore = null;
@@ -93,8 +92,7 @@ class UserService {
 
         $countUsers = self::$userStore->countUsers();
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
-        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'nickname' => '', 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
-
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg', 'addtime' => $data['addtime']]);
         if (!$userInfo) {
             Log::error('用户注册信息写入失败', $userInfo);
             DB::rollback();
@@ -294,7 +292,7 @@ class UserService {
             // 成功，保存信息到session里，为了下一次校验
             $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
             Session::put('sms',$arr);
-
+            Log::info(date('Y-m-d', $nowTime) . \Request::getClientIp() . '请求短信');
             return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];
         }else{
             $resp =  Common::sendSms($phone, $content, '奇立英雄会', 'SMS_34865398');

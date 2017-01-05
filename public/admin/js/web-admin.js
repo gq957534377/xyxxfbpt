@@ -10,12 +10,12 @@ $('.status1').off('click').on('click', function () {
             $('.avatar-scale').val('1');
             break;
         case 2:
-            $('.avatar-scale').val(224/153);
+            $('.avatar-scale').val(225/140);
             $('.organiz-type').val(status);
             $('#crop-avatar3 button').html('添加合作机构');
             break;
         case 3:
-            $('.avatar-scale').val(224/153);
+            $('.avatar-scale').val(225/140);
             $('.organiz-type').val(status);
             $('#crop-avatar3 button').html('添加投资机构');
             break;
@@ -173,8 +173,8 @@ function carouselHtml (data) {
         html += '<div class="panel">';
         html += '<div class="panel-body">';
         html += '<div class="media-main">';
-        html += '<a class="pull-left" href="#">';
-        html += '<img class="thumb-lg bx-s" src="'+ value.url +'" alt="" style="width: 250%;">';
+        html += '<a id="rollingpic" class="pull-left" href="#" style="width: 250px;">';
+        html += '<img class="thumb-lg bx-s" src="'+ value.url +'" alt="" style="width: 100%;">';
         html += '</a>';
         html += '<div class="pull-right btn-group-sm">';
 //                html += '<a href="" class="btn btn-success tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Edit">';

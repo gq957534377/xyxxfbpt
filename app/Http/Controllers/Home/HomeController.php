@@ -150,4 +150,9 @@ class HomeController extends Controller
     {
         //
     }
+    public function aboutWe(Request $request)
+    {
+        $type = $request->input('type');
+        return view('home.about.index', ['type' => $type]);
+    }
 }
