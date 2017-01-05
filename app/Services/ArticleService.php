@@ -136,20 +136,28 @@ class ArticleService
     public function selectArticle($where, $nowPage, $forPages, $url, $disPlay = true)
     {
         // 判断article缓存是否存在
-        if(!self::$articleCache->exists()){
+        if(!self::$articleCache->existsArticleList($where['type'])){
             // 获取数据库里的所有文章列表,并且转对象为数组
             $article_list = CustomPage::objectToArray(self::$articleStore->getData($where));
-            $list = $this->selectData($where, $nowPage, $forPages, $url, $disPlay = true);
+            $result = $this->selectData($where, $nowPage, $forPages, $url, $disPlay);
             // 存入redis缓存
             if(count($article_list)){
-                self::$articleCache->setArticleList($article_list);
+                self::$articleCache->setArticleList($article_list, $where['type']);
             }
+        } else {
+            // 直接读取缓存数据,并把数组转换为对象
+            $this->selectArticleRedis($forPages, $nowPage, $where['type']);
         }
 
-        // 直接读取缓存数据,并把数组转换为对象
-        $list = CustomPage::arrayToObject(self::$articleCache->getArticleList($forPages, $nowPage));
+        return $result;
+    }
 
-        return $list;
+    public function selectArticleRedis($forPages, $nowPage, $type)
+    {
+        $totalPage = ceil($count / $forPages);
+        $result = CustomPage::arrayToObject(self::$articleCache->getArticleList($forPages, $nowPage, $type));
+
+
     }
     /**
      * 查询相关文章信息

@@ -678,7 +678,7 @@
                 <ul class='col-sm-5 section6_right'>
                     @for($i = 0; $i < round(count($articles)/2); $i++)
                         <li>
-                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
                             <p>发布时间 {{ $articles[$i]->addtime }}</p>
                         </li>
                     @endfor
@@ -686,7 +686,7 @@
                 <ul class='col-sm-5 section6_right'>
                     @for($i = round(count($articles)/2); $i < count($articles); $i++)
                         <li>
-                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
                             <p>发布时间 {{ $articles[$i]->addtime }}</p>
                         </li>
                     @endfor
@@ -704,7 +704,7 @@
                 @if(is_array($picArr))
                 @foreach($picArr as $val)
                         @if($val->type == 3)
-                            <li class="col-sm-2"><a href="{{ $val->pointurl }}"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"></a></li>
+                            <li class="col-sm-2"><a href="{{ $val->pointurl }}" target="_blank"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"></a></li>
                         @endif
                 @endforeach
                 @else

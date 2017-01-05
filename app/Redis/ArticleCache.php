@@ -38,7 +38,17 @@ class ArticleCache
         }
 
     }
+    /**
+     * 判断listkey是否存在 指定类型的redis
+     * @param $type string list为查询listkey,否则查询hashkey
+     * @param $index string   唯一识别码 guid
+     * @return bool
+     */
+    public function existsArticleList($type = '1')
+    {
+        return Redis::exists(self::$lkey . $type);  //查询listkey是否存在
 
+    }
 
     /**
      * 将mysql获取的列表信息写入redis缓存
@@ -56,7 +66,7 @@ class ArticleCache
         $length = $this->getLength();
 
         if($length != $count){
-            Log::error('文章模块存储redis异常！！！');
+            \Log::error('文章模块存储redis异常！！！');
         }
         return true;
 
@@ -72,7 +82,7 @@ class ArticleCache
         if (empty($data)) return false;
         foreach ($data as $v){
             //执行写list操作
-            Redis::rpush(self::$lkey, $v['guid']);
+            Redis::rpush(self::$lkey . $v['type'], $v['guid']);
 
             //如果hash存在则不执行写操作
             if(!$this->exists($type = '', $v['guid'])){
@@ -121,7 +131,7 @@ class ArticleCache
      * @param  $pages int  当前页数
      * @return array
      */
-    public function getArticleList($nums, $pages)
+    public function getArticleList($nums, $pages, $type)
     {
         //起始偏移量
         $offset = $nums * ($pages - 1);
@@ -130,7 +140,7 @@ class ArticleCache
         $totals = $offset + $nums - 1;
 
         //获取缓存的列表索引
-        $list = Redis::lrange(self::$lkey, $offset, $totals);
+        $list = Redis::lrange(self::$lkey . $type, $offset, $totals);
 
         $data = [];
 
