@@ -208,8 +208,8 @@ class ActionService
      */
     public function selectData($where, $nowPage, $forPages, $url, $list, $disPlay=true)
     {
-        //判断article缓存是否存在
-        if(!self::$article_cache->exists()){
+        //判断action缓存是否存在
+        if(!self::$actionCache->exists($where['type'].':'.$where['status'])){
             //获取数据库里的所有文章列表,并且转对象为数组
             $article_list = CustomPage::objectToArray(self::$article_store->getAllArticle());
 
