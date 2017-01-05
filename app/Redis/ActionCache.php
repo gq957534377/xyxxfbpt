@@ -6,32 +6,32 @@
 namespace App\Redis;
 
 use App\Tools\CustomPage;
-use App\Store\ArticleStore;
+use App\Store\ActionStore;
 use Illuminate\Support\Facades\Redis;
 
-class ArticleCache
+class ActionCache
 {
 
-    private static $lkey = LIST_ACTION_INFO;      //项目列表key
+    private static $lkey = LIST_ACTION_;      //项目列表key
     private static $hkey = HASH_ACTION_INFO_;     //项目hash表key
 
     private static $action_store;
 
-    public function __construct(ArticleStore $actionStore)
+    public function __construct(ActionStore $actionStore)
     {
         self::$action_store = $actionStore;
     }
 
     /**
-     * 判断listkey和hashkey是否存在
-     * @param $type string list为查询listkey,否则查询hashkey
+     * 判断listkey或者hashkey是否存在
+     * @param $list bool list为真查询listkey,否则查询hashkey
      * @param $index string   唯一识别码 guid
      * @return bool
      */
-    public function exists($type = 'list', $index = '')
+    public function exists($index, $list=true)
     {
-        if($type == 'list'){
-            return Redis::exists(self::$lkey);  //查询listkey是否存在
+        if($list){
+            return Redis::exists(self::$lkey.$index);  //查询listkey是否存在
         }else{
             return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
         }
@@ -42,7 +42,7 @@ class ArticleCache
      * 将mysql获取的列表信息写入redis缓存
      * @param $data  array   mysql 获取的信息
      */
-    public function setArticleList($data)
+    public function setActionList($data)
     {
         //获取原始信息长度
         $count = count($data);
@@ -89,7 +89,7 @@ class ArticleCache
      * @param $data
      * @return bool
      */
-    public function setOneArticle($data)
+    public function setOneAction($data)
     {
         if(empty($data)) return false;
         return Redis::hMset(self::$hkey.$data['guid'], $data);
@@ -100,7 +100,7 @@ class ArticleCache
      * @param $guid
      * @return array
      */
-    public function getOneArticle($guid)
+    public function getOneAction($guid)
     {
         if(!$guid) return false;
 
@@ -118,7 +118,7 @@ class ArticleCache
      * @param  $pages int  当前页数
      * @return array
      */
-    public function getArticleList($nums,$pages)
+    public function getActionList($nums,$pages)
     {
         //起始偏移量
         $offset = $nums * ($pages-1);
@@ -143,7 +143,7 @@ class ArticleCache
                 //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
                 $res = CustomPage::objectToArray(self::$action_store->getOneDatas(['guid'=>$v]));
                 //将取出的mysql 文章详情写入redis
-                $this->setOneArticle($res);
+                $this->setOneAction($res);
                 $data[] = $res;
             }
 
