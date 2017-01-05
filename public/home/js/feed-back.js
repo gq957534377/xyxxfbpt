@@ -411,13 +411,15 @@ $(".go-top").click(function(event){
             },
             errorPlacement: function(error, element) {
                 // Append error within linked label
-                if (error[0].textContent != null || error[0].textContent != '') {
-                    $('#error-info').html(error[0].textContent).fadeIn(1000);
+                if (error[0].textContent != '') {
+                    $('#error-info-feed').html(error[0].textContent).fadeIn(1000);
                 }
 
             },
-            success: function() {
-                $('#error-info').hide();
+            success: function(error) {
+                if (error[0].textContent == '') {
+                    $('#error-info-feed').hide();
+                }
             }
         });
     };
