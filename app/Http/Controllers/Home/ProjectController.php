@@ -65,7 +65,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('home.user.creatMyProject');
+        return view('home.user.creatMyproject');
     }
 
     /**
@@ -146,7 +146,7 @@ class ProjectController extends Controller
             return view('errors.404');
         } ;
 
-        return view('home.user.editMyProject', ['data' => $data['ResultData']]);
+        return view('home.user.editMyproject', ['data' => $data['ResultData']]);
     }
 
     /**

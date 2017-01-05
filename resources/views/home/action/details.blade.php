@@ -134,7 +134,8 @@
             <!--活动评论 开始-->
             <div class="col-md-9 col-lg-9 road-comment road-banner pl-block">
                 <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
-                <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4">更多评论></a>
+                <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></a>
+                <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 hidden">更多评论></a>
                 <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <!---循环遍历开始-->
                     <li class="row inputs">
