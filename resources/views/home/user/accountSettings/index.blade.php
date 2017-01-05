@@ -84,7 +84,7 @@
         <div class="binding col-xs-12 bb-1 pad-clr">
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pad-clr binding-email">
                 <p class="col-xs-12 col-sm-12 col-md-3 col-lg-2 pad-clr">安全邮箱</p>
-                <p class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ isset($accountInfo->email) ? 'binded' : 'unbinded'}}">{{ isset($accountInfo->email) ? '已绑定' : '未绑定'}}</p>
+                <p id="emailBinded" class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ isset($accountInfo->email) ? 'binded' : 'unbinded'}}">{{ isset($accountInfo->email) ? '已绑定' : '未绑定'}}</p>
                 <p id='email' class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ isset($accountInfo->email) ? $accountInfo->email : ''}}</p>
                 <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr"></p>
                 <p class="col-xs-12 col-sm-12 pad-clr fs-c-5">安全邮箱将可用于登录和修改密码</p>
@@ -682,13 +682,14 @@
                         $('.email-step-three + div').removeClass('hidden');
                         swal({
                                 title: '提示', // 标题，自定
-                                text: '邮箱邦定成功，准备重新登录...',   // 内容，自定
+                                text: '邮箱邦定成功',   // 内容，自定
                                 type: "success",    // 类型，分别为error、warning、success，以及info
                                 showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
                                 confirmButtonColor: '#34c73b',  // 确认用途的按钮颜色，自定
                             },
                             function (isConfirm) {
                                 swal('提示', msg.ResultData, "success");
+                                $("#emailBinded").removeClass('unbinded').addClass('binded');
                                 $(".userInfoReset").click();
                             });
                     } else {
@@ -701,8 +702,8 @@
             $('#email_step_three').on('click', function () {
                 $('.email-step-two').addClass('hidden');
                 $('.email-step-two + div').addClass('hidden');
-                $('.email-step-one').removeClass('hidden');
-                $('.email-step-one + div').removeClass('hidden');
+                $('.email-step-one').addClass('hidden');
+                $('.email-step-one + div').addClass('hidden');
             });
 
             // 邮箱更换绑定返回按钮
