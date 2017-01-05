@@ -158,7 +158,7 @@
                        $('input[name="investor_realname"]').attr('disabled', false);
                        break;
                    case '200':
-                       if (msg.ResultData.realname == '') {
+                       if (msg.ResultData.realname.length <= 0) {
                            $('input[name="investor_realname"]').attr('disabled', false);
                        }else {
                            $('input[name="investor_realname"]').val(msg.ResultData.realname).attr('disabled', true);

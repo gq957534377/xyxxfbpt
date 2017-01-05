@@ -167,17 +167,17 @@
             beforeSend: ajaxBeforeSend($('.loading')),
             success  :   function(msg){
                 ajaxAfterSend($('.loading'));
+                console.log(msg.ResultData.realname.length);
                 switch (msg.StatusCode){
                     case '400':
                         $('input[name="syb_realname"]').attr('disabled', false);
                         break;
                     case '200':
-                        if (msg.ResultData.realname == '') {
+                        if (msg.ResultData.realname.length <= 0) {
                             $('input[name="syb_realname"]').attr('disabled', false);
                         }else {
                             $('input[name="syb_realname"]').val(msg.ResultData.realname).attr('disabled', true);
                         }
-
                         break;
                 }
             },
