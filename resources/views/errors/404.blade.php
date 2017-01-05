@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>好像出错了？O(∩_∩)O！</title>
+        <title>你即将访问的页面不存在...</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
 
         <style>
             html, body {
@@ -52,13 +51,21 @@
                         100% {color: red;margin-left:0}
                     }
         </style>
+
+        <script type="text/javascript" src="http://www.qq.com/404/search_children.js?edition=small" charset="utf-8"
+                homePageUrl="http://www.jg110.com" homePageName="返回奇立英雄会"></script>
+
     </head>
     <body>
+
+
         <div class="container">
             <div class="content">
-                <div class="title">#404</div>
-                <div class="title">好像出错了？O(∩_∩)O！</div>
+                <div class="title"></div>
+                <div class="title"></div>
             </div>
         </div>
     </body>
+
 </html>
+
