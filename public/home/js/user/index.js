@@ -119,7 +119,7 @@ $(document).ready(function () {
                     $(".loading").hide();
                     user_nickname.html($('input[name="nickname"]').val());
                     $("#nicknameBox").html($('input[name="nickname"]').val());
-
+                    $('input[name="nickname"]').val('');
                     swal({
                             title: '提示', // 标题，自定
                             text: '昵称修改成功',   // 内容，自定
