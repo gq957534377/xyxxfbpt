@@ -15,6 +15,30 @@ aside ul > li > a:hover {
     color: #ff9035;
     text-decoration: none;
 }
+.sidebar-active {
+    color: #ff9035;
+}
+.sidebar-active-1 {
+    background-image: url("../img/ic-status-org.png") !important;
+}
+.sidebar-active-2 {
+    background-image: url("../img/ic-show-org.png") !important;
+}
+.sidebar-active-3 {
+    background-image: url("../img/ic-flag-org.png") !important;
+}
+.sidebar-active-4 {
+    background-image: url("../img/ic-pen-org.png") !important;
+}
+.sidebar-active-5 {
+    background-image: url("../img/ic-book-org.png") !important;
+}
+.sidebar-active-6 {
+    background-image: url("../img/ic-col-org.png") !important;
+}
+.sidebar-active-7 {
+    background-image: url("../img/ic-set-org.png") !important;
+}
 
 aside ul > li {
     margin-bottom: 1.2em;
