@@ -70,10 +70,16 @@ class ProjectStore {
      * @param $status
      * @return mixed
      * author 贾济林
+     * @modify 张洵之
      */
     public function getPage($nowPage, $pageNum, $where)
     {
-        return DB::table(self::$table)->where($where)->forPage($nowPage, $pageNum)->orderBy('addtime','desc')->get();
+        return DB::table(self::$table)
+            ->where('status','<',3)
+            ->where($where)
+            ->forPage($nowPage, $pageNum)
+            ->orderBy('addtime','desc')
+            ->get();
     }
 
     /**

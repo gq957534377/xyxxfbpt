@@ -62,7 +62,8 @@
         </div>
         <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 content-right">
           <div class="guangao row">
-            <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/test13.jpg') }}"></a>
+            {{--*/$i=rand(1,3);/*--}}
+            <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/demoimg/zf'.$i.'.jpg') }}"></a>
           </div>
           <div class="row news-list-title">
             <h2>您可能感兴趣的内容</h2>

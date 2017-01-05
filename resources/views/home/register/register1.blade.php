@@ -32,7 +32,7 @@
                 </ul>
                 <div class="input_block_2">
                     <span>
-                      点击“立即注册”，即表示您同意并愿意遵守<a href="#">注册用户协议</a>
+                      点击“立即注册”，表示您同意并愿意遵守<a href="#">注册用户协议</a>
                     </span>
                 </div>
                 <div class="btn_block">

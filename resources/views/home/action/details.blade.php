@@ -58,6 +58,8 @@
                 <button type="button" class="btn road-banner-join disabled">活动已开始</button>
             @elseif($data['ResultData']->status == 3)
                 <button type="button" class="btn road-banner-join disabled">活动已结束</button>
+            @elseif($data['ResultData']->status == 4)
+                <button type="button" class="btn road-banner-join disabled">活动已取消</button>
             @endif
         @else
             <h4 class="mar-ct mar-b15">{{ $data['ResultData'] }}</h4>
@@ -100,38 +102,29 @@
             </div>
             <!--活动说明 结束-->
 
-            <div class="col-lg-3 col-md-3 content-right">
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 content-right">
                 <div class="guangao row">
-                    <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/test13.jpg') }}"></a>
+                    {{--*/$i=rand(1,3);/*--}}
+                    <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/demoimg/zf'.$i.'.jpg') }}"></a>
                 </div>
                 <div class="row news-list-title">
-                    <h2>7×24h 快讯</h2>
+                    <h4>您可能感兴趣的活动</h4>
                 </div>
                 <ul class="row news-list">
-                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-                        <div class="news-list-time">
-                            <span>两分钟前</span>
-                        </div>
-                    </li>
-                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-                        <div class="news-list-time">
-                            <span>两分钟前</span>
-                        </div>
-                    </li>
-                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-                        <div class="news-list-time">
-                            <span>两分钟前</span>
-                        </div>
-                    </li>
-                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <h3><a href="#">前微软WP主管乔北峰长假回归 新岗位或将得罪不少用户</a></h3>
-                        <div class="news-list-time">
-                            <span>两分钟前</span>
-                        </div>
-                    </li>
+                    @if($rand['StatusCode'] == '200')
+                        @foreach($rand['ResultData'] as $rand)
+                            <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                @if($list == 1)
+                                    <h3><a href="/action/{{ $rand->guid }}">{{ $rand->title }}</a></h3>
+                                @else
+                                    <h3><a href="/school/{{ $rand->guid }}">{{ $rand->title }}</a></h3>
+                                @endif
+                                    <div class="news-list-time">
+                                    <span>{{ date('Y年m月d日 H点', $rand->addtime) }}</span>
+                                </div>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
                 <!-- <div class="btn-ll">
                   浏览更多
