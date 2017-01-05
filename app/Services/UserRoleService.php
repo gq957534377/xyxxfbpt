@@ -62,12 +62,12 @@ class UserRoleService {
             'realname' => 'required|min:2|max:16',
             'card_pic_a' => 'required',
             'card_pic_b' => 'required',
-            'school_address' => 'required',
-            'school_name' => 'required',
+            'school_address' => 'required|regex:/^[\x80-\xff]+$/',
+            'school_name' => 'required|regex:/^[\x80-\xff-a-zA-Z]+$/',
             'enrollment_year' => 'required',
             'graduation_year' => 'required',
             'education' => 'required',
-            'major' => 'required',
+            'major' => 'required|regex:/^[\x80-\xff-a-zA-Z0-9]+$/',
 
         ],[
             'guid.required' => '非法操作',
@@ -78,11 +78,14 @@ class UserRoleService {
             'card_pic_a.required' => '请上传您的出身份证正面照',
             'card_pic_b.required' => '请上传您的出身份证反面照',
             'school_address.required' => '请选择您所在院校的省份',
+            'school_address.regex' => '省份只允许输入中文',
             'school_name.required' => '请选择您所在院校的名字',
+            'school_name.regex' => '请选择您所在院校的名字只允许输入中文、字母',
             'enrollment_year.required' => '请输入您的入学时间',
             'graduation_year.required' => '请输入您的毕业时间',
             'education.required' => '请输入您的学历',
             'major.required' => '请输入您的专业名称',
+            'major.regex' => '专业名称只允许输入中文、字母、数字、下划线',
 
         ]);
 
@@ -104,9 +107,9 @@ class UserRoleService {
             'realname' => 'required|min:2|max:16',
             'work_year' => 'required|integer|digits_between:1,2',
             'scale' => 'required',
-            'company' => 'required',
+            'company' => 'required|regex:/^[\x80-\xff-a-zA-Z0-9]+$/',
             'company_address' => 'required',
-            'field' => 'required',
+            'field' => 'required|regex:/^[\x80-\xff_\-\/_a-zA-Z0-9]+$/',
             'card_pic_a' => 'required',
         ],[
             'guid.required' => '非法操作',
@@ -119,8 +122,10 @@ class UserRoleService {
             'work_year.digits_between' => '请输入两位以内数字',
             'scale.required' => '请输入投资规模',
             'company.required' => '请输入公司名称',
+            'company.regex' => '公司名称只允许输入中文、字母、数字、下划线',
             'company_address.required' => '请输入公司所在地',
             'field.required' => '请选择行业领域',
+            'field.regex' => '行业领域格式不对',
             'card_pic_a.required' => '请上传身份证件照',
         ]);
 
@@ -159,6 +164,7 @@ class UserRoleService {
             if ($info->status != '7') return ['StatusCode' => '400', 'ResultData' => '已申请，正在审核中'];
         }
         \DB::beginTransaction();
+
         // 通过后，申请角色
         switch ($data['role']) {
             case '2':
@@ -177,13 +183,22 @@ class UserRoleService {
             return ['StatusCode' => '400', 'ResultData' => '添加角色申请记录失败，请重新申请'];
         }
 
-        $result = self::$userStore->updateUserInfo(['guid' => $data['guid']], ['realname' => $data['realname']]);
+        if (!isset($userInfo->realname)){
+            $result = self::$userStore->updateUserInfo(['guid' => $data['guid']], ['realname' => $data['realname']]);
 
-        if (!$result) {
-            \Log::error('添加角色申请记录成功，同步更新用户信息失败', ['guid' => $data['guid']], ['realname' => $data['realname']]);
-            \DB::rollBack();
-            return ['StatusCode' => '400', 'ResultData' => '添加角色申请记录失败，请重新申请'];
+            if (!$result) {
+                \Log::error('添加角色申请记录成功，同步更新用户信息失败', ['guid' => $data['guid']], ['realname' => $data['realname']]);
+                \DB::rollBack();
+                return ['StatusCode' => '400', 'ResultData' => '添加角色申请记录失败，请重新申请'];
+            }
         }
+
+        if ($userInfo->realname != $data['realname']) {
+            \Log::error('核实真实姓名', ['guid' => $data['guid']], ['realname' => $data['realname']]);
+            \DB::rollBack();
+            return ['StatusCode' => '400', 'ResultData' => '核实真实姓名，与本平台真实姓名不一致'];
+        }
+
         \DB::commit();
         return ['StatusCode' => '200', 'ResultData' => '申请成功，等待审核...'];
     }

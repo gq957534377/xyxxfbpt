@@ -76,8 +76,24 @@ $(document).ready(function () {
 
     // 编辑保存用户信息
     $("#editSubmit").click(function () {
+        var reg = /^[\u4e00-\u9fa5a-zA-Z0-9_]+$/;
+        var nickname = $('input[name="nickname"]').val();
+
+        if (nickname.length == '') {
+            $("#userInfoError").html('请输入昵称').removeClass('hidden');
+            return false;
+        }
+
+        if(nickname.length > 11) {
+            $("#userInfoError").html('昵称长度不允许超出10个字符').removeClass('hidden');
+            return false;
+        }
+        if (!nickname.match(reg)) {
+            $("#userInfoError").html('只允许输入中文、字母、数字、下划线').removeClass('hidden');
+            return false;
+        }
         var data = {
-            'nickname': $('input[name="nickname"]').val(),
+            'nickname': nickname,
         };
 
         ajax.ajax({

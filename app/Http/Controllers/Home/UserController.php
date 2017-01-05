@@ -75,21 +75,25 @@ class UserController extends Controller
         if ($role != '2') return ['StatusCode' => '400', 'ResultData' => '请先成为创业者'];
 
         $validator = Validator::make($request->all(),[
-            'company' => 'required',
-            'abbreviation' => 'required',
+            'company' => 'required|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
+            'abbreviation' => 'required|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
             'address' => 'required',
-            'founder_name' => 'required',
+            'founder_name' => 'required|regex:/^[\x80-\xff_a-zA-Z]+$/',
             'url' => 'required',
-            'field' => 'required',
+            'field' => 'required|regex:/^[\x80-\xff_\-\/_a-zA-Z0-9]+$/',
             'organize_card' => 'required',
         ],[
-            'company.required' => '请输入公司名称<br>',
-            'abbreviation.required' => '请输入公司简称<br>',
-            'address.required' => '请选择公司所在地<br>',
-            'founder_name.required' => '请输入公司创始人姓名<br>',
-            'url.required' => '请输入公司网址<br>',
-            'field.required' => '请选择行业领域<br>',
-            'organize_card.required' => '请上传组织机构代码证<br>',
+            'company.required' => '请输入公司名称',
+            'company.regex' => '公司名称只允许输入中文、字母、数字、下划线',
+            'abbreviation.required' => '请输入公司简称',
+            'abbreviation.regex' => '公司简称只允许输入中文、字母、数字、下划线',
+            'address.required' => '请选择公司所在地',
+            'founder_name.required' => '请输入公司创始人姓名',
+            'founder_name.regex' => '公司创始人姓名只允许输入中文、字母',
+            'url.required' => '请输入公司网址',
+            'field.required' => '请选择行业领域',
+            'field.regex' => '行业领域格式不对',
+            'organize_card.required' => '请上传组织机构代码证',
         ]);
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
@@ -186,11 +190,14 @@ class UserController extends Controller
         $data = $request->all();
         //数据验证过滤
         $validator = Validator::make($request->all(),[
-            'nickname' => 'required|string',
+            'nickname' => 'required|string|max:10|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
         ],[
             'nickname.required' => '请输入昵称',
             'nickname.string' => '请输入正确的格式',
+            'nickname.max' => '昵称长度不允许超过10个字符',
+            'nickname.regex' => '只允许输入中文、字母、数字、下划线',
         ]);
+
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 

@@ -68,7 +68,7 @@
                         <div class="col-xs-12">
                             <label class="col-xs-12 control-label mar-b5">用户昵称</label>
                             <div class="col-xs-12">
-                                <input type="text" name="nickname" class="form-control form-title"  placeholder="输入新的昵称">
+                                <input type="text" name="nickname" maxlength="10" class="form-control form-title"  placeholder="输入新的昵称">
                             </div>
                             <div class="col-xs-12 nickname_sub">
                                 <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="editSubmit">保存</button>
