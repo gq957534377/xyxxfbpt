@@ -15,7 +15,7 @@ use App\Store\LikeStore;
 use App\Tools\Common;
 use App\Services\UserService as UserServer;
 use App\Tools\CustomPage;
-use Illuminate\Support\Facades\Log;
+use App\Redis\ArticleCache;
 
 class ArticleService
 {
@@ -27,18 +27,21 @@ class ArticleService
     protected static $common;
     protected static $likeStore;
     protected static $userServer;
+    protected static $articleCache;
 
     public function __construct(
         ArticleStore $articleStore,
         CommentStore $commentStore,
         LikeStore $likeStore,
-        UserServer $userServer
+        UserServer $userServer,
+        ArticleCache $articleCache
     ){
         self::$articleStore = $articleStore;
         self::$commentStore = $commentStore;
         self::$likeStore = $likeStore;
         self::$articleStore = $articleStore;
         self::$userServer = $userServer;
+        self::$articleCache = $articleCache;
     }
 
     /**
@@ -118,7 +121,36 @@ class ArticleService
             return ['StatusCode' => '500','ResultData' => '获取分页数据失败！'];
         }
     }
+    /**
+     * 分页查询 判断是否查redis
+     * @param array $where 查询条件
+     * @param int $nowPage  当前页
+     * @param int $forPages 一页获取的数量
+     * @param string $url 请求的路由url
+     * @param boolean $disPlay 是否需要分页样式
+     * @return array
+     * author 王通
+     */
 
+
+    public function selectArticle($where, $nowPage, $forPages, $url, $disPlay = true)
+    {
+        // 判断article缓存是否存在
+        if(!self::$articleCache->exists()){
+            // 获取数据库里的所有文章列表,并且转对象为数组
+            $article_list = CustomPage::objectToArray(self::$articleStore->getData($where));
+            $list = $this->selectData($where, $nowPage, $forPages, $url, $disPlay = true);
+            // 存入redis缓存
+            if(count($article_list)){
+                self::$articleCache->setArticleList($article_list);
+            }
+        }
+
+        // 直接读取缓存数据,并把数组转换为对象
+        $list = CustomPage::arrayToObject(self::$articleCache->getArticleList($forPages, $nowPage));
+
+        return $list;
+    }
     /**
      * 查询相关文章信息
      * @param $guid

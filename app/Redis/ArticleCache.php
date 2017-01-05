@@ -7,6 +7,7 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\ArticleStore;
+use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\Facades\Redis;
 
 class ArticleCache
@@ -38,6 +39,7 @@ class ArticleCache
 
     }
 
+
     /**
      * 将mysql获取的列表信息写入redis缓存
      * @param $data  array   mysql 获取的信息
@@ -53,9 +55,10 @@ class ArticleCache
         //获取存入的list缓存长度
         $length = $this->getLength();
 
-        if($length < $count){
-
+        if($length != $count){
+            Log::error('文章模块存储redis异常！！！');
         }
+        return true;
 
     }
 
@@ -118,30 +121,30 @@ class ArticleCache
      * @param  $pages int  当前页数
      * @return array
      */
-    public function getArticleList($nums,$pages)
+    public function getArticleList($nums, $pages)
     {
         //起始偏移量
-        $offset = $nums * ($pages-1);
+        $offset = $nums * ($pages - 1);
 
         //获取条数
         $totals = $offset + $nums - 1;
 
         //获取缓存的列表索引
-        $list = Redis::lrange(self::$lkey, $offset,$totals);
+        $list = Redis::lrange(self::$lkey, $offset, $totals);
 
         $data = [];
 
         //根据获取的list元素 取hash里的集合
         foreach ($list as $v) {
             //获取一条hash
-            if($this->exists('',$v)){
+            if($this->exists('', $v)){
                 $content = Redis::hGetall(self::$hkey.$v);
                 //给对应的Hash文章增加生命周期
                 $this->setTime(self::$hkey.$v);
                 $data[] = $content;
             }else{
                 //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
-                $res = CustomPage::objectToArray(self::$article_store->getOneDatas(['guid'=>$v]));
+                $res = CustomPage::objectToArray(self::$article_store->getOneDatas(['guid' => $v]));
                 //将取出的mysql 文章详情写入redis
                 $this->setOneArticle($res);
                 $data[] = $res;
