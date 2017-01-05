@@ -1,5 +1,6 @@
 @extends('home.layouts.master')
 
+
 @section('style')
   <link rel="stylesheet" href="{{ asset('home/css/list.css') }}">
   <link href="{{ asset('home/css/zhengce.css') }}" rel="stylesheet">
@@ -20,8 +21,10 @@
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 content-left">
           @if(empty($type) || $type == 1)
               <h2>市场咨询</h2>
+              @section('title', '市场咨询')
           @else
               <h2>创业政策</h2>
+              @section('title', '创业政策')
           @endif
           <ul class="article-list">
             @if(!empty($StatusCode) && $StatusCode == '200')
