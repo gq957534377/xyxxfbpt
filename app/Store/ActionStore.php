@@ -155,6 +155,21 @@ class ActionStore
             ->count();
     }
 
+    /**
+     * 获取指定条数随机数据
+     * @param $where
+     * @param $number
+     * @return mixed
+     * @author 王通
+     */
+    public function RandomActions($number, $start)
+    {
+        return DB::table(self::$table)
+            ->where('status', '<>', 4)
+            ->skip($start)
+            ->take($number)
+            ->get();
+    }
 
 
 

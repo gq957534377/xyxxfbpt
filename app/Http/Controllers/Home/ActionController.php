@@ -39,10 +39,10 @@ class ActionController extends Controller
         // 获取活动类型 -> 活动类型的对应状态的所有数据
         $data = $request->all();
         $where = [];
-        if (isset($data['type'])){
+        if (!empty($data['type'])){
             $where['type'] = $data['type'];
         }
-        if (isset($data['status'])){
+        if (!empty($data['status'])){
             $where['status'] = $data['status'];
         }
         $nowPage = 1;
@@ -63,7 +63,7 @@ class ActionController extends Controller
                 }
             }
         }
-        if (isset($data['status'])){
+        if (!empty($data['status'])){
             $result['status'] = (int)$data['status'];
         }else{
             $result['status'] = '204';
@@ -87,7 +87,7 @@ class ActionController extends Controller
         }else{
             $where = ['type'=> $request->type];
         }
-        $nowPage = isset($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
+        $nowPage = !empty($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
         $result = self::$actionServer->selectData($where, $nowPage, 2, '/action', false, false);
 
         if($result["StatusCode"] == '200'){
@@ -134,7 +134,7 @@ class ActionController extends Controller
         $likeNum = self::$commentServer->likeCount($id);//点赞人数
         $commentData = self::$commentServer->getComent($id,1);//评论数据
         //$isHas（是否已经报名参加）的设置
-        if (!isset(session('user')->guid)){
+        if (!!empty(session('user')->guid)){
             $isLogin = false;
             $isHas = false;
             $likeStatus = 2;
@@ -149,6 +149,8 @@ class ActionController extends Controller
             $isLogin = session('user')->guid;
         }
 
+        $rand = self::$actionServer->getRandomActions(true);
+
         //返回详情页
         return view("home.action.details", [
             "list" => 1,
@@ -158,7 +160,8 @@ class ActionController extends Controller
             'likeNum' => $likeNum,
             'likeStatus' => $likeStatus,
             'comment' => $commentData,
-            'contentId' => $id
+            'contentId' => $id,
+            'rand' => $rand
         ]);
     }
 
@@ -172,7 +175,7 @@ class ActionController extends Controller
      */
     public function edit($id,Request $request)
     {
-        if(! isset(session('user')->guid)) return response()->json(['StatusCode' => '401', 'ResultData' => '用户未登录']);
+        if(! !empty(session('user')->guid)) return response()->json(['StatusCode' => '401', 'ResultData' => '用户未登录']);
 
         $type = $request->input('type');
         $result = self::$commentServer->changeLike($id,$type);

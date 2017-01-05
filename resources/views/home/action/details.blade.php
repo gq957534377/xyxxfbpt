@@ -111,18 +111,20 @@
                     <h4>您可能感兴趣的活动</h4>
                 </div>
                 <ul class="row news-list">
-
-                    {{--@if($StatusCode == '200' && $ResultData['RandomList']['StatusCode'] == '200')--}}
-                        {{--@foreach($ResultData['RandomList']['ResultData'] as $key => $val)--}}
-                            {{--<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">--}}
-                                {{--<h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>--}}
-                                {{--<div class="news-list-time">--}}
-                                    {{--<span>{{ date('Y-m-d', $val->addtime) }}</span>--}}
-                                {{--</div>--}}
-                            {{--</li>--}}
-                        {{--@endforeach--}}
-                    {{--@endif--}}
-
+                    @if($rand['StatusCode'] == '200')
+                        @foreach($rand['ResultData'] as $rand)
+                            <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                @if($list == 1)
+                                    <h3><a href="/action/{{ $rand->guid }}">{{ $rand->title }}</a></h3>
+                                @else
+                                    <h3><a href="/school/{{ $rand->guid }}">{{ $rand->title }}</a></h3>
+                                @endif
+                                    <div class="news-list-time">
+                                    <span>{{ date('Y年m月d日 H点', $rand->addtime) }}</span>
+                                </div>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
                 <!-- <div class="btn-ll">
                   浏览更多

@@ -491,12 +491,17 @@ class ActionService
      * @return array
      * @author 郭庆
      */
-    public function getRandomActions($type, $take = 4, $status = 1)
+    public function getRandomActions($list, $take = 4, $status = 1)
     {
-        if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
-        $start = self::$articleStore->getCount(['type' => $type, 'status' => $status]);
-        // 获取文章数据
-        $result = self::$articleStore->RandomArticles(['type' => $type, 'status' => $status], $take, rand(1, $start - $take));
+        if ($list){
+            $start = self::$actionStore->getCount([]);
+            // 获取文章数据
+            $result = self::$actionStore->RandomActions($take, rand(1, $start - $take));
+        }else{
+            $start = self::$collegeStore->getCount([]);
+            // 获取文章数据
+            $result = self::$collegeStore->RandomActions($take, rand(1, $start - $take));
+        }
 
         if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 
