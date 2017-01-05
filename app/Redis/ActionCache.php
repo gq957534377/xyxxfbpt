@@ -150,7 +150,7 @@ class ActionCache
                 $data[] = $content;
             }else{
                 //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
-                $res = CustomPage::objectToArray(self::$action_store->getOneDatas(['guid'=>$v]));
+                $res = CustomPage::objectToArray(self::$action_store->getOneData(['guid'=>$v]));
                 //将取出的mysql 文章详情写入redis
                 $this->setOneAction($res);
                 $data[] = $res;

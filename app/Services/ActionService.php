@@ -228,13 +228,15 @@ class ActionService
             //获取对应页的数据
             if ($list){
                 $result['data'] = self::$collegeStore->forPage($nowPage, $forPages, $where);
+                //存入redis缓存
+                $redis_list = CustomPage::objectToArray(self::$actionStore->getData($where));
             }else{
                 $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
+                //存入redis缓存
+                $redis_list = CustomPage::objectToArray(self::$actionStore->getData($where));
             }
             if($result['data']){
 
-                $redis_list = CustomPage::objectToArray($result['data']);
-                //存入redis缓存
                 if(count($redis_list)){
                     self::$actionCache->setActionList($where['type'], $where['status'], $redis_list);
                 }
@@ -257,94 +259,51 @@ class ActionService
             }else{
                 return ['StatusCode' => '500','ResultData' => '获取分页数据失败！'];
             }
+        }else{
+            //查询总记录数
+            if(!$list){
+                $lists = self::$actionCache->getActionList($where['type'], $where['status'], $forPages, $nowPage);
+            }else{
+                $lists = self::$actionCache->getActionList($where['type'], $where['status'], $forPages, $nowPage);
+            }
+
+            $count = count($lists);
+            if (!$count) {
+                //如果没有数据直接返回204空数组，函数结束
+                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
+                return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
+            }
+
+            //计算总页数
+            $totalPage = ceil($count / $forPages);
+
+            //获取对应页的数据
+            if ($list){
+                $result['data'] = CustomPage::arrayToObject(self::$actionCache->getActionList($where['type'], $where['status'], $forPages, $nowPage));
+            }else{
+                $result['data'] = CustomPage::arrayToObject(self::$actionCache->getActionList($where['type'], $where['status'], $forPages, $nowPage));
+            }
+
+            if($result['data']){
+                if ($disPlay && $totalPage > 1) {
+                    //创建分页样式
+                    $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+
+                    if($creatPage){
+                        $result["pages"] = $creatPage;
+                    }else{
+                        return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
+                    }
+
+                }else{
+                    $result['totalPage'] = $totalPage;
+                    $result["pages"] = '';
+                }
+                return ['StatusCode' => '200','ResultData' => $result];
+            }else{
+                return ['StatusCode' => '500','ResultData' => '获取分页数据失败！'];
+            }
         }
-//else{
-//            //查询总记录数
-//            if(!$list){
-//                $count = self::$actionStore->getCount($where);
-//            }else{
-//                $count = self::$collegeStore->getCount($where);
-//            }
-//            if (!$count) {
-//                //如果没有数据直接返回204空数组，函数结束
-//                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
-//                return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
-//            }
-//
-//            //计算总页数
-//            $totalPage = ceil($count / $forPages);
-//
-//            //获取对应页的数据
-//            if ($list){
-//                $result['data'] = self::$collegeStore->forPage($nowPage, $forPages, $where);
-//            }else{
-//                $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
-//            }
-//            if($result['data']){
-//                if ($disPlay && $totalPage > 1) {
-//                    //创建分页样式
-//                    $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
-//
-//                    if($creatPage){
-//                        $result["pages"] = $creatPage;
-//                    }else{
-//                        return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
-//                    }
-//
-//                }else{
-//                    $result['totalPage'] = $totalPage;
-//                    $result["pages"] = '';
-//                }
-//                return ['StatusCode' => '200','ResultData' => $result];
-//            }else{
-//                return ['StatusCode' => '500','ResultData' => '获取分页数据失败！'];
-//            }
-//        }
-//
-//        //直接读取缓存数据,并把数组转换为对象
-//        $list = CustomPage::arrayToObject(self::$article_cache->getArticleList($nums,$pages));
-//
-//
-//        //查询总记录数
-//        if(!$list){
-//            $count = self::$actionStore->getCount($where);
-//        }else{
-//            $count = self::$collegeStore->getCount($where);
-//        }
-//        if (!$count) {
-//            //如果没有数据直接返回204空数组，函数结束
-//            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
-//            return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
-//        }
-//
-//        //计算总页数
-//        $totalPage = ceil($count / $forPages);
-//
-//        //获取对应页的数据
-//        if ($list){
-//            $result['data'] = self::$collegeStore->forPage($nowPage, $forPages, $where);
-//        }else{
-//            $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
-//        }
-//        if($result['data']){
-//            if ($disPlay && $totalPage > 1) {
-//                //创建分页样式
-//                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
-//
-//                if($creatPage){
-//                    $result["pages"] = $creatPage;
-//                }else{
-//                    return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
-//                }
-//
-//            }else{
-//                $result['totalPage'] = $totalPage;
-//                $result["pages"] = '';
-//            }
-//            return ['StatusCode' => '200','ResultData' => $result];
-//        }else{
-//            return ['StatusCode' => '500','ResultData' => '获取分页数据失败！'];
-//        }
     }
 
     /**
