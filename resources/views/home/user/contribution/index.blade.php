@@ -46,7 +46,7 @@
                                  <div class="row">
                                      <div id="crop-avatar" class="col-md-6">
                                          <div class="avatar-view" title="">
-                                             <img id="contribution-picture" src="{{ asset('home/img/upload-card.png') }}" alt="Logo">
+                                             <img id="contribution-picture" src="{{ asset('home/img/newImg.jpg') }}" alt="Logo">
                                          </div>
                                      </div>
                                  </div>

@@ -117,7 +117,8 @@
                 investor_realname: {
                     required: true,
                     chinese: true,
-                    minlength: 2
+                    minlength: 2,
+                    maxlength: 16,
                 },
                 investor_work_year: {
                     required: true,
@@ -147,7 +148,8 @@
             messages: {
                 investor_realname: {
                     required: "请填写您的真实姓名！",
-                    minlength : "最少两位"
+                    minlength : "最少两位",
+                    maxlength : "最长16位"
                 },
                 investor_work_year: {
                     required: "请输入从业年份",

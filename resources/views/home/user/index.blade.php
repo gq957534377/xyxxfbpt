@@ -127,14 +127,13 @@
 
             @endif
 
-            @if(empty($roleInfo[2]->company) && $userInfo->role == 2)
+            @if(empty($roleInfo[2]->company) && ($userInfo->role == 23 || $userInfo->role == 2))
                 <h4 class="col-xs-12 pad-clr my-home-title">我管理的公司
                         {{--<a href="javascript:void(0)" class="pull-right fs-14 hidden fw-0 my-home-info-edit">编辑</a>--}}
                 </h4>
                 <div class="col-xs-12 pad-clr my-home-content">
                     <div class="com-bot"> <p>入驻英雄会，获取优质创业服务</p>
                         <a href="{{ route('user.create') }}" class="btn fs-15 btn-1 bgc-2 fs-c-1 zxz border-no" role="button">创建公司</a>
-
                     </div>
                 </div>
             @elseif(!empty($roleInfo[2]->company))

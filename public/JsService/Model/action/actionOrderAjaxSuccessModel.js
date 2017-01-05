@@ -42,7 +42,6 @@ function htmlStr( data) {
         '<th class ="text-center">姓名</th>' +
         '<th class ="text-center">类型</th>' +
         '<th class ="text-center">性别</th>' +
-        '<th class ="text-center">生日</th>' +
         '<th class ="text-center">手机</th>' +
         '<th class ="text-center">邮箱</th>' +
         '<th class ="text-center">操作</th>' +
@@ -54,7 +53,6 @@ function htmlStr( data) {
 
     $.each(data, function (i, v) {
         v.realname = v.realname ? v.realname : '--';
-        v.birthday = v.birthday ? v.birthday : '--';
         v.email    = v.email ? v.email : '--';
         v.headpic  = v.headpic ? v.headpic : '/home/img/user_center.jpg';
         v.introduction = v.introduction ? v.introduction : '--';
@@ -82,7 +80,6 @@ function htmlStr( data) {
             str +=  '<td>女</td>';
         }
 
-        str += '<td>' + v.birthday + '</td>';
         str +=  '<td>' + v.tel + '</td>';
         str +=  '<td>' + v.email + '</td>';
         str +=  '<td>';
@@ -128,7 +125,6 @@ function userInfo() {
                 var sex = '未填写';
         }
         $('#sex').text(sex);
-        $('#birthday').text(data.birthday);
         $('#phone').text(data.tel);
         $('#email').text(data.email);
         $('#introduction').text(data.introduction);
@@ -143,6 +139,9 @@ function userInfo() {
                 break;
             case 3 :
                 var str = '<strong>身份 ：</strong><span class="text-success text-xs">投资者&nbsp;</span>';
+                break;
+            default:
+                var str = '<strong>身份 ：</strong><span class="text-success text-xs">未知&nbsp;</span>';
                 break;
         }
         //会员身份选择

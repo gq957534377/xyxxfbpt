@@ -2,30 +2,25 @@
 
 namespace App\Services;
 
-use App\Http\Requests\Request;
 use App\Store\ProjectStore;
-use App\Store\RoleStore;
 use App\Store\UserStore;
 use App\Tools\Common;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Validator;
 
 class ProjectService {
     protected static $projectStore = null;
     protected static $userStore = null;
-    protected static $roleStore = null;
 
     /**
      * 构造函数注入
      * ProjectService constructor.
      *
      */
-    public function __construct(ProjectStore $projectStore, UserStore $userStore, RoleStore $roleStore)
-    {
+    public function __construct(
+        ProjectStore $projectStore,
+        UserStore $userStore
+   ){
         self::$projectStore = $projectStore;
         self::$userStore    = $userStore;
-        self::$roleStore    = $roleStore;
     }
 
     /**
@@ -126,21 +121,6 @@ class ProjectService {
         return ['StatusCode' => '200', 'ResultData' => $res];
     }
 
-
-    /**
-     * 获得某个用户的角色值
-     * @param $guid
-     * @return array
-     * @anthor 贾济林
-     */
-    public function getRole($guid)
-    {
-        $param = ['guid'=>$guid];
-        $data = self::$roleStore->getRole($param);
-        if (!$data) return ['status'=>false,'msg'=>'查询失败'];
-        $role = $data->role;
-        return ['status'=>true,'data'=>$role];
-    }
 
     /**
      * 取出详情数据

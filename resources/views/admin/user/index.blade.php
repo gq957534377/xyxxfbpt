@@ -115,32 +115,17 @@
                                     </li>
                                     <li><strong>真实姓名 ：</strong><mark><span id="realname"></span></mark></li>
                                     <li><strong>昵称 ：</strong><span id="nickname"></span></li>
-                                    <li><strong>性别 ：</strong><span id="sex"></span></li>
-                                    <li><strong>出生日期 ：</strong><span id="birthday"></span></li>
                                     <li><strong>电话 ：</strong><ins><span id="phone"></span></ins></li>
                                     <li><strong>邮箱 ：</strong><span id="email"></span></li>
-                                    <li><strong>公司 ： </strong><span id="company"></span></li>
-                                    <li><strong>职位 ：</strong><span id="company_position"></span></li>
-                                    <li><strong>公司地址 ：</strong><span id="company_address" class="text-muted"></span></li>
 
                                 </ul>
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-unstyled">
-                                    <li><strong>微信 ：</strong> <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
-                                            <div class="row">
-                                                <div id="crop-avatar">
-                                                    <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
-                                                        <img id="wechat" class="img-rounded" src="" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
+
                                     <li><strong>注册时间 ：</strong><span id="addtime"></span></li>
                                     <li id="role"></li>
                                     <li id="status"></li>
-                                    <li><strong>个人简介 ：</strong><small id="introduction"></small></li>
                                 </ul>
                             </div>
 
@@ -287,27 +272,10 @@
                 var data = $(this).data();
                 //alert(realname);
                 $('#headpic').attr('src',data.headpic);
-                $('#realname').text(data.realname);
+                $('#realname').text(data.realname ? data.realname : ' - - ');
                 $('#nickname').text(data.nickname);
-                switch (data.sex){
-                    case 1:
-                        var sex = '男';
-                        break;
-                    case 2:
-                        var sex = '女';
-                        break;
-                    default:
-                        var sex = '未填写';
-                }
-                $('#sex').text(sex);
-                $('#birthday').text(data.birthday);
                 $('#phone').text(data.tel);
-                $('#email').text(data.email ? data.email : '--');
-                $('#company').text(data.company);
-                $('#company_position').text(data.company_position ? data.company_position : '--');
-                $('#company_address').text(data.company_address ? data.company_address : '--');
-                $('#introduction').text(data.introduction ? data.introduction : '--');
-                $('#wechat').attr('src',data.wechat);
+                $('#email').text(data.email ? data.email : ' - - ');
                 $('#addtime').text(data.addtime);
                 //角色身份选择
                 switch (data.role){
@@ -319,6 +287,9 @@
                         break;
                     case 3 :
                         var str = '<strong>身份 ：</strong><span class="text-success text-xs">投资者&nbsp;</span>';
+                        break;
+                    case 23 :
+                        var str = '<strong>身份 ：</strong><span class="text-warning text-xs">创业者&nbsp;</span><span class="text-success text-xs">投资者</span>';
                         break;
                 }
                 //会员身份选择
@@ -453,10 +424,9 @@
                     '<table class="table table-bordered table-striped">' +
                     '<thead>' +
                     '<tr>' +
-                    '<th class ="text-center">姓名</th>' +
+                    '<th class ="text-center">昵称</th>' +
                     '<th class ="text-center">类型</th>' +
-                    '<th class ="text-center">性别</th>' +
-                    '<th class ="text-center">生日</th>' +
+                    '<th class ="text-center">姓名</th>' +
                     '<th class ="text-center">手机</th>' +
                     '<th class ="text-center">邮箱</th>' +
                     '<th class ="text-center">用户状态</th>' +
@@ -470,7 +440,7 @@
             $.each(data, function (i, v) {
 
                 str += '<tr class="gradeX">';
-                str +=  '<td>' + v.realname + '</td>';
+                str +=  '<td>' + v.nickname + '</td>';
                 str +=  '<td>';
                 if(v.role == 1){
                     str +=  '<span class="text-info text-xs">普通用户&nbsp;</span>';
@@ -481,19 +451,21 @@
                 if(v.role == 3){
                     str += '<span class="text-success text-xs">投资者&nbsp;</span>';
                 }
+                if(v.role == 23){
+                    str +=  '<span class="text-warning text-xs">创业者&nbsp;</span><span class="text-success text-xs">投资者&nbsp;</span>';
+                }
                 if(v.memeber == 2){
                     str += '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
                 }
                 str += '</td>';
-                if(v.sex == 1){
-                    str += '<td>男</td>';
-                }else{
-                    str +=  '<td>女</td>';
-                }
 
-                str += '<td>' + v.birthday + '</td>';
+                str += '<td>';
+                str += v.realname ? v.realname : '--';
+                str += '</td>';
                 str +=  '<td>' + v.tel + '</td>';
-                str +=  '<td>' + v.email + '</td>';
+                str +=  '<td>';
+                str += v.email ? v.email : '--';
+                str += '</td>';
                 str +=  '<td>';
 
                 if(v.status == 1){
@@ -502,20 +474,12 @@
                 if(v.status == 2){
                     str +=  '<a href="javascript:;" data-name="' + v.guid + '" data-id="1" class="user_change"><button class="btn btn-success btn-xs">启用</button></a>';
                 }
-                if(v.status == 5){
-                    str += '<span class="text-danger text-xs">待审核&nbsp;</span>';
-                }
-                if(v.status == 7){
-                    str += '<span class="text-danger text-xs">审核失败&nbsp;</span>';
-                }
                 str +=  '</td>';
                 str +=  '<td>';
                 str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
                 str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
-                        '" data-brithday="'+v.birthday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+
-                        '" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+
-                        '" data-headpic="'+v.headpic+'" data-wechat="'+v.wechat+'" data-introduction="'+v.introduction+
-                        '" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+
+                        '"  data-tel ="'+v.tel+'" data-email="'+v.email+
+                        '" data-headpic="'+v.headpic+'"   data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+
                         '" class="user_info"><button class="btn btn-warning btn-xs">详情</button></a>';
 
                 str +=  '</td></tr>';
