@@ -70,9 +70,15 @@ class UserCache
         }
     }
 
-    protected function setTime($key, $time = '')
+    /**
+     * 设置hash缓存生命周期
+     * @param $key
+     * @param int $time
+     * @author 刘峻廷
+     */
+    protected function setTime($key, $time = 1800)
     {
-
+         Redis::expire($key, $time);
     }
 
 }

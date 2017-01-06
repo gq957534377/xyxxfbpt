@@ -52,13 +52,6 @@ class UserService {
      */
     public function userInfo($where)
     {
-        // 判断用户信息的list缓存是否存在
-        if (!self::$userCache->exists()) {
-            // 不存在，mysql数据写入redis
-            $result = self::$userCache->setUserList([]);
-            dd($result);
-        }
-
         $result = self::$userStore->getOneData($where);
         //返回错误状态信息
         if(!$result) return ['StatusCode' => '400','ResultData' => '没有找到该用户信息!'];;
