@@ -7,10 +7,7 @@ use App\Services\UserRoleService;
 use App\Services\UserService;
 use App\Services\CommentAndLikeService;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Qiniu\Auth;
 use App\Tools\Common;
 
 class ProjectController extends Controller
@@ -65,9 +62,12 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        if (empty(session('user'))){
+            return redirect(route('login.index'));
+        }
         $role = session('user')->role;
 
-        if ($role = 2 || $role = 23){
+        if ($role == 2 || $role == 23){
             return view('home.user.creatMyproject');
         } else {
             return view('errors.404');
@@ -86,7 +86,7 @@ class ProjectController extends Controller
         //验证请求数据
         $role = session('user')->role;
 
-        if ($role = 2 || $role = 23){
+        if ($role == 2 || $role ==23){
             $validataResult = $this->addDataValidator($request);
 
             if($validataResult) return $validataResult;
