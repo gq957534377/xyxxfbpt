@@ -123,7 +123,7 @@ class ActionCache
      * @return array
      * @author 郭庆
      */
-    public function insertOneCollege($data)
+    public function insertOneAction($data)
     {
         $list = Redis::lpush(self::$lkey.$data['type'].':1', $data['guid']);
         $list1 = Redis::lpush(self::$lkey.$data['type'], $data['guid']);
@@ -139,6 +139,24 @@ class ActionCache
             }
         }else{
             Log::info('发布活动存入redis失败'.$data['guid']);
+        }
+    }
+
+    /**
+     * 修改一条记录
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function changeOneAction($guid, $data)
+    {
+        //如果hash存在则修改
+        if ($this->exists($guid, false)) {
+            $index = self::$hkey . $guid;
+            //写入hash
+            Redis::hMset($index, $data);
+            //设置生命周期
+            $this->setTime($index);
         }
     }
 

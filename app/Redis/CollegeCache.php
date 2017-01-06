@@ -62,6 +62,25 @@ class CollegeCache
             Log::info('发布学院活动存入redis失败'.$data['guid']);
         }
     }
+
+    /**
+     * 修改一条记录
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function changeOneCollege($guid, $data)
+    {
+        //如果hash存在则修改
+        if ($this->exists($guid, false)) {
+            $index = self::$hkey . $guid;
+            //写入hash
+            Redis::hMset($index, $data);
+            //设置生命周期
+            $this->setTime($index);
+        }
+    }
+
     /**
      * 将mysql获取的列表信息写入redis缓存
      * @param $data  array   mysql 获取的信息

@@ -123,7 +123,7 @@ class ActionService
             }else{
                 unset($data['list']);
                 $result = self::$actionStore->insertData($data);
-                self::$actionCache->insertOneCollege($data);
+                self::$actionCache->insertOneAction($data);
             }
 
         }else{
@@ -393,6 +393,11 @@ class ActionService
 
         //判断修改结果并返回
         if ($Data) {
+            if ($list == 3){
+                self::$collegeCache->changeOneCollege(['guid'=>$guid, 'status' => $status]);
+            }else{
+                self::$actionCache->changeOneAction(['guid'=>$guid, 'status' => $status]);
+            }
             return ['StatusCode' => '200', 'ResultData' => "修改成功"];
         } else {
             if ($Data != 0) \Log::info('修改' . $guid . '活动/报名状态出错:' . $Data);
@@ -421,6 +426,11 @@ class ActionService
         }
 
         if($Data){
+            if ($list == 3){
+                self::$collegeCache->changeOneCollege($where['guid'], $data);
+            }else{
+                self::$actionCache->changeOneAction($where['guid'], $data);
+            }
             return ['StatusCode'=> '200','ResultData' => "修改成功"];
         }else{
             if($Data == 0) return ['StatusCode'=> '204','ResultData' => "未作任何更改"];
