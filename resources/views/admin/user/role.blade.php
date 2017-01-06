@@ -173,13 +173,13 @@
                         <ul class="list-unstyled">
 
 
-                            <li><strong>身份证a：</strong> :
+                            <li><strong>证件：</strong>
                                 {{--<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}">--}}
                                 <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
                                     <div class="row">
                                         <div id="crop-avatar">
                                             <div class="avatar-view" title="" style="width: 300px;border: none;border-radius: 0px;box-shadow: none;">
-                                                <img id="pic_aa" class="" src=""  style="width: 150px;"/>
+                                                <img id="pic_aa" class="" src=""  />
                                             </div>
                                         </div>
                                     </div>
@@ -268,11 +268,13 @@
                                         if(msg.statusCode == 400){
                                             swal(msg.resultData, action + '角色申请失败', "danger");
                                             $('#con123').modal('hide');
+                                            $('#con12').modal('hide');
                                             return;
                                         }
 
                                         swal(msg.resultData, '角色申请 '+action + '', "success");
                                         $('#con123').modal('hide');
+                                        $('#con12').modal('hide');
                                         //成功后删除当前行
                                         tr.remove();
 
