@@ -273,7 +273,7 @@ class ActionService
 
         //计算总页数
         $totalPage = ceil($count / $forPages);
-
+//dd($result['data']);
         if($result['data']){
             if ($disPlay && $totalPage > 1) {
                 //创建分页样式
