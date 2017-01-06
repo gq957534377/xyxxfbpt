@@ -72,7 +72,7 @@ class UserController extends Controller
         if (empty($request->guid)) return ['StatusCode' => '400', 'ResultData' => '请求缺少必要参数'];
         $role = self::$userServer->userInfo(['guid' => $request->guid])['ResultData']->role;
 
-        if ($role != '2') return ['StatusCode' => '400', 'ResultData' => '请先成为创业者'];
+        if ($role != '23' || $role != '2') return ['StatusCode' => '400', 'ResultData' => '请先成为创业者'];
 
         $validator = Validator::make($request->all(),[
             'company' => 'required|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
