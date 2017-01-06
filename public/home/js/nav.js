@@ -31,6 +31,12 @@ switch (a) {
         $("[data-status='school']").addClass('nav-content-active');
         break;
     case 'article':
+        //辨识详情页属于 市场资讯 还是 创业政策
+        var c = $('#article-type').html();
+        if (c) {
+            b = c;
+        }
+
         if (b == 1)
             $("[data-status='article1']").addClass('nav-content-active');
         if (b == 2)

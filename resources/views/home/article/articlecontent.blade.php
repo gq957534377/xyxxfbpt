@@ -17,6 +17,7 @@
         <img src="{{ asset('home/img/demoimg/dd.jpg') }}">
     </section>
     @if(!empty($StatusCode) && $StatusCode == '200')
+        <div id="article-type" class="hidden">{{ $ResultData->type }}</div>
         <section class="container-fluid">
           <div class="row content">
 
