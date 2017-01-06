@@ -139,7 +139,7 @@
                     </div>
                     <div class="modal-footer border-no h-align-1" id="step_one">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" >下一步</button>
-                        <button type="button" class="btn btn-default tel_btn_reset" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
                     <!--第一步 获取验证码 结束-->
