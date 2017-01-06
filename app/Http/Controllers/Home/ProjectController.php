@@ -65,7 +65,13 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('home.user.creatMyproject');
+        $role = session('user')->role;
+        if ($role = 2 || $role = 23){
+            return view('home.user.creatMyproject');
+        }else {
+            return view('errors.404');
+        }
+
     }
 
     /**
