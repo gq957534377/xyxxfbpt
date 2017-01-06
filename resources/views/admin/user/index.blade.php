@@ -270,13 +270,14 @@
             $('.user_info').click(function () {
 
                 var data = $(this).data();
+                var time = new Date(data.addtime*1000);
                 //alert(realname);
                 $('#headpic').attr('src',data.headpic);
                 $('#realname').text(data.realname ? data.realname : ' - - ');
                 $('#nickname').text(data.nickname);
                 $('#phone').text(data.tel);
                 $('#email').text(data.email ? data.email : ' - - ');
-                $('#addtime').text(data.addtime);
+                $('#addtime').text(time.getFullYear() +'-'+ time.getMonth() + 1 +'-' +time.getDate()+ ' ' +time.getHours()+':'+time.getMinutes() + ':' + time.getSeconds());
                 //角色身份选择
                 switch (data.role){
                     case 1 :

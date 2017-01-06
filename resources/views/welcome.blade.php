@@ -146,8 +146,8 @@
     <body>
         <div class="container">
             <div class="content">
-                <div class=""><form action="/test" method="post">
-                        name : <input type="text" name="name" />{!! csrf_field() !!}
+                <div class=""><form action="/test/store" method="post">
+                        {{--name : <input type="text" name="name" />{!! csrf_field() !!}--}}
                         <input type="submit" value="submit" />
                     </form>
                     <input type="button" onclick="showIndex()" value="index"><br>
