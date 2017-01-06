@@ -1,22 +1,6 @@
 @extends('admin.layouts.master')
 @section('styles')
-    <style>
-        .loading{z-index:999;position:absolute;display: none;}
-        #alert-info{padding-left:10px;}
-        table{font-size:14px;}
-        .table button{margin-right:15px;}
-        .page-title{ padding-bottom: 5px;}
-
-        .list-unstyled > li{
-            margin-bottom: 10px;
-        }
-        .list-unstyled > li:nth-child(1){
-            margin-bottom: 25px;
-        }
-        table td{
-            text-align : center;
-        }
-    </style>
+    <link href="{{asset('admin/css/userandrole.css')}}" rel="stylesheet">
 @endsection
 {{--展示内容开始--}}
 @section('content')
@@ -75,6 +59,7 @@
         <div class="modal-content">
             <div id = "" class="modal-header">
                 <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
+                <h3>创业者详细信息</h3>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -106,7 +91,7 @@
                                 <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
                                     <div class="row">
                                         <div id="crop-avatar">
-                                            <div class="avatar-view" title="" style="width: 300px;border: none;border-radius: 0px;box-shadow: none;">
+                                            <div class="avatar-view pic_img" title="">
                                                 <img id="pic_a" class="img-thumbnail" src="" />
                                             </div>
                                         </div>
@@ -118,7 +103,7 @@
                                 <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
                                     <div class="row">
                                         <div id="crop-avatar">
-                                            <div class="avatar-view" title="" style="width: 300px;border: none;border-radius: 0px;box-shadow: none;">
+                                            <div class="avatar-view pic_img" title="" >
                                                 <img id="pic_b" class="img-thumbnail" src="" />
                                             </div>
                                         </div>
@@ -148,6 +133,7 @@
         <div class="modal-content">
             <div id = "" class="modal-header">
                 <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
+                <h3>投资者详细信息</h3>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -177,7 +163,7 @@
                                 <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
                                     <div class="row">
                                         <div id="crop-avatar">
-                                            <div class="avatar-view" title="" style="width: 300px;border: none;border-radius: 0px;box-shadow: none;">
+                                            <div class="avatar-view pic_img" title="">
                                                 <img id="pic_aa" class="" src=""  />
                                             </div>
                                         </div>
