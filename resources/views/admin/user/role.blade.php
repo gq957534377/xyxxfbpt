@@ -13,6 +13,9 @@
         .list-unstyled > li:nth-child(1){
             margin-bottom: 25px;
         }
+        table td{
+            text-align : center;
+        }
     </style>
 @endsection
 {{--展示内容开始--}}
@@ -78,46 +81,111 @@
                 <div class="row">
                     <div class="col-md-6">
                         <ul class="list-unstyled">
-                            <li><strong>头像 :</strong>
-                                <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
-                                    <div class="row">
-                                        <div id="crop-avatar">
-                                            <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
-                                                <img id="headpic" class="img-circle" src="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+
                             <li><input type="hidden" id="guid" name="guid"  /><input type="hidden" id="role" name="role"  /></li>
-                            <li><strong>真实姓名 ：</strong><mark><span id="realname"></span></mark></li>
-                            <li><strong>昵称 ：</strong><span id="nickname"></span></li>
-                            <li><strong>性别 ：</strong><span id="sex"></span></li>
-                            <li><strong>出生日期 ：</strong><span id="birthday"></span></li>
-                            <li><strong>电话 ：</strong><ins><span id="phone"></span></ins></li>
-                            <li><strong>邮箱 ：</strong><span id="email"></span></li>
-                            <li><strong>公司 ： </strong><span id="company"></span></li>
-                            <li><strong>职位 ：</strong><span id="company_position"></span></li>
-                            <li><strong>公司地址 ：</strong><span id="company_address" class="text-muted"></span></li>
+                            <li><strong>真实姓名 ：</strong><mark><span id="realname1"></span></mark></li>
+                            <li><strong>地址 ：</strong><span id="school_address"></span></li>
+                            <li><strong>学校名字 ： </strong><span id="school_name"></span></li>
+
+                            <li><strong>专业 ：</strong><span id="major"></span></li>
+                            <li><strong>入学年份 ：</strong><span id="enrollment_year" class="text-muted"></span></li>
+                            <li><strong>毕业年份 ：</strong><span id="graduation_year"></span></li>
+                            <li><strong>学历 ：</strong><span id="education"></span></li>
+                            <li><strong>申请时间 ：</strong><span id="addtime"></span></li>
+                            <li id="role"></li>
+                            <li id="status"></li>
+
 
                         </ul>
                     </div>
                     <div class="col-md-6">
                         <ul class="list-unstyled">
-                            <li><strong>微信 ：</strong> <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+
+
+                            <li><strong>身份证a：</strong>
+                                {{--<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}">--}}
+                                <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
                                     <div class="row">
                                         <div id="crop-avatar">
-                                            <div class="avatar-view" title="" style="width: 70px;border: none;border-radius: 0px;box-shadow: none;">
-                                                <img id="wechat" class="img-rounded" src="" />
+                                            <div class="avatar-view" title="" style="width: 300px;border: none;border-radius: 0px;box-shadow: none;">
+                                                <img id="pic_a" class="img-thumbnail" src="" />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </li>
-                            <li><strong>注册时间 ：</strong><span id="addtime"></span></li>
+                            <li><strong>身份证b</strong> :
+                                {{--<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}">--}}
+                                <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                    <div class="row">
+                                        <div id="crop-avatar">
+                                            <div class="avatar-view" title="" style="width: 300px;border: none;border-radius: 0px;box-shadow: none;">
+                                                <img id="pic_b" class="img-thumbnail" src="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <a href="javascript:;" data-name="' + v.guid + '" data-id="7" class="check_pass"><button type="submit" data-name="" class="btn btn-danger" id="check_pass">拒绝</button></a>
+                <a href="javascript:;" data-name="' + v.guid + '" data-id="6" class="check_pass"><button type="submit" data-name="" class="btn btn-primary">通过</button></a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+{{--弹出页面 开始--}}
+<div id="con12" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg" id="fabu">
+        <div class="modal-content">
+            <div id = "" class="modal-header">
+                <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+
+                            <li><input type="hidden" id="guid" name="guid"  /><input type="hidden" id="role" name="role"  /></li>
+                            <li><strong>真实姓名 ：</strong><mark><span id="realname2"></span></mark></li>
+                            <li><strong>从业年限 ： </strong><span id="work_year"></span></li>
+                            <li><strong>投资规模 ：</strong><span id="scale"></span></li>
+                            <li><strong>所在行业 ：</strong><span id="field"></span></li>
+                            <li><strong>公司 ：</strong><span id="company" class="text-muted"></span></li>
+                            <li><strong>地址 ：</strong><span id="company_address"></span></li>
+                            <li><strong>申请时间 ：</strong><span id="addtime1"></span></li>
                             <li id="role"></li>
                             <li id="status"></li>
-                            <li><strong>个人简介 ：</strong><small id="introduction"></small></li>
+
+
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+
+
+                            <li><strong>身份证a：</strong> :
+                                {{--<img class="user_avatar img-circle" src="{{ asset('home/img/user_center.jpg') }}">--}}
+                                <div class="ibox-content" style="display: inline-block;padding-left: 40px;vertical-align: middle;">
+                                    <div class="row">
+                                        <div id="crop-avatar">
+                                            <div class="avatar-view" title="" style="width: 300px;border: none;border-radius: 0px;box-shadow: none;">
+                                                <img id="pic_aa" class="" src=""  style="width: 150px;"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
                         </ul>
                     </div>
 
@@ -248,71 +316,89 @@
         var tr; //获取审核时对应tr标签节点，审核完成后 执行tr移除操作
         function userCheck() {
             $('.user_check').click(function () {
-                var guid = $(this).data('name');
+
                 tr = $(this).parent().parent();
                 var data = $(this).data();
+                var time = new Date(data.addtime*1000);
 
-                $('#guid').val(data.guid);
-                $('#role').val(data.role);
-                $('#headpic').attr('src',data.headpic);
-                $('#realname').text(data.realname);
-                $('#nickname').text(data.nickname);
-                switch (data.sex){
-                    case 1:
-                        var sex = '男';
-                        break;
+                switch (data.role){
                     case 2:
-                        var sex = '女';
+                        $('#guid').val(data.guid);
+                        $('#role').val(data.role);
+                        $('#realname1').text(data.realname);
+                        $('#pic_a').attr('src',data.card_pic_a);
+                        $('#pic_b').attr('src',data.card_pic_b);
+
+                        $('#education').text(data.education);
+
+                        $('#enrollment_year').text(data.enrollment_year);
+                        $('#graduation_year').text(data.graduation_year);
+
+                        $('#school_name').text(data.school_name);
+                        $('#major').text(data.major ? data.major : '--');
+                        $('#school_address').text(data.school_address ? data.school_address : '--');
+                        $('#addtime').text(time.getFullYear() +'-'+ time.getMonth() + 1 +'-' +time.getDate()+ ' ' +time.getHours()+':'+time.getMinutes() + ':' + time.getSeconds());
                         break;
-                    default:
-                        var sex = '未填写';
+                    case 3:
+                        $('#guid').val(data.guid);
+                        $('#role').val(data.role);
+                        $('#realname2').text(data.realname);
+                        $('#pic_aa').attr('src',data.card_pic_a);
+                        $('#work_year').text(data.work_year);
+                        $('#scale').text(data.scale+'万');
+                        $('#company').text(data.company);
+                        $('#company_address').text(data.company_address);
+                        $('#field').text(data.field);
+                        $('#work_year').text(data.work_year);
+                        $('#addtime1').text(time.getFullYear() +'-'+ time.getMonth() + 1 +'-' +time.getDate()+ ' ' +time.getHours()+':'+time.getMinutes() + ':' + time.getSeconds());
+                        break;
+
+
+
                 }
-                $('#sex').text(sex);
-                $('#birthday').text(data.birthday);
-                $('#phone').text(data.tel);
-                $('#email').text(data.email ? data.email : '--');
-                $('#company').text(data.company);
-                $('#company_position').text(data.company_position ? data.company_position : '--');
-                $('#company_address').text(data.company_address ? data.company_address : '--');
-                $('#introduction').text(data.introduction ? data.introduction : '--');
-                $('#wechat').attr('src',data.wechat);
-                $('#addtime').text(data.addtime);
+
+
+                //$('#introduction').text(data.introduction ? data.introduction : '--');
+
+
                 //角色身份选择
                 switch (data.role){
-                    case 1 :
-                        var str = '<strong>身份 ：</strong><span class="text-info text-xs">普通用户&nbsp;</span>';
+                    case 4 :
+                        var str = '<strong>身份 ：</strong><span class="text-info text-xs">申请英雄会会员&nbsp;</span>';
                         break;
                     case 2 :
-                        var str = '<strong>身份 ：</strong><span class="text-warning text-xs">创业者&nbsp;</span>';
+                        var str = '<strong>身份 ：</strong><span class="text-warning text-xs">申请创业者&nbsp;</span>';
                         break;
                     case 3 :
-                        var str = '<strong>身份 ：</strong><span class="text-success text-xs">投资者&nbsp;</span>';
+                        var str = '<strong>身份 ：</strong><span class="text-success text-xs">申请投资者&nbsp;</span>';
                         break;
                 }
                 //会员身份选择
-                switch(data.memeber){
-                    case 2:
-                        var member = '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
-                        break;
-                    default:
-                        var member = '';
-                }
 
 
-                $('#role').html(str + member);
+
+                $('#role').html(str);
 
                 //状态匹配
                 switch (data.status){
-                    case 1:
-                        var status = '<strong>当前状态 ：</strong><span class="text-primary text-xs">正常使用中&nbsp;</span>';
+                    case 5:
+                        var status = '<strong>当前状态 ：</strong><span class="text-primary text-xs">待审核&nbsp;</span>';
                         break;
+                    case 7:
                     default:
-                        var status = '<strong>当前状态 ：</strong><span class="text-danger text-xs">禁用中&nbsp;</span>';
+                        var status = '<strong>当前状态 ：</strong><span class="text-danger text-xs">审核未通过&nbsp;</span>';
                 }
                 $('#status').html(status);
-                $('#introduction').text(data.introduction ? data.introduction : '');
-                $('#').text();
-                $('#con123').modal('show');
+
+                switch (data.role){
+                    case 2:
+                        $('#con123').modal('show');
+                        break;
+                    case 3:
+                        $('#con12').modal('show');
+                        break;
+                }
+
                 //$('.modal-content').html(guid);
             });
         }
@@ -442,84 +528,163 @@
             //公共表格头
             str +=  '<div class="panel-body">' +
                     '<table class="table table-bordered table-striped">' +
-                    '<thead>' +
-                    '<tr>' +
-                    '<th class ="text-center">姓名</th>' +
-                    '<th class ="text-center">类型</th>' +
-                    '<th class ="text-center">性别</th>' +
-                    '<th class ="text-center">生日</th>' +
-                    '<th class ="text-center">手机</th>' +
-                    '<th class ="text-center">邮箱</th>' +
-                    '<th class ="text-center">用户状态</th>' +
-                    '<th class ="text-center">操作</th>' +
-                    '</tr>' +
-                    '</thead>'+
-                    '<tbody>';
+                    '<thead>';
+            switch(data[0].role){
+                case 2: //创业者列表
+                    str +=  '<tr>' +
+                        '<th class ="text-center">姓名</th>' +
+                        '<th class ="text-center">类型</th>' +
+                        '<th class ="text-center">学校</th>' +
+                        '<th class ="text-center">学历</th>' +
+                        '<th class ="text-center">专业</th>' +
+                        '<th class ="text-center">申请时间</th>' +
+                        '<th class ="text-center">用户状态</th>' +
+                        '<th class ="text-center">操作</th>' +
+                        '</tr>' +
+                        '</thead>'+
+                        '<tbody>';
+                    break;
+                case 3: //投资者列表
+                str +=  '<tr>' +
+                        '<th class ="text-center">姓名</th>' +
+                        '<th class ="text-center">类型</th>' +
+                        '<th class ="text-center">工作年限</th>' +
+                        '<th class ="text-center">投资规模</th>' +
+                        '<th class ="text-center">公司</th>' +
+                        '<th class ="text-center">申请时间</th>' +
+                        '<th class ="text-center">用户状态</th>' +
+                        '<th class ="text-center">操作</th>' +
+                        '</tr>' +
+                        '</thead>'+
+                        '<tbody>';
+                break;
+                case 4: //英雄会员列表
+                    str +=  '<tr>' +
+                            '<th class ="text-center">姓名</th>' +
+                            '<th class ="text-center">类型</th>' +
+                            '<th class ="text-center">工作年限</th>' +
+                            '<th class ="text-center">投资规模</th>' +
+                            '<th class ="text-center">公司</th>' +
+                            '<th class ="text-center">申请时间</th>' +
+                            '<th class ="text-center">用户状态</th>' +
+                            '<th class ="text-center">操作</th>' +
+                            '</tr>' +
+                            '</thead>'+
+                            '<tbody>';
+                    break;
+
+            }
+
 
             //
 
             $.each(data, function (i, v) {
+                var time = new Date(v.addtime*1000);
 
                 str += '<tr class="gradeX">';
                 str +=  '<td>' + v.realname + '</td>';
-                str +=  '<td>';
-                if(v.role == 1){
-                    str +=  '<span class="text-info text-xs">普通用户&nbsp;</span>';
-                }
-                if(v.role == 2){
-                    str +=  '<span class="text-warning text-xs">创业者&nbsp;</span>';
-                }
-                if(v.role == 3){
-                    str += '<span class="text-success text-xs">投资者&nbsp;</span>';
-                }
-                if(v.memeber == 2){
-                    str += '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
-                }
-                str += '</td>';
-                if(v.sex == 1){
-                    str += '<td>男</td>';
-                }else{
-                    str +=  '<td>女</td>';
+
+                switch (v.role){
+                    case 2:
+                        str +=  '<td>';
+                        str +=  '<span class="text-warning text-xs">创业者&nbsp;</span>';
+                        str += '</td>';
+                        str += '<td>';
+                        str += v.school_name;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.education;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.major;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += time.getFullYear() +'-'+ time.getMonth() + 1 +'-' +time.getDate()+ ' ' +time.getHours()+':'+time.getMinutes() + ':' + time.getSeconds();
+                        str += '</td>';
+                            switch (v.status){
+                                case 5:
+                                    str +=  '<td>';
+                                    str += '<span class="text-danger text-xs">待审核&nbsp; </span><span class="text-info text-xs">创业者</span>';
+                                    str +=  '</td>';
+                                    break;
+                                case 7:
+                                    str +=  '<td>';
+                                    str += '<span class="text-danger text-xs">未通过&nbsp; </span><span class="text-info text-xs">创业者</span>';
+                                    str +=  '</td>';
+                                    break;
+
+
+                            }
+                        break;
+
+                    case 3:
+                        str +=  '<td>';
+                        str += '<span class="text-success text-xs">投资者&nbsp;</span>';
+                        str += '</td>';
+                        str += '<td>';
+                        str += v.work_year;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.scale + '万';
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.company;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += time.getFullYear() +'-'+ time.getMonth() + 1 +'-' +time.getDate()+ ' ' +time.getHours()+':'+time.getMinutes() + ':' + time.getSeconds();
+                        str += '</td>';
+                        switch (v.status){
+                            case 5:
+                                str +=  '<td>';
+                                str += '<span class="text-danger text-xs">待审核&nbsp;</span><span class="text-success text-xs">投资者</span>';
+                                str +=  '</td>';
+                                break;
+                            case 7:
+                                str +=  '<td>';
+                                str += '<span class="text-danger text-xs">未通过&nbsp;</span><span class="text-success text-xs">投资者</span>';
+                                str +=  '</td>';
+                                break;
+                        }
+                        break;
+
+                    case 4:
+                        str +=  '<td>';
+                        str += '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
+                        str += '</td>';
+                        str += '<td>';
+                        str += v.school_name;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.education;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += v.major;
+                        str += '</td>';
+                        str +=  '<td>';
+                        str += time.getFullYear() +'-'+ time.getMonth() + 1 +'-' +time.getDate()+ ' ' +time.getHours()+':'+time.getMinutes() + ':' + time.getSeconds();
+                        str += '</td>';
+                        switch (v.status){
+                            case 5:
+                                str +=  '<td>';
+                                str += '<span class="text-danger text-xs">待审核&nbsp;</span><span class="text-warning text-xs">英雄会员</span>';
+                                str +=  '</td>';
+                                break;
+                            case 7:
+                                str +=  '<td>';
+                                str += '<span class="text-danger text-xs">未通过&nbsp;</span><span class="text-warning text-xs">英雄会员</span>';
+                                str +=  '</td>';
+                                break;
+                        }
                 }
 
-                str += '<td>';
-                str += v.birthday ? v.birthday : '';
-                str += '</td>';
-                str +=  '<td>';
-                str += v.tel ? v.tel : '';
-                str += '</td>';
-                str +=  '<td>';
-                str += v.email ? v.email : '';
-                str += '</td>';
-                str +=  '<td>';
 
-                if(v.status == 5 && v.role == 2){
-                    str += '<span class="text-danger text-xs">待审核&nbsp; </span><span class="text-info text-xs">创业者</span>';
-                }
-                if(v.status == 5 && v.role == 3){
-                    str += '<span class="text-danger text-xs">待审核&nbsp;</span><span class="text-success text-xs">投资者</span>';
-                }
-                if(v.status == 5 && v.role == 4){
-                    str += '<span class="text-danger text-xs">待审核&nbsp;</span><span class="text-warning text-xs">英雄会员</span>';
-                }
-
-                if(v.status == 7 && v.role == 2){
-                    str += '<span class="text-danger text-xs">未通过&nbsp; </span><span class="text-info text-xs">创业者</span>';
-                }
-                if(v.status == 7 && v.role == 3){
-                    str += '<span class="text-danger text-xs">未通过&nbsp;</span><span class="text-success text-xs">投资者</span>';
-                }
-                if(v.status == 7 && v.role == 4){
-                    str += '<span class="text-danger text-xs">未通过&nbsp;</span><span class="text-warning text-xs">英雄会员</span>';
-                }
-                str +=  '</td>';
-                str +=  '<td>';
                 if(v.status == 5 || v.status == 7){
-                    str +=  '<a href="javascript:;" data-guid="' + v.guid + '" data-role="'+v.role+'" data-realname="'+ v.realname +'" data-role ="'+v.role+
-                            '" data-brithday="'+v.birthday+'" data-sex ="'+v.sex+'" data-company_position="'+v.company_position+
-                            '" data-company_address="'+v.company_address+'" data-tel ="'+v.tel+'" data-email="'+v.email+
-                            '" data-headpic="'+v.headpic+'" data-wechat="'+v.wechat+'" data-introduction="'+v.introduction+
-                            '" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+
+                    str += '<td>';
+                    str +=  '<a href="javascript:;" data-guid="' + v.guid + '" data-role="'+v.role+'" data-realname="'+ v.realname +
+                            '" data-card_pic_a="'+v.card_pic_a+'" data-card_pic_b="'+v.card_pic_b+'" data-school_address="'+v.school_address+ '" data-school_name="'+v.school_name+
+                            '" data-enrollment_year="'+v.enrollment_year+'" data-graduation_year="'+v.graduation_year+'" data-education="'+v.education+
+                            '" data-major="'+v.major+'" data-work_year="'+v.work_year+'" data-scale="'+v.scale+'" data-company="'+v.company+ '"  data-company_address="'+v.company_address+
+                            '" data-field="'+v.field+'"  data-addtime="'+v.addtime+'" data-status="'+v.status+
                             '" class="user_check"><button class="btn btn-info btn-xs">审核</button></a>';
                 }
 

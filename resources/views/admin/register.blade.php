@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Twitch - 一只程序猿的 Life style！</title>
+    <title>英雄会后台注册</title>
     @include('admin.public.style')
 </head>
 <body>
@@ -13,7 +13,7 @@
 <div class="wrapper-page">
     <div class="panel panel-color panel-inverse">
         <div class="panel-heading">
-            <h3 class="text-center m-t-10"> 欢迎，加入 <strong>Twitch</strong> 的大家庭！ </h3>
+            <h3 class="text-center m-t-10"> 欢迎，加入 </h3>
         </div>
 
         <div class="panel-body">

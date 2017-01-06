@@ -134,6 +134,8 @@ class SchoolController extends Controller
             $isLogin = session('user')->guid;
         }
 
+        $rand = self::$actionServer->getRandomActions(false);
+
         //返回详情页
         return view("home.action.details", [
             "list" => 3,
@@ -143,7 +145,8 @@ class SchoolController extends Controller
             'likeNum' => $likeNum,
             'likeStatus' => $likeStatus,
             'comment' => $commentData,
-            'contentId' => $id
+            'contentId' => $id,
+            'rand' => $rand
         ]);
     }
 

@@ -221,7 +221,7 @@
     <script src="{{asset('cropper/js/sitelogo.js')}}"></script>
     {{--时间插件--}}
     <script src="{{asset('/dateTime/build/jquery.datetimepicker.full.js')}}"></script>
-    <script src="{{asset('/admin/js/public/dateTime.js')}}"></script>//时间插件配置
+    <script src="{{asset('/admin/js/public/datetime.js')}}"></script>//时间插件配置
     {{--提示框--}}
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>

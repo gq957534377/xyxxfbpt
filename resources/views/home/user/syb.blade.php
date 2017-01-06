@@ -19,7 +19,7 @@
                 <div class="form-group mar-b30">
                     <label for="form-title" class="col-md-3 col-lg-2 control-label mar-b10"><span class="form-star">*</span>真实姓名</label>
                     <div class="col-md-6">
-                        <input type="text" class="form-control" name="syb_realname" placeholder="">
+                        <input type="text" class="form-control" maxlength="16" name="syb_realname" placeholder="">
                     </div>
                 </div>
 
@@ -126,9 +126,11 @@
 @section('script')
     <script src="{{ asset('home/js/user/applySybValidate.js') }}"></script>
     <script src="{{asset('home/js/upload/uploadCommon.js')}}"></script>
+    <script src="{{asset('home/js/ajax/ajaxCommon.js')}}"></script>
     <script>
         //  异步上传身份证照
         var upload = new uploadCommon();
+        var ajax = new ajaxCommon();
 
         $("#syb_card_a").click(function(){
 
@@ -157,6 +159,31 @@
                 hideinput   : $("input[name = 'syb_card_b']")
             });
         });
+
+        // 获取用户真实姓名
+
+        ajax.ajax({
+            url      :   '/user/realname' + '/'+$('#topAvatar').data('id'),
+            type     :   'GET',
+            beforeSend: ajaxBeforeSend($('.loading')),
+            success  :   function(msg){
+                ajaxAfterSend($('.loading'));
+                console.log(msg.ResultData.realname.length);
+                switch (msg.StatusCode){
+                    case '400':
+                        $('input[name="syb_realname"]').attr('disabled', false);
+                        break;
+                    case '200':
+                        if (msg.ResultData.realname.length <= 0) {
+                            $('input[name="syb_realname"]').attr('disabled', false);
+                        }else {
+                            $('input[name="syb_realname"]').val(msg.ResultData.realname).attr('disabled', true);
+                        }
+                        break;
+                }
+            },
+        });
+
 
     </script>
 @endsection

@@ -16,7 +16,6 @@ use App\Tools\Common;
 use App\Services\UserService as UserServer;
 use App\Tools\CustomPage;
 use App\Redis\ArticleCache;
-
 class ArticleService
 {
     /**

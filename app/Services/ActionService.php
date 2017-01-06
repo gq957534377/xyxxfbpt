@@ -210,7 +210,6 @@ class ActionService
         }else{
             $count = self::$collegeStore->getCount($where);
         }
-
         if (!$count) {
             //如果没有数据直接返回204空数组，函数结束
             if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
@@ -226,7 +225,6 @@ class ActionService
         }else{
             $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
         }
-
         if($result['data']){
             if ($disPlay && $totalPage > 1) {
                 //创建分页样式
@@ -484,6 +482,52 @@ class ActionService
 
         return ['StatusCode' => '200', 'ResultData' => $result];
     }
+
+    /**
+     * 获取四条随机活动，根据给定条件
+     * @param $type
+     * @param int $take
+     * @param int $status
+     * @return array
+     * @author 郭庆
+     */
+    public function getRandomActions($list, $take = 4, $status = 1)
+    {
+        if ($list){
+            $start = self::$actionStore->getCount([]);
+            // 获取文章数据
+            $result = self::$actionStore->RandomActions($take, rand(1, $start - $take));
+        }else{
+            $start = self::$collegeStore->getCount([]);
+            // 获取文章数据
+            $result = self::$collegeStore->RandomActions($take, rand(1, $start - $take));
+        }
+
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $result];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

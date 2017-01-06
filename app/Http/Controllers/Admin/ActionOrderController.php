@@ -60,7 +60,7 @@ class ActionOrderController extends Controller
         }
 
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        $forPages = 1;//一页的数据条数
+        $forPages = 10;//一页的数据条数
         $where = [];
 
         if(isset($data["status"])){

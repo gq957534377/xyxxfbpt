@@ -25,13 +25,13 @@ body{
   text-align: center;
   list-style-type: none;
   float: left;
-  height: 43px;
+  height: 45px;
 }
 .nav-content > li > a {
   display: inline-block;
   color: #ffffff;
   width: 100%;
-  line-height: 43px;
+  line-height: 45px;
   text-decoration: none;
 }
 .nav-content > li > a:hover {
@@ -44,6 +44,19 @@ body{
   width: 84px; /*导航栏为六个时*/
   /*width: 46px; 导航栏为七个时*/
 }
+.nav-content-active {
+  background-color: #ffffff;
+}
+.nav-content-active > a {
+  color: #ff9035 !important;
+}
+.nav-content-active-dropdown {
+  background-color: #ff9035 !important;
+}
+.nav-content-active-dropdown > a {
+  color: #ffffff !important;
+}
+
 .nav-content > li:nth-child(2n-1):hover {
   background-color: #ffffff;
 }
@@ -80,6 +93,7 @@ body{
   /*box-shadow:1px 1px 1px #fefefe;*/
   font-size: 15px;
   color: #000;
+  left: -1px;
 }
 
 @media (max-width:767px) {
@@ -124,17 +138,10 @@ body{
     overflow-y: visible !important;
   }
   .qili-dropdown {
+    left: 0;
     width: 100%;
-    border-top: 2px solid #ff9035;
     border-left: 0;
     border-right: 0;
-    border-right: 0;
-    border-radius: 0;
-    margin: 0;
-    padding: 0;
-    /*box-shadow:1px 1px 1px #fefefe;*/
-    font-size: 15px;
-    color: #000;
   }
   .qili-dropdown > li {
     width: 100%;
@@ -151,8 +158,8 @@ body{
     width: 107px;
   }
   .qili-dropdown {
-    min-width: 108px;
-    max-width: 108px;
+    min-width: 109px;
+    max-width: 109px;
   }
   .nav-content > li:nth-child(2n) {
     /*导航栏数目为7时*/
@@ -170,14 +177,14 @@ body{
     width: 42px;
   }
   .qili-dropdown {
-    min-width: 126px;
-    max-width: 126px;
+    min-width: 127px;
+    max-width: 127px;
   }
 }
 @media (min-width:1200px) {
   .qili-dropdown {
-    min-width: 126px;
-    max-width: 126px;
+    min-width: 127px;
+    max-width: 127px;
   }
 }
 /******导航样式结束***********/

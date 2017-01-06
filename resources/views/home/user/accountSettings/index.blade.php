@@ -84,7 +84,7 @@
         <div class="binding col-xs-12 bb-1 pad-clr">
             <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pad-clr binding-email">
                 <p class="col-xs-12 col-sm-12 col-md-3 col-lg-2 pad-clr">安全邮箱</p>
-                <p class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ isset($accountInfo->email) ? 'binded' : 'unbinded'}}">{{ isset($accountInfo->email) ? '已绑定' : '未绑定'}}</p>
+                <p id="emailBinded" class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ isset($accountInfo->email) ? 'binded' : 'unbinded'}}">{{ isset($accountInfo->email) ? '已绑定' : '未绑定'}}</p>
                 <p id='email' class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ isset($accountInfo->email) ? $accountInfo->email : ''}}</p>
                 <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr"></p>
                 <p class="col-xs-12 col-sm-12 pad-clr fs-c-5">安全邮箱将可用于登录和修改密码</p>
@@ -132,13 +132,13 @@
                                 <input type="text" class="form-control form-title" id="captcha" placeholder="输入验证码">
                             </div>
                             <label for="captcha" id="resend_captcha_label" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
-                            <div class="col-sm-3 control-label line-h-1">
-                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha">发送</button>
+                            <div class="col-sm-3 control-label line-h-1" id="resend_captcha">
+                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" >发送</button>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer border-no h-align-1">
-                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="step_one">下一步</button>
+                    <div class="modal-footer border-no h-align-1" id="step_one">
+                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" >下一步</button>
                         <button type="button" class="btn btn-default tel_btn_reset" data-dismiss="modal">取消</button>
                         {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
@@ -182,8 +182,8 @@
                             </label>
                         </div>
                     </div>
-                    <div class="modal-footer border-no h-align-1 hidden">
-                        <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_two">下一步</button>
+                    <div class="modal-footer border-no h-align-1 hidden"  id="step_two">
+                        <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" >下一步</button>
                         <button type="button" class="btn btn-default" id="tel_return">返回</button>
                         <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
                     </div>
@@ -222,13 +222,13 @@
                                 <input type="text" class="form-control form-title" id="captcha_two" placeholder="验证码">
                             </div>
                             <label id="resend_captcha_laravel_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
-                            <div class="col-sm-3 control-label line-h-1">
-                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_two">重新发送</button>
+                            <div class="col-sm-3 control-label line-h-1" id="resend_captcha_two">
+                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" >重新发送</button>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
-                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_three">下一步</button>
+                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs pull-left"  id="step_three">下一步</button>
                         <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
                         {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
@@ -494,6 +494,8 @@
                 function stepTwo (msg)
                 {
                     if (msg.StatusCode == '200') {
+                        $('#sendSmsSuccessTwo').removeClass('hidden');
+                        setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
                         $("#newSmsBox").text(msg.ResultData);
                         $('.tel-step-two').addClass('hidden');
                         $('.tel-step-two + div').addClass('hidden');
@@ -680,15 +682,15 @@
                         $('.email-step-three + div').removeClass('hidden');
                         swal({
                                 title: '提示', // 标题，自定
-                                text: '邮箱邦定成功，准备重新登录...',   // 内容，自定
+                                text: '邮箱邦定成功',   // 内容，自定
                                 type: "success",    // 类型，分别为error、warning、success，以及info
                                 showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
                                 confirmButtonColor: '#34c73b',  // 确认用途的按钮颜色，自定
                             },
                             function (isConfirm) {
                                 swal('提示', msg.ResultData, "success");
+                                $("#emailBinded").removeClass('unbinded').addClass('binded');
                                 $(".userInfoReset").click();
-                                window.location.href = '/logout';
                             });
                     } else {
                         $("#errorEmailBox_two").html(msg.ResultData).removeClass('hidden');
@@ -700,8 +702,8 @@
             $('#email_step_three').on('click', function () {
                 $('.email-step-two').addClass('hidden');
                 $('.email-step-two + div').addClass('hidden');
-                $('.email-step-one').removeClass('hidden');
-                $('.email-step-one + div').removeClass('hidden');
+                $('.email-step-one').addClass('hidden');
+                $('.email-step-one + div').addClass('hidden');
             });
 
             // 邮箱更换绑定返回按钮
