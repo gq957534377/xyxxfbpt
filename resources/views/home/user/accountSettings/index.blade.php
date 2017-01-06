@@ -193,8 +193,8 @@
                             <div class="clearfix"></div>
                         </div>
                     </div>
-                    <div class="modal-footer border-no h-align-1 hidden"  id="step_two">
-                        <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" >下一步</button>
+                    <div class="modal-footer border-no h-align-1 hidden">
+                        <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_two">下一步</button>
                         <button type="button" class="btn btn-default" id="tel_return">返回</button>
                         <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
                     </div>
@@ -234,7 +234,7 @@
                             </div>
                             <label id="resend_captcha_laravel_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
                             <div class="col-sm-3 control-label line-h-1" id="resend_captcha_two">
-                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" >重新发送</button>
+                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" >发送</button>
                             </div>
                         </div>
                     </div>
@@ -505,8 +505,6 @@
                 function stepTwo (msg)
                 {
                     if (msg.StatusCode == '200') {
-                        $('#sendSmsSuccessTwo').removeClass('hidden');
-                        setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
                         $("#newSmsBox").text(msg.ResultData);
                         $('.tel-step-two').addClass('hidden');
                         $('.tel-step-two + div').addClass('hidden');
@@ -582,6 +580,7 @@
                 $('.tel-step-one').removeClass('hidden');
                 $('.tel-step-one + div').removeClass('hidden');
             });
+
             // 点击取消，回到初始第一步
             $(".tel_btn_reset").click(function(){
                 $("#captcha").val('');
@@ -600,6 +599,7 @@
                 $('#errorBox3').addClass('hidden');
 
             });
+
 //        更换安全手机 结束
 
 //        更换安全邮箱 开始
