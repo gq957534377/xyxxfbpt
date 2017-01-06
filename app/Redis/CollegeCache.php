@@ -82,6 +82,22 @@ class CollegeCache
     }
 
     /**
+     * 修改一条活动的状态
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function changeStatusCollege($guid, $status)
+    {
+        $data = $this->getOneCollege($guid);
+        $oldStatus = $data['status'];
+        $oldType = $data['type'];
+
+
+        $this->changeOneCollege($guid, ['status'=>$status]);
+    }
+
+    /**
      * 将mysql获取的列表信息写入redis缓存
      * @param $data  array   mysql 获取的信息
      */

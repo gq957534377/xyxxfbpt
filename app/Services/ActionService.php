@@ -394,9 +394,9 @@ class ActionService
         //判断修改结果并返回
         if ($Data) {
             if ($list == 3){
-                self::$collegeCache->changeOneCollege(['guid'=>$guid, 'status' => $status]);
+                self::$collegeCache->changeOneCollege($guid, ['status' => $status]);
             }else{
-                self::$actionCache->changeOneAction(['guid'=>$guid, 'status' => $status]);
+                self::$actionCache->changeOneAction($guid, ['status' => $status]);
             }
             return ['StatusCode' => '200', 'ResultData' => "修改成功"];
         } else {
