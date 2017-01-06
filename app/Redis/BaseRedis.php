@@ -113,7 +113,7 @@ class BaseRedis
      */
     public static function existsRedis ($key)
     {
-        return \Redis::Exists($key);
+        return Redis::Exists($key);
     }
 
     /**
