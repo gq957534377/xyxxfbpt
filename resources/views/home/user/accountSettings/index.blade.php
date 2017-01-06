@@ -169,6 +169,7 @@
                         <div id='errorBox2' class="alert alert-danger hidden">验证码验证失败！</div>
                         <!-- 错误提示 End-->
 
+
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-6 control-label pad-cl pad-cr-xs">
                                 <select class="form-control chr-c bg-1">

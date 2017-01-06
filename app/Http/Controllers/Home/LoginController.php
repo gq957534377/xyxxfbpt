@@ -46,7 +46,8 @@ class LoginController extends Controller
     {
         if (!empty(session('user'))) return redirect('/');
         $cookie = \App\Tools\Common::generateCookie('changePasswd');
-        return response()->view('home.changePasswd')->withCookie($cookie);
+        $checkCode = Common::generateCookie('checkCode');
+        return response()->view('home.changePasswd')->withCookie($cookie)->withCookie($checkCode);
     }
 
     /**
@@ -111,7 +112,7 @@ class LoginController extends Controller
     public function update(Request $request, $id)
     {
         // 登陆安全验证
-        $result = \App\Tools\Common::checkCookie('changePasswd', '登陆');
+        $result = \App\Tools\Common::checkCookie('changePasswd', '修改密码');
         if ($result != 'ok') return $result;
         $data = $request->all();
 //        dd(session('sms'), $data);
@@ -146,7 +147,7 @@ class LoginController extends Controller
      */
     public function captcha($tmp, Request $request)
     {
-        $result = \App\Tools\Common::checkCookie('checkCode', '登陆');
+        $result = \App\Tools\Common::checkCookie('checkCode', '验证码');
         if ($result != 'ok') return $result;
         return Common::captcha($tmp);
     }
@@ -168,18 +169,22 @@ class LoginController extends Controller
      * @return \Illuminate\Http\Response
      * @author 王通
      */
-    public function sendSms($id)
+    public function sendSms(Request $request, $id)
     {
+
         // 判断存在
         if (empty($id)) return false;
-
+        if ($request['piccode'] != session('code')) {
+            return response()->json(['StatusCode'=>'400','ResultData' =>'验证码错误！']);
+        }
         // 手机号校验
         $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
-        if(!preg_match($preg, $id)) return response()->json(['StatusCode'=>'200','ResultData' =>'请输入正确的手机号！']);
+        if(!preg_match($preg, $id)) return response()->json(['StatusCode'=>'400','ResultData' =>'请输入正确的手机号！']);
         // 查询该手机是否已注册
         $info = self::$userServer->checkUser(['tel' => $id]);
 
-        if($info['StatusCode'] != '200') return response()->json(['StatusCode'=>'400','ResultData' => '该手机号暂未注册，请输入正确手机号']);
+        if(empty($info->status)) return response()->json(['StatusCode'=>'400','ResultData' => '该手机号暂未注册，请输入正确手机号！']);
+        if($info->status != 1) return response()->json(['StatusCode'=>'400','ResultData' => '该手机号异常，请联系管理员！']);
 
         // 真，发送短信
         $info = self::$userServer->sendSmsCode($id);

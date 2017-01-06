@@ -6,7 +6,6 @@
 <script src="{{asset('home/js/openim.js')}}"></script>
 <script src="{{asset('home/js/usercenter.js')}}"></script>
 <script src="{{asset('home/js/nav.js')}}"></script>
-
 <!-- 意见反馈 -->
 <script src="{{ asset('home/js/feed-back.js') }}"></script>
 

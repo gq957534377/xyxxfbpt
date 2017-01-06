@@ -42,8 +42,8 @@
                 <li data-status="action" class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">路演活动<span class="caret"></span></a>
                     <ul class="dropdown-menu qili-dropdown" role="menu">
-                        <li class=""><a href="{{ route('action.index', ['type' => '1']) }}">路演活动</a></li>
-                        <li class=""><a href="{{ route('action.index', ['type' => '2']) }}">创业大赛</a></li>
+                        <li class="nav-child-status"><a href="{{ route('action.index', ['type' => '1']) }}">路演活动</a></li>
+                        <li class="nav-child-status"><a href="{{ route('action.index', ['type' => '2']) }}">创业大赛</a></li>
                     </ul>
                 </li>
             </ul>
