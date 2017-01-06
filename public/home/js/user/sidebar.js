@@ -5,17 +5,39 @@
  */
 
 $(function(){
+    //取得当前页面url
     var url_str = location.href;
-    var set = $("#js_zxz > li");
-    var index = 0;
-    set.each(function () {
-        var b = $(this).children('a').attr('href');
 
-        //只取得最后一个匹配的索引
-        if (url_str.indexOf(b) > -1) {
-            index = $(this).index();
+    //取得侧边栏元素
+    var set = $(".user-aside-nav > li");
+
+    //初始化index
+    var index = 0;
+
+    //判断关键字是否在url中,并返回index
+    function checkInUrl(url_str) {
+        if (url_str.indexOf('user') > -1) {
+            if (url_str.indexOf('edit') > -1) {
+                return 6;
+            }
+            if (url_str.indexOf('myProject') > -1) {
+                return 2;
+            }
+            if (url_str.indexOf('commentandlike') > -1) {
+                return 5;
+            }
+        } else {
+            if (url_str.indexOf('action_order') > -1) {
+                return 3;
+            }
+            if (url_str.indexOf('send') > -1) {
+                return 4;
+            }
         }
-    });
+        return 0;
+    }
+
+    index = checkInUrl(url_str);
 
     //拼接类
     var active_class =  "sidebar-active sidebar-active-" + (index + 1);

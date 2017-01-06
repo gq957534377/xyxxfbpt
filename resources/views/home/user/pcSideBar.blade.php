@@ -1,6 +1,6 @@
 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-2">
     <aside class="hidden-xs">
-        <ul id="js_zxz" class="list-unstyled">
+        <ul id="js_zxz" class="list-unstyled user-aside-nav">
             <li><a href="{{ route('user.show', ['id' => session('user')->guid]) }}">我的主页</a></li>
             <li class="hidden"></li>
             {{--<li class="hidden"><a data-sidebar="identity" href="{{ route('identity.index', ['identity' => 'applyHero']) }}">英雄会报名</a></li>--}}
