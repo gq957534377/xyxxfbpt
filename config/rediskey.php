@@ -13,3 +13,6 @@ define('HASH_ACTION_INFO_','HASH:ACTION:INFO:');
 //英雄学院
 define('LIST_COLLEGE_','LIST:COLLEGE:');
 define('HASH_COLLEGE_INFO_','HASH:COLLEGE:INFO:');
+//user 用户中心 redis key
+define('LIST_USER_INFO', 'LIST:USER:INFO');
+define('HASH_USER_INFO_', 'HASH:USER:INFO:');
