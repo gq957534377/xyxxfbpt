@@ -5,10 +5,21 @@
  */
 
 $(function(){
-    var url_str = location.href.slice(20);
-    console.log(url_str);
-    var el = $("[href$='" + url_str + "']");
-    console.log(el);
-    var href = el.attr('href');
-    console.log(el.attr('data-sidebar'));
+    var url_str = location.href;
+    var set = $("#js_zxz > li");
+    var index = 0;
+    set.each(function () {
+        var b = $(this).children('a').attr('href');
+
+        //只取得最后一个匹配的索引
+        if (url_str.indexOf(b) > -1) {
+            index = $(this).index();
+        }
+    });
+
+    //拼接类
+    var active_class =  "sidebar-active sidebar-active-" + (index + 1);
+
+    //添加类
+    set.eq(index).children('a').addClass(active_class);
 });
