@@ -679,7 +679,11 @@
                     @for($i = 0; $i < round(count($articles)/2); $i++)
                         <li>
                             <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+<<<<<<< HEAD
                             <p>发布时间 {{ $articles[$i]->addtime }}</p>
+=======
+                            <p>发布时间 {{ date('Y-m-d H:i:s', $articles[$i]->addtime) }}</p>
+>>>>>>> guoqing
                         </li>
                     @endfor
                 </ul>
@@ -687,7 +691,11 @@
                     @for($i = round(count($articles)/2); $i < count($articles); $i++)
                         <li>
                             <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+<<<<<<< HEAD
                             <p>发布时间 {{ $articles[$i]->addtime }}</p>
+=======
+                            <p>发布时间 {{ date('Y-m-d H:i:s', $articles[$i]->addtime)  }}</p>
+>>>>>>> guoqing
                         </li>
                     @endfor
                 </ul>
@@ -728,7 +736,7 @@
                         @if($val->type == 5)
                             <li class="col-sm-2">
                                 <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"/>
-                                <a href="{{ $val->pointurl }}">
+                                <a href="{{ $val->pointurl }}" target="_blank">
                                     <div>
                                         <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/cross.png') }}"/>
                                     </div>
