@@ -168,7 +168,6 @@
             beforeSend: ajaxBeforeSend($('.loading')),
             success  :   function(msg){
                 ajaxAfterSend($('.loading'));
-                console.log(msg.ResultData.realname.length);
                 switch (msg.StatusCode){
                     case '400':
                         $('input[name="syb_realname"]').attr('disabled', false);

@@ -183,7 +183,7 @@ class UserRoleService {
             return ['StatusCode' => '400', 'ResultData' => '添加角色申请记录失败，请重新申请'];
         }
 
-        if (!isset($userInfo->realname)){
+        if (empty($userInfo->realname)){
             $result = self::$userStore->updateUserInfo(['guid' => $data['guid']], ['realname' => $data['realname']]);
 
             if (!$result) {
@@ -191,12 +191,15 @@ class UserRoleService {
                 \DB::rollBack();
                 return ['StatusCode' => '400', 'ResultData' => '添加角色申请记录失败，请重新申请'];
             }
-        }
 
-        if ($userInfo->realname != $data['realname']) {
-            \Log::error('核实真实姓名', ['guid' => $data['guid']], ['realname' => $data['realname']]);
-            \DB::rollBack();
-            return ['StatusCode' => '400', 'ResultData' => '核实真实姓名，与本平台真实姓名不一致'];
+        }else {
+
+            if ($userInfo->realname != $data['realname']) {
+                \Log::error('核实真实姓名', ['guid' => $data['guid']], ['realname' => $data['realname']]);
+                \DB::rollBack();
+                return ['StatusCode' => '400', 'ResultData' => '核实真实姓名，与本平台真实姓名不一致'];
+            }
+
         }
 
         \DB::commit();
