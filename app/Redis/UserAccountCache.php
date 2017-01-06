@@ -39,6 +39,11 @@ class UserAccountCache
         }
     }
 
+    /**
+     * 设置用户账户
+     * @param $data
+     * @author 刘峻廷
+     */
     public function setUserAccountList($data)
     {
         // 获取原始数据长度
@@ -47,7 +52,7 @@ class UserAccountCache
         // 执行写操作
         $this->insertCache($data);
 
-
+        // 获取list 长度
 
     }
 
@@ -76,8 +81,20 @@ class UserAccountCache
         }
     }
 
+    /**
+     * @author 刘峻廷
+     */
+    public function getListLength($type)
+    {
+        if ($this->exists())
+        {
+            // 返回长度
+            return Redis::llen(self::$lkey);
+        }
 
-    public function get
+        return false;
+    }
+
     /**
      * 设置hash缓存生命周期
      * @param $key
@@ -89,4 +106,23 @@ class UserAccountCache
          Redis::expire($key, $time);
     }
 
+    /**
+     * 返回队列key
+     * @return string
+     * @author 刘峻廷
+     */
+    public function listKey()
+    {
+        return self::$lkey;
+    }
+
+    /**
+     * 返回hash索引key前缀
+     * @return string
+     * @author 刘峻廷
+     */
+    public function hashKey()
+    {
+        return self::$hkey;
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Redis\UserCache;
 use App\Store\HomeStore;
 use App\Store\UserStore;
 use App\Store\CompanyStore as CompanyStore;
@@ -16,7 +15,6 @@ use Illuminate\Support\Facades\Session;
 use Mail;
 
 class UserService {
-    protected static $userCache = null;
     protected static $homeStore = null;
     protected static $userStore = null;
     protected static $companyStore = null;
@@ -29,14 +27,12 @@ class UserService {
      * @param UserStore $userStore
      */
     public function __construct(
-        UserCache $userCache,
         HomeStore $homeStore,
         UserStore $userStore,
         CompanyStore $companyStore,
         UploadServer $uploadServer,
         UserRoleServer $userRoleServer
     ){
-        self::$userCache = $userCache;
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$companyStore = $companyStore;

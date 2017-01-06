@@ -15,6 +15,7 @@ class ArticleController extends Controller
     protected  static $articleServer;
     protected  static $userServer;
     protected  static $commentServer;
+    protected static $forPages = 5;
 
     public function __construct(ArticleServer $articleServer, UserServer $userServer, CommentServer $commentServer)
     {
@@ -35,8 +36,9 @@ class ArticleController extends Controller
         if (!empty($request['type'])) {
             $where["status"] = 1;
             $where['type'] = $request['type'];
-            $result = self::$articleServer->selectData($where, 1, 5, "/article/create",false);
+            $result = self::$articleServer->selectArticle($where, 1, self::$forPages, "/article/create", false);
             $result['type'] = $request['type'];
+            // 随机取四条文章信息
             $randomList = self::$articleServer->getRandomArticles($where['type'], 4, 1);
             $result['ResultData']['RandomList'] = $randomList;
 
@@ -60,7 +62,7 @@ class ArticleController extends Controller
     {
         $data = $request->all();
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:2;   // 获取当前页
-        $forPages = 5;                      // 一页的数据条数
+        $forPages = self::$forPages;                      // 一页的数据条数
         $type = $data["type"];              // 获取文章类型
         $where = [];
         $where["status"] = 1;
@@ -70,7 +72,7 @@ class ArticleController extends Controller
                 $where["type"] = $type;
             }
         }
-        $result = self::$articleServer->selectData($where, $nowPage, $forPages, "/article/create",false);
+        $result = self::$articleServer->selectArticle($where, $nowPage, $forPages, "/article/create",false);
         return response()->json($result);
     }
 

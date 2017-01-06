@@ -8,6 +8,8 @@
  */
 
 namespace App\Services;
+use App\Redis\ActionCache;
+use App\Redis\CollegeCache;
 use App\Store\ActionStore;
 use App\Store\ActionOrderStore;
 use App\Store\CommentStore;
@@ -31,6 +33,8 @@ class ActionService
     protected static $common;
     protected static $likeStore;
     protected static $pictureStore;
+    protected static $actionCache;
+    protected static $collegeCache;
 
     public function __construct(
         ActionStore $actionStore,
@@ -38,7 +42,9 @@ class ActionService
         ActionOrderStore $actionOrderStore,
         CommentStore $commentStore,
         LikeStore $likeStore,
-        PictureStore $pictureStore
+        PictureStore $pictureStore,
+        ActionCache $actionCache,
+        CollegeCache $collegeCache
     )
     {
         self::$actionStore      = $actionStore;
@@ -47,6 +53,8 @@ class ActionService
         self::$likeStore        = $likeStore;
         self::$collegeStore     = $collegeStore;
         self::$pictureStore     = $pictureStore;
+        self::$actionCache      = $actionCache;
+        self::$collegeCache     = $collegeCache;
     }
 
     /**
@@ -204,27 +212,68 @@ class ActionService
      */
     public function selectData($where, $nowPage, $forPages, $url, $list, $disPlay=true)
     {
-        //查询总记录数
-        if(!$list){
-            $count = self::$actionStore->getCount($where);
+        //判断action缓存是否存在
+        if (!$list){
+            $exist = !empty($where['status']) ? self::$actionCache->exists($where['type'].':'.$where['status']) : self::$actionCache->exists($where['type']);
         }else{
-            $count = self::$collegeStore->getCount($where);
+            if (empty($where['type'])){
+                $exist = self::$collegeCache->exists('-'.':'.$where['status']);
+            }else{
+                $exist = !empty($where['status']) ? self::$collegeCache->exists($where['type'].':'.$where['status']) : self::$collegeCache->exists($where['type']);
+            }
         }
-        if (!$count) {
-            //如果没有数据直接返回204空数组，函数结束
-            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
-            return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
+        if(!$exist){
+            Log::info('到数据库里');
+            //获取数据库里的所有文章列表,并且转对象为数组
+            if(!$list){
+                $count = self::$actionStore->getCount($where);
+            }else{
+                $count = self::$collegeStore->getCount($where);
+            }
+            if (!$count) {
+                //如果没有数据直接返回204空数组，函数结束
+                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
+                return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
+            }
+
+            //获取对应页的数据
+            if ($list){
+                $result['data'] = self::$collegeStore->forPage($nowPage, $forPages, $where);
+                //存入redis缓存
+                $redis_list = CustomPage::objectToArray(self::$collegeStore->getData($where));
+                self::$collegeCache->setCollegeList($where, $redis_list);
+            }else{
+                $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
+                //存入redis缓存
+                $redis_list = CustomPage::objectToArray(self::$actionStore->getData($where));
+                self::$actionCache->setActionList($where, $redis_list);
+            }
+
+        }else{
+            Log::info('到redis里');
+            if ($list){
+                $count = self::$collegeCache->getLength($where);
+            }else{
+                $count = self::$actionCache->getLength($where);
+            }
+
+            //查询总记录数
+            if (!$count) {
+                //如果没有数据直接返回204空数组，函数结束
+                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
+                return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
+            }
+
+            if(!$list){
+                $result['data'] = \Qiniu\json_decode(json_encode(self::$actionCache->getActionList($where, $forPages, $nowPage)));
+            }else{
+                $result['data'] = \Qiniu\json_decode(json_encode(self::$collegeCache->getCollegeList($where, $forPages, $nowPage)));
+            }
         }
 
         //计算总页数
         $totalPage = ceil($count / $forPages);
-
-        //获取对应页的数据
-        if ($list){
-            $result['data'] = self::$collegeStore->forPage($nowPage, $forPages, $where);
-        }else{
-            $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
-        }
+//dd($result['data']);
         if($result['data']){
             if ($disPlay && $totalPage > 1) {
                 //创建分页样式
