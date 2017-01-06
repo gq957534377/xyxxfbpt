@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Redis\UserCache;
 use App\Store\HomeStore;
 use App\Store\UserStore;
 use App\Store\CompanyStore as CompanyStore;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Session;
 use Mail;
 
 class UserService {
+    protected static $userCache = null;
     protected static $homeStore = null;
     protected static $userStore = null;
     protected static $companyStore = null;
@@ -27,12 +29,14 @@ class UserService {
      * @param UserStore $userStore
      */
     public function __construct(
+        UserCache $userCache,
         HomeStore $homeStore,
         UserStore $userStore,
         CompanyStore $companyStore,
         UploadServer $uploadServer,
         UserRoleServer $userRoleServer
     ){
+        self::$userCache = $userCache;
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$companyStore = $companyStore;
@@ -48,6 +52,12 @@ class UserService {
      */
     public function userInfo($where)
     {
+        // 判断用户信息的list缓存是否存在
+        if (!self::$userCache->exists()) {
+            // 不存在，mysql数据写入redis
+            $result = self::$userCache->setUserList([]);
+            dd($result);
+        }
 
         $result = self::$userStore->getOneData($where);
         //返回错误状态信息
