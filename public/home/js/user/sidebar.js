@@ -39,6 +39,11 @@ $(function(){
 
     index = checkInUrl(url_str);
 
+    //解决进入新建项目页面时和顶部导航栏冲突
+    if (url_str.indexOf('create') > -1 && url_str.indexOf('project') > -1) {
+        index = 2;
+    }
+
     //拼接类
     var active_class =  "sidebar-active sidebar-active-" + (index + 1);
 

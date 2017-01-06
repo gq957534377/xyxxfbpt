@@ -9,6 +9,7 @@ var url_str = location.href;
 
 //处理url地址
 var a = url_str.split('/')[3];
+var b = 1;
 if (a.indexOf('?') > -1) {
     b = a.split('?')[1].split('=')[1];
     a = a.split('?')[0];
@@ -19,6 +20,11 @@ switch (a) {
         $("[data-status='index']").addClass('nav-content-active');
         break;
     case 'project':
+        //解决进入新建项目页面时和顶部导航栏冲突
+        if (url_str.indexOf('create') > -1) {
+            break;
+        }
+
         $("[data-status='project']").addClass('nav-content-active');
         break;
     case 'school':
