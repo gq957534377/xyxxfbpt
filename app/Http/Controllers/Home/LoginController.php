@@ -59,6 +59,7 @@ class LoginController extends Controller
         // 登陆安全验证
         $result = Common::checkCookie('login', '登陆');
         if ($result != 'ok') return $result;
+
         $data = $request->all();
 
         //验证数据

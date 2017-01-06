@@ -68,4 +68,14 @@ class HomeStore {
 
         return DB::table(self::$table)->where($where)->update($status);
     }
+
+    /**
+     * 获取所有账户
+     * @return mixed
+     * @author 刘峻廷
+     */
+    public function getAllData()
+    {
+        return DB::table(self::$table)->get();
+    }
 }

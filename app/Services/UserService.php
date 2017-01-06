@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Redis\UserAccountCache;
 use App\Store\HomeStore;
 use App\Store\UserStore;
 use App\Store\CompanyStore as CompanyStore;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Session;
 use Mail;
 
 class UserService {
+    protected static $accountCache = null;
     protected static $homeStore = null;
     protected static $userStore = null;
     protected static $companyStore = null;
@@ -27,12 +29,14 @@ class UserService {
      * @param UserStore $userStore
      */
     public function __construct(
+        UserAccountCache $accountCache,
         HomeStore $homeStore,
         UserStore $userStore,
         CompanyStore $companyStore,
         UploadServer $uploadServer,
         UserRoleServer $userRoleServer
     ){
+        self::$accountCache = $accountCache;
         self::$homeStore = $homeStore;
         self::$userStore = $userStore;
         self::$companyStore = $companyStore;
@@ -180,6 +184,17 @@ class UserService {
     {
         // 对密码进行加密
         $pass = Common::cryptString($data['tel'],$data['password'],'hero');
+
+        // 判断Account队列缓存是否存在
+        if (!self::$accountCache->exists()) {
+            // 不存在，读取MySql存入redis,并且将获取到的对象转成数组
+            $accountList = CustomPage::objectToArray(self::$homeStore->getAllData());
+
+            if (count($accountList)) {
+                dd(self::$accountCache->setUserAccountList($accountList));
+            }
+        }
+
         // 查询数据
         $temp = self::$homeStore->getOneData(['tel' => $data['tel']]);
         // 返回假，说明此账号不存在
