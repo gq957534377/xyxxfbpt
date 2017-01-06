@@ -143,7 +143,7 @@
                 type:'get',
                 data:{'nowPage':nowPage,'type':type,'status':sta},
                 success:function (data) {
-                    console.log(data);
+//                    console.log(data);
                     data['ResultData']['data'].map(function (action) {
                         var html = '';
                         html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';

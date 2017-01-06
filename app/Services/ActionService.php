@@ -222,6 +222,8 @@ class ActionService
                 $exist = !empty($where['status']) ? self::$collegeCache->exists($where['type'].':'.$where['status']) : self::$collegeCache->exists($where['type']);
             }
         }
+
+        //如果不存在则去数据库查询并写入redis
         if(!$exist){
             Log::info('到数据库里');
             //获取数据库里的所有文章列表,并且转对象为数组
@@ -230,6 +232,8 @@ class ActionService
             }else{
                 $count = self::$collegeStore->getCount($where);
             }
+
+            //如果没有数据返回204
             if (!$count) {
                 //如果没有数据直接返回204空数组，函数结束
                 if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
@@ -239,8 +243,11 @@ class ActionService
             //获取对应页的数据
             if ($list){
                 $result['data'] = self::$collegeStore->forPage($nowPage, $forPages, $where);
-                //存入redis缓存
+
+                //获取所有数据存入redis缓存
+                //从数据库取出所有数据
                 $redis_list = CustomPage::objectToArray(self::$collegeStore->getData($where));
+                //写入redis
                 self::$collegeCache->setCollegeList($where, $redis_list);
             }else{
                 $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
@@ -249,7 +256,7 @@ class ActionService
                 self::$actionCache->setActionList($where, $redis_list);
             }
 
-        }else{
+        }else{//list存在查找list
             Log::info('到redis里');
             if ($list){
                 $count = self::$collegeCache->getLength($where);
@@ -273,7 +280,7 @@ class ActionService
 
         //计算总页数
         $totalPage = ceil($count / $forPages);
-//dd($result['data']);
+
         if($result['data']){
             if ($disPlay && $totalPage > 1) {
                 //创建分页样式
@@ -321,9 +328,25 @@ class ActionService
         }
         //查询一条数据活动信息
         if ($list == 3){
-            $data = self::$collegeStore->getOneData(["guid" => $guid]);
+            if (!self::$collegeCache->exists($guid, false)){
+                Log::info('学院详情到数据库');
+                $data = self::$collegeStore->getOneData(["guid" => $guid]);
+                $redis_data = CustomPage::objectToArray($data);
+                self::$collegeCache->setOneCollege($redis_data);
+            }else{
+                Log::info('学院详情到redis');
+                $data = CustomPage::arrayToObject(self::$collegeCache->getOneCollege($guid));
+            }
         }else{
-            $data = self::$actionStore->getOneData(["guid" => $guid]);
+            if (!self::$actionCache->exists($guid, false)){
+                Log::info('活动详情到数据库');
+                $data = self::$actionStore->getOneData(["guid" => $guid]);
+                $redis_data = CustomPage::objectToArray($data);
+                self::$actionCache->setOneAction($redis_data);
+            }else{
+                Log::info('活动详情到redis');
+                $data = CustomPage::arrayToObject(self::$actionCache->getOneAction($guid));
+            }
         }
 
         if($data) {
