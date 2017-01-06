@@ -8,11 +8,11 @@ namespace App\Redis;
 use App\Store\UserStore;
 use Illuminate\Support\Facades\Redis;
 
-class UserCache
+class UserAccountCache
 {
 
-    private static $lkey = LIST_USER_INFO;      //用户列表key
-    private static $hkey = HASH_USER_INFO_;     //用户hash表key
+    private static $lkey = LIST_USER_ACCOUNT;      //用户列表key
+    private static $hkey = HASH_USER_ACCOUNT_;     //用户hash表key
 
     private static $userStore;
 
@@ -39,8 +39,14 @@ class UserCache
         }
     }
 
-    public function setUserList($data)
+    public function setUserAccountList($data)
     {
+        // 获取原始数据长度
+        $count = count($data);
+
+        // 执行写操作
+        $this->insertCache($data);
+
 
 
     }
@@ -70,6 +76,8 @@ class UserCache
         }
     }
 
+
+    public function get
     /**
      * 设置hash缓存生命周期
      * @param $key
