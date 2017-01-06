@@ -128,10 +128,10 @@
                         <!--发送提示    &    验证错误提示  结束-->
 
                         <div class="form-group mar-cb">
-                            <div class="col-sm-9">
+                            <div class="col-sm-9 pad-cl">
                                 <input type="text" class="form-control form-title" id="captcha" placeholder="输入验证码">
                             </div>
-                            <label for="captcha" id="resend_captcha_label" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
+                            <label for="captcha" id="resend_captcha_label" class="col-sm-3 control-label line-h-1 hidden  pad-cl">重新发送<span>54</span>秒</label>
                             <div class="col-sm-3 control-label line-h-1" id="resend_captcha">
                                 <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" >发送</button>
                             </div>
@@ -139,7 +139,7 @@
                     </div>
                     <div class="modal-footer border-no h-align-1" id="step_one">
                         <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" >下一步</button>
-                        <button type="button" class="btn btn-default tel_btn_reset" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                         {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
                     <!--第一步 获取验证码 结束-->
@@ -169,17 +169,28 @@
                         <div id='errorBox2' class="alert alert-danger hidden">验证码验证失败！</div>
                         <!-- 错误提示 End-->
 
+
                         <div class="form-group">
-                            <label class="col-xs-12 control-label">
+                            <label class="col-xs-12 col-sm-6 control-label pad-cl pad-cr-xs">
                                 <select class="form-control chr-c bg-1">
                                     <option value="+86">中国大陆(+86)</option>
                                 </select>
                             </label>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-12 control-label">
+                            <label class="col-xs-12 col-sm-6 control-label pad-cl-xs pad-cr-xs">
                                 <input id="newTel" type="text" class="form-control form-title"  placeholder="手机号">
                             </label>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="form-group mar-b10">
+                            <div class="col-xs-12 pad-clr">
+                                <div class="col-xs-6 col-sm-6 pad-cl">
+                                    <input class="form-control" type="text" id="auth-code" placeholder="请输入验证码">
+                                </div>
+                                <div class="col-xs-6 col-sm-6">
+                                    <img src="{{asset('home/img/demoimg/code-auth.jpg')}}">
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden"  id="step_two">

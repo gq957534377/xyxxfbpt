@@ -133,7 +133,7 @@ class RegisterController extends Controller
                 break;
             case '2':
                 $sms = session('sms');
-                if ($data['sms'] != $sms['smsCode'] || session('tel') != $sms['phone']) {
+                if ($data['sms'] != $sms['smsCode']) {
                     return response()->json(['StatusCode' => '400','ResultData' => ['验证码错误!']]);
                 }
                 return response()->json(['StatusCode'=>'200', 'ResultData' => '2', 'Tel' => session('tel')]);
@@ -161,17 +161,19 @@ class RegisterController extends Controller
     {
         // 判断存在
         if (empty($id)) return false;
-
+        if ($id != session('tel')) {
+            return response()->json(['StatusCode'=>'400','ResultData' =>'内部错误，请刷新重试！']);
+        }
         // 手机号校验
         $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
-        if(!preg_match($preg, $id)) return response()->json(['StatusCode'=>'200','ResultData' =>'请输入正确的手机号！']);
+        if(!preg_match($preg, session('tel'))) return response()->json(['StatusCode'=>'200','ResultData' =>'请输入正确的手机号！']);
         // 查询该手机是否已注册
-        $info = self::$userServer->userInfo(['tel' => $id]);
+        $info = self::$userServer->userInfo(['tel' => session('tel')]);
 
         if($info['StatusCode'] == '200') return response()->json(['StatusCode'=>'400','ResultData' => '此手机号已被注册！']);
 
         // 真，发送短信
-        $info = self::$userServer->sendSmsCode($id);
+        $info = self::$userServer->sendSmsCode(session('tel'));
 
         return response()->json($info);
 

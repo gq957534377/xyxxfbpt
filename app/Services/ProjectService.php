@@ -238,7 +238,7 @@ class ProjectService {
     {
         $result = self::$projectStore->getCount($where);
 
-        return $result;
+        return ['StatusCode' => '200', 'ResultData' => $result];
     }
 
     /**

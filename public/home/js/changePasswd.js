@@ -34,6 +34,9 @@ $('#get_captcha').on('click', function () {
     $.ajax({
         type: "GET",
         url: url,
+        data: {
+            'piccode': $("input[name= 'piccode']").val()
+        },
         success:function(data){
             console.log(data);
             switch (data.StatusCode){
@@ -41,7 +44,7 @@ $('#get_captcha').on('click', function () {
                     // promptBoxHandle('警告',data.ResultData);
                     $('#error-info').html(data.ResultData).fadeIn(1000);
                     $('#error-info').fadeOut(2000);
-                    setTime($("#get_captcha"));
+                    updateCaptcha($('#captcha'));
                     break;
 
                 case '200':
@@ -111,6 +114,7 @@ function setTime(obj) {
                         'tel': $("input[name= 'phone']").val(),
                         'password': $("input[name= 'password']").val(),
                         'confirm_password': $("input[name= 'confirm_password']").val(),
+                        'piccode': $("input[name= 'piccode']").val(),
                         'code': $("input[name= 'code']").val()
                     },
                     success:function(data){
@@ -139,47 +143,60 @@ function setTime(obj) {
         // 验证数据规则和提示
         this.$signUpForm.validate({
             // 验证规则
+            phone: {
+                required: true,
+                minlength:11,
+                maxlength: 11,
+                isMobile: true
+
+            },
             rules: {
                 password: {
                     required: true,
-                    minlength:6
+                    minlength:6,
+                    maxlength: 18
                 },
                 confirm_password: {
                     required: true,
-                    minlength: 6,
                     equalTo: "#password"
                 },
-                phone: {
+                piccode: {
                     required: true,
-                    minlength:11,
-                    maxlength: 11,
-                    isMobile: true
-
+                    minlength:4,
+                    maxlength: 4
                 },
                 code: {
                     required: true,
-
+                    minlength:6,
+                    maxlength: 6
                 }
             },
             // 提示信息
             messages: {
                 password: {
                     required: "请输入密码",
-                    minlength: "密码长度小于6"
+                    minlength: "密码长度不能小于6",
+                    maxlength: "密码长度不能大于18位"
                 },
                 confirm_password: {
                     required: "请输入确认密码",
-                    minlength: "密码长度小于6",
                     equalTo: "输入密码不一致"
                 },
                 phone: {
                     required: "请输入手机号",
-                    minlength: "手机号长度小于11位",
-                    maxlength: "手机号长度大于11位",
+                    minlength: "手机号长度不能小于11位",
+                    maxlength: "手机号长度不能大于11位",
                     isMobile: "手机号码不对"
                 },
                 code: {
-                    required: "输入短信验证码"
+                    required: "输入短信验证码",
+                    minlength: "验证码不能小于4位",
+                    maxlength: "验证码不能大于4位"
+                },
+                piccode: {
+                    required: "输入短信验证码",
+                    minlength: "短信验证码长度不能小于6",
+                    maxlength: "短信验证码长度不能大于6位"
                 }
             }
 //                  },
@@ -197,3 +214,14 @@ function setTime(obj) {
         "use strict";
         $.FormValidator.init();
     }(window.jQuery);
+
+// 验证码点击更换
+var captcha = document.getElementById('captcha');
+captcha.onclick = function(){
+    updateCaptcha($(this));
+};
+function updateCaptcha(me) {
+    var url = '/code/captcha/';
+    url = url + me.data('sesid') + Math.ceil(Math.random()*100);
+    me.attr('src', url);
+}
