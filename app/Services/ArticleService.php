@@ -391,7 +391,7 @@ class ArticleService
 
         //判断插入是否成功，如果成功则写入redis并返回结果
         if(isset($result)) {
-            self::$articleCache->insertCache($data);
+            self::$articleCache->insertCache([$data]);
             return ['StatusCode' => '200', 'ResultData' => '保存成功'];
         }
         return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
