@@ -169,17 +169,29 @@
                         <div id='errorBox2' class="alert alert-danger hidden">验证码验证失败！</div>
                         <!-- 错误提示 End-->
 
+
                         <div class="form-group">
-                            <label class="col-xs-12 control-label">
+                            <label class="col-xs-12 col-sm-6 control-label pad-cl pad-cr-xs">
                                 <select class="form-control chr-c bg-1">
                                     <option value="+86">中国大陆(+86)</option>
                                 </select>
                             </label>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-xs-12 control-label">
+                            <label class="col-xs-12 col-sm-6 control-label pad-cl-xs pad-cr-xs">
                                 <input id="newTel" type="text" class="form-control form-title"  placeholder="手机号">
                             </label>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="form-group mar-b10">
+                            <div class="col-xs-12 pad-clr">
+                                <div class="col-xs-6 col-sm-6 pad-cl">
+                                    <input class="form-control" type="text" id="auth-code" placeholder="请输入验证码">
+                                </div>
+                                <div class="col-xs-6 col-sm-6">
+                                    <img src="{{asset('home/img/demoimg/code-auth.jpg')}}">
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden"  id="step_two">
