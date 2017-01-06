@@ -119,9 +119,11 @@ class ActionService
             if ($data['list'] == 3){
                 unset($data['list']);
                 $result = self::$collegeStore->insertData($data);
+                self::$collegeCache->insertOneCollege($data);
             }else{
                 unset($data['list']);
                 $result = self::$actionStore->insertData($data);
+                self::$actionCache->insertOneCollege($data);
             }
 
         }else{

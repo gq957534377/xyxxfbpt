@@ -181,13 +181,6 @@
                             }
                             html += v.title+'</a></h2><p class="indent">'+v.brief+'</p><div class="row mar-clr road-class-u">';
                             html += '<p class="col-sm-6 col-xs-12 pad-clr">';
-//                            if (v.type === 1){
-//                                html += '路演活动';
-//                            }else if(v.type === 2){
-//                                html += '创业大赛';
-//                            }else if(v.type === 3){
-//                                html += '英雄学院';
-//                            }
                             html += type(v.type);
                             html += '</p><p class="col-sm-6 col-xs-12 pad-clr">'+v.author+'</p></div>';
                             html += '<div class="road-class-d">';
