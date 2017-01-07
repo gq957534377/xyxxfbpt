@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Home;
 
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\UserService as UserServer;
 use App\Tools\Common;
-use Illuminate\Support\Facades\Session;
 use App\Tools\Safety;
+use Illuminate\Support\Facades\Session;
 
 
 class LoginController extends Controller
@@ -166,18 +166,22 @@ class LoginController extends Controller
      * @return \Illuminate\Http\Response
      * @author 王通
      */
-    public function sendSms($id)
+    public function sendSms(Request $request, $id)
     {
+
         // 判断存在
         if (empty($id)) return false;
-
+        if ($request['piccode'] != session('code')) {
+            return response()->json(['StatusCode'=>'400','ResultData' =>'验证码错误！']);
+        }
         // 手机号校验
         $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
-        if(!preg_match($preg, $id)) return response()->json(['StatusCode'=>'200','ResultData' =>'请输入正确的手机号！']);
+        if(!preg_match($preg, $id)) return response()->json(['StatusCode'=>'400','ResultData' =>'请输入正确的手机号！']);
         // 查询该手机是否已注册
         $info = self::$userServer->checkUser(['tel' => $id]);
 
-        if($info['StatusCode'] != '200') return response()->json(['StatusCode'=>'400','ResultData' => '该手机号暂未注册，请输入正确手机号']);
+        if(empty($info->status)) return response()->json(['StatusCode'=>'400','ResultData' => '该手机号暂未注册，请输入正确手机号！']);
+        if($info->status != 1) return response()->json(['StatusCode'=>'400','ResultData' => '该手机号异常，请联系管理员！']);
 
         // 真，发送短信
         $info = self::$userServer->sendSmsCode($id);

@@ -118,6 +118,49 @@ class ActionCache
     }
 
     /**
+     * 添加一条新的记录
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function insertOneAction($data)
+    {
+        $list = Redis::lpush(self::$lkey.$data['type'].':1', $data['guid']);
+        $list1 = Redis::lpush(self::$lkey.$data['type'], $data['guid']);
+        $list2 = Redis::lpush(self::$lkey.'-'.':1', $data['guid']);
+        if ($list && $list1 && $list2){
+            //如果hash存在则不执行写操作
+            if(!$this->exists($data['guid'], false)){
+                $index = self::$hkey.$data['guid'];
+                //写入hash
+                Redis::hMset($index, $data);
+                //设置生命周期
+                $this->setTime($index);
+            }
+        }else{
+            Log::info('发布活动存入redis失败'.$data['guid']);
+        }
+    }
+
+    /**
+     * 修改一条记录
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function changeOneAction($guid, $data)
+    {
+        //如果hash存在则修改
+        if ($this->exists($guid, false)) {
+            $index = self::$hkey . $guid;
+            //写入hash
+            Redis::hMset($index, $data);
+            //设置生命周期
+            $this->setTime($index);
+        }
+    }
+
+    /**
      * 获取redis缓存里的文章列表数据
      * @param $nums int  一次获取的条数
      * @param  $pages int  当前页数

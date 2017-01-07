@@ -185,7 +185,7 @@ class SafetyService
         // 限制三次验证码时间
         $requestTime = config('safety.SMS_REQUEST_TIME');
         // 限制验证码输出次数
-        $smsLimitNum = config('safety.SMS_LIMIT_NUM');
+        $smsLimitNum = config('safety.SMS_LIMIT_NUM_IP');
 
         // 判断固定IP指定时间段内，请求次数有没有达到限制
         // 如果没有开始累计，则把验证码存到Redis里
@@ -216,7 +216,55 @@ class SafetyService
 
         }
     }
+    /**
+     * 检查手机验证码请求是否合法 每个手机号单位时间段发送短信次数
+     * @param $ip
+     * @param $code
+     * @return bool  false代表可以请求，true代表疑似攻击，不能请求
+     * @author 王通
+     */
+    public static function checkPhoneSMSCode($ip, $code)
+    {
+        // 某IP的请求验证码
+        $SMSVal = config('safety.PREVEN_TFAST_REFRESH_SMS_VAL') . $ip;
+        // 某IP的请求验证码次数
+        $SMSNum = config('safety.PREVEN_TFAST_REFRESH_SMS_NUM') . $ip;
+        // 验证码超时时间
+        $overtime = config('safety.SMS_OVERTIME');
+        // 限制三次验证码时间
+        $requestTime = config('safety.SMS_REQUEST_TIME');
+        // 限制验证码输出次数
+        $smsLimitNum = config('safety.SMS_LIMIT_NUM_PHONE');
 
+        // 判断固定IP指定时间段内，请求次数有没有达到限制
+        // 如果没有开始累计，则把验证码存到Redis里
+        if (!BaseRedis::existsRedis($SMSNum)) {
+            // 当前验证码
+            BaseRedis::setexRedis($SMSVal, $code, $overtime);
+            // 这是累加键，判断访问次数
+            BaseRedis::setexRedis($SMSNum, 1, $requestTime);
+            return false;
+        } else {
+            // 判断一分钟之内，有没有请求过验证码
+            if (BaseRedis::existsRedis($SMSVal)) {
+                Log::warning('!!! 在'.$overtime . '秒内，来自于' . $ip .'请求次数超过两次，疑似短信接口被攻击。');
+                return true;
+            }
+            // 判断指定时间段，请求次数有没有超过三次
+            if (BaseRedis::getRedis($SMSNum) < $smsLimitNum) {
+                // 当前验证码
+                BaseRedis::setexRedis($SMSVal, $code, $overtime);
+
+                BaseRedis::incrRedis($SMSNum);
+                return false;
+            } else {
+                Log::warning('!!! 在'.$requestTime . '秒内，来自于' . $ip .'短信接口请求次数达到超过警戒线，'. $smsLimitNum .'次！！');
+                self::addIpBlackList($ip);
+                return true;
+            }
+
+        }
+    }
 
     /**
      * 监视SQL语句执行的数量

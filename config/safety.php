@@ -23,8 +23,10 @@ return [
     'SMS_OVERTIME' => 60,
     // 限制三次验证码时间
     'SMS_REQUEST_TIME' => 3600,
-    // 限制验证码输出次数
-    'SMS_LIMIT_NUM' => 100,
+    // 限制验证码输出次数  IP
+    'SMS_LIMIT_NUM_IP' => 100,
+    // 手机
+    'SMS_LIMIT_NUM_PHONE' => 5,
 
     // 评论时间间隔
     'COMMENT_TIME' => 60,

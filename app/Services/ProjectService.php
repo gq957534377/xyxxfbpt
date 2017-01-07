@@ -3,12 +3,14 @@
 namespace App\Services;
 
 use App\Store\ProjectStore;
+use App\Redis\ProjectCache;
 use App\Store\UserStore;
 use App\Tools\Common;
 
 class ProjectService {
     protected static $projectStore = null;
     protected static $userStore = null;
+    protected static $projectCache = null;
 
     /**
      * 构造函数注入
@@ -17,10 +19,12 @@ class ProjectService {
      */
     public function __construct(
         ProjectStore $projectStore,
-        UserStore $userStore
+        UserStore $userStore,
+        ProjectCache $projectCache
    ){
         self::$projectStore = $projectStore;
         self::$userStore    = $userStore;
+        self::$projectCache = $projectCache;
     }
 
     /**
@@ -64,15 +68,18 @@ class ProjectService {
      */
     public function changeStatus($data)
     {
+        if(!$this->changeCache((int)$data['id'], $data['status']))
+            return ['StatusCode' => '400', 'ResultData' => '缓存数据插入失败'];
+
         $updateData = array();
+
         if (isset($data['remark'])) $updateData = ['remark' => $data['remark']];
 
         //整理参数
         $param = ['guid'=>$data['id']];
-
         //根据传入参数指定状态值
         $updateData['status'] = $data['status'];
-
+        //修改日期
         $updateData['changetime'] = time();
 
 
@@ -238,7 +245,7 @@ class ProjectService {
     {
         $result = self::$projectStore->getCount($where);
 
-        return $result;
+        return ['StatusCode' => '200', 'ResultData' => $result];
     }
 
     /**
@@ -265,5 +272,43 @@ class ProjectService {
         );
 
         return ['StatusCode' => '200', 'ResultData' => $result];
+    }
+
+    /**
+     * 更改缓存
+     * @param $guid
+     * @param $status
+     * @return mixed
+     * author 张洵之
+     */
+    public function changeCache($guid, $status)
+    {
+        switch ($status) {
+            case 1 : return $this -> createCache($guid);
+                break;
+
+            case 2 :return $this -> deleltCache($guid);
+                break;
+        }
+    }
+
+    /**
+     * 创建缓存
+     * @param $guid
+     * @return bool
+     * author 张洵之
+     */
+    public function createCache($guid)
+    {
+        $data = self::$projectStore->getOneData(['guid' => $guid]);
+        $result = self::$projectCache->insertCache($data);
+        return $result;
+    }
+
+    public function deleltCache($guid)
+    {
+        $data = self::$projectStore->getOneData(['guid' => $guid]);
+        $result = self::$projectCache->deletCache($data);
+        return $result;
     }
 }

@@ -309,7 +309,6 @@ $('#data').on('click', '.btn-danger' ,function () {
         confirmButtonColor: "#DD6B55",
         confirmButtonText: "确认删除!",
         cancelButtonText: "取消",
-        closeOnCancel: false
     },function(isConfirm) {
         if (isConfirm) {
             // 异步删除

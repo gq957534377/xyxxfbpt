@@ -72,7 +72,14 @@ class CollegeStore
      */
     public static function getData($where)
     {
-        return DB::table(self::$table)->where($where)->get();
+        if (!empty($where['status']) && $where['status'] == 4){
+            return DB::table(self::$table)->where($where)->get();
+        }else{
+            return DB::table(self::$table)
+                ->where($where)
+                ->where('status', '<>', 4)
+                ->get();
+        }
     }
 
     /**

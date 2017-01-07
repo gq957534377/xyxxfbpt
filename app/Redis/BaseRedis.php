@@ -53,7 +53,7 @@ class BaseRedis
     public static function getRedis ($key)
     {
         if (!empty($key)) {
-            return \Redis::get($key);
+            return Redis::get($key);
         } else {
             return false;
         }
@@ -69,7 +69,7 @@ class BaseRedis
     public static function getLLen($key)
     {
         if (!empty($key)) {
-            return \Redis::lLen($key);
+            return Redis::lLen($key);
         } else {
             return false;
         }
@@ -85,13 +85,13 @@ class BaseRedis
     public static function getListInIndex($key, $index)
     {
         //if (empty($key) || empty($index)) return false;
-        return \Redis::lIndex($key, $index);
+        return Redis::lIndex($key, $index);
     }
 
     public static function getHMGet($key, $val)
     {
         //if (empty($key) || empty($val)) return false;
-        return \Redis::hMGet($key, $val);
+        return Redis::hMGet($key, $val);
     }
 
     /**
@@ -113,7 +113,7 @@ class BaseRedis
      */
     public static function existsRedis ($key)
     {
-        return \Redis::Exists($key);
+        return Redis::Exists($key);
     }
 
     /**
@@ -241,7 +241,7 @@ class BaseRedis
      */
     public function selHMGet($key, $hashKeys)
     {
-        return \Redis::hMGet($key, $hashKeys);
+        return Redis::hMGet($key, $hashKeys);
     }
 
     /**

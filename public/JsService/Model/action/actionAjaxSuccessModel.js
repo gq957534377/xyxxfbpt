@@ -70,7 +70,7 @@ function showInfoList(data){
             data = data.ResultData;
             $('#xq_title').val(data.title);
             $('#xq_author').val(data.author);
-            $('#xq_type').val(type(data.type));
+            $('#xq_type').val(type(parseInt(data.type)));
             $('#xq_group').val(group(data.group));
             $('#xq_start_time').val(getLocalTime(data.start_time));
             $('#xq_end_time').val(getLocalTime(data.end_time));
@@ -80,7 +80,7 @@ function showInfoList(data){
             $('#xq_population').val(data.people);
             $('#xq_limit').val(data.limit);
             $('#xq_address').val(data.address);
-            $('#xq_status').val(status(data.status));
+            $('#xq_status').val(status(parseInt(data.status)));
             $('#xq_brief').html(data.brief);
             $('#xq_describe').html(data.describe);
         } else {

@@ -85,6 +85,10 @@
 
                                 $('#error-info').html('警告' + data.ResultData).fadeIn(1000);
                                 $('#error-info').fadeOut(2000);
+                                if ($("input[name= 'stage']").val() == '1') {
+                                    updateCaptcha($('#captcha'));
+                                }
+
                                 break;
                             case '200':
 
@@ -284,10 +288,13 @@ function delayer(){
 // 验证码点击更换
 var captcha = document.getElementById('captcha');
 captcha.onclick = function(){
-        var url = '/code/captcha/';
-        url = url + $(this).data('sesid') + Math.ceil(Math.random()*100);
-        this.src = url;
-    };
+    updateCaptcha($(this));
+};
+function updateCaptcha(me) {
+    var url = '/code/captcha/';
+    url = url + me.data('sesid') + Math.ceil(Math.random()*100);
+    me.attr('src', url);
+}
 
 
 // 验证手机号是否存在

@@ -7,6 +7,7 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\CollegeStore;
+use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\Facades\Redis;
 
 class CollegeCache
@@ -35,6 +36,65 @@ class CollegeCache
         }else{
             return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
         }
+    }
+
+    /**
+     * 添加一条新的记录
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function insertOneCollege($data)
+    {
+        $list = Redis::lpush(self::$lkey.$data['type'].':1', $data['guid']);
+        $list1 = Redis::lpush(self::$lkey.$data['type'], $data['guid']);
+        $list2 = Redis::lpush(self::$lkey.'-'.':1', $data['guid']);
+        if ($list && $list1 && $list2){
+            //如果hash存在则不执行写操作
+            if(!$this->exists($data['guid'], false)){
+                $index = self::$hkey.$data['guid'];
+                //写入hash
+                Redis::hMset($index, $data);
+                //设置生命周期
+                $this->setTime($index);
+            }
+        }else{
+            Log::info('发布学院活动存入redis失败'.$data['guid']);
+        }
+    }
+
+    /**
+     * 修改一条记录
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function changeOneCollege($guid, $data)
+    {
+        //如果hash存在则修改
+        if ($this->exists($guid, false)) {
+            $index = self::$hkey . $guid;
+            //写入hash
+            Redis::hMset($index, $data);
+            //设置生命周期
+            $this->setTime($index);
+        }
+    }
+
+    /**
+     * 修改一条活动的状态
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function changeStatusCollege($guid, $status)
+    {
+        $data = $this->getOneCollege($guid);
+        $oldStatus = $data['status'];
+        $oldType = $data['type'];
+
+
+        $this->changeOneCollege($guid, ['status'=>$status]);
     }
 
     /**

@@ -18,18 +18,18 @@
                     <ol class="carousel-indicators">
                         @if( is_array($rollingPic) )
                             <?php $f = true; ?>
-                        @foreach($rollingPic as $key => $val)
+                            @foreach($rollingPic as $key => $val)
 
-                            @if($f)
-                                            <?php $f = false; ?>
-                                <li data-target="#carousel-example-generic" data-slide-to="{{$key}}" class="active"></li>
-                            @else
-                                <li data-target="#carousel-example-generic" data-slide-to="{{$key}}"></li>
-                            @endif
+                                @if($f)
+                                    <?php $f = false; ?>
+                                    <li data-target="#carousel-example-generic" data-slide-to="{{$key}}" class="active"></li>
+                                @else
+                                    <li data-target="#carousel-example-generic" data-slide-to="{{$key}}"></li>
+                                @endif
 
-                        @endforeach
+                            @endforeach
                         @else
-                           {{ $rollingPic }}
+                            {{ $rollingPic }}
                         @endif
                     </ol>
 
@@ -37,24 +37,24 @@
                     <div class="carousel-inner" role="listbox">
                         @if( is_array($rollingPic) )
                             <?php $f = true; ?>
-                        @foreach($rollingPic as $key => $val)
+                            @foreach($rollingPic as $key => $val)
 
-                                    @if($f)
-                                            <?php $f = false; ?>
-                                        <div class="item active">
-                                            <img  onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
-                                            <div class="carousel-caption">
-                                            </div>
+                                @if($f)
+                                    <?php $f = false; ?>
+                                    <div class="item active">
+                                        <img  onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
+                                        <div class="carousel-caption">
                                         </div>
-                                    @else
-                                        <div class="item">
-                                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
-                                            <div class="carousel-caption">
-                                            </div>
+                                    </div>
+                                @else
+                                    <div class="item">
+                                        <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
+                                        <div class="carousel-caption">
                                         </div>
-                                    @endif
+                                    </div>
+                                @endif
 
-                        @endforeach
+                            @endforeach
                         @else
                             <li>{{ $rollingPic }}</li>
                         @endif
@@ -174,113 +174,113 @@
         <!-- 英雄榜 Start -->
         <section id="section2" class="font-size">
             {{--<div class="row">--}}
-                {{--<h2>英雄榜</h2>--}}
+            {{--<h2>英雄榜</h2>--}}
             {{--</div>--}}
             <ul>
                 {{--<li class="row">--}}
-                    {{--<a href="#">--}}
-                        {{--<div class="section2_img col-sm-3">--}}
-                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
-                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
-                        {{--</div>--}}
-                        {{--<div class="section2_center col-sm-6">--}}
-                            {{--<div class="section2_center_title">--}}
-                                {{--<h3>小余老师说</h3>--}}
-                                {{--<span>致力于让全国人更懂教育的互联网+教育公司</span>--}}
-                            {{--</div>--}}
-                            {{--<ul>--}}
-                                {{--<li>--}}
-                                    {{--<div>1天</div>--}}
-                                    {{--<div class="section2_hover">成功天数</div>--}}
-                                {{--</li>--}}
-                                {{--<li>--}}
-                                    {{--<div>￥650万</div>--}}
-                                    {{--<div class="section2_hover">成功融资</div>--}}
-                                {{--</li>--}}
-                                {{--<li>--}}
-                                    {{--<div>傅盛</div>--}}
-                                    {{--<div class="section2_hover">领投人</div>--}}
-                                {{--</li>--}}
-                            {{--</ul>--}}
-                        {{--</div>--}}
-                        {{--<div class="hidden-767 section2_evaluate col-sm-3">--}}
-                            {{--<p>--}}
-                                {{--<span></span>--}}
-                                {{--<span>跟投人评价：</span>--}}
-                                {{--作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。--}}
-                            {{--</p>--}}
-                        {{--</div>--}}
-                    {{--</a>--}}
+                {{--<a href="#">--}}
+                {{--<div class="section2_img col-sm-3">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                {{--</div>--}}
+                {{--<div class="section2_center col-sm-6">--}}
+                {{--<div class="section2_center_title">--}}
+                {{--<h3>小余老师说</h3>--}}
+                {{--<span>致力于让全国人更懂教育的互联网+教育公司</span>--}}
+                {{--</div>--}}
+                {{--<ul>--}}
+                {{--<li>--}}
+                {{--<div>1天</div>--}}
+                {{--<div class="section2_hover">成功天数</div>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                {{--<div>￥650万</div>--}}
+                {{--<div class="section2_hover">成功融资</div>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                {{--<div>傅盛</div>--}}
+                {{--<div class="section2_hover">领投人</div>--}}
+                {{--</li>--}}
+                {{--</ul>--}}
+                {{--</div>--}}
+                {{--<div class="hidden-767 section2_evaluate col-sm-3">--}}
+                {{--<p>--}}
+                {{--<span></span>--}}
+                {{--<span>跟投人评价：</span>--}}
+                {{--作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。--}}
+                {{--</p>--}}
+                {{--</div>--}}
+                {{--</a>--}}
                 {{--</li>--}}
                 {{--<li class="row">--}}
-                    {{--<a href="#">--}}
-                        {{--<div class="section2_img col-sm-3">--}}
-                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
-                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
-                        {{--</div>--}}
-                        {{--<div class="section2_center col-sm-6">--}}
-                            {{--<div class="section2_center_title">--}}
-                                {{--<h3>小余老师说</h3>--}}
-                                {{--<span>致力于让全国人更懂教育的互联网+教育公司</span>--}}
-                            {{--</div>--}}
-                            {{--<ul>--}}
-                                {{--<li>--}}
-                                    {{--<div>1天</div>--}}
-                                    {{--<div class="section2_hover">成功天数</div>--}}
-                                {{--</li>--}}
-                                {{--<li>--}}
-                                    {{--<div>￥650万</div>--}}
-                                    {{--<div class="section2_hover">成功融资</div>--}}
-                                {{--</li>--}}
-                                {{--<li>--}}
-                                    {{--<div>傅盛</div>--}}
-                                    {{--<div class="section2_hover">领投人</div>--}}
-                                {{--</li>--}}
-                            {{--</ul>--}}
-                        {{--</div>--}}
-                        {{--<div class="hidden-767 section2_evaluate col-sm-3">--}}
-                            {{--<p>--}}
-                                {{--<span></span>--}}
-                                {{--<span>跟投人评价：</span>--}}
-                                {{--作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。--}}
-                            {{--</p>--}}
-                        {{--</div>--}}
-                    {{--</a>--}}
+                {{--<a href="#">--}}
+                {{--<div class="section2_img col-sm-3">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                {{--</div>--}}
+                {{--<div class="section2_center col-sm-6">--}}
+                {{--<div class="section2_center_title">--}}
+                {{--<h3>小余老师说</h3>--}}
+                {{--<span>致力于让全国人更懂教育的互联网+教育公司</span>--}}
+                {{--</div>--}}
+                {{--<ul>--}}
+                {{--<li>--}}
+                {{--<div>1天</div>--}}
+                {{--<div class="section2_hover">成功天数</div>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                {{--<div>￥650万</div>--}}
+                {{--<div class="section2_hover">成功融资</div>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                {{--<div>傅盛</div>--}}
+                {{--<div class="section2_hover">领投人</div>--}}
+                {{--</li>--}}
+                {{--</ul>--}}
+                {{--</div>--}}
+                {{--<div class="hidden-767 section2_evaluate col-sm-3">--}}
+                {{--<p>--}}
+                {{--<span></span>--}}
+                {{--<span>跟投人评价：</span>--}}
+                {{--作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。--}}
+                {{--</p>--}}
+                {{--</div>--}}
+                {{--</a>--}}
                 {{--</li>--}}
                 {{--<li class="row">--}}
-                    {{--<a href="#">--}}
-                        {{--<div class="section2_img col-sm-3">--}}
-                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
-                            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
-                        {{--</div>--}}
-                        {{--<div class="section2_center col-sm-6">--}}
-                            {{--<div class="section2_center_title">--}}
-                                {{--<h3>小余老师说</h3>--}}
-                                {{--<span>致力于让全国人更懂教育的互联网+教育公司</span>--}}
-                            {{--</div>--}}
-                            {{--<ul>--}}
-                                {{--<li>--}}
-                                    {{--<div>1天</div>--}}
-                                    {{--<div class="section2_hover">成功天数</div>--}}
-                                {{--</li>--}}
-                                {{--<li>--}}
-                                    {{--<div>￥650万</div>--}}
-                                    {{--<div class="section2_hover">成功融资</div>--}}
-                                {{--</li>--}}
-                                {{--<li>--}}
-                                    {{--<div>傅盛</div>--}}
-                                    {{--<div class="section2_hover">领投人</div>--}}
-                                {{--</li>--}}
-                            {{--</ul>--}}
-                        {{--</div>--}}
-                        {{--<div class="hidden-767 section2_evaluate col-sm-3">--}}
-                            {{--<p>--}}
-                                {{--<span></span>--}}
-                                {{--<span>跟投人评价：</span>--}}
-                                {{--作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。--}}
-                            {{--</p>--}}
-                        {{--</div>--}}
-                    {{--</a>--}}
+                {{--<a href="#">--}}
+                {{--<div class="section2_img col-sm-3">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                {{--</div>--}}
+                {{--<div class="section2_center col-sm-6">--}}
+                {{--<div class="section2_center_title">--}}
+                {{--<h3>小余老师说</h3>--}}
+                {{--<span>致力于让全国人更懂教育的互联网+教育公司</span>--}}
+                {{--</div>--}}
+                {{--<ul>--}}
+                {{--<li>--}}
+                {{--<div>1天</div>--}}
+                {{--<div class="section2_hover">成功天数</div>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                {{--<div>￥650万</div>--}}
+                {{--<div class="section2_hover">成功融资</div>--}}
+                {{--</li>--}}
+                {{--<li>--}}
+                {{--<div>傅盛</div>--}}
+                {{--<div class="section2_hover">领投人</div>--}}
+                {{--</li>--}}
+                {{--</ul>--}}
+                {{--</div>--}}
+                {{--<div class="hidden-767 section2_evaluate col-sm-3">--}}
+                {{--<p>--}}
+                {{--<span></span>--}}
+                {{--<span>跟投人评价：</span>--}}
+                {{--作为小余老师说的用户，我投小余老师说一方面支持自己喜欢的视频节目、一方面觉得好的项目一定有好的回报的。加上还有猎豹CEO傅盛领投，必须得支持。--}}
+                {{--</p>--}}
+                {{--</div>--}}
+                {{--</a>--}}
                 {{--</li>--}}
             </ul>
         </section>
@@ -298,33 +298,33 @@
             </div>
             <ul class="row">
                 @if(is_array($roadShows))
-                @foreach($roadShows as $roadShow)
-                    <li class="col-sm-4">
-                        <a href="{{ url('action').'/'.$roadShow->guid }}">
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $roadShow->banner }}"/>
-                        </a>
-                        <div class="ly">
-                            <h3><a href="{{ url('action').'/'.$roadShow->guid }}">{{ mb_substr($roadShow->title,0,20)."..." }}</a></h3>
-                    <span @if($roadShow->status == 3||$roadShow->status == 4||$roadShow->status == 5) style="background:#f0f0f0;color: #c4c4c4" @endif>
+                    @foreach($roadShows as $roadShow)
+                        <li class="col-sm-4">
+                            <a href="{{ url('action').'/'.$roadShow->guid }}">
+                                <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $roadShow->banner }}"/>
+                            </a>
+                            <div class="ly">
+                                <h3><a href="{{ url('action').'/'.$roadShow->guid }}">{{ mb_substr($roadShow->title,0,20)."..." }}</a></h3>
+                                <span @if($roadShow->status == 3||$roadShow->status == 4||$roadShow->status == 5) style="background:#f0f0f0;color: #c4c4c4" @endif>
                         @if($roadShow->status == 1)
-                            报名中
-                        @elseif($roadShow->status == 2)
-                            进行中
-                        @elseif($roadShow->status == 3)
-                            已结束
-                        @elseif($roadShow->status == 4)
-                            已取消
-                        @elseif($roadShow->status == 5)
-                            报名截止
-                        @endif
+                                        报名中
+                                    @elseif($roadShow->status == 2)
+                                        进行中
+                                    @elseif($roadShow->status == 3)
+                                        已结束
+                                    @elseif($roadShow->status == 4)
+                                        已取消
+                                    @elseif($roadShow->status == 5)
+                                        报名截止
+                                    @endif
                     </span>
-                        </div>
-                <span>
+                            </div>
+                            <span>
                     <span>{{ mb_substr($roadShow->address,0,4)."..." }}</span>
     				<span>{{ date('Y-m-d',$roadShow->start_time) }}</span>
     			</span>
-                    </li>
-                @endforeach
+                        </li>
+                    @endforeach
                 @else
                     {{ $roadShows }}
                 @endif
@@ -344,35 +344,35 @@
             </div>
             <ul class="row">
                 @if(is_array($sybs))
-                @foreach($sybs as $syb)
-                    <li class="col-sm-4">
-                        <a href="{{ route('action.show', $syb->guid) }}">
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $syb->banner }}"/>
-                        </a>
-                        <div class="ly">
-                            <h3><a href="{{ route('action.show', $syb->guid) }}">{{ mb_substr($syb->title, 0,20).'...' }}</a></h3>
-                    <span @if($syb->status == 3||$syb->status == 4||$syb->status == 5) style="background:#f0f0f0;color: #c4c4c4" @endif>
+                    @foreach($sybs as $syb)
+                        <li class="col-sm-4">
+                            <a href="{{ route('action.show', $syb->guid) }}">
+                                <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $syb->banner }}"/>
+                            </a>
+                            <div class="ly">
+                                <h3><a href="{{ route('action.show', $syb->guid) }}">{{ mb_substr($syb->title, 0,20).'...' }}</a></h3>
+                                <span @if($syb->status == 3||$syb->status == 4||$syb->status == 5) style="background:#f0f0f0;color: #c4c4c4" @endif>
                         @if($syb->status == 1)
-                            报名中
-                        @elseif($syb->status == 2)
-                            进行中
-                        @elseif($syb->status == 3)
-                            已结束
-                        @elseif($syb->status == 4)
-                            已取消
-                        @elseif($syb->status == 5)
-                            报名截止
-                        @endif
+                                        报名中
+                                    @elseif($syb->status == 2)
+                                        进行中
+                                    @elseif($syb->status == 3)
+                                        已结束
+                                    @elseif($syb->status == 4)
+                                        已取消
+                                    @elseif($syb->status == 5)
+                                        报名截止
+                                    @endif
                     </span>
-                        </div>
-                <span>
+                            </div>
+                            <span>
     				<span>{{ mb_substr($syb->address,0,4)."..." }}</span>
     				<span>{{ date('Y-m-d',$syb->start_time) }}</span>
     			</span>
-                    </li>
-                @endforeach
+                        </li>
+                    @endforeach
                 @else
-                  {{ $sybs }}
+                    {{ $sybs }}
                 @endif
             </ul>
         </section>
@@ -390,31 +390,31 @@
             </div>
             <ul class="row">
                 @if(is_array($schools))
-                @foreach($schools as $school)
-                    <li class="col-sm-6">
-                        <a href="{{ route('school.show', $school->guid) }}">
-                            {{--<span>第1期</span>--}}
-                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $school->banner }}"/>
-                            <div>
-                                <h3>{{ mb_substr($school->title, 0,20).'...'}}</h3>
-                        <span @if($school->status == 1||$school->status == 2) style="background: #F68D3C;color: #ffffff" @endif>
+                    @foreach($schools as $school)
+                        <li class="col-sm-6">
+                            <a href="{{ route('school.show', $school->guid) }}">
+                                {{--<span>第1期</span>--}}
+                                <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $school->banner }}"/>
+                                <div>
+                                    <h3>{{ mb_substr($school->title, 0,20).'...'}}</h3>
+                                    <span @if($school->status == 1||$school->status == 2) style="background: #F68D3C;color: #ffffff" @endif>
                             @if($school->status == 1)
-                                报名中
-                            @elseif($school->status == 2)
-                                进行中
-                            @elseif($school->status == 3)
-                                已结束
-                            @elseif($school->status == 4)
-                                已取消
-                            @elseif($school->status == 5)
-                                报名截止
-                            @endif
+                                            报名中
+                                        @elseif($school->status == 2)
+                                            进行中
+                                        @elseif($school->status == 3)
+                                            已结束
+                                        @elseif($school->status == 4)
+                                            已取消
+                                        @elseif($school->status == 5)
+                                            报名截止
+                                        @endif
                         </span>
-                            </div>
-                            <p>{{ $school->brief }}</p>
-                        </a>
-                    </li>
-                @endforeach
+                                </div>
+                                <p>{{ $school->brief }}</p>
+                            </a>
+                        </li>
+                    @endforeach
                 @else
                     {{ $schools }}
                 @endif
@@ -427,183 +427,183 @@
     <!-- 英雄众筹 Start-->
     <div class=" container-fluid" style="background-color: #F6F6F6;">
         {{--<section id="section5" class="font-size">--}}
-            {{--<div class="section_titles section_title">--}}
-                {{--<h2>英雄众筹</h2>--}}
-            {{--</div>--}}
-            {{--<div id="section5_content">--}}
-                {{--<!-- <h2>众筹</h2> -->--}}
-                {{--<ul id="section5_content_middle">--}}
-                    {{--<li class="active">最新上架</li>--}}
-                    {{--<li>即将结束</li>--}}
-                    {{--<a id="zcckgd_a" href="#">查看全部></a>--}}
-                {{--</ul>--}}
-                {{--<div id="section5_content_bottom">--}}
-                    {{--<ul class="row">--}}
-                        {{--<li class="col-sm-3">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="img_block">--}}
-                                    {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
-                                    {{--<div>--}}
-                                        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="js_loding">--}}
-                                    {{--<h4>NOBADAY单板滑雪板</h4>--}}
-                                    {{--<div class="js_loding_father">--}}
-                                        {{--<div class="js_loding_son"></div>--}}
-                                    {{--</div>--}}
-                                    {{--<span>目标</span>--}}
-                                    {{--<span>￥53000</span>--}}
-                                    {{--<span class="zcy">￥7949</span>--}}
-                                    {{--<span class="zcy">超值档位</span>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li class="col-sm-3">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="img_block">--}}
-                                    {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
-                                    {{--<div>--}}
-                                        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="js_loding">--}}
-                                    {{--<h4>NOBADAY单板滑雪板</h4>--}}
-                                    {{--<div class="js_loding_father">--}}
-                                        {{--<div class="js_loding_son"></div>--}}
-                                    {{--</div>--}}
-                                    {{--<span>目标</span>--}}
-                                    {{--<span>￥53000</span>--}}
-                                    {{--<span class="zcy">￥7949</span>--}}
-                                    {{--<span class="zcy">超值档位</span>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li class="col-sm-3">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="img_block">--}}
-                                    {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
-                                    {{--<div>--}}
-                                        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="js_loding">--}}
-                                    {{--<h4>NOBADAY单板滑雪板</h4>--}}
-                                    {{--<div class="js_loding_father">--}}
-                                        {{--<div class="js_loding_son"></div>--}}
-                                    {{--</div>--}}
-                                    {{--<span>目标</span>--}}
-                                    {{--<span>￥53000</span>--}}
-                                    {{--<span class="zcy">￥7949</span>--}}
-                                    {{--<span class="zcy">超值档位</span>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li class="col-sm-3">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="img_block">--}}
-                                    {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
-                                    {{--<div>--}}
-                                        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="js_loding">--}}
-                                    {{--<h4>NOBADAY单板滑雪板</h4>--}}
-                                    {{--<div class="js_loding_father">--}}
-                                        {{--<div class="js_loding_son"></div>--}}
-                                    {{--</div>--}}
-                                    {{--<span>目标</span>--}}
-                                    {{--<span>￥53000</span>--}}
-                                    {{--<span class="zcy">￥7949</span>--}}
-                                    {{--<span class="zcy">超值档位</span>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                    {{--</ul>--}}
-                    {{--<ul class="active row">--}}
-                        {{--<li class="col-sm-3">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="img_block">--}}
-                                    {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
-                                    {{--<div>--}}
-                                        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="js_loding">--}}
-                                    {{--<h4>NOBADAY单板滑雪板</h4>--}}
-                                    {{--<div class="js_loding_father">--}}
-                                        {{--<div class="js_loding_son"></div>--}}
-                                    {{--</div>--}}
-                                    {{--<span>目标</span>--}}
-                                    {{--<span>￥53000</span>--}}
-                                    {{--<span class="zcy">￥7949</span>--}}
-                                    {{--<span class="zcy">超值档位</span>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li class="col-sm-3">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="img_block">--}}
-                                    {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
-                                    {{--<div>--}}
-                                        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="js_loding">--}}
-                                    {{--<h4>NOBADAY单板滑雪板</h4>--}}
-                                    {{--<div class="js_loding_father">--}}
-                                        {{--<div class="js_loding_son"></div>--}}
-                                    {{--</div>--}}
-                                    {{--<span>目标</span>--}}
-                                    {{--<span>￥53000</span>--}}
-                                    {{--<span class="zcy">￥7949</span>--}}
-                                    {{--<span class="zcy">超值档位</span>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li class="col-sm-3">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="img_block">--}}
-                                    {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
-                                    {{--<div>--}}
-                                        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="js_loding">--}}
-                                    {{--<h4>NOBADAY单板滑雪板</h4>--}}
-                                    {{--<div class="js_loding_father">--}}
-                                        {{--<div class="js_loding_son"></div>--}}
-                                    {{--</div>--}}
-                                    {{--<span>目标</span>--}}
-                                    {{--<span>￥53000</span>--}}
-                                    {{--<span class="zcy">￥7949</span>--}}
-                                    {{--<span class="zcy">超值档位</span>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li class="col-sm-3">--}}
-                            {{--<a href="#">--}}
-                                {{--<div class="img_block">--}}
-                                    {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
-                                    {{--<div>--}}
-                                        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="js_loding">--}}
-                                    {{--<h4>NOBADAY单板滑雪板</h4>--}}
-                                    {{--<div class="js_loding_father">--}}
-                                        {{--<div class="js_loding_son"></div>--}}
-                                    {{--</div>--}}
-                                    {{--<span>目标</span>--}}
-                                    {{--<span>￥53000</span>--}}
-                                    {{--<span class="zcy">￥7949</span>--}}
-                                    {{--<span class="zcy">超值档位</span>--}}
-                                {{--</div>--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                    {{--</ul>--}}
-                {{--</div>--}}
-            {{--</div>--}}
+        {{--<div class="section_titles section_title">--}}
+        {{--<h2>英雄众筹</h2>--}}
+        {{--</div>--}}
+        {{--<div id="section5_content">--}}
+        {{--<!-- <h2>众筹</h2> -->--}}
+        {{--<ul id="section5_content_middle">--}}
+        {{--<li class="active">最新上架</li>--}}
+        {{--<li>即将结束</li>--}}
+        {{--<a id="zcckgd_a" href="#">查看全部></a>--}}
+        {{--</ul>--}}
+        {{--<div id="section5_content_bottom">--}}
+        {{--<ul class="row">--}}
+        {{--<li class="col-sm-3">--}}
+        {{--<a href="#">--}}
+        {{--<div class="img_block">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
+        {{--<div>--}}
+        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="js_loding">--}}
+        {{--<h4>NOBADAY单板滑雪板</h4>--}}
+        {{--<div class="js_loding_father">--}}
+        {{--<div class="js_loding_son"></div>--}}
+        {{--</div>--}}
+        {{--<span>目标</span>--}}
+        {{--<span>￥53000</span>--}}
+        {{--<span class="zcy">￥7949</span>--}}
+        {{--<span class="zcy">超值档位</span>--}}
+        {{--</div>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li class="col-sm-3">--}}
+        {{--<a href="#">--}}
+        {{--<div class="img_block">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
+        {{--<div>--}}
+        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="js_loding">--}}
+        {{--<h4>NOBADAY单板滑雪板</h4>--}}
+        {{--<div class="js_loding_father">--}}
+        {{--<div class="js_loding_son"></div>--}}
+        {{--</div>--}}
+        {{--<span>目标</span>--}}
+        {{--<span>￥53000</span>--}}
+        {{--<span class="zcy">￥7949</span>--}}
+        {{--<span class="zcy">超值档位</span>--}}
+        {{--</div>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li class="col-sm-3">--}}
+        {{--<a href="#">--}}
+        {{--<div class="img_block">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
+        {{--<div>--}}
+        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="js_loding">--}}
+        {{--<h4>NOBADAY单板滑雪板</h4>--}}
+        {{--<div class="js_loding_father">--}}
+        {{--<div class="js_loding_son"></div>--}}
+        {{--</div>--}}
+        {{--<span>目标</span>--}}
+        {{--<span>￥53000</span>--}}
+        {{--<span class="zcy">￥7949</span>--}}
+        {{--<span class="zcy">超值档位</span>--}}
+        {{--</div>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li class="col-sm-3">--}}
+        {{--<a href="#">--}}
+        {{--<div class="img_block">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
+        {{--<div>--}}
+        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="js_loding">--}}
+        {{--<h4>NOBADAY单板滑雪板</h4>--}}
+        {{--<div class="js_loding_father">--}}
+        {{--<div class="js_loding_son"></div>--}}
+        {{--</div>--}}
+        {{--<span>目标</span>--}}
+        {{--<span>￥53000</span>--}}
+        {{--<span class="zcy">￥7949</span>--}}
+        {{--<span class="zcy">超值档位</span>--}}
+        {{--</div>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--</ul>--}}
+        {{--<ul class="active row">--}}
+        {{--<li class="col-sm-3">--}}
+        {{--<a href="#">--}}
+        {{--<div class="img_block">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
+        {{--<div>--}}
+        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="js_loding">--}}
+        {{--<h4>NOBADAY单板滑雪板</h4>--}}
+        {{--<div class="js_loding_father">--}}
+        {{--<div class="js_loding_son"></div>--}}
+        {{--</div>--}}
+        {{--<span>目标</span>--}}
+        {{--<span>￥53000</span>--}}
+        {{--<span class="zcy">￥7949</span>--}}
+        {{--<span class="zcy">超值档位</span>--}}
+        {{--</div>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li class="col-sm-3">--}}
+        {{--<a href="#">--}}
+        {{--<div class="img_block">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
+        {{--<div>--}}
+        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="js_loding">--}}
+        {{--<h4>NOBADAY单板滑雪板</h4>--}}
+        {{--<div class="js_loding_father">--}}
+        {{--<div class="js_loding_son"></div>--}}
+        {{--</div>--}}
+        {{--<span>目标</span>--}}
+        {{--<span>￥53000</span>--}}
+        {{--<span class="zcy">￥7949</span>--}}
+        {{--<span class="zcy">超值档位</span>--}}
+        {{--</div>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li class="col-sm-3">--}}
+        {{--<a href="#">--}}
+        {{--<div class="img_block">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
+        {{--<div>--}}
+        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="js_loding">--}}
+        {{--<h4>NOBADAY单板滑雪板</h4>--}}
+        {{--<div class="js_loding_father">--}}
+        {{--<div class="js_loding_son"></div>--}}
+        {{--</div>--}}
+        {{--<span>目标</span>--}}
+        {{--<span>￥53000</span>--}}
+        {{--<span class="zcy">￥7949</span>--}}
+        {{--<span class="zcy">超值档位</span>--}}
+        {{--</div>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--<li class="col-sm-3">--}}
+        {{--<a href="#">--}}
+        {{--<div class="img_block">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
+        {{--<div>--}}
+        {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
+        {{--</div>--}}
+        {{--</div>--}}
+        {{--<div class="js_loding">--}}
+        {{--<h4>NOBADAY单板滑雪板</h4>--}}
+        {{--<div class="js_loding_father">--}}
+        {{--<div class="js_loding_son"></div>--}}
+        {{--</div>--}}
+        {{--<span>目标</span>--}}
+        {{--<span>￥53000</span>--}}
+        {{--<span class="zcy">￥7949</span>--}}
+        {{--<span class="zcy">超值档位</span>--}}
+        {{--</div>--}}
+        {{--</a>--}}
+        {{--</li>--}}
+        {{--</ul>--}}
+        {{--</div>--}}
+        {{--</div>--}}
         {{--</section>--}}
     </div>
     <!-- 英雄众筹 End-->
@@ -612,61 +612,61 @@
     <div class=" container-fluid">
         <section id="section6" class="font-size">
             {{--<ul class="section6_top">--}}
-                {{--<li>--}}
-                    {{--<h2>英雄社区</h2>--}}
-                {{--</li>--}}
+            {{--<li>--}}
+            {{--<h2>英雄社区</h2>--}}
+            {{--</li>--}}
             {{--</ul>--}}
             {{--<div id="section6_bottom">--}}
-                {{--<ul id="section6_left" class="row">--}}
-                    {{--<li class="col-sm-6">--}}
-                        {{--<div class="bg-mg">--}}
-                            {{--<div class="bg-mg-f">--}}
-                                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div>--}}
-                            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
-                            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
-                            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
-                        {{--</div>--}}
-                    {{--</li>--}}
-                    {{--<li class="col-sm-6">--}}
-                        {{--<div class="bg-mg">--}}
-                            {{--<div class="bg-mg-f">--}}
-                                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div>--}}
-                            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
-                            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
-                            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
-                        {{--</div>--}}
-                    {{--</li>--}}
-                    {{--<li class="col-sm-6">--}}
-                        {{--<div class="bg-mg">--}}
-                            {{--<div class="bg-mg-f">--}}
-                                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div>--}}
-                            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
-                            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
-                            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
-                        {{--</div>--}}
-                    {{--</li>--}}
-                    {{--<li class="col-sm-6">--}}
-                        {{--<div class="bg-mg">--}}
-                            {{--<div class="bg-mg-f">--}}
-                                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                        {{--<div>--}}
-                            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
-                            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
-                            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
-                        {{--</div>--}}
-                    {{--</li>--}}
-                {{--</ul>--}}
+            {{--<ul id="section6_left" class="row">--}}
+            {{--<li class="col-sm-6">--}}
+            {{--<div class="bg-mg">--}}
+            {{--<div class="bg-mg-f">--}}
+            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--<div>--}}
+            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
+            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
+            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
+            {{--</div>--}}
+            {{--</li>--}}
+            {{--<li class="col-sm-6">--}}
+            {{--<div class="bg-mg">--}}
+            {{--<div class="bg-mg-f">--}}
+            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--<div>--}}
+            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
+            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
+            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
+            {{--</div>--}}
+            {{--</li>--}}
+            {{--<li class="col-sm-6">--}}
+            {{--<div class="bg-mg">--}}
+            {{--<div class="bg-mg-f">--}}
+            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--<div>--}}
+            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
+            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
+            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
+            {{--</div>--}}
+            {{--</li>--}}
+            {{--<li class="col-sm-6">--}}
+            {{--<div class="bg-mg">--}}
+            {{--<div class="bg-mg-f">--}}
+            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--<div>--}}
+            {{--<h3><a href="#">Ubuntu Core 16 黑客松一 Celebrate Ununtu</a></h3>--}}
+            {{--<p>Posted on 2016/11/11 10:44:05</p>--}}
+            {{--<p>Ubuntu Core 是一个精简版的Ununtu系统，完全采用安全、易于更新的开源Linux打包格式Snap构建。Ununtu Core针对生产环境从头开始设计</p>--}}
+            {{--</div>--}}
+            {{--</li>--}}
+            {{--</ul>--}}
             {{--</div>--}}
             <ul class="section6_top">
                 <li>
@@ -675,22 +675,22 @@
             </ul>
             <div id="yxzx" class="row">
                 @if(is_array($articles))
-                <ul class='col-sm-5 section6_right'>
-                    @for($i = 0; $i < round(count($articles)/2); $i++)
-                        <li>
-                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
-                            <p>发布时间 {{ $articles[$i]->addtime }}</p>
-                        </li>
-                    @endfor
-                </ul>
-                <ul class='col-sm-5 section6_right'>
-                    @for($i = round(count($articles)/2); $i < count($articles); $i++)
-                        <li>
-                            <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
-                            <p>发布时间 {{ $articles[$i]->addtime }}</p>
-                        </li>
-                    @endfor
-                </ul>
+                    <ul class='col-sm-5 section6_right'>
+                        @for($i = 0; $i < round(count($articles)/2); $i++)
+                            <li>
+                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                                <p>发布时间 {{ $articles[$i]->addtime }}</p>
+                            </li>
+                        @endfor
+                    </ul>
+                    <ul class='col-sm-5 section6_right'>
+                        @for($i = round(count($articles)/2); $i < count($articles); $i++)
+                            <li>
+                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                                <p>发布时间 {{ $articles[$i]->addtime }}</p>
+                            </li>
+                        @endfor
+                    </ul>
                 @else
                     {{ $articles }}
                 @endif
@@ -702,13 +702,13 @@
             <h2>英雄会合作机构</h2>
             <ul class="row">
                 @if(is_array($picArr))
-                @foreach($picArr as $val)
+                    @foreach($picArr as $val)
                         @if($val->type == 3)
                             <li class="col-sm-2"><a href="{{ $val->pointurl }}" target="_blank"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"></a></li>
                         @endif
-                @endforeach
+                    @endforeach
                 @else
-                  {{ $picArr }}
+                    {{ $picArr }}
                 @endif
             </ul>
         </section>
@@ -724,7 +724,7 @@
             <h2>英雄会顶级投资机构联盟</h2>
             <ul class="row">
                 @if(is_array($picArr))
-                @foreach($picArr as $val)
+                    @foreach($picArr as $val)
                         @if($val->type == 5)
                             <li class="col-sm-2">
                                 <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}"/>
@@ -735,9 +735,9 @@
                                 </a>
                             </li>
                         @endif
-                @endforeach
+                    @endforeach
                 @else
-                  {{ $picArr }}
+                    {{ $picArr }}
                 @endif
 
             </ul>
