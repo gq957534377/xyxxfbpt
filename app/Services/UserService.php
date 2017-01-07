@@ -180,7 +180,7 @@ class UserService {
      * @auther 刘峻廷
      * @modify 王通
      */
-    public function loginCheck($data)
+    public function  loginCheck($data)
     {
         // 对密码进行加密
         $pass = Common::cryptString($data['tel'],$data['password'],'hero');
