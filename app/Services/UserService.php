@@ -191,7 +191,7 @@ class UserService {
             $accountList = CustomPage::objectToArray(self::$homeStore->getAllData());
 
             if (count($accountList)) {
-//                dd(self::$accountCache->setUserAccountList($accountList));
+                self::$accountCache->setUserAccountList($accountList);
             }
         }
 
