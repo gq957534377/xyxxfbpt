@@ -46,10 +46,8 @@ class CollegeCache
      */
     public function insertOneCollege($data)
     {
-        $list = Redis::lpush(self::$lkey.$data['type'].':1', $data['guid']);
-        $list1 = Redis::lpush(self::$lkey.$data['type'], $data['guid']);
-        $list2 = Redis::lpush(self::$lkey.'-'.':1', $data['guid']);
-        if ($list && $list1 && $list2){
+        $list = $this->addList($data['type'], $data['status'], $data['guid']);
+        if ($list){
             //如果hash存在则不执行写操作
             if(!$this->exists($data['guid'], false)){
                 $index = self::$hkey.$data['guid'];
@@ -108,15 +106,23 @@ class CollegeCache
      */
     public function delList($type, $status, $guid)
     {
-        Redis::lrem(self::$lkey.$type.':'.$status, $guid, 0);
-        Redis::lrem(self::$lkey.'-'.':'.$status, $guid, 0);
-        Redis::lrem(self::$lkey.$type, $guid, 0);
+        if ($this->exists($type . ':' . $status)) {
+            Log::info('进入删除1');
+            Log::info(self::$lkey . $type . ':' . $status);
+            Redis::lrem(self::$lkey . $type . ':' . $status, 0, $guid);
+        }
+        if ($this->exists('-' . ':' . $status)) {
+            Log::info('进入删除2');
+            Redis::lrem(self::$lkey . '-' . ':' . $status, 0, $guid);
+        }
+        if ($this->exists($type)) {
+            Log::info('进入删除3');
+            Redis::lrem(self::$lkey . $type, 0, $guid);
+        }
     }
-
     /**
      * 添加一条新的list记录
      * @param 多要删除记录的类型，状态，guid
-     * @return array
      * @author 郭庆
      */
     public static function addList($type, $status, $guid)
@@ -124,6 +130,8 @@ class CollegeCache
         $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
         $list1 = Redis::lpush(self::$lkey.$type, $guid);
         $list2 = Redis::lpush(self::$lkey.'-'.':'.$status, $guid);
+        if ($list && $list1 && $list2) return true;
+        return false;
     }
 
     /**
@@ -250,7 +258,7 @@ class CollegeCache
         //根据获取的list元素 取hash里的集合
         foreach ($list as $v) {
             //获取一条hash
-            if($this->exists('',$v)){
+            if($this->exists($v, false)){
                 $content = Redis::hGetall(self::$hkey.$v);
                 //给对应的Hash文章增加生命周期
                 $this->setTime(self::$hkey.$v);

@@ -126,10 +126,8 @@ class ActionCache
      */
     public function insertOneAction($data)
     {
-        $list = Redis::lpush(self::$lkey.$data['type'].':1', $data['guid']);
-        $list1 = Redis::lpush(self::$lkey.$data['type'], $data['guid']);
-        $list2 = Redis::lpush(self::$lkey.'-'.':1', $data['guid']);
-        if ($list && $list1 && $list2){
+        $list = $this->addList($data['type'], $data['status'], $data['guid']);
+        if ($list){
             //如果hash存在则不执行写操作
             if(!$this->exists($data['guid'], false)){
                 $index = self::$hkey.$data['guid'];
@@ -206,7 +204,6 @@ class ActionCache
     /**
      * 添加一条新的list记录
      * @param 多要删除记录的类型，状态，guid
-     * @return array
      * @author 郭庆
      */
     public function addList($type, $status, $guid)
@@ -214,6 +211,8 @@ class ActionCache
         $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
         $list1 = Redis::lpush(self::$lkey.$type, $guid);
         $list2 = Redis::lpush(self::$lkey.'-'.':'.$status, $guid);
+        if ($list && $list1 && $list2) return true;
+        return false;
     }
 
     /**
@@ -246,7 +245,7 @@ class ActionCache
         //根据获取的list元素 取hash里的集合
         foreach ($list as $v) {
             //获取一条hash
-            if($this->exists('',$v)){
+            if($this->exists($v, false)){
                 $content = Redis::hGetall(self::$hkey.$v);
                 //给对应的Hash文章增加生命周期
                 $this->setTime(self::$hkey.$v);
