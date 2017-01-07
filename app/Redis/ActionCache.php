@@ -59,24 +59,40 @@ class ActionCache
     protected function insertCache($where, $data)
     {
         if (empty($data)) return false;
-        if (!empty($where['status'])){
-            foreach ($data as $v){
-                //执行写list操作
-                Redis::rpush(self::$lkey.$where['type'].':'.$where['status'], $v['guid']);
+        if (!empty($where['type'])){
+            if (!empty($where['status'])){
+                foreach ($data as $v){
+                    //执行写list操作
+                    Redis::rpush(self::$lkey.$where['type'].':'.$where['status'], $v['guid']);
 
-                //如果hash存在则不执行写操作
-                if(!$this->exists($v['guid'], false)){
-                    $index = self::$hkey.$v['guid'];
-                    //写入hash
-                    Redis::hMset($index, $v);
-                    //设置生命周期
-                    $this->setTime($index);
+                    //如果hash存在则不执行写操作
+                    if(!$this->exists($v['guid'], false)){
+                        $index = self::$hkey.$v['guid'];
+                        //写入hash
+                        Redis::hMset($index, $v);
+                        //设置生命周期
+                        $this->setTime($index);
+                    }
+                }
+            }else{
+                foreach ($data as $v){
+                    //执行写list操作
+                    Redis::rpush(self::$lkey.$where['type'], $v['guid']);
+
+                    //如果hash存在则不执行写操作
+                    if(!$this->exists($v['guid'], false)){
+                        $index = self::$hkey.$v['guid'];
+                        //写入hash
+                        Redis::hMset($index, $v);
+                        //设置生命周期
+                        $this->setTime($index);
+                    }
                 }
             }
         }else{
             foreach ($data as $v){
                 //执行写list操作
-                Redis::rpush(self::$lkey.$where['type'], $v['guid']);
+                Redis::rpush(self::$lkey.'-'.':'.$where['status'], $v['guid']);
 
                 //如果hash存在则不执行写操作
                 if(!$this->exists($v['guid'], false)){
@@ -88,7 +104,6 @@ class ActionCache
                 }
             }
         }
-
     }
 
     /**

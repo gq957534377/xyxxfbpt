@@ -57,7 +57,7 @@ class CollegeCache
                 $this->setTime($index);
             }
         }else{
-            Log::info('发布学院活动存入redis失败'.$data['guid']);
+            \Log::info('发布学院活动存入redis失败'.$data['guid']);
         }
     }
 
@@ -107,16 +107,16 @@ class CollegeCache
     public function delList($type, $status, $guid)
     {
         if ($this->exists($type . ':' . $status)) {
-            Log::info('进入删除1');
+            \Log::info('进入删除1');
             Log::info(self::$lkey . $type . ':' . $status);
             Redis::lrem(self::$lkey . $type . ':' . $status, 0, $guid);
         }
         if ($this->exists('-' . ':' . $status)) {
-            Log::info('进入删除2');
+            \Log::info('进入删除2');
             Redis::lrem(self::$lkey . '-' . ':' . $status, 0, $guid);
         }
         if ($this->exists($type)) {
-            Log::info('进入删除3');
+            \Log::info('进入删除3');
             Redis::lrem(self::$lkey . $type, 0, $guid);
         }
     }
