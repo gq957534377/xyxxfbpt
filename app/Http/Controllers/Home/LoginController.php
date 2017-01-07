@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Home;
 
+
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\UserService as UserServer;
 use App\Tools\Common;
 use App\Tools\Safety;
+use Illuminate\Support\Facades\Session;
+
 
 class LoginController extends Controller
 {
