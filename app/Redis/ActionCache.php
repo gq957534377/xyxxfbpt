@@ -7,6 +7,7 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\ActionStore;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class ActionCache
@@ -158,6 +159,61 @@ class ActionCache
             //设置生命周期
             $this->setTime($index);
         }
+    }
+
+    /**
+     * 修改一条活动的状态
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function changeStatusAction($guid, $status)
+    {
+        $data = $this->getOneAction($guid);
+        $oldStatus = $data['status'];
+        $oldType = $data['type'];
+        //修改hash中的状态字段
+        $this->changeOneAction($guid, ['status'=>$status]);
+        //删除旧的索引记录
+        $this->delList($oldType, $oldStatus, $guid);
+        //根据新的状态添加新的索引list记录
+        $this->addList($oldType, $status, $guid);
+    }
+
+    /**
+     * 删除一条记录
+     * @param 多要删除记录的类型，状态，guid
+     * @return array
+     * @author 郭庆
+     */
+    public function delList($type, $status, $guid)
+    {
+        if ($this->exists($type.':'.$status)){
+            Log::info('进入删除1');
+            Log::info(self::$lkey.$type.':'.$status);
+            Redis::lrem(self::$lkey.$type.':'.$status, 0, $guid);
+        }
+        if ($this->exists('-'.':'.$status)){
+            Log::info('进入删除2');
+            Redis::lrem(self::$lkey.'-'.':'.$status, 0, $guid);
+        }
+        if ($this->exists($type)){
+            Log::info('进入删除3');
+            Redis::lrem(self::$lkey.$type, 0, $guid);
+        }
+    }
+
+    /**
+     * 添加一条新的list记录
+     * @param 多要删除记录的类型，状态，guid
+     * @return array
+     * @author 郭庆
+     */
+    public function addList($type, $status, $guid)
+    {
+        $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
+        $list1 = Redis::lpush(self::$lkey.$type, $guid);
+        $list2 = Redis::lpush(self::$lkey.'-'.':'.$status, $guid);
     }
 
     /**

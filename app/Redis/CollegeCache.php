@@ -92,9 +92,38 @@ class CollegeCache
         $data = $this->getOneCollege($guid);
         $oldStatus = $data['status'];
         $oldType = $data['type'];
-
-
+        //修改hash中的状态字段
         $this->changeOneCollege($guid, ['status'=>$status]);
+        //删除旧的索引记录
+        $this->delList($oldType, $oldStatus, $guid);
+        //根据新的状态添加新的索引list记录
+        $this->addList($oldType, $status, $guid);
+    }
+
+    /**
+     * 删除一条记录
+     * @param 多要删除记录的类型，状态，guid
+     * @return array
+     * @author 郭庆
+     */
+    public function delList($type, $status, $guid)
+    {
+        Redis::lrem(self::$lkey.$type.':'.$status, $guid, 0);
+        Redis::lrem(self::$lkey.'-'.':'.$status, $guid, 0);
+        Redis::lrem(self::$lkey.$type, $guid, 0);
+    }
+
+    /**
+     * 添加一条新的list记录
+     * @param 多要删除记录的类型，状态，guid
+     * @return array
+     * @author 郭庆
+     */
+    public static function addList($type, $status, $guid)
+    {
+        $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
+        $list1 = Redis::lpush(self::$lkey.$type, $guid);
+        $list2 = Redis::lpush(self::$lkey.'-'.':'.$status, $guid);
     }
 
     /**

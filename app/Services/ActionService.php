@@ -372,7 +372,7 @@ class ActionService
     }
 
     /**
-     * 修改活动/报名状态
+     * 修改活动状态
      * @param $guid 所要修改的id
      * @param $status 改为的状态
      * @return array
@@ -390,13 +390,12 @@ class ActionService
             $Data = self::$actionStore->upload(["guid" => $guid], ["status" => $status]);
         }
 
-
         //判断修改结果并返回
         if ($Data) {
             if ($list == 3){
-                self::$collegeCache->changeOneCollege($guid, ['status' => $status]);
+                self::$collegeCache->changeStatusCollege($guid, $status);
             }else{
-                self::$actionCache->changeOneAction($guid, ['status' => $status]);
+                self::$actionCache->changeStatusAction($guid, $status);
             }
             return ['StatusCode' => '200', 'ResultData' => "修改成功"];
         } else {

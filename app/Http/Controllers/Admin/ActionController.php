@@ -80,7 +80,6 @@ class ActionController extends Controller
                 }
             }
         }
-
         return response() -> json($result);
     }
 
