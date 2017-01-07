@@ -577,8 +577,11 @@ class ActionService
     public function getRandomActions($list, $take = 4, $status = 1)
     {
         //判断action缓存是否存在
-        $exist = self::$collegeCache->exists('-'.':'.$status);
-
+        if ($list){
+            $exist = self::$actionCache->exists('-'.':'.$status);
+        }else{
+            $exist = self::$collegeCache->exists('-'.':'.$status);
+        }
         if (!$exist){
             if ($list){
                 $start = self::$actionStore->getCount([]);
@@ -609,9 +612,9 @@ class ActionService
             }
 
             if($list){
-                $result = array_slice (\Qiniu\json_decode(json_encode(self::$actionCache->getActionList(['status'=>1], $count, 1))), -3,-1);
+                $result = array_slice (\Qiniu\json_decode(json_encode(self::$actionCache->getActionList(['status'=>1], $count, 1))), -5,-1);
             }else{
-                $result = array_slice (\Qiniu\json_decode(json_encode(self::$collegeCache->getCollegeList(['status'=>1], $count, 1))), -3, -1);
+                $result = array_slice (\Qiniu\json_decode(json_encode(self::$collegeCache->getCollegeList(['status'=>1], $count, 1))), -5, -1);
             }
         }
 

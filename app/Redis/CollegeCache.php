@@ -7,7 +7,6 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\CollegeStore;
-use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\Facades\Redis;
 
 class CollegeCache
@@ -108,7 +107,7 @@ class CollegeCache
     {
         if ($this->exists($type . ':' . $status)) {
             \Log::info('进入删除1');
-            Log::info(self::$lkey . $type . ':' . $status);
+            \Log::info(self::$lkey . $type . ':' . $status);
             Redis::lrem(self::$lkey . $type . ':' . $status, 0, $guid);
         }
         if ($this->exists('-' . ':' . $status)) {
@@ -125,10 +124,14 @@ class CollegeCache
      * @param 多要删除记录的类型，状态，guid
      * @author 郭庆
      */
-    public static function addList($type, $status, $guid)
+    public function addList($type, $status, $guid)
     {
         $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
-        $list1 = Redis::lpush(self::$lkey.$type, $guid);
+        if ($status != 4){
+            $list1 = Redis::lpush(self::$lkey.$type, $guid);
+        }else{
+            $list1 = true;
+        }
         $list2 = Redis::lpush(self::$lkey.'-'.':'.$status, $guid);
         if ($list && $list1 && $list2) return true;
         return false;

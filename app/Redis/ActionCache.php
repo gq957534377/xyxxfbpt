@@ -224,7 +224,11 @@ class ActionCache
     public function addList($type, $status, $guid)
     {
         $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
-        $list1 = Redis::lpush(self::$lkey.$type, $guid);
+        if ($status != 4){
+            $list1 = Redis::lpush(self::$lkey.$type, $guid);
+        }else{
+            $list1 = true;
+        }
         $list2 = Redis::lpush(self::$lkey.'-'.':'.$status, $guid);
         if ($list && $list1 && $list2) return true;
         return false;
