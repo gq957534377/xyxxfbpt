@@ -237,7 +237,7 @@ class ActionCache
                 $list = Redis::lrange(self::$lkey.$where['type'], $offset,$totals);
             }
         }else{
-            return [];
+            $list = Redis::lrange(self::$lkey.'-'.':'.$where['status'], $offset,$totals);
         }
 
         $data = [];
@@ -269,6 +269,9 @@ class ActionCache
      */
     public function getLength($where)
     {
+        if (empty($where['type'])){
+            return Redis::llen(self::$lkey.'-'.":".$where['status']);
+        }
         if (!empty($where['status'])){
             return Redis::llen(self::$lkey.$where['type'].":".$where['status']);
         }else{

@@ -135,7 +135,6 @@ class SchoolController extends Controller
         }
 
         $rand = self::$actionServer->getRandomActions(false);
-
         //返回详情页
         return view("home.action.details", [
             "list" => 3,
