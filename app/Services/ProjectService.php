@@ -36,7 +36,11 @@ class ProjectService {
      */
     public function getData($nowPage,$pageNum, $where)
     {
-        $data = self::$projectStore->getPage($nowPage, $pageNum, $where);
+        try{
+            $data = self::$projectCache->getPageData($nowPage, $pageNum, $where);
+        }catch (Exception $e){
+            $data = self::$projectStore->getPage($nowPage, $pageNum, $where);
+        }
 
         if (!$data) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 
@@ -69,7 +73,7 @@ class ProjectService {
     public function changeStatus($data)
     {
         if(!$this->changeCache((int)$data['id'], $data['status']))
-            return ['StatusCode' => '400', 'ResultData' => '缓存数据插入失败'];
+            return ['StatusCode' => '400', 'ResultData' => '缓存数据更改失败'];
 
         $updateData = array();
 
@@ -308,6 +312,9 @@ class ProjectService {
     public function deleltCache($guid)
     {
         $data = self::$projectStore->getOneData(['guid' => $guid]);
+
+        if($data->status == 0) return true;
+
         $result = self::$projectCache->deletCache($data);
         return $result;
     }

@@ -32,7 +32,7 @@ class ProjectCache
     public function exists($type = 'list', $index = '')
     {
         if($type == 'list'){
-            return Redis::exists(self::$lkey);  //查询listkey是否存在
+            return \Redis::exists(self::$lkey);  //查询listkey是否存在
         }else{
             return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
         }
@@ -106,11 +106,56 @@ class ProjectCache
             return false;
         }
 
-        if(Redis::lRem(self::$lkey.$data->financing_stage, $data->guid, 0)) {
+        if(!Redis::lRem(self::$lkey.$data->financing_stage, $data->guid, 0)) {
             Log::error('redis移出项目分类信息   List失败！！');
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * 返回分页后的数据
+     * @param int $nowPage
+     * @param int $pageNum
+     * @param array $where
+     * author 张洵之
+     */
+    public function getPageData($nowPage, $pageNum, $where)
+    {
+        $start = ($nowPage - 1)*$pageNum;
+        $stop = $nowPage*$pageNum-1;
+        if (empty($where['financing_stage'])){
+            $indexData = Redis::lTrim(self::$lkey, $start, $stop);
+        }else{
+            $indexData = Redis::lTrim(self::$lkey.$where['financing_stage'], $start, $stop);
+        }
+
+        $data = CustomPage::arrayToObject($this->getHashData($indexData));
+
+        return $data;
+    }
+
+    /**
+     * 返回hash缓存数据
+     * @param $array
+     * @return array
+     * author 张洵之
+     */
+    public function getHashData($array)
+    {
+        $data =array();
+        foreach ($array as $value) {
+
+            if($this->exists('hash', self::$hkey .$value)) {
+                $data[] = Redis::hGetall(self::$hkey .$value);
+            }else{
+                $temp = CustomPage::objectToArray(self::$project_store->getOneData(['guid' => $value]));
+                $this->createCache($temp);
+                $data[] = Redis::hGetall(self::$hkey .$value);
+            }
+
+        }
+        return $data;
     }
 }
