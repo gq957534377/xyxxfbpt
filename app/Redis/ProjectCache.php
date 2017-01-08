@@ -32,7 +32,7 @@ class ProjectCache
     public function exists($type = 'list', $index = '')
     {
         if($type == 'list'){
-            return \Redis::exists(self::$lkey);  //查询listkey是否存在
+            return Redis::exists(self::$lkey);  //查询listkey是否存在
         }else{
             return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
         }
@@ -101,13 +101,14 @@ class ProjectCache
      * author 张洵之
      */
     public function deletCache($data) {
-        if(!Redis::lRem(self::$lkey, $data->guid, 0)) {
-            Log::error('redis移出默认项目分类信息   List失败！！');
+
+        if(!Redis::lRem(self::$lkey, 0, $data->guid)) {
+//            Log::error('redis移出默认项目分类信息   List失败！！');
             return false;
         }
 
-        if(!Redis::lRem(self::$lkey.$data->financing_stage, $data->guid, 0)) {
-            Log::error('redis移出项目分类信息   List失败！！');
+        if(!Redis::lRem(self::$lkey.$data->financing_stage, 0, $data->guid)) {
+//            Log::error('redis移出项目分类信息   List失败！！');
             return false;
         }
 
@@ -123,17 +124,17 @@ class ProjectCache
      */
     public function getPageData($nowPage, $pageNum, $where)
     {
+
         $start = ($nowPage - 1)*$pageNum;
         $stop = $nowPage*$pageNum-1;
         if (empty($where['financing_stage'])){
-            $indexData = Redis::lTrim(self::$lkey, $start, $stop);
+            $indexData = Redis::lRange(self::$lkey, $start, $stop);
         }else{
-            $indexData = Redis::lTrim(self::$lkey.$where['financing_stage'], $start, $stop);
+            $indexData = Redis::lRange(self::$lkey.$where['financing_stage'], $start, $stop);
         }
 
         $data = CustomPage::arrayToObject($this->getHashData($indexData));
-
-        return $data;
+        return (array)$data;
     }
 
     /**
@@ -147,7 +148,8 @@ class ProjectCache
         $data =array();
         foreach ($array as $value) {
 
-            if($this->exists('hash', self::$hkey .$value)) {
+            if($this->exists('hash', $value)) {
+
                 $data[] = Redis::hGetall(self::$hkey .$value);
             }else{
                 $temp = CustomPage::objectToArray(self::$project_store->getOneData(['guid' => $value]));
@@ -157,5 +159,18 @@ class ProjectCache
 
         }
         return $data;
+    }
+
+    public function getOneData($guid)
+    {
+        if($this->exists('hash', $guid)) {
+            $data = Redis::hGetall(self::$hkey .$guid);
+        }else{
+            $temp = CustomPage::objectToArray(self::$project_store->getOneData(['guid' => $guid]));
+            $this->createCache($temp);
+            $data = Redis::hGetall(self::$hkey .$guid);
+        }
+
+        return CustomPage::arrayToObject($data);
     }
 }

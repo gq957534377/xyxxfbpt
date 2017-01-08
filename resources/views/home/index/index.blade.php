@@ -99,56 +99,56 @@
                                     <div class="companyName">{{ $project->title }}</div>
                                     <div class="classLabel">
                                 <span>
-                                    @if($project->industry == 0)
+                                    @if($project->industry == 1)
                                         TMT
-                                    @elseif($project->industry == 1)
-                                        医疗健康
                                     @elseif($project->industry == 2)
-                                        文化与创意
+                                        医疗健康
                                     @elseif($project->industry == 3)
-                                        智能硬件
+                                        文化与创意
                                     @elseif($project->industry == 4)
-                                        教育
+                                        智能硬件
                                     @elseif($project->industry == 5)
-                                        电商
+                                        教育
                                     @elseif($project->industry == 6)
-                                        旅游
+                                        电商
                                     @elseif($project->industry == 7)
-                                        型农业
+                                        旅游
                                     @elseif($project->industry == 8)
-                                        互联网金融
+                                        型农业
                                     @elseif($project->industry == 9)
-                                        游戏
+                                        互联网金融
                                     @elseif($project->industry == 10)
-                                        汽车后市场
+                                        游戏
                                     @elseif($project->industry == 11)
-                                        企业级服务
+                                        汽车后市场
                                     @elseif($project->industry == 12)
-                                        数据服务
+                                        企业级服务
                                     @elseif($project->industry == 13)
+                                        数据服务
+                                    @elseif($project->industry == 14)
                                         其他
                                     @endif
                                 </span>
                                         <span>
-                                             @if($project->financing_stage == 0)
+                                             @if($project->financing_stage == 1)
                                                 种子轮
-                                            @elseif($project->financing_stage == 1)
-                                                天使轮
                                             @elseif($project->financing_stage == 2)
-                                                Pre-A轮
+                                                天使轮
                                             @elseif($project->financing_stage == 3)
-                                                A轮
+                                                Pre-A轮
                                             @elseif($project->financing_stage == 4)
-                                                B轮
+                                                A轮
                                             @elseif($project->financing_stage == 5)
-                                                C轮
+                                                B轮
                                             @elseif($project->financing_stage == 6)
-                                                D轮
+                                                C轮
                                             @elseif($project->financing_stage == 7)
-                                                E轮
+                                                D轮
                                             @elseif($project->financing_stage == 8)
-                                                F轮已上市
+                                                E轮
                                             @elseif($project->financing_stage == 9)
+                                                F轮已上市
+                                            @elseif($project->financing_stage == 10)
                                                 其他
                                             @endif
                                         </span>
