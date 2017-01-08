@@ -70,7 +70,7 @@ class HomeController extends Controller
         // 投资合作机构管理，
         $picArr = self::$pictureService->getPictureIn([3, 5]);
         // 轮播图
-        $rollingPic = self::$rollingPictureStore->getAllPic();
+        $rollingPic = self::$pictureService->getRollingPicture();
         // 设置cookie
         $cookie = \App\Tools\Common::generateCookie('feedback');
         return response()->view('home.index.index', [
@@ -79,7 +79,7 @@ class HomeController extends Controller
             'sybs'          => $sybResult['ResultData'],
             'schools'        => $schollResult['ResultData'],
             'picArr'        => $picArr['ResultData'],
-            'rollingPic'        => $rollingPic,
+            'rollingPic'        => $rollingPic['ResultData'],
             'articles'      => $articles['ResultData'],
         ])->withCookie($cookie);
 

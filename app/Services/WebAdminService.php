@@ -12,14 +12,18 @@ use App\Store\WebAdminStore;
 use Illuminate\Contracts\Logging\Log;
 use DB;
 use App\Tools\Avatar;
+use App\Redis\WebAdminCache;
+
 
 
 class WebAdminService
 {
     protected static $webAdminStore;
-    function __construct(WebAdminStore $webAdminStore)
+    protected static $webAdminCache;
+    function __construct(WebAdminStore $webAdminStore, WebAdminCache $webAdminCache)
     {
         self::$webAdminStore = $webAdminStore;
+        self::$webAdminCache = $webAdminCache;
     }
 
 
@@ -81,13 +85,17 @@ class WebAdminService
                         break;
                 }
                 // 判断是否有指定类型的数据，如果没有则直接插入，有则删除之后再插入
+
                 if (!empty($id)) {
                     self::$webAdminStore->delWebAdmin($id->id);
+                    // 删除redis 哈希
+                    self::$webAdminCache->delHash($id->id);
                     self::$webAdminStore->saveWebAdmin($info);
                 } else {
                     self::$webAdminStore->saveWebAdmin($info);
                 }
             }
+            self::$webAdminCache->delList();
         } catch (Exception $e) {
 
             // 日志
@@ -137,8 +145,12 @@ class WebAdminService
      */
     public function getWebInfo ()
     {
-        $obj = self::$webAdminStore->getWebInfo();
-
+        if (empty(self::$webAdminCache->checkList())) {
+            $obj = self::$webAdminStore->getWebInfo();
+            self::$webAdminCache->saveRedisList($obj);
+        } else {
+            $obj = self::$webAdminCache->selRedisInfo();
+        }
         if (!empty($obj)) {
             return ['StatusCode' => '200', 'ResultData' => $obj];
         } else {
