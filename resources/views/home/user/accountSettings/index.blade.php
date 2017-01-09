@@ -219,19 +219,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group mar-b10">
-                            <div class="col-xs-12 pad-clr">
-                                <div class="col-xs-6 col-sm-6 pad-cl">
-                                    <input class="form-control" type="text" id="auth-code" placeholder="请输入右侧图片中的验证码">
-                                </div>
-                                <div class="col-xs-6 col-sm-6">
-                                    <img src="{{asset('home/img/demoimg/code-auth.jpg')}}">
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-
-                        <p class="fs-c-0 fw-1">请输入验证码</p>
+                        <p class="fs-c-0 fw-1">我们向 XXXXXXXXXXX 发送了短信验证码</p>
                         <!--发送提示    &    验证错误提示  开始-->
                         <div id="errorBox3" class="alert alert-danger hidden">验证码验证失败！</div>
                         <!--////////////////////-->
@@ -242,17 +230,28 @@
                         <!--发送提示    &    验证错误提示  结束-->
                         <div class="form-group mar-cb">
                             <div class="col-sm-9 pad-cl">
-                                <input type="text" class="form-control form-title" id="captcha_two" placeholder="验证码">
+                                <input type="text" class="form-control form-title" id="captcha_two" placeholder="请输入您收到的短信验证码">
                             </div>
                             <label id="resend_captcha_laravel_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
-                            <div class="col-sm-3 control-label line-h-1" id="resend_captcha_two">
-                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" >发送</button>
+                            <div class="col-sm-3 control-label line-h-1 pad-cr pad-cl-xs" id="resend_captcha_two">
+                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-5 border-no resend_captcha" >获取短信验证码</button>
                             </div>
+                        </div>
+
+                        <p class="fs-c-0 fw-1">请输入右侧图片验证码</p>
+                        <div class="form-group mar-b10">
+                            <div class="col-sm-9 pad-cl">
+                                <input class="form-control" type="text" id="auth-code" placeholder="请输入右侧图片中的验证码">
+                            </div>
+                            <div class="col-sm-3 pad-cr pad-cl-xs">
+                                <img src="{{asset('home/img/demoimg/code-auth.jpg')}}">
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
-                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs pull-left"  id="step_three">下一步</button>
-                        <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_three">下一步</button>
+                        <button type="button" class="btn btn-default tel_btn_reset" data-dismiss="modal">取消</button>
                         {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
 
