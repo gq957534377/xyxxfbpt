@@ -131,7 +131,7 @@ class ActionController extends Controller
     {
         //所需要数据的获取
         $data = self::$actionServer->getData($id,false);//活动详情
-        $likeNum = self::$commentServer->likeCount($id);//点赞人数
+//        $likeNum = self::$commentServer->likeCount($id);//点赞人数
         $commentData = self::$commentServer->getComent($id,1);//评论数据
         //$isHas（是否已经报名参加）的设置
         if (!!empty(session('user')->guid)){
@@ -156,7 +156,7 @@ class ActionController extends Controller
             "data" => $data,
             'isLogin' => $isLogin,
             'isHas' => $isHas,
-            'likeNum' => $likeNum,
+//            'likeNum' => $likeNum,
             'likeStatus' => $likeStatus,
             'comment' => $commentData,
             'contentId' => $id,
