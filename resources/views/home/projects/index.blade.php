@@ -109,7 +109,7 @@
             <div style="color: #CCCCCC;">暂无数据呦，亲 O(∩_∩)O~</div>
         @endif
     </ul>
-    @if($num>8)
+    @if(count($projects)>=8)
         <div class="loads"></div>
     @endif
 </section>

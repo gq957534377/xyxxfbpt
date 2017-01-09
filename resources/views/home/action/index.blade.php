@@ -143,7 +143,6 @@
                 type:'get',
                 data:{'nowPage':nowPage,'type':type,'status':sta},
                 success:function (data) {
-//                    console.log(data);
                     data['ResultData']['data'].map(function (action) {
                         var html = '';
                         html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
@@ -156,8 +155,7 @@
                         html += '<ul class="row">';
                         html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' + getLocalTime(action.start_time) + '——' + getLocalTime(action.end_time) + '</li>';
                         html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' + action.address + '</li>';
-                        html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><span class="road-banner-join">' + status(action.status) + '</span></li></ul></div></div></div></li>';
-
+                        html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><span class="road-banner-join">' + status(parseInt(action.status)) + '</span></li></ul></div></div></div></li>';
                         $('.rodeing-list').append(html);
                     });
                     if (nowPage<data.ResultData['totalPage']){

@@ -48,20 +48,20 @@
             <div class="col-xs-8 col-md-5 col-lg-3 mar-b30">
               <select name="industry" class="form-control chr-c bg-1" id="project-area">
                 <option value="">请选择领域</option>
-                <option value="0">TMT</option>
-                <option value="1">医疗健康</option>
-                <option value="2">文化与创意</option>
-                <option value="3">智能硬件</option>
-                <option value="4">教育</option>
-                <option value="5">电商</option>
-                <option value="6">旅游</option>
-                <option value="7">新农业</option>
-                <option value="8">互联网金融</option>
-                <option value="9">游戏</option>
-                <option value="10">汽车后市场</option>
-                <option value="11">企业级服务</option>
-                <option value="12">数据服务</option>
-                <option value="13">其他</option>
+                <option value="1">TMT</option>
+                <option value="2">医疗健康</option>
+                <option value="3">文化与创意</option>
+                <option value="4">智能硬件</option>
+                <option value="5">教育</option>
+                <option value="6">电商</option>
+                <option value="7">旅游</option>
+                <option value="8">新农业</option>
+                <option value="9">互联网金融</option>
+                <option value="10">游戏</option>
+                <option value="11">汽车后市场</option>
+                <option value="12">企业级服务</option>
+                <option value="13">数据服务</option>
+                <option value="14">其他</option>
               </select>
             </div>
             <div class="col-md-4 ht-px34 mar-b30 hidden-lg hidden-sm hidden-xs"> </div>
@@ -69,16 +69,16 @@
             <div class="col-xs-8 col-md-5 col-lg-3 mar-b30">
               <select name="financing_stage" class="form-control chr-c bg-1" id="project-step">
                 <option value="">请选择阶段</option>
-                <option value="0">种子轮</option>
-                <option value="1">天使轮</option>
-                <option value="2">Pre-A轮</option>
-                <option value="3">A轮</option>
-                <option value="4">B轮</option>
-                <option value="5">C轮</option>
-                <option value="6">D轮</option>
-                <option value="7">E轮</option>
-                <option value="8">F轮已上市</option>
-                <option value="9">其他</option>
+                <option value="1">种子轮</option>
+                <option value="2">天使轮</option>
+                <option value="3">Pre-A轮</option>
+                <option value="4">A轮</option>
+                <option value="5">B轮</option>
+                <option value="6">C轮</option>
+                <option value="7">D轮</option>
+                <option value="8">E轮</option>
+                <option value="9">F轮已上市</option>
+                <option value="10">其他</option>
               </select>
             </div>
           </div>
@@ -234,15 +234,15 @@
             <label for="project-details" class="col-md-3 col-lg-2 control-label mar-b10 mar-xs--b"><span class="form-star">*</span>隐私设置</label>
             <div class="privacy-block col-md-8 col-lg-8">
               <div class="col-md-2 col-lg-2">
-              <input name="privacy"  type="radio" value="0">
+              <input name="privacy"  type="radio" value="1">
                 <label>保密</label>
               </div>
               <div class="col-md-5 col-lg-5">
-                <input name="privacy"  type="radio" value="1">
+                <input name="privacy"  type="radio" value="2">
                 <label >可以向投资人公开</label>
               </div>
               <div class="col-md-4 col-lg-4">
-                <input name="privacy"  type="radio" value="2" checked>
+                <input name="privacy"  type="radio" value="3" checked>
                 <label >向所有人公开</label>
               </div>
             </div>
