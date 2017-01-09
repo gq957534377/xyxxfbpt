@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
 use App\Services\UserService as UserServer;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
+use App\Tools\Common;
 
 
 class SendController extends Controller
@@ -77,11 +77,12 @@ class SendController extends Controller
                 break;
             default:
                 $result['sesid'] = md5(session()->getId());
+                $checkCode = Common::generateCookie('checkCode');
                 if (empty($data['write'])) {
-                    return view('home.user.contribution.index', $result);
+                    return response()->view('home.user.contribution.index', $result)->withCookie($checkCode);
                 } else {
                     $result['write'] = $data['write'];
-                    return view('home.user.contribution.index', $result);
+                    return response()->view('home.user.contribution.index', $result)->withCookie($checkCode);
                 }
 
                 break;
