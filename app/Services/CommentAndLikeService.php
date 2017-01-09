@@ -55,16 +55,7 @@ class CommentAndLikeService
     public function getForPageUserComment($where, $page)
     {
         //评论内容数据
-        $cache = self::$commentCache->getPageData($page, $where['action_id']);
-
-        if(empty($cache)){
-            $data = self::$commentStore->getPageData($page, $where);
-            if ($data){
-                self::$commentCache->createCache($data);
-            }
-        }else{
-            $data = $cache;
-        }
+        $data = self::$commentStore->getPageData($page, $where);
 
         if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有评论信息'];
 
@@ -316,12 +307,23 @@ class CommentAndLikeService
      */
     public function getComent($contentId, $page)
     {
-        $commentData = $this->getForPageUserComment(['action_id' => $contentId], $page);
+        $cache = self::$commentCache->getPageData($page, $contentId);
+        if(empty($cache)){
+            $commentData = $this->getForPageUserComment(['action_id' => $contentId], $page);
 
-        if($commentData['StatusCode'] == '400') return $commentData;
+            if($commentData['StatusCode'] == '400') return $commentData;
 
-        $commentData = $this->addUserInfo($this->openData($commentData));
-        return $commentData;
+            $data = $this->addUserInfo($this->openData($commentData));
+
+            if ($data){
+                self::$commentCache->createCache($data['ResultData']);
+            }
+
+        }else{
+            $data = ['StatusCode' => '200', 'ResultData' => $cache];
+        }
+
+        return $data;
     }
 
     /**
