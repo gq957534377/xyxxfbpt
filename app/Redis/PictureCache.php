@@ -21,7 +21,7 @@ class PictureCache
     protected static $table = 'data_picture_info';
     protected static $pictureStore;
 
-    protected function __construct(PictureStore $pictureStore)
+    public function __construct(PictureStore $pictureStore)
     {
         self::$pictureStore = $pictureStore;
     }

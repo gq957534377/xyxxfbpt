@@ -11,12 +11,19 @@ namespace App\Redis;
 use Illuminate\Contracts\Logging\Log;
 use Redis;
 use App\Tools\CustomPage;
+use App\Store\WebAdminStore;
 
 class WebAdminCache
 {
     protected static $lkey = LIST_WEBADMIN_INFO;
     protected static $hkey = HASH_WEBADMIN_INFO_;
     protected static $table = 'data_web_info';
+    protected static $webAdminStore;
+
+    public function __construct(WebAdminStore $webAdminStore)
+    {
+        self::$webAdminStore = $webAdminStore;
+    }
 
     /**
      * 检查list是否存在
@@ -78,11 +85,15 @@ class WebAdminCache
             if (empty($result)) {
                 //Log::info('Redis出错，请设置网页基本信息的值。或者清理redis');
                 // 如果redis哈希中不存在，则去数据库中查找，并且取出数据放到redis中
-                $res = DB::table(self::$table)->where(['id' => $datum])->first();
-                $res = CustomPage::objectToArray($res);
-                Redis::hMset(self::$hkey . $datum, $res);
+                $res = self::$webAdminStore->getOneWebInfo(['id' => $datum]);
+                if (!empty($res)) {
+                    $res = CustomPage::objectToArray($res);
+                    Redis::hMset(self::$hkey . $datum, $res);
+                    $arr[] = CustomPage::arrayToObject($res);
+                } else {
+                    $arr[] = '';
+                }
 
-                $arr[] = CustomPage::arrayToObject($res);
             } else {
                 $arr[] = $result;
             }

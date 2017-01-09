@@ -81,18 +81,15 @@ class WebAdminStore
     }
 
     /**
-     * 通过ID取出指定信息
-     * @param $id
-     * @return bool
+     * 得到指定id的数据
+     * @param
      * @author 王通
      */
-    public function getOneInfoById($id)
+    public function getOneWebInfo ($where)
     {
-        if (empty($data)) return false;
+        if (empty($where)) return false;
         return DB::table(self::$table)
-            ->where($data)
-            ->where('status', '<>', 4)
-            ->select('id')
+            ->where($where)
             ->first();
     }
 }
