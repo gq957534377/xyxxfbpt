@@ -95,9 +95,6 @@ class userManagementService
             break;
             default:
                 return '';
-
-
-
         }
     }
 
