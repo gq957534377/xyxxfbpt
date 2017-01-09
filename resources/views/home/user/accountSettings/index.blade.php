@@ -718,6 +718,7 @@
                             function (isConfirm) {
                                 swal('提示', msg.ResultData, "success");
                                 $("#emailBinded").removeClass('unbinded').addClass('binded');
+                                $("#emailBinded").html('已绑定');
                                 $(".userInfoReset").click();
                             });
                     } else {
