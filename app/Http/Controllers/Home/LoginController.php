@@ -11,16 +11,18 @@ use App\Tools\Common;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use App\Tools\Safety;
+use App\Services\SafetyService;
 use Illuminate\Support\Facades\Cookie;
 
 class LoginController extends Controller
 {
     protected static $userServer = null;
+    protected static $safetyService;
 
-    public function __construct(UserServer $userServer)
+    public function __construct(UserServer $userServer,SafetyService $safetyService)
     {
         self::$userServer = $userServer;
+        self::$safetyService = $safetyService;
     }
 
     /**
@@ -64,13 +66,15 @@ class LoginController extends Controller
         $result = Common::checkCookie('login', '登陆');
         if ($result != 'ok') return $result;
         $data = $request->all();
-
         //验证数据
         $this->validate($request,[
             'tel' =>  'required',
             'password' => 'required|min:6',
         ]);
 
+        if (self::$safetyService->getCountTel($data['tal'], 3600) > 3) {
+
+        };
         // 获取登录IP
         $data['ip'] = $request->getClientIp();
         // 校验邮箱和账号,拿到状态码
