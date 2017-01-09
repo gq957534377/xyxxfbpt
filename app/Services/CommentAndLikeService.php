@@ -59,7 +59,9 @@ class CommentAndLikeService
 
         if(empty($cache)){
             $data = self::$commentStore->getPageData($page, $where);
-            self::$commentCache->createCache($data);
+            if ($data){
+                self::$commentCache->createCache($data);
+            }
         }else{
             $data = $cache;
         }
@@ -338,6 +340,7 @@ class CommentAndLikeService
             $data->userImg = $userInfoData->headpic;//添加用户头像
             $data->nikename = $userInfoData->nickname;//添加用户昵称
         }
+
         return ['StatusCode' => '200', 'ResultData' => $commentData];
     }
 
