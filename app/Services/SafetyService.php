@@ -81,6 +81,22 @@ class SafetyService
 
     }
     /**
+     * 设置同一个手机号访问多少次显示验证码
+     * @param $key
+     * @return bool
+     * @author 王通
+     */
+    public function getCountTel($key)
+    {
+        if (empty($key)) return false;
+        if (!BaseRedis::existsRedis($key)) {
+            BaseRedis::expireRedis($key, 3600);
+        }
+        $k = BaseRedis::incrRedis($key);
+        return $k;
+
+    }
+    /**
      * 请求数量，以及通过sessionID验证
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @author 王通
