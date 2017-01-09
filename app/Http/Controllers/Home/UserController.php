@@ -104,6 +104,7 @@ class UserController extends Controller
         } else {
             return ['StatusCode' => '400', 'ResultData' => '请先成为创业者'];
         }
+
     }
 
     /**
