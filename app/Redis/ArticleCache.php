@@ -172,6 +172,7 @@ class ArticleCache
         return $data;
     }
 
+
     /**
      * 获取 现有list 的长度
      * @return bool
