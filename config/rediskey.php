@@ -9,6 +9,7 @@ define('LIST_PROJECT_INFO','LIST:PROJECT:INFO');
 define('HASH_PROJECT_INFO_','HASH:PROJECT:INFO:');
 //action 活动 redis key
 define('LIST_ACTION_','LIST:ACTION:');
+define('LIST_ACTIONORDER_','LIST:ACTIONORDER:');
 define('HASH_ACTION_INFO_','HASH:ACTION:INFO:');
 //user 用户登录 redis key
 define('LIST_USER_ACCOUNT', 'LIST:USER:ACCOUNT');

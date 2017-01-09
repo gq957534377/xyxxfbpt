@@ -107,6 +107,7 @@ class ActionService
     public function insertData($data)
     {
         $data["guid"] = Common::getUuid();
+        $data["status"] = 1;
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
         $data['deadline'] = strtotime($data['deadline']);
@@ -130,7 +131,7 @@ class ActionService
         }
 
         //判断插入是否成功，并返回结果
-        if(!empty($result)) return ['StatusCode' => '200', 'ResultData' => "发布活动成功"];
+        if($result) return ['StatusCode' => '200', 'ResultData' => "发布活动成功"];
         \Log::info('发布活动失败', $data, $result);
         return ['StatusCode' => '500', 'ResultData' => "服务器忙，发布失败"];
     }

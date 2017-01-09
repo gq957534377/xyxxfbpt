@@ -62,7 +62,7 @@ class HomeController extends Controller
         // 创业大赛
         $sybResult = self::$actionServer->selectData(['type'=>2], 1, 3, 'action/create', false, false);
         // 学习培训活动
-        $schollResult = self::$actionServer->selectData(['status'=>1], 1, 3, 'school/create', true, false);
+        $schollResult = self::$actionServer->selectData(['status'=>1], 1, 2, 'school/create', true, false);
 
         // 咨询
         $articles = self::$articleServer->getTakeArticles(1);
