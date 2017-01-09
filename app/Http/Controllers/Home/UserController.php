@@ -532,6 +532,7 @@ class UserController extends Controller
     public function countProjects(Request $request)
     {
         if (!isset($request->guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少请求参数']);
+        // 获取项目数
         $result = self::$projectServer->getCount(['guid' => $request->guid]);
         return response()->json($result);
     }
