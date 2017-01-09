@@ -254,7 +254,7 @@ class ActionService
                 $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
                 //存入redis缓存
                 $redis_list = CustomPage::objectToArray(self::$actionStore->getData($where));
-                self::$actionCache->setActionList($where, $redis_list);
+                self::$actionCache->insertCache($where, $redis_list);
             }
 
         }else{//list存在查找list
@@ -339,15 +339,7 @@ class ActionService
                 $data = CustomPage::arrayToObject(self::$collegeCache->getOneCollege($guid));
             }
         }else{
-            if (!self::$actionCache->exists($guid, false)){
-                Log::info('活动详情到数据库');
-                $data = self::$actionStore->getOneData(["guid" => $guid]);
-                $redis_data = CustomPage::objectToArray($data);
-                self::$actionCache->setOneAction($redis_data);
-            }else{
-                Log::info('活动详情到redis');
                 $data = CustomPage::arrayToObject(self::$actionCache->getOneAction($guid));
-            }
         }
 
         if($data) {
@@ -427,7 +419,7 @@ class ActionService
             if ($list == 3){
                 self::$collegeCache->changeOneCollege($where['guid'], $data);
             }else{
-                self::$actionCache->changeOneAction($where['guid'], $data);
+                self::$actionCache->changeOneHash($where['guid'], $data);
             }
             return ['StatusCode'=> '200','ResultData' => "修改成功"];
         }else{
@@ -587,7 +579,7 @@ class ActionService
                 if ($start == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
                 // 获取数据
                 $all = self::$actionStore->getData([]);
-                self::$actionCache->setActionList(['status'=>$status], CustomPage::objectToArray($all));
+                self::$actionCache->insertCache(['status'=>$status], CustomPage::objectToArray($all));
             }else{
                 $start = self::$collegeStore->getCount([]);
                 if ($start == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
