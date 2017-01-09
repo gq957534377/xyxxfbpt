@@ -7,6 +7,7 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\ActionStore;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class ActionCache
@@ -58,24 +59,40 @@ class ActionCache
     protected function insertCache($where, $data)
     {
         if (empty($data)) return false;
-        if (!empty($where['status'])){
-            foreach ($data as $v){
-                //执行写list操作
-                Redis::rpush(self::$lkey.$where['type'].':'.$where['status'], $v['guid']);
+        if (!empty($where['type'])){
+            if (!empty($where['status'])){
+                foreach ($data as $v){
+                    //执行写list操作
+                    Redis::rpush(self::$lkey.$where['type'].':'.$where['status'], $v['guid']);
 
-                //如果hash存在则不执行写操作
-                if(!$this->exists($v['guid'], false)){
-                    $index = self::$hkey.$v['guid'];
-                    //写入hash
-                    Redis::hMset($index, $v);
-                    //设置生命周期
-                    $this->setTime($index);
+                    //如果hash存在则不执行写操作
+                    if(!$this->exists($v['guid'], false)){
+                        $index = self::$hkey.$v['guid'];
+                        //写入hash
+                        Redis::hMset($index, $v);
+                        //设置生命周期
+                        $this->setTime($index);
+                    }
+                }
+            }else{
+                foreach ($data as $v){
+                    //执行写list操作
+                    Redis::rpush(self::$lkey.$where['type'], $v['guid']);
+
+                    //如果hash存在则不执行写操作
+                    if(!$this->exists($v['guid'], false)){
+                        $index = self::$hkey.$v['guid'];
+                        //写入hash
+                        Redis::hMset($index, $v);
+                        //设置生命周期
+                        $this->setTime($index);
+                    }
                 }
             }
         }else{
             foreach ($data as $v){
                 //执行写list操作
-                Redis::rpush(self::$lkey.$where['type'], $v['guid']);
+                Redis::rpush(self::$lkey.'-'.':'.$where['status'], $v['guid']);
 
                 //如果hash存在则不执行写操作
                 if(!$this->exists($v['guid'], false)){
@@ -87,7 +104,6 @@ class ActionCache
                 }
             }
         }
-
     }
 
     /**
@@ -125,10 +141,8 @@ class ActionCache
      */
     public function insertOneAction($data)
     {
-        $list = Redis::lpush(self::$lkey.$data['type'].':1', $data['guid']);
-        $list1 = Redis::lpush(self::$lkey.$data['type'], $data['guid']);
-        $list2 = Redis::lpush(self::$lkey.'-'.':1', $data['guid']);
-        if ($list && $list1 && $list2){
+        $list = $this->addList($data['type'], $data['status'], $data['guid']);
+        if ($list){
             //如果hash存在则不执行写操作
             if(!$this->exists($data['guid'], false)){
                 $index = self::$hkey.$data['guid'];
@@ -161,6 +175,66 @@ class ActionCache
     }
 
     /**
+     * 修改一条活动的状态
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function changeStatusAction($guid, $status)
+    {
+        $data = $this->getOneAction($guid);
+        $oldStatus = $data['status'];
+        $oldType = $data['type'];
+        //修改hash中的状态字段
+        $this->changeOneAction($guid, ['status'=>$status]);
+        //删除旧的索引记录
+        $this->delList($oldType, $oldStatus, $guid);
+        //根据新的状态添加新的索引list记录
+        $this->addList($oldType, $status, $guid);
+    }
+
+    /**
+     * 删除一条记录
+     * @param 多要删除记录的类型，状态，guid
+     * @return array
+     * @author 郭庆
+     */
+    public function delList($type, $status, $guid)
+    {
+        if ($this->exists($type.':'.$status)){
+            Log::info('进入删除1');
+            Log::info(self::$lkey.$type.':'.$status);
+            Redis::lrem(self::$lkey.$type.':'.$status, 0, $guid);
+        }
+        if ($this->exists('-'.':'.$status)){
+            Log::info('进入删除2');
+            Redis::lrem(self::$lkey.'-'.':'.$status, 0, $guid);
+        }
+        if ($this->exists($type)){
+            Log::info('进入删除3');
+            Redis::lrem(self::$lkey.$type, 0, $guid);
+        }
+    }
+
+    /**
+     * 添加一条新的list记录
+     * @param 多要删除记录的类型，状态，guid
+     * @author 郭庆
+     */
+    public function addList($type, $status, $guid)
+    {
+        $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
+        if ($status != 4){
+            $list1 = Redis::lpush(self::$lkey.$type, $guid);
+        }else{
+            $list1 = true;
+        }
+        $list2 = Redis::lpush(self::$lkey.'-'.':'.$status, $guid);
+        if ($list && $list1 && $list2) return true;
+        return false;
+    }
+
+    /**
      * 获取redis缓存里的文章列表数据
      * @param $nums int  一次获取的条数
      * @param  $pages int  当前页数
@@ -182,7 +256,7 @@ class ActionCache
                 $list = Redis::lrange(self::$lkey.$where['type'], $offset,$totals);
             }
         }else{
-            return [];
+            $list = Redis::lrange(self::$lkey.'-'.':'.$where['status'], $offset,$totals);
         }
 
         $data = [];
@@ -190,7 +264,7 @@ class ActionCache
         //根据获取的list元素 取hash里的集合
         foreach ($list as $v) {
             //获取一条hash
-            if($this->exists('',$v)){
+            if($this->exists($v, false)){
                 $content = Redis::hGetall(self::$hkey.$v);
                 //给对应的Hash文章增加生命周期
                 $this->setTime(self::$hkey.$v);
@@ -214,6 +288,9 @@ class ActionCache
      */
     public function getLength($where)
     {
+        if (empty($where['type'])){
+            return Redis::llen(self::$lkey.'-'.":".$where['status']);
+        }
         if (!empty($where['status'])){
             return Redis::llen(self::$lkey.$where['type'].":".$where['status']);
         }else{

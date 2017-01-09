@@ -11,21 +11,31 @@ namespace App\Services;
 use App\Store\PictureStore;
 use App\Tools\Avatar;
 use App\Store\RollingPictureStore;
+use App\Redis\PictureCache;
+use App\Redis\RollingPictureCache;
 
 class PictureService
 {
     protected static $picturestore;
     protected static $avatar;
     protected static $rollingPictureStore;
+    protected static $pictureCache;
+    protected static $rollingPictureCache;
     /** 单例引入
      *
      * @param WebAdminService $webAdminService
      * @author 王通
      */
-    public function __construct(PictureStore $picturestore, RollingPictureStore $rollingPictureStore)
-    {
+    public function __construct(
+        PictureStore $picturestore,
+        RollingPictureStore $rollingPictureStore,
+        PictureCache $pictureCache,
+        RollingPictureCache $rollingPictureCache
+    ) {
         self::$picturestore = $picturestore;
         self::$rollingPictureStore = $rollingPictureStore;
+        self::$pictureCache = $pictureCache;
+        self::$rollingPictureCache = $rollingPictureCache;
     }
     /**
      * 保存轮播图
@@ -39,10 +49,17 @@ class PictureService
         // 判断是否上传成功
         if ($res['status'] == '200') {
             // 判断图片信息是否保存成功
-            if (self::$rollingPictureStore->savePicture([
+            $id = self::$rollingPictureStore->savePicture([
                 'url' => $res['msg'],
-                'addtime' => time()])
-            ) {
+                'addtime' => time()]);
+            // 判断是否保存成功
+            if (!empty($id)) {
+                $data1 = [
+                    'id' => $id,
+                    'url' => $res['msg'],
+                    'addtime' => time(),
+                ];
+                self::$rollingPictureCache->saveRedisList([$data1]);
                 return ['StatusCode' => '200', 'ResultData' => '图片保存成功'];
             }
         }
@@ -50,49 +67,35 @@ class PictureService
     }
 
     /**
-     * 保存合作机构所有信息
+     * 保存合作机构,投资机构所有信息
      * @param $data
      * @return array
      * @author 王通
      */
-    public function saveCooper ($data)
+    public function saveCooper ($data, $type)
     {
-        $res = Avatar::carousel($data, 224, 153);
-        // 判断是否上传成功
-        if ($res['status'] == '200') {
-            // 判断图片信息是否保存成功
-            if (self::$picturestore->savePicture([
-                'url' => $res['msg'],
-                'type' => 3,
-                'pointurl' => $data['url'],
-                'name' => $data['name'],
-                'addtime' => time(),
-            ])) {
-                return ['StatusCode' => '200', 'ResultData' => '合作机构保存成功'];
-            }
-        }
-        return ['StatusCode' => '400', 'ResultData' => '合作机构保存失败'];
-    }
 
-    /**
-     * 保存投资机构所有信息
-     * @param $data
-     * @return array
-     * @author 王通
-     */
-    public function saveInvest ($data)
-    {
         $res = Avatar::carousel($data, 224, 153);
         // 判断是否上传成功
         if ($res['status'] == '200') {
             // 判断图片信息是否保存成功
-            if (self::$picturestore->savePicture([
+            $id = self::$picturestore->savePicture([
                 'url' => $res['msg'],
-                'type' => 5,
+                'type' => $type,
                 'pointurl' => $data['url'],
                 'name' => $data['name'],
                 'addtime' => time(),
-            ])) {
+            ]);
+            if (!empty($id)) {
+                $data1 = [
+                    'id' => $id,
+                    'url' => $res['msg'],
+                    'type' => $type,
+                    'pointurl' => $data['url'],
+                    'name' => $data['name'],
+                    'addtime' => time(),
+                ];
+                self::$pictureCache->saveRedisList([$data1]);
                 return ['StatusCode' => '200', 'ResultData' => '合作机构保存成功'];
             }
         }
@@ -120,22 +123,35 @@ class PictureService
      */
     public function getPictureIn ($val)
     {
-        $res = self::$picturestore->getPictureIn($val);
+        // 判断redis中存在不存在，不存在则添加到redis
+        if (empty(self::$pictureCache->checkList())) {
+            $obj = self::$picturestore->getPictureIn($val);
+            self::$pictureCache->saveRedisList($obj);
+        } else {
+            $obj = self::$pictureCache->selRedisInfo();
+        }
+
         // 判断有没有请求道数据
-        if (empty($res)) {
+        if (empty($obj)) {
             return ['StatusCode' => '201', 'ResultData' => '没有数据'];
         } else {
-            return ['StatusCode' => '200', 'ResultData' => $res];
+            return ['StatusCode' => '200', 'ResultData' => $obj];
         }
     }
 
     /**
-     * 得到所有图片
+     * 得到轮播图
      * @author 王通
      */
-    public function getPictureAll ()
+    public function getRollingPicture()
     {
-        $res = self::$picturestore->getPictureAll();
+        // 判断redis中存在不存在，不存在则添加到redis
+        if (empty(self::$rollingPictureCache->checkList())) {
+            $res = self::$rollingPictureStore->getAllPic();
+            self::$rollingPictureCache->saveRedisList($res);
+        } else {
+            $res = self::$rollingPictureCache->selRedisInfo();
+        }
         // 判断有没有请求道数据
         if (empty($res)) {
             return ['StatusCode' => '201', 'ResultData' => '没有数据'];
@@ -153,8 +169,16 @@ class PictureService
     {
         if ($type == 'rolling') {
             $res = self::$rollingPictureStore->updataRolling(['id' => $id], ['status' => 4]);
+            if (!empty($res)) {
+                self::$rollingPictureCache->delListKey($id);
+                self::$rollingPictureCache->delHash($id);
+            }
         } else {
             $res = self::$picturestore->updatePic(['id' => $id], ['status' => 4]);
+            if (!empty($res)) {
+                self::$pictureCache->delListKey($id);
+                self::$pictureCache->delHash($id);
+            }
         }
 
 
@@ -174,6 +198,7 @@ class PictureService
     {
         $res = self::$picturestore->updatePic(['id' => $id], ['name' => $data['name'], 'pointurl' => $data['url']]);
         if ($res) {
+            self::$pictureCache->delHash($id);
             return ['StatusCode' => '200', 'ResultData' => '更新成功'];
         } else {
             return ['StatusCode' => '400', 'ResultData' => '更新失败'];

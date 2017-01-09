@@ -61,7 +61,6 @@ class ArticleCache
 
         //执行写操作
         $this->insertCache($data);
-
         //获取存入的list缓存长度
         $length = $this->getLength($type);
         if($length != $count){
@@ -79,6 +78,7 @@ class ArticleCache
     public function insertCache($data)
     {
         if (empty($data)) return false;
+        $data = CustomPage::objectToArray($data);
         foreach ($data as $v){
             //执行写list操作
             if (!Redis::rpush(self::$lkey . $v['type'], $v['guid'])) {
@@ -96,6 +96,37 @@ class ArticleCache
             }
 
         }
+        return true;
+    }
+
+    /**
+     * 从左边写入redis
+     * @param $data
+     * @return bool
+     * @author 王通
+     */
+    public function insertLeftCache($data)
+    {
+        if (empty($data)) return false;
+        $data = CustomPage::objectToArray($data);
+        foreach ($data as $v){
+            //执行写list操作
+            if (!Redis::lPush(self::$lkey . $v['type'], $v['guid'])) {
+                Log::error('文章信息写入redis   List失败！！');
+            };
+
+            //如果hash存在则不执行写操作
+            if(!$this->exists($type = '', $v['guid'])){
+
+                $index = self::$hkey . $v['guid'];
+                //写入hash
+                Redis::hMset($index, $v);
+                //设置生命周期
+                $this->setTime($index);
+            }
+
+        }
+        return true;
     }
 
     /**
@@ -172,6 +203,7 @@ class ArticleCache
         return $data;
     }
 
+
     /**
      * 获取 现有list 的长度
      * @return bool
@@ -184,6 +216,44 @@ class ArticleCache
         return false;
     }
 
+    /**
+     * 删除指定list的值
+     * @param $type
+     * @param $guid
+     * @return bool|int
+     * @author 王通
+     */
+    public function delListKey($type, $guid)
+    {
+        if (empty($guid)) return false;
+        //dd($type, $guid, self::$lkey);
+        return Redis::lRem(self::$lkey . $type, 1, $guid);
+    }
+
+    /**
+     * 删除哈希
+     * @param $guid
+     * @return mixed
+     * @author 王通
+     */
+    public function delHashKey($guid)
+    {
+        if (empty($guid)) return false;
+        return Redis::del(self::$lkey . $guid);
+    }
+    /**
+     * 在list左边插入数据
+     * @param $data
+     * @return bool
+     * @author 王通
+     */
+    public function setLeftList($data)
+    {
+        if (Redis::lPush(self::$lkey . $data['type'], $v['guid'])) {
+            Log::error('文章信息写入redis   List失败！！');
+        };
+        return false;
+    }
     /**
      * 设置hash缓存的生命周期
      * @param $key  string  需要设置的key

@@ -68,10 +68,11 @@ class UserService {
      */
     public function addUser($data)
     {
-        // 检验用户是否被注册
-        $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
-        // 返回真，用户存在
-        if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
+
+//        // 检验用户是否被注册
+//        $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
+//        // 返回真，用户存在
+//        if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
 
         // 返回假，添加数据，先对数据提纯
         $data['guid'] = Common::getUuid();
@@ -93,7 +94,9 @@ class UserService {
             return ['status' => '500', 'msg' => '数据写入失败！'];
         };
 
-        $countUsers = self::$userStore->countUsers();
+        // 获取当前的用户量
+        // $countUsers = self::$userStore->countUsers();
+
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
         $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg', 'addtime' => $data['addtime']]);
         if (!$userInfo) {
@@ -101,6 +104,9 @@ class UserService {
             DB::rollback();
             return ['status' => '500', 'msg' => '用户信息添加失败，请重新注册!'];
         } else {
+            // 用户注册成功，写入redis
+            $data['status'] = 1;
+            self::$accountCache->insertOneAccount($data);
             DB::commit();
             return ['status'=>'200', 'msg'=>'注册成功'];
         }
@@ -168,8 +174,19 @@ class UserService {
      */
     public function checkUser($data)
     {
+        // 先判断Account队列缓存是否存在
+        if (!self::$accountCache->exists()) {
+            // 不存在，读取MySql存入redis,并且将获取到的对象转成数组
+            $accountList = CustomPage::objectToArray(self::$homeStore->getAllData());
+
+            if (count($accountList)) {
+                self::$accountCache->setUserAccountList($accountList);
+            }
+        }
+
+        $result = self::$accountCache->getOneAccount($data['tel']);
         // 检验用户是否被注册
-        $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
+        //  $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
         // 返回真，用户存在
         return $result;
     }
@@ -180,26 +197,27 @@ class UserService {
      * @auther 刘峻廷
      * @modify 王通
      */
-    public function loginCheck($data)
+    public function  loginCheck($data)
     {
-        // 对密码进行加密
-        $pass = Common::cryptString($data['tel'],$data['password'],'hero');
-
-        // 判断Account队列缓存是否存在
+        // 先判断Account队列缓存是否存在
         if (!self::$accountCache->exists()) {
             // 不存在，读取MySql存入redis,并且将获取到的对象转成数组
             $accountList = CustomPage::objectToArray(self::$homeStore->getAllData());
 
             if (count($accountList)) {
-                dd(self::$accountCache->setUserAccountList($accountList));
+                self::$accountCache->setUserAccountList($accountList);
             }
         }
 
+        // 存在，判断list队列中该账户是否存在
+        $temp = self::$accountCache->getOneAccount($data['tel']);
+
         // 查询数据
-        $temp = self::$homeStore->getOneData(['tel' => $data['tel']]);
+//        $temp = self::$homeStore->getOneData(['tel' => $data['tel']]);
         // 返回假，说明此账号不存在
         if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];
-
+        // 对密码进行加密
+        $pass = Common::cryptString($data['tel'],$data['password'],'hero');
         // 密码校验
         if ($pass != $temp->password) return ['StatusCode' => '400','ResultData' => '密码错误！'];
 
@@ -213,9 +231,18 @@ class UserService {
 
         // 更新数据表，登录和ip
         $info = self::$homeStore->updateData(['guid'=>$temp->guid],['logintime' => $time,'ip' => $data['ip']]);
+
         if(!$info) {
             Log::error('更新用户登录信息失败', $data);
             return ['StatusCode' => '400', 'ResultData' => '服务器数据异常！'];
+        }
+        // 更新成功，redis同步更新
+        $temp->logintime = $time;
+        $temp->ip = $data['ip'];
+        $redisInfo = self::$accountCache->setOneAccount(CustomPage::objectToArray($temp));
+
+        if ($redisInfo != 'OK') {
+            Log::info($temp->tel.'用户登录更新redis失败');
         }
 
         //将一些用户的信息推到session里，方便维持

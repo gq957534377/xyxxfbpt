@@ -37,7 +37,7 @@ class WebAdminStore
         if (empty($id)) return false;
         return DB::table(self::$table)
             ->where('id', $id)
-            ->update(['status' => '4']);
+            ->update(['status' => 4]);
     }
 
     /**

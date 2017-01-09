@@ -372,7 +372,7 @@ class ActionService
     }
 
     /**
-     * 修改活动/报名状态
+     * 修改活动状态
      * @param $guid 所要修改的id
      * @param $status 改为的状态
      * @return array
@@ -390,13 +390,12 @@ class ActionService
             $Data = self::$actionStore->upload(["guid" => $guid], ["status" => $status]);
         }
 
-
         //判断修改结果并返回
         if ($Data) {
             if ($list == 3){
-                self::$collegeCache->changeOneCollege($guid, ['status' => $status]);
+                self::$collegeCache->changeStatusCollege($guid, $status);
             }else{
-                self::$actionCache->changeOneAction($guid, ['status' => $status]);
+                self::$actionCache->changeStatusAction($guid, $status);
             }
             return ['StatusCode' => '200', 'ResultData' => "修改成功"];
         } else {
@@ -577,18 +576,49 @@ class ActionService
      */
     public function getRandomActions($list, $take = 4, $status = 1)
     {
+        //判断action缓存是否存在
         if ($list){
-            $start = self::$actionStore->getCount([]);
-            // 获取文章数据
-            $result = self::$actionStore->RandomActions($take, rand(1, $start - $take));
+            $exist = self::$actionCache->exists('-'.':'.$status);
         }else{
-            $start = self::$collegeStore->getCount([]);
-            // 获取文章数据
-            $result = self::$collegeStore->RandomActions($take, rand(1, $start - $take));
+            $exist = self::$collegeCache->exists('-'.':'.$status);
+        }
+        if (!$exist){
+            if ($list){
+                $start = self::$actionStore->getCount([]);
+                if ($start == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
+                // 获取数据
+                $all = self::$actionStore->getData([]);
+                self::$actionCache->setActionList(['status'=>$status], CustomPage::objectToArray($all));
+            }else{
+                $start = self::$collegeStore->getCount([]);
+                if ($start == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
+                // 获取数据
+                $all = self::$collegeStore->getData([]);
+                self::$collegeCache->setCollegeList(['status'=>$status], CustomPage::objectToArray($all));
+            }
+            $result = array_slice($all,-3,-1);
+        }else{
+            if (!$list){
+                $count = self::$collegeCache->getLength(['status'=>1]);
+            }else{
+                $count = self::$actionCache->getLength(['status'=>1]);
+            }
+
+            //查询总记录数
+            if (!$count) {
+                //如果没有数据直接返回204空数组，函数结束
+                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
+                return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
+            }
+
+            if($list){
+                $result = array_slice (\Qiniu\json_decode(json_encode(self::$actionCache->getActionList(['status'=>1], $count, 1))), -5,-1);
+            }else{
+                $result = array_slice (\Qiniu\json_decode(json_encode(self::$collegeCache->getCollegeList(['status'=>1], $count, 1))), -5, -1);
+            }
         }
 
-        if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
-
+//        if (!$result) return ['StatusCode' => '400', 'ResultData' => '获取失败'];
         return ['StatusCode' => '200', 'ResultData' => $result];
     }
 

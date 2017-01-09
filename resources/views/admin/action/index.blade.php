@@ -375,11 +375,13 @@
                                 $.ajax({
                                     url     : url,
                                     success : function (data) {
-                                        if(data.statusCode != '200'){
+                                        console.log(data);
+                                        if(data.StatusCode != '200'){
                                             swal(data.ResultData, statusMessage + '失败', "danger");
+                                        }else{
+                                            swal(data.ResultData, '成功'+statusMessage+'该活动', "success");
+                                            tr.remove();
                                         }
-                                        swal(data.ResultData, '成功'+statusMessage+'该活动', "success");
-                                        tr.remove();
                                     },
                                 });
                             } else {
