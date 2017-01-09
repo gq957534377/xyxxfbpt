@@ -76,7 +76,7 @@ class CommentStore{
      */
     public function addData($data)
     {
-        return DB::table(self::$table)->insert($data);
+        return DB::table(self::$table)->insertGetId($data);
     }
 
     /**
