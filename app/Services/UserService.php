@@ -212,8 +212,11 @@ class UserService {
         // 存在，判断list队列中该账户是否存在
         $temp = self::$accountCache->getOneAccount($data['tel']);
 
-        // 查询数据
-//        $temp = self::$homeStore->getOneData(['tel' => $data['tel']]);
+        if (empty($temp)) {
+            // 查询数据
+            $temp = self::$homeStore->getOneData(['tel' => $data['tel']]);
+        }
+
         // 返回假，说明此账号不存在
         if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];
         // 对密码进行加密
@@ -405,6 +408,16 @@ class UserService {
      */
     public function changePassword($request)
     {
+        // 先判断Account队列缓存是否存在
+        if (!self::$accountCache->exists()) {
+            // 不存在，读取MySql存入redis,并且将获取到的对象转成数组
+            $accountList = CustomPage::objectToArray(self::$homeStore->getAllData());
+
+            if (count($accountList)) {
+                self::$accountCache->setUserAccountList($accountList);
+            }
+        }
+
         // 查询用户的信息
         $result = self::$homeStore->getOneData(['guid' => $request->guid]);
 
@@ -426,9 +439,13 @@ class UserService {
         $result = self::$homeStore->updateData(['guid' => $request->guid], ['password' => $new_pass]);
 
         if (!$result) {
-            \Log::error('前端用户修改密码失败', $result);
+            \Log::error('前端用户修改密码失败', $request->all());
             return ['StatusCode' => '400', 'ResultData' => '修改密码失败'];
         } else {
+            $redisResult = self::$accountCache->setOneAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $request->guid])));
+            if ($redisResult != 'OK') {
+                \Log::info($request->guid.'用户修改密码写入缓存失败!');
+            }
             return ['StatusCode' => '200', 'ResultData' => '修改密码成功'];
         }
 
@@ -508,6 +525,10 @@ class UserService {
             \Log::error('更换邮箱错误', $result);
             return['StatusCode' => '400', 'ResultData' => '绑定邮箱失败!'];
         } else {
+            $redisResult = self::$accountCache->setOneAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $where])));
+            if ($redisResult != 'OK') {
+                \Log::info($where.'用户修改密码写入缓存失败!');
+            }
             $email = substr_replace(trim($data), '****', 2, 4);
             return ['StatusCode' => '200', 'ResultData' => $email];
         }
@@ -539,6 +560,10 @@ class UserService {
             \Log::error('用户账号手机绑定，更新用户中心信息表失败', ['guid' => $guid], ['tel' => $data]);
             \DB::rollback();
             return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
+        }
+        $redisResult = self::$accountCache->setOneAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $guid])));
+        if ($redisResult != 'OK') {
+            \Log::info($guid.'用户手机绑定写入缓存失败!');
         }
         \DB::commit();
         return ['StatusCode' => '200', 'ResultData' => '手机改绑成功，请重新登录!'];
