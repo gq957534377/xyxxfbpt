@@ -133,7 +133,7 @@
                             </div>
                             <label for="captcha" id="resend_captcha_label" class="col-sm-3 control-label line-h-1 hidden  pad-cl">重新发送<span>54</span>秒</label>
                             <div class="col-sm-3 control-label line-h-1" id="resend_captcha">
-                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" >发送</button>
+                                <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-5 border-no resend_captcha" >获取短信验证码</button>
                             </div>
                         </div>
                     </div>
@@ -301,7 +301,7 @@
                         <div id="errorEmailBox_one" class="alert alert-danger hidden">验证码验证失败！</div>
                         <!--Email 错误提示 End-->
                         <div class="form-group">
-                            <label class="col-xs-12 control-label">
+                            <label class="col-xs-12 control-label pad-cl">
                                 <input id="newEmail" type="email" class="form-control form-title"  placeholder="邮箱">
                             </label>
                         </div>
