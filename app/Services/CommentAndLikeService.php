@@ -453,4 +453,15 @@ class CommentAndLikeService
 
         return 0;
     }
+    /**
+     * 统计评论数量
+     * @param string|int $contentId 内容ID
+     * @return int
+     * author 张洵之
+     */
+    public function commentCount($where)
+    {
+        $num = self::$commentStore->getCount($where);
+        return ['StatusCode' => '200', 'ResultData' => $num];
+    }
 }
