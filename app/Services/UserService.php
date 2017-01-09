@@ -503,9 +503,8 @@ class UserService {
         // 检验数据
         if (empty($where) || empty($data)) return ['StatusCode' => '400', 'ResultData' => '缺少数据信息'];
 
-        $result = self::$accountCache->getOneAccount(['guid' => $where]);
        // 判断当前用户的邮箱和更新的邮箱进行比对
-//        $result = self::$homeStore->getOneData(['guid' => $where]);
+        $result = self::$homeStore->getOneData(['guid' => $where]);
 
         if (!$result) return ['StatusCode' => '400', 'ResultData' => '当前用户不存在！'];
 

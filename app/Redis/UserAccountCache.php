@@ -138,7 +138,7 @@ class UserAccountCache
         if (empty($tel)) return false;
         // 获取指定账号信息
         $index = self::$hkey.$tel;
-        $data = \Redis::hGetall($index);
+        $data = Redis::hGetall($index);
 
         // 没有获取到，hash生命周期可能到了
         if (empty($data)) {
