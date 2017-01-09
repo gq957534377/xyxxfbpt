@@ -523,6 +523,12 @@ class UserController extends Controller
         return view('home.user.myProject', ['data' => $result['ResultData'], 'pageView'=>$pageView]);
     }
 
+    /**
+     * 获取个人项目数
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
     public function countProjects(Request $request)
     {
         if (!isset($request->guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少请求参数']);
