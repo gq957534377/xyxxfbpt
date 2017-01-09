@@ -16,6 +16,7 @@ class WebAdminCache
 {
     protected static $lkey = LIST_WEBADMIN_INFO;
     protected static $hkey = HASH_WEBADMIN_INFO_;
+    protected static $table = 'data_web_info';
 
     /**
      * 检查list是否存在
@@ -33,9 +34,9 @@ class WebAdminCache
      * @return bool
      * @author 王通
      */
-    public function checkHash()
+    public function checkHash($id)
     {
-        return Redis::exists(self::$hkey);
+        return Redis::exists(self::$hkey . $id);
     }
 
 
@@ -51,7 +52,7 @@ class WebAdminCache
             if (!Redis::rpush(self::$lkey, $datum['id'])) {
                 Log::error('网页基本信息写入redis   List失败！！');
             }
-            if (!$this->checkHash(self::$hkey)) {
+            if (!$this->checkHash($datum['id'])) {
                 if(!Redis::hMset(self::$hkey . $datum['id'], $datum)) {
                     Log::info('页面基本信息，写入redis失败!!');
                     return false;
@@ -74,6 +75,12 @@ class WebAdminCache
             $result = Redis::hGetall(self::$hkey . $datum);
             if (empty($result)) {
                 //Log::info('Redis出错，请设置网页基本信息的值。或者清理redis');
+                // 如果redis哈希中不存在，则去数据库中查找，并且取出数据放到redis中
+                $res = DB::table(self::$table)->where(['id' => $datum])->first();
+                $res = CustomPage::objectToArray($res);
+                Redis::hMset(self::$hkey . $datum, $res);
+
+                $arr[] = CustomPage::arrayToObject($res);
             } else {
                 $arr[] = $result;
             }

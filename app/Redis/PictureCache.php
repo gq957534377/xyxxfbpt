@@ -35,9 +35,9 @@ class PictureCache
      * @return bool
      * @author 王通
      */
-    public function checkHash()
+    public function checkHash($id)
     {
-        return Redis::exists(self::$hkey);
+        return Redis::exists(self::$hkey . $id);
     }
 
 
@@ -54,7 +54,7 @@ class PictureCache
             if (!Redis::rpush(self::$lkey, $datum['id'])) {
                 Log::error('网页基本信息写入redis   List失败！！');
             }
-            if (!$this->checkHash(self::$hkey)) {
+            if (!$this->checkHash($datum['id'])) {
                 if(!Redis::hMset(self::$hkey . $datum['id'], $datum)) {
                     Log::info('页面基本信息，写入redis失败!!');
                     return false;

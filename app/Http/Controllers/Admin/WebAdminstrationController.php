@@ -75,12 +75,12 @@ class WebAdminstrationController extends Controller
                 break;
             case '2':
                 // 合作机构Ajax请求
-                $result = self::$pictureService->getPicture([3]);
+                $result = self::$pictureService->getPicture(3);
                 return response()->json($result);
                 break;
             case '3':
                 // 投资机构Ajax请求
-                $result = self::$pictureService->getPicture([5]);
+                $result = self::$pictureService->getPicture(5);
                 return response()->json($result);
                 break;
             case '4':
