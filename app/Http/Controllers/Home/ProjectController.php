@@ -36,21 +36,20 @@ class ProjectController extends Controller
         $type = $request->input('type');
 
         if(!empty($type)) {
-            $where = ['status' => '1', 'financing_stage' => $type-1];
+            $where = ['status' => '1', 'financing_stage' => $type];
         }else{
             $where = ['status'=>'1'];
         }
 
         $res = self::$projectServer->getData(1, 8,$where);
-        $num = self::$projectServer->getCount($where)['ResultData'];
 
         if ($res['StatusCode'] == '400') {
             $projects = [];
-            return view('home.projects.index', compact('projects', 'type', 'num'));
+            return view('home.projects.index', compact('projects', 'type'));
         } else {
             $projects = $res['ResultData'];
             Common::wordLimit($projects, 'content', 15);
-            return view('home.projects.index', compact('projects', 'type', 'num'));
+            return view('home.projects.index', compact('projects', 'type'));
         }
 
     }

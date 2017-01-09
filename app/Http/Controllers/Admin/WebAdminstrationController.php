@@ -181,18 +181,20 @@ class WebAdminstrationController extends Controller
         }
         //数据验证过滤
         $validator = Validator::make($data, $valid, $message);
+
         // 数据验证失败，响应信息
         if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
+
         switch ($data['organiz-type'])
         {
 
             case 2:
                 // 合作机构图片上传
-                $result = self::$pictureService->saveCooper($request);
+                $result = self::$pictureService->saveCooper($request, 3);
                 break;
             case 3:
                 // 投资机构图片上传
-                $result = self::$pictureService->saveInvest($request);
+                $result = self::$pictureService->saveCooper($request, 5);
                 break;
             case 4:
                 // 轮播图管理图片上传
@@ -200,7 +202,6 @@ class WebAdminstrationController extends Controller
                 break;
 
         }
-
 
         // 判断上传是否成功
         if ($result['StatusCode'] == '200') {

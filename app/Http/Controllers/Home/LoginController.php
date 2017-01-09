@@ -10,7 +10,6 @@ use App\Tools\Common;
 use App\Tools\Safety;
 use Illuminate\Support\Facades\Session;
 
-
 class LoginController extends Controller
 {
     protected static $userServer = null;

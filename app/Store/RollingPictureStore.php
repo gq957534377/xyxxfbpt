@@ -36,7 +36,7 @@ class RollingPictureStore
     public function savePicture ($data)
     {
         if (empty($data)) return false;
-        return DB::table(self::$table)->insert($data);
+        return DB::table(self::$table)->insertGetId($data);
     }
 
     /**
