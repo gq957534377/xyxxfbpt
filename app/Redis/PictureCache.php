@@ -53,6 +53,8 @@ class PictureCache
         foreach ($data as $datum) {
             if (!Redis::rpush(self::$lkey, $datum['id'])) {
                 Log::error('网页基本信息写入redis   List失败！！');
+                Redis::del(self::$lkey);
+                return false;
             }
             if (!$this->checkHash($datum['id'])) {
                 if(!Redis::hMset(self::$hkey . $datum['id'], $datum)) {

@@ -20,7 +20,7 @@ class WebAdminStore
      * @return bool
      * @author 王通
      */
-    public function saveWebAdmin ($data)
+    public function saveWebAdmin($data)
     {
         if (empty($data)) return false;
         return DB::table(self::$table)->insert($data);
@@ -32,7 +32,7 @@ class WebAdminStore
      * @return bool
      * @author 王通
      */
-    public function delWebAdmin ($id)
+    public function delWebAdmin($id)
     {
         if (empty($id)) return false;
         return DB::table(self::$table)
@@ -45,7 +45,7 @@ class WebAdminStore
      * @param $data
      * @return bool
      */
-    public function selectWebAdminId ($data)
+    public function selectWebAdminId($data)
     {
         if (empty($data)) return false;
         return DB::table(self::$table)
@@ -60,7 +60,7 @@ class WebAdminStore
      * @return mixed
      * @author 王通
      */
-    public function getConfig ()
+    public function getConfig()
     {
         return DB::table(self::$table)
             ->where('status', '<>', 4)
@@ -73,10 +73,26 @@ class WebAdminStore
      * @return mixed
      * @author 王通
      */
-    public function getWebInfo ()
+    public function getWebInfo()
     {
         return DB::table(self::$table)
             ->where('status', 1)
             ->get();
+    }
+
+    /**
+     * 通过ID取出指定信息
+     * @param $id
+     * @return bool
+     * @author 王通
+     */
+    public function getOneInfoById($id)
+    {
+        if (empty($data)) return false;
+        return DB::table(self::$table)
+            ->where($data)
+            ->where('status', '<>', 4)
+            ->select('id')
+            ->first();
     }
 }

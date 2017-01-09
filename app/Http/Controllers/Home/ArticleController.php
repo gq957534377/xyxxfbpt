@@ -103,8 +103,7 @@ class ArticleController extends Controller
     public function show($id)
     {
         $result = self::$articleServer->getData($id);
-
-        $result['ResultData']->likeNum = self::$commentServer->likeCount($id);
+//        $result['ResultData']->likeNum = self::$commentServer->likeCount($id);
         // 判断有没有文章信息
         if ($result['StatusCode'] == '200') {
             $randomList = self::$articleServer->getRandomArticles($result['ResultData']->type, 4, 1);

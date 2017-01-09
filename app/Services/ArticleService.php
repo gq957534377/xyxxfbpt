@@ -181,18 +181,18 @@ class ArticleService
     {
         $data = self::$articleCache->getOneArticle($guid);
         // 判断有没有取到数据
-        if ($data) {
-            // 如果登录，则判断点赞记录
-            if (!empty(session('user'))) {
-                $res = $this->getLike(session('user')->guid, $guid);
-                if (!empty($res['msg']->support) && $res['msg']->support == 1) {
-                    $data->like = true;
-                } else {
-                    $data->like = false;
-                }
-            } else {
-                $data->like = false;
-            }
+        if (!empty($data)) {
+//            // 如果登录，则判断点赞记录
+//            if (!empty(session('user'))) {
+//                $res = $this->getLike(session('user')->guid, $guid);
+//                if (!empty($res['msg']->support) && $res['msg']->support == 1) {
+//                    $data->like = true;
+//                } else {
+//                    $data->like = false;
+//                }
+//            } else {
+//                $data->like = false;
+//            }
             return ['StatusCode' => '200', 'ResultData' => $data];
 
         }
