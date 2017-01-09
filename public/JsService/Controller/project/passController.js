@@ -52,7 +52,7 @@ var statusCheck_no = function(id, status){
             remark:$('#verify_remark').val()
         },
         success:function(data){
-            if (data.status==200){
+            if (data.StatusCode==200){
                 $(".loading").hide();
                 $('#'+id).parents('tr').remove();
                 $('#verify_no').modal('hide');

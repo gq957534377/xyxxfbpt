@@ -53,8 +53,9 @@ class ProjectController extends Controller
     {
         $data = $request->all();
         $res = self::$projectServer->changeStatus($data);
-        if(!$res) return response()->json(['status'=>'500','msg'=>'修改失败']);
-        return response()->json(['status'=>'200','msg'=>'修改成功']);
+
+        return response()->json($res);
+
     }
 
     /**
