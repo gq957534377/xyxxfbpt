@@ -35,6 +35,7 @@ class ActionService
     protected static $pictureStore;
     protected static $actionCache;
     protected static $collegeCache;
+    protected static $pictureService;
 
     public function __construct(
         ActionStore $actionStore,
@@ -44,7 +45,8 @@ class ActionService
         LikeStore $likeStore,
         PictureStore $pictureStore,
         ActionCache $actionCache,
-        CollegeCache $collegeCache
+        CollegeCache $collegeCache,
+        PictureService $pictureService
     )
     {
         self::$actionStore      = $actionStore;
@@ -55,6 +57,7 @@ class ActionService
         self::$pictureStore     = $pictureStore;
         self::$actionCache      = $actionCache;
         self::$collegeCache     = $collegeCache;
+        self::$pictureService   = $pictureService;
     }
 
     /**
@@ -353,6 +356,7 @@ class ActionService
 
         if($data) {
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
+            $picArr = self::$pictureService->getPictureIn([3, 5]);
             $group = self::$pictureStore->getOnePicture(['id'=>(int)$data->group]);
 
             if (empty($group)){

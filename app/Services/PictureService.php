@@ -205,4 +205,21 @@ class PictureService
         }
     }
 
+
+    /**
+     * 获取指定id的组织机构或者合作机构
+     * @param $id
+     * @return array
+     * @author 郭庆
+     */
+    public static function getOnePicture($id)
+    {
+        if (self::$pictureCache->checkHash($id)){
+
+        }else{
+            $data = self::$picturestore->getOnePicture(['id'=>(int)$id]);
+
+        }
+    }
+
 }

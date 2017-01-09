@@ -123,7 +123,7 @@ class SchoolController extends Controller
             $isHas = false;
             $likeStatus = 2;
         }else{
-            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
+//            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
             $action = self::$actionOrderStore->getSomeField(['user_id'=>session('user')->guid], 'action_id');//当前用户报名参加的所有活动
             if (!$action){
                 $isHas = false;
@@ -142,7 +142,7 @@ class SchoolController extends Controller
             'isLogin' => $isLogin,
             'isHas' => $isHas,
 //            'likeNum' => $likeNum,
-            'likeStatus' => $likeStatus,
+//            'likeStatus' => $likeStatus,
             'comment' => $commentData,
             'contentId' => $id,
             'rand' => $rand
