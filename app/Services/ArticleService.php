@@ -262,11 +262,12 @@ class ArticleService
         $data["addtime"] = time();
         $Data = self::$articleStore->upload($where, $data);
         if($Data){
-
-            // 更新redis
-            $dataInfo = self::$articleStore->getOneData(['guid' => $where['guid']]);
-            if ($data['status'] == 5 || $data['status'] == 3) {
-                $res = self::$articleCache->delListKey($dataInfo->type, $dataInfo->guid);
+            if (!empty($data['status'])){
+                // 更新redis
+                $dataInfo = self::$articleStore->getOneData(['guid' => $where['guid']]);
+                if ($data['status'] == 5 || $data['status'] == 3) {
+                    $res = self::$articleCache->delListKey($dataInfo->type, $dataInfo->guid);
+                }
             }
             // 删除哈希值
             self::$articleCache->delHashKey($where['guid']);
