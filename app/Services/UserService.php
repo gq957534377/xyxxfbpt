@@ -405,6 +405,16 @@ class UserService {
      */
     public function changePassword($request)
     {
+        // 先判断Account队列缓存是否存在
+        if (!self::$accountCache->exists()) {
+            // 不存在，读取MySql存入redis,并且将获取到的对象转成数组
+            $accountList = CustomPage::objectToArray(self::$homeStore->getAllData());
+
+            if (count($accountList)) {
+                self::$accountCache->setUserAccountList($accountList);
+            }
+        }
+
         // 查询用户的信息
         $result = self::$homeStore->getOneData(['guid' => $request->guid]);
 
@@ -423,12 +433,16 @@ class UserService {
 
         // 更新密码
 
-        $result = self::$homeStore->updateData(['guid' => $request->guid], ['password' => $new_pass]);
+        $updateResult = self::$homeStore->updateData(['guid' => $request->guid], ['password' => $new_pass]);
 
-        if (!$result) {
+        if (!$updateResult) {
             \Log::error('前端用户修改密码失败', $result);
             return ['StatusCode' => '400', 'ResultData' => '修改密码失败'];
         } else {
+            $redisResult = self::$accountCache->setOneAccount(CustomPage::objectToArray($result));
+            if ($redisResult != 'OK') {
+                \Log::info($request->guid.'用户修改密码写入缓存失败!');
+            }
             return ['StatusCode' => '200', 'ResultData' => '修改密码成功'];
         }
 
