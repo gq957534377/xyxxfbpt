@@ -218,7 +218,7 @@ class ActionCache
                 //获取缓存的列表索引
                 $list = Redis::lrange(self::$lkey.$where['type'].':'.$where['status'], $offset,$totals);
             }else{
-                $list = Redis::lrange(self::$lkey.$where['type'], $offset,$totals);
+                $list = Redis::lrange(self::$lkey.$where['type'], $offset, $totals);
             }
         }else{
             $list = Redis::lrange(self::$lkey.'-'.':'.$where['status'], $offset,$totals);

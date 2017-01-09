@@ -58,11 +58,11 @@ class HomeController extends Controller
         }
 
         // 路演活动
-        $roadShowResult = self::$actionServer->takeActions(1);
+        $roadShowResult = self::$actionServer->selectData(['type'=>1], 1, 3, 'action/create', false, false);
         // 创业大赛
-        $sybResult = self::$actionServer->takeActions(2);
+        $sybResult = self::$actionServer->selectData(['type'=>2], 1, 3, 'action/create', false, false);
         // 学习培训活动
-        $schollResult = self::$actionServer->takeSchoolData(2);
+        $schollResult = self::$actionServer->selectData(['status'=>1], 1, 3, 'school/create', true, false);
 
         // 咨询
         $articles = self::$articleServer->getTakeArticles(1);
@@ -75,9 +75,9 @@ class HomeController extends Controller
         $cookie = \App\Tools\Common::generateCookie('feedback');
         return response()->view('home.index.index', [
             'projects'      => $projectResult['ResultData'],
-            'roadShows'     => $roadShowResult['ResultData'],
-            'sybs'          => $sybResult['ResultData'],
-            'schools'        => $schollResult['ResultData'],
+            'roadShows'     => $roadShowResult,
+            'sybs'          => $sybResult,
+            'schools'        => $schollResult,
             'picArr'        => $picArr['ResultData'],
             'rollingPic'        => $rollingPic['ResultData'],
             'articles'      => $articles['ResultData'],

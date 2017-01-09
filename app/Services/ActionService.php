@@ -130,7 +130,7 @@ class ActionService
         }
 
         //判断插入是否成功，并返回结果
-        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => "发布活动成功"];
+        if(!empty($result)) return ['StatusCode' => '200', 'ResultData' => "发布活动成功"];
         \Log::info('发布活动失败', $data, $result);
         return ['StatusCode' => '500', 'ResultData' => "服务器忙，发布失败"];
     }
@@ -237,7 +237,7 @@ class ActionService
             //如果没有数据返回204
             if (!$count) {
                 //如果没有数据直接返回204空数组，函数结束
-                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
+                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
                 return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
             }
 
@@ -363,7 +363,7 @@ class ActionService
      */
     public function changeStatus($guid, $status, $list)
     {
-        if (!(isset($guid) && isset($status))) {
+        if (!(!empty($guid) && !empty($status))) {
             return ['StatusCode' => '400', 'ResultData' => "参数有误"];
         }
 
@@ -446,18 +446,14 @@ class ActionService
      * @return array
      * @author 刘峻廷
      */
-    public function takeActions($type, $status = null,$number = 3)
+    public function takeActions($type,$number = 3)
     {
 
-        if (!isset($type)) return ['StatusCode' => '401', 'ResultData' => '缺少参数'];
+        if (!!empty($type)) return ['StatusCode' => '401', 'ResultData' => '缺少参数'];
 
-        if (isset($status)) {
-            $where = ['type' => $type, 'status' => $status];
-        } else {
-            $where = ['type' => $type];
-        }
+        $where = ['type' => $type];
 
-        $result = self::$actionStore->takeActions($where, $number);
+        $result = CustomPage::arrayToObject(self::$actionCache->getActionList($where, $number, 1));
 
         if ($result) return ['StatusCode' => '200', 'ResultData' => $result];
 
@@ -710,7 +706,7 @@ class ActionService
         $no_like = self::$likeStore->getNoSupportNum($id);//不支持数量
 
         //判断获取结果并返回
-        if (isset($like) && isset($no_like)) return ['status' => true, 'msg' => [$like,$no_like]];
+        if (!empty($like) && !empty($no_like)) return ['status' => true, 'msg' => [$like,$no_like]];
         \Log::info('获取'.$id.'活动点赞记录失败：支持-'.$like.'不支持'.$no_like);
         return ['status' => false, 'msg' => '获取点赞数量失败'];
     }
