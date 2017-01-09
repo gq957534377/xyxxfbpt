@@ -51,13 +51,13 @@ class ProjectCache
         $temp = CustomPage::objectToArray($data);
         //建立redis索引
         if (!Redis::rpush(self::$lkey . $temp['financing_stage'], $temp['guid'])) {
-//            Log::error('项目分类信息写入redis   List失败！！');
+           Log::error('项目分类信息写入redis   List失败！！');
             return false;
         };
 
         if (!Redis::rpush(self::$lkey , $temp['guid'])) {
             return false;
-//            Log::error('项目默认信息写入redis   List失败！！');
+            Log::error('项目默认信息写入redis   List失败！！');
         };
 
         $this->createCache($temp);
@@ -74,7 +74,7 @@ class ProjectCache
     {
         if(empty($data)) return false;
 
-            if(!$this->exists($type = '', $data['guid'])){
+            if(!$this->exists($type = 'hash', $data['guid'])){
 
                 $index = self::$hkey . $data['guid'];
                 //写入hash
@@ -147,9 +147,13 @@ class ProjectCache
             }
 
         }
+        if(!empty($indexData)){
+            $data = CustomPage::arrayToObject($this->getHashData($indexData));
+            return (array)$data;
+        }else{
+            return null;
+        }
 
-        $data = CustomPage::arrayToObject($this->getHashData($indexData));
-        return (array)$data;
     }
 
     /**

@@ -15,6 +15,7 @@ use App\Store\ProjectStore;
 use App\Store\SendStore;
 use App\Tools\Common;
 use App\Store\UserStore;
+use App\Redis\CommentCache;
 
 class CommentAndLikeService
 {
@@ -24,6 +25,7 @@ class CommentAndLikeService
     protected static $userStore;
     protected static $projectStore;
     protected static $sendStore;
+    protected static $commentCache;
 
     public function __construct(
         ActionStore $actionStore,
@@ -31,7 +33,8 @@ class CommentAndLikeService
         LikeStore $likeStore,
         UserStore $userStore,
         ProjectStore $projectStore,
-        SendStore $sendStore
+        SendStore $sendStore,
+        CommentCache $commentCache
     ){
         self::$actionStore = $actionStore;
         self::$commentStore = $commentStore;
@@ -39,6 +42,7 @@ class CommentAndLikeService
         self::$userStore = $userStore;
         self::$projectStore = $projectStore;
         self::$sendStore = $sendStore;
+        self::$commentCache = $commentCache;
     }
 
     /**
@@ -51,7 +55,14 @@ class CommentAndLikeService
     public function getForPageUserComment($where, $page)
     {
         //评论内容数据
-        $data = self::$commentStore->getPageData($page, $where);
+        $cache = self::$commentCache->getPageData($page, $where['action_id']);
+
+        if(empty($cache)){
+            $data = self::$commentStore->getPageData($page, $where);
+            self::$commentCache->createCache($data);
+        }else{
+            $data = $cache;
+        }
 
         if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有评论信息'];
 
@@ -247,7 +258,8 @@ class CommentAndLikeService
 
         $result = self::$commentStore->addData($data);
 
-        if($result) {
+        if(!empty($result)) {
+            self::$commentCache->insertIndex($result, $data['action_id']);
             $userData = $this->getUserCommentData($data['changetime'], $data['content']);
             return ['StatusCode' => '200', 'ResultData' => $userData];
         }
