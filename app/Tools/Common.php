@@ -105,7 +105,7 @@ class Common {
      */
     public static function captchaStatus()
     {
-        $image = file_get_contents(asset('/home/img/yzm/'. mt_rand(0, 99) .'.jpeg'));  //假设当前文件夹已有图片001.jpg
+        $image = response(file_get_contents(asset('/home/img/yzm/'. mt_rand(0, 99) .'.jpeg')), 200);  //假设当前文件夹已有图片001.jpg
         $content=addslashes($image);
         //生成图片，设置头文件的格式
         header("Cache-Control: no-cache,must-revalidate");
