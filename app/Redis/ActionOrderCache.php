@@ -1,26 +1,26 @@
 <?php
 /**
- * college redis 缓存仓库
+ * action redis 缓存仓库
  * @author lw  beta
  */
 namespace App\Redis;
 
+use App\Store\ActionOrderStore;
 use App\Tools\CustomPage;
-use App\Store\CollegeStore;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
-class CollegeCache
+class ActionOrderCache
 {
 
-    private static $lkey = LIST_COLLEGE_;      //项目列表key
-    private static $hkey = HASH_COLLEGE_INFO_;     //项目hash表key
+    private static $lkey = LIST_ACTIONORDER_;      //项目列表key
+    private static $hkey = HASH_ACTION_INFO_;     //项目hash表key
 
-    private static $college_store;
+    private static $actionOrderStore;
 
-    public function __construct(CollegeStore $collegeStore)
+    public function __construct(ActionOrderStore $actionOrderStore)
     {
-        self::$college_store = $collegeStore;
+        self::$actionOrderStore = $actionOrderStore;
     }
 
     /**
@@ -40,38 +40,26 @@ class CollegeCache
 
     /**
      * 删除一条记录
-     * @param 多要删除记录的类型，状态，guid
+     * @param 将要删除记录的类型，状态，guid
      * @return array
      * @author 郭庆
      */
-    public function delList($type, $status, $guid)
+    public function delList($user_id, $action_id)
     {
-        if ($this->exists($type . ':' . $status)) {
-            \Log::info(self::$lkey . $type . ':' . $status);
-            Redis::lrem(self::$lkey . $type . ':' . $status, 0, $guid);
-        }
-        if ($this->exists('-' . ':' . $status)) {
-            Redis::lrem(self::$lkey . '-' . ':' . $status, 0, $guid);
-        }
-        if ($this->exists($type)) {
-            Redis::lrem(self::$lkey . $type, 0, $guid);
+        if ($this->exists($user_id)){
+            Redis::lrem(self::$lkey.$user_id, 0, $action_id);
         }
     }
+
     /**
      * 添加一条新的list记录
-     * @param 多要删除记录的类型，状态，guid
+     * @param 将要添加记录的类型，状态，guid
      * @author 郭庆
      */
-    public function addList($type, $status, $guid)
+    public function addList($user_id, $action_id)
     {
-        $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
-        if ($status != 4){
-            $list1 = Redis::lpush(self::$lkey.$type, $guid);
-        }else{
-            $list1 = true;
-        }
-        $list2 = Redis::lpush(self::$lkey.'-'.':'.$status, $guid);
-        if ($list && $list1 && $list2) return true;
+        $list = Redis::lpush(self::$lkey.$user_id, $action_id);
+        if ($list) return true;
         return false;
     }
 
@@ -111,7 +99,7 @@ class CollegeCache
      * 获取一条文章详情
      * @param $guid
      */
-    public function getOneCollege($guid)
+    public function getOneAction($guid)
     {
         if(!$guid) return false;
         $index = self::$hkey.$guid;
@@ -120,7 +108,7 @@ class CollegeCache
             //重设生命周期 1800秒
             $this->setTime($index);
         }else{
-            $data = CustomPage::objectToArray(self::$college_store->getOneData(['guid'=>$guid]));
+            $data = CustomPage::objectToArray(self::$action_store->getOneData(['guid'=>$guid]));
             $this->addHash($data);
         }
         return $data;
@@ -132,13 +120,13 @@ class CollegeCache
      * @return array
      * @author 郭庆
      */
-    public function insertOneCollege($data)
+    public function insertOneAction($data)
     {
         $list = $this->addList($data['type'], $data['status'], $data['guid']);
         if ($list){
             $this->addHash($data);
         }else{
-            Log::warning('后台发布学院活动存入redis列表失败'.$data['guid']);
+            Log::warning('后台发布活动存入redis列表失败'.$data['guid']);
         }
     }
 
@@ -185,9 +173,9 @@ class CollegeCache
      * @return array
      * @author 郭庆
      */
-    public function changeStatusCollege($guid, $status)
+    public function changeStatusAction($guid, $status)
     {
-        $data = $this->getOneCollege($guid);
+        $data = $this->getOneAction($guid);
         $oldStatus = $data['status'];
         $oldType = $data['type'];
         //修改hash中的状态字段
@@ -198,13 +186,14 @@ class CollegeCache
         $this->addList($oldType, $status, $guid);
     }
 
+
     /**
      * 获取redis缓存里的文章列表数据
      * @param $nums int  一次获取的条数
      * @param  $pages int  当前页数
      * @return array
      */
-    public function getCollegeList($where, $nums, $pages)
+    public function getActionList($where, $nums, $pages)
     {
         //起始偏移量
         $offset = $nums * ($pages-1);
@@ -217,7 +206,7 @@ class CollegeCache
                 //获取缓存的列表索引
                 $list = Redis::lrange(self::$lkey.$where['type'].':'.$where['status'], $offset,$totals);
             }else{
-                $list = Redis::lrange(self::$lkey.$where['type'], $offset,$totals);
+                $list = Redis::lrange(self::$lkey.$where['type'], $offset, $totals);
             }
         }else{
             $list = Redis::lrange(self::$lkey.'-'.':'.$where['status'], $offset,$totals);
@@ -228,9 +217,8 @@ class CollegeCache
         //根据获取的list元素 取hash里的集合
         foreach ($list as $v) {
             //获取一条hash
-            $data[] = $this->getOneCollege($v);
+            $data[] = $this->getOneAction($v);
         }
-
         return $data;
     }
 

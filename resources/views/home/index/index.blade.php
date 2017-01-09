@@ -297,8 +297,8 @@
                 <a href="{{ route('action.index', ['type' => '1']) }}">查看全部</a>
             </div>
             <ul class="row">
-                @if(is_array($roadShows))
-                    @foreach($roadShows as $roadShow)
+                @if($roadShows['StatusCode'] == '200')
+                    @foreach($roadShows['ResultData']['data'] as $roadShow)
                         <li class="col-sm-4">
                             <a href="{{ url('action').'/'.$roadShow->guid }}">
                                 <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $roadShow->banner }}"/>
@@ -325,8 +325,8 @@
     			</span>
                         </li>
                     @endforeach
-                @else
-                    {{ $roadShows }}
+                    @else
+                    <span>{{$roadShows['ResultData']}}</span>
                 @endif
             </ul>
         </section>
@@ -343,8 +343,8 @@
                 <a href="{{ route('action.index', ['type' => '2']) }}">查看全部</a>
             </div>
             <ul class="row">
-                @if(is_array($sybs))
-                    @foreach($sybs as $syb)
+                @if($sybs['StatusCode'] == '200')
+                    @foreach($sybs['ResultData']['data'] as $syb)
                         <li class="col-sm-4">
                             <a href="{{ route('action.show', $syb->guid) }}">
                                 <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $syb->banner }}"/>
@@ -372,7 +372,7 @@
                         </li>
                     @endforeach
                 @else
-                    {{ $sybs }}
+                    {{ $sybs['ResultData'] }}
                 @endif
             </ul>
         </section>
@@ -389,8 +389,8 @@
                 <a href="#">查看全部</a>
             </div>
             <ul class="row">
-                @if(is_array($schools))
-                    @foreach($schools as $school)
+                @if($schools['StatusCode'] == '200')
+                    @foreach($schools['ResultData']['data'] as $school)
                         <li class="col-sm-6">
                             <a href="{{ route('school.show', $school->guid) }}">
                                 {{--<span>第1期</span>--}}
@@ -416,7 +416,7 @@
                         </li>
                     @endforeach
                 @else
-                    {{ $schools }}
+                    {{ $schools['ResultData'] }}
                 @endif
             </ul>
         </section>

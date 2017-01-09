@@ -10,12 +10,12 @@
 namespace App\Services;
 use App\Redis\ActionCache;
 use App\Redis\CollegeCache;
+use App\Redis\PictureCache;
 use App\Store\ActionStore;
 use App\Store\ActionOrderStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
 use App\Store\CollegeStore;
-use App\Store\PictureStore;
 use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
@@ -30,11 +30,10 @@ class ActionService
     protected static $collegeStore;
     protected static $commentStore;
     protected static $actionOrderStore;
-    protected static $common;
     protected static $likeStore;
-    protected static $pictureStore;
     protected static $actionCache;
     protected static $collegeCache;
+    protected static $pictureCache;
 
     public function __construct(
         ActionStore $actionStore,
@@ -42,9 +41,9 @@ class ActionService
         ActionOrderStore $actionOrderStore,
         CommentStore $commentStore,
         LikeStore $likeStore,
-        PictureStore $pictureStore,
         ActionCache $actionCache,
-        CollegeCache $collegeCache
+        CollegeCache $collegeCache,
+        PictureCache $pictureCache
     )
     {
         self::$actionStore      = $actionStore;
@@ -52,9 +51,9 @@ class ActionService
         self::$actionOrderStore = $actionOrderStore;
         self::$likeStore        = $likeStore;
         self::$collegeStore     = $collegeStore;
-        self::$pictureStore     = $pictureStore;
         self::$actionCache      = $actionCache;
         self::$collegeCache     = $collegeCache;
+        self::$pictureCache     = $pictureCache;
     }
 
     /**
@@ -108,6 +107,8 @@ class ActionService
     public function insertData($data)
     {
         $data["guid"] = Common::getUuid();
+        $data["status"] = 1;
+        $data["people"] = 0;
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
         $data['deadline'] = strtotime($data['deadline']);
@@ -131,7 +132,7 @@ class ActionService
         }
 
         //判断插入是否成功，并返回结果
-        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => "发布活动成功"];
+        if($result) return ['StatusCode' => '200', 'ResultData' => "发布活动成功"];
         \Log::info('发布活动失败', $data, $result);
         return ['StatusCode' => '500', 'ResultData' => "服务器忙，发布失败"];
     }
@@ -238,7 +239,7 @@ class ActionService
             //如果没有数据返回204
             if (!$count) {
                 //如果没有数据直接返回204空数组，函数结束
-                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
+                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
                 return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
             }
 
@@ -250,12 +251,12 @@ class ActionService
                 //从数据库取出所有数据
                 $redis_list = CustomPage::objectToArray(self::$collegeStore->getData($where));
                 //写入redis
-                self::$collegeCache->setCollegeList($where, $redis_list);
+                self::$collegeCache->insertCache($where, $redis_list);
             }else{
                 $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
                 //存入redis缓存
                 $redis_list = CustomPage::objectToArray(self::$actionStore->getData($where));
-                self::$actionCache->setActionList($where, $redis_list);
+                self::$actionCache->insertCache($where, $redis_list);
             }
 
         }else{//list存在查找list
@@ -330,31 +331,14 @@ class ActionService
         }
         //查询一条数据活动信息
         if ($list == 3){
-            if (!self::$collegeCache->exists($guid, false)){
-                Log::info('学院详情到数据库');
-                $data = self::$collegeStore->getOneData(["guid" => $guid]);
-                $redis_data = CustomPage::objectToArray($data);
-                self::$collegeCache->setOneCollege($redis_data);
-            }else{
-                Log::info('学院详情到redis');
-                $data = CustomPage::arrayToObject(self::$collegeCache->getOneCollege($guid));
-            }
+            $data = CustomPage::arrayToObject(self::$collegeCache->getOneCollege($guid));
         }else{
-            if (!self::$actionCache->exists($guid, false)){
-                Log::info('活动详情到数据库');
-                $data = self::$actionStore->getOneData(["guid" => $guid]);
-                $redis_data = CustomPage::objectToArray($data);
-                self::$actionCache->setOneAction($redis_data);
-            }else{
-                Log::info('活动详情到redis');
-                $data = CustomPage::arrayToObject(self::$actionCache->getOneAction($guid));
-            }
+            $data = CustomPage::arrayToObject(self::$actionCache->getOneAction($guid));
         }
 
         if($data) {
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
-            $group = self::$pictureStore->getOnePicture(['id'=>(int)$data->group]);
-
+            $group = self::$pictureCache->getOnePicture($data->group);
             if (empty($group)){
                 if ($group == []){
                     $group = '个人';
@@ -380,7 +364,7 @@ class ActionService
      */
     public function changeStatus($guid, $status, $list)
     {
-        if (!(isset($guid) && isset($status))) {
+        if (!(!empty($guid) && !empty($status))) {
             return ['StatusCode' => '400', 'ResultData' => "参数有误"];
         }
 
@@ -426,9 +410,9 @@ class ActionService
 
         if($Data){
             if ($list == 3){
-                self::$collegeCache->changeOneCollege($where['guid'], $data);
+                self::$collegeCache->changeOneHash($where['guid'], $data);
             }else{
-                self::$actionCache->changeOneAction($where['guid'], $data);
+                self::$actionCache->changeOneHash($where['guid'], $data);
             }
             return ['StatusCode'=> '200','ResultData' => "修改成功"];
         }else{
@@ -463,18 +447,14 @@ class ActionService
      * @return array
      * @author 刘峻廷
      */
-    public function takeActions($type, $status = null,$number = 3)
+    public function takeActions($type,$number = 3)
     {
 
-        if (!isset($type)) return ['StatusCode' => '401', 'ResultData' => '缺少参数'];
+        if (!!empty($type)) return ['StatusCode' => '401', 'ResultData' => '缺少参数'];
 
-        if (isset($status)) {
-            $where = ['type' => $type, 'status' => $status];
-        } else {
-            $where = ['type' => $type];
-        }
+        $where = ['type' => $type];
 
-        $result = self::$actionStore->takeActions($where, $number);
+        $result = CustomPage::arrayToObject(self::$actionCache->getActionList($where, $number, 1));
 
         if ($result) return ['StatusCode' => '200', 'ResultData' => $result];
 
@@ -584,17 +564,15 @@ class ActionService
         }
         if (!$exist){
             if ($list){
-                $start = self::$actionStore->getCount([]);
-                if ($start == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
                 // 获取数据
                 $all = self::$actionStore->getData([]);
-                self::$actionCache->setActionList(['status'=>$status], CustomPage::objectToArray($all));
+                if ($all == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
+                self::$actionCache->insertCache(['status'=>$status], CustomPage::objectToArray($all));
             }else{
-                $start = self::$collegeStore->getCount([]);
-                if ($start == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
                 // 获取数据
                 $all = self::$collegeStore->getData([]);
-                self::$collegeCache->setCollegeList(['status'=>$status], CustomPage::objectToArray($all));
+                if ($all == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
+                self::$collegeCache->insertCache(['status'=>$status], CustomPage::objectToArray($all));
             }
             $result = array_slice($all,-3,-1);
         }else{
@@ -729,7 +707,7 @@ class ActionService
         $no_like = self::$likeStore->getNoSupportNum($id);//不支持数量
 
         //判断获取结果并返回
-        if (isset($like) && isset($no_like)) return ['status' => true, 'msg' => [$like,$no_like]];
+        if (!empty($like) && !empty($no_like)) return ['status' => true, 'msg' => [$like,$no_like]];
         \Log::info('获取'.$id.'活动点赞记录失败：支持-'.$like.'不支持'.$no_like);
         return ['status' => false, 'msg' => '获取点赞数量失败'];
     }

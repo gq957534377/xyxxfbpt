@@ -9,7 +9,8 @@
 namespace App\Redis;
 
 use Illuminate\Contracts\Logging\Log;
-use Redis;
+//use Redis;
+use Illuminate\Support\Facades\Redis;
 use App\Tools\CustomPage;
 use App\Store\PictureStore;
 
@@ -133,6 +134,22 @@ class PictureCache
     {
         if (empty($val)) return false;
         return Redis::lRem(self::$lkey,0 , $val);
+    }
+
+    /**
+     * 取出哈希中的一个值
+     * @return array
+     * @author 郭庆
+     */
+    public function getOnePicture($id)
+    {
+        if ($this->checkHash($id)){
+            $data = CustomPage::arrayToObject(Redis::hGetall(self::$hkey . $id));
+        }else{
+            $data = self::$pictureStore->getOnePicture(['id'=>(int)$id]);
+            Redis::hMset(self::$hkey . $id, CustomPage::objectToArray($data));
+        }
+        return $data;
     }
 }
 

@@ -24,7 +24,7 @@ class CollegeStore
     public function insertData($data)
     {
         if(!is_array($data)) return false;
-        return $result = DB::table(self::$table)->insertGetId($data);
+        return $result = DB::table(self::$table)->insert($data);
     }
 
     /**
