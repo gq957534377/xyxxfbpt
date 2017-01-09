@@ -10,12 +10,12 @@
 namespace App\Services;
 use App\Redis\ActionCache;
 use App\Redis\CollegeCache;
+use App\Redis\PictureCache;
 use App\Store\ActionStore;
 use App\Store\ActionOrderStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
 use App\Store\CollegeStore;
-use App\Store\PictureStore;
 use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
@@ -30,12 +30,10 @@ class ActionService
     protected static $collegeStore;
     protected static $commentStore;
     protected static $actionOrderStore;
-    protected static $common;
     protected static $likeStore;
-    protected static $pictureStore;
     protected static $actionCache;
     protected static $collegeCache;
-    protected static $pictureService;
+    protected static $pictureCache;
 
     public function __construct(
         ActionStore $actionStore,
@@ -43,10 +41,9 @@ class ActionService
         ActionOrderStore $actionOrderStore,
         CommentStore $commentStore,
         LikeStore $likeStore,
-        PictureStore $pictureStore,
         ActionCache $actionCache,
         CollegeCache $collegeCache,
-        PictureService $pictureService
+        PictureCache $pictureCache
     )
     {
         self::$actionStore      = $actionStore;
@@ -54,10 +51,9 @@ class ActionService
         self::$actionOrderStore = $actionOrderStore;
         self::$likeStore        = $likeStore;
         self::$collegeStore     = $collegeStore;
-        self::$pictureStore     = $pictureStore;
         self::$actionCache      = $actionCache;
         self::$collegeCache     = $collegeCache;
-        self::$pictureService   = $pictureService;
+        self::$pictureCache     = $pictureCache;
     }
 
     /**
@@ -356,9 +352,8 @@ class ActionService
 
         if($data) {
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
-            $picArr = self::$pictureService->getPictureIn([3, 5]);
-            $group = self::$pictureStore->getOnePicture(['id'=>(int)$data->group]);
-
+//            $group = self::$pictureCache->getOnePicture(['id'=>(int)$data->group]);
+            $group = [];
             if (empty($group)){
                 if ($group == []){
                     $group = '个人';
