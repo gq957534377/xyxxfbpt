@@ -108,6 +108,7 @@ class ActionService
     {
         $data["guid"] = Common::getUuid();
         $data["status"] = 1;
+        $data["people"] = 0;
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
         $data['deadline'] = strtotime($data['deadline']);
