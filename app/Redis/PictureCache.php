@@ -146,7 +146,7 @@ class PictureCache
         if ($this->checkHash($id)){
             $data = CustomPage::arrayToObject(Redis::hGetall(self::$hkey . $id));
         }else{
-            $data = self::$picturestore->getOnePicture(['id'=>(int)$id]);
+            $data = self::$pictureStore->getOnePicture(['id'=>(int)$id]);
             Redis::hMset(self::$hkey . $id, CustomPage::objectToArray($data));
         }
         return $data;

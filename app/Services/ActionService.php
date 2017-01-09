@@ -338,8 +338,7 @@ class ActionService
 
         if($data) {
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
-//            $group = self::$pictureCache->getOnePicture(['id'=>(int)$data->group]);
-            $group = [];
+            $group = self::$pictureCache->getOnePicture($data->group);
             if (empty($group)){
                 if ($group == []){
                     $group = '个人';
