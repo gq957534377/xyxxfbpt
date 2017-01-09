@@ -11,14 +11,12 @@ namespace App\Redis;
 use Illuminate\Contracts\Logging\Log;
 use Redis;
 use App\Tools\CustomPage;
-use DB;
 use App\Store\PictureStore;
 
 class PictureCache
 {
     protected static $lkey = LIST_PICTURE_INFO;
     protected static $hkey = HASH_PICTURE_INFO_;
-    protected static $table = 'data_picture_info';
     protected static $pictureStore;
 
     public function __construct(PictureStore $pictureStore)
@@ -56,7 +54,6 @@ class PictureCache
     public function saveRedisList($data)
     {
         $data = CustomPage::objectToArray($data);
-//        dd($data);
         foreach ($data as $datum) {
             if (!Redis::rpush(self::$lkey, $datum['id'])) {
                 Log::error('网页基本信息写入redis   List失败！！');

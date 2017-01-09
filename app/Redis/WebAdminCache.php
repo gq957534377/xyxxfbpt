@@ -17,7 +17,6 @@ class WebAdminCache
 {
     protected static $lkey = LIST_WEBADMIN_INFO;
     protected static $hkey = HASH_WEBADMIN_INFO_;
-    protected static $table = 'data_web_info';
     protected static $webAdminStore;
 
     public function __construct(WebAdminStore $webAdminStore)
