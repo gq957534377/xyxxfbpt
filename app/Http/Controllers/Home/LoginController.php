@@ -7,16 +7,20 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\UserService as UserServer;
 use App\Tools\Common;
-use App\Tools\Safety;
 use Illuminate\Support\Facades\Session;
+use App\Services\SafetyService;
+
+
 
 class LoginController extends Controller
 {
     protected static $userServer = null;
+    protected static $safetyService;
 
-    public function __construct(UserServer $userServer)
+    public function __construct(UserServer $userServer,SafetyService $safetyService)
     {
         self::$userServer = $userServer;
+        self::$safetyService = $safetyService;
     }
 
     /**
@@ -42,7 +46,8 @@ class LoginController extends Controller
     {
         if (!empty(session('user'))) return redirect('/');
         $cookie = Common::generateCookie('changePasswd');
-        return response()->view('home.changePasswd')->withCookie($cookie);
+        $checkCode = Common::generateCookie('checkCode');
+        return response()->view('home.changePasswd')->withCookie($cookie)->withCookie($checkCode);
     }
 
     /**
@@ -60,13 +65,15 @@ class LoginController extends Controller
         if ($result != 'ok') return $result;
 
         $data = $request->all();
-
         //验证数据
         $this->validate($request,[
             'tel' =>  'required',
             'password' => 'required|min:6',
         ]);
 
+        if (self::$safetyService->getCountTel($data['tal'], 3600) > 3) {
+
+        };
         // 获取登录IP
         $data['ip'] = $request->getClientIp();
         // 校验邮箱和账号,拿到状态码
@@ -108,7 +115,7 @@ class LoginController extends Controller
     public function update(Request $request, $id)
     {
         // 登陆安全验证
-        $result = Common::checkCookie('changePasswd', '登陆');
+        $result = Common::checkCookie('changePasswd', '修改密码');
         if ($result != 'ok') return $result;
         $data = $request->all();
 //        dd(session('sms'), $data);
@@ -143,8 +150,10 @@ class LoginController extends Controller
      */
     public function captcha($tmp, Request $request)
     {
-        $result = Common::checkCookie('checkCode', '登陆');
-        if ($result != 'ok') return $result;
+        $result = Common::checkCookie('checkCode', '验证码');
+        if ($result != 'ok') {
+            return Common::captchaStatus();
+        }
         return Common::captcha($tmp);
     }
 
