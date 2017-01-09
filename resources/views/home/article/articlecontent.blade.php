@@ -117,6 +117,10 @@
             </div>
             </div>
         </section>
+    @else
+        <li class="request-error-info col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h2>文章被删除，或者请求错误</h2>
+        </li>
 
     @endif
 @endsection

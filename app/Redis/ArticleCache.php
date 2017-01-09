@@ -154,7 +154,9 @@ class ArticleCache
         $data = Redis::hGetall($index);
         if (empty($data)) {
             //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
-            $data = CustomPage::objectToArray(self::$article_store->getOneDatas(['guid' => $guid]));
+            $result = self::$article_store->getOneDatas(['guid' => $guid]);
+            if ($result == '') return false;
+            $data = CustomPage::objectToArray($result);
             //将取出的mysql 文章详情写入redis
             $this->setOneArticle($data);
         }
