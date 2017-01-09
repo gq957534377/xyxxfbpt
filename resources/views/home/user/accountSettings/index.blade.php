@@ -181,17 +181,17 @@
                             </label>
                             <div class="clearfix"></div>
                         </div>
-                        <div class="form-group mar-b10">
-                            <div class="col-xs-12 pad-clr">
-                                <div class="col-xs-6 col-sm-6 pad-cl">
-                                    <input class="form-control" type="text" id="auth-code" placeholder="请输入验证码">
-                                </div>
-                                <div class="col-xs-6 col-sm-6">
-                                    <img src="{{asset('home/img/demoimg/code-auth.jpg')}}">
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
+                        {{--<div class="form-group mar-b10">--}}
+                            {{--<div class="col-xs-12 pad-clr">--}}
+                                {{--<div class="col-xs-6 col-sm-6 pad-cl">--}}
+                                    {{--<input class="form-control" type="text" id="auth-code" placeholder="请输入验证码">--}}
+                                {{--</div>--}}
+                                {{--<div class="col-xs-6 col-sm-6">--}}
+                                    {{--<img src="{{asset('home/img/demoimg/code-auth.jpg')}}">--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="clearfix"></div>--}}
+                        {{--</div>--}}
                     </div>
                     <div class="modal-footer border-no h-align-1 hidden">
                         <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_two">下一步</button>
@@ -219,6 +219,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group mar-b10">
+                            <div class="col-xs-12 pad-clr">
+                                <div class="col-xs-6 col-sm-6 pad-cl">
+                                    <input class="form-control" type="text" id="auth-code" placeholder="请输入右侧图片中的验证码">
+                                </div>
+                                <div class="col-xs-6 col-sm-6">
+                                    <img src="{{asset('home/img/demoimg/code-auth.jpg')}}">
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
                         <p class="fs-c-0 fw-1">请输入验证码</p>
                         <!--发送提示    &    验证错误提示  开始-->
                         <div id="errorBox3" class="alert alert-danger hidden">验证码验证失败！</div>
@@ -229,7 +241,7 @@
                         </p>
                         <!--发送提示    &    验证错误提示  结束-->
                         <div class="form-group mar-cb">
-                            <div class="col-sm-9">
+                            <div class="col-sm-9 pad-cl">
                                 <input type="text" class="form-control form-title" id="captcha_two" placeholder="验证码">
                             </div>
                             <label id="resend_captcha_laravel_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
@@ -243,6 +255,8 @@
                         <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
                         {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                     </div>
+
+
                     <!--第四步 修改成功-->
                     <div class="modal-body tel-step-four hidden">
                         <div class="my-progress-bar mar-b15">
@@ -433,8 +447,10 @@
                 if (b > 0 && measure() > 0) {
                     body.scrollTop(0);//滚动条返回顶部
                     $('header').css('padding-right', width + 15 + 'px');
+                    $('nav').css('padding-right', width + 15 + 'px');
                     $('#changeTelModal').modal('show').on('hidden.bs.modal', function () {
                         $('header').css('padding-right', '15px');
+                        $('nav').css('padding-right', '15px');
                         body.css('padding-right', 0);
                     });
                 } else {
@@ -611,8 +627,10 @@
                 if (b > 0 && measure() > 0) {
                     body.scrollTop(0);//滚动条返回顶部
                     $('header').css('padding-right', width + 15 + 'px');
+                    $('nav').css('padding-right', width + 15 + 'px');
                     $('#changeEmailModal').modal('show').on('hidden.bs.modal', function () {
                         $('header').css('padding-right', '15px');
+                        $('nav').css('padding-right', '15px');
                         body.css('padding-right', 0);
                     });
                 } else {
@@ -754,8 +772,10 @@
                 if (b > 0 && measure() > 0) {
                     body.scrollTop(0);//滚动条返回顶部
                     $('header').css('padding-right', width + 15 + 'px');
+                    $('nav').css('padding-right', width + 15 + 'px');
                     $('#changeKeyModal').modal('show').on('hidden.bs.modal', function () {
                         $('header').css('padding-right', '15px');
+                        $('nav').css('padding-right', '15px');
                         body.css('padding-right', 0);
                     });
                 } else {
