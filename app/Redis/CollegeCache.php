@@ -199,17 +199,6 @@ class CollegeCache
     }
 
     /**
-     * 写入一条hash 文章详情
-     * @param $data
-     * @return bool
-     */
-    public function setOneCollege($data)
-    {
-        if(empty($data)) return false;
-        return Redis::hMset(self::$hkey.$data['guid'], $data);
-    }
-
-    /**
      * 获取redis缓存里的文章列表数据
      * @param $nums int  一次获取的条数
      * @param  $pages int  当前页数
