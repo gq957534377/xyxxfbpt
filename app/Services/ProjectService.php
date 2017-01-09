@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Store\ProjectStore;
 use App\Redis\ProjectCache;
+use App\Redis\UserInfoCache;
 use App\Store\UserStore;
 use App\Tools\Common;
 use Exception;
@@ -12,6 +13,7 @@ class ProjectService {
     protected static $projectStore = null;
     protected static $userStore = null;
     protected static $projectCache = null;
+    protected static $userInfoCache = null;
 
     /**
      * 构造函数注入
@@ -21,11 +23,13 @@ class ProjectService {
     public function __construct(
         ProjectStore $projectStore,
         UserStore $userStore,
-        ProjectCache $projectCache
+        ProjectCache $projectCache,
+        UserInfoCache $userInfoCache
    ){
         self::$projectStore = $projectStore;
         self::$userStore    = $userStore;
         self::$projectCache = $projectCache;
+        self::$userInfoCache = $userInfoCache;
     }
 
     /**
@@ -58,10 +62,15 @@ class ProjectService {
      * @param int $number 默认3条
      * @return array
      * @author 刘峻廷
+     * @modify 张洵之
      */
     public function takeData($number = 3)
     {
-        $data = self::$projectStore->takeData($number);
+        try{
+            $data = self::$projectCache->takeData($number);
+        }catch (Exception $e){
+            $data = self::$projectStore->takeData($number);
+        }
 
         if (!$data) return ['StatusCode' => '204', 'ResultData' => '暂无无数据'];
 
@@ -155,7 +164,14 @@ class ProjectService {
 
         if(empty($projectInfoData)) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 
-        $userInfo = self::$userStore->getOneData(['guid' => $projectInfoData->user_guid]);
+        $cache = self::$userInfoCache->getCache($projectInfoData->user_guid);
+
+        if(empty($cache)){
+            $userInfo = self::$userStore->getOneData(['guid' => $projectInfoData->user_guid]);
+            self::$userInfoCache->createCache($userInfo);
+        }else{
+            $userInfo = $cache;
+        }
 
         if(empty($userInfo)) return ['StatusCode' => '400', 'ResultData' => '未找到发布用户数据'];
 
