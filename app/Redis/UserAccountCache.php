@@ -136,10 +136,9 @@ class UserAccountCache
     public function getOneAccount($tel)
     {
         if (empty($tel)) return false;
-
         // 获取指定账号信息
         $index = self::$hkey.$tel;
-        $data = Redis::hGetall($index);
+        $data = \Redis::hGetall($index);
 
         // 没有获取到，hash生命周期可能到了
         if (empty($data)) {
@@ -178,6 +177,29 @@ class UserAccountCache
         } else {
             \Log::info('新注册用户:'.$data['tel'].'写入redis缓存失败！');
         }
+    }
+
+    /**
+     * 清空redis队列
+     * @return mixed
+     * @author 刘峻廷
+     */
+    public function delList()
+    {
+        return Redis::del(self::$lkey);
+    }
+
+    /**
+     * 删除指定的hash
+     * @param $key
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function delHash($key)
+    {
+        if (empty($key)) return false;
+        return Redis::del(self::$hkey . $key);
+
     }
 
     /**
@@ -227,4 +249,5 @@ class UserAccountCache
     {
         return self::$hkey;
     }
+
 }

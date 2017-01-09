@@ -72,37 +72,38 @@ class UserController extends Controller
         if (empty($request->guid)) return ['StatusCode' => '400', 'ResultData' => '请求缺少必要参数'];
         $role = self::$userServer->userInfo(['guid' => $request->guid])['ResultData']->role;
 
-        if ($role != '23' || $role != '2') return ['StatusCode' => '400', 'ResultData' => '请先成为创业者'];
+        if ($role == 2 || $role == 23) {
+            $validator = Validator::make($request->all(),[
+                'company' => 'required|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
+                'abbreviation' => 'required|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
+                'address' => 'required',
+                'founder_name' => 'required|regex:/^[\x80-\xff_a-zA-Z]+$/',
+                'url' => 'required',
+                'field' => 'required|regex:/^[\x80-\xff_\-\/_a-zA-Z0-9]+$/',
+                'organize_card' => 'required',
+            ],[
+                'company.required' => '请输入公司名称',
+                'company.regex' => '公司名称只允许输入中文、字母、数字、下划线',
+                'abbreviation.required' => '请输入公司简称',
+                'abbreviation.regex' => '公司简称只允许输入中文、字母、数字、下划线',
+                'address.required' => '请选择公司所在地',
+                'founder_name.required' => '请输入公司创始人姓名',
+                'founder_name.regex' => '公司创始人姓名只允许输入中文、字母',
+                'url.required' => '请输入公司网址',
+                'field.required' => '请选择行业领域',
+                'field.regex' => '行业领域格式不对',
+                'organize_card.required' => '请上传组织机构代码证',
+            ]);
+            // 数据验证失败，响应信息
+            if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
 
-        $validator = Validator::make($request->all(),[
-            'company' => 'required|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
-            'abbreviation' => 'required|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
-            'address' => 'required',
-            'founder_name' => 'required|regex:/^[\x80-\xff_a-zA-Z]+$/',
-            'url' => 'required',
-            'field' => 'required|regex:/^[\x80-\xff_\-\/_a-zA-Z0-9]+$/',
-            'organize_card' => 'required',
-        ],[
-            'company.required' => '请输入公司名称',
-            'company.regex' => '公司名称只允许输入中文、字母、数字、下划线',
-            'abbreviation.required' => '请输入公司简称',
-            'abbreviation.regex' => '公司简称只允许输入中文、字母、数字、下划线',
-            'address.required' => '请选择公司所在地',
-            'founder_name.required' => '请输入公司创始人姓名',
-            'founder_name.regex' => '公司创始人姓名只允许输入中文、字母',
-            'url.required' => '请输入公司网址',
-            'field.required' => '请选择行业领域',
-            'field.regex' => '行业领域格式不对',
-            'organize_card.required' => '请上传组织机构代码证',
-        ]);
-        // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+            $data['addtime'] = $_SERVER['REQUEST_TIME'];
+            $result = self::$userServer->addCompany($data);
 
-        $data['addtime'] = $_SERVER['REQUEST_TIME'];
-        $result = self::$userServer->addCompany($data);
-
-        return response()->json($result);
-
+            return response()->json($result);
+        } else {
+            return ['StatusCode' => '400', 'ResultData' => '请先成为创业者'];
+        }
     }
 
     /**
