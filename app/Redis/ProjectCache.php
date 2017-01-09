@@ -237,4 +237,18 @@ class ProjectCache
             return $index;
         }
     }
+
+    public function takeData($number)
+    {
+        $length = Redis::lLen(self::$lkey);
+        if($number>=$length){
+            return $this->getPageData(1,$length,[]);
+        }
+        $numbers = range (1,$length);
+        shuffle ($numbers);
+        for ($i = 0;$i<$number;$i++){
+            $data[$i] = $this->getPageData($numbers[$i],1,[])[0];
+        }
+        return $data;
+    }
 }
