@@ -523,6 +523,20 @@ class UserController extends Controller
     }
 
     /**
+     * 获取个人项目数
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @author 刘峻廷
+     */
+    public function countProjects(Request $request)
+    {
+        if (!isset($request->guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少请求参数']);
+        // 获取项目数
+        $result = self::$projectServer->getCount(['guid' => $request->guid]);
+        return response()->json($result);
+    }
+
+    /**
      * 获取用户真实姓名
      * @param $guid
      * @return \Illuminate\Http\JsonResponse

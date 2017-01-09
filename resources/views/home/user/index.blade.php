@@ -138,13 +138,13 @@
                 </div>
             @elseif(!empty($roleInfo[2]->company))
                 <h4 class="col-xs-10 pad-clr my-home-title">我管理的公司
-                    @if($roleInfo[2]->company->status == 5 )
-                        <span class="label label-warning"> 待审核 </span>
-                    @elseif($roleInfo[2]->company->status == 6 )
-                        <span class="label label-success"> 审核通过 </span>
-                    @else
-                        <span class="label label-danger"> 审核失败 </span>
-                    @endif
+                    {{--@if($roleInfo[2]->company->status == 5 )--}}
+                        {{--<span class="label label-warning"> 待审核 </span>--}}
+                    {{--@elseif($roleInfo[2]->company->status == 6 )--}}
+                        {{--<span class="label label-success"> 审核通过 </span>--}}
+                    {{--@else--}}
+                        {{--<span class="label label-danger"> 审核失败 </span>--}}
+                    {{--@endif--}}
                 </h4>
                 <div class="col-xs-12 pad-clr my-home-content">
                     <p class="col-lg-6 pad-clr">公司名称：<span>{{ $roleInfo[2]->company->company or '--'}}</span></p>
