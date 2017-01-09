@@ -249,7 +249,7 @@ class ActionService
                 //从数据库取出所有数据
                 $redis_list = CustomPage::objectToArray(self::$collegeStore->getData($where));
                 //写入redis
-                self::$collegeCache->setCollegeList($where, $redis_list);
+                self::$collegeCache->insertCache($where, $redis_list);
             }else{
                 $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
                 //存入redis缓存
@@ -329,17 +329,9 @@ class ActionService
         }
         //查询一条数据活动信息
         if ($list == 3){
-            if (!self::$collegeCache->exists($guid, false)){
-                Log::info('学院详情到数据库');
-                $data = self::$collegeStore->getOneData(["guid" => $guid]);
-                $redis_data = CustomPage::objectToArray($data);
-                self::$collegeCache->setOneCollege($redis_data);
-            }else{
-                Log::info('学院详情到redis');
-                $data = CustomPage::arrayToObject(self::$collegeCache->getOneCollege($guid));
-            }
+            $data = CustomPage::arrayToObject(self::$collegeCache->getOneCollege($guid));
         }else{
-                $data = CustomPage::arrayToObject(self::$actionCache->getOneAction($guid));
+            $data = CustomPage::arrayToObject(self::$actionCache->getOneAction($guid));
         }
 
         if($data) {
@@ -417,7 +409,7 @@ class ActionService
 
         if($Data){
             if ($list == 3){
-                self::$collegeCache->changeOneCollege($where['guid'], $data);
+                self::$collegeCache->changeOneHash($where['guid'], $data);
             }else{
                 self::$actionCache->changeOneHash($where['guid'], $data);
             }
@@ -575,17 +567,15 @@ class ActionService
         }
         if (!$exist){
             if ($list){
-                $start = self::$actionStore->getCount([]);
-                if ($start == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
                 // 获取数据
                 $all = self::$actionStore->getData([]);
+                if ($all == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
                 self::$actionCache->insertCache(['status'=>$status], CustomPage::objectToArray($all));
             }else{
-                $start = self::$collegeStore->getCount([]);
-                if ($start == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
                 // 获取数据
                 $all = self::$collegeStore->getData([]);
-                self::$collegeCache->setCollegeList(['status'=>$status], CustomPage::objectToArray($all));
+                if ($all == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
+                self::$collegeCache->insertCache(['status'=>$status], CustomPage::objectToArray($all));
             }
             $result = array_slice($all,-3,-1);
         }else{

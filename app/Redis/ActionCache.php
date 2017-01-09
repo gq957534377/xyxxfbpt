@@ -47,7 +47,6 @@ class ActionCache
     public function delList($type, $status, $guid)
     {
         if ($this->exists($type.':'.$status)){
-            Log::info(self::$lkey.$type.':'.$status);
             Redis::lrem(self::$lkey.$type.':'.$status, 0, $guid);
         }
         if ($this->exists('-'.':'.$status)){
@@ -139,7 +138,7 @@ class ActionCache
         if ($list){
             $this->addHash($data);
         }else{
-            Log::info('后台发布活动存入redis列表失败'.$data['guid']);
+            Log::warning('后台发布活动存入redis列表失败'.$data['guid']);
         }
     }
 
