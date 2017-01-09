@@ -16,6 +16,8 @@ use App\Tools\Common;
 use App\Services\UserService as UserServer;
 use App\Tools\CustomPage;
 use App\Redis\ArticleCache;
+use Illuminate\Contracts\Logging\Log;
+
 class ArticleService
 {
     /**
@@ -208,9 +210,8 @@ class ArticleService
      */
     public function changeStatus($guidAll, $status, $user = 1)
     {
-
         if ($user == 1) {
-            $Data = self::$articleStore->upload(["guid" => $guidAll['id']], ["status" => $status]);
+            $Data = self::$articleStore->upload(["guid" => $guidAll['id']] , ["status" => $status]);
         } else {
             $result = self::$articleStore->getDataUserId($guidAll['id']);
 
@@ -222,14 +223,32 @@ class ArticleService
 
             }
         }
-
         //判断修改结果并返回
         if(!empty($Data)) {
+            // 判断传过来的是不是数组
+            if ($user != 2) {
+                $this->updateRedisDel($guidAll['id'], $status);
+            }
+
             return ['StatusCode'=> '200', 'ResultData' => "修改状态成功"];
         }
         return ['StatusCode'=> '500', 'ResultData' => "服务器忙，修改失败"];
     }
 
+    public function updateRedisDel($id, $status)
+    {
+        // 更新redis
+        $dataInfo = self::$articleStore->getOneData(['guid' => $id]);
+        if ($status == 5 || $status == 3) {
+            $res = self::$articleCache->delListKey($dataInfo->type, $dataInfo->guid);
+        } elseif ($status == 1) {
+            $res = self::$articleCache->insertLeftCache([$dataInfo]);
+        }
+        // 判断redis有没有更新成功
+        if (!$res) {
+            Log::error('文章内容redis更新失败');
+        };
+    }
 
     /**
      * 修改文章内容
@@ -243,11 +262,40 @@ class ArticleService
         $data["addtime"] = time();
         $Data = self::$articleStore->upload($where, $data);
         if($Data){
+
+            // 更新redis
+            $dataInfo = self::$articleStore->getOneData(['guid' => $where['guid']]);
+            if ($data['status'] == 5 || $data['status'] == 3) {
+                $res = self::$articleCache->delListKey($dataInfo->type, $dataInfo->guid);
+            }
+            // 删除哈希值
+            self::$articleCache->delHashKey($where['guid']);
             return ['StatusCode'=> '200','ResultData' => "修改成功"];
         }else{
             if ($Data == 0) return ['StatusCode'=> '204','ResultData' => '未作任何更改'];
             return ['StatusCode'=> '400','ResultData' => "服务器忙,修改失败"];
         }
+    }
+
+    /**
+     * 更新redis
+     * @param $guid
+     * @param $status
+     * @return bool|int
+     * @author 王通
+     */
+    protected function updateRedis($guid, $status)
+    {
+        $dataInfo = self::$articleStore->getOneData(['guid' => $guid]);
+        if ($status == 5 || $status == 3) {
+            $res = self::$articleCache->delListKey($dataInfo->type, $dataInfo->guid);
+        } elseif ($status == 1) {
+            $res = self::$articleCache->insertCache([$dataInfo]);
+        }
+        // 判断redis有没有更新成功
+        if (!$res) {
+            Log::error('文章内容redis更新失败');
+        };
     }
 
     /**
@@ -393,6 +441,7 @@ class ArticleService
         //判断插入是否成功，如果成功则写入redis并返回结果
 
         if(isset($result)) {
+            session(['code' => '']);
             return ['StatusCode' => '200', 'ResultData' => '保存成功'];
         }
         return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
