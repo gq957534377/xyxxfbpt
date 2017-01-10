@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\UserService as UserServer;
 use App\Tools\Common;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use App\Services\SafetyService;
 
@@ -34,6 +35,7 @@ class LoginController extends Controller
         if (!empty(session('user'))) return redirect('/');
         $cookie = Common::generateCookie('login');
         // 获取登录错误次数 判断是否要显示验证码
+        
         $errNum = self::$safetyService->getString(Input::getClientIp());
         if (empty($errNum) || $errNum < LOGIN_ERROR_NUM) {
             $k = false;
