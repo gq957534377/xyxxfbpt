@@ -523,16 +523,19 @@ class ArticleService
         // 判断article缓存是否存在
         if(!self::$articleCache->existsArticleList()){
             // 获取数据库里的所有文章列表,并且转对象为数组
-            $article_list = CustomPage::objectToArray(self::$articleStore->getData(['type' => 1, 'status' => 1]));
-            $result = $this->selectData(['type' => 1], 1, 8, 'aaa', false);
+            $article_list = CustomPage::objectToArray(self::$articleStore->getData(['type' => $type, 'status' => $status]));
+            $result = $this->selectData(['type' => $type], 1, $take, 'aaa', false);
             // 存入redis缓存
             if(count($article_list)){
-                self::$articleCache->setArticleList($article_list, 1);
+                self::$articleCache->setArticleList($article_list, $type);
             }
+            $result = $result['ResultData']['data'];
+
         } else {
             // 直接读取缓存数据,并把数组转换为对象
-            $result = $this->selectArticleRedis(8, 1, 1);
+            $result = $this->selectArticleRedis($take, 1, $type);
             $result = $result['ResultData']['data'];
+
         }
 
 
