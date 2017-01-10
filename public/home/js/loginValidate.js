@@ -42,6 +42,7 @@
                 var data = new FormData();
                 data.append( "tel"      , $("input[name= 'tel']").val());
                 data.append( "password"       , $("input[name= 'password']").val());
+                data.append( "code"       , $("input[name= 'code']").val());
                 //开始正常的ajax
                 // 异步登录
                 $.ajax({
@@ -50,12 +51,18 @@
                     data: {
                         'tel': $("input[name= 'tel']").val(),
                         'password': $("input[name= 'password']").val(),
+                        "code": $("input[name= 'code']").val()
                     },
                     success:function(data){
                         switch (data.StatusCode){
                             case '400':
                                 // promptBoxHandle('警告',data.ResultData);
                                 $('#error-info').html('警告,'+data.ResultData).fadeIn(1000);
+                                break;
+                            case '411':
+                                // promptBoxHandle('警告',data.ResultData);
+                                $('#error-info').html(data.ResultData).fadeIn(1000);
+                                $('#login-code').show();
                                 break;
                             case '200':
                                 if ($('.input_checkbox').children('i').is('.fa-check')) {
@@ -82,6 +89,10 @@
                 password: {
                     required: true,
                     minlength:6
+                },
+                code: {
+                    minlength: 4,
+                    maxlength: 4
                 }
             },
             // 提示信息
@@ -93,6 +104,10 @@
                 password: {
                     required: "请输入密码",
                     minlength: "密码长度不对"
+                },
+                code: {
+                    minlength: '验证码最小长度为四',
+                    maxlength: '验证码最大程度为四'
                 }
             },
             errorPlacement: function(error, element) {
@@ -148,3 +163,14 @@ $('.input_checkbox').on('click', function () {
     obj.toggleClass('fa-check');
 
 });
+
+// 验证码点击更换
+var captcha = document.getElementById('captcha');
+captcha.onclick = function(){
+    updateCaptcha($(this));
+};
+function updateCaptcha(me) {
+    var url = '/code/captcha/';
+    url = url + me.data('sesid') + Math.ceil(Math.random()*100);
+    me.attr('src', url);
+}

@@ -86,11 +86,11 @@ class SafetyService
      * @return bool
      * @author 王通
      */
-    public function getCountTel($key)
+    public function getCountIp($key)
     {
         if (empty($key)) return false;
         if (!BaseRedis::existsRedis($key)) {
-            BaseRedis::expireRedis($key, 3600);
+            BaseRedis::expireRedis($key, LOGIN_ERROR_NUM_TIME);
         }
         $k = BaseRedis::incrRedis($key);
         return $k;
