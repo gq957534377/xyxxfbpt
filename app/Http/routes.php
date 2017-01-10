@@ -133,6 +133,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
         Route::post('/user/commentandlike','UserController@getLike')->name('getLike');
         //我的项目
         Route::get('/user/myProject','UserController@myProject');
+        Route::get('/user/countprojects','UserController@countProjects');
         Route::get('/user/realname/{guid}','UserController@getRealName');
         Route::resource('/user','UserController');
         // 前台登出

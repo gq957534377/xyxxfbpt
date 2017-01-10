@@ -32,7 +32,7 @@ class ProjectCache
     public function exists($type = 'list', $index = '')
     {
         if($type == 'list'){
-            return Redis::exists(self::$lkey);  //查询listkey是否存在
+            return Redis::exists(self::$lkey.$index);  //查询listkey是否存在
         }else{
             return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
         }
@@ -51,10 +51,12 @@ class ProjectCache
         $temp = CustomPage::objectToArray($data);
         //建立redis索引
         if (!Redis::rpush(self::$lkey . $temp['financing_stage'], $temp['guid'])) {
-            Log::error('项目分类信息写入redis   List失败！！');
+           Log::error('项目分类信息写入redis   List失败！！');
+            return false;
         };
 
         if (!Redis::rpush(self::$lkey , $temp['guid'])) {
+            return false;
             Log::error('项目默认信息写入redis   List失败！！');
         };
 
@@ -72,7 +74,7 @@ class ProjectCache
     {
         if(empty($data)) return false;
 
-            if(!$this->exists($type = '', $data['guid'])){
+            if(!$this->exists($type = 'hash', $data['guid'])){
 
                 $index = self::$hkey . $data['guid'];
                 //写入hash
@@ -127,19 +129,36 @@ class ProjectCache
 
         $start = ($nowPage - 1)*$pageNum;
         $stop = $nowPage*$pageNum-1;
+
         if (empty($where['financing_stage'])){
-            $indexData = Redis::lRange(self::$lkey, $start, $stop);
+
+            if(!$this -> exists()){
+                $indexData = $this->teshuCache($where, $start, $stop);
+            }else{
+                $indexData = Redis::lRange(self::$lkey, $start, $stop);
+            }
+
         }else{
-            $indexData = Redis::lRange(self::$lkey.$where['financing_stage'], $start, $stop);
+
+            if(!$this -> exists('list', $where['financing_stage'])){
+                $indexData = $this->teshuCache($where, $start, $stop);
+            }else{
+                $indexData = Redis::lRange(self::$lkey.$where['financing_stage'], $start, $stop);
+            }
+
+        }
+        if(!empty($indexData)){
+            $data = CustomPage::arrayToObject($this->getHashData($indexData));
+            return (array)$data;
+        }else{
+            return null;
         }
 
-        $data = CustomPage::arrayToObject($this->getHashData($indexData));
-        return (array)$data;
     }
 
     /**
      * 返回hash缓存数据
-     * @param $array
+     * @param array $array
      * @return array
      * author 张洵之
      */
@@ -154,13 +173,26 @@ class ProjectCache
             }else{
                 $temp = CustomPage::objectToArray(self::$project_store->getOneData(['guid' => $value]));
                 $this->createCache($temp);
-                $data[] = Redis::hGetall(self::$hkey .$value);
+                $cache = Redis::hGetall(self::$hkey .$value);
+
+                if($cache) {
+                    $data[] = $cache;
+                }else{
+                    $data[] = $temp;
+                }
+
             }
 
         }
         return $data;
     }
 
+    /**
+     * 返回一条缓存数据
+     * @param string $guid
+     * @return object|void
+     * author 张洵之
+     */
     public function getOneData($guid)
     {
         if($this->exists('hash', $guid)) {
@@ -172,5 +204,37 @@ class ProjectCache
         }
 
         return CustomPage::arrayToObject($data);
+    }
+
+    /**
+     * 当缓存与数据库存在不同步时执行的特殊方法
+     * @param array $where
+     * @param int $start
+     * @param int $stop
+     * @return array
+     * author 张洵之
+     */
+    public function teshuCache($where, $start, $stop)
+    {
+        $data = self::$project_store->getData($where);
+
+        if(empty($data)) return [];
+
+        if(empty($where['financing_stage'])){
+            $where['financing_stage'] = '';
+        }
+
+        $guid = [];
+        foreach ($data as $value) {
+            $guid[] = $value->guid;
+            Redis::rpush(self::$lkey.$where['financing_stage'], $value->guid);
+        }
+        $index = Redis::lRange(self::$lkey.$where['financing_stage'], $start, $stop);
+
+        if(empty($index)) {
+            return $guid;
+        }else{
+            return $index;
+        }
     }
 }

@@ -6,6 +6,7 @@ use App\Store\ProjectStore;
 use App\Redis\ProjectCache;
 use App\Store\UserStore;
 use App\Tools\Common;
+use Exception;
 
 class ProjectService {
     protected static $projectStore = null;
