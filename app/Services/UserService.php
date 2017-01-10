@@ -321,12 +321,12 @@ class UserService {
         $sms = Session::get('sms');
         $number = mt_rand(100000, 999999);
         $content = ['phone' => $phone,'number' => $number];
-        // $resIp = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
+        //$resIp = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
         $resPhoto = SafetyService::checkPhoneSMSCode($phone, $number);
-
         if ($resPhoto) {
             return ['StatusCode' => '400','ResultData' => '获取验证码过于频繁，请稍后再试!!'];
         }
+
         //校验
         if($sms['phone']==$phone){
             // 两分之内，不在发短信
