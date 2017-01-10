@@ -81,7 +81,7 @@ class SafetyService
 
     }
     /**
-     * 设置同一个手机号访问多少次显示验证码
+     * 设置同一个IP访问多少次显示验证码
      * @param $key
      * @return bool
      * @author 王通
