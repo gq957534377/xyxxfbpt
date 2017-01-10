@@ -1,6 +1,6 @@
 <?php
 
-define('PAGENUM', 5);
+define('PAGENUM', 5);//评论页数据
 
 define('SET_FEEDBACK_IP', 'SET:FEEDBACK:IPLIST:');
 define('STRING_FEEDBACK_COUNT', 'STRING:FEEDBACK:COUNT');

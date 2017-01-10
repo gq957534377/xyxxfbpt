@@ -1105,4 +1105,10 @@ body .list-inline > li {
 #error-info {
     display: none;
 }
+.request-error-info {
+    text-align:center;
+}
+.request-error-info h2{
+    color: #999999;
+}
 

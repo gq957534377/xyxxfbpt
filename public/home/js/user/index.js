@@ -149,7 +149,9 @@ $(document).ready(function () {
         ajax.ajax({
             type: 'GET',
             url: '/user/countprojects',
+
             data: {'guid' : guid},
+
             beforeSend: ajaxBeforeSend($('.loading')),
             success: function (msg) {
                 switch (msg.StatusCode) {

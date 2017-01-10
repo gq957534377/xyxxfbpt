@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Home;
 
-use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\UserService as UserServer;
 use App\Tools\Common;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use App\Services\SafetyService;
-use Illuminate\Support\Facades\Cookie;
+
+
 
 class LoginController extends Controller
 {
@@ -72,6 +70,7 @@ class LoginController extends Controller
         // 登陆安全验证
         $result = Common::checkCookie('login', '登陆');
         if ($result != 'ok') return $result;
+
         $data = $request->all();
         // 获取登录IP
         $data['ip'] = $request->getClientIp();

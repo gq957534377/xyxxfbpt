@@ -7,6 +7,7 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\ArticleStore;
+use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\Facades\Redis;
 
 class ArticleCache
@@ -37,25 +38,35 @@ class ArticleCache
         }
 
     }
+    /**
+     * 判断listkey是否存在 指定类型的redis
+     * @param $type string list为查询listkey,否则查询hashkey
+     * @param $index string   唯一识别码 guid
+     * @return bool
+     */
+    public function existsArticleList($type = '1')
+    {
+        return Redis::exists(self::$lkey . $type);  //查询listkey是否存在
+
+    }
 
     /**
      * 将mysql获取的列表信息写入redis缓存
      * @param $data  array   mysql 获取的信息
      */
-    public function setArticleList($data)
+    public function setArticleList($data, $type)
     {
         //获取原始信息长度
         $count = count($data);
 
         //执行写操作
         $this->insertCache($data);
-
         //获取存入的list缓存长度
-        $length = $this->getLength();
-
-        if($length < $count){
-
+        $length = $this->getLength($type);
+        if($length != $count){
+            \Log::error('文章模块存储redis异常！！！');
         }
+        return true;
 
     }
 
@@ -64,17 +75,20 @@ class ArticleCache
      * @param $data
      * @return bool
      */
-    protected function insertCache($data)
+    public function insertCache($data)
     {
         if (empty($data)) return false;
+        $data = CustomPage::objectToArray($data);
         foreach ($data as $v){
             //执行写list操作
-            Redis::rpush(self::$lkey, $v['guid']);
+            if (!Redis::rpush(self::$lkey . $v['type'], $v['guid'])) {
+                Log::error('文章信息写入redis   List失败！！');
+            };
 
             //如果hash存在则不执行写操作
             if(!$this->exists($type = '', $v['guid'])){
 
-                $index = self::$hkey.$v['guid'];
+                $index = self::$hkey . $v['guid'];
                 //写入hash
                 Redis::hMset($index, $v);
                 //设置生命周期
@@ -82,6 +96,37 @@ class ArticleCache
             }
 
         }
+        return true;
+    }
+
+    /**
+     * 从左边写入redis
+     * @param $data
+     * @return bool
+     * @author 王通
+     */
+    public function insertLeftCache($data)
+    {
+        if (empty($data)) return false;
+        $data = CustomPage::objectToArray($data);
+        foreach ($data as $v){
+            //执行写list操作
+            if (!Redis::lPush(self::$lkey . $v['type'], $v['guid'])) {
+                Log::error('文章信息写入redis   List失败！！');
+            };
+
+            //如果hash存在则不执行写操作
+            if(!$this->exists($type = '', $v['guid'])){
+
+                $index = self::$hkey . $v['guid'];
+                //写入hash
+                Redis::hMset($index, $v);
+                //设置生命周期
+                $this->setTime($index);
+            }
+
+        }
+        return true;
     }
 
     /**
@@ -104,12 +149,20 @@ class ArticleCache
     {
         if(!$guid) return false;
 
-        $index = self::$hkey.$guid;
+        $index = self::$hkey . $guid;
         //获取一条详情
         $data = Redis::hGetall($index);
+        if (empty($data)) {
+            //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
+            $result = self::$article_store->getOneDatas(['guid' => $guid]);
+            if ($result == '') return false;
+            $data = CustomPage::objectToArray($result);
+            //将取出的mysql 文章详情写入redis
+            $this->setOneArticle($data);
+        }
         //重设生命周期 1800秒
         $this->setTime($index);
-        return $data;
+        return CustomPage::arrayToObject($data);
     }
 
     /**
@@ -118,32 +171,36 @@ class ArticleCache
      * @param  $pages int  当前页数
      * @return array
      */
-    public function getArticleList($nums,$pages)
+    public function getArticleList($nums, $pages, $type)
     {
         //起始偏移量
-        $offset = $nums * ($pages-1);
+        $offset = $nums * ($pages - 1);
 
         //获取条数
         $totals = $offset + $nums - 1;
 
         //获取缓存的列表索引
-        $list = Redis::lrange(self::$lkey, $offset,$totals);
+        $list = Redis::lrange(self::$lkey . $type, $offset, $totals);
 
         $data = [];
 
         //根据获取的list元素 取hash里的集合
         foreach ($list as $v) {
             //获取一条hash
-            if($this->exists('',$v)){
-                $content = Redis::hGetall(self::$hkey.$v);
+            if($this->exists('', $v)){
+                $content = Redis::hGetall(self::$hkey . $v);
+
                 //给对应的Hash文章增加生命周期
                 $this->setTime(self::$hkey.$v);
+                $content = CustomPage::arrayToObject($content);
                 $data[] = $content;
             }else{
                 //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
-                $res = CustomPage::objectToArray(self::$article_store->getOneDatas(['guid'=>$v]));
+                $res = CustomPage::objectToArray(self::$article_store->getOneDatas(['guid' => $v]));
                 //将取出的mysql 文章详情写入redis
                 $this->setOneArticle($res);
+                $res = CustomPage::arrayToObject($res);
+
                 $data[] = $res;
             }
 
@@ -152,18 +209,57 @@ class ArticleCache
         return $data;
     }
 
+
     /**
      * 获取 现有list 的长度
      * @return bool
      */
-    protected function getLength()
+    public function getLength($type)
     {
-        if($this->exists('list')){
-            return Redis::llen(self::$lkey);
+        if($this->existsArticleList($type)){
+            return Redis::llen(self::$lkey . $type);
         }
         return false;
     }
 
+    /**
+     * 删除指定list的值
+     * @param $type
+     * @param $guid
+     * @return bool|int
+     * @author 王通
+     */
+    public function delListKey($type, $guid)
+    {
+        if (empty($guid)) return false;
+        //dd($type, $guid, self::$lkey);
+        return Redis::lRem(self::$lkey . $type, 1, $guid);
+    }
+
+    /**
+     * 删除哈希
+     * @param $guid
+     * @return mixed
+     * @author 王通
+     */
+    public function delHashKey($guid)
+    {
+        if (empty($guid)) return false;
+        return Redis::del(self::$lkey . $guid);
+    }
+    /**
+     * 在list左边插入数据
+     * @param $data
+     * @return bool
+     * @author 王通
+     */
+    public function setLeftList($data)
+    {
+        if (Redis::lPush(self::$lkey . $data['type'], $v['guid'])) {
+            Log::error('文章信息写入redis   List失败！！');
+        };
+        return false;
+    }
     /**
      * 设置hash缓存的生命周期
      * @param $key  string  需要设置的key

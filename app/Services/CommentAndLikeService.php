@@ -15,6 +15,7 @@ use App\Store\ProjectStore;
 use App\Store\SendStore;
 use App\Tools\Common;
 use App\Store\UserStore;
+use App\Redis\CommentCache;
 
 class CommentAndLikeService
 {
@@ -24,6 +25,7 @@ class CommentAndLikeService
     protected static $userStore;
     protected static $projectStore;
     protected static $sendStore;
+    protected static $commentCache;
 
     public function __construct(
         ActionStore $actionStore,
@@ -31,7 +33,8 @@ class CommentAndLikeService
         LikeStore $likeStore,
         UserStore $userStore,
         ProjectStore $projectStore,
-        SendStore $sendStore
+        SendStore $sendStore,
+        CommentCache $commentCache
     ){
         self::$actionStore = $actionStore;
         self::$commentStore = $commentStore;
@@ -39,6 +42,7 @@ class CommentAndLikeService
         self::$userStore = $userStore;
         self::$projectStore = $projectStore;
         self::$sendStore = $sendStore;
+        self::$commentCache = $commentCache;
     }
 
     /**
@@ -247,7 +251,8 @@ class CommentAndLikeService
 
         $result = self::$commentStore->addData($data);
 
-        if($result) {
+        if(!empty($result)) {
+            self::$commentCache->insertIndex($result, $data['action_id']);
             $userData = $this->getUserCommentData($data['changetime'], $data['content']);
             return ['StatusCode' => '200', 'ResultData' => $userData];
         }
@@ -302,12 +307,23 @@ class CommentAndLikeService
      */
     public function getComent($contentId, $page)
     {
-        $commentData = $this->getForPageUserComment(['action_id' => $contentId], $page);
+        $cache = self::$commentCache->getPageData($page, $contentId);
+        if(empty($cache)){
+            $commentData = $this->getForPageUserComment(['action_id' => $contentId], $page);
 
-        if($commentData['StatusCode'] == '400') return $commentData;
+            if($commentData['StatusCode'] == '400') return $commentData;
 
-        $commentData = $this->addUserInfo($this->openData($commentData));
-        return $commentData;
+            $data = $this->addUserInfo($this->openData($commentData));
+
+            if ($data){
+                self::$commentCache->createCache($data['ResultData']);
+            }
+
+        }else{
+            $data = ['StatusCode' => '200', 'ResultData' => $cache];
+        }
+
+        return $data;
     }
 
     /**
@@ -326,6 +342,7 @@ class CommentAndLikeService
             $data->userImg = $userInfoData->headpic;//添加用户头像
             $data->nikename = $userInfoData->nickname;//添加用户昵称
         }
+
         return ['StatusCode' => '200', 'ResultData' => $commentData];
     }
 

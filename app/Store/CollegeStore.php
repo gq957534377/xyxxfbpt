@@ -24,7 +24,7 @@ class CollegeStore
     public function insertData($data)
     {
         if(!is_array($data)) return false;
-        return $result = DB::table(self::$table)->insertGetId($data);
+        return $result = DB::table(self::$table)->insert($data);
     }
 
     /**
@@ -72,7 +72,14 @@ class CollegeStore
      */
     public static function getData($where)
     {
-        return DB::table(self::$table)->where($where)->get();
+        if (!empty($where['status']) && $where['status'] == 4){
+            return DB::table(self::$table)->where($where)->get();
+        }else{
+            return DB::table(self::$table)
+                ->where($where)
+                ->where('status', '<>', 4)
+                ->get();
+        }
     }
 
     /**

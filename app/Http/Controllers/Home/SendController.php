@@ -109,7 +109,6 @@ class SendController extends Controller
      */
     public function store(Request $request)
     {
-
         $data = $request->all();
 
         // 判断验证法是否在正确
@@ -202,7 +201,7 @@ class SendController extends Controller
     {
         $data = $request->all();
         $data['user'] = 2;
-        $result = self::$articleServer->upDta([' ' => $id], $data);
+        $result = self::$articleServer->upDta(['guid' => $id], $data);
         if($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
         return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }
