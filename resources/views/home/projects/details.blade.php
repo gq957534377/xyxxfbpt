@@ -244,7 +244,7 @@
                         </div>
                     <!---循环遍历结束-->
                     </ul>
-                    <div id="js_pages">{!! $ResultData->pageStyle !!}</div>
+                    <div id="js_pages">{!! $pageStyle !!}</div>
                 </div>
                 <!--成员信息结束-->
             </ul>
