@@ -72,7 +72,7 @@ class LoginController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if (self::$safetyService->getCountTel($data['tal'], 3600) > 3) {
+        if (self::$safetyService->getCountTel($data['tel'], 3600) > 3) {
 
         };
         // 获取登录IP
