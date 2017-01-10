@@ -66,13 +66,20 @@ class ProjectService {
      */
     public function takeData($number = 3)
     {
-        try{
+        $cache = self::$projectCache->takeData($number);
+
+        if($cache){
+            $data = $cache;
+        }else{
+            $temp = self::$projectStore->getAllData();
+            foreach ($temp as $value) {
+                self::$projectCache->insertCache($value);
+            }
             $data = self::$projectCache->takeData($number);
-        }catch (Exception $e){
-            $data = self::$projectStore->takeData($number);
         }
 
         if (!$data) return ['StatusCode' => '204', 'ResultData' => '暂无无数据'];
+
 
         return ['StatusCode' => '200', 'ResultData' => $data];
     }
