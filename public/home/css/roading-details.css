@@ -79,16 +79,15 @@
     top: 1px;
     left: -0.5%;
 }
-
 /*****评论区样式********/
 .pl-block >div{
     text-align: right;
 }
 .pl-block >h2{
+    color: #000000;
     margin: 0;
     font-size: 17px;
     padding: 0;
-    color: #333333;
 }
 .pl-block >a{
     padding: 0;
@@ -102,10 +101,7 @@
     resize: none;
     border: 1px solid #dfdfdf;
     border-radius: 6px;
-    color: #333;
-}
-#commentlist {
-    display: inline-block;
+    color: #000000;
 }
 .user-img{
     padding: 20px 0;
@@ -125,17 +121,19 @@
     top: 0;
 }
 .pl-block{
-    /*width: 73.3%;*/
     padding: 15px 10px;
     background: #F0F1F6;
-    margin: 0;
+    margin: 20px 0;
     border-radius: 5px;
-}
-.pl-block form {
-    color: #333;
 }
 .inputs{
     text-align: center;
+}
+.inputs .btn-warning{
+    background: #ff9035;
+}
+.inputs .btn-warning:hover{
+    background: #ff9035
 }
 .subbtn{
     display: inline-block;
@@ -147,7 +145,7 @@
     margin-top: 20px;
     border-radius: 3px;
 }
-.pl-block>ul>li{
+.pl-block>ul li{
     margin: 0;
     border-bottom:1px dashed #ededed;
 }
@@ -158,7 +156,7 @@
     padding-left: 10px;
 }
 .user-say1 span:nth-child(1){
-    color: #ff9035;
+    color: #FF9036;
 }
 .user-say1 span:nth-child(2){
     color: #d5d5d5;
@@ -169,27 +167,19 @@
 }
 .user-say2 p{
     color: #8a8a8a;
+    word-break: break-all;
 }
-@media (max-width: 991px) {
+@media screen and (max-width: 991px) {
     .user-say{
         padding-left: 3%;
-        padding-right: 0;
+        padding-right: 0px;
     }
     .user-img{
         margin-left: 5%;
     }
-    .road-banner > h1 {
-        font-size: 24px;
-        margin-bottom: 5px;
-    }
-    .road-banner {
-        padding: 1em 1em 1em 1em;
-    }
-    .road-banner > p {
-        margin-bottom: 5px;
-    }
 }
 /*********评论区样式结束************/
+
 
 /********右侧样式开始*****/
 @media screen and (max-width:991px){

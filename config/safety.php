@@ -29,5 +29,5 @@ return [
     'SMS_LIMIT_NUM_PHONE' => 5,
 
     // 评论时间间隔
-    'COMMENT_TIME' => 60,
+    'COMMENT_TIME' => 1,
 ];

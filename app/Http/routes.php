@@ -93,6 +93,7 @@ Route::group(['domain'=>'www.hero.app' ,'namespace' => 'Home'],function() {
     Route::resource('/action', 'ActionController');
     //七牛TokenToken
     Route::get('/getQiniuToken','ProjectController@getToken');
+    Route::get('/commentForPage','ProjectController@commentForPage');
     // 点赞
 //    Route::resource('/article/like', 'ArticleController@like');
     //文章内容页 创业政策 市场咨询

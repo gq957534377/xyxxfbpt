@@ -220,6 +220,7 @@
                                 <button type="submit" class="subbtn btn btn-warning" >提交</button>
                             </form>
                         </li>
+                        <div id="js_comment">
                         @if($commentData['StatusCode'] == 200)
                             @foreach($commentData['ResultData'] as $datas)
                                 <li class="row">
@@ -239,10 +240,11 @@
                                     </div>
                                 </li>
                             @endforeach
-                    @endif
+                        @endif
+                        </div>
                     <!---循环遍历结束-->
-
                     </ul>
+                    <div id="js_pages">{!! $ResultData->pageStyle !!}</div>
                 </div>
                 <!--成员信息结束-->
             </ul>
@@ -267,7 +269,6 @@
 
                     </div>
                 </li>
-                <!--用户评论开始-->
             </ul>
         </div>
     </section>
@@ -276,35 +277,36 @@
     <script src="{{asset('home/js/sweet-alert.min.js')}}"></script>
     <script src="{{asset('home/js/sweet-alert.init.js')}}"></script>
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
-    <script>
-        $('#like').click(function () {
-            var temp = $(this).is('.bang')?-1:1;
-            var str = $(this).is('.bang')?"点赞":"已赞";
-            var num = parseInt($('#likeNum').html());
-            var nowLikeNum = temp+num;
-            var contentId = $(this).data('id');
-            $.ajax({
-                type:'get',
-                url:'/action/'+contentId+'/edit',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data:{type:2},
-                success:function (data) {
-                    switch (data.StatusCode){
-                        case '200':$('#like').toggleClass('bang').html(str+"（<span id='likeNum'>"+nowLikeNum+"</span>）");break;
-                        case '400':alert(data.ResultData);break;
-                        case '401':alert(data.ResultData);window.location.href = "{{route('login.index')}}";break;
-                    }
-                },
-                error: function(XMLHttpRequest){
-                    var number = XMLHttpRequest.status;
-                    var msg = "Error: "+number+",数据异常！";
-                    alert(msg);
-                }
-            })
-        })
-    </script>
+    {{--<script>--}}
+        {{--$('#like').click(function () {--}}
+            {{--var temp = $(this).is('.bang')?-1:1;--}}
+            {{--var str = $(this).is('.bang')?"点赞":"已赞";--}}
+            {{--var num = parseInt($('#likeNum').html());--}}
+            {{--var nowLikeNum = temp+num;--}}
+            {{--var contentId = $(this).data('id');--}}
+            {{--$.ajax({--}}
+                {{--type:'get',--}}
+                {{--url:'/action/'+contentId+'/edit',--}}
+                {{--headers: {--}}
+                    {{--'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+                {{--},--}}
+                {{--data:{type:2},--}}
+                {{--success:function (data) {--}}
+                    {{--switch (data.StatusCode){--}}
+                        {{--case '200':$('#like').toggleClass('bang').html(str+"（<span id='likeNum'>"+nowLikeNum+"</span>）");break;--}}
+                        {{--case '400':alert(data.ResultData);break;--}}
+                        {{--case '401':alert(data.ResultData);window.location.href = "{{route('login.index')}}";break;--}}
+                    {{--}--}}
+                {{--},--}}
+                {{--error: function(XMLHttpRequest){--}}
+                    {{--var number = XMLHttpRequest.status;--}}
+                    {{--var msg = "Error: "+number+",数据异常！";--}}
+                    {{--alert(msg);--}}
+                {{--}--}}
+            {{--})--}}
+        {{--})--}}
+    {{--</script>--}}
+    <script src="{{ asset('home/js/commentForpage.js') }}"></script>
 @endsection
 
 
