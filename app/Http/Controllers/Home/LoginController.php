@@ -66,19 +66,37 @@ class LoginController extends Controller
         $result = Common::checkCookie('login', '登陆');
         if ($result != 'ok') return $result;
         $data = $request->all();
+        // 获取登录IP
+        $data['ip'] = $request->getClientIp();
+        // 获取登录错误次数
+        $errNum = self::$safetyService->getString($data['ip']);
+        // 判断登录次数如果超过限定的话，
+        if ($errNum > LOGIN_ERROR_NUM) {
+            if (session('code') != $request['code']) {
+                return response()->json(['StatusCode' => '411','ResultData' => '请输入正确验证码']);
+            }
+        };
         //验证数据
         $this->validate($request,[
             'tel' =>  'required',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|max:18',
+        ], [
+            'tel.required' => '手机号不能为空',
+            'password.required' => '密码不能为空',
+            'password.min' => '密码过短',
+            'password.mix' => '密码过长',
         ]);
-        // 获取登录IP
-        $data['ip'] = $request->getClientIp();
-        if (self::$safetyService->getCountIp($data['ip'], 3600) > 3) {
-            
-        };
+
 
         // 校验邮箱和账号,拿到状态码
         $info = self::$userServer->loginCheck($data);
+        // 每登录错误一次，切验证码为空，则错误次数加一。
+        if ($info['StatusCode'] != '200' && empty($request['code'])) {
+            // 如果错误次数超过三次，则返回错误信息，前台显示验证码输入框
+            if (self::$safetyService->getCountIp($data['ip'], LOGIN_ERROR_NUM_TIME) > LOGIN_ERROR_NUM) {
+                return response()->json(['StatusCode' => '411','ResultData' => '请输入验证码']);
+            };
+        }
         return response()->json($info);
 
     }
