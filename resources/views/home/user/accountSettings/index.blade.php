@@ -719,6 +719,7 @@
                                 swal('提示', msg.ResultData, "success");
                                 $("#emailBinded").removeClass('unbinded').addClass('binded');
                                 $("#emailBinded").html('已绑定');
+                                $("#changeEmail").html('更换');
                                 $(".userInfoReset").click();
                             });
                     } else {
