@@ -218,10 +218,6 @@
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/wangtongredis
                         {{--<p class="fs-c-0 fw-1"> </p>--}}
                         <div></div>
                         <!--发送提示    &    验证错误提示  开始-->
@@ -239,19 +235,6 @@
                             <label id="resend_captcha_laravel_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
                             <div class="col-sm-3 control-label line-h-1 pad-cr pad-cl-xs" id="resend_captcha_two">
                                 <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-5 border-no resend_captcha" >获取短信验证码</button>
-<<<<<<< HEAD
-                            </div>
-                        </div>
-
-                        <p class="fs-c-0 fw-1">请输入右侧图片验证码</p>
-                        <div class="form-group mar-b10">
-                            <div class="col-sm-9 pad-cl">
-                                <input class="form-control" type="text" id="auth-code" placeholder="请输入右侧图片中的验证码">
-                            </div>
-                            <div class="col-sm-3 pad-cr pad-cl-xs">
-                                <img src="{{asset('home/img/demoimg/code-auth.jpg')}}">
-=======
->>>>>>> origin/wangtongredis
                             </div>
                             <div class="clearfix"></div>
                         </div>

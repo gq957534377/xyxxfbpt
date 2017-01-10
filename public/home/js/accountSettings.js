@@ -308,6 +308,7 @@ $(function () {
                         swal('提示', msg.ResultData, "success");
                         $("#emailBinded").removeClass('unbinded').addClass('binded');
                         $("#emailBinded").html('已绑定');
+                        $("#changeEmail").html('更换');
                         $(".userInfoReset").click();
                     });
             } else {
@@ -537,18 +538,18 @@ $(function () {
         }
     });
     // 短信验证发送后计时器
-    var countdown = 60;
+    var axxountSettingDown = 60;
     function setTime(obj, objLabel) {
-        if (countdown == 0) {
+        if (axxountSettingDown == 0) {
             obj.show();
             objLabel.addClass('hidden');
-            countdown = 60;
+            axxountSettingDown = 60;
             return;
         } else {
             obj.hide();
             objLabel.removeClass('hidden');
-            objLabel.text('重新发送'+ countdown + '秒');
-            countdown --;
+            objLabel.text('重新发送'+ axxountSettingDown + '秒');
+            axxountSettingDown --;
         }
         setTimeout(function() {
             setTime(obj, objLabel);
@@ -557,15 +558,17 @@ $(function () {
     }
 
 
+    updateCaptcha($('#captcha-new'));
+    // 验证码点击更换
+    var captcha = document.getElementById('captcha-new');
+    captcha.onclick = function(){
+        updateCaptcha($(this));
+    };
+    function updateCaptcha(me) {
+        var url = '/code/captcha/';
+        url = url + me.data('sesid') + Math.ceil(Math.random()*100);
+        me.attr('src', url);
+    }
+
 });
-updateCaptcha($('#captcha-new'));
-// 验证码点击更换
-var captcha = document.getElementById('captcha-new');
-captcha.onclick = function(){
-    updateCaptcha($(this));
-};
-function updateCaptcha(me) {
-    var url = '/code/captcha/';
-    url = url + me.data('sesid') + Math.ceil(Math.random()*100);
-    me.attr('src', url);
-}
+

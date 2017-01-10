@@ -26,7 +26,7 @@ return [
     // 限制验证码输出次数  IP
     'SMS_LIMIT_NUM_IP' => 100,
     // 手机
-    'SMS_LIMIT_NUM_PHONE' => 5,
+    'SMS_LIMIT_NUM_PHONE' => 10,
 
     // 评论时间间隔
     'COMMENT_TIME' => 1,

@@ -17,15 +17,16 @@
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
                         @if( is_array($rollingPic) )
-                            <?php $f = true; ?>
-                            @foreach($rollingPic as $key => $val)
 
-                                @if($f)
-                                    <?php $f = false; ?>
-                                    <li data-target="#carousel-example-generic" data-slide-to="{{$key}}" class="active"></li>
-                                @else
-                                    <li data-target="#carousel-example-generic" data-slide-to="{{$key}}"></li>
-                                @endif
+                                {{-- */$f = true;/* --}}
+                        @foreach($rollingPic as $key => $val)
+
+                            @if($f)
+                                        {{-- */$f = false;/* --}}
+                                <li data-target="#carousel-example-generic" data-slide-to="{{$key}}" class="active"></li>
+                            @else
+                                <li data-target="#carousel-example-generic" data-slide-to="{{$key}}"></li>
+                            @endif
 
                             @endforeach
                         @else
@@ -36,16 +37,18 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
                         @if( is_array($rollingPic) )
-                            <?php $f = true; ?>
-                            @foreach($rollingPic as $key => $val)
+                            {{-- */$f = true;/* --}}
+                        @foreach($rollingPic as $key => $val)
 
                                 @if($f)
-                                    <?php $f = false; ?>
+                                    {{-- */$f = false;/* --}}
                                     <div class="item active">
                                         <img  onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
                                         <div class="carousel-caption">
                                         </div>
+
                                     </div>
+
                                 @else
                                     <div class="item">
                                         <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">

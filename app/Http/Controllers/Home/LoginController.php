@@ -203,7 +203,6 @@ class LoginController extends Controller
      */
     public function sendSms(Request $request, $id)
     {
-
         // 判断存在
         if (empty($id)) return false;
         if ($request['piccode'] != session('code')) {

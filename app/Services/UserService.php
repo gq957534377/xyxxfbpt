@@ -321,11 +321,11 @@ class UserService {
         $sms = Session::get('sms');
         $number = mt_rand(100000, 999999);
         $content = ['phone' => $phone,'number' => $number];
-        $resIp = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
+        // $resIp = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
         $resPhoto = SafetyService::checkPhoneSMSCode($phone, $number);
 
-        if ($resIp || $resPhoto) {
-            return ['StatusCode' => '400','ResultData' => '获取验证码过于频繁，请稍后再试'];
+        if ($resPhoto) {
+            return ['StatusCode' => '400','ResultData' => '获取验证码过于频繁，请稍后再试!!'];
         }
         //校验
         if($sms['phone']==$phone){
@@ -346,7 +346,7 @@ class UserService {
             $resp =  Common::sendSms($phone, $content, '奇立英雄会', 'SMS_34865398');
 
             // 发送失败
-            if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送！'];
+            if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送!！'];
             $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
             Session::put('sms',$arr);
             Log::info(date('Y-m-d', $nowTime) . \Request::getClientIp() . '请求短信' . '手机号' . $phone);
