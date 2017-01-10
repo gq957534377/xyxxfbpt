@@ -86,7 +86,7 @@ class SafetyService
      * @return bool
      * @author 王通
      */
-    public function getCountTel($key)
+    public function getCountIp($key)
     {
         if (empty($key)) return false;
         if (!BaseRedis::existsRedis($key)) {

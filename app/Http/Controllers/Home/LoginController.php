@@ -71,12 +71,12 @@ class LoginController extends Controller
             'tel' =>  'required',
             'password' => 'required|min:6',
         ]);
-
-        if (self::$safetyService->getCountTel($data['tel'], 3600) > 3) {
-
-        };
         // 获取登录IP
         $data['ip'] = $request->getClientIp();
+        if (self::$safetyService->getCountIp($data['ip'], 3600) > 3) {
+            
+        };
+
         // 校验邮箱和账号,拿到状态码
         $info = self::$userServer->loginCheck($data);
         return response()->json($info);
