@@ -44,6 +44,12 @@ class CommentCache
         if(!Redis::lPush(self::$lkey . $contentId, $id)){
             Log::error('ID:'.$id.' 评论信息写入redis   List失败！！');
         }
+
+        if(Redis::exists(self::$lkey.$contentId.':Num' )){
+            Redis::Incr(self::$lkey.$contentId.':Num');
+        }else{
+            $this->setCommentNum($contentId, 1);
+        }
     }
 
     /**
@@ -136,5 +142,32 @@ class CommentCache
             }
         }
         return $data;
+    }
+
+    /**
+     * 返回某条内容下的评论数量
+     * @param  string $contentId 内容ID
+     * @return bool|string
+     * author 张洵之
+     */
+    public function getCommentNum($contentId)
+    {
+        if(Redis::exists(self::$lkey.$contentId.':Num' )){
+            $result = Redis::Get (self::$lkey.$contentId.':Num' );
+            return ['num' => $result];
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 设置评论某条内容下的评论数量
+     * @param $contentId
+     * @param $num
+     * author 张洵之
+     */
+    public function setCommentNum($contentId, $num)
+    {
+        Redis::Set(self::$lkey.$contentId.':Num', $num);
     }
 }

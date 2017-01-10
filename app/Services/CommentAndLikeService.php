@@ -16,6 +16,7 @@ use App\Store\SendStore;
 use App\Tools\Common;
 use App\Store\UserStore;
 use App\Redis\CommentCache;
+use App\Tools\CustomPage;
 
 class CommentAndLikeService
 {
@@ -309,6 +310,10 @@ class CommentAndLikeService
     {
         $cache = self::$commentCache->getPageData($page, $contentId);
         if(empty($cache)){
+            $this->getPageStyle($contentId, $page);
+
+            if(!self::$commentCache->getCommentNum($contentId)) return ['StatusCode' => '400', 'ResultData' => '暂无评论'];
+
             $commentData = $this->getForPageUserComment(['action_id' => $contentId], $page);
 
             if($commentData['StatusCode'] == '400') return $commentData;
@@ -322,6 +327,7 @@ class CommentAndLikeService
         }else{
             $data = ['StatusCode' => '200', 'ResultData' => $cache];
         }
+
 
         return $data;
     }
@@ -463,5 +469,30 @@ class CommentAndLikeService
     {
         $num = self::$commentStore->getCount($where);
         return ['StatusCode' => '200', 'ResultData' => $num];
+    }
+
+    /**
+     * 获得评论分页样式
+     * @param string $id 内容id
+     * @param int $nowPage 当前页
+     * @return string
+     * author 张洵之
+     */
+    public function getPageStyle($id,$nowPage)
+    {
+        $cache = self::$commentCache->getCommentNum($id);
+
+        if(!$cache) {
+            $totalNum = (int)$this->openData($this->commentCount(['action_id' => $id, 'status' => 1]));
+            self::$commentCache->setCommentNum($id, $totalNum);
+        }else {
+            $totalNum = (int)$cache['num'];
+        }
+
+        $totalPage = ceil($totalNum/PAGENUM);
+
+        if($totalPage<=1) return null;
+
+        return CustomPage::getSelfPageView($nowPage, $totalPage, $id,null);
     }
 }

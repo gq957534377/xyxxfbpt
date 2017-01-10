@@ -146,26 +146,49 @@
                             <button type="submit" class="subbtn btn btn-warning" >提交</button>
                         </form>
                     </li>
-                    @if($comment['StatusCode'] == '200')
-                        @foreach($comment['ResultData'] as $datas)
-                            <li class="row">
-                                <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                    <div class="user-img-bgs">
-                                        <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $datas->userImg }}">
+                    <div id="js_comment">
+                        @if($comment['StatusCode'] == '200')
+                            @foreach($comment['ResultData'] as $datas)
+                                <li class="row">
+                                    <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        <div class="user-img-bgs">
+                                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $datas->userImg }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                    <div class="row user-say1">
-                                        <span>{{ $datas->nikename }}</span>
-                                        <span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>
+                                    <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                        <div class="row user-say1">
+                                            <span>{{ $datas->nikename }}</span>
+                                            <span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>
+                                        </div>
+                                        <div class="row user-say2">
+                                            <p>{{ $datas->content }}</p>
+                                        </div>
                                     </div>
-                                    <div class="row user-say2">
-                                        <p>{{ $datas->content }}</p>
-                                    </div>
-                                </div>
-                            </li>
-                    @endforeach
-                @endif
+                                </li>
+                            @endforeach
+                        @endif
+                    </div>
+                    <div id="js_pages">{!! $pageStyle !!}</div>
+                    {{--@if($comment['StatusCode'] == '200')--}}
+                        {{--@foreach($comment['ResultData'] as $datas)--}}
+                            {{--<li class="row">--}}
+                                {{--<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">--}}
+                                    {{--<div class="user-img-bgs">--}}
+                                        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $datas->userImg }}">--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                                {{--<div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">--}}
+                                    {{--<div class="row user-say1">--}}
+                                        {{--<span>{{ $datas->nikename }}</span>--}}
+                                        {{--<span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="row user-say2">--}}
+                                        {{--<p>{{ $datas->content }}</p>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
+                            {{--</li>--}}
+                    {{--@endforeach--}}
+                {{--@endif--}}
                 <!---循环遍历结束-->
                 </ul>
                 <div class="clearfix"></div>
@@ -180,6 +203,7 @@
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
+    <script src="{{ asset('home/js/commentForpage.js') }}"></script>
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script>
         var token  = $('meta[name="csrf-token"]').attr('content');

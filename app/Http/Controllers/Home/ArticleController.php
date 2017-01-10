@@ -113,8 +113,10 @@ class ArticleController extends Controller
 
             // 获取评论表+like表中某一个文章的评论
             $comment = self::$commentServer->getComent($id, 1);
+            $pageStyle = self::$commentServer->getPageStyle($id, 1);
             // 判断有没有评论信息
             $result['ResultData']->comment = $comment;
+            $result['ResultData']->pageStyle = $pageStyle;
         }
         return view('home.article.articlecontent', $result);
     }
