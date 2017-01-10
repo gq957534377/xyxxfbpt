@@ -90,7 +90,7 @@ class SafetyService
     {
         if (empty($key)) return false;
         if (!BaseRedis::existsRedis($key)) {
-            BaseRedis::expireRedis($key, 3600);
+            BaseRedis::expireRedis($key, LOGIN_ERROR_NUM_TIME);
         }
         $k = BaseRedis::incrRedis($key);
         return $k;

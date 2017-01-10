@@ -100,7 +100,7 @@ class LoginController extends Controller
         // 每登录错误一次，切验证码为空，则错误次数加一。
         if ($info['StatusCode'] != '200' && empty($request['code'])) {
             // 如果错误次数超过三次，则返回错误信息，前台显示验证码输入框
-            if (self::$safetyService->getCountIp($data['ip'], LOGIN_ERROR_NUM_TIME) > LOGIN_ERROR_NUM) {
+            if (self::$safetyService->getCountIp($data['ip']) > LOGIN_ERROR_NUM) {
                 return response()->json(['StatusCode' => '411','ResultData' => '请输入验证码']);
             };
         }
