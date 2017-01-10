@@ -87,7 +87,7 @@
                     </div>
                     <div class="col-sm-5 col-xs-9 jxxm" style="padding-right:0;">
                         <li><a class="ckgd" href="{{route('project.index')}}">查看更多</a></li>
-                        <li><a class="wysjx" href="/user/myProject">我要发布项目！</a></li>
+                        <li><a class="wysjx" href="/user/myProject">我要发布项目</a></li>
                     </div>
                 </div>
                 <ul class="row">
