@@ -35,7 +35,14 @@ class LoginController extends Controller
     {
         if (!empty(session('user'))) return redirect('/');
         $cookie = Common::generateCookie('login');
-        return response()->view('home.login')->withCookie($cookie);
+        // 获取登录错误次数 判断是否要显示验证码
+        $errNum = self::$safetyService->getString(Input::getClientIp());
+        if (empty($errNum) || $errNum < LOGIN_ERROR_NUM) {
+            $k = false;
+        } else {
+            $k = true;
+        }
+        return response()->view('home.login', ['errCheck' => $k])->withCookie($cookie);
     }
 
     /**

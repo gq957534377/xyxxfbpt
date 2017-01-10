@@ -27,7 +27,7 @@
 	    			<li>
 	    				<input type="password" name="password" placeholder="输入密码" />
 	    			</li>
-					<li id="login-code" hidden>
+					<li id="login-code" {{ $errCheck ? '' : 'hidden' }}>
 						<input class="code" name="code" type="text"  placeholder="请输入验证码" />
 						<img id="captcha" data-sesid="1" src="{{url('/code/captcha/1')}}">
 					</li>
