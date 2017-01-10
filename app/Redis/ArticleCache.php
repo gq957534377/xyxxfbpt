@@ -189,14 +189,18 @@ class ArticleCache
             //获取一条hash
             if($this->exists('', $v)){
                 $content = Redis::hGetall(self::$hkey . $v);
+
                 //给对应的Hash文章增加生命周期
                 $this->setTime(self::$hkey.$v);
+                $content = CustomPage::arrayToObject($content);
                 $data[] = $content;
             }else{
                 //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
                 $res = CustomPage::objectToArray(self::$article_store->getOneDatas(['guid' => $v]));
                 //将取出的mysql 文章详情写入redis
                 $this->setOneArticle($res);
+                $res = CustomPage::arrayToObject($res);
+
                 $data[] = $res;
             }
 

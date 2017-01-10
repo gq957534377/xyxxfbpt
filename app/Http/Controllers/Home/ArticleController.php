@@ -37,6 +37,7 @@ class ArticleController extends Controller
             $where["status"] = 1;
             $where['type'] = $request['type'];
             $result = self::$articleServer->selectArticle($where, 1, self::$forPages, "/article/create", false);
+
             $result['type'] = $request['type'];
             // 随机取四条文章信息
             $randomList = self::$articleServer->getRandomArticles($where['type'], 4, 1);
@@ -107,6 +108,7 @@ class ArticleController extends Controller
         // 判断有没有文章信息
         if ($result['StatusCode'] == '200') {
             $randomList = self::$articleServer->getRandomArticles($result['ResultData']->type, 4, 1);
+
             $result['RandomList'] = $randomList;
 
             // 获取评论表+like表中某一个文章的评论

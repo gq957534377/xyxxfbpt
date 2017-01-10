@@ -218,8 +218,8 @@
                                 </div>
                             </div>
                         </div>
-
-                        <p class="fs-c-0 fw-1">我们向 XXXXXXXXXXX 发送了短信验证码</p>
+                        {{--<p class="fs-c-0 fw-1"> </p>--}}
+                        <div></div>
                         <!--发送提示    &    验证错误提示  开始-->
                         <div id="errorBox3" class="alert alert-danger hidden">验证码验证失败！</div>
                         <!--////////////////////-->
@@ -245,6 +245,17 @@
                             </div>
                             <div class="col-sm-3 pad-cr pad-cl-xs">
                                 <img src="{{asset('home/img/demoimg/code-auth.jpg')}}">
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <p class="fs-c-0 fw-1">请输入右侧图片验证码</p>
+                        <div class="form-group mar-b10">
+                            <div class="col-sm-9 pad-cl">
+                                <input class="form-control" type="text" id="auth-code" placeholder="请输入右侧图片中的验证码">
+                            </div>
+                            <div class="col-sm-3 pad-cr pad-cl-xs">
+                                <img id="captcha-new" data-sesid="code" src="{{url('/code/captcha/code')}}">
                             </div>
                             <div class="clearfix"></div>
                         </div>
@@ -892,8 +903,12 @@
 
             $("#resend_captcha_two").click(function() {
                 ajax.ajax({
-                    url      :   '/user/sendsms/'+ guid + '?phone=' + $('#newSmsBox').text(),
+                    url      :   '/user/sendsms/'+ guid ,
                     type     :   'GET',
+                    data     :   {
+                        'phone' :  $('#newSmsBox').text(),
+                        'code'  :  $('#auth-code').val()
+                    },
                     beforeSend: ajaxBeforeSend($('.loading')),
                     success  :   resendCaptchaTwo,
                 });
@@ -965,6 +980,16 @@
 
 
         });
-
+        updateCaptcha($('#captcha-new'));
+        // 验证码点击更换
+        var captcha = document.getElementById('captcha-new');
+        captcha.onclick = function(){
+            updateCaptcha($(this));
+        };
+        function updateCaptcha(me) {
+            var url = '/code/captcha/';
+            url = url + me.data('sesid') + Math.ceil(Math.random()*100);
+            me.attr('src', url);
+        }
     </script>
 @endsection

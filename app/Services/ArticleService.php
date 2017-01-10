@@ -155,9 +155,9 @@ class ArticleService
 
     /**
      * 读取redis数据，并且把得到的数据转换成对象
-     * @param $forPages
-     * @param $nowPage
-     * @param $type
+     * @param $forPages   一页获取的数量
+     * @param $nowPage   当前页
+     * @param $type   数据的类型
      * @return array
      * @author 王通
      */
@@ -165,7 +165,7 @@ class ArticleService
     {
         $count = self::$articleCache->getLength($type);
         $totalPage = ceil($count / $forPages);
-        $result['data'] = CustomPage::arrayToObject(self::$articleCache->getArticleList($forPages, $nowPage, $type));
+        $result['data'] = self::$articleCache->getArticleList($forPages, $nowPage, $type);
         $result['totalPage'] = $totalPage;
         return ['StatusCode' => '200','ResultData' => $result];
 
@@ -521,12 +521,28 @@ class ArticleService
      */
     public function getTakeArticles($type, $take = 8, $status = 1)
     {
-        if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
+        // 判断article缓存是否存在
+        if(!self::$articleCache->existsArticleList()){
+            // 获取数据库里的所有文章列表,并且转对象为数组
+            $article_list = CustomPage::objectToArray(self::$articleStore->getData(['type' => 1, 'status' => 1]));
+            $result = $this->selectData(['type' => 1], 1, 8, 'aaa', false);
+            // 存入redis缓存
+            if(count($article_list)){
+                self::$articleCache->setArticleList($article_list, 1);
+            }
+        } else {
+            // 直接读取缓存数据,并把数组转换为对象
+            $result = $this->selectArticleRedis(8, 1, 1);
+            $result = $result['ResultData']['data'];
+        }
 
-        // 获取文章数据
-        $result = self::$articleStore->takeArticles(['type' => '1', 'status' => $status], $take);
 
-        if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+//        if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
+//
+//        // 获取文章数据
+//        $result = self::$articleStore->takeArticles(['type' => '1', 'status' => $status], $take);
+//        dd($result);
+//        if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 
         return ['StatusCode' => '200', 'ResultData' => $result];
     }
@@ -549,18 +565,29 @@ class ArticleService
             if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
         } else {
             $result = $this->getRandomRedisArticle($type, $take);
-        }
+        };
         return ['StatusCode' => '200', 'ResultData' => $result];
     }
 
+    /**
+     * 随机获取前四条数据的具体方法
+     * @param $type  string  '1'  or  '2'  获取数据的类型
+     * @param $num   int   数量
+     * @return mixed
+     * @author 王通
+     */
     protected function getRandomRedisArticle($type, $num)
     {
+        // 得到list的长度
         $count = self::$articleCache->getLength($type);
+        // 随机获取四个数字
         $numArr = range(0, $count - 1);
         shuffle ($numArr);
         $nowPageArr = array_slice($numArr, 0, $num);
+
+        // 根据随机数，通过索引得到想要的数据
         for ($i = 0; $i < $num; $i++) {
-            $data[$i] = CustomPage::arrayToObject(self::$articleCache->getArticleList(1, $nowPageArr[$i], $type)[0]);
+            $data[$i] = self::$articleCache->getArticleList(1, $nowPageArr[$i], $type)[0];
         }
         $result = $data;
         return $result;
