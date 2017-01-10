@@ -288,7 +288,7 @@ class Common {
                 ->withCookie($cookie);
         }
 
-        return 'ok';
+        return true;
     }
 
     /**
