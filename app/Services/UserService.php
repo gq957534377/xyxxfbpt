@@ -323,6 +323,7 @@ class UserService {
         $content = ['phone' => $phone,'number' => $number];
         $resIp = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
         $resPhoto = SafetyService::checkPhoneSMSCode($phone, $number);
+
         if ($resIp || $resPhoto) {
             return ['StatusCode' => '400','ResultData' => '获取验证码过于频繁，请稍后再试'];
         }
