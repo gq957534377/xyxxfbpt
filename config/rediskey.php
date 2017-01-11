@@ -82,9 +82,36 @@ define('HASH_ACTION_INFO_','HASH:ACTION:INFO:');
 //user 用户登录 redis key
 define('LIST_USER_ACCOUNT', 'LIST:USER:ACCOUNT');
 define('HASH_USER_ACCOUNT_', 'HASH:USER:ACCOUNT:');
-//英雄学院
+
+
+
+/**
+ * 学院信息列表索引
+ * 作者：郭庆
+ * 作用：用于存储：学院某一类型的活动，某一状态的学院活动的所有id
+ * KEY = LIST:COLLEGE:[学院活动类型]:[学院活动状态]
+ * VALUE = data_college_info表中满足条件的所有学院活动id [guid1, guid2, ......]
+ * 说明：
+ *      LIST:COLLEGE:-:[某一个状态]  -> 存储制定状态的所有学院活动guid
+ *      LIST:COLLEGE:[学院活动类型]:[学院活动状态]  -> 存储指定类型和指定学院活动状态的所有学院活动guid
+ *      LIST:COLLEGE:[学院活动类型]  -> 存储指定类型的所有学院活动guid
+ */
 define('LIST_COLLEGE_','LIST:COLLEGE:');
+
+
+
+/**
+ * 学院活动信息记录
+ * 作者：郭庆
+ * 作用：用于存储：指定guid的学院活动所有字段信息
+ * KEY = HASH:COLLEGE:INFO:[学院活动guid]
+ * VALUE = data_college_info表中所有字段（数组类型）['guid' => '....', 'addtime' => '13244545', ......]
+ * 注意：
+ *      数据库存储的addtime, status, type .....都是int类型，在从redis中取出来使用时要转换为int在进行正常使用
+ */
 define('HASH_COLLEGE_INFO_','HASH:COLLEGE:INFO:');
+
+
 
 //articcle 网站基本信息 redis key
 /**
