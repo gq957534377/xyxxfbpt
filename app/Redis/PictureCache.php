@@ -49,7 +49,7 @@ class PictureCache
 
     /**
      * 把数据保存到redis
-     * @param $data    存储的是从数据库取出来的，数据对象
+     * @param $data  object   存储的是从数据库取出来的，数据对象
      * @return bool
      */
     public function saveRedisList($data)
