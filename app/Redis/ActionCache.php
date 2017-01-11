@@ -64,6 +64,7 @@ class ActionCache
      */
     public function addList($type, $status, $guid)
     {
+        if (empty($guid)) return false;
         $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
         if ($status != 4){
             $list1 = Redis::lpush(self::$lkey.$type, $guid);
@@ -78,11 +79,11 @@ class ActionCache
     /**
      * 将一条记录写入hash
      * @param
-     * @return array
      * @author 郭庆
      */
     public function addHash($data)
     {
+        if (empty($data['guid'])) return false;
         $index = self::$hkey . $data['guid'];
         if (!$this->exists($data['guid'], false)) {
             //写入hash
@@ -113,7 +114,7 @@ class ActionCache
      */
     public function getOneAction($guid)
     {
-        if(!$guid) return false;
+        if(!$guid) return view('errors.404');
         $index = self::$hkey.$guid;
         if ($this->exists($guid, false)){
             $data = Redis::hGetall($index);

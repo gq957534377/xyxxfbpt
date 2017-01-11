@@ -321,7 +321,6 @@ class ActionService
     /**
      * 查询相关活动信息
      * @param $guid
-     * @return array
      * author 郭庆
      */
     public function getData($guid, $list)
@@ -331,12 +330,13 @@ class ActionService
         }
         //查询一条数据活动信息
         if ($list == 3){
-            $data = CustomPage::arrayToObject(self::$collegeCache->getOneCollege($guid));
+            $data = self::$collegeCache->getOneCollege($guid);
         }else{
-            $data = CustomPage::arrayToObject(self::$actionCache->getOneAction($guid));
+            $data = self::$actionCache->getOneAction($guid);
         }
 
         if($data) {
+            $data = CustomPage::arrayToObject($data);
             $data->addtime = date("Y-m-d H:i:s", $data->addtime) ;
             $group = self::$pictureCache->getOnePicture($data->group);
             if (empty($group)){
@@ -344,14 +344,14 @@ class ActionService
                     $group = '个人';
                 }else{
                     \Log::info('获取'.$guid.'活动详情的组织机构失败:'.$group);
-                    return ['StatusCode'=> '500','ResultData' => "获取活动信息失败"];
+                    return ['StatusCode'=> '500','ResultData' => "获取组织机构信息失败"];
                 }
             }
             $data->group = $group;
             return ['StatusCode'=> '200','ResultData' => $data];
         }else{
-            \Log::info('获取'.$guid.'活动详情出错:'.$data);
-            return ['StatusCode'=> '500','ResultData' => "获取活动信息失败"];
+            \Log::info('获取'.$guid.'活动详情出错:');
+            return ['StatusCode'=> '404','ResultData' => "获取活动信息失败"];
         }
     }
 
