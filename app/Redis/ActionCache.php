@@ -104,6 +104,13 @@ class ActionCache extends MasterCache
         return $data;
     }
 
+    public function getRandActions($where, $start, $end)
+    {
+        //拼接list key
+        $key = $this -> getlistKey($where);
+
+        return $this->getBetweenList($key, $start, $end);
+    }
     /**
      * 删除一条记录
      * @param 将要删除记录的类型，状态，guid

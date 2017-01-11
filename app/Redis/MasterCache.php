@@ -43,8 +43,19 @@ class MasterCache
         $totals = $offset + $nums - 1;
 
         //获取缓存的列表索引并返回
-        return Redis::lrange($key, $offset, $totals);
+        return $this->getBetweenList($key, $offset, $totals);
 
+    }
+
+    /**
+     * 获取指定范围内的list数据
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function getBetweenList($key, $start, $end)
+    {
+        return Redis::lrange($key, $start, $end);
     }
 
     /**

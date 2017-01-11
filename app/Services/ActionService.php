@@ -505,47 +505,18 @@ class ActionService
      */
     public function getRandomActions($list, $take = 4, $status = 1)
     {
-        //判断action缓存是否存在
-        if ($list){
-            $exist = self::$actionCache->exists('-'.':'.$status);
-        }else{
-            $exist = self::$collegeCache->exists('-'.':'.$status);
-        }
-        if (!$exist){
-            if ($list){
-                // 获取数据
-                $all = self::$actionStore->getData([]);
-                if ($all == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
-                self::$actionCache->insertCache(['status'=>$status], CustomPage::objectToArray($all));
-            }else{
-                // 获取数据
-                $all = self::$collegeStore->getData([]);
-                if ($all == []) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
-                self::$collegeCache->insertCache(['status'=>$status], CustomPage::objectToArray($all));
-            }
-            $result = array_slice($all,-3,-1);
-        }else{
-            if (!$list){
-                $count = self::$collegeCache->getLength(['status'=>1]);
-            }else{
-                $count = self::$actionCache->getLength(['status'=>1]);
-            }
+        $count = self::$actionCache->getCount(['status' => 1]);
+        if (!$count) return ['StatusCode' => '204', 'ResultData' => "没有数据"];
+        $end = (($count - $take) > -1) ? ($count - $take) : 1;
+        $start = random_int(1,$end);
 
-            //查询总记录数
-            if (!$count) {
-                //如果没有数据直接返回204空数组，函数结束
-                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
-                return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
-            }
-
-            if($list){
-                $result = array_slice (\Qiniu\json_decode(json_encode(self::$actionCache->getActionList(['status'=>1], $count, 1))), -5,-1);
-            }else{
-                $result = array_slice (\Qiniu\json_decode(json_encode(self::$collegeCache->getCollegeList(['status'=>1], $count, 1))), -5, -1);
-            }
+        if ($list) {
+            $result = self::$actionCache->getRandActions(['status' => $status], $start, $start+$take);
+        } else {
+//            $result = self::$collegeCache->getRandActions(['status' => $status], $start, $start+$take);
         }
 
-//        if (!$result) return ['StatusCode' => '400', 'ResultData' => '获取失败'];
+        if (!$result) return ['StatusCode' => '400', 'ResultData' => '获取失败'];
         return ['StatusCode' => '200', 'ResultData' => $result];
     }
 
