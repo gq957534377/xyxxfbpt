@@ -72,14 +72,16 @@ class ProjectService {
             $data = $cache;
         }else{
             $temp = self::$projectStore->getAllData();
+            if (!$temp) return ['StatusCode' => '204', 'ResultData' => '暂无无数据'];
             foreach ($temp as $value) {
                 self::$projectCache->insertCache($value);
             }
             $data = self::$projectCache->takeData($number);
         }
 
-        if (!$data) return ['StatusCode' => '204', 'ResultData' => '暂无无数据'];
-
+        if (!$data) {
+            $data = self::$projectStore->takeData($number);
+        }
 
         return ['StatusCode' => '200', 'ResultData' => $data];
     }

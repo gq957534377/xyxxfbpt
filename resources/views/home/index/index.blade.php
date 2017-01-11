@@ -99,7 +99,13 @@
                             <li class="col-sm-4">
                                 <a class="new_a" href="{{ route('project.show', $project->guid) }}">
                                     <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $project->banner_img }}">
-                                    <div class="companyName">{{ $project->title }}</div>
+                                    <div class="companyName">
+                                        @if(mb_strlen($project->title)<16)
+                                            {{ $project->title }}
+                                        @else
+                                            {{ mb_substr($project->title,0,16).'...'}}
+                                        @endif
+                                    </div>
                                     <div class="classLabel">
                                 <span>
                                     @if($project->industry == 1)
