@@ -9,8 +9,9 @@
 namespace App\Redis;
 
 use Illuminate\Contracts\Logging\Log;
-use Redis;
+use Illuminate\Support\Facades\Redis;
 use App\Tools\CustomPage;
+
 
 class RollingPictureCache
 {

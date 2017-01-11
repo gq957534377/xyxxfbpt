@@ -763,6 +763,23 @@ body .list-inline > li {
 }
 /*关于我们样式 结束*/
 
+/*分页样式补充 开始*/
+.pagination >li>a{
+    color: #FF9036;
+}
+.pagination li.active > a {
+    background: #FF9036;
+    border-color: #FF9036;
+    color: #ffffff;
+}
+.pagination > .active > a:hover {
+    background-color: #ff9036;
+    border-color: #FF9036;
+}
+#js_pages {
+    margin-right: 50px;
+}
+/*分页样式补充 结束*/
 
 /*阻止鼠标双击时文本被选中*/
 /*例子*/
@@ -1111,11 +1128,4 @@ body .list-inline > li {
 .request-error-info h2{
     color: #999999;
 }
-.pagination >li>a{
-    color: #FF9036;
-}
-.pagination li.active >a{
-    background: #FF9036;
-    border-color: #FF9036;
-    color: #ffffff;
-}
+

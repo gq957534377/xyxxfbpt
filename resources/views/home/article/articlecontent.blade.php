@@ -90,8 +90,8 @@
                             @endforeach
                         @endif
                         </div>
+                        <div id="js_pages" class="pull-right">{!! $ResultData->pageStyle !!}</div>
                     </ul>
-                    <div id="js_pages">{!! $ResultData->pageStyle !!}</div>
                 </div>
                 <!--评论区域开始-->
             </div>
