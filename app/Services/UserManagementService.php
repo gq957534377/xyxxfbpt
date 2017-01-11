@@ -10,7 +10,7 @@ use App\Store\HomeStore;
 use App\Store\CompanyStore;
 
 use App\Tools\CustomPage;
-use Illuminate\Support\Facades\DB;
+use DB;
 
 class userManagementService
 {
