@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Redis;
 
 class CommentCache
 {
-    private static $lkey = LIST_COMMENT_INFO;      //项目list表key
+    private static $lkey = LIST_COMMENT_INFO_;      //项目list表key
     private static $hkey = HASH_COMMENT_INFO_;     //项目hash表key
 
     /**

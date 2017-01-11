@@ -1,5 +1,6 @@
 /**
  * Created by Administrator on 2017/1/10.
+ * 评论分页方法
  */
 $(function () {
     aOnClick();
@@ -7,7 +8,7 @@ $(function () {
 function aOnClick() {
     $('.pagination li a').click(function () {
         var contentId = getId($(this).attr('href'));
-        var nowpage = $(this).html();
+        var nowpage = getNowPage($(this).attr('href'));
         ajaxForPage(nowpage,contentId);
         return false;
     })
@@ -15,6 +16,12 @@ function aOnClick() {
 function getId(str) {
     var arr = str.split('?');
     return arr[0];
+}
+function getNowPage(str) {
+    var temp1 = str.split('?')[1];
+    var temp2 = temp1.split('&')[1];
+    var temp3 = temp2.split('=')[1];
+    return temp3;
 }
 function ajaxForPage(nowpage, contentId) {
     $.ajax({
@@ -37,8 +44,9 @@ function createDom(data) {
     aOnClick();
 }
 function createCommentDom(data) {
-    var html = '';
+    $('#js_comment').html('');
     for(var i in data){
+        var html = '';
         html += "<li class='row'>";
         html += "<div class='user-img col-lg-2 col-md-2 col-sm-2 col-xs-2'>";
         html += "<div class='user-img-bgs'>";
@@ -51,12 +59,14 @@ function createCommentDom(data) {
         html += "<span>"+date(data[i].changetime)+"</span>";
         html += "</div>";
         html += "<div class='row user-say2'>";
-        html += "<p>"+data[i].content+"</p>";
+        html += "<p id='comment_content"+i+"'></p>";
         html += "</div>";
         html += "</div>";
         html += "</li>";
+        $('#js_comment').append(html);
+        $('#comment_content'+i).text(data[i].content);
     }
-    $('#js_comment').html(html);
+
 }
 function date(time) {
     var now = new Date();

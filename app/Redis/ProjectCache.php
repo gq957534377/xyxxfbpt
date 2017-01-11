@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Redis;
 
 class ProjectCache
 {
-    private static $lkey = LIST_PROJECT_INFO;      //项目list表key
+    private static $lkey = LIST_PROJECT_INFO_;      //项目list表key
     private static $hkey = HASH_PROJECT_INFO_;     //项目hash表key
 
     private static $project_store;
@@ -131,23 +131,26 @@ class ProjectCache
         $start = ($nowPage - 1)*$pageNum;
         $stop = $nowPage*$pageNum-1;
 
-        if (empty($where['financing_stage'])){
-
-            if(!$this -> exists()){
-                $indexData = $this->teshuCache($where, $start, $stop);
-            }else{
-                $indexData = Redis::lRange(self::$lkey, $start, $stop);
-            }
-
-        }else{
-
-            if(!$this -> exists('list', $where['financing_stage'])){
-                $indexData = $this->teshuCache($where, $start, $stop);
-            }else{
-                $indexData = Redis::lRange(self::$lkey.$where['financing_stage'], $start, $stop);
-            }
-
+        if(empty($where['financing_stage'])) {
+            $where['financing_stage']
         }
+//        if (empty($where['financing_stage'])){
+//
+//            if(!$this -> exists()){
+//                $indexData = $this->teshuCache($where, $start, $stop);
+//            }else{
+//                $indexData = Redis::lRange(self::$lkey, $start, $stop);
+//            }
+//
+//        }else{
+//
+//            if(!$this -> exists('list', $where['financing_stage'])){
+//                $indexData = $this->teshuCache($where, $start, $stop);
+//            }else{
+//                $indexData = Redis::lRange(self::$lkey.$where['financing_stage'], $start, $stop);
+//            }
+//
+//        }
         if(!empty($indexData)){
             $data = CustomPage::arrayToObject($this->getHashData($indexData));
             return (array)$data;
@@ -239,6 +242,12 @@ class ProjectCache
         }
     }
 
+    /**
+     * 随机取的$number条数据
+     * @param int $number 要取得的数量
+     * @return array|bool|null
+     * author 张洵之
+     */
     public function takeData($number)
     {
         $length = Redis::lLen(self::$lkey);
@@ -252,7 +261,7 @@ class ProjectCache
         $numbers = range (1,$length);
         shuffle ($numbers);
         for ($i = 0;$i<$number;$i++){
-            $data[$i] = $this->getPageData($numbers[$i],1,[])[0];
+            $data[] = $this->getPageData($numbers[$i],1,[])[0];
         }
         return $data;
     }

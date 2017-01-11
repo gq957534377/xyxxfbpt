@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Redis;
 
 class UserInfoCache
 {
-    private static $lkey = LIST_USERINFO_INFO;      //项目list表key
+    private static $lkey = LIST_USERINFO_INFO_;      //项目list表key
     private static $hkey = HASH_USERINFO_INFO_;     //项目hash表key
 
     /**

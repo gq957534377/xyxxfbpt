@@ -31,9 +31,15 @@ class ProjectStore {
         return DB::table(self::$table)->where($where)->orderBy('addtime','desc')->get();
     }
 
-    public function getAllData()
+    /**
+     *拿取同一个字段下的所有数据
+     * @param $where
+     * @return mixed
+     * author 张洵之
+     */
+    public function getList($where,$filed)
     {
-        return DB::table(self::$table)->get();
+        return DB::table(self::$table)->where($where)->list($filed);
     }
 
     /**
