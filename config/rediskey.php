@@ -11,8 +11,20 @@ define('HASH_PROJECT_INFO_','HASH:PROJECT:INFO:');
 define('LIST_ACTION_','LIST:ACTION:');
 define('LIST_ACTIONORDER_','LIST:ACTIONORDER:');
 define('HASH_ACTION_INFO_','HASH:ACTION:INFO:');
-//user 用户登录 redis key
+
+/**
+ * 用户账号列表 -- 存储所有用户的账号
+ *
+ * KEY   = LIST:USER:ACCOUNT:[手机号] or LIST:USER:ACCOUNT:[邮箱] (二期可能加上邮箱登录)
+ * VALUE = data_user_login 表中所有用户的手机号（邮箱）
+ */
 define('LIST_USER_ACCOUNT', 'LIST:USER:ACCOUNT');
+/**
+ * 用户账号信息表 -- 存储所有用户账号相关信息
+ *
+ * KEY   = HASH:USER:ACCOUNT:[手机号or邮箱]
+ * VALUE = data_user_login 表中用户账户相关所有数据
+ */
 define('HASH_USER_ACCOUNT_', 'HASH:USER:ACCOUNT:');
 //英雄学院
 define('LIST_COLLEGE_','LIST:COLLEGE:');

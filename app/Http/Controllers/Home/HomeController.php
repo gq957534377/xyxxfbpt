@@ -11,6 +11,7 @@ use App\Services\ActionService as ActionServer;
 use App\Services\ArticleService as ArticleServer;
 use App\Services\PictureService;
 use App\Store\RollingPictureStore;
+use App\Tools\Common;
 
 
 class HomeController extends Controller
@@ -72,14 +73,14 @@ class HomeController extends Controller
         // 轮播图
         $rollingPic = self::$pictureService->getRollingPicture();
         // 设置cookie
-        $cookie = \App\Tools\Common::generateCookie('feedback');
+        $cookie = Common::generateCookie('feedback');
         return response()->view('home.index.index', [
             'projects'      => $projectResult['ResultData'],
             'roadShows'     => $roadShowResult,
             'sybs'          => $sybResult,
-            'schools'        => $schollResult,
+            'schools'       => $schollResult,
             'picArr'        => $picArr['ResultData'],
-            'rollingPic'        => $rollingPic['ResultData'],
+            'rollingPic'    => $rollingPic['ResultData'],
             'articles'      => $articles['ResultData'],
         ])->withCookie($cookie);
 
