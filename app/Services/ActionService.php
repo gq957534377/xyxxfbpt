@@ -215,6 +215,7 @@ class ActionService
      */
     public function selectData($where, $nowPage, $forPages, $url, $list, $disPlay=true)
     {
+        self::$actionCache->getPageDatas($where, $forPages, $nowPage);
         //判断action缓存是否存在
         if (!$list){
             $exist = !empty($where['status']) ? self::$actionCache->exists($where['type'].':'.$where['status']) : self::$actionCache->exists($where['type']);
