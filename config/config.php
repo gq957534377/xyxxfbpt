@@ -24,7 +24,8 @@ define('COOKIE_LIFETIME', 1800);
 define('LOGIN_ERROR_NUM', 5);
 // 检测错误时间区间
 define('LOGIN_ERROR_NUM_TIME', 3600);
-
+// Redis Hash 超时时间
+define('HASH_OVERTIME', 3600);
 
 
 
