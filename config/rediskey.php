@@ -110,12 +110,12 @@ define('HASH_USERINFO_INFO_','HASH:USERINFO:INFO:');
  * 活动信息列表索引
  * 作者：郭庆
  * 作用：用于存储：某一类型的活动，某一状态的活动的所有id
- * KEY = LIST:ACTION:[活动类型]:[活动状态]
+ * KEY = LIST:ACTION:GUID:[活动类型]:[活动状态]
  * VALUE = data_action_info表中满足条件的所有活动id [guid1, guid2, ......]
  * 说明：
- *      LIST:ACTION:-:[某一个状态]  -> 存储制定状态的所有活动guid
- *      LIST:ACTION:[活动类型]:[活动状态]  -> 存储指定类型和指定活动状态的所有活动guid
- *      LIST:ACTION:[活动类型]  -> 存储指定类型的所有活动guid
+ *      LIST:ACTION:GUID:-:[某一个状态]  -> 存储制定状态的所有活动guid
+ *      LIST:ACTION:GUID:[活动类型]:[活动状态]  -> 存储指定类型和指定活动状态的所有活动guid
+ *      LIST:ACTION:GUID:[活动类型]  -> 存储指定类型的所有活动guid
  */
 define('LIST_ACTION_GUID_','LIST:ACTION:GUID:');
 

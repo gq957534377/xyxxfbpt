@@ -24,14 +24,13 @@ class ActionCache extends MasterCache
     }
 
     /**
-     * 获取某一页的数据
-     * @param
+     * 根据where条件确定key
+     * @param $where array ['type' => 1, 'status' => 2]
      * @author 郭庆
      */
-    public function getPageDatas($where, $nums, $nowPage)
+    public function getlistKey($where)
     {
         $key = '';
-        //拼接key
         if (empty($where['type']) && !empty($where['status'])){
             $key = self::$lkey.'-'.':'.$where['status'];
         }elseif (!empty($where['type']) && !empty($where['status'])){
@@ -41,27 +40,70 @@ class ActionCache extends MasterCache
         }else{
             return false;
         }
-
-        if ($this->exists($key)){
-
-            //获取制定key的所有活动guid
-            $lists = $this->getPageLists(self::$lkey.$index, $nums, $nowPage);
-            if (!$lists) return false;
-
-            //获取所有的data数据
-            $data = [];
-            foreach ($lists as $guid){
-                if ($this->exists(self::$hkey.$guid)){
-                    $data[] = $this->getHash($key);
-                }else{
-                    $data = self::$action_store->getOneData();
-                }
-            }
-
-        }else{
-
-        }
+        return $key;
     }
+
+    /**
+     * 获取符合条件的数据总条数
+     * @param
+     * @author 郭庆
+     */
+    public function getCount($where)
+    {
+        //拼接list key
+        $key = $this -> getlistKey($where);
+        if (!$key) return false;
+
+        //计算总数
+        if (!$this->exists($key)){
+            $count = self::$action_store->getCount($where);
+        }else{
+            $count = $this->getLength($key);
+        }
+        return $count;
+    }
+
+    /**
+     * 获取某一页的数据
+     * @param
+     * @author 郭庆
+     */
+    public function getPageDatas($where, $nums, $nowPage)
+    {
+        //拼接list key
+        $key = $this -> getlistKey($where);
+        if (!$key) return false;
+
+        //如果list不存在，从数据库去除所有guid并存入redis
+        if (!$this->exists($key)){
+            //从数据库获取所有的guid
+            $guids = self::$action_store->getGuids($where);
+
+            if (!$guids) return false;
+            //将获取到的所有guid存入redis
+            $redisList = $this->addLists($key, $guids);
+            if (!$redisList) Log::error("将数据库数据写入list失败");
+        }
+
+        //获取制定key的所有活动guid
+        $lists = $this->getPageLists($key, $nums, $nowPage);
+        if (!$lists) return false;
+
+        $data = [];
+        //获取所有的data数据
+        foreach ($lists as $guid){
+            //获取到一条数据
+            $result = $this->getOneAction($guid);
+            //将获取的数据转对象存入数组和数据库一个样子
+            if (!empty($result)){
+                $data[] = CustomPage::arrayToObject($result);
+            }else{
+                return false;
+            }
+        }
+        return $data;
+    }
+
     /**
      * 删除一条记录
      * @param 将要删除记录的类型，状态，guid
@@ -81,18 +123,7 @@ class ActionCache extends MasterCache
         }
     }
 
-    /**
-     * 创建新的list并且插入所有list
-     * @param $lists [guid1,guid2]
-     * @author 郭庆
-     */
-    public static function addLists($index, $lists)
-    {
-        foreach ($lists as $v){
-            //执行写list操作
-            Redis::rpush(self::$lkey.$index, $v);
-        }
-    }
+
     /**
      * 添加一条新的list记录
      * @param 将要添加记录的类型，状态，guid
@@ -112,22 +143,7 @@ class ActionCache extends MasterCache
         return false;
     }
 
-    /**
-     * 将一条记录写入hash
-     * @param
-     * @author 郭庆
-     */
-    public function addHash($data)
-    {
-        if (empty($data['guid'])) return false;
-        $index = self::$hkey . $data['guid'];
-        if (!$this->exists(self::$hkey.$data['guid'], false)) {
-            //写入hash
-            Redis::hMset($index, $data);
-        }
-        //设置生命周期
-        $this->setTime($index);
-    }
+
 
     /**
      * 修改一条hash记录
@@ -145,20 +161,21 @@ class ActionCache extends MasterCache
     }
 
     /**
-     * 获取一条文章详情
+     * 获取一条hash所有字段详情
      * @param $guid
+     * @author 郭庆
      */
     public function getOneAction($guid)
     {
-        if(!$guid) return view('errors.404');
-        $index = self::$hkey.$guid;
-        if ($this->exists(self::$hkey.$guid, false)){
-            $data = Redis::hGetall($index);
-            //重设生命周期 1800秒
-            $this->setTime($index);
+        if (empty($guid)) return false;
+        if ($this->exists(self::$hkey.$guid)){
+            $data = $this->getHash(self::$hkey.$guid);
         }else{
-            $data = CustomPage::objectToArray(self::$action_store->getOneData(['guid'=>$guid]));
-            $this->addHash($data);
+            $datas = self::$action_store->getOneData(['guid' => $guid]);
+            if (!$datas) return false;
+            $data = CustomPage::objectToArray($datas);
+            $result = $this->addHash(self::$hkey.$guid, $data);
+            if (!$result) Log::error('写入一条活动hash失败，id为'.$guid);
         }
         return $data;
     }
@@ -271,31 +288,9 @@ class ActionCache extends MasterCache
         return $data;
     }
 
-    /**
-     * 获取 现有list 的长度
-     * @return bool
-     */
-    public function getLength($where)
-    {
-        if (empty($where['type'])){
-            return Redis::llen(self::$lkey.'-'.":".$where['status']);
-        }
-        if (!empty($where['status'])){
-            return Redis::llen(self::$lkey.$where['type'].":".$where['status']);
-        }else{
-            return Redis::llen(self::$lkey.$where['type']);
-        }
-    }
 
-    /**
-     * 设置hash缓存的生命周期
-     * @param $key  string  需要设置的key
-     * @param int $time  设置的时间 默认半个小时
-     */
-    public function setTime($key, $time = 1800)
-    {
-        Redis::expire($key, $time);
-    }
+
+
 
     /**
      * 返回队列key

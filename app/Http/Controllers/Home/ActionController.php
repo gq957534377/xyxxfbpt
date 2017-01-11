@@ -155,8 +155,7 @@ class ActionController extends Controller
             }
             $isLogin = session('user')->guid;
         }
-
-        $rand = self::$actionServer->getRandomActions(true);
+//        $rand = self::$actionServer->getRandomActions(true);
         //返回详情页
         return view("home.action.details", [
             "list" => 1,

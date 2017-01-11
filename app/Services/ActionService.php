@@ -210,76 +210,23 @@ class ActionService
      * @param int $forPages 一页获取的数量
      * @param string $url 请求的路由url
      * @param boolean $disPlay 是否需要分页样式
-     * @return array
      * author 郭庆
      */
     public function selectData($where, $nowPage, $forPages, $url, $list, $disPlay=true)
     {
-        self::$actionCache->getPageDatas($where, $forPages, $nowPage);
-        //判断action缓存是否存在
-        if (!$list){
-            $exist = !empty($where['status']) ? self::$actionCache->exists($where['type'].':'.$where['status']) : self::$actionCache->exists($where['type']);
+        //获取符合条件的数据的总量
+        if ($list){
+//            $count = self::$collegeCache->getCount($where);
         }else{
-            if (empty($where['type'])){
-                $exist = self::$collegeCache->exists('-'.':'.$where['status']);
-            }else{
-                $exist = !empty($where['status']) ? self::$collegeCache->exists($where['type'].':'.$where['status']) : self::$collegeCache->exists($where['type']);
-            }
+            $count = self::$actionCache->getCount($where);
         }
+        if (!$count) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
 
-        //如果不存在则去数据库查询并写入redis
-        if(!$exist){
-            Log::info('到数据库里');
-            //获取数据库里的所有文章列表,并且转对象为数组
-            if(!$list){
-                $count = self::$actionStore->getCount($where);
-            }else{
-                $count = self::$collegeStore->getCount($where);
-            }
-
-            //如果没有数据返回204
-            if (!$count) {
-                //如果没有数据直接返回204空数组，函数结束
-                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
-                return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
-            }
-
-            //获取对应页的数据
-            if ($list){
-                $result['data'] = self::$collegeStore->forPage($nowPage, $forPages, $where);
-
-                //获取所有数据存入redis缓存
-                //从数据库取出所有数据
-                $redis_list = CustomPage::objectToArray(self::$collegeStore->getData($where));
-                //写入redis
-                self::$collegeCache->insertCache($where, $redis_list);
-            }else{
-                $result['data'] = self::$actionStore->forPage($nowPage, $forPages, $where);
-                //存入redis缓存
-                $redis_list = CustomPage::objectToArray(self::$actionStore->getData($where));
-                self::$actionCache->insertCache($where, $redis_list);
-            }
-
-        }else{//list存在查找list
-            Log::info('到redis里');
-            if ($list){
-                $count = self::$collegeCache->getLength($where);
-            }else{
-                $count = self::$actionCache->getLength($where);
-            }
-
-            //查询总记录数
-            if (!$count) {
-                //如果没有数据直接返回204空数组，函数结束
-                if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
-                return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
-            }
-
-            if(!$list){
-                $result['data'] = \Qiniu\json_decode(json_encode(self::$actionCache->getActionList($where, $forPages, $nowPage)));
-            }else{
-                $result['data'] = \Qiniu\json_decode(json_encode(self::$collegeCache->getCollegeList($where, $forPages, $nowPage)));
-            }
+        //获取对应页的数据
+        if (!$list) {
+            $result['data'] = self::$actionCache->getPageDatas($where, $forPages, $nowPage);
+        } else {
+//                $result['data'] = self::$collegeCache->getPageDatas($where, $forPages, $nowPage);
         }
 
         //计算总页数

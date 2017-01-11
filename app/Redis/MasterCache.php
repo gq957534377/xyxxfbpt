@@ -51,12 +51,15 @@ class MasterCache
      * 获取hash的指定几个字段的数据
      * @param $key string hash的key
      * @param $key array hash的指定几个字段 array('field1', 'field2')
-     * @return array
      * @author 郭庆
      */
     public function getHash($key)
     {
-        Redis::hGetAll($key);
+        $data = Redis::hGetAll($key);
+        if (!$data) return false;
+        //设置生命周期
+        $this->setTime($key);
+        return $data;
     }
 
     /**
@@ -77,6 +80,58 @@ class MasterCache
         return $data;
     }
 
+    /**
+     * 将一条记录写入hash
+     * @param $key string hash的key
+     * @param $data array 存入hash的具体字段和值
+     * @author 郭庆
+     */
+    public function addHash($key, $data)
+    {
+        if (empty($key) || empty($data)) return false;
 
+        if (!$this->exists($key, false)) {
+            //写入hash
+            Redis::hMset($key, $data);
+        }
+        //设置生命周期
+        $this->setTime($key);
+        return true;
+    }
 
+    /**
+     * 创建新的list并且插入所有list
+     * @param $lists [guid1,guid2]
+     * @author 郭庆
+     */
+    public static function addLists($key, $lists)
+    {
+        if (empty($key) || empty($lists)) return false;
+
+        foreach ($lists as $v){
+            //执行写list操作
+            if (!Redis::rpush($key, $v)) return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 设置hash缓存的生命周期
+     * @param $key  string  需要设置的key
+     */
+    public function setTime($key)
+    {
+        Redis::expire($key, REDIS_LIVE_TIME);
+    }
+
+    /**
+     * 获取 现有list 的长度
+     * @param $key string list的key
+     * @return int
+     */
+    public function getLength($key)
+    {
+        return Redis::llen($key);
+    }
 }
