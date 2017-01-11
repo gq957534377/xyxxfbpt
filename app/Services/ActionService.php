@@ -475,7 +475,8 @@ class ActionService
     {
         foreach($words as $word){
             $content = trim($word->$filed);
-            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
+//            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
+            $content = str_limit($content, $limit, $end = '...');
             $word->$filed = $content;
         }
 

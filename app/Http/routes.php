@@ -28,9 +28,6 @@ Route::group(['domain' => 'admin.hero.app','namespace' => 'Admin'],function(){
     Route::group(['middleware'=> 'AdminMiddleware'],function() {
         // 后台首页
         Route::resource('/', 'AdminController');
-        // 用户管理
-        Route::resource('/user', 'UserController');
-        Route::resource('/user_role', 'UserRoleController');
         //众筹
         Route::resource('/project_approval', 'CrowdFundingController');
         //众筹修改内容
