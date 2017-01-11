@@ -22,7 +22,7 @@
                         @foreach($rollingPic as $key => $val)
 
                             @if($f)
-                                        {{-- */$f = false;/* --}}
+                                {{-- */$f = false;/* --}}
                                 <li data-target="#carousel-example-generic" data-slide-to="{{$key}}" class="active"></li>
                             @else
                                 <li data-target="#carousel-example-generic" data-slide-to="{{$key}}"></li>
@@ -89,8 +89,8 @@
                         <h2 class="jx-tit">创新项目</h2>
                     </div>
                     <div class="col-sm-5 col-xs-9 jxxm" style="padding-right:0;">
-                        <li><a class="ckgd" href="{{route('project.index')}}">查看更多</a></li>
-                        <li><a class="wysjx" href="/user/myProject">我要发布项目</a></li>
+                        <li><a class="ckgd" href="{{ route('project.index') }}">查看更多</a></li>
+                        <li><a class="wysjx" href="{{ url('user/myProject') }}">我要发布项目</a></li>
                     </div>
                 </div>
                 <ul class="row">
@@ -103,7 +103,7 @@
                                         @if(mb_strlen($project->title)<16)
                                             {{ $project->title }}
                                         @else
-                                            {{ mb_substr($project->title,0,16).'...'}}
+                                            {{ str_limit($project->title, 30, $end = '...') }}
                                         @endif
                                     </div>
                                     <div class="classLabel">
@@ -687,7 +687,7 @@
                     <ul class='col-sm-5 section6_right'>
                         @for($i = 0; $i < round(count($articles)/2); $i++)
                             <li>
-                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ str_limit($articles[$i]->title, 30, $end = '...') }}</a></h3>
                                 <p>发布时间 {{ date('Y-m-d H:m', $articles[$i]->addtime) }}</p>
                             </li>
                         @endfor
@@ -695,7 +695,7 @@
                     <ul class='col-sm-5 section6_right'>
                         @for($i = round(count($articles)/2); $i < count($articles); $i++)
                             <li>
-                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
+                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ str_limit($articles[$i]->title, 30, $end = '...') }}</a></h3>
                                 <p>发布时间 {{ date('Y-m-d H:m', $articles[$i]->addtime) }}</p>
                             </li>
                         @endfor

@@ -10,10 +10,10 @@ use App\Store\ActionStore;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
-class ActionCache
+class ActionCache extends MasterCache
 {
 
-    private static $lkey = LIST_ACTION_;      //项目列表key
+    private static $lkey = LIST_ACTION_GUID_;      //项目列表key
     private static $hkey = HASH_ACTION_INFO_;     //项目hash表key
 
     private static $action_store;
@@ -24,20 +24,44 @@ class ActionCache
     }
 
     /**
-     * 判断listkey或者hashkey是否存在
-     * @param $list bool list为真查询listkey,否则查询hashkey
-     * @param $index string   唯一识别码 guid
-     * @return bool
+     * 获取某一页的数据
+     * @param
+     * @author 郭庆
      */
-    public function exists($index, $list=true)
+    public function getPageDatas($where, $nums, $nowPage)
     {
-        if($list){
-            return Redis::exists(self::$lkey.$index);  //查询listkey是否存在
+        $key = '';
+        //拼接key
+        if (empty($where['type']) && !empty($where['status'])){
+            $key = self::$lkey.'-'.':'.$where['status'];
+        }elseif (!empty($where['type']) && !empty($where['status'])){
+            $key = self::$lkey.$where['type'].':'.$where['status'];
+        }elseif (!empty($where['type']) && empty($where['status'])){
+            $key = self::$lkey.$where['type'];
         }else{
-            return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
+            return false;
+        }
+
+        if ($this->exists($key)){
+
+            //获取制定key的所有活动guid
+            $lists = $this->getPageLists(self::$lkey.$index, $nums, $nowPage);
+            if (!$lists) return false;
+
+            //获取所有的data数据
+            $data = [];
+            foreach ($lists as $guid){
+                if ($this->exists(self::$hkey.$guid)){
+                    $data[] = $this->getHash($key);
+                }else{
+                    $data = self::$action_store->getOneData();
+                }
+            }
+
+        }else{
+
         }
     }
-
     /**
      * 删除一条记录
      * @param 将要删除记录的类型，状态，guid
@@ -46,17 +70,29 @@ class ActionCache
      */
     public function delList($type, $status, $guid)
     {
-        if ($this->exists($type.':'.$status)){
+        if ($this->exists(self::$lkey.$type.':'.$status)){
             Redis::lrem(self::$lkey.$type.':'.$status, 0, $guid);
         }
-        if ($this->exists('-'.':'.$status)){
+        if ($this->exists(self::$lkey.'-'.':'.$status)){
             Redis::lrem(self::$lkey.'-'.':'.$status, 0, $guid);
         }
-        if ($this->exists($type)){
+        if ($this->exists(self::$lkey.$type)){
             Redis::lrem(self::$lkey.$type, 0, $guid);
         }
     }
 
+    /**
+     * 创建新的list并且插入所有list
+     * @param $lists [guid1,guid2]
+     * @author 郭庆
+     */
+    public static function addLists($index, $lists)
+    {
+        foreach ($lists as $v){
+            //执行写list操作
+            Redis::rpush(self::$lkey.$index, $v);
+        }
+    }
     /**
      * 添加一条新的list记录
      * @param 将要添加记录的类型，状态，guid
@@ -64,6 +100,7 @@ class ActionCache
      */
     public function addList($type, $status, $guid)
     {
+        if (empty($guid)) return false;
         $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
         if ($status != 4){
             $list1 = Redis::lpush(self::$lkey.$type, $guid);
@@ -78,13 +115,13 @@ class ActionCache
     /**
      * 将一条记录写入hash
      * @param
-     * @return array
      * @author 郭庆
      */
     public function addHash($data)
     {
+        if (empty($data['guid'])) return false;
         $index = self::$hkey . $data['guid'];
-        if (!$this->exists($data['guid'], false)) {
+        if (!$this->exists(self::$hkey.$data['guid'], false)) {
             //写入hash
             Redis::hMset($index, $data);
         }
@@ -113,9 +150,9 @@ class ActionCache
      */
     public function getOneAction($guid)
     {
-        if(!$guid) return false;
+        if(!$guid) return view('errors.404');
         $index = self::$hkey.$guid;
-        if ($this->exists($guid, false)){
+        if ($this->exists(self::$hkey.$guid, false)){
             $data = Redis::hGetall($index);
             //重设生命周期 1800秒
             $this->setTime($index);

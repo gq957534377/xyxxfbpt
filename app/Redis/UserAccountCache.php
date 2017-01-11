@@ -96,38 +96,6 @@ class UserAccountCache
     }
 
     /**
-     * 获取所有账号
-     * @return mixed
-     * @author 刘峻廷
-     */
-    public function getAllAccount()
-    {
-        // 所有账号存放容器
-        $data = [];
-        //  获取List队列里数据
-        $list = Redis::lrange(self::$lkey, 0, -1);
-        // 根据队列，获取hash的集合
-        foreach ($list as $v) {
-            //判断hash 是否存在
-            if ($this->exists('', $v))
-            {
-                // 存在，将数据存入数组容器
-                $account = Redis::hGetall(self::$hkey.$v);
-                // 重新给hash添加生命周期
-                $this->setTime(self::$hkey.$v);
-                $data[] = $account;
-            } else {
-                // 不存在,说明其hash的生命周期到了，重新到数据库里取出一条再次存入hash
-                $result = CustomPage::objectToArray(self::$homeStore->getOneData(['tel' => $v]));
-                // 写入hash
-                $this->setOneAccount($result);
-                $data [] = $result;
-            }
-        }
-        return $data;
-    }
-
-    /**
      * 获取指定账号信息
      * @param $where
      * @return bool
@@ -179,6 +147,21 @@ class UserAccountCache
         }
     }
 
+    /**
+     * 删除指定一条队列数据
+     * @param string $tel
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function delOneList($tel)
+    {
+        if (empty($tel)) return false;
+
+        // 判断队列中是否存在
+        if ($this->exists()) {
+            Redis::lRem(self::$lkey, $tel, 0);
+        }
+    }
     /**
      * 清空redis队列
      * @return mixed
