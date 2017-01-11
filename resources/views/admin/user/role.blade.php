@@ -78,6 +78,7 @@
                             <li><strong>申请时间 ：</strong><span id="addtime"></span></li>
                             <li id="role"></li>
                             <li id="status"></li>
+                            <li id="reason"></li>
 
 
                         </ul>
@@ -150,6 +151,7 @@
                             <li><strong>申请时间 ：</strong><span id="addtime1"></span></li>
                             <li id="role"></li>
                             <li id="status"></li>
+                            <li id="reason1"></li>
 
 
                         </ul>
@@ -192,6 +194,7 @@
 @section('script')
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+
     <script src="{{ asset('jsService/Model/user/userRole.js') }}"></script>
 
 @endsection
