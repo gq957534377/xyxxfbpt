@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\UserService as UserServer;
 use App\Tools\Common;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use App\Services\SafetyService;
 
@@ -33,7 +34,15 @@ class LoginController extends Controller
     {
         if (!empty(session('user'))) return redirect('/');
         $cookie = Common::generateCookie('login');
-        return response()->view('home.login')->withCookie($cookie);
+        // 获取登录错误次数 判断是否要显示验证码
+        $checkCode = Common::generateCookie('checkCode');
+        $errNum = self::$safetyService->getString(Input::getClientIp());
+        if (empty($errNum) || $errNum < LOGIN_ERROR_NUM) {
+            $k = false;
+        } else {
+            $k = true;
+        }
+        return response()->view('home.login', ['errCheck' => $k])->withCookie($cookie)->withCookie($checkCode);
     }
 
     /**
@@ -65,19 +74,37 @@ class LoginController extends Controller
         if ($result != 'ok') return $result;
 
         $data = $request->all();
+        // 获取登录IP
+        $data['ip'] = $request->getClientIp();
+        // 获取登录错误次数
+        $errNum = self::$safetyService->getString($data['ip']);
+        // 判断登录次数如果超过限定的话，
+        if ($errNum > LOGIN_ERROR_NUM) {
+            if (session('code') != $request['code']) {
+                return response()->json(['StatusCode' => '411','ResultData' => '请输入正确验证码']);
+            }
+        };
         //验证数据
         $this->validate($request,[
             'tel' =>  'required',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|max:18',
+        ], [
+            'tel.required' => '手机号不能为空',
+            'password.required' => '密码不能为空',
+            'password.min' => '密码过短',
+            'password.mix' => '密码过长',
         ]);
 
-        if (self::$safetyService->getCountTel($data['tel'], 3600) > 3) {
 
-        };
-        // 获取登录IP
-        $data['ip'] = $request->getClientIp();
         // 校验邮箱和账号,拿到状态码
         $info = self::$userServer->loginCheck($data);
+        // 每登录错误一次，切验证码为空，则错误次数加一。
+        if ($info['StatusCode'] != '200' && empty($request['code'])) {
+            // 如果错误次数超过三次，则返回错误信息，前台显示验证码输入框
+            if (self::$safetyService->getCountIp($data['ip']) > LOGIN_ERROR_NUM) {
+                return response()->json(['StatusCode' => '411','ResultData' => '请输入验证码']);
+            };
+        }
         return response()->json($info);
 
     }
@@ -176,7 +203,6 @@ class LoginController extends Controller
      */
     public function sendSms(Request $request, $id)
     {
-
         // 判断存在
         if (empty($id)) return false;
         if ($request['piccode'] != session('code')) {

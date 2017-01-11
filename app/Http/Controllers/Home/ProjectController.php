@@ -124,11 +124,13 @@ class ProjectController extends Controller
 
         $project_details = $res['ResultData'];
         // 获取项目属于者具体信息
-        $commentData = self::$commentServer->getComent($id,1);
+        $commentData = self::$commentServer->getComent($id, 1);
+        $pageStyle = self::$commentServer->getPageStyle($id, 1);
         return view('home.projects.details', compact(
             'project_details', //内容详情数据
             'commentData', //评论内容数据
-            'id'//项目guid
+            'id',//项目guid
+            'pageStyle'//分页样式
 //            'likeNum', //点赞数
 //            'likeStatus'//点赞状态
         ));
@@ -280,6 +282,33 @@ class ProjectController extends Controller
         }
 
         $result = self::$projectServer->getData($nowPage, 4 , $where);
+
+        return response()->json($result);
+    }
+
+    /**
+     * 详情页评论ajax分页请求接口
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * author 张洵之
+     */
+    public function commentForPage(Request $request)
+    {
+        $contentId = $request->input('contentId');
+        $nowPage = $request->input('nowPage');
+        $comment = self::$commentServer->getComent($contentId, $nowPage);
+        $result['StatusCode'] = '200';
+
+        if($comment['StatusCode'] == '200') {
+            $result['ResultData']['commentData'] = $comment['ResultData'];
+        }else{
+            $result['StatusCode'] = '400';
+            $result['ResultData'] ='服务器错误';
+        }
+
+        $pageStyle= self::$commentServer->getPageStyle($contentId, $nowPage);
+        $result['ResultData']['pageStyle'] = $pageStyle;
+
 
         return response()->json($result);
     }

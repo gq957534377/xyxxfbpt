@@ -104,6 +104,7 @@ class UserController extends Controller
         } else {
             return ['StatusCode' => '400', 'ResultData' => '请先成为创业者'];
         }
+
     }
 
     /**
@@ -393,20 +394,41 @@ class UserController extends Controller
      * @param $guid
      * @return \Illuminate\Http\JsonResponse
      * @author 刘峻廷
+     * @author 王通
      */
     public function sendSms(Request $request, $guid)
     {
         if (isset($request->phone)) {
+            // 验证过滤数据
+            $validator = Validator::make($request->all(),[
+                'phone' => 'required|max:11|min:11',
+                'code' => 'required'
+            ],[
+                'phone.required' => '请输入手机号',
+                'phone.max' => '手机号最大为11位',
+                'phone.min' => '手机号最少为11位',
+                'code.required' => '请输入验证码',
+            ]);
+            if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+            //验证数据，手机号校验
+            $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
+            if(!preg_match($preg,$request->phone)) return response()->json(['StatusCode' => '400','ResultData' => '请输入正确的手机号!']);
+            if ($request->code != session('code')) {
+                return response()->json(['StatusCode' => '400','ResultData' => '请输入正确的验证码!']);
+            } else {
+                session(['code' => '']);
+            }
+
+
             // 发送短信
             $info = self::$userServer->sendSmsCode($request->phone);
 
             return response()->json($info);
         }
-
-        if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
+        if (!isset($guid) || empty(session('user')->guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
 
         // 拿到给用户的手机号
-        $tel = self::$userServer->accountInfo(['guid' => $guid])['ResultData']->tel;
+        $tel = self::$userServer->accountInfo(['guid' => session('user')->guid])['ResultData']->tel;
         // 发送短信
         $info = self::$userServer->sendSmsCode($tel);
 

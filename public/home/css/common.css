@@ -327,6 +327,9 @@ body .list-inline > li {
 .wid-4 {
     width: 75px;
 }
+.wid-5 {
+    width: 118px;
+}
 
 /*字体大小*/
 .fs-12 {
@@ -1108,4 +1111,11 @@ body .list-inline > li {
 .request-error-info h2{
     color: #999999;
 }
-
+.pagination >li>a{
+    color: #FF9036;
+}
+.pagination li.active >a{
+    background: #FF9036;
+    border-color: #FF9036;
+    color: #ffffff;
+}

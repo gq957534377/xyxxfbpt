@@ -66,24 +66,8 @@
                                     });
                                 break;
                             case '200':
-                                var html = '<li class="row">';
-                                html += '<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">';
-                                html += '<div class="user-img-bgs">';
-                                html += '<img src="'+ data.ResultData.userImg +'">';
-                                html += '</div>';
-                                html += '</div>';
-                                html += '<div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">';
-                                html += '<div class="row user-say1">';
-                                html += '<span>'+ data.ResultData.nikename +'</span>';
-                                html += '<span>'+ data.ResultData.time +'</span>';
-                                html += '</div>';
-                                html += '<div class="row user-say2">';
-                                html += '<p>'+ data.ResultData.content +'</p>';
-                                html += '</div>';
-                                html += '</div>';
-                                html += '</li>';
-                                $('#commentlist').find('li').eq(0).after(html);
-                                $("textarea[name= 'content']").val("");
+                                $("textarea[name= 'content']").val('');
+                                ajaxForPage(1, $("input[name= 'action_id']").val());
                                 break;
                         }
                     }

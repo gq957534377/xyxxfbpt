@@ -38,7 +38,6 @@ html body{
 }
 .input_block_1{
 	max-width:305px;
-	height:93px;
 	border:1px solid #cfcfcf;
 	border-radius: 3px;
 	margin: 0 auto;
@@ -50,6 +49,14 @@ html body{
 }
 .input_block_1 li:nth-child(2){
 	background: url(../img/pwd.jpg) no-repeat 16px 15px;
+}
+.input_block_1 li:nth-child(3){
+	border-top: 1px solid #e7e7e7;
+}
+.input_block_1 li:nth-child(3) img{
+	float: right;
+	width: 30%;
+	height: 40px;
 }
 .input_block_1 li{
 	height: 46px;

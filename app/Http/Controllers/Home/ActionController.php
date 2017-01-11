@@ -133,11 +133,12 @@ class ActionController extends Controller
         $data = self::$actionServer->getData($id,false);//活动详情
 //        $likeNum = self::$commentServer->likeCount($id);//点赞人数
         $commentData = self::$commentServer->getComent($id,1);//评论数据
+        $pageStyle = self::$commentServer->getPageStyle($id, 1);//分页样式
         //$isHas（是否已经报名参加）的设置
         if (!!empty(session('user')->guid)){
             $isLogin = false;
             $isHas = false;
-            $likeStatus = 2;
+//            $likeStatus = 2;
         }else{
 //            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
             $action = self::$actionOrderStore->getSomeField(['user_id'=>session('user')->guid], 'action_id');//当前用户报名参加的所有活动
@@ -160,7 +161,8 @@ class ActionController extends Controller
 //            'likeStatus' => $likeStatus,
             'comment' => $commentData,
             'contentId' => $id,
-            'rand' => $rand
+            'rand' => $rand,
+            'pageStyle' => $pageStyle
         ]);
     }
 

@@ -41,13 +41,14 @@ class ProjectCache
 
     /**
      * 插入缓存索引
-     * @param array $data
+     * @param object $data
      * @return bool
      * author 张洵之
      */
     public function insertCache($data)
     {
         if(empty($data)) return false;
+
         $temp = CustomPage::objectToArray($data);
         //建立redis索引
         if (!Redis::rpush(self::$lkey . $temp['financing_stage'], $temp['guid'])) {
@@ -236,5 +237,23 @@ class ProjectCache
         }else{
             return $index;
         }
+    }
+
+    public function takeData($number)
+    {
+        $length = Redis::lLen(self::$lkey);
+
+        if($number>=$length&&$length>0){
+            return $this->getPageData(1,$length,[]);
+        }elseif ($length == 0){
+            return false;
+        }
+
+        $numbers = range (1,$length);
+        shuffle ($numbers);
+        for ($i = 0;$i<$number;$i++){
+            $data[$i] = $this->getPageData($numbers[$i],1,[])[0];
+        }
+        return $data;
     }
 }

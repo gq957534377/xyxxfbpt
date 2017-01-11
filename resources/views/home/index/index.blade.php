@@ -17,15 +17,16 @@
                     <!-- Indicators -->
                     <ol class="carousel-indicators">
                         @if( is_array($rollingPic) )
-                            <?php $f = true; ?>
-                            @foreach($rollingPic as $key => $val)
 
-                                @if($f)
-                                    <?php $f = false; ?>
-                                    <li data-target="#carousel-example-generic" data-slide-to="{{$key}}" class="active"></li>
-                                @else
-                                    <li data-target="#carousel-example-generic" data-slide-to="{{$key}}"></li>
-                                @endif
+                                {{-- */$f = true;/* --}}
+                        @foreach($rollingPic as $key => $val)
+
+                            @if($f)
+                                        {{-- */$f = false;/* --}}
+                                <li data-target="#carousel-example-generic" data-slide-to="{{$key}}" class="active"></li>
+                            @else
+                                <li data-target="#carousel-example-generic" data-slide-to="{{$key}}"></li>
+                            @endif
 
                             @endforeach
                         @else
@@ -36,16 +37,18 @@
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner" role="listbox">
                         @if( is_array($rollingPic) )
-                            <?php $f = true; ?>
-                            @foreach($rollingPic as $key => $val)
+                            {{-- */$f = true;/* --}}
+                        @foreach($rollingPic as $key => $val)
 
                                 @if($f)
-                                    <?php $f = false; ?>
+                                    {{-- */$f = false;/* --}}
                                     <div class="item active">
                                         <img  onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
                                         <div class="carousel-caption">
                                         </div>
+
                                     </div>
+
                                 @else
                                     <div class="item">
                                         <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->url }}" alt="...">
@@ -87,7 +90,7 @@
                     </div>
                     <div class="col-sm-5 col-xs-9 jxxm" style="padding-right:0;">
                         <li><a class="ckgd" href="{{route('project.index')}}">查看更多</a></li>
-                        <li><a class="wysjx" href="/user/myProject">我要发布项目！</a></li>
+                        <li><a class="wysjx" href="/user/myProject">我要发布项目</a></li>
                     </div>
                 </div>
                 <ul class="row">
@@ -96,7 +99,13 @@
                             <li class="col-sm-4">
                                 <a class="new_a" href="{{ route('project.show', $project->guid) }}">
                                     <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $project->banner_img }}">
-                                    <div class="companyName">{{ $project->title }}</div>
+                                    <div class="companyName">
+                                        @if(mb_strlen($project->title)<16)
+                                            {{ $project->title }}
+                                        @else
+                                            {{ mb_substr($project->title,0,16).'...'}}
+                                        @endif
+                                    </div>
                                     <div class="classLabel">
                                 <span>
                                     @if($project->industry == 1)
@@ -679,7 +688,7 @@
                         @for($i = 0; $i < round(count($articles)/2); $i++)
                             <li>
                                 <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
-                                <p>发布时间 {{ $articles[$i]->addtime }}</p>
+                                <p>发布时间 {{ date('Y-m-d H:m', $articles[$i]->addtime) }}</p>
                             </li>
                         @endfor
                     </ul>
@@ -687,7 +696,7 @@
                         @for($i = round(count($articles)/2); $i < count($articles); $i++)
                             <li>
                                 <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ mb_substr($articles[$i]->title, 0,20).'...' }}</a></h3>
-                                <p>发布时间 {{ $articles[$i]->addtime }}</p>
+                                <p>发布时间 {{ date('Y-m-d H:m', $articles[$i]->addtime) }}</p>
                             </li>
                         @endfor
                     </ul>

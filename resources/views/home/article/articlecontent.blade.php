@@ -68,6 +68,7 @@
                                 <button type="submit" class="subbtn btn btn-warning" >提交</button>
                             </form>
                         </li>
+                        <div id="js_comment">
                         @if($ResultData->comment['StatusCode'] == '200')
                             @foreach($ResultData->comment['ResultData'] as $val)
                                 <li class="row">
@@ -88,7 +89,9 @@
                                 </li>
                             @endforeach
                         @endif
+                        </div>
                     </ul>
+                    <div id="js_pages">{!! $ResultData->pageStyle !!}</div>
                 </div>
                 <!--评论区域开始-->
             </div>
@@ -129,6 +132,7 @@
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
     <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
+    <script src="{{ asset('home/js/commentForpage.js') }}"></script>
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script src="{{ asset('home/js/article.js') }}"></script>
 @endsection

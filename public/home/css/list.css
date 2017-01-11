@@ -56,11 +56,12 @@
 .content >li{
   padding: 0;
   margin-top: 15px;
+  height: 292px;
 }
 .content-block{
   width: 95%;
   max-width: 268px;
-  max-height: 310px;
+  height: 100%;
   border: 1px solid #eeeeee;
 }
 .content-block>a>img{
