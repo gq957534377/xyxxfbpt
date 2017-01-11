@@ -58,6 +58,18 @@ class ActionCache
     }
 
     /**
+     * 创建新的list并且插入所有list
+     * @param $lists [guid1,guid2]
+     * @author 郭庆
+     */
+    public static function addLists($index, $lists)
+    {
+        foreach ($lists as $v){
+            //执行写list操作
+            Redis::rpush(self::$lkey.$index, $v);
+        }
+    }
+    /**
      * 添加一条新的list记录
      * @param 将要添加记录的类型，状态，guid
      * @author 郭庆
