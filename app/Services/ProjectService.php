@@ -42,11 +42,7 @@ class ProjectService {
     public function getData($nowPage,$pageNum, $where)
     {
         if(empty($where['user_guid'])){
-            try{
-                $data = self::$projectCache->getPageData($nowPage, $pageNum, $where);
-            }catch (Exception $e){
-                $data = self::$projectStore->getPage($nowPage, $pageNum, $where);
-            }
+            $data =self::$projectCache->getPageData($nowPage,$pageNum, $where);
         }else{
             $data = self::$projectStore->getPage($nowPage, $pageNum, $where);
         }
@@ -71,11 +67,11 @@ class ProjectService {
         if($cache){
             $data = $cache;
         }else{
-            $temp = self::$projectStore->getAllData();
-            if (!$temp) return ['StatusCode' => '204', 'ResultData' => '暂无无数据'];
-            foreach ($temp as $value) {
-                self::$projectCache->insertCache($value);
-            }
+            $temp = self::$projectStore->getList(['status' => 1], 'guid');
+
+            if (!$temp) return ['StatusCode' => '400', 'ResultData' => '暂无无数据'];
+
+            self::$projectCache->insertCache($temp);
             $data = self::$projectCache->takeData($number);
         }
 
@@ -117,44 +113,44 @@ class ProjectService {
         return ['StatusCode' => '200','ResultData'=>'修改成功'];
     }
 
-    /**
-     * 获取首页数据
-     * @param $num
-     * @param $status
-     * @return array
-     * @author 贾济林
-     * @modify 张洵之
-     */
-    public function getFrstPage($num, $status)
-    {
-        $where = ['status' => $status];
-
-        $res = self::$projectStore->getPage('1',$num,$where);
-
-        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
-
-        return ['StatusCode' => '200', 'ResultData' => $res];
-    }
-
-    /**
-     * 指定当前页、单页数据量、和项目状态获取数据
-     * @param $nowpage
-     * @param $num
-     * @param $status
-     * @return array
-     * @author 贾济林
-     * @modify 张洵之
-     */
-    public function getPage($nowpage, $num, $status)
-    {
-        $where = ['status' => $status];
-
-        $res = self::$projectStore->getPage($nowpage,$num,$where);
-
-        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
-
-        return ['StatusCode' => '200', 'ResultData' => $res];
-    }
+//    /**
+//     * 获取首页数据
+//     * @param $num
+//     * @param $status
+//     * @return array
+//     * @author 贾济林
+//     * @modify 张洵之
+//     */
+//    public function getFrstPage($num, $status)
+//    {
+//        $where = ['status' => $status];
+//
+//        $res = self::$projectStore->getPage('1',$num,$where);
+//
+//        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
+//
+//        return ['StatusCode' => '200', 'ResultData' => $res];
+//    }
+//
+//    /**
+//     * 指定当前页、单页数据量、和项目状态获取数据
+//     * @param $nowpage
+//     * @param $num
+//     * @param $status
+//     * @return array
+//     * @author 贾济林
+//     * @modify 张洵之
+//     */
+//    public function getPage($nowpage, $num, $status)
+//    {
+//        $where = ['status' => $status];
+//
+//        $res = self::$projectStore->getPage($nowpage,$num,$where);
+//
+//        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
+//
+//        return ['StatusCode' => '200', 'ResultData' => $res];
+//    }
 
 
     /**

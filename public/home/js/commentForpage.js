@@ -1,5 +1,6 @@
 /**
  * Created by Administrator on 2017/1/10.
+ * 评论分页方法
  */
 $(function () {
     aOnClick();
