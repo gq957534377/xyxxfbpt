@@ -25,6 +25,11 @@ define('LOGIN_ERROR_NUM', 5);
 // 检测错误时间区间
 define('LOGIN_ERROR_NUM_TIME', 3600);
 
+// 首页显示字符数常量
+define('STR_LIMIT', 20);
+
+
+
 
 
 

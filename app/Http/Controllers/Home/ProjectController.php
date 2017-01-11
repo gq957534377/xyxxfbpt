@@ -48,7 +48,7 @@ class ProjectController extends Controller
             return view('home.projects.index', compact('projects', 'type'));
         } else {
             $projects = $res['ResultData'];
-            Common::wordLimit($projects, 'content', 15);
+//            Common::wordLimit($projects, 'content', 15);
             return view('home.projects.index', compact('projects', 'type'));
         }
 
