@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Redis;
 
 class ProjectCache
 {
-    private static $lkey = LIST_PROJECT_INFO;      //项目list表key
+    private static $lkey = LIST_PROJECT_INFO_;      //项目list表key
     private static $hkey = HASH_PROJECT_INFO_;     //项目hash表key
 
     private static $project_store;

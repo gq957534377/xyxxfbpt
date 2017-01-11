@@ -4,8 +4,11 @@
 //articcle 文章 redis key
 define('LIST_ARTICLE_INFO','LIST:ARTICLE:INFO:');
 define('HASH_ARTICLE_INFO_','HASH:ARTICLE:INFO:');
-//project 项目 redis key
-define('LIST_PROJECT_INFO','LIST:PROJECT:INFO:');
+/**
+ * 项目投资阶段分类
+ * 作用：项目列表信息分类
+ */
+define('LIST_PROJECT_INFO_','LIST:PROJECT:INFO:');
 define('HASH_PROJECT_INFO_','HASH:PROJECT:INFO:');
 //action 活动 redis key
 define('LIST_ACTION_','LIST:ACTION:');
@@ -28,8 +31,8 @@ define('HASH_PICTURE_INFO_','HASH:PICTURE:INFO:');
 define('LIST_ROLLINGPICTURE_INFO','LIST:ROLLINGPICTURE:INFO');
 define('HASH_ROLLINGPICTURE_INFO_','HASH:ROLLINGPICTURE:INFO:');
 //comment评论 redis key
-define('LIST_COMMENT_INFO','LIST:COMMENT:INFO:');
+define('LIST_COMMENT_INFO_','LIST:COMMENT:INFO:');
 define('HASH_COMMENT_INFO_','HASH:COMMENT:INFO:');
 //userinfo用户信息 redis key
-define('LIST_USERINFO_INFO','LIST:USERINFO:INFO:');
+define('LIST_USERINFO_INFO_','LIST:USERINFO:INFO:');
 define('HASH_USERINFO_INFO_','HASH:USERINFO:INFO:');
