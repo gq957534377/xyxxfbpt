@@ -358,9 +358,9 @@ class ActionService
 
         if($Data){
             if ($list == 3){
-                self::$collegeCache->changeOneHash($where['guid'], $data);
+//                self::$collegeCache->changeOneCollege($where['guid'], $data);
             }else{
-                self::$actionCache->changeOneHash($where['guid'], $data);
+                self::$actionCache->changeOneAction($where['guid'], $data);
             }
             return ['StatusCode'=> '200','ResultData' => "修改成功"];
         }else{
@@ -507,11 +507,11 @@ class ActionService
     {
         $count = self::$actionCache->getCount(['status' => 1]);
         if (!$count) return ['StatusCode' => '204', 'ResultData' => "没有数据"];
-        $end = (($count - $take) > -1) ? ($count - $take) : 1;
-        $start = random_int(1,$end);
+        $end = (($count > $take)) ? ($count - $take) : $count;
+        $start = (($count > $take)) ? random_int(0,$end) : 0;
 
         if ($list) {
-            $result = self::$actionCache->getRandActions(['status' => $status], $start, $start+$take);
+            $result = self::$actionCache->getBetweenActions(['status' => $status], $start, $start+$take);
         } else {
 //            $result = self::$collegeCache->getRandActions(['status' => $status], $start, $start+$take);
         }

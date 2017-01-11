@@ -28,7 +28,6 @@ class ActionController extends Controller
     {
         $type = (int)$request->get('type');
 
-
         return view('admin.action.index',['type' => $type]);
     }
 

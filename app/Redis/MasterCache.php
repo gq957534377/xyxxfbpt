@@ -127,6 +127,10 @@ class MasterCache
         return true;
     }
 
+    public function addList($key, $guid)
+    {
+        return Redis::lpush($key, $guid);
+    }
     /**
      * 设置hash缓存的生命周期
      * @param $key  string  需要设置的key
@@ -144,5 +148,32 @@ class MasterCache
     public function getLength($key)
     {
         return Redis::llen($key);
+    }
+
+    /**
+     * 修改一条hash记录
+     * @param $key string hash的key
+     * @param $data array 所要修改的键值对
+     * @author 郭庆
+     */
+    public function changeOneHash($key, $data)
+    {
+        //写入hash
+        $result = Redis::hMset($key, $data);
+        if (!$result) return false;
+        //设置生命周期
+        $this->setTime($key);
+        return true;
+    }
+
+    /**
+     * 删除一条list记录
+     * @param
+     * @author 郭庆
+     */
+    public function delList($key, $guid)
+    {
+        if ($this->exists($key)) return Redis::lrem($key, 0, $guid);
+        return true;
     }
 }

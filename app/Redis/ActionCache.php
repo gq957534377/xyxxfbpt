@@ -65,7 +65,9 @@ class ActionCache extends MasterCache
 
     /**
      * 获取某一页的数据
-     * @param
+     * @param $where []
+     * @param $nums int 每页显示的条数
+     * @param $nowPage int 当前页数
      * @author 郭庆
      */
     public function getPageDatas($where, $nums, $nowPage)
@@ -74,7 +76,7 @@ class ActionCache extends MasterCache
         $key = $this -> getlistKey($where);
         if (!$key) return false;
 
-        //如果list不存在，从数据库去除所有guid并存入redis
+        //如果list不存在，从数据库取出所有guid并存入redis
         if (!$this->exists($key)){
             //从数据库获取所有的guid
             $guids = self::$action_store->getGuids($where);
@@ -82,13 +84,51 @@ class ActionCache extends MasterCache
             if (!$guids) return false;
             //将获取到的所有guid存入redis
             $redisList = $this->addLists($key, $guids);
-            if (!$redisList) Log::error("将数据库数据写入list失败");
+            if (!$redisList) Log::error("将数据库数据写入list失败,list为：".$key);
         }
 
         //获取制定key的所有活动guid
         $lists = $this->getPageLists($key, $nums, $nowPage);
         if (!$lists) return false;
 
+        return $this->getDataByList($lists);
+    }
+
+    /**
+     * 根据制定条件获取指定list范围内的数据
+     * @param $where array ['status'=>1]
+     * @param $start int 0-count
+     * @param $end int 0-count
+     * @author 郭庆
+     */
+    public function getBetweenActions($where, $start, $end)
+    {
+        //拼接list key
+        $key = $this -> getlistKey($where);
+
+        //如果list不存在，从数据库取出所有guid并存入redis
+        if (!$this->exists($key)){
+            //从数据库获取所有的guid
+            $guids = self::$action_store->getGuids($where);
+
+            if (!$guids) return false;
+            //将获取到的所有guid存入redis
+            $redisList = $this->addLists($key, $guids);
+            if (!$redisList) Log::error("将数据库数据写入list失败,list为：".$key);
+        }
+
+        $lists = $this->getBetweenList($key, $start, $end);
+
+        return $this->getDataByList($lists);
+    }
+
+    /**
+     * 通过获取到的list索引来获取详细信息数组
+     * @param $lists array [$guid1,$guid2,$guid3]
+     * @author 郭庆
+     */
+    public function getDataByList($lists)
+    {
         $data = [];
         //获取所有的data数据
         foreach ($lists as $guid){
@@ -104,30 +144,19 @@ class ActionCache extends MasterCache
         return $data;
     }
 
-    public function getRandActions($where, $start, $end)
-    {
-        //拼接list key
-        $key = $this -> getlistKey($where);
-
-        return $this->getBetweenList($key, $start, $end);
-    }
     /**
      * 删除一条记录
      * @param 将要删除记录的类型，状态，guid
      * @return array
      * @author 郭庆
      */
-    public function delList($type, $status, $guid)
+    public function delAction($type, $status, $guid)
     {
-        if ($this->exists(self::$lkey.$type.':'.$status)){
-            Redis::lrem(self::$lkey.$type.':'.$status, 0, $guid);
-        }
-        if ($this->exists(self::$lkey.'-'.':'.$status)){
-            Redis::lrem(self::$lkey.'-'.':'.$status, 0, $guid);
-        }
-        if ($this->exists(self::$lkey.$type)){
-            Redis::lrem(self::$lkey.$type, 0, $guid);
-        }
+        $result = true;
+        $result = $this->delList(self::$lkey . $type . ':' . $status, 0, $guid);
+        $result = $this->delList(self::$lkey . '-' . ':' . $status, 0, $guid);
+        $result = $this->delList(self::$lkey.$type, 0, $guid);
+        return $result;
     }
 
 
@@ -136,16 +165,16 @@ class ActionCache extends MasterCache
      * @param 将要添加记录的类型，状态，guid
      * @author 郭庆
      */
-    public function addList($type, $status, $guid)
+    public function addActionList($type, $status, $guid)
     {
         if (empty($guid)) return false;
-        $list = Redis::lpush(self::$lkey.$type.':'.$status, $guid);
+        $list = $this->addList(self::$lkey.$type.':'.$status, $guid);
         if ($status != 4){
-            $list1 = Redis::lpush(self::$lkey.$type, $guid);
+            $list1 = $this->addList(self::$lkey.$type, $guid);
         }else{
             $list1 = true;
         }
-        $list2 = Redis::lpush(self::$lkey.'-'.':'.$status, $guid);
+        $list2 = $this->addList(self::$lkey.'-'.':'.$status, $guid);
         if ($list && $list1 && $list2) return true;
         return false;
     }
@@ -154,17 +183,24 @@ class ActionCache extends MasterCache
 
     /**
      * 修改一条hash记录
-     * @param
-     * @return array
+     * @param $guid string 所要修改记录的guid
+     * @param $data array 所要修改字段的键值对
      * @author 郭庆
      */
-    public function changeOneHash($guid, $data)
+    public function changeOneAction($guid, $data)
     {
-        $index = self::$hkey . $guid;
+        if (empty($data) || empty($guid) || !is_array($data)) return false;
+        $key = self::$hkey.$guid;
+        //修改hash
+        $result = $this->changeOneHash($key, $data);
+        if (!$result) {
+            \Log::error('redis修改hash出错，key为：'.$key);
+            return false;
+        }
         //写入hash
-        Redis::hMset($index, $data);
+        Redis::hMset($key, $data);
         //设置生命周期
-        $this->setTime($index);
+        $this->setTime($key);
     }
 
     /**
@@ -195,11 +231,11 @@ class ActionCache extends MasterCache
      */
     public function insertOneAction($data)
     {
-        $list = $this->addList($data['type'], $data['status'], $data['guid']);
+        $list = $this->addActionList($data['type'], $data['status'], $data['guid']);
         if ($list){
-            $this->addHash($data);
+            $this->addHash(self::$hkey.$data['guid'], $data);
         }else{
-            Log::warning('后台发布活动存入redis列表失败'.$data['guid']);
+            Log::error('后台发布活动存入redis列表失败'.$data['guid']);
         }
     }
 
@@ -252,11 +288,11 @@ class ActionCache extends MasterCache
         $oldStatus = $data['status'];
         $oldType = $data['type'];
         //修改hash中的状态字段
-        $this->changeOneHash($guid, ['status'=>$status]);
+        $this->changeOneAction($guid, ['status'=>$status]);
         //删除旧的索引记录
-        $this->delList($oldType, $oldStatus, $guid);
+        $this->delAction($oldType, $oldStatus, $guid);
         //根据新的状态添加新的索引list记录
-        $this->addList($oldType, $status, $guid);
+        $this->addAction($oldType, $status, $guid);
     }
 
 
