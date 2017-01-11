@@ -16,6 +16,7 @@ class CommentCache
 {
     private static $lkey = LIST_COMMENT_INFO_;      //项目list表key
     private static $hkey = HASH_COMMENT_INFO_;     //项目hash表key
+    private static $strkey = STRING_COMMENT_NUM_;
 
     /**
      * 判断listkey和hashkey是否存在
@@ -23,13 +24,9 @@ class CommentCache
      * @param $index string   唯一识别码 guid
      * @return bool
      */
-    public function exists($type = 'list', $index = '')
+    public function exists($key)
     {
-        if($type == 'list'){
-            return Redis::exists(self::$lkey.$index);  //查询listkey是否存在
-        }else{
-            return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
-        }
+        return Redis::exists($key);
 
     }
 
@@ -101,27 +98,15 @@ class CommentCache
      */
     public function getPageData($nowPage, $contentId)
     {
+
+        if(!$this->exists(self::$lkey.$contentId)) return false;
+
         $start = ($nowPage - 1)*PAGENUM;
         $stop = $nowPage*PAGENUM-1;
+        $indexData = Redis::lRange(self::$lkey.$contentId, $start, $stop);
 
-        if(!$this->exists($type = 'list', $contentId)) return null;
-
-        $indexData = Redis::lRange(self::$lkey. $contentId, $start, $stop);
-
-        if(!empty($indexData)){
-
-            $data = CustomPage::arrayToObject($this->getHashData($indexData));
-
-            if (empty($data)){
-                return null;
-            }else{
-                return (array)$data;
-            }
-
-        }else{
-
-            return null;
-
+        if($indexData) {
+            $temp = $this->getHashData($indexData);
         }
     }
 
@@ -138,7 +123,7 @@ class CommentCache
             if($this->exists('hash', $value)) {
                 $data[] = Redis::hGetall(self::$hkey .$value);
             }else{
-                return null;
+                return false;
             }
         }
         return $data;
@@ -152,8 +137,9 @@ class CommentCache
      */
     public function getCommentNum($contentId)
     {
-        if(Redis::exists(self::$lkey.$contentId.':Num' )){
-            $result = Redis::Get (self::$lkey.$contentId.':Num' );
+
+        if($this->exists(self::$strkey.$contentId)){
+            $result = Redis::Get (self::$strkey.$contentId);
             return ['num' => $result];
         }else{
             return false;
@@ -168,6 +154,6 @@ class CommentCache
      */
     public function setCommentNum($contentId, $num)
     {
-        Redis::Set(self::$lkey.$contentId.':Num', $num);
+        Redis::Set(self::$strkey.$contentId, $num);
     }
 }
