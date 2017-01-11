@@ -29,13 +29,9 @@ class ProjectCache
      * @param $index string   唯一识别码 guid
      * @return bool
      */
-    public function exists($type = 'list', $index = '')
+    public function exists($key)
     {
-        if($type == 'list'){
-            return Redis::exists(self::$lkey.$index);  //查询listkey是否存在
-        }else{
-            return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
-        }
+        return Redis::exists($key);
 
     }
 
@@ -132,8 +128,12 @@ class ProjectCache
         $stop = $nowPage*$pageNum-1;
 
         if(empty($where['financing_stage'])) {
-            $where['financing_stage']
+            $type = 11;
+        }else {
+            $type = $where['financing_stage'];
         }
+
+        if($this->exists('list', $type))
 //        if (empty($where['financing_stage'])){
 //
 //            if(!$this -> exists()){
