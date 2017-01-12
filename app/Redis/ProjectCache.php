@@ -8,10 +8,8 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\ProjectStore;
-use Illuminate\Contracts\Logging\Log;
-use Illuminate\Support\Facades\Redis;
 
-class ProjectCache
+class ProjectCache extends MasterCache
 {
     private static $lkey = LIST_PROJECT_INFO_;      //项目list表key
     private static $hkey = HASH_PROJECT_INFO_;     //项目hash表key
@@ -23,28 +21,6 @@ class ProjectCache
         self::$project_store = $projectStore;
     }
 
-    /**
-     * 判断listkey和hashkey是否存在
-     * @param $type string list为查询listkey,否则查询hashkey
-     * @param $index string   唯一识别码 guid
-     * @return bool
-     */
-    public function exists($key)
-    {
-        return Redis::exists($key);
-
-    }
-
-    /**
-     * 设置缓存生命周期
-     * @param $key
-     * @param int $time
-     * author 张洵之
-     */
-    public function setTime($key, $time = HASH_OVERTIME)
-    {
-        Redis::expire($key, $time);
-    }
 
     /**
      * 创建listKey
@@ -62,7 +38,7 @@ class ProjectCache
         }
 
         if ($temp){
-            Redis::rPush(self::$lkey.$type , $temp);
+            $this ->rPushLists(self::$lkey.$type, $temp);
             return true;//有数据返回true
         }else{
             return false;//无数据返回false
@@ -82,25 +58,24 @@ class ProjectCache
         $temp = CustomPage::objectToArray($data);
         foreach ($temp as $value) {
             $index = self::$hkey . $value['guid'];
-
-            if(!$this->exists($index)) {
-
-                //写入hash
-                Redis::hMset($index, $value);
-                //设置生命周期
-                $this->setTime($index);
-            }
+            $this->addHash($index, $value);
         }
     }
 
-    public function getHash($indexArray)
+    /**
+     * 拿取项目缓存
+     * @param $indexArray
+     * @return array
+     * author 张洵之
+     */
+    public function getProjectHash($indexArray)
     {
         $data = array();
         foreach ($indexArray as $value) {
             $index = self::$hkey . $value;
 
             if ($this->exists($index)) {
-                $data[] = CustomPage::arrayToObject(Redis::hGetall($index));
+                $data[] = CustomPage::arrayToObject($this->getHash($index));
             } else {
                 $temp[0] = self::$project_store->getOneData(['guid' => $value]);
                 $this->createHash($temp);
@@ -140,10 +115,8 @@ class ProjectCache
             $this->createHash($data);//将查出的数据做hash存储
 
         }else{
-            $start = ($nowPage - 1)*$pageNum;
-            $stop = $nowPage*$pageNum-1;
-            $indexData = Redis::lRange(self::$lkey.$type, $start, $stop);
-            $data = $this->getHash($indexData);
+            $indexData = $this->getPageLists(self::$lkey.$type, $pageNum, $nowPage);
+            $data = $this->getProjectHash($indexData);
         }
 
         return $data;
