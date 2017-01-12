@@ -8,7 +8,6 @@ namespace App\Redis;
 use App\Tools\CustomPage;
 use App\Store\ActionStore;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redis;
 
 class ActionCache extends MasterCache
 {
@@ -30,7 +29,6 @@ class ActionCache extends MasterCache
      */
     public function getlistKey($where)
     {
-        $key = '';
         if (empty($where['type']) && !empty($where['status'])){
             $key = self::$lkey.'-'.':'.$where['status'];
         }elseif (!empty($where['type']) && !empty($where['status'])){
@@ -45,7 +43,7 @@ class ActionCache extends MasterCache
 
     /**
      * 获取符合条件的数据总条数
-     * @param
+     * @param $where []
      * @author 郭庆
      */
     public function getCount($where)
@@ -64,34 +62,25 @@ class ActionCache extends MasterCache
     }
 
     /**
-     * 获取某一页的数据
-     * @param $where []
-     * @param $nums int 每页显示的条数
-     * @param $nowPage int 当前页数
+     * 将指定条件查询到的所有guid加入redis list中
+     * @param $where [] 查询条件
+     * @param $key string list KEY
      * @author 郭庆
      */
-    public function getPageDatas($where, $nums, $nowPage)
+    public function mysqlToList($where, $key)
     {
-        //拼接list key
-        $key = $this -> getlistKey($where);
-        if (!$key) return false;
+        //从数据库获取所有的guid
+        $guids = self::$action_store->getGuids($where);
 
-        //如果list不存在，从数据库取出所有guid并存入redis
-        if (!$this->exists($key)){
-            //从数据库获取所有的guid
-            $guids = self::$action_store->getGuids($where);
-
-            if (!$guids) return false;
-            //将获取到的所有guid存入redis
-            $redisList = $this->rPushLists($key, $guids);
-            if (!$redisList) Log::error("将数据库数据写入list失败,list为：".$key);
+        if (!$guids) return false;
+        //将获取到的所有guid存入redis
+        $redisList = $this->rPushLists($key, $guids);
+        if (!$redisList) {
+            Log::error("将数据库数据写入list失败,list为：".$key);
+            return $guids;
+        }else{
+            return true;
         }
-
-        //获取制定key的所有活动guid
-        $lists = $this->getPageLists($key, $nums, $nowPage);
-        if (!$lists) return false;
-
-        return $this->getDataByList($lists);
     }
 
     /**
@@ -108,16 +97,17 @@ class ActionCache extends MasterCache
 
         //如果list不存在，从数据库取出所有guid并存入redis
         if (!$this->exists($key)){
-            //从数据库获取所有的guid
-            $guids = self::$action_store->getGuids($where);
-
-            if (!$guids) return false;
-            //将获取到的所有guid存入redis
-            $redisList = $this->rPushLists($key, $guids);
-            if (!$redisList) Log::error("将数据库数据写入list失败,list为：".$key);
+            $result = $this->mysqlToList($where, $key);
+            if (!$result) return false;
+            if (is_array($result)){
+                $lists = array_slice($result, $start, $end);
+            }else{
+                //获取制定key的所有活动guid
+                $lists = $this->getBetweenList($key, $start, $end);
+            }
+        }else{
+            $lists = $this->getBetweenList($key, $start, $end);
         }
-
-        $lists = $this->getBetweenList($key, $start, $end);
 
         return $this->getDataByList($lists);
     }
@@ -153,9 +143,10 @@ class ActionCache extends MasterCache
     public function delAction($type, $status, $guid)
     {
         $result = true;
-        $result = $this->delList(self::$lkey . $type . ':' . $status, 0, $guid);
-        $result = $this->delList(self::$lkey . '-' . ':' . $status, 0, $guid);
-        $result = $this->delList(self::$lkey.$type, 0, $guid);
+        $result = $this->delList(self::$lkey . $type . ':' . $status, $guid);
+        $result = $this->delList(self::$lkey . '-' . ':' . $status, $guid);
+        $result = $this->delList(self::$lkey.$type, $guid);
+        if (!$result) Log::error('redis删除一条活动list记录失败，活动id：'.$guid);
         return $result;
     }
 
@@ -176,10 +167,48 @@ class ActionCache extends MasterCache
         }
         $list2 = $this->lPushLists(self::$lkey.'-'.':'.$status, $guid);
         if ($list && $list1 && $list2) return true;
+        Log::error('redis添加新的活动list记录失败,活动id：'.$guid);
         return false;
     }
 
+    /**
+     * 获取某一页的数据
+     * @param $where []
+     * @param $nums int 每页显示的条数
+     * @param $nowPage int 当前页数
+     * @author 郭庆
+     */
+    public function getPageDatas($where, $nums, $nowPage)
+    {
+        //拼接list key
+        $key = $this -> getlistKey($where);
+        if (!$key) return false;
 
+        //如果list不存在，从数据库取出所有guid并存入redis
+        if (!$this->exists($key)){
+            $result = $this->mysqlToList($where, $key);
+            if (!$result) return false;
+            if (is_array($result)){
+                //起始偏移量
+                $offset = $nums * ($nowPage-1);
+
+                //获取条数
+                $totals = $offset + $nums - 1;
+
+                $lists = array_slice($result, $offset, $totals);
+            }else{
+                //获取制定key的所有活动guid
+                $lists = $this->getPageLists($key, $nums, $nowPage);
+            }
+        }else{
+            //获取制定key的所有活动guid
+            $lists = $this->getPageLists($key, $nums, $nowPage);
+        }
+
+        if (!$lists) return false;
+
+        return $this->getDataByList($lists);
+    }
 
     /**
      * 修改一条hash记录
@@ -193,14 +222,7 @@ class ActionCache extends MasterCache
         $key = self::$hkey.$guid;
         //修改hash
         $result = $this->changeOneHash($key, $data);
-        if (!$result) {
-            \Log::error('redis修改hash出错，key为：'.$key);
-            return false;
-        }
-        //写入hash
-        Redis::hMset($key, $data);
-        //设置生命周期
-        $this->setTime($key);
+        if (!$result) \Log::error('redis修改hash出错，key为：'.$key);
     }
 
     /**
@@ -250,8 +272,9 @@ class ActionCache extends MasterCache
         $data = $this->getOneAction($guid);
         $oldStatus = $data['status'];
         $oldType = $data['type'];
+
         //修改hash中的状态字段
-        $this->changeOneAction($guid, ['status'=>$status]);
+        $this->changeOneAction($guid, ['status' => $status, 'addtime' => time()]);
         //删除旧的索引记录
         $this->delAction($oldType, $oldStatus, $guid);
         //根据新的状态添加新的索引list记录

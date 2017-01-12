@@ -106,11 +106,12 @@ class MasterCache
     }
 
     /**
-     * 创建新的list并且插入多个list元素（list初始化-右推）
-     * @param $lists array [guid1,guid2]
+     * 对list进行左推（推一个/多个）
+     * @param $key string listkey
+     * @param $lists array [guid1,guid2] / $lists string 一次推入一个list
      * @author 郭庆
      */
-    public static function rPushLists($key, $lists)
+    public function rPushLists($key, $lists)
     {
         if (empty($key) || empty($lists)) return false;
 
@@ -121,15 +122,19 @@ class MasterCache
     }
 
     /**
-     * 插入一个新的list元素
-     * @param $key string list key
-     * @param $guid string 新的list元素
-     * @return array
+     * 对list进行右推（可以推一个也可以多个）
+     * @param $key string listkey
+     * @param $lists array [guid1,guid2] / $lists string 一次推入一个list
      * @author 郭庆
      */
-    public function lPushLists($key, $guid)
+    public function lPushLists($key, $lists)
     {
-        return Redis::lpush($key, $guid);
+        if (empty($key) || empty($lists)) return false;
+
+        //执行写list操作
+        if (!Redis::rpush($key, $lists)) return false;
+
+        return true;
     }
     /**
      * 设置hash缓存的生命周期
@@ -178,4 +183,63 @@ class MasterCache
         if ($this->exists($key)) return Redis::lrem($key, 0, $guid);
         return true;
     }
+
+    /**
+     * 添加一个新的长存的string redis
+     * @param
+     * @return bool
+     * @author 郭庆
+     */
+    public function addForeverString($key, $value)
+    {
+        if (empty($key) || empty($value)) return false;
+        return Redis::Set($key, $value);
+    }
+
+    /**
+     * 添加一个新的长存的短存的string redis
+     * @param
+     * @return bool
+     * @author 郭庆
+     */
+    public function addString($key, $value)
+    {
+        if (empty($key) || empty($value)) return false;
+        return Redis::set($key, $value);
+    }
+
+    /**
+     * 将 string key 中储存的数字值增一
+     *
+     * @param   string $key
+     * @return  int    the new value
+     * @link    http://redis.io/commands/incr
+     * @example
+     * <pre>
+     * $redis->incr('key1'); // key1 didn't exists, set to 0 before the increment and now has the value 1
+     * $redis->incr('key1'); // 2
+     * $redis->incr('key1'); // 3
+     * $redis->incr('key1'); // 4
+     * </pre>
+     */
+    public function incre($key)
+    {
+        if (empty($key)) return false;
+        return Redis::incr($key);
+    }
+
+    /**
+     * Get the value related to the specified key
+     *
+     * @param   string  $key
+     * @return  string|bool: If key didn't exist, FALSE is returned. Otherwise, the value related to this key is returned.
+     * @link    http://redis.io/commands/get
+     * @example $redis->get('key');
+     */
+    public function getString($key)
+    {
+        if (empty($key)) return false;
+        return Redis::get($key);
+    }
+
 }

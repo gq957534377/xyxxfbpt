@@ -317,9 +317,9 @@ class ActionService
         }
 
         if ($list == 3) {
-            $Data = self::$collegeStore->upload(["guid" => $guid], ["status" => $status]);
+            $Data = self::$collegeStore->upload(["guid" => $guid], ["status" => $status, 'addtime' => time()]);
         } else {
-            $Data = self::$actionStore->upload(["guid" => $guid], ["status" => $status]);
+            $Data = self::$actionStore->upload(["guid" => $guid], ["status" => $status, 'addtime' => time()]);
         }
 
         //判断修改结果并返回
@@ -348,6 +348,8 @@ class ActionService
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
         $data['deadline'] = strtotime($data['deadline']);
+        $data['deadline'] = strtotime($data['deadline']);
+        $data['addtime']  = time();
         unset($data['list']);
 
         if ($list == 3) {
@@ -489,6 +491,7 @@ class ActionService
     {
         $count = self::$actionCache->getCount(['status' => 1]);
         if (!$count) return ['StatusCode' => '204', 'ResultData' => "没有数据"];
+
         $end = (($count > $take)) ? ($count - $take) : $count;
         $start = (($count > $take)) ? random_int(0,$end) : 0;
 
