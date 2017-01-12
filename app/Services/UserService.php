@@ -199,7 +199,6 @@ class UserService {
      */
     public function  loginCheck($data)
     {
-
         // 存在，判断list队列中该账户是否存在
         $temp = self::$accountCache->getOneAccount($data['tel']);
 
