@@ -7,7 +7,6 @@ namespace App\Redis;
 
 use App\Store\HomeStore;
 use App\Tools\CustomPage;
-use Illuminate\Support\Facades\Redis;
 
 class UserAccountCache extends MasterCache
 {
@@ -54,7 +53,6 @@ class UserAccountCache extends MasterCache
     /**
      * 获取指定账号信息
      * @param $where
-     * @return bool
      * @author 刘峻廷
      */
     public function getOneAccount($tel)

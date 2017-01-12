@@ -161,7 +161,7 @@ class MasterCache
         $this->setTime($key);
         return true;
     }
-    
+
     /**
      * 删除指定的 keys.
      *

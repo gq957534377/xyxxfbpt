@@ -14,6 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(WebAdminService $webadmin)
     {
+        view()->share('email', '*****@***');
+        view()->share('time', '*********');
+        view()->share('tel', '***********');
+        view()->share('record', '***********');
         view()->composer('home/public/footer', function ($view) use ($webadmin) {
             $res = $webadmin->getWebInfo();
 
@@ -34,11 +38,6 @@ class AppServiceProvider extends ServiceProvider
                             break;
                     }
                 }
-            } else {
-                view()->share('email', '*****@***');
-                view()->share('time', '*********');
-                view()->share('tel', '***********');
-                view()->share('record', '***********');
             }
         });
     }
