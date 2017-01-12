@@ -416,7 +416,6 @@
                             describe: $('textarea[name=describe]').val(),
                         };
                         var url = '/action/{{$ResultData->guid}}?list={{$list}}';
-
                         data.append("type", resul.type);
                         data.append("title", resul.title);
                         data.append("author", resul.author);

@@ -188,7 +188,9 @@
                                 }else{
                                     html+='<a href="/action/'+v.guid+'">';
                                 }
-                                html += v.title+'</a></h2><p class="indent">'+v.brief+'</p><div class="row mar-clr road-class-u">';
+                                html += v.title;
+                                if (parseInt(v.status) === 4) html += "(该活动已取消)";
+                                html += '</a></h2><p class="indent">'+v.brief+'</p><div class="row mar-clr road-class-u">';
                                 html += '<p class="col-sm-6 col-xs-12 pad-clr">';
                                 html += type(v.type);
                                 html += '</p><p class="col-sm-6 col-xs-12 pad-clr">'+v.author+'</p></div>';

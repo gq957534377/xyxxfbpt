@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Log;
 class ActionCache extends MasterCache
 {
 
-    private static $lkey = LIST_ACTION_GUID_;      //项目列表key
-    private static $hkey = HASH_ACTION_INFO_;     //项目hash表key
+    private static $lkey = LIST_ACTION_GUID_;      //列表key
+    private static $hkey = HASH_ACTION_INFO_;     //hash表key
 
     private static $action_store;
 
