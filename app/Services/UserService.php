@@ -200,7 +200,7 @@ class UserService {
     public function  loginCheck($data)
     {
         // 先判断Account队列缓存是否存在
-        if (!self::$accountCache->exists()) {
+        if (!self::$accountCache->exists(self::$accountCache)) {
             // 不存在，读取MySql存入redis,并且将获取到的对象转成数组
             $accountList = CustomPage::objectToArray(self::$homeStore->getAllData());
 
