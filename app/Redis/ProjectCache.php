@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Redis;
 
 class ProjectCache
 {
-    private static $lkey = LIST_PROJECT_INFO;      //项目list表key
+    private static $lkey = LIST_PROJECT_INFO_;      //项目list表key
     private static $hkey = HASH_PROJECT_INFO_;     //项目hash表key
 
     private static $project_store;
@@ -29,61 +29,10 @@ class ProjectCache
      * @param $index string   唯一识别码 guid
      * @return bool
      */
-    public function exists($type = 'list', $index = '')
+    public function exists($key)
     {
-        if($type == 'list'){
-            return Redis::exists(self::$lkey.$index);  //查询listkey是否存在
-        }else{
-            return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
-        }
+        return Redis::exists($key);
 
-    }
-
-    /**
-     * 插入缓存索引
-     * @param object $data
-     * @return bool
-     * author 张洵之
-     */
-    public function insertCache($data)
-    {
-        if(empty($data)) return false;
-
-        $temp = CustomPage::objectToArray($data);
-        //建立redis索引
-        if (!Redis::rpush(self::$lkey . $temp['financing_stage'], $temp['guid'])) {
-           Log::error('项目分类信息写入redis   List失败！！');
-            return false;
-        };
-
-        if (!Redis::rpush(self::$lkey , $temp['guid'])) {
-            return false;
-            Log::error('项目默认信息写入redis   List失败！！');
-        };
-
-        $this->createCache($temp);
-        return true;
-    }
-
-    /**
-     * 创建缓存
-     * @param array $data
-     * @return bool
-     * author 张洵之
-     */
-    public function createCache($data)
-    {
-        if(empty($data)) return false;
-
-            if(!$this->exists($type = 'hash', $data['guid'])){
-
-                $index = self::$hkey . $data['guid'];
-                //写入hash
-                Redis::hMset($index, $data);
-                //设置生命周期
-                $this->setTime($index);
-            }
-        return true;
     }
 
     /**
@@ -92,96 +41,70 @@ class ProjectCache
      * @param int $time
      * author 张洵之
      */
-    public function setTime($key, $time = 1800)
+    public function setTime($key, $time = HASH_OVERTIME)
     {
         Redis::expire($key, $time);
     }
 
     /**
-     * 移出缓存索引
-     * @param $data
+     * 创建listKey
+     * @param int $type list索引
      * @return bool
      * author 张洵之
      */
-    public function deletCache($data) {
-
-        if(!Redis::lRem(self::$lkey, 0, $data->guid)) {
-//            Log::error('redis移出默认项目分类信息   List失败！！');
-            return false;
+    public function createList($type)
+    {
+        //type : 11 为全部在线项目；1-10为其他融资阶段的项目
+        if($type == 11) {
+            $temp = self::$project_store->getList(['status' => 1], 'guid');
+        }else{
+            $temp = self::$project_store->getList(['status' => 1, 'financing_stage' => $type], 'guid');
         }
 
-        if(!Redis::lRem(self::$lkey.$data->financing_stage, 0, $data->guid)) {
-//            Log::error('redis移出项目分类信息   List失败！！');
-            return false;
+        if ($temp){
+            Redis::rPush(self::$lkey.$type , $temp);
+            return true;//有数据返回true
+        }else{
+            return false;//无数据返回false
         }
-
-        return true;
     }
 
     /**
-     * 返回分页后的数据
-     * @param int $nowPage
-     * @param int $pageNum
-     * @param array $where
+     * 创建hash
+     * @param object|array $data
+     * @return bool
      * author 张洵之
      */
-    public function getPageData($nowPage, $pageNum, $where)
+    public function createHash($data)
     {
+        if(!$data) return false;
 
-        $start = ($nowPage - 1)*$pageNum;
-        $stop = $nowPage*$pageNum-1;
+        $temp = CustomPage::objectToArray($data);
+        foreach ($temp as $value) {
+            $index = self::$hkey . $value['guid'];
 
-        if (empty($where['financing_stage'])){
+            if(!$this->exists($index)) {
 
-            if(!$this -> exists()){
-                $indexData = $this->teshuCache($where, $start, $stop);
-            }else{
-                $indexData = Redis::lRange(self::$lkey, $start, $stop);
+                //写入hash
+                Redis::hMset($index, $value);
+                //设置生命周期
+                $this->setTime($index);
             }
-
-        }else{
-
-            if(!$this -> exists('list', $where['financing_stage'])){
-                $indexData = $this->teshuCache($where, $start, $stop);
-            }else{
-                $indexData = Redis::lRange(self::$lkey.$where['financing_stage'], $start, $stop);
-            }
-
         }
-        if(!empty($indexData)){
-            $data = CustomPage::arrayToObject($this->getHashData($indexData));
-            return (array)$data;
-        }else{
-            return null;
-        }
-
     }
 
-    /**
-     * 返回hash缓存数据
-     * @param array $array
-     * @return array
-     * author 张洵之
-     */
-    public function getHashData($array)
+    public function getHash($indexArray)
     {
-        $data =array();
-        foreach ($array as $value) {
+        $data = array();
+        foreach ($indexArray as $value) {
+            $index = self::$hkey . $value;
 
-            if($this->exists('hash', $value)) {
-
-                $data[] = Redis::hGetall(self::$hkey .$value);
-            }else{
-                $temp = CustomPage::objectToArray(self::$project_store->getOneData(['guid' => $value]));
-                $this->createCache($temp);
-                $cache = Redis::hGetall(self::$hkey .$value);
-
-                if($cache) {
-                    $data[] = $cache;
-                }else{
-                    $data[] = $temp;
-                }
-
+            if ($this->exists($index)) {
+                $data[] = CustomPage::arrayToObject(Redis::hGetall($index));
+            } else {
+                $temp[0] = self::$project_store->getOneData(['guid' => $value]);
+                $this->createHash($temp);
+                $data[] = $temp[0];
             }
 
         }
@@ -189,71 +112,40 @@ class ProjectCache
     }
 
     /**
-     * 返回一条缓存数据
-     * @param string $guid
-     * @return object|void
+     * 返回分页后的数据
      * author 张洵之
-     */
-    public function getOneData($guid)
-    {
-        if($this->exists('hash', $guid)) {
-            $data = Redis::hGetall(self::$hkey .$guid);
-        }else{
-            $temp = CustomPage::objectToArray(self::$project_store->getOneData(['guid' => $guid]));
-            $this->createCache($temp);
-            $data = Redis::hGetall(self::$hkey .$guid);
-        }
-
-        return CustomPage::arrayToObject($data);
-    }
-
-    /**
-     * 当缓存与数据库存在不同步时执行的特殊方法
+     * @param int $nowPage
+     * @param int $pageNum
      * @param array $where
-     * @param int $start
-     * @param int $stop
-     * @return array
+     * @return array|null
      * author 张洵之
      */
-    public function teshuCache($where, $start, $stop)
+    public function getPageData($nowPage, $pageNum, $where)
     {
-        $data = self::$project_store->getData($where);
-
-        if(empty($data)) return [];
-
-        if(empty($where['financing_stage'])){
-            $where['financing_stage'] = '';
+        //格式化索引
+        if(empty($where['financing_stage'])) {
+            $type = 11;
+        }else {
+            $type = (int)$where['financing_stage'];
         }
+        //检查索引的listKey是否存在
+        if(!$this->exists(self::$lkey.$type)) {
+            //创建索引(这里判断的是数据库是否有数据)
+            if(!$this->createList($type)) return false;
 
-        $guid = [];
-        foreach ($data as $value) {
-            $guid[] = $value->guid;
-            Redis::rpush(self::$lkey.$where['financing_stage'], $value->guid);
-        }
-        $index = Redis::lRange(self::$lkey.$where['financing_stage'], $start, $stop);
+            $data = self::$project_store->getPage($nowPage, $pageNum, $where);
 
-        if(empty($index)) {
-            return $guid;
+            if(!$data) return false;
+
+            $this->createHash($data);//将查出的数据做hash存储
+
         }else{
-            return $index;
-        }
-    }
-
-    public function takeData($number)
-    {
-        $length = Redis::lLen(self::$lkey);
-
-        if($number>=$length&&$length>0){
-            return $this->getPageData(1,$length,[]);
-        }elseif ($length == 0){
-            return false;
+            $start = ($nowPage - 1)*$pageNum;
+            $stop = $nowPage*$pageNum-1;
+            $indexData = Redis::lRange(self::$lkey.$type, $start, $stop);
+            $data = $this->getHash($indexData);
         }
 
-        $numbers = range (1,$length);
-        shuffle ($numbers);
-        for ($i = 0;$i<$number;$i++){
-            $data[$i] = $this->getPageData($numbers[$i],1,[])[0];
-        }
         return $data;
     }
 }

@@ -131,6 +131,12 @@ class ActionController extends Controller
     {
         //所需要数据的获取
         $data = self::$actionServer->getData($id,false);//活动详情
+        if ($data['StatusCode'] == '200' && (int)$data['ResultData']->status == 4){
+            return view('errors.404');
+        }
+        if ($data['StatusCode'] == '404'){
+            return view('errors.404');
+        }
 //        $likeNum = self::$commentServer->likeCount($id);//点赞人数
         $commentData = self::$commentServer->getComent($id,1);//评论数据
         $pageStyle = self::$commentServer->getPageStyle($id, 1);//分页样式
@@ -149,7 +155,6 @@ class ActionController extends Controller
             }
             $isLogin = session('user')->guid;
         }
-
         $rand = self::$actionServer->getRandomActions(true);
         //返回详情页
         return view("home.action.details", [

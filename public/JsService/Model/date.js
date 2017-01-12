@@ -1,3 +1,6 @@
+function fix(num, length) {
+    return ('' + num).length < length ? ((new Array(length + 1)).join('0') + num).slice(-length) : '' + num;
+}
 //时间转换
 function getLocalTime(ns) {
     var now = new Date(ns*1000);
@@ -6,7 +9,7 @@ function getLocalTime(ns) {
     var date=now.getDate();
     var hour=now.getHours();
     var minute=now.getMinutes();
-    return year+"年"+month+"月"+date+"日 "+hour+":"+minute;
+    return year+"年"+month+"月"+date+"日 "+hour+":"+fix(minute, 2);
 }
 
 //时间转换

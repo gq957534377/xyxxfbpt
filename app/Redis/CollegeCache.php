@@ -113,7 +113,7 @@ class CollegeCache
      */
     public function getOneCollege($guid)
     {
-        if(!$guid) return false;
+        if(!$guid) return view('error.404');
         $index = self::$hkey.$guid;
         if ($this->exists($guid, false)){
             $data = Redis::hGetall($index);

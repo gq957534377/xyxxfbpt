@@ -7,7 +7,6 @@ use App\Redis\ProjectCache;
 use App\Redis\UserInfoCache;
 use App\Store\UserStore;
 use App\Tools\Common;
-use Exception;
 
 class ProjectService {
     protected static $projectStore = null;
@@ -41,12 +40,9 @@ class ProjectService {
      */
     public function getData($nowPage,$pageNum, $where)
     {
+        //判断请求来自前台还是用户中心
         if(empty($where['user_guid'])){
-            try{
-                $data = self::$projectCache->getPageData($nowPage, $pageNum, $where);
-            }catch (Exception $e){
-                $data = self::$projectStore->getPage($nowPage, $pageNum, $where);
-            }
+            $data =self::$projectCache->getPageData($nowPage,$pageNum, $where);
         }else{
             $data = self::$projectStore->getPage($nowPage, $pageNum, $where);
         }
@@ -66,22 +62,23 @@ class ProjectService {
      */
     public function takeData($number = 3)
     {
-        $cache = self::$projectCache->takeData($number);
-
-        if($cache){
-            $data = $cache;
-        }else{
-            $temp = self::$projectStore->getAllData();
-            if (!$temp) return ['StatusCode' => '204', 'ResultData' => '暂无无数据'];
-            foreach ($temp as $value) {
-                self::$projectCache->insertCache($value);
-            }
-            $data = self::$projectCache->takeData($number);
-        }
-
-        if (!$data) {
-            $data = self::$projectStore->takeData($number);
-        }
+        $data = self::$projectStore->takeData($number);
+//        $cache = self::$projectCache->takeData($number);
+//
+//        if($cache){
+//            $data = $cache;
+//        }else{
+//            $temp = self::$projectStore->getList(['status' => 1], 'guid');
+//
+//            if (!$temp) return ['StatusCode' => '400', 'ResultData' => '暂无无数据'];
+//
+//            self::$projectCache->insertCache($temp);
+//            $data = self::$projectCache->takeData($number);
+//        }
+//
+//        if (!$data) {
+//            $data = self::$projectStore->takeData($number);
+//        }
 
         return ['StatusCode' => '200', 'ResultData' => $data];
     }
@@ -117,44 +114,44 @@ class ProjectService {
         return ['StatusCode' => '200','ResultData'=>'修改成功'];
     }
 
-    /**
-     * 获取首页数据
-     * @param $num
-     * @param $status
-     * @return array
-     * @author 贾济林
-     * @modify 张洵之
-     */
-    public function getFrstPage($num, $status)
-    {
-        $where = ['status' => $status];
-
-        $res = self::$projectStore->getPage('1',$num,$where);
-
-        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
-
-        return ['StatusCode' => '200', 'ResultData' => $res];
-    }
-
-    /**
-     * 指定当前页、单页数据量、和项目状态获取数据
-     * @param $nowpage
-     * @param $num
-     * @param $status
-     * @return array
-     * @author 贾济林
-     * @modify 张洵之
-     */
-    public function getPage($nowpage, $num, $status)
-    {
-        $where = ['status' => $status];
-
-        $res = self::$projectStore->getPage($nowpage,$num,$where);
-
-        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
-
-        return ['StatusCode' => '200', 'ResultData' => $res];
-    }
+//    /**
+//     * 获取首页数据
+//     * @param $num
+//     * @param $status
+//     * @return array
+//     * @author 贾济林
+//     * @modify 张洵之
+//     */
+//    public function getFrstPage($num, $status)
+//    {
+//        $where = ['status' => $status];
+//
+//        $res = self::$projectStore->getPage('1',$num,$where);
+//
+//        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
+//
+//        return ['StatusCode' => '200', 'ResultData' => $res];
+//    }
+//
+//    /**
+//     * 指定当前页、单页数据量、和项目状态获取数据
+//     * @param $nowpage
+//     * @param $num
+//     * @param $status
+//     * @return array
+//     * @author 贾济林
+//     * @modify 张洵之
+//     */
+//    public function getPage($nowpage, $num, $status)
+//    {
+//        $where = ['status' => $status];
+//
+//        $res = self::$projectStore->getPage($nowpage,$num,$where);
+//
+//        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
+//
+//        return ['StatusCode' => '200', 'ResultData' => $res];
+//    }
 
 
     /**
@@ -165,22 +162,12 @@ class ProjectService {
      */
     public function getProject($id)
     {
-        try{
-            $projectInfoData = self::$projectCache->getOneData($id);
-        }catch (Exception $e){
-            $projectInfoData = self::$projectStore->getOneData(['guid' => $id]);
-        }
+        $projectInfoData = self::$projectCache->getHash([$id]);
 
         if(empty($projectInfoData)) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 
-        $cache = self::$userInfoCache->getCache($projectInfoData->user_guid);
-
-        if(empty($cache)){
-            $userInfo = self::$userStore->getOneData(['guid' => $projectInfoData->user_guid]);
-            self::$userInfoCache->createCache($userInfo);
-        }else{
-            $userInfo = $cache;
-        }
+        $projectInfoData =$projectInfoData[0];
+        $userInfo = self::$userInfoCache->getOneUserCache($projectInfoData->user_guid);
 
         if(empty($userInfo)) return ['StatusCode' => '400', 'ResultData' => '未找到发布用户数据'];
 

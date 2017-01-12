@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Redis;
 class ArticleCache
 {
 
-    private static $lkey = LIST_ARTICLE_INFO;      //项目列表key
+    private static $lkey = LIST_ARTICLE_INFO_;      //项目列表key
     private static $hkey = HASH_ARTICLE_INFO_;     //项目hash表key
 
     private static $article_store;

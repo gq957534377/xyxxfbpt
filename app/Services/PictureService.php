@@ -120,7 +120,7 @@ class PictureService
 
     /**
      * 得到所有指定类型图片
-     * @param $val   数组，示例[3, 5] 代表合作机构投资机构都要
+     * @param $val array  数组，示例[3, 5] 代表合作机构投资机构都要
      * @author 王通
      */
     public function getPictureIn ($val)
