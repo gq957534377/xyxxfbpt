@@ -12,7 +12,7 @@ use App\Tools\CustomPage;
 use Illuminate\Support\Facades\Redis;
 use App\Store\UserStore;
 
-class UserInfoCache
+class UserInfoCache extends MasterCache
 {
     private static $hkey = HASH_USERINFO_INFO_;     //项目hash表key
     private static $user_store;
