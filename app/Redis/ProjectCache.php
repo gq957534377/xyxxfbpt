@@ -8,8 +8,6 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\ProjectStore;
-use Illuminate\Contracts\Logging\Log;
-use Illuminate\Support\Facades\Redis;
 
 class ProjectCache extends MasterCache
 {
@@ -40,7 +38,7 @@ class ProjectCache extends MasterCache
         }
 
         if ($temp){
-            $this ->addList();
+            $this ->rPushLists(self::$lkey.$type, $temp);
             return true;//有数据返回true
         }else{
             return false;//无数据返回false
@@ -60,25 +58,24 @@ class ProjectCache extends MasterCache
         $temp = CustomPage::objectToArray($data);
         foreach ($temp as $value) {
             $index = self::$hkey . $value['guid'];
-
-            if(!$this->exists($index)) {
-
-                //写入hash
-                Redis::hMset($index, $value);
-                //设置生命周期
-                $this->setTime($index);
-            }
+            $this->addHash($index, $value);
         }
     }
 
-    public function getHash($indexArray)
+    /**
+     * 拿取项目缓存
+     * @param $indexArray
+     * @return array
+     * author 张洵之
+     */
+    public function getProjectHash($indexArray)
     {
         $data = array();
         foreach ($indexArray as $value) {
             $index = self::$hkey . $value;
 
             if ($this->exists($index)) {
-                $data[] = CustomPage::arrayToObject(Redis::hGetall($index));
+                $data[] = CustomPage::arrayToObject($this->getHash($index));
             } else {
                 $temp[0] = self::$project_store->getOneData(['guid' => $value]);
                 $this->createHash($temp);
@@ -118,10 +115,8 @@ class ProjectCache extends MasterCache
             $this->createHash($data);//将查出的数据做hash存储
 
         }else{
-            $start = ($nowPage - 1)*$pageNum;
-            $stop = $nowPage*$pageNum-1;
-            $indexData = Redis::lRange(self::$lkey.$type, $start, $stop);
-            $data = $this->getHash($indexData);
+            $indexData = $this->getPageLists(self::$lkey.$type, $pageNum, $nowPage);
+            $data = $this->getProjectHash($indexData);
         }
 
         return $data;

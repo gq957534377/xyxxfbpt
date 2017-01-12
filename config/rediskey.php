@@ -24,8 +24,8 @@ define('HASH_ARTICLE_INFO_', 'HASH:ARTICLE:INFO:');
 
 
 /**
- * 作者：张洵之
  * 项目融资阶段分类list
+ * 作者：张洵之
  * 作用：项目列表信息分类;
  * key = LIST:PROJECT:INFO:[（1--11）];
  * value = data_project_info表中的项目guid;
@@ -36,8 +36,8 @@ define('LIST_PROJECT_INFO_','LIST:PROJECT:INFO:');
 
 
 /**
- * 作者：张洵之
  * 项目详情hash
+ * 作者：张洵之
  * 作用：data_project_info表中一条项目记录的Hash缓存
  * key= HASH:PROJECT:INFO:[guid]
  * value = data_project_info表中一条项目记录
@@ -48,8 +48,8 @@ define('HASH_PROJECT_INFO_','HASH:PROJECT:INFO:');
 
 
 /**
- * 作者：张洵之
  * 评论string
+ * 作者：张洵之
  * 作用：存取一个详情页下的所有评论数量;
  * key = STRING:COMMENT:NUM:[内容guid];
  * value = 详情页下的所有评论数量;
@@ -59,8 +59,8 @@ define('STRING_COMMENT_NUM_','STRING:COMMENT:NUM:');
 
 
 /**
- * 作者：张洵之
  * 评论list
+ * 作者：张洵之
  * 作用：用于评论索引;
  * key = LIST:COMMENT:INFO:[内容guid];
  * value = data_comment_info表中的主键id;
@@ -70,8 +70,8 @@ define('LIST_COMMENT_INFO_','LIST:COMMENT:INFO:');
 
 
 /**
- * 作者：张洵之
  * 评论hash
+ * 作者：张洵之
  * 作用：用于存取一条评论的所有信息;
  * key = HASH:COMMENT:INFO:[评论主键id];
  * value = 一条评论的所有信息;
@@ -81,8 +81,8 @@ define('HASH_COMMENT_INFO_','HASH:COMMENT:INFO:');
 
 
 /**
- * 作者：张洵之
  * 用户信息hash
+ * 作者：张洵之
  * 作用：用于存取一条用户信息;
  * key = HASH:USERINFO:INFO:[用户guid];
  * value = data_user_info表中的主键id;
