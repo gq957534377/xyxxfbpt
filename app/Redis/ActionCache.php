@@ -281,22 +281,4 @@ class ActionCache extends MasterCache
         $this->addActionList($oldType, $status, $guid);
     }
 
-    /**
-     * 返回队列key
-     * @return string
-     */
-    public function listKey()
-    {
-        return self::$lkey;
-    }
-
-    /**
-     * 返回hash索引key前缀
-     * @return string
-     */
-    public function hashKey()
-    {
-        return self::$hkey;
-    }
-
 }
