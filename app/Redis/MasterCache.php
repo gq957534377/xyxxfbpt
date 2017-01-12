@@ -145,7 +145,7 @@ class MasterCache
      */
     public function setTime($key)
     {
-        return Redis::expire($key, REDIS_LIVE_TIME);
+        return Redis::expire($key, HASH_OVERTIME);
     }
 
     /**

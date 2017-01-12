@@ -1,9 +1,5 @@
 <?php
 /******** 前端缓存隔离 redis key定义**********/
-/* redis 全局失效时间配置 */
-define('REDIS_LIVE_TIME', 600);
-
-
 
 /**
  * 文章列表 存储有效的文章GUID 有序集合
@@ -153,7 +149,7 @@ define('HASH_COLLEGE_INFO_','HASH:COLLEGE:INFO:');
 
 /**
  * 用户账号列表 -- 存储所有用户的账号
- *
+ * @author 刘峻廷
  * KEY   = LIST:USER:ACCOUNT:[手机号] or LIST:USER:ACCOUNT:[邮箱] (二期可能加上邮箱登录)
  * VALUE = data_user_login 表中所有用户的手机号（邮箱）
  */
@@ -163,7 +159,7 @@ define('LIST_USER_ACCOUNT', 'LIST:USER:ACCOUNT');
 
 /**
  * 用户账号信息表 -- 存储所有用户账号相关信息
- *
+ * @author 刘峻廷
  * KEY   = HASH:USER:ACCOUNT:[手机号or邮箱]
  * VALUE = data_user_login 表中用户账户相关所有数据
  */

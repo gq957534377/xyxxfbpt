@@ -234,22 +234,22 @@ class Common {
         return $res;
     }
 
-    /**
-     * 字符限制，添加省略号
-     * @param $words
-     * @param $limit
-     * @return string
-     * @author 刘峻廷
-     */
-    public static function wordLimit($words, $filed,$limit)
-    {
-        foreach($words as $word){
-            $content = trim($word->$filed);
-            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
-            $word->$filed = $content;
-        }
-
-    }
+//    /**
+//     * 字符限制，添加省略号
+//     * @param $words
+//     * @param $limit
+//     * @return string
+//     * @author 刘峻廷
+//     */
+//    public static function wordLimit($words, $filed,$limit)
+//    {
+//        foreach($words as $word){
+//            $content = trim($word->$filed);
+//            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
+//            $word->$filed = $content;
+//        }
+//
+//    }
 
 
     /**

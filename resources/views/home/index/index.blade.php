@@ -103,7 +103,7 @@
                                         @if(mb_strlen($project->title)<16)
                                             {{ $project->title }}
                                         @else
-                                            {{ str_limit($project->title, 30, $end = '...') }}
+                                            {{ str_limit($project->title, STR_LIMIT, $end = '...') }}
                                         @endif
                                     </div>
                                     <div class="classLabel">
@@ -163,7 +163,7 @@
                                         </span>
                                     </div>
                                     <p class="new_p">
-                                        {{ mb_substr($project->content,0,30).'...'}}
+                                        {{ str_limit($project->content, STR_LIMIT+80, $end = '...') }}
                                     </p>
                                 </a>
                             </li>
@@ -313,7 +313,7 @@
                                 <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $roadShow->banner }}"/>
                             </a>
                             <div class="ly">
-                                <h3><a href="{{ url('action').'/'.$roadShow->guid }}">{{ mb_substr($roadShow->title,0,20)."..." }}</a></h3>
+                                <h3><a href="{{ url('action').'/'.$roadShow->guid }}">{{ str_limit($roadShow->title, STR_LIMIT, $end = '...') }}</a></h3>
                                 <span @if($roadShow->status == 3||$roadShow->status == 4||$roadShow->status == 5) style="background:#f0f0f0;color: #c4c4c4" @endif>
                         @if($roadShow->status == 1)
                                         报名中
@@ -329,7 +329,7 @@
                     </span>
                             </div>
                             <span>
-                    <span>{{ mb_substr($roadShow->address,0,4)."..." }}</span>
+                    <span>{{ str_limit($roadShow->address, STR_LIMIT, $end = '...') }}</span>
     				<span>{{ date('Y-m-d',$roadShow->start_time) }}</span>
     			</span>
                         </li>
@@ -359,7 +359,7 @@
                                 <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $syb->banner }}"/>
                             </a>
                             <div class="ly">
-                                <h3><a href="{{ route('action.show', $syb->guid) }}">{{ mb_substr($syb->title, 0,20).'...' }}</a></h3>
+                                <h3><a href="{{ route('action.show', $syb->guid) }}">{{ str_limit($syb->title, STR_LIMIT, $end = '...') }}</a></h3>
                                 <span @if($syb->status == 3||$syb->status == 4||$syb->status == 5) style="background:#f0f0f0;color: #c4c4c4" @endif>
                         @if($syb->status == 1)
                                         报名中
@@ -375,7 +375,7 @@
                     </span>
                             </div>
                             <span>
-    				<span>{{ mb_substr($syb->address,0,4)."..." }}</span>
+    				<span>{{ str_limit($syb->address, STR_LIMIT, $end = '...') }}</span>
     				<span>{{ date('Y-m-d',$syb->start_time) }}</span>
     			</span>
                         </li>
@@ -405,7 +405,7 @@
                                 {{--<span>第1期</span>--}}
                                 <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $school->banner }}"/>
                                 <div>
-                                    <h3>{{ mb_substr($school->title, 0,20).'...'}}</h3>
+                                    <h3>{{ str_limit($school->title, STR_LIMIT, $end = '...') }}</h3>
                                     <span @if($school->status == 1||$school->status == 2) style="background: #F68D3C;color: #ffffff" @endif>
                             @if($school->status == 1)
                                             报名中
@@ -687,7 +687,7 @@
                     <ul class='col-sm-5 section6_right'>
                         @for($i = 0; $i < round(count($articles)/2); $i++)
                             <li>
-                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ str_limit($articles[$i]->title, 30, $end = '...') }}</a></h3>
+                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ str_limit($articles[$i]->title, STR_LIMIT, $end = '...') }}</a></h3>
                                 <p>发布时间 {{ date('Y-m-d H:m', $articles[$i]->addtime) }}</p>
                             </li>
                         @endfor
@@ -695,7 +695,7 @@
                     <ul class='col-sm-5 section6_right'>
                         @for($i = round(count($articles)/2); $i < count($articles); $i++)
                             <li>
-                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ str_limit($articles[$i]->title, 30, $end = '...') }}</a></h3>
+                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ str_limit($articles[$i]->title, STR_LIMIT, $end = '...') }}</a></h3>
                                 <p>发布时间 {{ date('Y-m-d H:m', $articles[$i]->addtime) }}</p>
                             </li>
                         @endfor

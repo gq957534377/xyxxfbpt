@@ -53,11 +53,6 @@ class HomeController extends Controller
         // 精选项目,随机拿取3条
         $projectResult = self::$projectServer->takeData();
 
-        if ($projectResult['StatusCode'] == '200') {
-            // 推送内容限定字数
-            self::$actionServer->wordLimit($projectResult['ResultData'], 'content',60);
-        }
-
         // 路演活动
         $roadShowResult = self::$actionServer->selectData(['type'=>1], 1, 3, 'action/create', false, false);
         // 创业大赛
