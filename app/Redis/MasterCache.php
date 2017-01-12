@@ -131,13 +131,18 @@ class MasterCache
     {
         if (empty($key) || empty($data)) return false;
 
+        $result = true;
         if (!$this->exists($key, false)) {
             //写入hash
-            Redis::hMset($key, $data);
+            $result = Redis::hMset($key, $data);
         }
-        //设置生命周期
-        $this->setTime($key);
-        return true;
+        if (!$result) {
+            \Log::error('写入hash出错'.$key);
+            return false;
+        }else{
+            //设置生命周期
+            return $this->setTime($key);
+        }
     }
 
     /**
@@ -162,7 +167,7 @@ class MasterCache
         if (empty($key)) return false;
         return Redis::del($key);
     }
-    
+
     /**
      * 对list进行左推（推一个/多个）
      * @param $key string listkey
@@ -190,7 +195,7 @@ class MasterCache
         if (empty($key) || empty($lists)) return false;
 
         //执行写list操作
-        if (!Redis::rpush($key, $lists)) return false;
+        if (!Redis::lpush($key, $lists)) return false;
 
         return true;
     }

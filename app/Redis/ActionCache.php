@@ -137,7 +137,6 @@ class ActionCache extends MasterCache
     /**
      * 删除一条记录
      * @param 将要删除记录的类型，状态，guid
-     * @return array
      * @author 郭庆
      */
     public function delAction($type, $status, $guid)
@@ -204,7 +203,6 @@ class ActionCache extends MasterCache
             //获取制定key的所有活动guid
             $lists = $this->getPageLists($key, $nums, $nowPage);
         }
-
         if (!$lists) return false;
 
         return $this->getDataByList($lists);
