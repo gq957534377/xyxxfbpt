@@ -143,8 +143,18 @@ class CommentCache extends MasterCache
         return (array)$commentCache;
     }
 
+    /**
+     * 增加评论缓存数据
+     * @param $id
+     * @param $contentId
+     * author 张洵之
+     */
     public function insertIndex($id, $contentId)
     {
-        $this->lPushLists(self::$lkey.$contentId, $id);
+        $index = self::$lkey.$contentId;
+
+        if($this->lPushLists($index, $id)){
+            $this->incre($index);
+        }
     }
 }

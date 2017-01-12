@@ -55,20 +55,9 @@ class ArticleCache extends MasterCache
         $data = CustomPage::objectToArray($data);
         foreach ($data as $v){
             //执行写list操作
-            if (!Redis::rpush(self::$lkey . $v['type'], $v['guid'])) {
+            if (!$this->rPushLists(self::$lkey . $v['type'], $v['guid'])) {
                 Log::error('文章信息写入redis   List失败！！');
             };
-
-            //如果hash存在则不执行写操作
-            if(!$this->exists(self::$hkey . $v['guid'])){
-
-                $index = self::$hkey . $v['guid'];
-                //写入hash
-                Redis::hMset($index, $v);
-                //设置生命周期
-                $this->setTime($index);
-            }
-
         }
         return true;
     }
@@ -85,7 +74,7 @@ class ArticleCache extends MasterCache
         $data = CustomPage::objectToArray($data);
         foreach ($data as $v){
             //执行写list操作
-            if (!Redis::lPush(self::$lkey . $v['type'], $v['guid'])) {
+            if (!$this->lPushLists(self::$lkey . $v['type'], $v['guid'])) {
                 Log::error('文章信息写入redis   List失败！！');
             };
 
@@ -94,24 +83,11 @@ class ArticleCache extends MasterCache
 
                 $index = self::$hkey . $v['guid'];
                 //写入hash
-                Redis::hMset($index, $v);
-                //设置生命周期
-                $this->setTime($index);
+                $this->addHash($index, $v);
             }
 
         }
         return true;
-    }
-
-    /**
-     * 写入一条hash 文章详情
-     * @param $data
-     * @return bool
-     */
-    public function setOneArticle($data)
-    {
-        if(empty($data)) return false;
-        return Redis::hMset(self::$hkey.$data['guid'], $data);
     }
 
     /**
@@ -125,17 +101,15 @@ class ArticleCache extends MasterCache
 
         $index = self::$hkey . $guid;
         //获取一条详情
-        $data = Redis::hGetall($index);
+        $data = $this->getHash($index);
         if (empty($data)) {
             //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
             $result = self::$article_store->getOneDatas(['guid' => $guid]);
             if ($result == '') return false;
             $data = CustomPage::objectToArray($result);
             //将取出的mysql 文章详情写入redis
-            $this->setOneArticle($data);
+            $this->addHash(self::$hkey.$data['guid'], $data);
         }
-        //重设生命周期 1800秒
-        $this->setTime($index);
         return CustomPage::arrayToObject($data);
     }
 
@@ -205,45 +179,8 @@ class ArticleCache extends MasterCache
 //        if (empty($guid)) return false;
 //        return Redis::del(self::$lkey . $guid);
 //    }
-    /**
-     * 在list左边插入数据
-     * @param $data
-     * @return bool
-     * @author 王通
-     */
-    public function setLeftList($data)
-    {
-        if (Redis::lPush(self::$lkey . $data['type'], $v['guid'])) {
-            Log::error('文章信息写入redis   List失败！！');
-        };
-        return false;
-    }
-    /**
-     * 设置hash缓存的生命周期
-     * @param $key  string  需要设置的key
-     * @param int $time  设置的时间 默认半个小时
-     */
-    public function setTime($key, $time = 1800)
-    {
-        Redis::expire($key, $time);
-    }
 
-    /**
-     * 返回队列key
-     * @return string
-     */
-    public function listKey()
-    {
-        return self::$lkey;
-    }
 
-    /**
-     * 返回hash索引key前缀
-     * @return string
-     */
-    public function hashKey()
-    {
-        return self::$hkey;
-    }
+
 
 }
