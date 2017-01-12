@@ -203,7 +203,6 @@ class ActionCache extends MasterCache
             //获取制定key的所有活动guid
             $lists = $this->getPageLists($key, $nums, $nowPage);
         }
-
         if (!$lists) return false;
 
         return $this->getDataByList($lists);
