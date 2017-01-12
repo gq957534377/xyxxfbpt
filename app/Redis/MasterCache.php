@@ -8,7 +8,8 @@
  */
 namespace App\Redis;
 
-use Redis;
+
+use Illuminate\Support\Facades\Redis;
 
 class MasterCache
 {
@@ -94,12 +95,12 @@ class MasterCache
      * </pre>
      * @author 郭庆
      */
-    public function getHash($key)
+    public function getHash($key, $time = HASH_OVERTIME)
     {
         $data = Redis::hGetAll($key);
         if (!$data) return false;
         //设置生命周期
-        $this->setTime($key);
+        $this->setTime($key, $time);
         return $data;
     }
 
@@ -127,12 +128,12 @@ class MasterCache
      * @param $data array 存入hash的具体字段和值
      * @author 郭庆
      */
-    public function addHash($key, $data)
+    public function addHash($key, $data, $time = HASH_OVERTIME)
     {
         if (empty($key) || empty($data)) return false;
 
         $result = true;
-        if (!$this->exists($key, false)) {
+        if (!$this->exists($key)) {
             //写入hash
             $result = Redis::hMset($key, $data);
         }
@@ -141,8 +142,24 @@ class MasterCache
             return false;
         }else{
             //设置生命周期
-            return $this->setTime($key);
+            return $this->setTime($key, $time);
         }
+    }
+
+    /**
+     * 修改一条hash记录
+     * @param $key string hash的key
+     * @param $data array 所要修改的键值对
+     * @author 郭庆
+     */
+    public function changeOneHash($key, $data)
+    {
+        //写入hash
+        $result = Redis::hMset($key, $data);
+        if (!$result) return false;
+        //设置生命周期
+        $this->setTime($key);
+        return true;
     }
 
     /**
@@ -204,9 +221,9 @@ class MasterCache
      * @param $key  string  需要设置的key
      * @return bool 设置成功true 否则false
      */
-    public function setTime($key)
+    public function setTime($key, $time = HASH_OVERTIME)
     {
-        return Redis::expire($key, HASH_OVERTIME);
+        return Redis::expire($key, $time);
     }
 
     /**
@@ -217,22 +234,6 @@ class MasterCache
     public function getLength($key)
     {
         return Redis::llen($key);
-    }
-
-    /**
-     * 修改一条hash记录
-     * @param $key string hash的key
-     * @param $data array 所要修改的键值对
-     * @author 郭庆
-     */
-    public function changeOneHash($key, $data)
-    {
-        //写入hash
-        $result = Redis::hMset($key, $data);
-        if (!$result) return false;
-        //设置生命周期
-        $this->setTime($key);
-        return true;
     }
 
     /**
@@ -267,7 +268,7 @@ class MasterCache
      */
     public function addString($key, $value)
     {
-        if (empty($key) || empty($value)) return false;
+        if (empty($key)) return false;
         return Redis::set($key, $value);
     }
 

@@ -52,4 +52,18 @@ class RollingPictureStore
             ->where($where)
             ->update($field);
     }
+
+    /**
+     * 通过ID取出单条数据
+     * @param $id string
+     * @return bool|mixed|static
+     * @author 王通
+     */
+    public function getOneData($id)
+    {
+        if (empty($id)) return false;
+        return DB::table(self::$table)
+            ->where('id', $id)
+            ->first();
+    }
 }

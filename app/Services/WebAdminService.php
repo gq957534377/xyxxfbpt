@@ -89,13 +89,13 @@ class WebAdminService
                 if (!empty($id)) {
                     self::$webAdminStore->delWebAdmin($id->id);
                     // 删除redis 哈希
-                    self::$webAdminCache->delHash($id->id);
+                    self::$webAdminCache->delKey(HASH_WEBADMIN_INFO_.$id->id);
                     self::$webAdminStore->saveWebAdmin($info);
                 } else {
                     self::$webAdminStore->saveWebAdmin($info);
                 }
             }
-            self::$webAdminCache->delList();
+            self::$webAdminCache->delKey(LIST_WEBADMIN_INFO);
         } catch (Exception $e) {
 
             // 日志
@@ -145,7 +145,7 @@ class WebAdminService
      */
     public function getWebInfo ()
     {
-        if (empty(self::$webAdminCache->checkList())) {
+        if (empty(self::$webAdminCache->exists(LIST_WEBADMIN_INFO))) {
             $obj = self::$webAdminStore->getWebInfo();
             self::$webAdminCache->saveRedisList($obj);
         } else {

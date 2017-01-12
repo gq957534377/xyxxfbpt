@@ -68,7 +68,6 @@ class UserAccountCache extends MasterCache
     /**
      * 获取指定账号信息
      * @param $where
-     * @return bool
      * @author 刘峻廷
      */
     public function getOneAccount($tel)

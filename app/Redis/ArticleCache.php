@@ -7,8 +7,7 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\ArticleStore;
-use Illuminate\Contracts\Logging\Log;
-use Illuminate\Support\Facades\Redis;
+use Log;
 
 class ArticleCache extends MasterCache
 {
@@ -38,29 +37,12 @@ class ArticleCache extends MasterCache
         //获取存入的list缓存长度
         $length = $this->getLength(self::$lkey . $type);
         if($length != $count){
-            \Log::error('文章模块存储redis异常！！！应存list长度'.$count.'实存长度'.$length);
+            Log::error('文章模块存储redis异常！！！应存list长度'.$count.'实存长度'.$length);
         }
         return true;
 
     }
 
-    /**
-     * 写入redis
-     * @param $data
-     * @return bool
-     */
-    public function insertCache($data)
-    {
-        if (empty($data)) return false;
-        $data = CustomPage::objectToArray($data);
-        foreach ($data as $v){
-            //执行写list操作
-            if (!$this->rPushLists(self::$lkey . $v['type'], $v['guid'])) {
-                Log::error('文章信息写入redis   List失败！！');
-            };
-        }
-        return true;
-    }
 
     /**
      * 从左边写入redis
@@ -77,14 +59,6 @@ class ArticleCache extends MasterCache
             if (!$this->lPushLists(self::$lkey . $v['type'], $v['guid'])) {
                 Log::error('文章信息写入redis   List失败！！');
             };
-
-            //如果hash存在则不执行写操作
-            if(!$this->exists(self::$hkey.$v['guid'])){
-
-                $index = self::$hkey . $v['guid'];
-                //写入hash
-                $this->addHash($index, $v);
-            }
 
         }
         return true;
@@ -142,10 +116,16 @@ class ArticleCache extends MasterCache
             }else{
                 //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
                 $res = CustomPage::objectToArray(self::$article_store->getOneDatas(['guid' => $v]));
-                //将取出的mysql 文章详情写入redis
-                $this->addHash(self::$hkey . $v, $res);
-                $res = CustomPage::arrayToObject($res);
-                $data[] = $res;
+                if (empty($res)) {
+                    $this->delList(self::$lkey, $v);
+                    Log::info('Redis出错，文章信息，LIST  KEY 在数据库中不存在。请选择，是否清理redis');
+                } else {
+                    //将取出的mysql 文章详情写入redis
+                    $this->addHash(self::$hkey . $v, $res);
+                    $res = CustomPage::arrayToObject($res);
+                    $data[] = $res;
+                }
+
             }
 
         }
@@ -154,31 +134,6 @@ class ArticleCache extends MasterCache
     }
 
 
-//    /**
-//     * 删除指定list的值
-//     * @param $type
-//     * @param $guid
-//     * @return bool|int
-//     * @author 王通
-//     */
-//    public function delListKey($type, $guid)
-//    {
-//        if (empty($guid)) return false;
-//        //dd($type, $guid, self::$lkey);
-//        return Redis::lRem(self::$lkey . $type, 1, $guid);
-//    }
-
-//    /**
-//     * 删除哈希
-//     * @param $guid
-//     * @return mixed
-//     * @author 王通
-//     */
-//    public function delHashKey($guid)
-//    {
-//        if (empty($guid)) return false;
-//        return Redis::del(self::$lkey . $guid);
-//    }
 
 
 

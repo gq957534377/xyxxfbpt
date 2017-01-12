@@ -8,6 +8,7 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\ProjectStore;
+use Illuminate\Support\Facades\Redis;
 
 class ProjectCache extends MasterCache
 {
@@ -77,7 +78,10 @@ class ProjectCache extends MasterCache
             if ($this->exists($index)) {
                 $data[] = CustomPage::arrayToObject($this->getHash($index));
             } else {
-                $temp[0] = self::$project_store->getOneData(['guid' => $value]);
+                $temp[0] = self::$project_store->getOneData(['guid' => $value, 'status' => 1]);
+
+                if(!$temp[0]) return false;
+
                 $this->createHash($temp);
                 $data[] = $temp[0];
             }
@@ -87,11 +91,11 @@ class ProjectCache extends MasterCache
     }
 
     /**
-     * 返回分页后的数据
+     * 分页返回项目数据
      * author 张洵之
-     * @param int $nowPage
-     * @param int $pageNum
-     * @param array $where
+     * @param int $nowPage 当前页
+     * @param int $pageNum 一页的数据量
+     * @param array $where 条件
      * @return array|null
      * author 张洵之
      */
@@ -120,5 +124,54 @@ class ProjectCache extends MasterCache
         }
 
         return $data;
+    }
+
+    /**
+     * 针对首页刷新随机项目数据的方法
+     * @param $number
+     * @return array|bool|mixed|null
+     * author 张洵之
+     */
+    public function takeData($number)
+    {
+        $index = self::$lkey.'11';
+        $lkeyLength = $this->getLength($index);
+
+        if($lkeyLength == 0) {
+
+            if(!$this->createList(11)) return false;
+
+            $data = self::$project_store->takeData($number);
+            $this->createHash($data);
+            return $data;
+
+        }elseif($lkeyLength<$number) {
+
+            return $this->getPageData(1, $lkeyLength, []);
+
+        }else {
+            $totalPage = (int)ceil($lkeyLength/PAGENUM);
+            $indexArray = $this->getPageLists($index, $number, rand(1,$totalPage));
+            return  $this->getProjectHash($indexArray);
+        }
+    }
+
+    /**
+     * 将后台推送项目加入缓存
+     * @param $data
+     * author 张洵之
+     */
+    public function insertCache($data)
+    {
+        $this ->lPushLists(self::$lkey.$data->financing_stage, $data->guid);
+        $this ->lPushLists(self::$lkey.'11', $data->guid);
+        $this->createHash([$data]);
+    }
+
+    public function deletCache($data)
+    {
+        $this->delList(self::$lkey.$data->financing_stage, $data->guid);
+        $this ->delList(self::$lkey.'11', $data->guid);
+        $this->delKey(self::$hkey.$data->guid);
     }
 }

@@ -65,7 +65,7 @@ class Chage_Action_Status extends Command
                         $chage = self::$actionServer->changeStatus($v->guid, $status['msg'],3);
                         $chage1 = self::$actionServer->changeStatus($v->guid, $status['msg'],1);
                         if ($chage['StatusCode'] != '200' || $chage1['StatusCode']){
-                            Log::info("普通用户第一次请求更改活动状态失败".$v->guid.':'.$chage['msg']);
+                            Log::info("任务调度请求更改活动状态失败".$v->guid.':'.$chage['msg']);
                         }else{
                             $v->status = $status['msg'];
                         }
@@ -73,7 +73,7 @@ class Chage_Action_Status extends Command
                 }
             }
         }else{
-            \Log::info("更改活动状态——查询失败".':'.$result['msg']);
+            \Log::info("任务调度更改活动状态——查询失败".':'.$result['msg']);
         }
     }
 }

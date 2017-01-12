@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Log;
 class CollegeCache extends MasterCache
 {
 
-    private static $lkey = LIST_COLLEGE_;      //项目列表key
-    private static $hkey = HASH_COLLEGE_INFO_;     //项目hash表key
+    private static $lkey = LIST_COLLEGE_;      //列表key
+    private static $hkey = HASH_COLLEGE_INFO_;     //hash表key
 
     private static $college_store;
 
@@ -141,12 +141,9 @@ class CollegeCache extends MasterCache
      */
     public function delCollege($type, $status, $guid)
     {
-        $result = true;
-        $result = $this->delList(self::$lkey . $type . ':' . $status, $guid);
-        $result = $this->delList(self::$lkey . '-' . ':' . $status, $guid);
-        $result = $this->delList(self::$lkey.$type, $guid);
-        if (!$result) Log::error('redis删除一条学院活动list记录失败，学院活动id：'.$guid);
-        return $result;
+        if (!$this->delList(self::$lkey . $type . ':' . $status, $guid)) Log::error("删除list（".self::$lkey . $type . ':' . $status."）元素(".$guid.")失败");
+        if (!$this->delList(self::$lkey . '-' . ':' . $status, $guid)) Log::error("删除list（".self::$lkey . '-' . ':' . $status."）元素(".$guid.")失败");
+        if (!$this->delList(self::$lkey.$type, $guid)) Log::error("删除list（".self::$lkey.$type."）元素(".$guid.")失败");
     }
 
 
