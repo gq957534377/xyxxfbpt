@@ -78,4 +78,14 @@ class HomeStore {
     {
         return DB::table(self::$table)->get();
     }
+
+    /**
+     * 获取所有用户的账号  Tel
+     * @return mixed
+     * @author 刘峻廷
+     */
+    public function getAccounts()
+    {
+        return DB::table(self::$table)->lists('tel');
+    }
 }
