@@ -133,7 +133,7 @@ class MasterCache
         if (empty($key) || empty($data)) return false;
 
         $result = true;
-        if (!$this->exists($key, false)) {
+        if (!$this->exists($key)) {
             //写入hash
             $result = Redis::hMset($key, $data);
         }
