@@ -137,7 +137,6 @@ class ActionCache extends MasterCache
     /**
      * 删除一条记录
      * @param 将要删除记录的类型，状态，guid
-     * @return array
      * @author 郭庆
      */
     public function delAction($type, $status, $guid)
@@ -279,24 +278,6 @@ class ActionCache extends MasterCache
         $this->delAction($oldType, $oldStatus, $guid);
         //根据新的状态添加新的索引list记录
         $this->addActionList($oldType, $status, $guid);
-    }
-
-    /**
-     * 返回队列key
-     * @return string
-     */
-    public function listKey()
-    {
-        return self::$lkey;
-    }
-
-    /**
-     * 返回hash索引key前缀
-     * @return string
-     */
-    public function hashKey()
-    {
-        return self::$hkey;
     }
 
 }

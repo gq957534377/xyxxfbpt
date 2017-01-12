@@ -216,7 +216,7 @@ class ActionService
     {
         //获取符合条件的数据的总量
         if ($list){
-//            $count = self::$collegeCache->getCount($where);
+            $count = self::$collegeCache->getCount($where);
         }else{
             $count = self::$actionCache->getCount($where);
         }
@@ -226,7 +226,7 @@ class ActionService
         if (!$list) {
             $result['data'] = self::$actionCache->getPageDatas($where, $forPages, $nowPage);
         } else {
-//                $result['data'] = self::$collegeCache->getPageDatas($where, $forPages, $nowPage);
+            $result['data'] = self::$collegeCache->getPageDatas($where, $forPages, $nowPage);
         }
 
         //计算总页数

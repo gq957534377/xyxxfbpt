@@ -8,7 +8,7 @@
  */
 namespace App\Redis;
 
-use Illuminate\Support\Facades\Redis;
+use Redis;
 
 class MasterCache
 {
@@ -16,6 +16,12 @@ class MasterCache
      * 判断key是否存在
      * @param $key string redis的key
      * @return bool
+     * @example
+     * <pre>
+     * $redis->set('key', 'value');
+     * $redis->exists('key');               //  TRUE
+     * $redis->exists('NonExistingKey');    // FALSE
+     * </pre>
      */
     public function exists($key)
     {
@@ -46,6 +52,13 @@ class MasterCache
      * 获取指定范围内的list数据
      * @param
      * @return array
+     * @example
+     * <pre>
+     * $redis->rPush('key1', 'A');
+     * $redis->rPush('key1', 'B');
+     * $redis->rPush('key1', 'C');
+     * $redis->lRange('key1', 0, -1); // array('A', 'B', 'C')
+     * </pre>
      * @author 郭庆
      */
     public function getBetweenList($key, $start, $end)
@@ -57,6 +70,28 @@ class MasterCache
      * 获取hash的全部字段数据
      * @param $key string hash的key
      * @return [] 成功： array 全部字段的键值对 失败：bool false
+     * @example
+     * <pre>
+     * $redis->delete('h');
+     * $redis->hSet('h', 'a', 'x');
+     * $redis->hSet('h', 'b', 'y');
+     * $redis->hSet('h', 'c', 'z');
+     * $redis->hSet('h', 'd', 't');
+     * var_dump($redis->hGetAll('h'));
+     *
+     * // Output:
+     * // array(4) {
+     * //   ["a"]=>
+     * //   string(1) "x"
+     * //   ["b"]=>
+     * //   string(1) "y"
+     * //   ["c"]=>
+     * //   string(1) "z"
+     * //   ["d"]=>
+     * //   string(1) "t"
+     * // }
+     * // The order is random and corresponds to redis' own internal representation of the set structure.
+     * </pre>
      * @author 郭庆
      */
     public function getHash($key)
@@ -96,13 +131,41 @@ class MasterCache
     {
         if (empty($key) || empty($data)) return false;
 
+        $result = true;
         if (!$this->exists($key, false)) {
             //写入hash
-            Redis::hMset($key, $data);
+            $result = Redis::hMset($key, $data);
         }
-        //设置生命周期
-        $this->setTime($key);
-        return true;
+        if (!$result) {
+            \Log::error('写入hash出错'.$key);
+            return false;
+        }else{
+            //设置生命周期
+            return $this->setTime($key);
+        }
+    }
+
+    /**
+     * 删除指定的 keys.
+     *
+     * @param   int|array   $key1 An array of keys, or an undefined number of parameters, each a key: key1 key2 key3 ... keyN
+     * @param   string      $key2 ...
+     * @param   string      $key3 ...
+     * @return int Number of keys deleted.
+     * @example
+     * <pre>
+     * $redis->set('key1', 'val1');
+     * $redis->set('key2', 'val2');
+     * $redis->set('key3', 'val3');
+     * $redis->set('key4', 'val4');
+     * $redis->delete('key1', 'key2');          // return 2
+     * $redis->delete(array('key3', 'key4'));   // return 2
+     * </pre>
+     */
+    public function delKey($key)
+    {
+        if (empty($key)) return false;
+        return Redis::del($key);
     }
 
     /**
@@ -132,7 +195,7 @@ class MasterCache
         if (empty($key) || empty($lists)) return false;
 
         //执行写list操作
-        if (!Redis::rpush($key, $lists)) return false;
+        if (!Redis::lpush($key, $lists)) return false;
 
         return true;
     }
