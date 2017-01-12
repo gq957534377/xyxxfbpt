@@ -137,9 +137,9 @@ class ArticleService
     public function selectArticle($where, $nowPage, $forPages, $url, $disPlay = true)
     {
         // 判断article缓存是否存在
-        if(!self::$articleCache->existsArticleList($where['type'])){
+        if(!self::$articleCache->exists(LIST_ARTICLE_INFO_.$where['type'])){
             // 获取数据库里的所有文章列表,并且转对象为数组
-            $article_list = CustomPage::objectToArray(self::$articleStore->getData($where));
+            $article_list = CustomPage::objectToArray(self::$articleStore->getAllGuid($where));
             $result = $this->selectData($where, $nowPage, $forPages, $url, $disPlay);
             // 存入redis缓存
             if(count($article_list)){
@@ -155,15 +155,15 @@ class ArticleService
 
     /**
      * 读取redis数据，并且把得到的数据转换成对象
-     * @param $forPages   一页获取的数量
-     * @param $nowPage   当前页
+     * @param $forPages  int   一页获取的数量
+     * @param $nowPage  int   当前页
      * @param $type   数据的类型
      * @return array
      * @author 王通
      */
     public function selectArticleRedis($forPages, $nowPage, $type)
     {
-        $count = self::$articleCache->getLength($type);
+        $count = self::$articleCache->getLength(LIST_ARTICLE_INFO_.$type);
         $totalPage = ceil($count / $forPages);
         $result['data'] = self::$articleCache->getArticleList($forPages, $nowPage, $type);
         $result['totalPage'] = $totalPage;
@@ -235,12 +235,17 @@ class ArticleService
         return ['StatusCode'=> '500', 'ResultData' => "服务器忙，修改失败"];
     }
 
+    /**
+     * redis修改为发布，和修改状态为删除的方法
+     * @param $id
+     * @param $status
+     */
     public function updateRedisDel($id, $status)
     {
         // 更新redis
         $dataInfo = self::$articleStore->getOneData(['guid' => $id]);
         if ($status == 5 || $status == 3) {
-            $res = self::$articleCache->delListKey($dataInfo->type, $dataInfo->guid);
+            $res = self::$articleCache->delList(LIST_ARTICLE_INFO_. $dataInfo->type, $dataInfo->guid);
         } elseif ($status == 1) {
             $res = self::$articleCache->insertLeftCache([$dataInfo]);
         }
@@ -266,11 +271,11 @@ class ArticleService
                 // 更新redis
                 $dataInfo = self::$articleStore->getOneData(['guid' => $where['guid']]);
                 if ($data['status'] == 5 || $data['status'] == 3) {
-                    $res = self::$articleCache->delListKey($dataInfo->type, $dataInfo->guid);
+                    $res = self::$articleCache->delList(LIST_ARTICLE_INFO_.$dataInfo->type, $dataInfo->guid);
                 }
             }
             // 删除哈希值
-            self::$articleCache->delHashKey($where['guid']);
+            self::$articleCache->delKey($where['guid']);
             return ['StatusCode'=> '200','ResultData' => "修改成功"];
         }else{
             if ($Data == 0) return ['StatusCode'=> '204','ResultData' => '未作任何更改'];
@@ -289,7 +294,7 @@ class ArticleService
     {
         $dataInfo = self::$articleStore->getOneData(['guid' => $guid]);
         if ($status == 5 || $status == 3) {
-            $res = self::$articleCache->delListKey($dataInfo->type, $dataInfo->guid);
+            $res = self::$articleCache->delList(LIST_ARTICLE_INFO_.$dataInfo->type, $dataInfo->guid);
         } elseif ($status == 1) {
             $res = self::$articleCache->insertCache([$dataInfo]);
         }
@@ -518,11 +523,12 @@ class ArticleService
      * @param int $status
      * @return array
      * @author 刘峻廷
+     * @modify 王通
      */
     public function getTakeArticles($type, $take = 8, $status = 1)
     {
         // 判断article缓存是否存在
-        if(!self::$articleCache->existsArticleList()){
+        if(!self::$articleCache->exists(LIST_ARTICLE_INFO_.$type)){
             // 获取数据库里的所有文章列表,并且转对象为数组
             $article_list = CustomPage::objectToArray(self::$articleStore->getData(['type' => $type, 'status' => $status]));
             $result = $this->selectData(['type' => $type], 1, $take, 'aaa', false);
@@ -560,7 +566,7 @@ class ArticleService
      */
     public function getRandomArticles($type, $take = 4, $status = 1)
     {
-        if(!self::$articleCache->existsArticleList($type)){
+        if(!self::$articleCache->exists(LIST_ARTICLE_INFO_.$type)){
             if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
             $start = self::$articleStore->getCount(['type' => $type, 'status' => $status]);
             // 获取文章数据
@@ -582,7 +588,7 @@ class ArticleService
     protected function getRandomRedisArticle($type, $num)
     {
         // 得到list的长度
-        $count = self::$articleCache->getLength($type);
+        $count = self::$articleCache->getLength(LIST_ARTICLE_INFO_.$type);
         // 随机获取四个数字
         $numArr = range(0, $count - 1);
         shuffle ($numArr);

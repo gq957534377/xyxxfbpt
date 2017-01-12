@@ -27,10 +27,10 @@ return [
 
         //七牛配置,若mode='qiniu',以下为必填.
         'qiniu'=>[
-            'accessKey'=>'VsAP-hK_hVPKiq5CQcoxWNhBT9ZpZ1Ii4z3O_W51',
-            'secretKey'=>'5dqfmvL15DFoAK1QzaVF2TwVzwJllOF8K4Puf1Po',
-            'bucket'=>'jacklin',// 使用的七牛空间名称
-            'url'=>'http://ogd29n56i.bkt.clouddn.com',//七牛分配的CDN域名,注意带上http://
+            'accessKey'=> QINIU_ACCESS_KEY,
+            'secretKey'=> QINIU_SECRET_KEY,
+            'bucket'=> QINIU_BUCKET,// 使用的七牛空间名称
+            'url'=> QINIU_URL,//七牛分配的CDN域名,注意带上http://
         ]
     ],
     /**
