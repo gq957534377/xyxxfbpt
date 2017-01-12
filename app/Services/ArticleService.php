@@ -75,7 +75,10 @@ class ArticleService
         $result = self::$articleStore->insertData($data);
 
         //判断插入是否成功，并返回结果
-        if(isset($result)) return ['StatusCode' => '200', 'ResultData' => '发布成功'];
+        if(isset($result)) {
+            self::$articleCache->insertLeftCache([$data]);
+            return ['StatusCode' => '200', 'ResultData' => '发布成功'];
+        }
         return ['StatusCode' => '500', 'ResultData' => '文章发布失败'];
     }
 
@@ -251,10 +254,9 @@ class ArticleService
         }
         // 判断redis有没有更新成功
         if (!$res) {
-            Log::error('文章内容redis更新失败');
+            //Log::error('文章内容redis更新失败');
         };
     }
-
     /**
      * 修改文章内容
      * @param $where
@@ -283,26 +285,7 @@ class ArticleService
         }
     }
 
-    /**
-     * 更新redis
-     * @param $guid
-     * @param $status
-     * @return bool|int
-     * @author 王通
-     */
-    protected function updateRedis($guid, $status)
-    {
-        $dataInfo = self::$articleStore->getOneData(['guid' => $guid]);
-        if ($status == 5 || $status == 3) {
-            $res = self::$articleCache->delList(LIST_ARTICLE_INFO_.$dataInfo->type, $dataInfo->guid);
-        } elseif ($status == 1) {
-            $res = self::$articleCache->insertCache([$dataInfo]);
-        }
-        // 判断redis有没有更新成功
-        if (!$res) {
-            Log::error('文章内容redis更新失败');
-        };
-    }
+
 
     /**
      * 获取评论表+like表中某一个文章的评论

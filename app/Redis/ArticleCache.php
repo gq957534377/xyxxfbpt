@@ -44,23 +44,6 @@ class ArticleCache extends MasterCache
 
     }
 
-    /**
-     * 写入redis
-     * @param $data
-     * @return bool
-     */
-    public function insertCache($data)
-    {
-        if (empty($data)) return false;
-        $data = CustomPage::objectToArray($data);
-        foreach ($data as $v){
-            //执行写list操作
-            if (!$this->rPushLists(self::$lkey . $v['type'], $v['guid'])) {
-                Log::error('文章信息写入redis   List失败！！');
-            };
-        }
-        return true;
-    }
 
     /**
      * 从左边写入redis
@@ -75,16 +58,8 @@ class ArticleCache extends MasterCache
         foreach ($data as $v){
             //执行写list操作
             if (!$this->lPushLists(self::$lkey . $v['type'], $v['guid'])) {
-                Log::error('文章信息写入redis   List失败！！');
+                //\Log::error('文章信息写入redis   List失败！！');
             };
-
-            //如果hash存在则不执行写操作
-            if(!$this->exists(self::$hkey.$v['guid'])){
-
-                $index = self::$hkey . $v['guid'];
-                //写入hash
-                $this->addHash($index, $v);
-            }
 
         }
         return true;
@@ -154,31 +129,6 @@ class ArticleCache extends MasterCache
     }
 
 
-//    /**
-//     * 删除指定list的值
-//     * @param $type
-//     * @param $guid
-//     * @return bool|int
-//     * @author 王通
-//     */
-//    public function delListKey($type, $guid)
-//    {
-//        if (empty($guid)) return false;
-//        //dd($type, $guid, self::$lkey);
-//        return Redis::lRem(self::$lkey . $type, 1, $guid);
-//    }
-
-//    /**
-//     * 删除哈希
-//     * @param $guid
-//     * @return mixed
-//     * @author 王通
-//     */
-//    public function delHashKey($guid)
-//    {
-//        if (empty($guid)) return false;
-//        return Redis::del(self::$lkey . $guid);
-//    }
 
 
 
