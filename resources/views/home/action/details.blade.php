@@ -296,7 +296,7 @@ $('#comment').click(function () {
 });
 @endif
 function login() {
-    window.location.href = "{{route('login.index')}}"
+    window.location.href = "/login?back="+document.URL;
 }
 
 //分享按钮
