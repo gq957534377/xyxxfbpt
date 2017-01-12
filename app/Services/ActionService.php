@@ -348,7 +348,6 @@ class ActionService
         $data['start_time'] = strtotime($data['start_time']);
         $data['end_time'] = strtotime($data['end_time']);
         $data['deadline'] = strtotime($data['deadline']);
-        $data['deadline'] = strtotime($data['deadline']);
         $data['addtime']  = time();
         unset($data['list']);
 
@@ -360,7 +359,7 @@ class ActionService
 
         if($Data){
             if ($list == 3){
-//                self::$collegeCache->changeOneCollege($where['guid'], $data);
+                self::$collegeCache->changeOneCollege($where['guid'], $data);
             }else{
                 self::$actionCache->changeOneAction($where['guid'], $data);
             }

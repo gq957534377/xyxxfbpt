@@ -8,7 +8,8 @@
  */
 namespace App\Redis;
 
-use Redis;
+
+use Illuminate\Support\Facades\Redis;
 
 class MasterCache
 {
