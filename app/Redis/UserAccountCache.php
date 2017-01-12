@@ -24,24 +24,6 @@ class UserAccountCache extends MasterCache
     }
 
     /**
-     * 判断listkey和haskey是否存在
-     * @param string $type
-     * @param string $index
-     * @return mixed
-     * @author 刘峻廷
-     */
-    public function exists($type = 'list', $index = '')
-    {
-        if ($type == 'list') {
-            // 查询listkey 是否存在
-            return Redis::exists(self::$lkey);
-        } else {
-            // 查询拼接guid对应的hashkey是否存在
-            return Redis::exists(self::$hkey.$index);
-        }
-    }
-
-    /**
      * 设置用户账户
      * @param $data
      * @author 刘峻廷
@@ -54,7 +36,7 @@ class UserAccountCache extends MasterCache
         // 执行写操作
         $this->insertCache($data);
 
-        // 获取list 长度
+        // 获取list 长度,队列的长度和获取到的数据长度是否一致，不一致清空队列，重新生成队列
 
     }
 
@@ -73,7 +55,7 @@ class UserAccountCache extends MasterCache
             Redis::rpush(self::$lkey, $v['tel']);
 
             // 再次往hash里存入数据,有数据的跳过
-            if (!$this->exists($type = '', $v['tel'])) {
+            if (!$this->exists(self::$lkey.$v['tel'])) {
 
                 $index = self::$hkey.$v['tel'];
                 Redis::hMset($index, $v);
@@ -162,15 +144,6 @@ class UserAccountCache extends MasterCache
             Redis::lRem(self::$lkey, $tel, 0);
         }
     }
-    /**
-     * 清空redis队列
-     * @return mixed
-     * @author 刘峻廷
-     */
-    public function delList()
-    {
-        return Redis::del(self::$lkey);
-    }
 
     /**
      * 删除指定的hash
@@ -186,31 +159,20 @@ class UserAccountCache extends MasterCache
     }
 
     /**
-     * 获取长度
+     * 获取list长度
      * @param $type
      * @return bool
      * @author 刘峻廷
      */
     public function getListLength($type)
     {
-        if ($this->exists())
+        if ($this->exists(self::$lkey))
         {
             // 返回长度
             return Redis::llen(self::$lkey);
         }
 
         return false;
-    }
-
-    /**
-     * 设置hash缓存生命周期
-     * @param $key
-     * @param int $time
-     * @author 刘峻廷
-     */
-    protected function setTime($key, $time = 1800)
-    {
-         Redis::expire($key, $time);
     }
 
     /**
