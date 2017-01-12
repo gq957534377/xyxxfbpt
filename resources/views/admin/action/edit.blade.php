@@ -161,7 +161,7 @@
             <div class="col-md-12">
                 <div class="form-group no-margin">
                     <label for="field-7" class="control-label">活动简述</label>
-                    <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about action" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 104px;">{{$ResultData->brief}}</textarea>
+                    <textarea class="form-control autogrow" id="brief" name="brief" placeholder="Write something about action" style="overflow: hidden; word-wrap: break-word; resize: none; height: 104px;">{{$ResultData->brief}}</textarea>
                 </div>
             </div>
         </div>

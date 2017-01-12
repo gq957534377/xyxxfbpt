@@ -162,7 +162,7 @@ class ProjectService {
      */
     public function getProject($id)
     {
-        $projectInfoData = self::$projectCache->getHash([$id]);
+        $projectInfoData = self::$projectCache->getProjectHash([$id]);
 
         if(empty($projectInfoData)) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
 
