@@ -8,6 +8,7 @@
  */
 
 namespace App\Services;
+
 use App\Redis\ActionCache;
 use App\Redis\CollegeCache;
 use App\Redis\PictureCache;
@@ -19,7 +20,6 @@ use App\Store\CollegeStore;
 use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class ActionService
 {
@@ -254,7 +254,7 @@ class ActionService
     }
 
     /**
-     * 获取所有活动数据
+     * 获取所有活动数据(用于任务调度)
      * @param
      * @return array
      * @author 郭庆
@@ -305,8 +305,8 @@ class ActionService
 
     /**
      * 修改活动状态
-     * @param $guid 所要修改的id
-     * @param $status 改为的状态
+     * @param $guid string 所要修改的id
+     * @param $status int 改为的状态
      * @return array
      * author 郭庆
      */
@@ -371,7 +371,6 @@ class ActionService
         }
     }
 
-
     /**
      * 获取评论表+like表中某一个活动的评论
      * @param $id
@@ -387,29 +386,6 @@ class ActionService
             if (!is_array($comment)) \Log::info('获取'.$id.'活动的评论出错:'.$comment);
             return ['status' => false, 'msg' => '获取评论信息失败'];
         }
-    }
-
-    /**
-     * 拿取三条活动数据
-     * @param $type
-     * @param int $number
-     * @return array
-     * @author 刘峻廷
-     */
-    public function takeActions($type,$number = 3)
-    {
-
-        if (!!empty($type)) return ['StatusCode' => '401', 'ResultData' => '缺少参数'];
-
-        $where = ['type' => $type];
-
-        $result = CustomPage::arrayToObject(self::$actionCache->getPageDatas($where, $number, 1));
-
-        if ($result) return ['StatusCode' => '200', 'ResultData' => $result];
-
-        Log::error('拿取三条活动数据失败', $result);
-
-        return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
     }
 
     /**
@@ -462,23 +438,6 @@ class ActionService
     }
 
     /**
-     * 根据条件拿取，学院培训数据
-     * @param $number
-     * @return array
-     * @author 刘峻廷
-     */
-    public function takeSchoolData($number)
-    {
-        if (empty($number)) return ['StatusCode' => '400', 'ResultData' => '请求缺少参数'];
-
-        $result = self::$collegeStore->takeSchoolData($number);
-
-        if (!$result) return['StatusCode' => '400', 'ResultData' => '暂无数据'];
-
-        return ['StatusCode' => '200', 'ResultData' => $result];
-    }
-
-    /**
      * 获取四条随机活动，根据给定条件
      * @param $type
      * @param int $take
@@ -497,7 +456,7 @@ class ActionService
         if ($list) {
             $result = self::$actionCache->getBetweenActions(['status' => $status], $start, $start+$take);
         } else {
-//            $result = self::$collegeCache->getRandActions(['status' => $status], $start, $start+$take);
+            $result = self::$collegeCache->getBetweenColleges(['status' => $status], $start, $start+$take);
         }
 
         if (!$result) return ['StatusCode' => '400', 'ResultData' => '获取失败'];
