@@ -9,7 +9,6 @@
 namespace App\Redis;
 
 use Log;
-//use Redis;
 use Illuminate\Support\Facades\Redis;
 use App\Tools\CustomPage;
 use App\Store\PictureStore;
@@ -95,6 +94,24 @@ class PictureCache extends MasterCache
             $this->addHash(self::$hkey . $id, CustomPage::objectToArray($data), WEB_PIC_TIME);
         }
         return $data;
+    }
+
+    /**
+     * 取出所有的合作机构，以及投资机构
+     * @param $val
+     * @return array|bool
+     * @author 王通
+     */
+    public function getRedisPicture($val)
+    {
+        // 判断redis中存在不存在，不存在则添加到redis
+        if (empty($this->exists(LIST_PICTURE_INFO))) {
+            $obj = self::$pictureStore->getPictureIn($val);
+            $this->saveRedisList($obj);
+        } else {
+            $obj = $this->selRedisInfo();
+        }
+        return $obj;
     }
 }
 

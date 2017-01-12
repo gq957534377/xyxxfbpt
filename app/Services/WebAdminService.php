@@ -145,13 +145,8 @@ class WebAdminService
      */
     public function getWebInfo ()
     {
-        if (empty(self::$webAdminCache->exists(LIST_WEBADMIN_INFO))) {
-            $obj = self::$webAdminStore->getWebInfo();
-            self::$webAdminCache->saveRedisList($obj);
-        } else {
-            $obj = self::$webAdminCache->selRedisInfo();
-        }
 
+        $obj = self::$webAdminCache->getWebInfo();
 
         if (!empty($obj)) {
             return ['StatusCode' => '200', 'ResultData' => $obj];

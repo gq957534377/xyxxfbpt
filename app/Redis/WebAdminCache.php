@@ -9,7 +9,6 @@
 namespace App\Redis;
 
 use Log;
-use Redis;
 use App\Tools\CustomPage;
 use App\Store\WebAdminStore;
 
@@ -81,5 +80,22 @@ class WebAdminCache extends MasterCache
         return $data;
     }
 
+
+    /**
+     * 取出所有的网页基本信息
+     * @return array|mixed
+     * @author 王通
+     */
+    public function getWebInfo()
+    {
+        // 判断list是否存在
+        if (empty($this->exists(LIST_WEBADMIN_INFO))) {
+            $obj = self::$webAdminStore->getWebInfo();
+            $this->saveRedisList($obj);
+        } else {
+            $obj = $this->selRedisInfo();
+        }
+        return $obj;
+    }
 }
 

@@ -9,7 +9,6 @@
 namespace App\Redis;
 
 use Log;
-use Redis;
 use App\Tools\CustomPage;
 use App\Store\RollingPictureStore;
 
@@ -89,5 +88,26 @@ class RollingPictureCache extends MasterCache
         return $arr;
     }
 
+    /**
+     * 取出轮播图数据
+     * @return array
+     * @author 王通
+     */
+    public function getRollingPictureRedis()
+    {
+        // 判断redis中存在不存在，不存在则添加到redis
+        if (empty($this->exists(LIST_ROLLINGPICTURE_INFO))) {
+            $res = self::$rollingPictureStore->getAllPic();
+            $this->saveRedisList($res);
+        } else {
+            $res = $this->selRedisInfo();
+            // 如果redis中没有数据，则把KEY删掉并且删掉list键
+            if (empty($res)) {
+                $res = self::$rollingPictureStore->getAllPic();
+                self::delKey(LIST_ROLLINGPICTURE_INFO);
+            }
+        }
+        return $res;
+    }
 }
 
