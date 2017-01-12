@@ -16,7 +16,7 @@ use App\Tools\Common;
 use App\Services\UserService as UserServer;
 use App\Tools\CustomPage;
 use App\Redis\ArticleCache;
-use Illuminate\Contracts\Logging\Log;
+use Log;
 
 class ArticleService
 {
@@ -254,7 +254,7 @@ class ArticleService
         }
         // 判断redis有没有更新成功
         if (!$res) {
-            //Log::error('文章内容redis更新失败');
+            Log::error('文章内容redis更新失败');
         };
     }
     /**
@@ -277,7 +277,7 @@ class ArticleService
                 }
             }
             // 删除哈希值
-            self::$articleCache->delKey($where['guid']);
+            self::$articleCache->delKey(HASH_ARTICLE_INFO_.$where['guid']);
             return ['StatusCode'=> '200','ResultData' => "修改成功"];
         }else{
             if ($Data == 0) return ['StatusCode'=> '204','ResultData' => '未作任何更改'];

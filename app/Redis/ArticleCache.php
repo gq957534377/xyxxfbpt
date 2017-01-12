@@ -7,8 +7,7 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\ArticleStore;
-use Illuminate\Contracts\Logging\Log;
-use Illuminate\Support\Facades\Redis;
+use Log;
 
 class ArticleCache extends MasterCache
 {
@@ -38,7 +37,7 @@ class ArticleCache extends MasterCache
         //获取存入的list缓存长度
         $length = $this->getLength(self::$lkey . $type);
         if($length != $count){
-            \Log::error('文章模块存储redis异常！！！应存list长度'.$count.'实存长度'.$length);
+            Log::error('文章模块存储redis异常！！！应存list长度'.$count.'实存长度'.$length);
         }
         return true;
 
@@ -58,7 +57,7 @@ class ArticleCache extends MasterCache
         foreach ($data as $v){
             //执行写list操作
             if (!$this->lPushLists(self::$lkey . $v['type'], $v['guid'])) {
-                //\Log::error('文章信息写入redis   List失败！！');
+                Log::error('文章信息写入redis   List失败！！');
             };
 
         }
