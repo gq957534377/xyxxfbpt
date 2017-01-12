@@ -12,6 +12,7 @@ use App\Tools\Common;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 class UserService {
     protected static $accountCache = null;
