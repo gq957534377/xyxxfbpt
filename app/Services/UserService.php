@@ -13,7 +13,6 @@ use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
-use Mail;
 
 class UserService {
     protected static $accountCache = null;
@@ -199,16 +198,6 @@ class UserService {
      */
     public function  loginCheck($data)
     {
-        // 先判断Account队列缓存是否存在
-        if (!self::$accountCache->exists()) {
-            // 不存在，读取MySql存入redis,并且将获取到的对象转成数组
-            $accountList = CustomPage::objectToArray(self::$homeStore->getAllData());
-
-            if (count($accountList)) {
-                self::$accountCache->setUserAccountList($accountList);
-            }
-        }
-
         // 存在，判断list队列中该账户是否存在
         $temp = self::$accountCache->getOneAccount($data['tel']);
 
@@ -321,9 +310,9 @@ class UserService {
         $sms = Session::get('sms');
         $number = mt_rand(100000, 999999);
         $content = ['phone' => $phone,'number' => $number];
-        //$resIp = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
+        $resIp = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
         $resPhoto = SafetyService::checkPhoneSMSCode($phone, $number);
-        if ($resPhoto) {
+        if ($resIp || $resPhoto) {
             return ['StatusCode' => '400','ResultData' => '获取验证码过于频繁，请稍后再试!!'];
         }
 
@@ -332,7 +321,7 @@ class UserService {
             // 两分之内，不在发短信
             if(($sms['time'] + 60)> $nowTime ) return ['StatusCode' => '400','ResultData' => '短信已发送，请等待！'];
             // 两分钟之后，可以再次发送
-            $resp = Common::sendSms($phone,$content,'奇立英雄会', 'SMS_34865398');
+            $resp = Common::sendSms($phone, $content);
 
             // 发送失败
             if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送！'];
@@ -343,7 +332,7 @@ class UserService {
             return ['StatusCode' => '200','ResultData' => '发送成功，请注意查收！'];
         }else{
 
-            $resp =  Common::sendSms($phone, $content, '奇立英雄会', 'SMS_34865398');
+            $resp =  Common::sendSms($phone, $content);
 
             // 发送失败
             if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送!！'];

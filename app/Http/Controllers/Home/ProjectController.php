@@ -48,7 +48,7 @@ class ProjectController extends Controller
             return view('home.projects.index', compact('projects', 'type'));
         } else {
             $projects = $res['ResultData'];
-            Common::wordLimit($projects, 'content', 15);
+//            Common::wordLimit($projects, 'content', 15);
             return view('home.projects.index', compact('projects', 'type'));
         }
 
@@ -126,6 +126,7 @@ class ProjectController extends Controller
         // 获取项目属于者具体信息
         $commentData = self::$commentServer->getComent($id, 1);
         $pageStyle = self::$commentServer->getPageStyle($id, 1);
+
         return view('home.projects.details', compact(
             'project_details', //内容详情数据
             'commentData', //评论内容数据

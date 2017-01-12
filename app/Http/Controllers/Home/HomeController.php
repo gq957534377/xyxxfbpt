@@ -11,6 +11,7 @@ use App\Services\ActionService as ActionServer;
 use App\Services\ArticleService as ArticleServer;
 use App\Services\PictureService;
 use App\Store\RollingPictureStore;
+use App\Tools\Common;
 
 
 class HomeController extends Controller
@@ -52,11 +53,6 @@ class HomeController extends Controller
         // 精选项目,随机拿取3条
         $projectResult = self::$projectServer->takeData();
 
-        if ($projectResult['StatusCode'] == '200') {
-            // 推送内容限定字数
-            self::$actionServer->wordLimit($projectResult['ResultData'], 'content',60);
-        }
-
         // 路演活动
         $roadShowResult = self::$actionServer->selectData(['type'=>1], 1, 3, 'action/create', false, false);
         // 创业大赛
@@ -72,14 +68,14 @@ class HomeController extends Controller
         // 轮播图
         $rollingPic = self::$pictureService->getRollingPicture();
         // 设置cookie
-        $cookie = \App\Tools\Common::generateCookie('feedback');
+        $cookie = Common::generateCookie('feedback');
         return response()->view('home.index.index', [
             'projects'      => $projectResult['ResultData'],
             'roadShows'     => $roadShowResult,
             'sybs'          => $sybResult,
-            'schools'        => $schollResult,
+            'schools'       => $schollResult,
             'picArr'        => $picArr['ResultData'],
-            'rollingPic'        => $rollingPic['ResultData'],
+            'rollingPic'    => $rollingPic['ResultData'],
             'articles'      => $articles['ResultData'],
         ])->withCookie($cookie);
 

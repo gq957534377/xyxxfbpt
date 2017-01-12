@@ -51,7 +51,7 @@ class ActionOrderController extends Controller
         }
 
         $nowPage = !empty($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        $forPages = 1;//一页的数据条数
+        $forPages = 3;//一页的数据条数
 
         $result = self::$actionServer->getOrderActions($where, $actions, $nowPage, $forPages, 'action_order/create',$list);
         $result['ResultData']['status'] = $status;
@@ -89,7 +89,7 @@ class ActionOrderController extends Controller
         }
 
         $nowPage = !empty($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
-        $forPages = 1;//一页的数据条数
+        $forPages = 3;//一页的数据条数
         $where = [];
 
         if(!empty($data["status"])){

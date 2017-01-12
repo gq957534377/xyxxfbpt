@@ -8,13 +8,13 @@
 
 namespace App\Redis;
 
-use Illuminate\Contracts\Logging\Log;
+use Log;
 //use Redis;
 use Illuminate\Support\Facades\Redis;
 use App\Tools\CustomPage;
 use App\Store\PictureStore;
 
-class PictureCache
+class PictureCache extends MasterCache
 {
     protected static $lkey = LIST_PICTURE_INFO;
     protected static $hkey = HASH_PICTURE_INFO_;
@@ -25,46 +25,24 @@ class PictureCache
         self::$pictureStore = $pictureStore;
     }
 
-    /**
-     * 检查list是否存在
-     * @return bool
-     * @author 王通
-     */
-    public function checkList()
-    {
-        return Redis::exists(self::$lkey);
-    }
-
-    /**
-     * 检查哈希是否存在
-     * @param $id
-     * @return bool
-     * @author 王通
-     */
-    public function checkHash($id)
-    {
-        return Redis::exists(self::$hkey . $id);
-    }
-
 
     /**
      * 把数据保存到redis
-     * @param $data    存储的是从数据库取出来的，数据对象
+     * @param $data  object   存储的是从数据库取出来的，数据对象
      * @return bool
      */
     public function saveRedisList($data)
     {
         $data = CustomPage::objectToArray($data);
         foreach ($data as $datum) {
-            if (!Redis::rpush(self::$lkey, $datum['id'])) {
-                Log::error('网页基本信息写入redis   List失败！！');
-                Redis::del(self::$lkey);
+            if (!$this->rPushLists(self::$lkey, $datum['id'])) {
+                Log::error('投资合作机构写入 redis    List失败！！');
+                $this->delKey(self::$lkey);
                 return false;
             }
-            if (!$this->checkHash($datum['id'])) {
+            if (!$this->exists(HASH_PICTURE_INFO_.$datum['id'])) {
                 if(!Redis::hMset(self::$hkey . $datum['id'], $datum)) {
-                    Log::info('页面基本信息，写入redis失败!!');
-                    return false;
+                    Log::info('投资合作机构，写入哈希失败!!');
                 }
             }
         }
@@ -78,12 +56,11 @@ class PictureCache
      */
     public function selRedisInfo()
     {
-        $data = Redis::lRange(self::$lkey, 0, -1);
+        $data = $this->getBetweenList(self::$lkey, 0, -1);
         $arr = [];
         foreach ($data as $datum) {
             $result = Redis::hGetall(self::$hkey . $datum);
             if (empty($result)) {
-                //Log::info('Redis出错，请设置网页基本信息的值。或者清理redis');
                 // 如果redis哈希中不存在，则去数据库中查找，并且取出数据放到redis中
                 $res = self::$pictureStore->getOnePicture(['id' => $datum]);
                 if (!empty($res)) {
@@ -91,7 +68,8 @@ class PictureCache
                     Redis::hMset(self::$hkey . $datum, $res);
                     $arr[] = CustomPage::arrayToObject($res);
                 } else {
-                    $arr[] = '';
+                    $this->delList(self::$lkey, $datum);
+                    Log::info('Redis出错，合作机构，LIST  KEY 在数据库中不存在。请选择，是否清理redis');
                 }
             } else {
                 $arr[] = CustomPage::arrayToObject($result);
@@ -102,48 +80,13 @@ class PictureCache
     }
 
     /**
-     * 删除哈希字段
-     * @param $key
-     * @return bool
-     * @author 王通
-     */
-    public function delHash($key)
-    {
-        if (empty($key)) return false;
-        return Redis::del(self::$hkey . $key);
-
-    }
-
-    /**
-     * 删除list字段
-     * @return int
-     * @author 王通
-     */
-    public function delList()
-    {
-        return Redis::del(self::$lkey);
-    }
-
-    /**
-     * 删除list中的指定值
-     * @param $val
-     * @return bool|int
-     * @author 王通
-     */
-    public function delListKey($val)
-    {
-        if (empty($val)) return false;
-        return Redis::lRem(self::$lkey,0 , $val);
-    }
-
-    /**
      * 取出哈希中的一个值
      * @return array
      * @author 郭庆
      */
     public function getOnePicture($id)
     {
-        if ($this->checkHash($id)){
+        if ($this->exists(HASH_PICTURE_INFO_.$id)){
             $data = CustomPage::arrayToObject(Redis::hGetall(self::$hkey . $id));
         }else{
             $data = self::$pictureStore->getOnePicture(['id'=>(int)$id]);

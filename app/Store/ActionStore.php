@@ -178,6 +178,25 @@ class ActionStore
             ->get();
     }
 
+    /**
+     * 获取指定条件的所有guid
+     * @param $where
+     * @return mixed
+     * @author 郭庆
+     */
+    public function getGuids($where)
+    {
+        if (!empty($where['status']) && $where['status'] == 4) {
+            return DB::table(self::$table)
+                ->where($where)
+                ->lists('guid');
+        } else {
+            return DB::table(self::$table)
+                ->where($where)
+                ->where('status', '<>', 4)
+                ->lists('guid');
+        }
+    }
 
 
 

@@ -120,13 +120,13 @@ class PictureService
 
     /**
      * 得到所有指定类型图片
-     * @param $val   数组，示例[3, 5] 代表合作机构投资机构都要
+     * @param $val array  数组，示例[3, 5] 代表合作机构投资机构都要
      * @author 王通
      */
     public function getPictureIn ($val)
     {
         // 判断redis中存在不存在，不存在则添加到redis
-        if (empty(self::$pictureCache->checkList())) {
+        if (empty(self::$pictureCache->exists(LIST_PICTURE_INFO))) {
             $obj = self::$picturestore->getPictureIn($val);
             self::$pictureCache->saveRedisList($obj);
         } else {
@@ -148,11 +148,14 @@ class PictureService
     public function getRollingPicture()
     {
         // 判断redis中存在不存在，不存在则添加到redis
-        if (empty(self::$rollingPictureCache->checkList())) {
+        if (empty(self::$rollingPictureCache->exists(LIST_ROLLINGPICTURE_INFO))) {
             $res = self::$rollingPictureStore->getAllPic();
             self::$rollingPictureCache->saveRedisList($res);
         } else {
             $res = self::$rollingPictureCache->selRedisInfo();
+            if (empty($res)) {
+                $res = self::$rollingPictureStore->getAllPic();
+            }
         }
         // 判断有没有请求道数据
         if (empty($res)) {
@@ -172,14 +175,14 @@ class PictureService
         if ($type == 'rolling') {
             $res = self::$rollingPictureStore->updataRolling(['id' => $id], ['status' => 4]);
             if (!empty($res)) {
-                self::$rollingPictureCache->delListKey($id);
-                self::$rollingPictureCache->delHash($id);
+                self::$rollingPictureCache->delList(LIST_ROLLINGPICTURE_INFO, $id);
+                self::$rollingPictureCache->delKey(HASH_ROLLINGPICTURE_INFO_.$id);
             }
         } else {
             $res = self::$picturestore->updatePic(['id' => $id], ['status' => 4]);
             if (!empty($res)) {
-                self::$pictureCache->delListKey($id);
-                self::$pictureCache->delHash($id);
+                self::$pictureCache->delList(LIST_PICTURE_INFO , $id);
+                self::$pictureCache->delKey(HASH_PICTURE_INFO_.$id);
             }
         }
 
@@ -200,7 +203,7 @@ class PictureService
     {
         $res = self::$picturestore->updatePic(['id' => $id], ['name' => $data['name'], 'pointurl' => $data['url']]);
         if ($res) {
-            self::$pictureCache->delHash($id);
+            self::$pictureCache->delKey(HASH_PICTURE_INFO_.$id);
             return ['StatusCode' => '200', 'ResultData' => '更新成功'];
         } else {
             return ['StatusCode' => '400', 'ResultData' => '更新失败'];

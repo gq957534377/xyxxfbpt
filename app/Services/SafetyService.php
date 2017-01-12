@@ -212,11 +212,11 @@ class SafetyService
             BaseRedis::setexRedis($SMSNum, 1, $requestTime);
             return false;
         } else {
-            // 判断一分钟之内，有没有请求过验证码
-            if (BaseRedis::existsRedis($SMSVal)) {
-                Log::warning('!!! 在'.$overtime . '秒内，来自于' . $ip .'请求次数超过两次，疑似短信接口被攻击。');
-                return true;
-            }
+//            // 判断一分钟之内，有没有请求过验证码
+//            if (BaseRedis::existsRedis($SMSVal)) {
+//                Log::warning('!!! 在'.$overtime . '秒内，来自于' . $ip .'请求次数超过两次，疑似短信接口被攻击。');
+//                return true;
+//            }
             // 判断指定时间段，请求次数有没有超过三次
             if (BaseRedis::getRedis($SMSNum) < $smsLimitNum) {
                 // 当前验证码

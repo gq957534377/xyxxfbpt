@@ -83,6 +83,18 @@ class ArticleStore
         return DB::table(self::$table)->where($where)->orderBy("addtime", "desc")->get();
     }
 
+
+    /**
+     * 得到数据中所有未被删除的GUID
+     * @param $where
+     * @return mixed
+     */
+    public function getAllGuid($where)
+    {
+        if (empty($where)) return false;
+        return DB::table(self::$table)->where($where)->orderBy("addtime", "desc")->lists('guid');
+    }
+
     /**
      * 更新数据
      * @param $where

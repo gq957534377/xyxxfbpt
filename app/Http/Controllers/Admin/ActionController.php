@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Store\PictureStore;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ActionService as ActionServer;
 
@@ -28,7 +27,6 @@ class ActionController extends Controller
     public function index(Request $request)
     {
         $type = (int)$request->get('type');
-
 
         return view('admin.action.index',['type' => $type]);
     }
