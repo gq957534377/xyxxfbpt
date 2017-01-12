@@ -121,14 +121,12 @@ class Common {
      * @return false|object
      * @author 刘峻廷
      */
-    public static function sendSms($phone,$setSmsParam,$smsFreeSignName,$tmeplateCode)
+    public static function sendSms($phone,$setSmsParam)
     {
-        $app_key = '23578050';
-        $app_secret = '2a07331f605055bb9d70a5220097e2cb';
         // 配置信息
         $config = [
-            'app_key'       => $app_key,
-            'app_secret'    => $app_secret,
+            'app_key'       => SMS_APP_KEY,
+            'app_secret'    => SMS_APP_SECRET,
             // 'sandbox'    => true,  // 是否为沙箱环境，默认false
         ];
         // 使用方法一
@@ -140,8 +138,8 @@ class Common {
         // setSmsTemplateCode -> 短信模板ID
         $req->setRecNum($phone)
             ->setSmsParam($setSmsParam)
-            ->setSmsFreeSignName($smsFreeSignName)
-            ->setSmsTemplateCode($tmeplateCode);
+            ->setSmsFreeSignName(SMS_FREE_SIGN_NAME)
+            ->setSmsTemplateCode(SMS_TEMPLATE_CODE);
         // 返回发送成功信息
         $info = $client->execute($req);
         if(property_exists($info,'result')){
@@ -196,14 +194,14 @@ class Common {
     public static function getToken()
     {
         // 需要填写你的 Access Key 和 Secret Key
-        $accessKey = 'c_M1yo7k90djYAgDst93NM3hLOz1XqYIKYhaNJZ4';
-        $secretKey = 'Gb2K_HZbepbu-A45y646sP1NNZF3AqzY_w680d5h';
+//        $accessKey = 'c_M1yo7k90djYAgDst93NM3hLOz1XqYIKYhaNJZ4';
+//        $secretKey = 'Gb2K_HZbepbu-A45y646sP1NNZF3AqzY_w680d5h';
 
         // 构建鉴权对象
-        $auth = new Auth($accessKey, $secretKey);
+        $auth = new Auth(QINIU_ACCESS_KEY, QINIU_SECRET_KEY);
 
         // 要上传的空间
-        $bucket = 'yingxionghui';
+        $bucket = QINIU_BUCKET;
 
         // 生成上传 Token
         $token = $auth->uploadToken($bucket);
@@ -227,30 +225,12 @@ class Common {
 
         // 调用 UploadManager 的 putFile 方法进行文件的上传
         list($ret, $err) = $uploadMgr->putFile($token, $key, $filePath);
-        $res = ['status' => true, 'url'=> 'http://oj6lmh2uo.bkt.clouddn.com/'.$key];
+        $res = ['status' => true, 'url'=> QINIU_URL.$key];
 
         if (!$err==null) return ['status' => false, 'msg' => $err];
 
         return $res;
     }
-
-//    /**
-//     * 字符限制，添加省略号
-//     * @param $words
-//     * @param $limit
-//     * @return string
-//     * @author 刘峻廷
-//     */
-//    public static function wordLimit($words, $filed,$limit)
-//    {
-//        foreach($words as $word){
-//            $content = trim($word->$filed);
-//            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
-//            $word->$filed = $content;
-//        }
-//
-//    }
-
 
     /**
      * 产生cookie
