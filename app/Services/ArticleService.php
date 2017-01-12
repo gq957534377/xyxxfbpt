@@ -235,6 +235,11 @@ class ArticleService
         return ['StatusCode'=> '500', 'ResultData' => "服务器忙，修改失败"];
     }
 
+    /**
+     * redis修改为发布，和修改状态为删除的方法
+     * @param $id
+     * @param $status
+     */
     public function updateRedisDel($id, $status)
     {
         // 更新redis
@@ -270,7 +275,7 @@ class ArticleService
                 }
             }
             // 删除哈希值
-            self::$articleCache->delHashKey($where['guid']);
+            self::$articleCache->delKey($where['guid']);
             return ['StatusCode'=> '200','ResultData' => "修改成功"];
         }else{
             if ($Data == 0) return ['StatusCode'=> '204','ResultData' => '未作任何更改'];

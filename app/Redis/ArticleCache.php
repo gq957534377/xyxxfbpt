@@ -194,17 +194,17 @@ class ArticleCache extends MasterCache
 //        return Redis::lRem(self::$lkey . $type, 1, $guid);
 //    }
 
-    /**
-     * 删除哈希
-     * @param $guid
-     * @return mixed
-     * @author 王通
-     */
-    public function delHashKey($guid)
-    {
-        if (empty($guid)) return false;
-        return Redis::del(self::$lkey . $guid);
-    }
+//    /**
+//     * 删除哈希
+//     * @param $guid
+//     * @return mixed
+//     * @author 王通
+//     */
+//    public function delHashKey($guid)
+//    {
+//        if (empty($guid)) return false;
+//        return Redis::del(self::$lkey . $guid);
+//    }
     /**
      * 在list左边插入数据
      * @param $data
