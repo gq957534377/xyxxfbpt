@@ -10,7 +10,7 @@ use App\TaoBaoSdk\Top\ResultSet;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\Redis;
 
-class UserAccountCache
+class UserAccountCache extends MasterCache
 {
 
     private static $lkey = LIST_USER_ACCOUNT;      //用户列表key
@@ -21,24 +21,6 @@ class UserAccountCache
     public function __construct(HomeStore $homeStore)
     {
         self::$homeStore = $homeStore;
-    }
-
-    /**
-     * 判断listkey和haskey是否存在
-     * @param string $type
-     * @param string $index
-     * @return mixed
-     * @author 刘峻廷
-     */
-    public function exists($type = 'list', $index = '')
-    {
-        if ($type == 'list') {
-            // 查询listkey 是否存在
-            return Redis::exists(self::$lkey);
-        } else {
-            // 查询拼接guid对应的hashkey是否存在
-            return Redis::exists(self::$hkey.$index);
-        }
     }
 
     /**
@@ -54,7 +36,7 @@ class UserAccountCache
         // 执行写操作
         $this->insertCache($data);
 
-        // 获取list 长度
+        // 获取list 长度,队列的长度和获取到的数据长度是否一致，不一致清空队列，重新生成队列
 
     }
 
@@ -73,7 +55,7 @@ class UserAccountCache
             Redis::rpush(self::$lkey, $v['tel']);
 
             // 再次往hash里存入数据,有数据的跳过
-            if (!$this->exists($type = '', $v['tel'])) {
+            if (!$this->exists(self::$lkey.$v['tel'])) {
 
                 $index = self::$hkey.$v['tel'];
                 Redis::hMset($index, $v);
@@ -162,15 +144,6 @@ class UserAccountCache
             Redis::lRem(self::$lkey, $tel, 0);
         }
     }
-    /**
-     * 清空redis队列
-     * @return mixed
-     * @author 刘峻廷
-     */
-    public function delList()
-    {
-        return Redis::del(self::$lkey);
-    }
 
     /**
      * 删除指定的hash
@@ -186,31 +159,20 @@ class UserAccountCache
     }
 
     /**
-     * 获取长度
+     * 获取list长度
      * @param $type
      * @return bool
      * @author 刘峻廷
      */
     public function getListLength($type)
     {
-        if ($this->exists())
+        if ($this->exists(self::$lkey))
         {
             // 返回长度
             return Redis::llen(self::$lkey);
         }
 
         return false;
-    }
-
-    /**
-     * 设置hash缓存生命周期
-     * @param $key
-     * @param int $time
-     * @author 刘峻廷
-     */
-    protected function setTime($key, $time = 1800)
-    {
-         Redis::expire($key, $time);
     }
 
     /**

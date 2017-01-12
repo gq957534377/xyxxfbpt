@@ -413,24 +413,6 @@ class ActionService
         return ['StatusCode' => '204', 'ResultData' => '暂无数据'];
     }
 
-//    /**
-//     * 字符限制，添加省略号
-//     * @param $words
-//     * @param $limit
-//     * @return string
-//     * @author 刘峻廷
-//     */
-//    public function wordLimit($words, $filed,$limit)
-//    {
-//        foreach($words as $word){
-//            $content = trim($word->$filed);
-////            $content = mb_substr($content, 0, $limit, 'utf-8').' ...';
-//            $content = str_limit($content, $limit, $end = '...');
-//            $word->$filed = $content;
-//        }
-//
-//    }
-
     /**
      * 获取指定用户所报名参加的满足限制条件的活动信息
      * @param [] $actions 活动actions数组
