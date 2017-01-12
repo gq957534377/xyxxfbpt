@@ -267,7 +267,7 @@ class MasterCache
      */
     public function addString($key, $value)
     {
-        if (empty($key) || empty($value)) return false;
+        if (empty($key)) return false;
         return Redis::set($key, $value);
     }
 
