@@ -106,11 +106,12 @@ class MasterCache
     }
 
     /**
-     * 创建新的list并且插入多个list元素（list初始化-右推）
-     * @param $lists array [guid1,guid2]
+     * 对list进行左推（推一个/多个）
+     * @param $key string listkey
+     * @param $lists array [guid1,guid2] / $lists string 一次推入一个list
      * @author 郭庆
      */
-    public static function rPushLists($key, $lists)
+    public function rPushLists($key, $lists)
     {
         if (empty($key) || empty($lists)) return false;
 
@@ -121,15 +122,19 @@ class MasterCache
     }
 
     /**
-     * 插入一个新的list元素
-     * @param $key string list key
-     * @param $guid string 新的list元素
-     * @return array
+     * 对list进行右推（可以推一个也可以多个）
+     * @param $key string listkey
+     * @param $lists array [guid1,guid2] / $lists string 一次推入一个list
      * @author 郭庆
      */
-    public function lPushLists($key, $guid)
+    public function lPushLists($key, $lists)
     {
-        return Redis::lpush($key, $guid);
+        if (empty($key) || empty($lists)) return false;
+
+        //执行写list操作
+        if (!Redis::rpush($key, $lists)) return false;
+
+        return true;
     }
     /**
      * 设置hash缓存的生命周期
