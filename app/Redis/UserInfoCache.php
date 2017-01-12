@@ -9,46 +9,29 @@
 namespace App\Redis;
 
 use App\Tools\CustomPage;
-use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\Facades\Redis;
+use App\Store\UserStore;
 
 class UserInfoCache
 {
-    private static $lkey = LIST_USERINFO_INFO_;      //项目list表key
     private static $hkey = HASH_USERINFO_INFO_;     //项目hash表key
+    private static $user_store;
+
+    public function __construct(UserStore $userStore)
+    {
+        self::$user_store = $userStore;
+    }
 
     /**
-     * 判断listkey和hashkey是否存在
+     * 判断key是否存在
      * @param $type string list为查询listkey,否则查询hashkey
      * @param $index string   唯一识别码 guid
      * @return bool
      */
-    public function exists($type = 'list', $index = '')
+    public function exists($key)
     {
-        if($type == 'list'){
-            return Redis::exists(self::$lkey.$index);  //查询listkey是否存在
-        }else{
-            return Redis::exists(self::$hkey.$index);   //查询拼接guid对应的hashkey是否存在
-        }
+        return Redis::exists($key);
 
-    }
-
-    /**
-     * @param object $data 要做缓存的用户信息数据
-     * author 张洵之
-     */
-    public function createCache($data)
-    {
-        $temp = CustomPage::objectToArray($data);
-
-        if(!$this->exists($type = 'hash', $temp['guid'])){
-
-            $index = self::$hkey . $temp['guid'];
-            //写入hash
-            Redis::hMset($index, $temp);
-            //设置生命周期
-            $this->setTime($index);
-        }
     }
 
     /**
@@ -57,23 +40,35 @@ class UserInfoCache
      * @param int $time
      * author 张洵之
      */
-    public function setTime($key, $time = 1800)
+    public function setTime($key, $time = HASH_OVERTIME)
     {
         Redis::expire($key, $time);
     }
 
     /**
-     * 返回用户信息缓存中的数据
-     * @param string $guid 用户guid
-     * @return array|null
+     * 取得一条用户缓存
+     * @param string $userId 用户guid
+     * @return array|bool
      * author 张洵之
      */
-    public function getCache($guid)
+    public function getOneUserCache($userId)
     {
-        if($this->exists('hash', $guid)) {
-            return CustomPage::arrayToObject(Redis::hGetall(self::$hkey .$guid)) ;
+        $index = self::$hkey.$userId;
+
+        if($this->exists($index)) {
+            $data = CustomPage::arrayToObject(Redis::hGetall($index));
+            return $data;
         }else{
-            return null;
+            $temp = self::$user_store->getOneData(['guid' => $userId]);
+
+            if(!$temp) return false;
+
+            $value = CustomPage::objectToArray($temp);
+            Redis::hMset($index, $value);
+            //设置生命周期
+            $this->setTime($index);
+            return $temp;
         }
     }
+
 }

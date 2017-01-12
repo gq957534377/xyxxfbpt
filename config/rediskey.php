@@ -86,17 +86,6 @@ define('HASH_COMMENT_INFO_','HASH:COMMENT:INFO:');
 
 /**
  * 作者：张洵之
- * 用户信息list
- * 作用：用于用户信息的索引;
- * key = LIST:USERINFO:INFO:[用户guid];
- * value = data_user_info表中的主键id;
- */
-define('LIST_USERINFO_INFO_','LIST:USERINFO:INFO:');
-
-
-
-/**
- * 作者：张洵之
  * 用户信息hash
  * 作用：用于存取一条用户信息;
  * key = HASH:USERINFO:INFO:[用户guid];

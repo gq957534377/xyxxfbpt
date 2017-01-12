@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Store;
-use Illuminate\Support\Facades\DB;
+use DB;
 
 class ProjectStore {
 
@@ -39,7 +39,7 @@ class ProjectStore {
      */
     public function getList($where,$filed)
     {
-        return DB::table(self::$table)->where($where)->list($filed);
+        return DB::table(self::$table)->where($where)->orderBy('addtime','desc')->lists($filed);
     }
 
     /**

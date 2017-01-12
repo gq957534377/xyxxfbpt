@@ -309,8 +309,9 @@ class CommentAndLikeService
     public function getComent($contentId, $page)
     {
         $cache = self::$commentCache->getPageData($page, $contentId);
+
         if(empty($cache)){
-            $this->getPageStyle($contentId, $page);
+
 
             if(!self::$commentCache->getCommentNum($contentId)) return ['StatusCode' => '400', 'ResultData' => '暂无评论'];
 
