@@ -10,6 +10,7 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\CommentStore;
+use App\Store\UserStore;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Support\Facades\Redis;
 
@@ -19,11 +20,14 @@ class CommentCache extends MasterCache
     private static $hkey = HASH_COMMENT_INFO_;     //项目hash表key
     private static $strkey = STRING_COMMENT_NUM_;
     protected static $comment_store;
+    protected static $user_store;
 
-    public function __construct(CommentStore $comment_store)
+    public function __construct(CommentStore $comment_store, UserStore $user_store)
     {
         self::$comment_store = $comment_store;
+        self::$user_store = $user_store;
     }
+
     /**
      * 返回某条内容下的评论数量
      * @param  string $contentId 内容ID
@@ -35,26 +39,32 @@ class CommentCache extends MasterCache
         $index = self::$strkey.$contentId;
 
         if($this->exists($index)) {
-            $num = Redis::Get ($index);
+            $num = $this->getString($index);
         }else{
             $num = self::$comment_store->getCount(['action_id' => $contentId, 'status' => 1]);
-            $this ->setCommentNum($contentId, $num);
+            $this->addString($index, $num);
         }
 
         return $num;
     }
 
     /**
-     * 设置评论某条内容下的评论数量
+     * 获取分页评论索引
+     * @param int $nowPage
      * @param string $contentId
-     * @param int $num
+     * @return array|null
      * author 张洵之
      */
-    public function setCommentNum($contentId, $num)
+    public function getCacheIndex($nowPage, $contentId)
     {
-        Redis::Set(self::$strkey.$contentId, $num);
-    }
+        $index = self::$lkey.$contentId;
 
+        if(!$this->exists($index)) return false;
+
+        $indexData = $this->getPageLists($index, PAGENUM, $nowPage);
+
+        return $indexData;
+    }
     /**
      * 创建缓存索引
      * @param string $contentId 详情页guid
@@ -65,15 +75,76 @@ class CommentCache extends MasterCache
     {
         $temp = self::$comment_store->getLists(['action_id' => $contentId, 'status' => 1], 'id');
 
-        if($temp) return false;
+        if(!$temp) return false;
 
         $data = CustomPage::objectToArray($temp);
         $this->rPushLists(self::$lkey.$contentId, $data);
 
     }
 
+    /**
+     * 创建评论详情的hash缓存
+     * @param object $data
+     * @return bool
+     * author 张洵之
+     */
     public function createCache($data)
     {
+        if(!$data) return false;
 
+        $temp = CustomPage::objectToArray($data);
+        foreach ($temp as $value) {
+            $this->addHash(self::$hkey.$value['id'], $value);
+        }
+    }
+
+    public function getCommentData($id)
+    {
+        $data = self::$comment_store->getOneData(['id' => $id]);
+
+        if(!$data) return false;
+
+        $userData = self::$user_store->getOneData(['guid' => $data->user_id ]);
+
+        if(!$userData) return false;
+
+        $data->userImg = $userData->headpic;//添加用户头像
+        $data->nikename = $userData->nickname;//添加用户昵称
+        return $data;
+    }
+
+    /**
+     * @param array $data 索引数组
+     * @return array|bool
+     * author 张洵之
+     */
+    public function getCache($data)
+    {
+        if (!is_array($data)) return false;
+
+        $cache = [];
+        foreach($data as $value) {
+            $temp = $this->getHash(self::$hkey.$value);
+
+            if($temp) {
+                $cache[] = $temp;
+            }else {
+
+                $commentData = $this->getCommentData($value);//从数据库拿取评论数据；
+
+                if(!$commentData) break;//逻辑错误需打印日志
+
+                $cache[] = $commentData;
+                $this->addHash(self::$hkey.$value, CustomPage::objectToArray($commentData));
+            }
+        }
+        $commentCache = CustomPage::arrayToObject($cache);
+
+        return (array)$commentCache;
+    }
+
+    public function insertIndex($id, $contentId)
+    {
+        $this->lPushLists(self::$lkey.$contentId, $id);
     }
 }
