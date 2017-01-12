@@ -114,6 +114,7 @@ class CommentCache extends MasterCache
     }
 
     /**
+     * 拿取评论数据
      * @param array $data 索引数组
      * @return array|bool
      * author 张洵之
@@ -127,34 +128,38 @@ class CommentCache extends MasterCache
             $temp = $this->getHash(self::$hkey.$value);
 
             if($temp) {
+
                 $cache[] = $temp;
+
             }else {
 
                 $commentData = $this->getCommentData($value);//从数据库拿取评论数据；
 
                 if(!$commentData) break;//逻辑错误需打印日志
 
-                $cache[] = $commentData;
-                $this->addHash(self::$hkey.$value, CustomPage::objectToArray($commentData));
+                $temps = CustomPage::objectToArray($commentData);
+                $this->addHash(self::$hkey.$value, $temps);
+                $cache[] = $temps;
             }
         }
-        $commentCache = CustomPage::arrayToObject($cache);
 
+        $commentCache = CustomPage::arrayToObject($cache);
         return (array)$commentCache;
     }
 
     /**
-     * 增加评论缓存数据
-     * @param $id
-     * @param $contentId
+     * 增加评论缓存索引数据
+     * @param int $id 评论id
+     * @param string $contentId 内容guid
      * author 张洵之
      */
     public function insertIndex($id, $contentId)
     {
         $index = self::$lkey.$contentId;
+        $NumIndex = self::$strkey.$contentId;
 
         if($this->lPushLists($index, $id)){
-            $this->incre($index);
+            $this->incre($NumIndex);
         }
     }
 }

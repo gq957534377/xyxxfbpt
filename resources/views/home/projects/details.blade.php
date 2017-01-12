@@ -223,6 +223,7 @@
                         <div id="js_comment">
                         @if($commentData['StatusCode'] == 200)
                             @foreach($commentData['ResultData'] as $datas)
+
                                 <li class="row">
                                     <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                         <div class="user-img-bgs">
