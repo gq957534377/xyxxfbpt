@@ -10,7 +10,7 @@ use App\TaoBaoSdk\Top\ResultSet;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\Redis;
 
-class UserAccountCache
+class UserAccountCache extends MasterCache
 {
 
     private static $lkey = LIST_USER_ACCOUNT;      //用户列表key
@@ -21,24 +21,6 @@ class UserAccountCache
     public function __construct(HomeStore $homeStore)
     {
         self::$homeStore = $homeStore;
-    }
-
-    /**
-     * 判断listkey和haskey是否存在
-     * @param string $type
-     * @param string $index
-     * @return mixed
-     * @author 刘峻廷
-     */
-    public function exists($type = 'list', $index = '')
-    {
-        if ($type == 'list') {
-            // 查询listkey 是否存在
-            return Redis::exists(self::$lkey);
-        } else {
-            // 查询拼接guid对应的hashkey是否存在
-            return Redis::exists(self::$hkey.$index);
-        }
     }
 
     /**
@@ -54,7 +36,7 @@ class UserAccountCache
         // 执行写操作
         $this->insertCache($data);
 
-        // 获取list 长度
+        // 获取list 长度,队列的长度和获取到的数据长度是否一致，不一致清空队列，重新生成队列
 
     }
 
@@ -73,7 +55,7 @@ class UserAccountCache
             Redis::rpush(self::$lkey, $v['tel']);
 
             // 再次往hash里存入数据,有数据的跳过
-            if (!$this->exists($type = '', $v['tel'])) {
+            if (!$this->exists(self::$lkey.$v['tel'])) {
 
                 $index = self::$hkey.$v['tel'];
                 Redis::hMset($index, $v);
@@ -93,38 +75,6 @@ class UserAccountCache
     {
         if (empty($data)) return false;
         return Redis::hMset(self::$hkey.$data['tel'], $data);
-    }
-
-    /**
-     * 获取所有账号
-     * @return mixed
-     * @author 刘峻廷
-     */
-    public function getAllAccount()
-    {
-        // 所有账号存放容器
-        $data = [];
-        //  获取List队列里数据
-        $list = Redis::lrange(self::$lkey, 0, -1);
-        // 根据队列，获取hash的集合
-        foreach ($list as $v) {
-            //判断hash 是否存在
-            if ($this->exists('', $v))
-            {
-                // 存在，将数据存入数组容器
-                $account = Redis::hGetall(self::$hkey.$v);
-                // 重新给hash添加生命周期
-                $this->setTime(self::$hkey.$v);
-                $data[] = $account;
-            } else {
-                // 不存在,说明其hash的生命周期到了，重新到数据库里取出一条再次存入hash
-                $result = CustomPage::objectToArray(self::$homeStore->getOneData(['tel' => $v]));
-                // 写入hash
-                $this->setOneAccount($result);
-                $data [] = $result;
-            }
-        }
-        return $data;
     }
 
     /**
@@ -180,13 +130,19 @@ class UserAccountCache
     }
 
     /**
-     * 清空redis队列
-     * @return mixed
+     * 删除指定一条队列数据
+     * @param string $tel
+     * @return bool
      * @author 刘峻廷
      */
-    public function delList()
+    public function delOneList($tel)
     {
-        return Redis::del(self::$lkey);
+        if (empty($tel)) return false;
+
+        // 判断队列中是否存在
+        if ($this->exists()) {
+            Redis::lRem(self::$lkey, $tel, 0);
+        }
     }
 
     /**
@@ -203,31 +159,20 @@ class UserAccountCache
     }
 
     /**
-     * 获取长度
+     * 获取list长度
      * @param $type
      * @return bool
      * @author 刘峻廷
      */
     public function getListLength($type)
     {
-        if ($this->exists())
+        if ($this->exists(self::$lkey))
         {
             // 返回长度
             return Redis::llen(self::$lkey);
         }
 
         return false;
-    }
-
-    /**
-     * 设置hash缓存生命周期
-     * @param $key
-     * @param int $time
-     * @author 刘峻廷
-     */
-    protected function setTime($key, $time = 1800)
-    {
-         Redis::expire($key, $time);
     }
 
     /**

@@ -102,7 +102,7 @@ class CommentAndLikeService
     public function openData($data)
     {
         if($data['StatusCode'] == '200') return $data["ResultData"];
-        return null;
+        return false;
     }
 
     /**
@@ -254,8 +254,8 @@ class CommentAndLikeService
 
         if(!empty($result)) {
             self::$commentCache->insertIndex($result, $data['action_id']);
-            $userData = $this->getUserCommentData($data['changetime'], $data['content']);
-            return ['StatusCode' => '200', 'ResultData' => $userData];
+
+            return ['StatusCode' => '200', 'ResultData' => '评论发表成功！'];
         }
 
         return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
@@ -308,26 +308,29 @@ class CommentAndLikeService
      */
     public function getComent($contentId, $page)
     {
-        $cache = self::$commentCache->getPageData($page, $contentId);
-        if(empty($cache)){
-            $this->getPageStyle($contentId, $page);
+        //取得索引list
+        $cacheIndex = self::$commentCache->getCacheIndex($page, $contentId);
 
+        if(!$cacheIndex){
+            //检查评论数量
             if(!self::$commentCache->getCommentNum($contentId)) return ['StatusCode' => '400', 'ResultData' => '暂无评论'];
 
-            $commentData = $this->getForPageUserComment(['action_id' => $contentId], $page);
+            self::$commentCache->createIndex($contentId);//创建缓存索引
+
+            $commentData = $this->getForPageUserComment(['action_id' => $contentId, 'status' => 1], $page);//取得评论表数据
 
             if($commentData['StatusCode'] == '400') return $commentData;
 
-            $data = $this->addUserInfo($this->openData($commentData));
+            $data = $this->addUserInfo($this->openData($commentData));//为每条评论添加对应用户信息
 
-            if ($data){
+            if ($data['StatusCode'] == 200){
                 self::$commentCache->createCache($data['ResultData']);
             }
 
         }else{
+            $cache = self::$commentCache->getCache($cacheIndex);
             $data = ['StatusCode' => '200', 'ResultData' => $cache];
         }
-
 
         return $data;
     }
@@ -340,10 +343,12 @@ class CommentAndLikeService
      */
     public function addUserInfo($commentData)
     {
+        if(!$commentData) return false;
+
         foreach ($commentData as $data) {
             $userInfoData = self::$userStore->getOneData(['guid' => $data->user_id]);
 
-            if (empty($userInfoData)) return ['StatusCode' => '400', 'ResultData' => $data->user_id];
+            if (empty($userInfoData)) return false ;//逻辑错误需打印日志
 
             $data->userImg = $userInfoData->headpic;//添加用户头像
             $data->nikename = $userInfoData->nickname;//添加用户昵称
@@ -481,14 +486,7 @@ class CommentAndLikeService
     public function getPageStyle($id,$nowPage)
     {
         $cache = self::$commentCache->getCommentNum($id);
-
-        if(!$cache) {
-            $totalNum = (int)$this->openData($this->commentCount(['action_id' => $id, 'status' => 1]));
-            self::$commentCache->setCommentNum($id, $totalNum);
-        }else {
-            $totalNum = (int)$cache['num'];
-        }
-
+        $totalNum = (int)$cache;
         $totalPage = ceil($totalNum/PAGENUM);
 
         if($totalPage<=1) return null;

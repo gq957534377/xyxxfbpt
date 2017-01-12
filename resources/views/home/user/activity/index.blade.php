@@ -63,7 +63,7 @@
                                         @else
                                             <a href="{{asset('/action/'.$action->guid)}}">
                                                 @endif
-                                                {{ $action->title }}
+                                                {{ $action->title }}@if((int)$action->status == 4)(该活动已取消)@endif
                                             </a>
                             </h2>
                             <p class="indent">

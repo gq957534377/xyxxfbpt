@@ -57,16 +57,6 @@ class CommentStore{
             ->limit($limit)
             ->get();
     }
-    /**
-     * 查询所有数据
-     * @return mixed
-     * @author 郭庆
-     */
-    public function getAllData()
-    {
-        // 返回指定表中说有数据
-        return DB::table(self::$table)->get();
-    }
 
     /**
      * 添加记录到数据
@@ -134,6 +124,21 @@ class CommentStore{
     public function getCount($where)
     {
         return DB::table(self::$table)->where($where)->count();
+    }
+
+    /**
+     * 查询某条件的某个字段所有数据
+     * @param $where
+     * @param $field
+     * @return mixed
+     * author 张洵之
+     */
+    public function getLists($where, $field)
+    {
+        return DB::table(self::$table)
+            ->where($where)
+            ->orderBy('changetime', 'desc')
+            ->lists($field);
     }
 }
 

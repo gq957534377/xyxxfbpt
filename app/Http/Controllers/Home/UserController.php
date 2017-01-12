@@ -340,10 +340,13 @@ class UserController extends Controller
      * @param $guid
      * @return \Illuminate\Http\JsonResponse
      * @author 刘峻廷
+     * @modify 王通
      */
     public function changeTel(Request $request, $guid)
     {
-        if (!isset($request->step)) return response()->json(['StatusCode' => '400','ResultData' => '数据缺失！']);
+        if (!isset($request->step) && empty(session('sms')['phone']) && session('sms')['phone'] != $request->tel) {
+            return response()->json(['StatusCode' => '400','ResultData' => '非法请求！']);
+        }
 
         switch ($request->step) {
             case '1':
@@ -369,6 +372,7 @@ class UserController extends Controller
                     return response()->json(['StatusCode' => '200','ResultData' => '手机号改绑成功，请重新登录!']);
 
                 } else {
+                    session(['sms', '']);
                     return response()->json(['StatusCode' => '200','ResultData' => '短信验证通过...']);
                 }
 

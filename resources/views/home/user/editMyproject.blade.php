@@ -271,7 +271,7 @@
         <div id='rongqi'><div class='avatar-view'><img src="{{ asset('home/img/upload-card.png')}}"  class='rongqiImg'></div></div>
       </div>
       <!--创建我的项目结束-->
-      <input type="hidden" id="domain" value="http://oj6lmh2uo.bkt.clouddn.com/">
+      <input type="hidden" id="domain" value="{{ QINIU_URL }}">
       <input type="hidden" id="uptoken_url" value="{{url('getQiniuToken')}}">
 @endsection
 

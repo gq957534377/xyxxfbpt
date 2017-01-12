@@ -132,140 +132,142 @@
             </div>
 
             <!--活动评论 开始-->
-            <div class="col-md-9 col-lg-9 road-comment road-banner pl-block">
-                <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
-                <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></a>
-                <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 hidden">更多评论></a>
-                <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <!---循环遍历开始-->
-                    <li class="row inputs">
-                        <form id="comment" method = 'post'>
-                            <input name="action_id" value="{{ $contentId}}" hidden>
-                            <input name="type" value="3" hidden>
-                            <textarea name="content" required></textarea>
-                            <button type="submit" class="subbtn btn btn-warning" >提交</button>
-                        </form>
-                    </li>
-                    <div id="js_comment">
-                        @if($comment['StatusCode'] == '200')
-                            @foreach($comment['ResultData'] as $datas)
-                                <li class="row">
-                                    <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                        <div class="user-img-bgs">
-                                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $datas->userImg }}">
-                                        </div>
-                                    </div>
-                                    <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                        <div class="row user-say1">
-                                            <span>{{ $datas->nikename }}</span>
-                                            <span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>
-                                        </div>
-                                        <div class="row user-say2">
-                                            <p>{{ $datas->content }}</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        @endif
-                    </div>
-                    <div id="js_pages" class="pull-right">{!! $pageStyle !!}</div>
-                    {{--@if($comment['StatusCode'] == '200')--}}
-                        {{--@foreach($comment['ResultData'] as $datas)--}}
-                            {{--<li class="row">--}}
-                                {{--<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">--}}
-                                    {{--<div class="user-img-bgs">--}}
-                                        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $datas->userImg }}">--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                                {{--<div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">--}}
-                                    {{--<div class="row user-say1">--}}
-                                        {{--<span>{{ $datas->nikename }}</span>--}}
-                                        {{--<span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="row user-say2">--}}
-                                        {{--<p>{{ $datas->content }}</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</li>--}}
-                    {{--@endforeach--}}
-                {{--@endif--}}
-                <!---循环遍历结束-->
-                </ul>
-                <div class="clearfix"></div>
+    @if($data['StatusCode'] == '200')
+    <div class="col-md-9 col-lg-9 road-comment road-banner pl-block">
+        <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
+        <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></a>
+        <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 hidden">更多评论></a>
+        <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!---循环遍历开始-->
+            <li class="row inputs">
+                <form id="comment" method = 'post'>
+                    <input name="action_id" value="{{ $contentId}}" hidden>
+                    <input name="type" value="3" hidden>
+                    <textarea name="content" required></textarea>
+                    <button type="submit" class="subbtn btn btn-warning" >提交</button>
+                </form>
+            </li>
+            @endif
+            <div id="js_comment">
+                @if($data['StatusCode'] == '200' && $comment['StatusCode'] == '200')
+                    @foreach($comment['ResultData'] as $datas)
+                        <li class="row">
+                            <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                <div class="user-img-bgs">
+                                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $datas->userImg }}">
+                                </div>
+                            </div>
+                            <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                <div class="row user-say1">
+                                    <span>{{ $datas->nikename }}</span>
+                                    <span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>
+                                </div>
+                                <div class="row user-say2">
+                                    <p>{{ $datas->content }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                @endif
             </div>
-            <!--活动评论 结束-->
-        </div>
-    </section>
-    <!--活动说明 & 评论 结束-->
+            <div id="js_pages">{!! $pageStyle !!}</div>
+            {{--@if($comment['StatusCode'] == '200')--}}
+                {{--@foreach($comment['ResultData'] as $datas)--}}
+                    {{--<li class="row">--}}
+                        {{--<div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">--}}
+                            {{--<div class="user-img-bgs">--}}
+                                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $datas->userImg }}">--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                        {{--<div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">--}}
+                            {{--<div class="row user-say1">--}}
+                                {{--<span>{{ $datas->nikename }}</span>--}}
+                                {{--<span>{{ date('Y-m-d H:m:s',$datas->changetime) }}</span>--}}
+                            {{--</div>--}}
+                            {{--<div class="row user-say2">--}}
+                                {{--<p>{{ $datas->content }}</p>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</li>--}}
+            {{--@endforeach--}}
+        {{--@endif--}}
+        <!---循环遍历结束-->
+        </ul>
+        <div class="clearfix"></div>
+    </div>
+    <!--活动评论 结束-->
+</div>
+</section>
+<!--活动说明 & 评论 结束-->
 @endsection
 @section('script')
-    {{--提示框--}}
-    <script src="http://cdn.rooyun.com/js/classie.js"></script>
-    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
-    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
-    <script src="{{ asset('home/js/commentForpage.js') }}"></script>
-    <script src="{{ asset('home/js/commentValidate.js') }}"></script>
-    <script>
-        var token  = $('meta[name="csrf-token"]').attr('content');
-        @if($isLogin && $data['StatusCode'] == '200')
-        $('#js_enroll').click(function(){
-            var obj = $(this);
-            $.ajax({
-                type:'post',
-                url:"/action_order",
-                headers: {
-                    'X-CSRF-TOKEN': token
-                },
-                data:{user_id:"{{$isLogin}}",action_id:"{{$data['ResultData']->guid}}",list:"{{$list}}"},
-                success:function (data) {
-                    if (data.StatusCode === "200"){
-                        swal(data.ResultData, '可以到个人中心“我参加的活动”查看', "success");
-                        $('#baomingNum').html('已报名'+({{$data['ResultData']->people}}+1)+'人');
-                        obj.html("已报名").unbind("click");
-                    }else{
-                        swal(data.ResultData, '错误代码：'+data.StatusCode, "error");
-                    }
-                }
-            })
-        });
-        {{--$('.collect').click(function () {--}}
-            {{--var obj = $(this);--}}
-            {{--var temp = obj.parent('p').is('.taoxin')?-1:1;--}}
-            {{--var num = parseInt($('#likeNum').html())--}}
-            {{--$.ajax({--}}
-                {{--type:"get",--}}
-                {{--url:"/action/{{$data['ResultData']->guid}}/edit",--}}
-                {{--headers: {--}}
-                    {{--'X-CSRF-TOKEN': token--}}
-                {{--},--}}
-                {{--data:{type:3},--}}
-                {{--success:function (data) {--}}
-                    {{--switch (data.StatusCode){--}}
-                        {{--case '200':obj.parent('p').toggleClass('taoxin');$('#likeNum').html(num+temp);break;--}}
-                        {{--case '400':swal('警告', data.ResultData, "waring");break;--}}
-                    {{--}--}}
-                {{--},--}}
-                {{--error: function(XMLHttpRequest){--}}
-                    {{--var number = XMLHttpRequest.status;--}}
-                    {{--var msg = "Error: "+number+",数据异常！";--}}
-                    {{--swal('点赞失败', msg, "error");--}}
-                {{--}--}}
-            {{--})--}}
-        {{--})--}}
-        @else
-            $('#js_enroll').click(function(){
-            swal({
-                        title: '请登录后操作', // 标题，自定
-                        text: '请登陆后再报名参加',   // 内容，自定
-                        type: "warning",    // 类型，分别为error、warning、success，以及info
-                        showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
-                        confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
-                    },
-                    function (isConfirm) {
-                        swal('请登录后操作', '请登陆后再进行报名参加', "waring");
-                        login();
-                    });
-        });
+{{--提示框--}}
+<script src="http://cdn.rooyun.com/js/classie.js"></script>
+<script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+<script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
+<script src="{{ asset('home/js/commentForpage.js') }}"></script>
+<script src="{{ asset('home/js/commentValidate.js') }}"></script>
+<script>
+var token  = $('meta[name="csrf-token"]').attr('content');
+@if($isLogin && $data['StatusCode'] == '200')
+$('#js_enroll').click(function(){
+    var obj = $(this);
+    $.ajax({
+        type:'post',
+        url:"/action_order",
+        headers: {
+            'X-CSRF-TOKEN': token
+        },
+        data:{user_id:"{{$isLogin}}",action_id:"{{$data['ResultData']->guid}}",list:"{{$list}}"},
+        success:function (data) {
+            if (data.StatusCode === "200"){
+                swal(data.ResultData, '可以到个人中心“我参加的活动”查看', "success");
+                $('#baomingNum').html('已报名'+({{$data['ResultData']->people}}+1)+'人');
+                obj.html("已报名").unbind("click");
+            }else{
+                swal(data.ResultData, '错误代码：'+data.StatusCode, "error");
+            }
+        }
+    })
+});
+{{--$('.collect').click(function () {--}}
+    {{--var obj = $(this);--}}
+    {{--var temp = obj.parent('p').is('.taoxin')?-1:1;--}}
+    {{--var num = parseInt($('#likeNum').html())--}}
+    {{--$.ajax({--}}
+        {{--type:"get",--}}
+        {{--url:"/action/{{$data['ResultData']->guid}}/edit",--}}
+        {{--headers: {--}}
+            {{--'X-CSRF-TOKEN': token--}}
+        {{--},--}}
+        {{--data:{type:3},--}}
+        {{--success:function (data) {--}}
+            {{--switch (data.StatusCode){--}}
+                {{--case '200':obj.parent('p').toggleClass('taoxin');$('#likeNum').html(num+temp);break;--}}
+                {{--case '400':swal('警告', data.ResultData, "waring");break;--}}
+            {{--}--}}
+        {{--},--}}
+        {{--error: function(XMLHttpRequest){--}}
+            {{--var number = XMLHttpRequest.status;--}}
+            {{--var msg = "Error: "+number+",数据异常！";--}}
+            {{--swal('点赞失败', msg, "error");--}}
+        {{--}--}}
+    {{--})--}}
+{{--})--}}
+@else
+    $('#js_enroll').click(function(){
+    swal({
+                title: '请登录后操作', // 标题，自定
+                text: '请登陆后再报名参加',   // 内容，自定
+                type: "warning",    // 类型，分别为error、warning、success，以及info
+                showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+            },
+            function (isConfirm) {
+                swal('请登录后操作', '请登陆后再进行报名参加', "waring");
+                login();
+            });
+});
 //        $('.collect').click(function () {
 //            swal({
 //                    title: '请登录后操作', // 标题，自定
@@ -279,26 +281,26 @@
 //                    login();
 //                });
 //        });
-        $('#comment').click(function () {
-            swal({
-                        title: '请登录后操作', // 标题，自定
-                        text: '请登陆后再进行评论',   // 内容，自定
-                        type: "warning",    // 类型，分别为error、warning、success，以及info
-                        showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
-                        confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
-                    },
-                    function (isConfirm) {
-                        swal('请登录后操作', '请登陆后再进行评论', "warning");
-                        login();
-                    });
-        });
-        @endif
-        function login() {
-            window.location.href = "{{route('login.index')}}"
-        }
+$('#comment').click(function () {
+    swal({
+                title: '请登录后操作', // 标题，自定
+                text: '请登陆后再进行评论',   // 内容，自定
+                type: "warning",    // 类型，分别为error、warning、success，以及info
+                showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+                confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+            },
+            function (isConfirm) {
+                swal('请登录后操作', '请登陆后再进行评论', "warning");
+                login();
+            });
+});
+@endif
+function login() {
+    window.location.href = "{{route('login.index')}}"
+}
 
-        //分享按钮
-        window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};
-        with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
-    </script>
+//分享按钮
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};
+with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
 @endsection
