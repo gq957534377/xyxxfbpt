@@ -151,6 +151,8 @@ class WebAdminService
         } else {
             $obj = self::$webAdminCache->selRedisInfo();
         }
+
+
         if (!empty($obj)) {
             return ['StatusCode' => '200', 'ResultData' => $obj];
         } else {

@@ -579,7 +579,11 @@ class ArticleService
 
         // 根据随机数，通过索引得到想要的数据
         for ($i = 0; $i < $num; $i++) {
-            $data[$i] = self::$articleCache->getArticleList(1, $nowPageArr[$i], $type)[0];
+            $res = self::$articleCache->getArticleList(1, $nowPageArr[$i], $type);
+            if (!empty($res)) {
+                $data[$i] = $res[0];
+            }
+
         }
         $result = $data;
         return $result;

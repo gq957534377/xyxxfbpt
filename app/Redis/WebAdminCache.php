@@ -34,13 +34,13 @@ class WebAdminCache extends MasterCache
     {
         $data = CustomPage::objectToArray($data);
         foreach ($data as $datum) {
-            if (!Redis::rpush(self::$lkey, $datum['id'])) {
+            if (!$this->rPushLists(self::$lkey, $datum['id'])) {
                 Log::error('网页基本信息写入redis   List失败！！');
                 $this->delKey(self::$lkey);
                 return false;
             }
             if (!$this->exists(self::$hkey . $datum['id'])) {
-                if(!Redis::hMset(self::$hkey . $datum['id'], $datum)) {
+                if(!$this->addHash(self::$hkey . $datum['id'], $datum, WEB_PIC_TIME)) {
                     Log::info('页面基本信息，写入redis失败!!');
                 }
             }
@@ -58,7 +58,7 @@ class WebAdminCache extends MasterCache
         $data = $this->getBetweenList(self::$lkey, 0, -1);
         $arr = [];
         foreach ($data as $datum) {
-            $result = Redis::hGetall(self::$hkey . $datum);
+            $result = $this->getHash(self::$hkey . $datum, WEB_PIC_TIME);
             if (empty($result)) {
                 //Log::info('Redis出错，请设置网页基本信息的值。或者清理redis');
                 // 如果redis哈希中不存在，则去数据库中查找，并且取出数据放到redis中
@@ -66,7 +66,7 @@ class WebAdminCache extends MasterCache
 
                 if (!empty($res)) {
                     $res = CustomPage::objectToArray($res);
-                    Redis::hMset(self::$hkey . $datum, $res);
+                    $this->addHash(self::$hkey . $datum, $res, WEB_PIC_TIME);
                     $arr[] = $res;
                 } else {
                     $this->delList(self::$lkey, $datum);

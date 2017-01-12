@@ -40,7 +40,7 @@ class PictureCache extends MasterCache
                 $this->delKey(self::$lkey);
                 return false;
             }
-            if (!$this->exists(HASH_PICTURE_INFO_.$datum['id'])) {
+            if (!$this->exists(HASH_PICTURE_INFO_ . $datum['id'])) {
                 if(!Redis::hMset(self::$hkey . $datum['id'], $datum)) {
                     Log::info('投资合作机构，写入哈希失败!!');
                 }
@@ -59,14 +59,16 @@ class PictureCache extends MasterCache
         $data = $this->getBetweenList(self::$lkey, 0, -1);
         $arr = [];
         foreach ($data as $datum) {
-            $result = Redis::hGetall(self::$hkey . $datum);
+            $result = $this->getHash(self::$hkey . $datum, WEB_PIC_TIME);
             if (empty($result)) {
                 // 如果redis哈希中不存在，则去数据库中查找，并且取出数据放到redis中
                 $res = self::$pictureStore->getOnePicture(['id' => $datum]);
+                // 判断数据有没有查询成功
                 if (!empty($res)) {
+                    $arr[] = $res;
                     $res = CustomPage::objectToArray($res);
-                    Redis::hMset(self::$hkey . $datum, $res);
-                    $arr[] = CustomPage::arrayToObject($res);
+
+                    $this->addHash(self::$hkey . $datum, $res, WEB_PIC_TIME);
                 } else {
                     $this->delList(self::$lkey, $datum);
                     Log::info('Redis出错，合作机构，LIST  KEY 在数据库中不存在。请选择，是否清理redis');
@@ -87,10 +89,10 @@ class PictureCache extends MasterCache
     public function getOnePicture($id)
     {
         if ($this->exists(HASH_PICTURE_INFO_.$id)){
-            $data = CustomPage::arrayToObject(Redis::hGetall(self::$hkey . $id));
+            $data = CustomPage::arrayToObject($this->getHash(self::$hkey . $id, WEB_PIC_TIME));
         }else{
             $data = self::$pictureStore->getOnePicture(['id'=>(int)$id]);
-            Redis::hMset(self::$hkey . $id, CustomPage::objectToArray($data));
+            $this->addHash(self::$hkey . $id, CustomPage::objectToArray($data), WEB_PIC_TIME);
         }
         return $data;
     }
