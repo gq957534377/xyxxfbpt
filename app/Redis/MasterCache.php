@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
+ * redis底层公共类
  * User: 郭庆
  * Date: 2017/01/11
  * Time: 15:51
@@ -13,18 +13,13 @@ use Illuminate\Support\Facades\Redis;
 class MasterCache
 {
     /**
-     * 判断listkey或者hashkey是否存在(默认判断list是否存在)
-     * @param $list bool list为真查询listkey,否则查询hashkey
-     * @param $index string   唯一识别码 guid
+     * 判断key是否存在
+     * @param $key string redis的key
      * @return bool
      */
-    public function exists($key, $list=true)
+    public function exists($key)
     {
-        if($list){
-            return Redis::exists($key);  //查询listkey是否存在
-        }else{
-            return Redis::exists($key);   //查询拼接guid对应的hashkey是否存在
-        }
+        return Redis::exists($key);  //查询key是否存在
     }
 
     /**
@@ -59,9 +54,9 @@ class MasterCache
     }
 
     /**
-     * 获取hash的指定几个字段的数据
+     * 获取hash的全部字段数据
      * @param $key string hash的key
-     * @param $key array hash的指定几个字段 array('field1', 'field2')
+     * @return [] 成功： array 全部字段的键值对 失败：bool false
      * @author 郭庆
      */
     public function getHash($key)
@@ -111,18 +106,16 @@ class MasterCache
     }
 
     /**
-     * 创建新的list并且插入多个list元素（list初始化）
-     * @param $lists [guid1,guid2]
+     * 创建新的list并且插入多个list元素（list初始化-右推）
+     * @param $lists array [guid1,guid2]
      * @author 郭庆
      */
-    public static function addLists($key, $lists)
+    public static function rPushLists($key, $lists)
     {
         if (empty($key) || empty($lists)) return false;
 
-        foreach ($lists as $v){
-            //执行写list操作
-            if (!Redis::rpush($key, $v)) return false;
-        }
+        //执行写list操作
+        if (!Redis::rpush($key, $lists)) return false;
 
         return true;
     }
@@ -134,7 +127,7 @@ class MasterCache
      * @return array
      * @author 郭庆
      */
-    public function addList($key, $guid)
+    public function lPushLists($key, $guid)
     {
         return Redis::lpush($key, $guid);
     }

@@ -83,7 +83,7 @@ class ActionCache extends MasterCache
 
             if (!$guids) return false;
             //将获取到的所有guid存入redis
-            $redisList = $this->addLists($key, $guids);
+            $redisList = $this->rPushLists($key, $guids);
             if (!$redisList) Log::error("将数据库数据写入list失败,list为：".$key);
         }
 
@@ -113,7 +113,7 @@ class ActionCache extends MasterCache
 
             if (!$guids) return false;
             //将获取到的所有guid存入redis
-            $redisList = $this->addLists($key, $guids);
+            $redisList = $this->rPushLists($key, $guids);
             if (!$redisList) Log::error("将数据库数据写入list失败,list为：".$key);
         }
 
@@ -168,13 +168,13 @@ class ActionCache extends MasterCache
     public function addActionList($type, $status, $guid)
     {
         if (empty($guid)) return false;
-        $list = $this->addList(self::$lkey.$type.':'.$status, $guid);
+        $list = $this->lPushLists(self::$lkey.$type.':'.$status, $guid);
         if ($status != 4){
-            $list1 = $this->addList(self::$lkey.$type, $guid);
+            $list1 = $this->lPushLists(self::$lkey.$type, $guid);
         }else{
             $list1 = true;
         }
-        $list2 = $this->addList(self::$lkey.'-'.':'.$status, $guid);
+        $list2 = $this->lPushLists(self::$lkey.'-'.':'.$status, $guid);
         if ($list && $list1 && $list2) return true;
         return false;
     }
