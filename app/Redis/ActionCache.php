@@ -225,7 +225,7 @@ class ActionCache extends MasterCache
 
     /**
      * 后台发布活动添加一条新的记录
-     * @param
+     * @param $data array 活动信息
      * @return array
      * @author 郭庆
      */
@@ -236,43 +236,6 @@ class ActionCache extends MasterCache
             $this->addHash(self::$hkey.$data['guid'], $data);
         }else{
             Log::error('后台发布活动存入redis列表失败'.$data['guid']);
-        }
-    }
-
-    /**
-     * 将数据库查询到的数据写入redis
-     * 写入redis
-     * @param $data
-     * @return bool
-     */
-    public function insertCache($where, $data)
-    {
-        if (empty($data)) return false;
-        if (!empty($where['type'])){
-            if (!empty($where['status'])){
-                foreach ($data as $v){
-                    //执行写list操作
-                    Redis::rpush(self::$lkey.$where['type'].':'.$where['status'], $v['guid']);
-
-                    //如果hash存在则不执行写操作
-                    $this->addHash($v);
-                }
-            }else{
-                foreach ($data as $v){
-                    //执行写list操作
-                    Redis::rpush(self::$lkey.$where['type'], $v['guid']);
-                    //如果hash存在则不执行写操作
-                    $this->addHash($v);
-                }
-            }
-        }else{
-            foreach ($data as $v){
-                //执行写list操作
-                Redis::rpush(self::$lkey.'-'.':'.$where['status'], $v['guid']);
-
-                //如果hash存在则不执行写操作
-                $this->addHash($v);
-            }
         }
     }
 
@@ -292,48 +255,8 @@ class ActionCache extends MasterCache
         //删除旧的索引记录
         $this->delAction($oldType, $oldStatus, $guid);
         //根据新的状态添加新的索引list记录
-        $this->addAction($oldType, $status, $guid);
+        $this->addActionList($oldType, $status, $guid);
     }
-
-
-    /**
-     * 获取redis缓存里的文章列表数据
-     * @param $nums int  一次获取的条数
-     * @param  $pages int  当前页数
-     * @return array
-     */
-    public function getActionList($where, $nums, $pages)
-    {
-        //起始偏移量
-        $offset = $nums * ($pages-1);
-
-        //获取条数
-        $totals = $offset + $nums - 1;
-
-        if (!empty($where['type'])){
-            if (!empty($where['status'])){
-                //获取缓存的列表索引
-                $list = Redis::lrange(self::$lkey.$where['type'].':'.$where['status'], $offset,$totals);
-            }else{
-                $list = Redis::lrange(self::$lkey.$where['type'], $offset, $totals);
-            }
-        }else{
-            $list = Redis::lrange(self::$lkey.'-'.':'.$where['status'], $offset,$totals);
-        }
-
-        $data = [];
-
-        //根据获取的list元素 取hash里的集合
-        foreach ($list as $v) {
-            //获取一条hash
-            $data[] = $this->getOneAction($v);
-        }
-        return $data;
-    }
-
-
-
-
 
     /**
      * 返回队列key

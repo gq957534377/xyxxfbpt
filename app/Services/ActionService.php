@@ -402,7 +402,7 @@ class ActionService
 
         $where = ['type' => $type];
 
-        $result = CustomPage::arrayToObject(self::$actionCache->getActionList($where, $number, 1));
+        $result = CustomPage::arrayToObject(self::$actionCache->getPageDatas($where, $number, 1));
 
         if ($result) return ['StatusCode' => '200', 'ResultData' => $result];
 

@@ -111,7 +111,7 @@ class MasterCache
     }
 
     /**
-     * 创建新的list并且插入所有list
+     * 创建新的list并且插入多个list元素（list初始化）
      * @param $lists [guid1,guid2]
      * @author 郭庆
      */
@@ -127,6 +127,13 @@ class MasterCache
         return true;
     }
 
+    /**
+     * 插入一个新的list元素
+     * @param $key string list key
+     * @param $guid string 新的list元素
+     * @return array
+     * @author 郭庆
+     */
     public function addList($key, $guid)
     {
         return Redis::lpush($key, $guid);
@@ -134,16 +141,17 @@ class MasterCache
     /**
      * 设置hash缓存的生命周期
      * @param $key  string  需要设置的key
+     * @return bool 设置成功true 否则false
      */
     public function setTime($key)
     {
-        Redis::expire($key, REDIS_LIVE_TIME);
+        return Redis::expire($key, REDIS_LIVE_TIME);
     }
 
     /**
      * 获取 现有list 的长度
      * @param $key string list的key
-     * @return int
+     * @return int 对应key的list长度
      */
     public function getLength($key)
     {
@@ -168,7 +176,8 @@ class MasterCache
 
     /**
      * 删除一条list记录
-     * @param
+     * @param $key string list的key
+     * @param $guid string 所要删除的list元素
      * @author 郭庆
      */
     public function delList($key, $guid)
