@@ -530,7 +530,7 @@ class ArticleService
         // 判断article缓存是否存在
         if(!self::$articleCache->exists(LIST_ARTICLE_INFO_.$type)){
             // 获取数据库里的所有文章列表,并且转对象为数组
-            $article_list = CustomPage::objectToArray(self::$articleStore->getData(['type' => $type, 'status' => $status]));
+            $article_list = CustomPage::objectToArray(self::$articleStore->getAllGuid(['type' => $type, 'status' => $status]));
             $result = $this->selectData(['type' => $type], 1, $take, 'aaa', false);
             // 存入redis缓存
             if(count($article_list)){
