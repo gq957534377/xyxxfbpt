@@ -10,7 +10,7 @@ use App\TaoBaoSdk\Top\ResultSet;
 use App\Tools\CustomPage;
 use Illuminate\Support\Facades\Redis;
 
-class UserAccountCache
+class UserAccountCache extends MasterCache
 {
 
     private static $lkey = LIST_USER_ACCOUNT;      //用户列表key
