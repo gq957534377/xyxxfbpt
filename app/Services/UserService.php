@@ -196,7 +196,7 @@ class UserService {
         // 存在，判断list队列中该账户是否存在
 //        $temp = self::$accountCache->getOneAccount($data['tel']);
         $temp = self::$accountCache->stringAccount($data['tel']);
-        dd($temp);
+
         // 返回假，说明此账号不存在
         if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];
         // 对密码进行加密
@@ -516,7 +516,7 @@ class UserService {
     {
         // 执行事务
         \DB::beginTransaction();
-
+        $oldTel = self::$homeStore->getOneData(['guid' => $guid])->tel;
         $result = self::$homeStore->updateData(['guid' => $guid], ['tel' => $data]);
 
         if (!$result) {
@@ -533,7 +533,7 @@ class UserService {
         }
 
 //        $redisResult = self::$accountCache->changeOneAccount(self::$homeStore->getOneData(['guid' => $guid])->tel, CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $guid])));
-        $redisResult = self::$accountCache->changeOneString(self::$homeStore->getOneData(['guid' => $guid])->tel, CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $guid])));
+        self::$accountCache->changeOneString($oldTel, CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $guid])));
 
         \DB::commit();
         return ['StatusCode' => '200', 'ResultData' => '手机改绑成功，请重新登录!'];

@@ -155,7 +155,6 @@ class UserAccountCache extends MasterCache
         // 判断String缓存 是否存在
         if ($this->exists(self::$skey.$tel)) {
             $data = json_decode($this->getString(self::$skey.$tel));
-            return $data;
         } else {
             // 不存在，查询mysql，抛出并写入缓存
             $data = self::$homeStore->getOneData(['tel' => $tel]);
@@ -194,7 +193,6 @@ class UserAccountCache extends MasterCache
     public function changeOneString($oldTel, $data)
     {
         if (empty($oldTel) || empty($data)) return false;
-
         // 判断旧账号的缓存是否存在
         if ($this->exists(self::$skey.$oldTel)) {
             // 移除旧，添加新
