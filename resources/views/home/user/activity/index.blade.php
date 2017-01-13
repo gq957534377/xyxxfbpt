@@ -52,7 +52,7 @@
         @elseif($StatusCode === '200')
             <div id="list">
                 @foreach($ResultData['data'] as $action)
-                    <div class="row mar-clr bb-3">
+                    <div class="row mar-clr bb-3 mar-b15 pad-b15">
                         <div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">
                             <a @if($ResultData['list'] == 3) href="{{asset('/school/'.$action->guid)}}" @else href="{{asset('/action/'.$action->guid)}}" @endif><img src="{{ $action->banner }}"  alt=""></a>
                         </div>
@@ -66,10 +66,10 @@
                                                 {{ $action->title }}@if((int)$action->status == 4)(该活动已取消)@endif
                                             </a>
                             </h2>
-                            <p class="indent">
-                                {{ $action->brief }}
-                            </p>
-                            <div class="row mar-clr road-class-u">
+                            {{--<p class="indent">--}}
+                                {{--{{ $action->brief }}--}}
+                            {{--</p>--}}
+                            <div class="row mar-clr road-class-u mar-b5">
                                 <p class="col-sm-6 col-xs-12 pad-clr">
                                     @if($ResultData['list'] == 3)
                                         @if($action->type == 1)
@@ -89,10 +89,12 @@
                                 </p>
                                 <p class="col-sm-6 col-xs-12 pad-clr">{{ $action->author }}</p>
                             </div>
-                            <div class="road-class-d">
+                            <div class="road-class-d mar-b5">
                                 <p class="col-xs-12 pad-clr">{{ date('Y年m月d日 H:m', $action->start_time) }}--{{ date('Y年m月d日 H:m', $action->end_time) }}</p>
-                                <p class="col-xs-12 pad-clr">{{ $action->address }}</p>
+                                <p class="col-xs-12 pad-clr mar-emt05">{{ $action->address }}</p>
+                                <div class="clearfix"></div>
                             </div>
+                            <button type="button" class="btn active-join-status disabled">报名截止</button>
                         </div>
                     </div>
                 @endforeach

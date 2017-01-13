@@ -956,8 +956,14 @@ body .list-inline > li {
     .mar-cr-xs {
         margin-right: 0;
     }
+    .mar-b15-xs {
+        margin-bottom: 15px;
+    }
     .pad-l12-xs {
         padding-left: 12px !important;
+    }
+    .pad-b15{
+        padding-bottom: 15px;
     }
 }
 /*991px以下的样式*/
@@ -1014,6 +1020,9 @@ body .list-inline > li {
     .pad-l30-sm {
         padding-left: 30px;
     }
+    .pad-b15{
+        padding-bottom: 15px;
+    }
 }
 /*1200px以下的样式*/
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -1043,6 +1052,9 @@ body .list-inline > li {
     }
     .pad-l30-md {
         padding-left: 30px;
+    }
+    .pad-b15{
+        padding-bottom: 15px;
     }
 }
 
