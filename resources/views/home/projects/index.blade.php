@@ -83,11 +83,11 @@
                 {{-- */$i++;/* --}}
                 <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6 animated @if($i<=4)fadeInLeft @else fadeInRight @endif ">
                     <div class="content-block">
-                        <a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
+                        <a href="{{ route('project.show', $project->guid) }}" target="_blank" title="{{$project->title}}">
                             <img src="{{ $project->banner_img }}" alt="">
                         </a>
                         <div>
-                            <h3><a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
+                            <h3><a href="{{ route('project.show', $project->guid) }}" target="_blank" title="{{$project->title}}">
                                     @if(mb_strlen($project->title)>10)
                                         {{mb_substr($project->title,0,10).'...'}}
                                     @else

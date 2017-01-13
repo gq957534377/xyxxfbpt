@@ -53,11 +53,11 @@
                                 <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="row">
                                         <div class="rodeing-img col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <a href="{{ route('action.show', $action->guid) }}"><img src="{{ $action->banner }}"  onerror="this.src='{{asset('home/img/zxz.png')}}'"></a>
+                                            <a target="_blank" href="{{ route('action.show', $action->guid) }}"><img src="{{ $action->banner }}"  onerror="this.src='{{asset('home/img/zxz.png')}}'"></a>
                                         </div>
                                         <div class="rodeing-font col-lg-8 col-md-8 col-sm-8 col-xs-12">
                                             <h2>
-                                                <a href="{{ route('action.show', $action->guid) }}">
+                                                <a target="_blank" href="{{ route('action.show', $action->guid) }}">
                                                     {{ $action->title }}
                                                 </a>
                                             </h2>
@@ -148,9 +148,9 @@
                         html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
                         html += '<div class="row">';
                         html += '<div class="rodeing-img col-lg-4 col-md-4 col-sm-4 col-xs-12">';
-                        html += '<a href="/action/' + action.guid + '"><img src="' + action.banner + '"  onerror="this.src=\'home/img/zxz.png\'"></a></div>';
+                        html += '<a target="_blank" href="/action/' + action.guid + '"><img src="' + action.banner + '"  onerror="this.src=\'home/img/zxz.png\'"></a></div>';
                         html += '<div class="rodeing-font col-lg-8 col-md-8 col-sm-8 col-xs-12">';
-                        html += '<h2><a href="/action/' + action.guid + '">' + action.title + '</a></h2>';
+                        html += '<h2><a target="_blank" href="/action/' + action.guid + '">' + action.title + '</a></h2>';
                         html += '<div class="rodeing-class">';
                         html += '<ul class="row">';
                         html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">' + getLocalTime(action.start_time) + '——' + getLocalTime(action.end_time) + '</li>';

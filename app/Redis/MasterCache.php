@@ -8,7 +8,6 @@
  */
 namespace App\Redis;
 
-
 use Illuminate\Support\Facades\Redis;
 
 class MasterCache
@@ -17,12 +16,7 @@ class MasterCache
      * 判断key是否存在
      * @param $key string redis的key
      * @return bool
-     * @example
-     * <pre>
-     * $redis->set('key', 'value');
-     * $redis->exists('key');               //  TRUE
-     * $redis->exists('NonExistingKey');    // FALSE
-     * </pre>
+     * @author 郭庆
      */
     public function exists($key)
     {
@@ -32,9 +26,10 @@ class MasterCache
     /**
      * 获取redis缓存里某一个list中的指定页的所有元素
      * @param $key string list的key
-     * @param  $nums int  每页显示条数
-     * @param  $nowPage int  当前页数
+     * @param $nums int 每页显示条数
+     * @param $nowPage int  当前页数
      * @return array
+     * @author 郭庆
      */
     public function getPageLists($key, $nums, $nowPage)
     {
@@ -51,7 +46,9 @@ class MasterCache
 
     /**
      * 获取指定范围内的list数据
-     * @param
+     * @param $key string 指定list Key
+     * @param $start int 开始位置
+     * @param $end int 结束位置
      * @return array
      * @example
      * <pre>
@@ -70,29 +67,8 @@ class MasterCache
     /**
      * 获取hash的全部字段数据
      * @param $key string hash的key
+     * @param $time int 如果需要单独设置时间则传第二个参数
      * @return [] 成功： array 全部字段的键值对 失败：bool false
-     * @example
-     * <pre>
-     * $redis->delete('h');
-     * $redis->hSet('h', 'a', 'x');
-     * $redis->hSet('h', 'b', 'y');
-     * $redis->hSet('h', 'c', 'z');
-     * $redis->hSet('h', 'd', 't');
-     * var_dump($redis->hGetAll('h'));
-     *
-     * // Output:
-     * // array(4) {
-     * //   ["a"]=>
-     * //   string(1) "x"
-     * //   ["b"]=>
-     * //   string(1) "y"
-     * //   ["c"]=>
-     * //   string(1) "z"
-     * //   ["d"]=>
-     * //   string(1) "t"
-     * // }
-     * // The order is random and corresponds to redis' own internal representation of the set structure.
-     * </pre>
      * @author 郭庆
      */
     public function getHash($key, $time = HASH_OVERTIME)
@@ -126,6 +102,8 @@ class MasterCache
      * 将一条记录写入hash
      * @param $key string hash的key
      * @param $data array 存入hash的具体字段和值
+     * @param $time int 如果需要单独设置时间则传这个参数
+     * @return bool
      * @author 郭庆
      */
     public function addHash($key, $data, $time = HASH_OVERTIME)
@@ -150,13 +128,13 @@ class MasterCache
      * 修改一条hash记录
      * @param $key string hash的key
      * @param $data array 所要修改的键值对
+     * @return bool
      * @author 郭庆
      */
     public function changeOneHash($key, $data)
     {
         //写入hash
-        $result = Redis::hMset($key, $data);
-        if (!$result) return false;
+        if (!Redis::hMset($key, $data)) return false;
         //设置生命周期
         $this->setTime($key);
         return true;
@@ -164,11 +142,8 @@ class MasterCache
 
     /**
      * 删除指定的 keys.
-     *
-     * @param   int|array   $key1 An array of keys, or an undefined number of parameters, each a key: key1 key2 key3 ... keyN
-     * @param   string      $key2 ...
-     * @param   string      $key3 ...
-     * @return int Number of keys deleted.
+     * @param $key string 所要删除的key(可以为数组也可以为字符串)
+     * @return int Number 删除了的条数
      * @example
      * <pre>
      * $redis->set('key1', 'val1');
@@ -178,6 +153,7 @@ class MasterCache
      * $redis->delete('key1', 'key2');          // return 2
      * $redis->delete(array('key3', 'key4'));   // return 2
      * </pre>
+     * @author 郭庆
      */
     public function delKey($key)
     {
@@ -189,6 +165,7 @@ class MasterCache
      * 对list进行左推（推一个/多个）
      * @param $key string listkey
      * @param $lists array [guid1,guid2] / $lists string 一次推入一个list
+     * @return bool
      * @author 郭庆
      */
     public function rPushLists($key, $lists)
@@ -196,15 +173,14 @@ class MasterCache
         if (empty($key) || empty($lists)) return false;
 
         //执行写list操作
-        if (!Redis::rpush($key, $lists)) return false;
-
-        return true;
+        return Redis::rpush($key, $lists);
     }
 
     /**
      * 对list进行右推（可以推一个也可以多个）
      * @param $key string listkey
      * @param $lists array [guid1,guid2] / $lists string 一次推入一个list
+     * @return bool|int 失败返回false，成功插入条数
      * @author 郭庆
      */
     public function lPushLists($key, $lists)
@@ -212,24 +188,25 @@ class MasterCache
         if (empty($key) || empty($lists)) return false;
 
         //执行写list操作
-        if (!Redis::lpush($key, $lists)) return false;
-
-        return true;
+        return Redis::lpush($key, $lists);
     }
     /**
      * 设置hash缓存的生命周期
      * @param $key  string  需要设置的key
+     * @param $time int 如果需要单独设置时间则传这个参数
      * @return bool 设置成功true 否则false
+     * @author 郭庆
      */
     public function setTime($key, $time = HASH_OVERTIME)
     {
-        return Redis::expire($key, $time);
+        return \Redis::expire($key, $time);
     }
 
     /**
      * 获取 现有list 的长度
      * @param $key string list的key
      * @return int 对应key的list长度
+     * @author 郭庆
      */
     public function getLength($key)
     {
@@ -240,6 +217,7 @@ class MasterCache
      * 删除一条list记录
      * @param $key string list的key
      * @param $guid string 所要删除的list元素
+     * @return bool|int 失败返回false，成功删除数目
      * @author 郭庆
      */
     public function delList($key, $guid)
@@ -249,42 +227,26 @@ class MasterCache
     }
 
     /**
-     * 添加一个新的长存的string redis
-     * @param
+     * 添加一个新的短存的string redis
+     * @param $key string key
+     * @param $value
+     * @param $time int 设置存活时间
      * @return bool
      * @author 郭庆
      */
-    public function addForeverString($key, $value)
-    {
-        if (empty($key) || empty($value)) return false;
-        return Redis::Set($key, $value);
-    }
-
-    /**
-     * 添加一个新的长存的短存的string redis
-     * @param
-     * @return bool
-     * @author 郭庆
-     */
-    public function addString($key, $value)
+    public function addString($key, $value, $time = STRING_OVERTIME)
     {
         if (empty($key)) return false;
-        return Redis::set($key, $value);
+        if (!Redis::Set($key, $value)) return false;
+        //设置生命周期
+        return $this->setTime($key, $time);
     }
 
     /**
      * 将 string key 中储存的数字值增一
-     *
      * @param   string $key
      * @return  int    the new value
-     * @link    http://redis.io/commands/incr
-     * @example
-     * <pre>
-     * $redis->incr('key1'); // key1 didn't exists, set to 0 before the increment and now has the value 1
-     * $redis->incr('key1'); // 2
-     * $redis->incr('key1'); // 3
-     * $redis->incr('key1'); // 4
-     * </pre>
+     * @author 郭庆
      */
     public function incre($key)
     {
@@ -293,17 +255,17 @@ class MasterCache
     }
 
     /**
-     * Get the value related to the specified key
-     *
+     * 得到一个string
      * @param   string  $key
      * @return  string|bool: If key didn't exist, FALSE is returned. Otherwise, the value related to this key is returned.
-     * @link    http://redis.io/commands/get
-     * @example $redis->get('key');
+     * @author 郭庆
      */
     public function getString($key)
     {
         if (empty($key)) return false;
-        return Redis::get($key);
+        if (!Redis::get($key)) return false;
+        //设置生命周期
+        return $this->setTime($key, STRING_OVERTIME);
     }
 
 }

@@ -71,7 +71,7 @@
                                 } else {
                                     sessionStorage.clear();
                                 }
-                                window.location = '/';
+                                self.location = document.referrer;
                                 break;
                         }
                     }

@@ -170,7 +170,8 @@
                     @endforeach
                 @endif
             </div>
-            <div id="js_pages">{!! $pageStyle !!}</div>
+            {{--点赞按钮，暂时注释--}}
+            <div id="js_pages" class="pull-right">{!! $pageStyle !!}</div>
             {{--@if($comment['StatusCode'] == '200')--}}
                 {{--@foreach($comment['ResultData'] as $datas)--}}
                     {{--<li class="row">--}}
@@ -230,6 +231,7 @@ $('#js_enroll').click(function(){
         }
     })
 });
+//点赞功能暂时注释
 {{--$('.collect').click(function () {--}}
     {{--var obj = $(this);--}}
     {{--var temp = obj.parent('p').is('.taoxin')?-1:1;--}}
@@ -268,6 +270,7 @@ $('#js_enroll').click(function(){
                 login();
             });
 });
+//点赞功能暂时注释
 //        $('.collect').click(function () {
 //            swal({
 //                    title: '请登录后操作', // 标题，自定
@@ -296,7 +299,7 @@ $('#comment').click(function () {
 });
 @endif
 function login() {
-    window.location.href = "{{route('login.index')}}"
+    window.location.href = "{{route('login.index')}}";
 }
 
 //分享按钮

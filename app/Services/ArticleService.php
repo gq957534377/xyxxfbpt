@@ -166,7 +166,9 @@ class ArticleService
      */
     public function selectArticleRedis($forPages, $nowPage, $type)
     {
+        // 读取list长度
         $count = self::$articleCache->getLength(LIST_ARTICLE_INFO_.$type);
+        // 分页页数
         $totalPage = ceil($count / $forPages);
         $result['data'] = self::$articleCache->getArticleList($forPages, $nowPage, $type);
         $result['totalPage'] = $totalPage;
@@ -579,7 +581,11 @@ class ArticleService
 
         // 根据随机数，通过索引得到想要的数据
         for ($i = 0; $i < $num; $i++) {
-            $data[$i] = self::$articleCache->getArticleList(1, $nowPageArr[$i], $type)[0];
+            $res = self::$articleCache->getArticleList(1, $nowPageArr[$i], $type);
+            if (!empty($res)) {
+                $data[$i] = $res[0];
+            }
+
         }
         $result = $data;
         return $result;

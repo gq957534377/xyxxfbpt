@@ -52,24 +52,21 @@
         @elseif($StatusCode === '200')
             <div id="list">
                 @foreach($ResultData['data'] as $action)
-                    <div class="row mar-clr bb-3">
+                    <div class="row mar-clr bb-3 mar-b15 pad-b15">
                         <div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">
-                            <a @if($ResultData['list'] == 3) href="{{asset('/school/'.$action->guid)}}" @else href="{{asset('/action/'.$action->guid)}}" @endif><img src="{{ $action->banner }}"  alt=""></a>
+                            <a target="_blank" @if($ResultData['list'] == 3) href="{{asset('/school/'.$action->guid)}}" @else href="{{asset('/action/'.$action->guid)}}" @endif><img src="{{ $action->banner }}"  alt=""></a>
                         </div>
                         <div class="road-font col-lg-7 col-md-12 col-sm-12 pad-clr">
                             <h2>
                                 @if($ResultData['list'] == 3)
-                                    <a href="{{asset('/school/'.$action->guid)}}">
+                                    <a target="_blank" href="{{asset('/school/'.$action->guid)}}">
                                         @else
-                                            <a href="{{asset('/action/'.$action->guid)}}">
+                                            <a target="_blank" href="{{asset('/action/'.$action->guid)}}">
                                                 @endif
-                                                {{ $action->title }}@if((int)$action->status == 4)(该活动已取消)@endif
+                                                {{ $action->title }}
                                             </a>
                             </h2>
-                            <p class="indent">
-                                {{ $action->brief }}
-                            </p>
-                            <div class="row mar-clr road-class-u">
+                            <div class="row mar-clr road-class-u mar-b5">
                                 <p class="col-sm-6 col-xs-12 pad-clr">
                                     @if($ResultData['list'] == 3)
                                         @if($action->type == 1)
@@ -89,15 +86,17 @@
                                 </p>
                                 <p class="col-sm-6 col-xs-12 pad-clr">{{ $action->author }}</p>
                             </div>
-                            <div class="road-class-d">
+                            <div class="road-class-d mar-b5">
                                 <p class="col-xs-12 pad-clr">{{ date('Y年m月d日 H:m', $action->start_time) }}--{{ date('Y年m月d日 H:m', $action->end_time) }}</p>
-                                <p class="col-xs-12 pad-clr">{{ $action->address }}</p>
+                                <p class="col-xs-12 pad-clr mar-emt05">{{ $action->address }}</p>
+                                <div class="clearfix"></div>
                             </div>
+                            <button type="button" class="btn active-join-status disabled">@if($action->status == 1)报名中@elseif($action->status == 2)进行中@elseif($action->status == 3)已结束@elseif($action->status == 4)该活动已取消@elseif($action->status == 5)报名截止@endif</button>
                         </div>
                     </div>
                 @endforeach
             </div>
-            <div class="panel" id="data">{!! $ResultData['pages'] !!}</div>
+            <div class="panel pull-right" id="data">{!! $ResultData['pages'] !!}</div>
         @else
             <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span style="color: #999999">出错了呦~亲 /(ㄒoㄒ)/~~ 错误信息：{{$ResultData['data']}}错误码：{{$StatusCode}}</span>
@@ -114,7 +113,28 @@
     <script>
         var status = "{{$ResultData['status']}}";
         var list = "{{$ResultData['list']}}";
-
+        //活动状态展示
+        function statu(status) {
+            var res;
+            switch (status){
+                case 1:
+                    res = "报名中";
+                    break;
+                case 2:
+                    res = "活动进行中";
+                    break;
+                case 3:
+                    res = "该活动已结束";
+                    break;
+                case 4:
+                    res = "该活动已取消";
+                    break;
+                case 5:
+                    res = "报名截止";
+                    break;
+            }
+            return res;
+        }
         //活动类型展示
         function type(type) {
             var res;
@@ -175,28 +195,29 @@
                             var html = '';
                             $.each(data.ResultData.data, function (i,v) {
                                 html+='<div class="row mar-clr bb-3"><div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">';
-                                html+='<a';
+                                html+='<a target="_blank"';
                                 if(data.ResultData.list === 3){
                                     html+= 'href="/school/'+v.guid+'">';
                                 }else{
-                                    html += 'href="/actionl/'+v.guid+'">';
+                                    html += 'href="/action/'+v.guid+'">';
                                 }
                                 html += '<img src="'+v.banner+'"></a></div>';
                                 html+='<div class="road-font col-lg-7 col-md-12 col-sm-12 pad-clr"><h2>';
                                 if(data.ResultData.list === 3){
                                     html+='<a href="/school/'+v.guid+'">';
                                 }else{
-                                    html+='<a href="/action/'+v.guid+'">';
+                                    html+='<a target="_blank" href="/action/'+v.guid+'">';
                                 }
                                 html += v.title;
-                                if (parseInt(v.status) === 4) html += "(该活动已取消)";
-                                html += '</a></h2><p class="indent">'+v.brief+'</p><div class="row mar-clr road-class-u">';
+                                html += '</a></h2><div class="row mar-clr road-class-u">';
                                 html += '<p class="col-sm-6 col-xs-12 pad-clr">';
                                 html += type(v.type);
                                 html += '</p><p class="col-sm-6 col-xs-12 pad-clr">'+v.author+'</p></div>';
                                 html += '<div class="road-class-d">';
                                 html += '<p class="col-xs-12 pad-clr">'+getLocalTime(v.start_time)+'--'+getLocalTime(v.end_time)+'</p>';
-                                html += '<p class="col-xs-12 pad-clr">'+v.address+'</p></div></div></div>';
+                                html += '<p class="col-xs-12 pad-clr">'+v.address+'</p></div>';
+                                html += '<button type="button" class="btn active-join-status disabled">'+statu(parseInt(v.status))+'</button>';
+                                html += '</div></div>';
                             });
                             console.log(html);
                             $('#list').html(html);
