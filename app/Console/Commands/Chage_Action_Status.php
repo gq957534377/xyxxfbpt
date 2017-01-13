@@ -46,7 +46,7 @@ class Chage_Action_Status extends Command
      */
     public function handle()
     {
-        $this->chageActionStatus();
+//        $this->chageActionStatus();
         $this->chageCollegeStatus();
     }
 

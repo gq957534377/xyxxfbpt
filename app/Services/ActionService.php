@@ -174,7 +174,6 @@ class ActionService
     {
         //目前的状态
         $old = $data->status;
-
         //转为时间戳
         $endTime = $data->end_time;
         $deadline = $data->deadline;
@@ -320,19 +319,33 @@ class ActionService
         if (!(!empty($guid) && !empty($status))) {
             return ['StatusCode' => '400', 'ResultData' => "参数有误"];
         }
-
         if ($list == 3) {
-            $Data = self::$collegeStore->upload(["guid" => $guid], ["status" => $status, 'addtime' => time()]);
+            $old = self::$collegeStore->getOneData(['guid'=>$guid]);
+
+            if (!empty($old)){
+                $oldStatus = $old->status;
+                $oldType = $old->type;
+                $Data = self::$collegeStore->upload(["guid" => $guid], ["status" => $status, 'addtime' => time()]);
+            }else{
+                return ['StatusCode' => '400', 'ResultData' => "没有这条记录"];
+            }
         } else {
-            $Data = self::$actionStore->upload(["guid" => $guid], ["status" => $status, 'addtime' => time()]);
+            $old = self::$actionStore->getOneData(['guid'=>$guid]);
+            if (!empty($old)){
+                $oldStatus = $old->status;
+                $oldType = $old->type;
+                $Data = self::$actionStore->upload(["guid" => $guid], ["status" => $status, 'addtime' => time()]);
+            }else{
+                return ['StatusCode' => '400', 'ResultData' => "没有这条记录"];
+            }
         }
 
         //判断修改结果并返回
         if ($Data) {
             if ($list == 3){
-                self::$collegeCache->changeStatusCollege($guid, $status);
+                self::$collegeCache->changeStatusCollege($guid, $status, $oldStatus, $oldType);
             }else{
-                self::$actionCache->changeStatusAction($guid, $status);
+                self::$actionCache->changeStatusAction($guid, $status, $oldStatus, $oldType);
             }
             return ['StatusCode' => '200', 'ResultData' => "修改成功"];
         } else {

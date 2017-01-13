@@ -266,12 +266,8 @@ class ActionCache extends MasterCache
      * @return array
      * @author 郭庆
      */
-    public function changeStatusAction($guid, $status)
+    public function changeStatusAction($guid, $status, $oldStatus, $oldType)
     {
-        $data = $this->getOneAction($guid);
-        $oldStatus = $data['status'];
-        $oldType = $data['type'];
-
         //修改hash中的状态字段
         $this->changeOneAction($guid, ['status' => $status, 'addtime' => time()]);
         //删除旧的索引记录

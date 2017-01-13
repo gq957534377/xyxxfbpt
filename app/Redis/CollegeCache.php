@@ -267,12 +267,8 @@ class CollegeCache extends MasterCache
      * @return array
      * @author 郭庆
      */
-    public function changeStatusCollege($guid, $status)
+    public function changeStatusCollege($guid, $status, $oldStatus, $oldType)
     {
-        $data = $this->getOneCollege($guid);
-        $oldStatus = $data['status'];
-        $oldType = $data['type'];
-
         //修改hash中的状态字段
         $this->changeOneCollege($guid, ['status' => $status, 'addtime' => time()]);
         //删除旧的索引记录
