@@ -9,9 +9,6 @@
 namespace App\Redis;
 
 use Log;
-//use Redis;
-use Illuminate\Support\Facades\Redis;
-
 use App\Tools\CustomPage;
 use App\Store\WebAdminStore;
 
@@ -29,20 +26,20 @@ class WebAdminCache extends MasterCache
 
     /**
      * 把数据保存到redis
-     * @param $data    存储的是从数据库取出来的，数据对象
+     * @param $data  object   存储的是从数据库取出来的，数据对象
      * @return bool
      */
     public function saveRedisList($data)
     {
         $data = CustomPage::objectToArray($data);
         foreach ($data as $datum) {
-            if (!Redis::rpush(self::$lkey, $datum['id'])) {
+            if (!$this->rPushLists(self::$lkey, $datum['id'])) {
                 Log::error('网页基本信息写入redis   List失败！！');
                 $this->delKey(self::$lkey);
                 return false;
             }
             if (!$this->exists(self::$hkey . $datum['id'])) {
-                if(!Redis::hMset(self::$hkey . $datum['id'], $datum)) {
+                if(!$this->addHash(self::$hkey . $datum['id'], $datum, WEB_PIC_TIME)) {
                     Log::info('页面基本信息，写入redis失败!!');
                 }
             }
@@ -52,7 +49,7 @@ class WebAdminCache extends MasterCache
 
     /**
      * 取出哈希中的值
-     * @return array
+     * @return  $data array  把数据转换成常用操作模式，[object]
      * @author 王通
      */
     public function selRedisInfo()
@@ -60,7 +57,7 @@ class WebAdminCache extends MasterCache
         $data = $this->getBetweenList(self::$lkey, 0, -1);
         $arr = [];
         foreach ($data as $datum) {
-            $result = Redis::hGetall(self::$hkey . $datum);
+            $result = $this->getHash(self::$hkey . $datum, WEB_PIC_TIME);
             if (empty($result)) {
                 //Log::info('Redis出错，请设置网页基本信息的值。或者清理redis');
                 // 如果redis哈希中不存在，则去数据库中查找，并且取出数据放到redis中
@@ -68,7 +65,7 @@ class WebAdminCache extends MasterCache
 
                 if (!empty($res)) {
                     $res = CustomPage::objectToArray($res);
-                    Redis::hMset(self::$hkey . $datum, $res);
+                    $this->addHash(self::$hkey . $datum, $res, WEB_PIC_TIME);
                     $arr[] = $res;
                 } else {
                     $this->delList(self::$lkey, $datum);
@@ -83,5 +80,22 @@ class WebAdminCache extends MasterCache
         return $data;
     }
 
+
+    /**
+     * 取出所有的网页基本信息
+     * @return array|mixed
+     * @author 王通
+     */
+    public function getWebInfo()
+    {
+        // 判断list是否存在
+        if (empty($this->exists(LIST_WEBADMIN_INFO))) {
+            $obj = self::$webAdminStore->getWebInfo();
+            $this->saveRedisList($obj);
+        } else {
+            $obj = $this->selRedisInfo();
+        }
+        return $obj;
+    }
 }
 

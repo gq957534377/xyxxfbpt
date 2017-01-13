@@ -47,6 +47,9 @@ define('HOME_URL', 'www.hero.app');
 define('ADMIN_URL', 'admin.hero.app');
 
 
+// 首页合作机构，投资机构。轮播图，网页页脚信息，过期时间
+define('WEB_PIC_TIME', 60 * 60 * 24 * 30);
+
 
 
 
