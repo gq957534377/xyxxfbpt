@@ -129,7 +129,7 @@
 {{--展示内容结束--}}
 
 @section('script')
-    <script src="http://cdn.rooyun.com/js/classie.js"></script>
-    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+    <script src="{{ asset('admin/js/classie.js') }}"></script>
+    <script src="{{ asset('admin/js/modaleffects.js') }}"></script>
     <script src="{{ asset('jsService/Model/user/userInfo.js') }}"></script>
 @endsection
