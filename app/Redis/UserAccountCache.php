@@ -7,12 +7,14 @@ namespace App\Redis;
 
 use App\Store\HomeStore;
 use App\Tools\CustomPage;
+use Illuminate\Support\Facades\Log;
 
 class UserAccountCache extends MasterCache
 {
 
     private static $lkey = LIST_USER_ACCOUNT;      //用户列表key
     private static $hkey = HASH_USER_ACCOUNT_;     //用户hash表key
+    private static $skey = String_USER_ACCOUNT_;     //用户string表key
 
     private static $homeStore;
 
@@ -136,6 +138,27 @@ class UserAccountCache extends MasterCache
         $this->addHash(self::$hkey.$data['tel'], $data);
     }
 
+    /**
+     * String类型缓存账号 测试
+     * @param $tel
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function stringAccount($tel)
+    {
+        if (empty($tel)) return false;
 
+        // 判断String缓存 是否存在
+        if ($this->exists(self::$skey.$tel)) {
+            $data = json_decode($this->getString(self::$skey.$tel));
+        } else {
+            // 不存在，查询mysql，抛出并写入缓存
+            $data = self::$homeStore->getOneData(['tel' => $tel]);
 
+            $result = $this->addString(self::$skey.$tel, json_encode($data));
+            if (!$result) Log::info('添加用户账号String类型缓存失败，账号为：'.$tel);
+        }
+
+        return $data;
+    }
 }

@@ -191,7 +191,8 @@ class UserService {
     public function  loginCheck($data)
     {
         // 存在，判断list队列中该账户是否存在
-        $temp = self::$accountCache->getOneAccount($data['tel']);
+//        $temp = self::$accountCache->getOneAccount($data['tel']);
+        $temp = self::$accountCache->stringAccount($data['tel']);
 
         // 返回假，说明此账号不存在
         if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];

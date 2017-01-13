@@ -231,6 +231,12 @@ define('LIST_ROLLINGPICTURE_INFO', 'LIST:ROLLINGPICTURE:INFO');
  */
 define('HASH_ROLLINGPICTURE_INFO_', 'HASH:ROLLINGPICTURE:INFO:');
 
+/**
+ * 用户账号缓存
+ * String类型
+ */
+define('String_USER_ACCOUNT_', 'STRING:USER:ACCOUNT:');
+
 
 
 
