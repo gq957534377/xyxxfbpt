@@ -21,7 +21,7 @@
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
 <!--[if lt IE 9]>
 <script src="{{ asset('admin/js/html5shiv.js') }}"></script>
-<script src="http://cdn.rooyun.com/js/respond.min.js"></script>
+<!--<script src="http://cdn.rooyun.com/js/respond.min.js"></script>-->
 <![endif]-->
 <!--Morris Chart-->
 <script src="{{ asset('admin/js/morris.min.js') }}"></script>
