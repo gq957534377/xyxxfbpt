@@ -50,7 +50,6 @@
     <div class="panel" id="data" style="text-align: center"></div>
     {{--表格盒子结束--}}
 
-@endsection
 {{--展示内容结束--}}
 
 {{--弹出页面 开始--}}
@@ -186,12 +185,12 @@
     </div>
 
 </div>
-
+@endsection
 
 
 @section('script')
-    <script src="http://cdn.rooyun.com/js/classie.js"></script>
-    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+    <script src="{{ asset('admin/js/classie.js') }}"></script>
+    <script src="{{ asset('admin/js/modaleffects.js') }}"></script>
     <script src="{{ asset('jsService/Model/user/userRole.js') }}"></script>
 
 @endsection

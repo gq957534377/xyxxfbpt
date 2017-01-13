@@ -26,7 +26,7 @@
 
     <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
     <link href="{{asset('cropper/css/main.css')}}" rel="stylesheet"/>
-
-
+    <!--时间控件-->
+    <link href="{{ asset('/dateTime/jquery.datetimepicker.css') }}" rel="stylesheet"/>
 
 

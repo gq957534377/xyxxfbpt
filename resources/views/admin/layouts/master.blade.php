@@ -8,9 +8,7 @@
     <meta name="author" content="Coderthemes">
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" href="/dateTime/jquery.datetimepicker.css"/>
     <style type="text/css">
-
         .custom-date-style {
             background-color: red !important;
         }
