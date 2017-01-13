@@ -5,6 +5,7 @@
  */
 namespace App\Redis;
 
+use App\Store\ActionOrderStore;
 use App\Tools\CustomPage;
 use App\Store\ActionStore;
 use Illuminate\Support\Facades\Log;
@@ -14,12 +15,15 @@ class ActionCache extends MasterCache
 
     private static $lkey = LIST_ACTION_GUID_;      //列表key
     private static $hkey = HASH_ACTION_INFO_;     //hash表key
+    private static $orderKey = LIST_ACTION_ORDER_;     //hash表key
 
     private static $action_store;
+    private static $actionOrderStore;
 
-    public function __construct(ActionStore $actionStore)
+    public function __construct(ActionStore $actionStore, ActionOrderStore $actionOrderStore)
     {
         self::$action_store = $actionStore;
+        self::$actionOrderStore = $actionOrderStore;
     }
 
     /**
@@ -279,4 +283,19 @@ class ActionCache extends MasterCache
         $this->addActionList($oldType, $status, $guid);
     }
 
+    public function getOrderActions($userid)
+    {
+        $key = self::$orderKey.$userid;
+        if ($this->exists($key)){
+            return $this->getBetweenList($key, 0, -1);
+        }else{
+            $actions = self::$actionOrderStore->getSomeField(['user_id'=>session('user')->guid], 'action_id');
+            if ($actions){
+                if ($this->rPushLists($key, $actions)) Log::error('redis写入报名记录失败，key为：'.$key);
+                return $actions;
+            }else{
+                if ($actions == []) return [];
+            }
+        }
+    }
 }

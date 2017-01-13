@@ -162,7 +162,7 @@ class MasterCache
     }
 
     /**
-     * 对list进行左推（推一个/多个）
+     * 对list进行右推（推一个/多个）
      * @param $key string listkey
      * @param $lists array [guid1,guid2] / $lists string 一次推入一个list
      * @return bool
@@ -177,7 +177,7 @@ class MasterCache
     }
 
     /**
-     * 对list进行右推（可以推一个也可以多个）
+     * 对list进行左推（可以推一个也可以多个）
      * @param $key string listkey
      * @param $lists array [guid1,guid2] / $lists string 一次推入一个list
      * @return bool|int 失败返回false，成功插入条数

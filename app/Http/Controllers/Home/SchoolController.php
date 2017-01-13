@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Redis\CollegeCache;
 use App\Services\ActionService;
 use App\Store\ActionOrderStore;
 use Illuminate\Http\Request;
@@ -14,14 +15,18 @@ class SchoolController extends Controller
     protected  static $actionServer;
     protected  static $commentServer;
     protected  static $actionOrderStore;
+    protected  static $collegeCache;
     public function __construct(
         ActionService $actionServer,
         CommentServer $commentServer,
-        ActionOrderStore $actionOrderStore)
+        ActionOrderStore $actionOrderStore,
+        CollegeCache $collegeCache
+    )
     {
         self::$actionServer = $actionServer;
         self::$commentServer = $commentServer;
         self::$actionOrderStore = $actionOrderStore;
+        self::$collegeCache = $collegeCache;
     }
     /**
      * 根据所选英雄学院类型导航，返回相应的列表页+数据.
@@ -132,7 +137,7 @@ class SchoolController extends Controller
             $likeStatus = 2;
         }else{
 //            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
-            $action = self::$actionOrderStore->getSomeField(['user_id'=>session('user')->guid], 'action_id');//当前用户报名参加的所有活动
+            $action = self::$collegeCache->getOrderColleges(session('user')->guid);//当前用户报名参加的所有活动
             if (!$action){
                 $isHas = false;
             }else{
