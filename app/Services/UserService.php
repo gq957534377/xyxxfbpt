@@ -303,7 +303,7 @@ class UserService {
         }
 
         //校验
-        if($sms['phone']==$phone){
+        if(!empty($sms['phone']) && $sms['phone'] == $phone){
             // 两分之内，不在发短信
             if(($sms['time'] + 60)> $nowTime ) return ['StatusCode' => '400','ResultData' => '短信已发送，请等待！'];
             // 两分钟之后，可以再次发送
