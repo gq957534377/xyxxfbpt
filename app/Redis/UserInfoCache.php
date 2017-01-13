@@ -30,7 +30,7 @@ class UserInfoCache extends MasterCache
      */
     public function getOneUserCache($userId)
     {
-        $index = self::$hkey.$userId;
+        $index = self::$hkey.$userId;//hash Key
 
         if($this->exists($index)) {
             $data = CustomPage::arrayToObject($this->getHashFileds($index, ['nickname', 'realname', 'headpic' , 'role']));

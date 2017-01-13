@@ -7,6 +7,7 @@ use App\Redis\ProjectCache;
 use App\Redis\UserInfoCache;
 use App\Store\UserStore;
 use App\Tools\Common;
+use Log;
 
 class ProjectService {
     protected static $projectStore = null;
@@ -138,7 +139,10 @@ class ProjectService {
         $projectInfoData =$projectInfoData[0];
         $userInfo = self::$userInfoCache->getOneUserCache($projectInfoData->user_guid);
 
-        if(empty($userInfo)) return ['StatusCode' => '400', 'ResultData' => '未找到发布用户数据'];
+        if(empty($userInfo)) {
+            Log::info('项目详情页：'.$id.', 未找到发布用户数据');
+            return ['StatusCode' => '400', 'ResultData' => '未找到发布用户数据'];
+        }
 
         $projectInfoData->project_experience = $this->openData(
             $projectInfoData->project_experience,
@@ -244,7 +248,7 @@ class ProjectService {
     }
 
     /**
-     * 返回一条数据
+     * 返回一条数据(用于用户项目的修改)
      * @param $where
      * @return array
      * author 张洵之
