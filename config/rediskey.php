@@ -7,6 +7,7 @@
  *
  * KEY = LIST:ARTICLE:INFO:[类型]     类型：1 表示市场咨询，2，表示创业政策。
  * VALUE =  data_article_info  中的 每个文章的GUID，用来查询对应哈希中的数据
+ * @author 王通
  */
 define('LIST_ARTICLE_INFO_', 'LIST:ARTICLE:INFO:');
 
@@ -18,6 +19,7 @@ define('LIST_ARTICLE_INFO_', 'LIST:ARTICLE:INFO:');
  *
  * KEY = HASH:ARTICLE:INFO:[GUID]     GUID 为指定文章的唯一标示。
  * VALUE =  data_article_info  表中每个文章的详细信息。
+ * @author 王通
  */
 define('HASH_ARTICLE_INFO_', 'HASH:ARTICLE:INFO:');
 
@@ -173,6 +175,7 @@ define('HASH_USER_ACCOUNT_', 'HASH:USER:ACCOUNT:');
  *
  * KEY = LIST:WEBADMIN:INFO
  * VALUE = data_web_info 表的ID
+ * @author 王通
  */
 define('LIST_WEBADMIN_INFO', 'LIST:WEBADMIN:INFO');
 
@@ -184,6 +187,7 @@ define('LIST_WEBADMIN_INFO', 'LIST:WEBADMIN:INFO');
  *
  * KEY = HASH:WEBADMIN:INFO:[ID]      ID   是信息的索引ID。
  * VALUE = data_web_info 表的未删除信息记录。
+ * @author 王通
  */
 define('HASH_WEBADMIN_INFO_', 'HASH:WEBADMIN:INFO:');
 
@@ -195,6 +199,7 @@ define('HASH_WEBADMIN_INFO_', 'HASH:WEBADMIN:INFO:');
  *
  * KEY = LIST:PICTURE:INFO
  * VALUE = data_picture_info 表的未删除索引记录。
+ * @author 王通
  */
 define('LIST_PICTURE_INFO', 'LIST:PICTURE:INFO');
 
@@ -206,6 +211,7 @@ define('LIST_PICTURE_INFO', 'LIST:PICTURE:INFO');
  *
  * KEY = HASH:PICTURE:INFO:[ID]   ID 为机构的索引ID
  * VALUE = data_picture_info 表的未删除记录详情。
+ * @author 王通
  */
 define('HASH_PICTURE_INFO_', 'HASH:PICTURE:INFO:');
 
@@ -217,6 +223,7 @@ define('HASH_PICTURE_INFO_', 'HASH:PICTURE:INFO:');
  *
  * KEY = LIST:ROLLINGPICTURE:INFO
  * VALUE = data_rollingpicture_info   轮播图的相信信息
+ * @author 王通
  */
 define('LIST_ROLLINGPICTURE_INFO', 'LIST:ROLLINGPICTURE:INFO');
 
@@ -228,6 +235,7 @@ define('LIST_ROLLINGPICTURE_INFO', 'LIST:ROLLINGPICTURE:INFO');
  *
  * KEY = HASH:ROLLINGPICTURE:INFO:[ID]    ID为轮播图的索引ID
  * VALUE = data_rollingpicture_info   轮播图的相信信息
+ * @author 王通
  */
 define('HASH_ROLLINGPICTURE_INFO_', 'HASH:ROLLINGPICTURE:INFO:');
 
