@@ -260,9 +260,13 @@ class ActionService
      * @return array
      * @author 郭庆
      */
-    public static function getAllAction()
+    public static function getAllAction($list=true)
     {
-        $data = self::$actionStore->getData([]);
+        if ($list){
+            $data = self::$actionStore->getData([]);
+        }else{
+            $data = self::$collegeStore->getData([]);
+        }
         if ($data) return ['status' => true, 'msg' => $data];
         return ['status' => false, 'msg' => "获取所有活动失败"];
     }

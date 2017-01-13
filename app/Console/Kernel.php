@@ -28,7 +28,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('inspire')
                  ->hourly();
-        $schedule->command('chageAction:status')->dailyAt('01:00');
+        //活动状态更新每天一点凌晨
+        $schedule->command('chageAction:status')->everyMinute();
+
 
         $schedule->command('save:feedback')->dailyAt('23:00');;
     }
