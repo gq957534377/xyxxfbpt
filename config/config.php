@@ -26,6 +26,9 @@ define('LOGIN_ERROR_NUM', 5);
 define('LOGIN_ERROR_NUM_TIME', 3600);
 // Redis Hash 超时时间
 define('HASH_OVERTIME', 600);
+// Redis String 超时时间
+define('STRING_OVERTIME', 600);
+
 // 首页显示字符数常量
 define('STR_LIMIT', 20);
 // 短信接口相关配置
@@ -38,6 +41,14 @@ define('QINIU_ACCESS_KEY', 'c_M1yo7k90djYAgDst93NM3hLOz1XqYIKYhaNJZ4'); // 七�
 define('QINIU_SECRET_KEY', 'Gb2K_HZbepbu-A45y646sP1NNZF3AqzY_w680d5h'); // 七牛访问秘钥
 define('QINIU_BUCKET', 'yingxionghui');                                 // 七牛存储空间
 define('QINIU_URL', 'http://oj6lmh2uo.bkt.clouddn.com/');               // 七牛访问url
+//前台域名配置
+define('HOME_URL', 'www.hero.app');
+//后台域名配置
+define('ADMIN_URL', 'admin.hero.app');
+
+
+// 首页合作机构，投资机构。轮播图，网页页脚信息，过期时间
+define('WEB_PIC_TIME', 60 * 60 * 24 * 30);
 
 
 

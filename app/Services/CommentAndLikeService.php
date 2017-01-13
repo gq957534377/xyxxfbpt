@@ -17,6 +17,7 @@ use App\Tools\Common;
 use App\Store\UserStore;
 use App\Redis\CommentCache;
 use App\Tools\CustomPage;
+use Log;
 
 class CommentAndLikeService
 {
@@ -336,7 +337,7 @@ class CommentAndLikeService
     }
 
     /**
-     * 为数据添加改数据有关用户信息数据
+     * 为评论数据添加该数据有关用户信息数据
      * @param array $commentData 评论数据
      * @return array
      * author 张洵之
@@ -348,7 +349,13 @@ class CommentAndLikeService
         foreach ($commentData as $data) {
             $userInfoData = self::$userStore->getOneData(['guid' => $data->user_id]);
 
-            if (empty($userInfoData)) return false ;//逻辑错误需打印日志
+            if (empty($userInfoData)) {
+
+                Log::info('用户ID为'.$data->user_id.'的用户信息查询失败，导致该用户有关评论数据生成失败');
+
+                return false ;
+            }
+
 
             $data->userImg = $userInfoData->headpic;//添加用户头像
             $data->nikename = $userInfoData->nickname;//添加用户昵称

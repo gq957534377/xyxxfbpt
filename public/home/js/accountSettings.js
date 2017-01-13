@@ -161,14 +161,14 @@ $(function () {
                 $('.tel-step-four').removeClass('hidden');
                 $('.tel-step-four + div').removeClass('hidden');
                 swal({
-                        title: '提示', // 标题，自定
+                        title: '消息提示', // 标题，自定
                         text: '手机绑定成功，准备重新登录...',   // 内容，自定
                         type: "success",    // 类型，分别为error、warning、success，以及info
                         showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
                         confirmButtonColor: '#34c73b',  // 确认用途的按钮颜色，自定
                     },
                     function (isConfirm) {
-                        swal('提示', msg.ResultData, "success");
+                        swal('消息提示', msg.ResultData, "success");
                         $(".userInfoReset").click();
                         window.location.href = '/logout';
                     });
@@ -305,7 +305,7 @@ $(function () {
                         confirmButtonColor: '#34c73b',  // 确认用途的按钮颜色，自定
                     },
                     function (isConfirm) {
-                        swal('提示', msg.ResultData, "success");
+                        swal('消息提示', msg.ResultData, "success");
                         $("#emailBinded").removeClass('unbinded').addClass('binded');
                         $("#emailBinded").html('已绑定');
                         $("#changeEmail").html('更换');
@@ -472,7 +472,7 @@ $(function () {
                 setTime($("#resend_captcha"), $("#resend_captcha_label"));
 
             } else {
-                swal('警告', msg.ResultData, "warning");
+                swal('消息提示', msg.ResultData, "warning");
             }
 
             $("#errorBox").addClass('hidden');
@@ -501,7 +501,7 @@ $(function () {
                 setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
 
             } else {
-                swal('警告', msg.ResultData, "warning");
+                swal('消息提示', msg.ResultData, "warning");
             }
             $("#errorBox2").addClass('hidden');
             ajaxAfterSend($('.loading'));

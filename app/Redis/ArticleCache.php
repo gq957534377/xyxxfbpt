@@ -115,15 +115,19 @@ class ArticleCache extends MasterCache
                 $data[] = $content;
             }else{
                 //如果对应的hash key为空，说明生命周期结束，就再次去数据库取一条存入缓存
-                $res = CustomPage::objectToArray(self::$article_store->getOneDatas(['guid' => $v]));
-                if (empty($res)) {
-                    $this->delList(self::$lkey, $v);
-                    Log::info('Redis出错，文章信息，LIST  KEY 在数据库中不存在。请选择，是否清理redis');
-                } else {
+                $info = self::$article_store->getOneDatas(['guid' => $v]);
+                // 判断数据库中数据是否存在
+                if (!empty($info)) {
+                    $res = CustomPage::objectToArray($info);
                     //将取出的mysql 文章详情写入redis
                     $this->addHash(self::$hkey . $v, $res);
                     $res = CustomPage::arrayToObject($res);
                     $data[] = $res;
+
+                    // 如果数据库中数据不存在，怎删除LIST的键值，并且打印错误日志
+                } else {
+                    $this->delList(self::$lkey, $v);
+                    Log::info('Redis出错，文章信息，LIST  KEY 在数据库中不存在。请选择，是否清理redis');
                 }
 
             }

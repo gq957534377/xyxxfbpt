@@ -5,6 +5,7 @@
  */
 namespace App\Redis;
 
+use App\Store\ActionOrderStore;
 use App\Tools\CustomPage;
 use App\Store\CollegeStore;
 use Illuminate\Support\Facades\Log;
@@ -14,12 +15,15 @@ class CollegeCache extends MasterCache
 
     private static $lkey = LIST_COLLEGE_;      //列表key
     private static $hkey = HASH_COLLEGE_INFO_;     //hash表key
+    private static $orderKey = STRING_COLLEGE_ORDER_;     //hash表key
 
     private static $college_store;
+    private static $actionOrderStore;
 
-    public function __construct(CollegeStore $collegeStore)
+    public function __construct(CollegeStore $collegeStore, ActionOrderStore $actionOrderStore)
     {
         self::$college_store = $collegeStore;
+        self::$actionOrderStore = $actionOrderStore;
     }
 
     /**
@@ -141,9 +145,9 @@ class CollegeCache extends MasterCache
      */
     public function delCollege($type, $status, $guid)
     {
-        if (!$this->delList(self::$lkey . $type . ':' . $status, $guid)) Log::error("删除list（".self::$lkey . $type . ':' . $status."）元素(".$guid.")失败");
-        if (!$this->delList(self::$lkey . '-' . ':' . $status, $guid)) Log::error("删除list（".self::$lkey . '-' . ':' . $status."）元素(".$guid.")失败");
-        if (!$this->delList(self::$lkey.$type, $guid)) Log::error("删除list（".self::$lkey.$type."）元素(".$guid.")失败");
+        if (!$this->delList(self::$lkey . $type . ':' . $status, $guid)) Log::error('redis删除一条学院活动list('.self::$lkey . $type . ':' . $status.')记录失败，活动id：'.$guid);
+        if (!$this->delList(self::$lkey . '-' . ':' . $status, $guid)) Log::error('redis删除一条学院活动list('.self::$lkey . '-' . ':' . $status.')记录失败，活动id：'.$guid);
+        if (!$this->delList(self::$lkey.$type, $guid)) Log::error('redis删除一条学院活动list('.self::$lkey.$type.')记录失败，活动id：'.$guid);
     }
 
 
@@ -277,4 +281,26 @@ class CollegeCache extends MasterCache
         $this->addCollegeList($oldType, $status, $guid);
     }
 
+    public function getOrderColleges($user_id, $action_id)
+    {
+        $key = self::$orderKey.$user_id.':'.$action_id;
+        if ($this->exists($key)){
+            if ($this->getString($key) == 1) return true;
+            return false;
+        }else{
+            if (self::$actionOrderStore->getCount(['user_id'=>$user_id, 'action_id'=>$action_id])){
+                $this->addOrder($user_id, $action_id, 1);
+                return true;
+            }else{
+                $this->addOrder($user_id, $action_id, 2);
+                return false;
+            }
+        }
+    }
+
+    public function addOrder($user_id, $action_id, $value)
+    {
+        $key = self::$orderKey.$user_id.':'.$action_id;
+        if (!$this->addString($key, $value)) Log::error('添加学院活动'.$user_id.'用户报名'.$action_id.'活动记录失败');
+    }
 }

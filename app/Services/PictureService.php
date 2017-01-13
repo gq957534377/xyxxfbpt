@@ -125,14 +125,8 @@ class PictureService
      */
     public function getPictureIn ($val)
     {
-        // 判断redis中存在不存在，不存在则添加到redis
-        if (empty(self::$pictureCache->exists(LIST_PICTURE_INFO))) {
-            $obj = self::$picturestore->getPictureIn($val);
-            self::$pictureCache->saveRedisList($obj);
-        } else {
-            $obj = self::$pictureCache->selRedisInfo();
-        }
 
+        $obj = self::$pictureCache->getRedisPicture($val);
         // 判断有没有请求道数据
         if (empty($obj)) {
             return ['StatusCode' => '201', 'ResultData' => '没有数据'];
@@ -147,16 +141,7 @@ class PictureService
      */
     public function getRollingPicture()
     {
-        // 判断redis中存在不存在，不存在则添加到redis
-        if (empty(self::$rollingPictureCache->exists(LIST_ROLLINGPICTURE_INFO))) {
-            $res = self::$rollingPictureStore->getAllPic();
-            self::$rollingPictureCache->saveRedisList($res);
-        } else {
-            $res = self::$rollingPictureCache->selRedisInfo();
-            if (empty($res)) {
-                $res = self::$rollingPictureStore->getAllPic();
-            }
-        }
+        $res = self::$rollingPictureCache->getRollingPictureRedis();
         // 判断有没有请求道数据
         if (empty($res)) {
             return ['StatusCode' => '201', 'ResultData' => '没有数据'];

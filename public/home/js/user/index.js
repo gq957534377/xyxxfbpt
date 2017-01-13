@@ -112,7 +112,7 @@ $(document).ready(function () {
             switch (msg.StatusCode) {
                 case '400':
                     $(".loading").hide();
-                    swal('警告', msg.ResultData, "warning");
+                    swal('消息提示', msg.ResultData, "warning");
                     $('input[name="nickname"]').val('');
                     break;
                 case '200':
@@ -121,14 +121,14 @@ $(document).ready(function () {
                     $("#nicknameBox").html($('input[name="nickname"]').val());
                     $('input[name="nickname"]').val('');
                     swal({
-                            title: '提示', // 标题，自定
+                            title: '消息提示', // 标题，自定
                             text: '昵称修改成功',   // 内容，自定
                             type: "success",    // 类型，分别为error、warning、success，以及info
                             showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
                             confirmButtonColor: '#34c73b',  // 确认用途的按钮颜色，自定
                         },
                         function (isConfirm) {
-                            swal('提示', msg.ResultData, "success");
+                            swal('消息提示', msg.ResultData, "success");
                             $(".userInfoReset").click();
                         });
                     break;
@@ -155,7 +155,7 @@ $(document).ready(function () {
                 switch (msg.StatusCode) {
                     case '403':
                         $(".loading").hide();
-                        swal('警告', msg.ResultData, "warning");
+                        swal('消息提示', msg.ResultData, "warning");
                         break;
                     case '200':
                           window.location.href = '/user/myProject';

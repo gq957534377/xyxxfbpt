@@ -17,8 +17,11 @@ class ArticleController extends Controller
     protected  static $commentServer;
     protected static $forPages = 5;
 
-    public function __construct(ArticleServer $articleServer, UserServer $userServer, CommentServer $commentServer)
-    {
+    public function __construct(
+        ArticleServer $articleServer,
+        UserServer $userServer,
+        CommentServer $commentServer
+    ) {
         self::$articleServer = $articleServer;
         self::$userServer = $userServer;
         self::$commentServer = $commentServer;

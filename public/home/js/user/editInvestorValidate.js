@@ -73,11 +73,11 @@
                             case '400':
                                 // promptBoxHandle('警告',data.ResultData);
                                 $(".loading").hide();
-                                alert('警告,'+data.ResultData);
+                                alert('消息提示,'+data.ResultData);
                                 break;
                             case '200':
                                 $(".loading").hide();
-                                alert('提示,'+data.ResultData);
+                                alert('消息提示,'+data.ResultData);
                                 window.location.href = '/user/'+ $("#topAvatar").data('id');
                                 break;
                         }

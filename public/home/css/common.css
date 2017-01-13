@@ -763,6 +763,23 @@ body .list-inline > li {
 }
 /*关于我们样式 结束*/
 
+/*分页样式补充 开始*/
+.pagination >li>a{
+    color: #FF9036;
+}
+.pagination li.active > a {
+    background: #FF9036;
+    border-color: #FF9036;
+    color: #ffffff;
+}
+.pagination > .active > a:hover {
+    background-color: #ff9036;
+    border-color: #FF9036;
+}
+#js_pages {
+    margin-right: 50px;
+}
+/*分页样式补充 结束*/
 
 /*阻止鼠标双击时文本被选中*/
 /*例子*/
@@ -939,8 +956,14 @@ body .list-inline > li {
     .mar-cr-xs {
         margin-right: 0;
     }
+    .mar-b15-xs {
+        margin-bottom: 15px;
+    }
     .pad-l12-xs {
         padding-left: 12px !important;
+    }
+    .pad-b15{
+        padding-bottom: 15px;
     }
 }
 /*991px以下的样式*/
@@ -997,6 +1020,9 @@ body .list-inline > li {
     .pad-l30-sm {
         padding-left: 30px;
     }
+    .pad-b15{
+        padding-bottom: 15px;
+    }
 }
 /*1200px以下的样式*/
 @media (min-width: 992px) and (max-width: 1199px) {
@@ -1026,6 +1052,9 @@ body .list-inline > li {
     }
     .pad-l30-md {
         padding-left: 30px;
+    }
+    .pad-b15{
+        padding-bottom: 15px;
     }
 }
 
@@ -1111,11 +1140,4 @@ body .list-inline > li {
 .request-error-info h2{
     color: #999999;
 }
-.pagination >li>a{
-    color: #FF9036;
-}
-.pagination li.active >a{
-    background: #FF9036;
-    border-color: #FF9036;
-    color: #ffffff;
-}
+

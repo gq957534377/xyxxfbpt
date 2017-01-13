@@ -5,6 +5,7 @@
  */
 namespace App\Redis;
 
+use App\Store\ActionOrderStore;
 use App\Tools\CustomPage;
 use App\Store\ActionStore;
 use Illuminate\Support\Facades\Log;
@@ -14,12 +15,15 @@ class ActionCache extends MasterCache
 
     private static $lkey = LIST_ACTION_GUID_;      //列表key
     private static $hkey = HASH_ACTION_INFO_;     //hash表key
+    private static $orderKey = STRING_ACTION_ORDER_;     //hash表key
 
     private static $action_store;
+    private static $actionOrderStore;
 
-    public function __construct(ActionStore $actionStore)
+    public function __construct(ActionStore $actionStore, ActionOrderStore $actionOrderStore)
     {
         self::$action_store = $actionStore;
+        self::$actionOrderStore = $actionOrderStore;
     }
 
     /**
@@ -141,12 +145,9 @@ class ActionCache extends MasterCache
      */
     public function delAction($type, $status, $guid)
     {
-        $result = true;
-        $result = $this->delList(self::$lkey . $type . ':' . $status, $guid);
-        $result = $this->delList(self::$lkey . '-' . ':' . $status, $guid);
-        $result = $this->delList(self::$lkey.$type, $guid);
-        if (!$result) Log::error('redis删除一条活动list记录失败，活动id：'.$guid);
-        return $result;
+        if (!$this->delList(self::$lkey . $type . ':' . $status, $guid)) Log::error('redis删除一条活动list('.self::$lkey . $type . ':' . $status.')记录失败，活动id：'.$guid);
+        if (!$this->delList(self::$lkey . '-' . ':' . $status, $guid)) Log::error('redis删除一条活动list('.self::$lkey . '-' . ':' . $status.')记录失败，活动id：'.$guid);
+        if (!$this->delList(self::$lkey.$type, $guid)) Log::error('redis删除一条活动list('.self::$lkey.$type.')记录失败，活动id：'.$guid);
     }
 
 
@@ -279,4 +280,26 @@ class ActionCache extends MasterCache
         $this->addActionList($oldType, $status, $guid);
     }
 
+    public function getOrderActions($user_id, $action_id)
+    {
+        $key = self::$orderKey.$user_id.':'.$action_id;
+        if ($this->exists($key)){
+            if ($this->getString($key) == 1) return true;
+            return false;
+        }else{
+            if (self::$actionOrderStore->getCount(['user_id'=>$user_id, 'action_id'=>$action_id])){
+                $this->addOrder($user_id, $action_id, 1);
+                return true;
+            }else{
+                $this->addOrder($user_id, $action_id, 2);
+                return false;
+            }
+        }
+    }
+
+    public function addOrder($user_id, $action_id, $value)
+    {
+        $key = self::$orderKey.$user_id.':'.$action_id;
+        if (!$this->addString($key, $value)) Log::error('添加'.$user_id.'用户报名'.$action_id.'活动记录失败');
+    }
 }

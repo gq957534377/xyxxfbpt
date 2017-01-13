@@ -90,8 +90,8 @@
                             @endforeach
                         @endif
                         </div>
+                        <div id="js_pages" class="pull-right">{!! $ResultData->pageStyle !!}</div>
                     </ul>
-                    <div id="js_pages">{!! $ResultData->pageStyle !!}</div>
                 </div>
                 <!--评论区域开始-->
             </div>
@@ -108,7 +108,7 @@
                   @if(!empty($StatusCode) && $StatusCode == '200' && $RandomList['StatusCode'] == '200')
                       @foreach($RandomList['ResultData'] as $key => $val)
                           <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>
+                              <h3><a href="/article/{{ $val->guid }}" target="_blank">{{ $val->title }}</a></h3>
                               <div class="news-list-time">
                                   <span>{{ date('Y-m-d', $val->addtime) }}</span>
                               </div>

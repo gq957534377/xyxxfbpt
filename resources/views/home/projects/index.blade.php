@@ -83,11 +83,11 @@
                 {{-- */$i++;/* --}}
                 <li class="col-lg-3 col-md-3 col-sm-6 col-xs-6 animated @if($i<=4)fadeInLeft @else fadeInRight @endif ">
                     <div class="content-block">
-                        <a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
+                        <a href="{{ route('project.show', $project->guid) }}" target="_blank" title="{{$project->title}}">
                             <img src="{{ $project->banner_img }}" alt="">
                         </a>
                         <div>
-                            <h3><a href="{{ route('project.show', $project->guid) }}" title="{{$project->title}}">
+                            <h3><a href="{{ route('project.show', $project->guid) }}" target="_blank" title="{{$project->title}}">
                                     @if(mb_strlen($project->title)>10)
                                         {{mb_substr($project->title,0,10).'...'}}
                                     @else
@@ -133,14 +133,14 @@
                 },
                 success:function (data) {
 
-
                     if(data.StatusCode == "400" || data.ResultData.length<4) {
                         $('.loads').remove();
                     }
+
                     createDom(data.ResultData)
                 }
             })
-        })
+        });
         function createDom(data) {
 
             if(typeof data == "string") return;
@@ -154,16 +154,16 @@
                 var s = 0;
             }
             for(var i=0;i<data.length;i++) {
-                var  fanNum = s+n*i
+                var  fanNum = s+n*i;
                 html += "<li class='col-lg-3 col-md-3 col-sm-6 col-xs-6 lis"+fanNum+" animated bounceInUp'>";
                 html +=     "<div class='content-block'>";
                 html +=         "<a href='/project/"+data[i].guid+"' title='"+data[i].title+"'>";
-                html +=             "<img src='"+data[i].banner_img+"'>"
-                html +=         "</a>"
-                html +=         "<div>"
-                html +=         "<h3><a href='/project/"+data[i].guid+"' title='"+data[i].title+"'>"
+                html +=             "<img src='"+data[i].banner_img+"'>";
+                html +=         "</a>";
+                html +=         "<div>";
+                html +=         "<h3><a href='/project/"+data[i].guid+"' title='"+data[i].title+"'>";
                 html +=             data[i].title.substr(0,10);
-                html +=         "</a></h3>"
+                html +=         "</a></h3>";
                 html +=         "<p>"+data[i].brief_content.substr(0,20)+"</p>";
                 html +=         "<div></div></div></div></li>";
             }
