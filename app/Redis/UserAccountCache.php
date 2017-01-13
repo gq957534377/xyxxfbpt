@@ -138,10 +138,14 @@ class UserAccountCache extends MasterCache
         $this->addHash(self::$hkey.$data['tel'], $data);
     }
 
+/*******************************************************************
+ **   测试
+ ****************/
+
     /**
      * String类型缓存账号 测试
-     * @param $tel
-     * @return bool
+     * @param string $tel
+     * @return object $data
      * @author 刘峻廷
      */
     public function stringAccount($tel)
@@ -161,4 +165,24 @@ class UserAccountCache extends MasterCache
 
         return $data;
     }
+
+    /**
+     * 添加新的用户账号
+     * @param $data
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function addNewAccount($data)
+    {
+        if (empty($data)) return false;
+
+        $result = $this->addString(self::$skey.$data['tel'], json_encode($data));
+
+        if (!$result) {
+            Log::info('添加用户账号String类型缓存失败，账号为：'.$data['tel']);
+        }
+    }
+
+
+
 }

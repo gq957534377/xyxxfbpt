@@ -70,7 +70,8 @@ class UserService {
     {
 
         // 检验用户是否被注册
-        $result = self::$accountCache->getOneAccount($data['tel']);;
+//        $result = self::$accountCache->getOneAccount($data['tel']);
+        $result = self::$accountCache->stringAccount($data['tel']);
 
         // 返回真，用户存在
         if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
@@ -108,6 +109,7 @@ class UserService {
             // 用户注册成功，写入redis
             $data['status'] = 1;
             self::$accountCache->insertOneAccount($data);
+//            self::$accountCache->addNewAccount($data);
             DB::commit();
             return ['status'=>'200', 'msg'=>'注册成功'];
         }
@@ -191,8 +193,8 @@ class UserService {
     public function  loginCheck($data)
     {
         // 存在，判断list队列中该账户是否存在
-//        $temp = self::$accountCache->getOneAccount($data['tel']);
-        $temp = self::$accountCache->stringAccount($data['tel']);
+        $temp = self::$accountCache->getOneAccount($data['tel']);
+//        $temp = self::$accountCache->stringAccount($data['tel']);
 
         // 返回假，说明此账号不存在
         if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];
