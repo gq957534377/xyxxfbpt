@@ -151,12 +151,7 @@ class ActionController extends Controller
 //            $likeStatus = 2;
         }else{
 //            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
-            $action = self::$actionCache->getOrderActions(session('user')->guid);//当前用户报名参加的所有活动
-            if (!$action){
-                $isHas = false;
-            }else{
-                $isHas = in_array($id, $action);
-            }
+            $isHas = self::$actionCache->getOrderActions(session('user')->guid, $id);//当前用户是否报名参加活动
             $isLogin = session('user')->guid;
         }
         $rand = self::$actionServer->getRandomActions(true);

@@ -145,12 +145,9 @@ class ActionCache extends MasterCache
      */
     public function delAction($type, $status, $guid)
     {
-        $result = true;
-        $result = $this->delList(self::$lkey . $type . ':' . $status, $guid);
-        $result = $this->delList(self::$lkey . '-' . ':' . $status, $guid);
-        $result = $this->delList(self::$lkey.$type, $guid);
-        if (!$result) Log::error('redis删除一条活动list记录失败，活动id：'.$guid);
-        return $result;
+        if (!$this->delList(self::$lkey . $type . ':' . $status, $guid)) Log::error('redis删除一条活动list('.self::$lkey . $type . ':' . $status, $guid.')记录失败，活动id：'.$guid);
+        if (!$this->delList(self::$lkey . '-' . ':' . $status, $guid)) Log::error('redis删除一条活动list('.self::$lkey . '-' . ':' . $status, $guid.')记录失败，活动id：'.$guid);
+        if (!$this->delList(self::$lkey.$type, $guid)) Log::error('redis删除一条活动list('.self::$lkey.$type, $guid.')记录失败，活动id：'.$guid);
     }
 
 
@@ -283,18 +280,19 @@ class ActionCache extends MasterCache
         $this->addActionList($oldType, $status, $guid);
     }
 
-    public function getOrderActions($userid)
+    public function getOrderActions($user_id, $action_id)
     {
-        $key = self::$orderKey.$userid;
+        $key = self::$orderKey.$user_id.':'.$action_id;
         if ($this->exists($key)){
-            return $this->getBetweenList($key, 0, -1);
+            if ($this->getString($key) == 1) return true;
+            return false;
         }else{
-            $actions = self::$actionOrderStore->getSomeField(['user_id'=>session('user')->guid], 'action_id');
-            if ($actions){
-                if ($this->rPushLists($key, $actions)) Log::error('redis写入报名记录失败，key为：'.$key);
-                return $actions;
+            if (self::$actionOrderStore->getCount(['user_id'=>$user_id, 'action_id'=>$action_id])){
+                $this->addOrder($user_id, $action_id, 1);
+                return true;
             }else{
-                if ($actions == []) return [];
+                $this->addOrder($user_id, $action_id, 2);
+                return false;
             }
         }
     }
@@ -302,6 +300,6 @@ class ActionCache extends MasterCache
     public function addOrder($user_id, $action_id, $value)
     {
         $key = self::$orderKey.$user_id.':'.$action_id;
-        if ($this->addString($key, $value)) Log::error('添加'.$user_id.'用户报名'.$action_id.'活动记录失败');
+        if (!$this->addString($key, $value)) Log::error('添加'.$user_id.'用户报名'.$action_id.'活动记录失败');
     }
 }

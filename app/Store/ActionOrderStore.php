@@ -53,6 +53,17 @@ class ActionOrderStore{
         return DB::table(self::$table)->where($where)->lists($field);
     }
 
+    /**
+     * 得到指定状态的数量
+     * @param $where
+     * @return mixed
+     * @author 郭庆
+     */
+    public function getCount($where)
+    {
+        return DB::table(self::$table)->where($where)->count();
+    }
+
 
 
 
@@ -102,15 +113,6 @@ class ActionOrderStore{
         return DB::table(self::$table)->where($where)->update($data);
     }
 
-    /**
-     * 得到指定状态的数量
-     * @param $where
-     * @return mixed
-     * @author 郭庆
-     */
-    public function getCount ($where)
-    {
-        return DB::table(self::$table)->where($where)->count();
-    }
+
 }
 

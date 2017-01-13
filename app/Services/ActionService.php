@@ -86,7 +86,7 @@ class ActionService
             //上述俩个操作全部成功则返回成功
             if($res && $result){
                 DB::commit();
-//                self::$actionCache->
+                self::$actionCache->addOrder($data['user_id'], $data['action_id'], 1);
                 return ['StatusCode' => '200', 'ResultData' => "报名成功"];
             }else{
                 return ['StatusCode' => '500', 'ResultData' => "存储有误，报名失败"];
