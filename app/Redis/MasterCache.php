@@ -199,7 +199,7 @@ class MasterCache
      */
     public function setTime($key, $time = HASH_OVERTIME)
     {
-        return \Redis::expire($key, $time);
+        return Redis::expire($key, $time);
     }
 
     /**
@@ -263,9 +263,11 @@ class MasterCache
     public function getString($key)
     {
         if (empty($key)) return false;
-        if (!Redis::get($key)) return false;
+        $data = Redis::get($key);
+        if (!$data) return false;
         //设置生命周期
-        return $this->setTime($key, STRING_OVERTIME);
+        $this->setTime($key, STRING_OVERTIME);
+        return $data;
     }
 
 }

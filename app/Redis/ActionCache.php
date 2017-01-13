@@ -15,7 +15,7 @@ class ActionCache extends MasterCache
 
     private static $lkey = LIST_ACTION_GUID_;      //列表key
     private static $hkey = HASH_ACTION_INFO_;     //hash表key
-    private static $orderKey = LIST_ACTION_ORDER_;     //hash表key
+    private static $orderKey = STRING_ACTION_ORDER_;     //hash表key
 
     private static $action_store;
     private static $actionOrderStore;
@@ -297,5 +297,11 @@ class ActionCache extends MasterCache
                 if ($actions == []) return [];
             }
         }
+    }
+
+    public function addOrder($user_id, $action_id, $value)
+    {
+        $key = self::$orderKey.$user_id.':'.$action_id;
+        if ($this->addString($key, $value)) Log::error('添加'.$user_id.'用户报名'.$action_id.'活动记录失败');
     }
 }

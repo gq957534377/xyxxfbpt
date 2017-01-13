@@ -120,24 +120,24 @@ define('HASH_ACTION_INFO_','HASH:ACTION:INFO:');
 
 
 /**
- * 某一个用户所报名参加的所有活动
+ * 某一个用户是否报名参加某一个活动
  * 作者：郭庆
- * 作用：用于存储：指定用户所报名参加的所有活动
- * KEY = :ACTION:ORDER:[用户id]
- * VALUE = array [action_id1，action_id2......]
+ * 作用：用于存储：某一个用户是否报名参加某一个活动
+ * KEY = :ACTION:ORDER:[用户id]:[活动id]
+ * VALUE = true/false
  */
-define('LIST_ACTION_ORDER_','LIST:ACTION:ORDER:');
+define('STRING_ACTION_ORDER_','STRING:ACTION:ORDER:');
 
 
 
 /**
- * 某一个用户所报名参加的所有学院活动
+ * 某一个用户是否报名参加某一个学院活动
  * 作者：郭庆
- * 作用：用于存储：指定用户所报名参加的所有学院活动
- * KEY = :COLLEGE:ORDER:[用户id]
- * VALUE = array [action_id1，action_id2......]
+ * 作用：用于存储：某一个用户是否报名参加某一个学院活动
+ * KEY = :ACTION:ORDER:[用户id]:[学院活动id]
+ * VALUE = true/false
  */
-define('LIST_COLLEGE_ORDER_','LIST:COLLEGE:ORDER:');
+define('STRING_COLLEGE_ORDER_','STRING:COLLEGE:ORDER:');
 
 
 
