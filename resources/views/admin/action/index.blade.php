@@ -375,7 +375,6 @@
                                 $.ajax({
                                     url     : url,
                                     success : function (data) {
-                                        console.log(data);
                                         if(data.StatusCode != '200'){
                                             swal(data.ResultData, statusMessage + '失败', "danger");
                                         }else{
