@@ -80,14 +80,16 @@
             rules: {
                 content: {
                     required: true,
-                    minlength: 15
+                    minlength: 15,
+                    maxlength: 80,
                 }
             },
             // 提示信息
             messages: {
                 content: {
                     required: "请输入评论内容！",
-                    minlength: "评论最少为15字"
+                    minlength: "评论最少为15字",
+                    maxlength: "评论最多为80字",
                 }
             }
         });
