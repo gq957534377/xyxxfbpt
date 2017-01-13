@@ -687,7 +687,7 @@
                     <ul class='col-sm-5 section6_right'>
                         @for($i = 0; $i < round(count($articles)/2); $i++)
                             <li>
-                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ str_limit($articles[$i]->title, STR_LIMIT, $end = '...') }}</a></h3>
+                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ str_limit($articles[$i]->title, STR_LIMIT+36 , $end = '...') }}</a></h3>
                                 <p>发布时间 {{ date('Y-m-d H:m', $articles[$i]->addtime) }}</p>
                             </li>
                         @endfor
@@ -695,7 +695,7 @@
                     <ul class='col-sm-5 section6_right'>
                         @for($i = round(count($articles)/2); $i < count($articles); $i++)
                             <li>
-                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ str_limit($articles[$i]->title, STR_LIMIT, $end = '...') }}</a></h3>
+                                <h3><a href="{{ route('article.show', $articles[$i]->guid) }}" target="_blank">{{ str_limit($articles[$i]->title, STR_LIMIT+36, $end = '...') }}</a></h3>
                                 <p>发布时间 {{ date('Y-m-d H:m', $articles[$i]->addtime) }}</p>
                             </li>
                         @endfor

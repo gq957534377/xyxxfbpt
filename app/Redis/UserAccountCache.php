@@ -22,7 +22,7 @@ class UserAccountCache extends MasterCache
     }
 
     /**
-     * 用户账号写入缓存
+     * 用户账号写入List缓存
      * @param $data
      * @author 刘峻廷
      */
@@ -37,17 +37,32 @@ class UserAccountCache extends MasterCache
         $accountList = $this->rPushLists(self::$lkey, $tels);
         if (!$accountList) \Log::info('用户账号数据写入list失败');
 
-        // 同步更新hash
-        foreach ($tels as $v) {
+    }
 
-            // 判断当前hash是否存在，不存在根据tel，重新将数据添加
-            if (!$this->exists(self::$hkey.$v)) {
-                $data = self::$homeStore->getOneData(['tel' => $v]);
-                //写入hash
-                $this->addHash(self::$hkey.$v, CustomPage::objectToArray($data));
-            }
+    /**
+     * 用户账号写入Hash缓存
+     * @param $tel
+     * @author 刘峻廷
+     */
+    public function userAccountHash($tel)
+    {
+        if (empty($tel)) return false;
+
+        $index = self::$hkey.$tel;
+        // 判断当前hash是否存在，不存在根据tel，重新将数据添加
+        if (!$this->exists($index)) {
+            $data = self::$homeStore->getOneData(['tel' => $tel]);
+            if (!$data) return false;
+            //写入hash
+            $result = $this->addHash($index, CustomPage::objectToArray($data));
+            if (!$result) \Log::error('写入用户账号hash失败，账号：'.$tel);
+
+        } else {
+            $result = $this->getHash($index, 3600*24);
+            $data = CustomPage::arrayToObject($result);
         }
 
+        return $data;
     }
 
     /**
@@ -58,28 +73,15 @@ class UserAccountCache extends MasterCache
     public function getOneAccount($tel)
     {
         if (empty($tel)) return false;
-
         // 先判断list队里 是否存在
-        if ($this->exists(self::$lkey)) {
-            // 存在
-            $data = $this->getHash(self::$hkey.$tel);
-            // hash 生命周期可能到了
-            if (!$data) {
-                $result = self::$homeStore->getOneData(['tel' => $tel]);
-
-                if (!$result) return false;
-                $account = CustomPage::objectToArray($result);
-                // 写入hash
-                $result = $this->addHash(self::$hkey.$tel, $account);
-                if (!$result) \Log::error('写入用户账号hash失败，账号：'.$tel);
-            }
-        } else {
-            // 不存在，创建list,更新hash
+        if (!$this->exists(self::$lkey)) {
+            // 不存在，创建list
             $this->setUserAccountList();
-            $data = $this->getHash(self::$hkey.$tel);
         }
+        // 提取hash
+        $data = $this->userAccountHash($tel);
 
-        return CustomPage::arrayToObject($data);
+        return $data;
     }
 
     /**
@@ -91,7 +93,7 @@ class UserAccountCache extends MasterCache
     public function setOneAccount($data)
     {
         if (empty($data)) return false;
-        return $this->addHash(self::$hkey.$data['tel'], $data);
+        return $this->changeOneHash(self::$hkey.$data['tel'], $data);
     }
 
     /**
@@ -113,6 +115,27 @@ class UserAccountCache extends MasterCache
             \Log::info('新注册用户:'.$data['tel'].'写入redis缓存失败！');
         }
     }
+
+
+    /**
+     * 账号修改绑定，更新list和hash
+     * @param $oldTel
+     * @param $data
+     * @return bool
+     * @author 刘峻廷
+     */
+    public function changeOneAccount($oldTel, $data)
+    {
+        if (empty($oldTel) || empty($data)) return false;
+
+        // 修改绑定手机，需要将之前的list删除再添加
+        $this->delList(self::$lkey, 0, $oldTel);
+        // 添加新的list
+        $this->rPushLists(self::$lkey, $data['tel']);
+        // 更新修改后的hash
+        $this->addHash(self::$hkey.$data['tel'], $data);
+    }
+
 
 
 }

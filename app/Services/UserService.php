@@ -13,6 +13,7 @@ use App\Tools\CustomPage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use Mail;
 
 class UserService {
     protected static $accountCache = null;
@@ -68,10 +69,11 @@ class UserService {
     public function addUser($data)
     {
 
-//        // 检验用户是否被注册
-//        $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
-//        // 返回真，用户存在
-//        if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
+        // 检验用户是否被注册
+        $result = self::$accountCache->getOneAccount($data['tel']);;
+
+        // 返回真，用户存在
+        if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
 
         // 返回假，添加数据，先对数据提纯
         $data['guid'] = Common::getUuid();
@@ -173,19 +175,9 @@ class UserService {
      */
     public function checkUser($data)
     {
-        // 先判断Account队列缓存是否存在
-        if (!self::$accountCache->exists()) {
-            // 不存在，读取MySql存入redis,并且将获取到的对象转成数组
-            $accountList = CustomPage::objectToArray(self::$homeStore->getAllData());
-
-            if (count($accountList)) {
-                self::$accountCache->setUserAccountList($accountList);
-            }
-        }
-
-        $result = self::$accountCache->getOneAccount($data['tel']);
+        if (empty($data)) return false;
         // 检验用户是否被注册
-        //  $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
+        $result = self::$accountCache->getOneAccount($data['tel']);
         // 返回真，用户存在
         return $result;
     }
@@ -200,11 +192,6 @@ class UserService {
     {
         // 存在，判断list队列中该账户是否存在
         $temp = self::$accountCache->getOneAccount($data['tel']);
-
-        if (empty($temp)) {
-            // 查询数据
-            $temp = self::$homeStore->getOneData(['tel' => $data['tel']]);
-        }
 
         // 返回假，说明此账号不存在
         if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];
@@ -226,12 +213,10 @@ class UserService {
 
         if(!$info) {
             Log::error('更新用户登录信息失败', $data);
-            return ['StatusCode' => '400', 'ResultData' => '服务器数据异常！'];
+            return ['StatusCode' => '400', 'ResultData' => '请求失败'];
         }
-        // 更新成功，redis同步更新
-        $temp->logintime = $time;
-        $temp->ip = $data['ip'];
-        $redisInfo = self::$accountCache->setOneAccount(CustomPage::objectToArray($temp));
+        // redis 同步更新
+        $redisInfo = self::$accountCache->setOneAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['tel' => $data['tel']])));
 
         if ($redisInfo != 'OK') {
             Log::info($temp->tel.'用户登录更新redis失败');
@@ -398,16 +383,6 @@ class UserService {
      */
     public function changePassword($request)
     {
-        // 先判断Account队列缓存是否存在
-        if (!self::$accountCache->exists()) {
-            // 不存在，读取MySql存入redis,并且将获取到的对象转成数组
-            $accountList = CustomPage::objectToArray(self::$homeStore->getAllData());
-
-            if (count($accountList)) {
-                self::$accountCache->setUserAccountList($accountList);
-            }
-        }
-
         // 查询用户的信息
         $result = self::$homeStore->getOneData(['guid' => $request->guid]);
 
@@ -551,7 +526,9 @@ class UserService {
             \DB::rollback();
             return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
         }
-        $redisResult = self::$accountCache->setOneAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $guid])));
+
+        $redisResult = self::$accountCache->changeOneAccount(self::$homeStore->getOneData(['guid' => $guid])->tel, CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $guid])));
+
         if ($redisResult != 'OK') {
             \Log::info($guid.'用户手机绑定写入缓存失败!');
         }
