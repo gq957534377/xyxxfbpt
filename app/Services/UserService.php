@@ -221,11 +221,7 @@ class UserService {
         }
         // redis 同步更新
 //        $redisInfo = self::$accountCache->setOneAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['tel' => $data['tel']])));
-        $redisInfo = self::$accountCache->addNewAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['tel' => $data['tel']])));
-
-        if ($redisInfo != 'OK') {
-            Log::info($temp->tel.'用户登录更新redis失败');
-        }
+        self::$accountCache->addNewAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['tel' => $data['tel']])));
 
         //将一些用户的信息推到session里，方便维持
         $userInfo = self::$userStore->getOneData(['guid' => $temp->guid]);
@@ -413,10 +409,8 @@ class UserService {
             return ['StatusCode' => '400', 'ResultData' => '修改密码失败'];
         } else {
 //            $redisResult = self::$accountCache->setOneAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $request->guid])));
-            $redisResult = self::$accountCache->addNewAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $request->guid])));
-            if ($redisResult != 'OK') {
-                \Log::info($request->guid.'用户修改密码写入缓存失败!');
-            }
+            self::$accountCache->addNewAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $request->guid])));
+
             return ['StatusCode' => '200', 'ResultData' => '修改密码成功'];
         }
 
