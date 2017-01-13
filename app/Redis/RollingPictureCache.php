@@ -8,36 +8,30 @@
 
 namespace App\Redis;
 
-use Illuminate\Contracts\Logging\Log;
-use Illuminate\Support\Facades\Redis;
+use Log;
+use Redis;
+
 use App\Tools\CustomPage;
+use App\Store\RollingPictureStore;
 
 
-class RollingPictureCache
+class RollingPictureCache extends MasterCache
+
 {
     protected static $lkey = LIST_ROLLINGPICTURE_INFO;
     protected static $hkey = HASH_ROLLINGPICTURE_INFO_;
+    protected static $rollingPictureStore;
 
-    /**
-     * 检查list是否存在
-     * @return bool
+    /** 单例引入
+     *
+     * @param WebAdminService $webAdminService
      * @author 王通
      */
-    public function checkList()
+    public function __construct(RollingPictureStore $rollingPictureStore)
     {
-        return Redis::exists(self::$lkey);
+        self::$rollingPictureStore = $rollingPictureStore;
     }
 
-    /**
-     * 检查哈希是否存在
-     * @param $id
-     * @return bool
-     * @author 王通
-     */
-    public function checkHash()
-    {
-        return Redis::exists(self::$hkey);
-    }
 
 
     /**
@@ -48,15 +42,15 @@ class RollingPictureCache
     public function saveRedisList($data)
     {
         $data = CustomPage::objectToArray($data);
-//        dd($data);
         foreach ($data as $datum) {
             if (!Redis::rpush(self::$lkey, $datum['id'])) {
-                Log::error('网页基本信息写入redis   List失败！！');
+                Log::error('首页轮播图  写入redis   List失败！！');
+                $this->delKey(self::$lkey);
+                return false;
             }
-            if (!$this->checkHash(self::$hkey)) {
+            if (!$this->exists(self::$hkey)) {
                 if(!Redis::hMset(self::$hkey . $datum['id'], $datum)) {
-                    Log::info('页面基本信息，写入redis失败!!');
-                    return false;
+                    Log::info('首页轮播图，写入哈希失败!!');
                 }
             }
         }
@@ -75,8 +69,17 @@ class RollingPictureCache
         foreach ($data as $datum) {
             $result = Redis::hGetall(self::$hkey . $datum);
             if (empty($result)) {
-                //Log::info('Redis出错，请设置网页基本信息的值。或者清理redis');
+                // 如果redis哈希中不存在，则去数据库中查找，并且取出数据放到redis中
+                $res = self::$rollingPictureStore->getOneData($datum);
+                if (!empty($res)) {
+                    $res = CustomPage::objectToArray($res);
+                    Redis::hMset(self::$hkey . $datum, $res);
+                    $arr[] = CustomPage::arrayToObject($res);
+                } else {
+                    $this->delList(self::$lkey, $datum);
+                }
             } else {
+                Log::info('Redis出错，轮播图LIST  KEY 未找到。请选择是否清理redis');
                 $arr[] = CustomPage::arrayToObject($result);
             }
         }
@@ -84,40 +87,5 @@ class RollingPictureCache
         return $arr;
     }
 
-    /**
-     * 删除哈希字段
-     * @param $key
-     * @return bool
-     * @author 王通
-     */
-    public function delHash($key)
-    {
-        if (empty($key)) return false;
-        return Redis::del(self::$hkey . $key);
-
-    }
-
-    /**
-     * 删除list字段
-     * @return int
-     * @author 王通
-     * @author 王通
-     */
-    public function delList()
-    {
-        return Redis::del(self::$lkey);
-    }
-
-    /**
-     * 删除list中的指定值
-     * @param $val
-     * @return bool|int
-     * @author 王通
-     */
-    public function delListKey($val)
-    {
-        if (empty($val)) return false;
-        return Redis::lRem(self::$lkey,0 , $val);
-    }
 }
 

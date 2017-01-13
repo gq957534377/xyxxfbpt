@@ -486,9 +486,8 @@ class CommentAndLikeService
     public function getPageStyle($id,$nowPage)
     {
         $cache = self::$commentCache->getCommentNum($id);
-        $totalNum = (int)$cache;
-        $totalPage = ceil($totalNum/PAGENUM);
-
+        $totalNum = $cache;
+        $totalPage = (int)ceil($totalNum/PAGENUM);
         if($totalPage<=1) return null;
 
         return CustomPage::getSelfPageView($nowPage, $totalPage, $id,null);

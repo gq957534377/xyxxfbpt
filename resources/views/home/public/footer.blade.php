@@ -22,7 +22,7 @@
     <div class="container">
         <div class="row change-row-margin">
             <div class="footer-left col-xs-12 col-sm-4 col-md-4 col-lg-3">
-                <p class="text-left">客服电话：{{ $tel }}<br>客服邮箱：{{ $email }}<br>工作时间：{{ $time }}</p>
+                <p class="text-left">客服电话：{{ $tel or '' }}<br>客服邮箱：{{ $email or '' }}<br>工作时间：{{ $time or '' }}</p>
             </div>
             <div class="footer-center col-xs-12  col-sm-4 col-md-4 col-lg-5">
                 <a href="/about?type=1">关于我们</a>
@@ -40,7 +40,7 @@
     </footer>
 
     <div class="container-fluid bottom">
-        <p class="text-center">{{ $record }}</p>
+        <p class="text-center">{{ $record or '' }}</p>
     </div>
 
 </div>

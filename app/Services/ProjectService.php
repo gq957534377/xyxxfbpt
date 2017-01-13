@@ -62,25 +62,15 @@ class ProjectService {
      */
     public function takeData($number = 3)
     {
-        $data = self::$projectStore->takeData($number);
-//        $cache = self::$projectCache->takeData($number);
-//
-//        if($cache){
-//            $data = $cache;
-//        }else{
-//            $temp = self::$projectStore->getList(['status' => 1], 'guid');
-//
-//            if (!$temp) return ['StatusCode' => '400', 'ResultData' => '暂无无数据'];
-//
-//            self::$projectCache->insertCache($temp);
-//            $data = self::$projectCache->takeData($number);
-//        }
-//
-//        if (!$data) {
-//            $data = self::$projectStore->takeData($number);
-//        }
+        $data = self::$projectCache->takeData($number);
 
-        return ['StatusCode' => '200', 'ResultData' => $data];
+        if($data){
+            return ['StatusCode' => '200', 'ResultData' => $data];
+        }else{
+            return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
+        }
+
+
     }
 
     /**
@@ -92,9 +82,7 @@ class ProjectService {
      */
     public function changeStatus($data)
     {
-        if(!$this->changeCache($data['id'], (int)$data['status'])) {
-            return ['StatusCode' => '400', 'ResultData' => '缓存数据更改失败'];
-        }
+        $this->changeCache($data['id'], (int)$data['status']);
 
         $updateData = array();
 
@@ -114,44 +102,25 @@ class ProjectService {
         return ['StatusCode' => '200','ResultData'=>'修改成功'];
     }
 
-//    /**
-//     * 获取首页数据
-//     * @param $num
-//     * @param $status
-//     * @return array
-//     * @author 贾济林
-//     * @modify 张洵之
-//     */
-//    public function getFrstPage($num, $status)
-//    {
-//        $where = ['status' => $status];
-//
-//        $res = self::$projectStore->getPage('1',$num,$where);
-//
-//        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
-//
-//        return ['StatusCode' => '200', 'ResultData' => $res];
-//    }
-//
-//    /**
-//     * 指定当前页、单页数据量、和项目状态获取数据
-//     * @param $nowpage
-//     * @param $num
-//     * @param $status
-//     * @return array
-//     * @author 贾济林
-//     * @modify 张洵之
-//     */
-//    public function getPage($nowpage, $num, $status)
-//    {
-//        $where = ['status' => $status];
-//
-//        $res = self::$projectStore->getPage($nowpage,$num,$where);
-//
-//        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
-//
-//        return ['StatusCode' => '200', 'ResultData' => $res];
-//    }
+    /**
+     * 指定当前页、单页数据量、和项目状态获取数据(后台方法)
+     * @param $nowpage
+     * @param $num
+     * @param $status
+     * @return array
+     * @author 贾济林
+     * @modify 张洵之
+     */
+    public function getPage($nowpage, $num, $status)
+    {
+        $where = ['status' => $status];
+
+        $res = self::$projectStore->getPage($nowpage,$num,$where);
+
+        if (!$res) return ['StatusCode' => '400', 'ResultData' => '未获取到数据'];
+
+        return ['StatusCode' => '200', 'ResultData' => $res];
+    }
 
 
     /**
@@ -341,7 +310,7 @@ class ProjectService {
     {
         $data = self::$projectStore->getOneData(['guid' => $guid]);
 
-        if($data->status == 0) return true;
+        if($data->status == 0) return false;//待审核的项目
 
         $result = self::$projectCache->deletCache($data);
         return $result;
