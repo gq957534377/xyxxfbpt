@@ -5,6 +5,7 @@
  */
 namespace App\Redis;
 
+use App\Store\ActionOrderStore;
 use App\Tools\CustomPage;
 use App\Store\CollegeStore;
 use Illuminate\Support\Facades\Log;
@@ -14,12 +15,15 @@ class CollegeCache extends MasterCache
 
     private static $lkey = LIST_COLLEGE_;      //列表key
     private static $hkey = HASH_COLLEGE_INFO_;     //hash表key
+    private static $orderKey = LIST_COLLEGE_ORDER_;     //hash表key
 
     private static $college_store;
+    private static $actionOrderStore;
 
-    public function __construct(CollegeStore $collegeStore)
+    public function __construct(CollegeStore $collegeStore, ActionOrderStore $actionOrderStore)
     {
         self::$college_store = $collegeStore;
+        self::$actionOrderStore = $actionOrderStore;
     }
 
     /**
@@ -277,4 +281,19 @@ class CollegeCache extends MasterCache
         $this->addCollegeList($oldType, $status, $guid);
     }
 
+    public function getOrderColleges($userid)
+    {
+        $key = self::$orderKey.$userid;
+        if ($this->exists($key)){
+            return $this->getBetweenList($key, 0, -1);
+        }else{
+            $actions = self::$actionOrderStore->getSomeField(['user_id'=>session('user')->guid], 'action_id');
+            if ($actions){
+                if ($this->rPushLists($key, $actions)) Log::error('redis写入报名记录失败，key为：'.$key);
+                return $actions;
+            }else{
+                if ($actions == []) return [];
+            }
+        }
+    }
 }

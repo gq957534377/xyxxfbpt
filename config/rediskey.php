@@ -120,6 +120,28 @@ define('HASH_ACTION_INFO_','HASH:ACTION:INFO:');
 
 
 /**
+ * 某一个用户是否报名参加某一个活动
+ * 作者：郭庆
+ * 作用：用于存储：某一个用户是否报名参加某一个活动
+ * KEY = :ACTION:ORDER:[用户id]:[活动id]
+ * VALUE = true/false
+ */
+define('STRING_ACTION_ORDER_','STRING:ACTION:ORDER:');
+
+
+
+/**
+ * 某一个用户是否报名参加某一个学院活动
+ * 作者：郭庆
+ * 作用：用于存储：某一个用户是否报名参加某一个学院活动
+ * KEY = :ACTION:ORDER:[用户id]:[学院活动id]
+ * VALUE = true/false
+ */
+define('STRING_COLLEGE_ORDER_','STRING:COLLEGE:ORDER:');
+
+
+
+/**
  * 学院信息列表索引
  * 作者：郭庆
  * 作用：用于存储：学院某一类型的活动，某一状态的学院活动的所有id
