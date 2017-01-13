@@ -78,7 +78,7 @@ class UserAccountCache extends MasterCache
             // 不存在，创建list
             $this->setUserAccountList();
         }
-        // hash 生命周期可能到了
+        // 提取hash
         $data = $this->userAccountHash($tel);
 
         return $data;
