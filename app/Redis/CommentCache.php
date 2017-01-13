@@ -98,15 +98,27 @@ class CommentCache extends MasterCache
         }
     }
 
+    /**
+     * 拼装一条评论数据
+     * @param int $id 评论id
+     * @return \App\Store\one|bool
+     * author 张洵之
+     */
     public function getCommentData($id)
     {
         $data = self::$comment_store->getOneData(['id' => $id]);
 
-        if(!$data) return false;
+        if(!$data) {
+            Log::info('评论缓存索引ID为'.$id.'的数据库数据不存在');
+            return false;
+        }
 
         $userData = self::$user_store->getOneData(['guid' => $data->user_id ]);
 
-        if(!$userData) return false;
+        if(!$userData) {
+            Log::info('用户ID为'.$data->user_id.'的用户信息查询失败，导致该用户有关评论数据无法添加至缓存');
+            return false;
+        }
 
         $data->userImg = $userData->headpic;//添加用户头像
         $data->nikename = $userData->nickname;//添加用户昵称
@@ -135,7 +147,7 @@ class CommentCache extends MasterCache
 
                 $commentData = $this->getCommentData($value);//从数据库拿取评论数据；
 
-                if(!$commentData) break;//逻辑错误需打印日志
+                if(!$commentData) break;
 
                 $temps = CustomPage::objectToArray($commentData);
                 $this->addHash(self::$hkey.$value, $temps);

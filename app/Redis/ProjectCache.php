@@ -8,7 +8,7 @@ namespace App\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\ProjectStore;
-use Illuminate\Support\Facades\Redis;
+use Log;
 
 class ProjectCache extends MasterCache
 {
@@ -38,8 +38,11 @@ class ProjectCache extends MasterCache
             $temp = self::$project_store->getList(['status' => 1, 'financing_stage' => $type], 'guid');
         }
 
-        if ($temp){
-            $this ->rPushLists(self::$lkey.$type, $temp);
+        if ($temp) {
+            $result = $this ->rPushLists(self::$lkey.$type, $temp);
+            if(!$result) {
+                Log::info('Redis添加失败（'.self::$lkey.$type.'=>'.$temp.'）');
+            }
             return true;//有数据返回true
         }else{
             return false;//无数据返回false
@@ -59,7 +62,11 @@ class ProjectCache extends MasterCache
         $temp = CustomPage::objectToArray($data);
         foreach ($temp as $value) {
             $index = self::$hkey . $value['guid'];
-            $this->addHash($index, $value);
+            $result = $this->addHash($index, $value);
+
+            if(!$result) {
+                Log::info('Redis添加失败（'.$index.'=>'.$temp.'）');
+            }
         }
     }
 
@@ -151,14 +158,14 @@ class ProjectCache extends MasterCache
 
         }else {
             $totalPage = (int)ceil($lkeyLength/PAGENUM);
-            $indexArray = $this->getPageLists($index, $number, rand(1,$totalPage));
+            $indexArray = $this->getPageLists($index, $number, rand(1,$totalPage-1));
             return  $this->getProjectHash($indexArray);
         }
     }
 
     /**
      * 将后台推送项目加入缓存
-     * @param $data
+     * @param object $data
      * author 张洵之
      */
     public function insertCache($data)
@@ -168,10 +175,24 @@ class ProjectCache extends MasterCache
         $this->createHash([$data]);
     }
 
+    /**
+     * 将缓存移出缓存（后台）
+     * @param object $data
+     * author 张洵之
+     */
     public function deletCache($data)
     {
-        $this->delList(self::$lkey.$data->financing_stage, $data->guid);
-        $this ->delList(self::$lkey.'11', $data->guid);
+        $result1 = $this->delList(self::$lkey.$data->financing_stage, $data->guid);
+        $result2 = $this ->delList(self::$lkey.'11', $data->guid);
         $this->delKey(self::$hkey.$data->guid);
+
+        if($result1) {
+            Log::info('Redis索引移出失败,'.self::$lkey.$data->financing_stage.'=>'.$data->guid.'');
+        }
+
+        if($result2) {
+            Log::info('Redis索引移出失败,'.self::$lkey.'11'.'=>'.$data->guid.'');
+        }
+
     }
 }
