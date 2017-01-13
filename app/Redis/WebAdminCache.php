@@ -9,7 +9,8 @@
 namespace App\Redis;
 
 use Log;
-use Redis;
+//use Redis;
+use Illuminate\Support\Facades\Redis;
 
 use App\Tools\CustomPage;
 use App\Store\WebAdminStore;

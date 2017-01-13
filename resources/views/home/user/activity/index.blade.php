@@ -97,7 +97,7 @@
                     </div>
                 @endforeach
             </div>
-            <div class="panel" id="data">{!! $ResultData['pages'] !!}</div>
+            <div class="panel pull-right" id="data">{!! $ResultData['pages'] !!}</div>
         @else
             <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span style="color: #999999">出错了呦~亲 /(ㄒoㄒ)/~~ 错误信息：{{$ResultData['data']}}错误码：{{$StatusCode}}</span>

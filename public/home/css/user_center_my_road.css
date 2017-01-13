@@ -104,6 +104,14 @@
 .road-class-d p:nth-child(2)::before {
     content: "地点：";
 }
+
+/*分页*/
+#data {
+    border: 0;
+    background-color: #fafafa;
+    box-shadow: none;
+    /*margin-right: 50px;*/
+}
 /***************活动列表块样式结束****************/
 
 /***************活动内容层样式开始***********************/
