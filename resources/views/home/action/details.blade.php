@@ -170,8 +170,8 @@
                     @endforeach
                 @endif
             </div>
-            <div id="js_pages">{!! $pageStyle !!}</div>
             {{--点赞按钮，暂时注释--}}
+            <div id="js_pages" class="pull-right">{!! $pageStyle !!}</div>
             {{--@if($comment['StatusCode'] == '200')--}}
                 {{--@foreach($comment['ResultData'] as $datas)--}}
                     {{--<li class="row">--}}

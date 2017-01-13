@@ -26,6 +26,9 @@ define('LOGIN_ERROR_NUM', 5);
 define('LOGIN_ERROR_NUM_TIME', 3600);
 // Redis Hash 超时时间
 define('HASH_OVERTIME', 600);
+// Redis String 超时时间
+define('STRING_OVERTIME', 600);
+
 // 首页显示字符数常量
 define('STR_LIMIT', 20);
 // 短信接口相关配置
@@ -42,6 +45,7 @@ define('QINIU_URL', 'http://oj6lmh2uo.bkt.clouddn.com/');               // 七�
 define('HOME_URL', 'www.hero.app');
 //后台域名配置
 define('ADMIN_URL', 'admin.hero.app');
+
 
 
 

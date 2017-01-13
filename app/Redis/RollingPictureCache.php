@@ -9,11 +9,15 @@
 namespace App\Redis;
 
 use Log;
-use Redis;
+//use Redis;
+use Illuminate\Support\Facades\Redis;
+
 use App\Tools\CustomPage;
 use App\Store\RollingPictureStore;
 
+
 class RollingPictureCache extends MasterCache
+
 {
     protected static $lkey = LIST_ROLLINGPICTURE_INFO;
     protected static $hkey = HASH_ROLLINGPICTURE_INFO_;
