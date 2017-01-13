@@ -26,7 +26,7 @@ class WebAdminCache extends MasterCache
 
     /**
      * 把数据保存到redis
-     * @param $data    存储的是从数据库取出来的，数据对象
+     * @param $data  object   存储的是从数据库取出来的，数据对象
      * @return bool
      */
     public function saveRedisList($data)
@@ -49,7 +49,7 @@ class WebAdminCache extends MasterCache
 
     /**
      * 取出哈希中的值
-     * @return array
+     * @return  $data array  把数据转换成常用操作模式，[object]
      * @author 王通
      */
     public function selRedisInfo()
