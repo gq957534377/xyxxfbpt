@@ -16,6 +16,7 @@ class MasterCache
      * 判断key是否存在
      * @param $key string redis的key
      * @return bool
+     * @author 郭庆
      */
     public function exists($key)
     {
@@ -28,6 +29,7 @@ class MasterCache
      * @param $nums int 每页显示条数
      * @param $nowPage int  当前页数
      * @return array
+     * @author 郭庆
      */
     public function getPageLists($key, $nums, $nowPage)
     {
@@ -151,6 +153,7 @@ class MasterCache
      * $redis->delete('key1', 'key2');          // return 2
      * $redis->delete(array('key3', 'key4'));   // return 2
      * </pre>
+     * @author 郭庆
      */
     public function delKey($key)
     {
@@ -192,6 +195,7 @@ class MasterCache
      * @param $key  string  需要设置的key
      * @param $time int 如果需要单独设置时间则传这个参数
      * @return bool 设置成功true 否则false
+     * @author 郭庆
      */
     public function setTime($key, $time = HASH_OVERTIME)
     {
@@ -202,6 +206,7 @@ class MasterCache
      * 获取 现有list 的长度
      * @param $key string list的key
      * @return int 对应key的list长度
+     * @author 郭庆
      */
     public function getLength($key)
     {
@@ -222,35 +227,26 @@ class MasterCache
     }
 
     /**
-     * 添加一个新的长存的string redis
-     * @param $key string key
-     * @param $value
-     * @return bool
-     * @author 郭庆
-     */
-    public function addForeverString($key, $value)
-    {
-        if (empty($key)) return false;
-        return Redis::Set($key, $value);
-    }
-
-    /**
      * 添加一个新的短存的string redis
      * @param $key string key
      * @param $value
+     * @param $time int 设置存活时间
      * @return bool
      * @author 郭庆
      */
     public function addString($key, $value, $time = STRING_OVERTIME)
     {
         if (empty($key)) return false;
-        return Redis::set($key, $value, $time);
+        if (!Redis::Set($key, $value)) return false;
+        //设置生命周期
+        return $this->setTime($key, $time);
     }
 
     /**
      * 将 string key 中储存的数字值增一
      * @param   string $key
      * @return  int    the new value
+     * @author 郭庆
      */
     public function incre($key)
     {
@@ -259,20 +255,17 @@ class MasterCache
     }
 
     /**
-     * Get the value related to the specified key
-     *
+     * 得到一个string
      * @param   string  $key
      * @return  string|bool: If key didn't exist, FALSE is returned. Otherwise, the value related to this key is returned.
-     * @link    http://redis.io/commands/get
-     * @example $redis->get('key');
+     * @author 郭庆
      */
     public function getString($key)
     {
         if (empty($key)) return false;
         if (!Redis::get($key)) return false;
         //设置生命周期
-        $this->setTime($key, STRING_OVERTIME);
-        return true;
+        return $this->setTime($key, STRING_OVERTIME);
     }
 
 }
