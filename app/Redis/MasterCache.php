@@ -17,12 +17,6 @@ class MasterCache
      * 判断key是否存在
      * @param $key string redis的key
      * @return bool
-     * @example
-     * <pre>
-     * $redis->set('key', 'value');
-     * $redis->exists('key');               //  TRUE
-     * $redis->exists('NonExistingKey');    // FALSE
-     * </pre>
      */
     public function exists($key)
     {
@@ -32,8 +26,8 @@ class MasterCache
     /**
      * 获取redis缓存里某一个list中的指定页的所有元素
      * @param $key string list的key
-     * @param  $nums int  每页显示条数
-     * @param  $nowPage int  当前页数
+     * @param $nums int 每页显示条数
+     * @param $nowPage int  当前页数
      * @return array
      */
     public function getPageLists($key, $nums, $nowPage)
@@ -51,7 +45,9 @@ class MasterCache
 
     /**
      * 获取指定范围内的list数据
-     * @param
+     * @param $key string 指定list Key
+     * @param $start int 开始位置
+     * @param $end int 结束位置
      * @return array
      * @example
      * <pre>
@@ -196,9 +192,7 @@ class MasterCache
         if (empty($key) || empty($lists)) return false;
 
         //执行写list操作
-        if (!Redis::rpush($key, $lists)) return false;
-
-        return true;
+        return Redis::rpush($key, $lists);
     }
 
     /**
@@ -212,9 +206,7 @@ class MasterCache
         if (empty($key) || empty($lists)) return false;
 
         //执行写list操作
-        if (!Redis::lpush($key, $lists)) return false;
-
-        return true;
+        return Redis::lpush($key, $lists);
     }
     /**
      * 设置hash缓存的生命周期
@@ -261,7 +253,7 @@ class MasterCache
     }
 
     /**
-     * 添加一个新的长存的短存的string redis
+     * 添加一个新的短存的string redis
      * @param
      * @return bool
      * @author 郭庆
