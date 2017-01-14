@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Redis\ActionCache;
 use App\Redis\ArticleCache;
 use App\Redis\CollegeCache;
+use App\Redis\PictureCache;
 use App\Redis\ProjectCache;
 use Illuminate\Console\Command;
 
@@ -27,6 +28,7 @@ class CheckList extends Command
     protected static $collegeCache;
     protected static $articleCache;
     protected static $projectCache;
+    protected static $pictureCache;
 
     /**
      * Create a new command instance.
@@ -37,7 +39,8 @@ class CheckList extends Command
         ActionCache $actionCache,
         CollegeCache $collegeCache,
         ArticleCache $articleCache,
-        ProjectCache $projectCache
+        ProjectCache $projectCache,
+        PictureCache $pictureCache
     )
     {
         parent::__construct();
@@ -45,6 +48,7 @@ class CheckList extends Command
         self::$collegeCache = $collegeCache;
         self::$articleCache = $articleCache;
         self::$projectCache = $projectCache;
+        self::$pictureCache = $pictureCache;
     }
 
     /**
@@ -62,5 +66,7 @@ class CheckList extends Command
         self::$articleCache->check();
         //项目list检查
         self::$projectCache->check();
+        //机构list检查
+        self::$pictureCache->check();
     }
 }

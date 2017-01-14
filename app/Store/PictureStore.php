@@ -31,7 +31,6 @@ class PictureStore
     /**
  * 得到指定类型的数据
  * @param $where
- * @return bool
  * @author 王通
  */
     public function getPicture ($where)
@@ -107,4 +106,27 @@ class PictureStore
         return DB::table(self::$table)->wherein('type',[3,5])->get();
     }
 
+    /**
+     * 计算符合条件的总条数
+     * @param $where
+     * @return array
+     * @author 郭庆
+     */
+    public function getCount($where)
+    {
+        return DB::table(self::$table)
+            ->where($where)
+            ->count();
+    }
+
+    /**
+     *拿取同一个字段下的所有数据
+     * @param $where
+     * @return mixed
+     * author 张洵之
+     */
+    public function getList($where,$filed)
+    {
+        return DB::table(self::$table)->where($where)->orderBy('addtime','desc')->lists($filed);
+    }
 }
