@@ -76,14 +76,14 @@ class ActionCache extends MasterCache
         //从数据库获取所有的guid
         $guids = self::$action_store->getGuids($where);
 
-        if (!$guids) return false;
+        if (!$guids) return [];
         //将获取到的所有guid存入redis
         $redisList = $this->rPushLists($key, $guids);
         if (!$redisList) {
             Log::error("将数据库数据写入list失败,list为：".$key);
             return $guids;
         }else{
-            return true;
+            return $guids;
         }
     }
 
@@ -266,12 +266,8 @@ class ActionCache extends MasterCache
      * @return array
      * @author 郭庆
      */
-    public function changeStatusAction($guid, $status)
+    public function changeStatusAction($guid, $status, $oldStatus, $oldType)
     {
-        $data = $this->getOneAction($guid);
-        $oldStatus = $data['status'];
-        $oldType = $data['type'];
-
         //修改hash中的状态字段
         $this->changeOneAction($guid, ['status' => $status, 'addtime' => time()]);
         //删除旧的索引记录
@@ -301,5 +297,73 @@ class ActionCache extends MasterCache
     {
         $key = self::$orderKey.$user_id.':'.$action_id;
         if (!$this->addString($key, $value)) Log::error('添加'.$user_id.'用户报名'.$action_id.'活动记录失败');
+    }
+
+    /**
+     * 重写redis
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function reloadCache()
+    {
+        $lists = [];
+        $lists[] = $this->mysqlToList(['type' => 1, 'status' => 1], self::$lkey."1:1");
+        $lists[] = $this->mysqlToList(['type' => 1, 'status' => 2], self::$lkey."1:2");
+        $lists[] = $this->mysqlToList(['type' => 1, 'status' => 3], self::$lkey."1:3");
+        $lists[] = $this->mysqlToList(['type' => 1, 'status' => 5], self::$lkey."1:5");
+        $lists[] = $this->mysqlToList(['type' => 2, 'status' => 1], self::$lkey."2:1");
+        $lists[] = $this->mysqlToList(['type' => 2, 'status' => 2], self::$lkey."2:2");
+        $lists[] = $this->mysqlToList(['type' => 2, 'status' => 3], self::$lkey."2:3");
+        $lists[] = $this->mysqlToList(['type' => 2, 'status' => 5], self::$lkey."2:5");
+        $lists[] = $this->mysqlToList(['type' => 1], self::$lkey."1");
+        $lists[] = $this->mysqlToList(['type' => 2], self::$lkey."2");
+        foreach ($lists as $list)
+        {
+            $this->getDataByList($list);
+        }
+    }
+
+    /**
+     * 检测list
+     * @param
+     * @return bool
+     * @author 郭庆
+     */
+    public function checkList($where)
+    {
+        $key = $this->getlistKey($where);
+        $sqlLength = self::$action_store->getCount($where);
+        if (!$this->exists($key)) return true;
+        $listLength = count(array_unique($this->getBetweenList($key, 0, -1)));
+
+        if ($sqlLength != $listLength) {
+            if (!$this->delKey($key)) return false;
+            return $this->mysqlToList($where, $key);
+        }else{
+            return true;
+        }
+    }
+
+    /**
+     * 任务调度查list异常
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function check()
+    {
+        if (!$this->checkList(['type' => 1, 'status' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:1');
+        if (!$this->checkList(['type' => 1, 'status' => 2])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:2');
+        if (!$this->checkList(['type' => 1, 'status' => 3])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:3');
+        if (!$this->checkList(['type' => 1, 'status' => 4])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:4');
+        if (!$this->checkList(['type' => 1, 'status' => 5])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:5');
+        if (!$this->checkList(['type' => 2, 'status' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:1');
+        if (!$this->checkList(['type' => 2, 'status' => 2])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:2');
+        if (!$this->checkList(['type' => 2, 'status' => 3])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:3');
+        if (!$this->checkList(['type' => 2, 'status' => 4])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:4');
+        if (!$this->checkList(['type' => 2, 'status' => 5])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:5');
+        if (!$this->checkList(['type' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1');
+        if (!$this->checkList(['type' => 2])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2');
     }
 }

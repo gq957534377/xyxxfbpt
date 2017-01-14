@@ -14,8 +14,11 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\Inspire::class,
-        '\App\Console\Commands\Chage_Action_Status',
+        '\App\Console\Commands\Chage_Action_Status',//根据活动开始，结束，截至报名时间进行修改活动状态（php artisan chageAction:status 用户名 密码）
         '\App\Console\Commands\Save_Feedback',
+        '\App\Console\Commands\Clear_Redis',//一键清缓存
+        '\App\Console\Commands\Add_Redis',//一键加缓存
+        '\App\Console\Commands\CheckList',//一键加缓存
     ];
 
     /**
@@ -28,8 +31,11 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('inspire')
                  ->hourly();
-        $schedule->command('chageAction:status')->dailyAt('01:00');
+        //活动状态更新每天一点凌晨
+        $schedule->command('chageAction:status')->dailyAt('1:00');
+        //检查list
+        $schedule->command('CheckList')->hourly();
 
-        $schedule->command('save:feedback')->dailyAt('23:00');;
+        $schedule->command('save:feedback')->dailyAt('23:00');
     }
 }

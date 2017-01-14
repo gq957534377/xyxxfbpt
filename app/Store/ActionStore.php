@@ -198,6 +198,16 @@ class ActionStore
         }
     }
 
+    /**
+     * 获取一个字段list
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function getField($where, $field)
+    {
+        return \DB::table(self::$table)->where($where)->lists($field);
+    }
 
 
 

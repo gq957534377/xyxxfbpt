@@ -233,4 +233,15 @@ class CollegeStore
         }
     }
 
+    /**
+     * 获取某一个字段list
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function getField($where, $field)
+    {
+        return \DB::table(self::$table)->where($where)->lists($field);
+    }
+
 }
