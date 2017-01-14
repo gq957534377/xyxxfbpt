@@ -108,7 +108,7 @@ class ProjectCache extends MasterCache
      * @return array|null
      * author 张洵之
      */
-    public function   getPageData($nowPage, $pageNum, $where)
+    public function getPageData($nowPage, $pageNum, $where)
     {
         //格式化索引
         if(empty($where['financing_stage'])) {
