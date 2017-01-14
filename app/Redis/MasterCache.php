@@ -270,4 +270,14 @@ class MasterCache
         return $data;
     }
 
+    /**
+     * 清空redis缓存
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function destroy()
+    {
+        return Redis::flushAll();
+    }
 }
