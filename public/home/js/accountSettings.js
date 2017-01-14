@@ -388,6 +388,11 @@ $(function () {
             return false;
         }
 
+        if($.trim(key_new).length < 6 ) {
+            $("#errorPasswordBox_one").html('密码长度最少6位').removeClass('hidden');
+            return false;
+        }
+
         if($.trim(key_new_two) =='') {
             $("#errorPasswordBox_one").html('请再次输入新密码').removeClass('hidden');
             return false;

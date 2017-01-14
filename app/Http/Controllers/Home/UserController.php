@@ -285,11 +285,12 @@ class UserController extends Controller
         $validator = Validator::make($request->all(),[
             'guid' => 'required',
             'password' => 'required',
-            'new_password' => 'required',
+            'new_password' => 'required|min:6',
         ],[
             'guid' => '缺少数据信息',
             'password' => '请输入原始密码',
             'new_password' => '请输入新密码',
+            'new_password.min' => '新密码最少6位以上',
 
         ]);
         // 数据验证失败，响应信息
