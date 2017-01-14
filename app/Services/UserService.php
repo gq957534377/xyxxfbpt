@@ -278,6 +278,7 @@ class UserService {
             \Log::error('前端用户修改密码失败', $result);
             return ['StatusCode' => '400', 'ResultData' => '修改密码失败'];
         } else {
+            self::$accountCache->addNewAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['tel' => $data['tel']])));
             return ['StatusCode' => '200', 'ResultData' => '修改密码成功'];
         }
     }
