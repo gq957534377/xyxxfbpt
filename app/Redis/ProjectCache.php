@@ -121,11 +121,13 @@ class ProjectCache extends MasterCache
             //创建索引(这里判断的是数据库是否有数据)
             if(!$this->createList($type)) return false;
 
-            $data = self::$project_store->getPage($nowPage, $pageNum, $where);
+            $indexData = $this->getPageLists(self::$lkey.$type, $pageNum, $nowPage);
 
-            if(!$data) return false;
-
-            $this->createHash($data);//将查出的数据做hash存储
+            if($indexData){
+                $data = $this->getProjectHash($indexData);
+            }else{
+                $data = self::$project_store->getPage($nowPage, $pageNum, $where);
+            }
 
         }else{
             $indexData = $this->getPageLists(self::$lkey.$type, $pageNum, $nowPage);
