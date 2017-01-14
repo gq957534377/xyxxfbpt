@@ -75,7 +75,7 @@
                        @elseif($project_details->industry == 7)
                            旅游
                        @elseif($project_details->industry == 8)
-                           型农业
+                           新农业
                        @elseif($project_details->industry == 9)
                            互联网金融
                        @elseif($project_details->industry == 10)
