@@ -13,14 +13,14 @@ class Chage_Action_Status extends Command
      *
      * @var string
      */
-    protected $signature = 'chageAction:status {user} {password}';
+    protected $signature = 'chageAction:status';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '根据活动开始，结束，截至报名时间进行修改活动状态（php artisan chageAction:status 用户名 密码）';
+    protected $description = '任务调度（01：00）根据活动开始，结束，截至报名时间进行修改活动状态（php artisan chageAction:status）';
 
     /**
      * @var 活动服务

@@ -12,7 +12,7 @@ class Clear_Redis extends Command
      *
      * @var string
      */
-    protected $signature = 'Clear_Redis';
+    protected $signature = 'Clear_Redis {--u} {user}';
 
     /**
      * The console command description.
@@ -39,6 +39,23 @@ class Clear_Redis extends Command
      */
     public function handle()
     {
-        self::$masterCache->destroy();
+        $password = $this->secret('请输入密码：');
+
+        if (!($this->argument('user') == env('ROOT_USERNAME') && $password == env('ROOT_PASSWORD'))){
+            $this->error('用户名或密码有误！');
+            return ;
+        }
+
+        if ($this->confirm('确定要清空缓存吗，此操作将无法恢复? [y|N]')) {
+            if (self::$masterCache->destroy()){
+                $this->info('清空redis成功!');
+            }else{
+                $this->error('清空redis失败');
+            }
+        }else{
+            $this->info('取消成功！');
+        }
+
+
     }
 }
