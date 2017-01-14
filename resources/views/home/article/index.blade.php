@@ -31,10 +31,10 @@
               @foreach($ResultData['data'] as $val)
                 <li class="row">
                   <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">
-                    <a href="/article/{{ $val->guid }}"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}"></a>
+                    <a href="/article/{{ $val->guid }}" target="_blank"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}"></a>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">
-                    <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>
+                    <h3><a href="/article/{{ $val->guid }}" target="_blank">{{ $val->title }}</a></h3>
                     <p>{{ $val->brief }}</p>
                     <div class="row list-font-bottom">
                       <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ date('Y-m-d H:i', $val->addtime) }}</span>
@@ -73,7 +73,7 @@
             @if(!empty($StatusCode) && $StatusCode == '200' && $ResultData['RandomList']['StatusCode'] == '200')
                 @foreach($ResultData['RandomList']['ResultData'] as $key => $val)
                 <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <h3><a href="/article/{{ $val->guid }}">{{ $val->title }}</a></h3>
+                  <h3><a href="/article/{{ $val->guid }}" target="_blank">{{ $val->title }}</a></h3>
                   <div class="news-list-time">
                     <span>{{ date('Y-m-d', $val->addtime) }}</span>
                   </div>

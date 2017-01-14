@@ -145,9 +145,9 @@ class CollegeCache extends MasterCache
      */
     public function delCollege($type, $status, $guid)
     {
-        if (!$this->delList(self::$lkey . $type . ':' . $status, $guid)) Log::error('redis删除一条学院活动list('.self::$lkey . $type . ':' . $status, $guid.')记录失败，活动id：'.$guid);
-        if (!$this->delList(self::$lkey . '-' . ':' . $status, $guid)) Log::error('redis删除一条学院活动list('.self::$lkey . '-' . ':' . $status, $guid.')记录失败，活动id：'.$guid);
-        if (!$this->delList(self::$lkey.$type, $guid)) Log::error('redis删除一条学院活动list('.self::$lkey.$type, $guid.')记录失败，活动id：'.$guid);
+        if (!$this->delList(self::$lkey . $type . ':' . $status, $guid)) Log::error('redis删除一条学院活动list('.self::$lkey . $type . ':' . $status.')记录失败，活动id：'.$guid);
+        if (!$this->delList(self::$lkey . '-' . ':' . $status, $guid)) Log::error('redis删除一条学院活动list('.self::$lkey . '-' . ':' . $status.')记录失败，活动id：'.$guid);
+        if (!$this->delList(self::$lkey.$type, $guid)) Log::error('redis删除一条学院活动list('.self::$lkey.$type.')记录失败，活动id：'.$guid);
     }
 
 

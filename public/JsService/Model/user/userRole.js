@@ -173,8 +173,8 @@ function userCheck() {
                 var status = '<strong>当前状态 ：</strong><span class="text-primary text-xs">待审核&nbsp;</span>';
                 break;
             case 7:
-            default:
                 var status = '<strong>当前状态 ：</strong><span class="text-danger text-xs">审核未通过&nbsp;</span>';
+
         }
         $('#status').html(status);
 
@@ -348,14 +348,14 @@ function htmlStr( data) {
             break;
         case 4: //英雄会员列表
             str +=  '<tr>' +
-                '<th class ="text-center">姓名</th>' +
-                '<th class ="text-center">类型</th>' +
-                '<th class ="text-center">工作年限</th>' +
-                '<th class ="text-center">投资规模</th>' +
-                '<th class ="text-center">公司</th>' +
-                '<th class ="text-center">申请时间</th>' +
-                '<th class ="text-center">用户状态</th>' +
-                '<th class ="text-center">操作</th>' +
+                '<th class ="text-center"></th>' +
+                '<th class ="text-center"></th>' +
+                '<th class ="text-center"></th>' +
+                '<th class ="text-center"></th>' +
+                '<th class ="text-center"></th>' +
+                '<th class ="text-center"></th>' +
+                '<th class ="text-center"></th>' +
+                '<th class ="text-center"></th>' +
                 '</tr>' +
                 '</thead>'+
                 '<tbody>';
@@ -472,7 +472,7 @@ function htmlStr( data) {
                 '" data-card_pic_a="'+v.card_pic_a+'" data-card_pic_b="'+v.card_pic_b+'" data-school_address="'+v.school_address+ '" data-school_name="'+v.school_name+
                 '" data-enrollment_year="'+v.enrollment_year+'" data-graduation_year="'+v.graduation_year+'" data-education="'+v.education+
                 '" data-major="'+v.major+'" data-work_year="'+v.work_year+'" data-scale="'+v.scale+'" data-company="'+v.company+ '"  data-company_address="'+v.company_address+
-                '" data-field="'+v.field+'"  data-addtime="'+v.addtime+'" data-status="'+v.status+
+                '" data-field="'+v.field+'"  data-addtime="'+v.addtime+'" data-status="'+v.status+'" data-reason="'+ v.reason+
                 '" class="user_check"><button class="btn btn-info btn-xs">审核</button></a>';
         }
 

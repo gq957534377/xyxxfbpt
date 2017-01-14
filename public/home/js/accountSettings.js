@@ -474,6 +474,7 @@ $(function () {
                 // 成功后显示
                 $('#sendSmsSuccess').removeClass('hidden');
                 // 成功后60秒内禁止再次发送
+                axxountSettingDown = 60;
                 setTime($("#resend_captcha"), $("#resend_captcha_label"));
 
             } else {
@@ -503,7 +504,8 @@ $(function () {
                 // 成功后显示
                 $('#sendSmsSuccessTwo').removeClass('hidden');
                 // 成功后60秒内禁止再次发送
-                setTime($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
+                axxountSettingDown = 60;
+                setTime1($("#resend_captcha_two"), $("#resend_captcha_laravel_two"));
 
             } else {
                 swal('消息提示', msg.ResultData, "warning");
@@ -555,6 +557,26 @@ $(function () {
             objLabel.removeClass('hidden');
             objLabel.text('重新发送'+ axxountSettingDown + '秒');
             axxountSettingDown --;
+        }
+        setTimeout(function() {
+            setTime(obj, objLabel);
+        },1000);
+
+    }
+
+    // 短信验证发送后计时器
+    var axxountSettingDown1 = 60;
+    function setTime1(obj, objLabel) {
+        if (axxountSettingDown1 == 0) {
+            obj.show();
+            objLabel.addClass('hidden');
+            axxountSettingDown1 = 60;
+            return;
+        } else {
+            obj.hide();
+            objLabel.removeClass('hidden');
+            objLabel.text('重新发送'+ axxountSettingDown1 + '秒');
+            axxountSettingDown1 --;
         }
         setTimeout(function() {
             setTime(obj, objLabel);

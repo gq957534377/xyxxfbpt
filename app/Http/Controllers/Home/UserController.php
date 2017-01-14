@@ -362,7 +362,9 @@ class UserController extends Controller
 
                 // 验证码比对
                 // Session::get('sms')['smsCode']
-                if ($request->captcha != Session::get('sms')['smsCode']) return response()->json(['StatusCode' => '400','ResultData' => '输入的验证码错误！']);
+                if (empty(Session::get('sms')['smsCode']) || $request->captcha != Session::get('sms')['smsCode']) {
+                    return response()->json(['StatusCode' => '400','ResultData' => '输入的验证码错误！']);
+                }
 
                 // 看是否是第三步 验证新手机的验证码
                 if (isset($request->tel)) {
@@ -373,12 +375,13 @@ class UserController extends Controller
                     return response()->json(['StatusCode' => '200','ResultData' => '手机号改绑成功，请重新登录!']);
 
                 } else {
-                    session(['sms', '']);
+                    session(['sms' => '']);
                     return response()->json(['StatusCode' => '200','ResultData' => '短信验证通过...']);
                 }
 
             break;
             case '2':
+
                 //验证数据，手机号校验
                 $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
                 if(!preg_match($preg,$request->tel)) return response()->json(['StatusCode' => '400','ResultData' => '请输入正确的手机号!']);
@@ -387,7 +390,7 @@ class UserController extends Controller
                 $result = self::$userServer->checkUser(['tel' => $request->tel]);
 
                 if ($result) return response()->json(['StatusCode' => '400','ResultData' => '该号码已存在！']);
-
+                session(['sms' => '']);
                 return response()->json(['StatusCode' => '200','ResultData' => $request->tel]);
             break;
         }

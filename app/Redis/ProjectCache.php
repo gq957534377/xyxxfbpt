@@ -78,6 +78,8 @@ class ProjectCache extends MasterCache
      */
     public function getProjectHash($indexArray)
     {
+        if(!$indexArray) return false;
+
         $data = array();
         foreach ($indexArray as $value) {
             $index = self::$hkey . $value;

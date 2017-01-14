@@ -330,7 +330,7 @@ function htmlStr( data) {
         }
         str +=  '</td>';
         str +=  '<td>';
-        str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>';
+        str +=  '<a href="javascript:;" data-name="' + v.guid + '" class="user_modify"><button class="btn btn-info btn-xs">修改</button></a>&nbsp;';
         str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
             '"  data-tel ="'+v.tel+'" data-email="'+v.email+
             '" data-headpic="'+v.headpic+'"   data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+

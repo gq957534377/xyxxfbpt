@@ -35,7 +35,7 @@
                             <label class="1">
                                 <input type="checkbox" class="checkbox-contri" name="itemId"  id="{{ $val->guid }}"/>
                             </label>
-                            <a class="a-style-1" href="/article/{{ $val->guid }}">{{ $val->title }}</a>
+                            <a class="a-style-1" href="/article/{{ $val->guid }}" target="_blank">{{ $val->title }}</a>
                         </div>
                         <div class="dis-in-bl col-sm-4 pad-clr mar-eml2-xs mar-emt03-xs hidden-xs">
                             <span data-delete="{{ $val->guid }}" class="bg-area bg-del pull-right"></span>
@@ -46,7 +46,7 @@
                         </div>
                         <div class="dis-in-bl col-xs-12 pad-clr mar-eml2-xs mar-emt03-xs visible-xs-block">
                             <span data-delete="{{ $val->guid }}" class="bg-area bg-del dis-in-bl"></span>
-                            <a class="bg-area bg-write dis-in-bl"></a>
+                            <a class="bg-area bg-write dis-in-bl"></a>`
                         </div>
                         <div class="clearfix"></div>
                     </div>
