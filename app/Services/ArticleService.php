@@ -146,6 +146,11 @@ class ArticleService
             $result = $this->selectData($where, $nowPage, $forPages, $url, $disPlay);
             // 存入redis缓存
             if(count($article_list)){
+                // 把数据保存进HASH
+                foreach ($result['ResultData']['data'] as $item) {
+                    $info = CustomPage::objectToArray($item);
+                    self::$articleCache->addHash(HASH_ARTICLE_INFO_ .$info['guid'] , $info);
+                }
                 self::$articleCache->setArticleList($article_list, $where['type']);
             }
         } else {
@@ -519,6 +524,11 @@ class ArticleService
             $result = $this->selectData(['type' => $type], 1, $take, 'aaa', false);
             // 存入redis缓存
             if(count($article_list)){
+                // 把数据保存进HASH
+                foreach ($result['ResultData']['data'] as $item) {
+                    $info = CustomPage::objectToArray($item);
+                    self::$articleCache->addHash(HASH_ARTICLE_INFO_ .$info['guid'] , $info);
+                }
                 self::$articleCache->setArticleList($article_list, $type);
             }
             $result = $result['ResultData']['data'];
