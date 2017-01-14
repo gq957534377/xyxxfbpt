@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Redis\ActionCache;
 use App\Redis\CollegeCache;
+use App\Redis\MasterCache;
 use App\Redis\ProjectCache;
 use App\Services\ArticleService;
 use App\Services\PictureService;
@@ -31,6 +32,7 @@ class Add_Redis extends Command
     protected static $projectCache;
     protected static $pictureService;
     protected static $webAdminService;
+    protected static $masterCache;
 
     /**
      * Create a new command instance.
@@ -43,7 +45,8 @@ class Add_Redis extends Command
         ArticleService $articleService,
         ProjectCache $projectCache,
         PictureService $pictureService,
-        WebAdminService $webAdminService
+        WebAdminService $webAdminService,
+        MasterCache $masterCache
     )
     {
         parent::__construct();
@@ -53,6 +56,7 @@ class Add_Redis extends Command
         self::$projectCache = $projectCache;
         self::$pictureService = $pictureService;
         self::$webAdminService = $webAdminService;
+        self::$masterCache = $masterCache;
     }
 
     /**
@@ -117,6 +121,15 @@ class Add_Redis extends Command
             $this->line('添加市场资讯文章缓存成功！');
 
             $this->info('一键缓存成功！');
+
+            $list = self::$masterCache->getKeys('LIST*');
+            $hash = self::$masterCache->getKeys('HASH*');
+
+            $this->info('一共 '.count($list).'条 LIST:');
+            var_dump($list);
+
+            $this->info('一共 '.count($hash).'条 HASH:');
+            var_dump($hash);
         }else{
             $this->info('取消成功！');
         }

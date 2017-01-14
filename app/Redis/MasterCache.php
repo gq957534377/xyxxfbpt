@@ -280,4 +280,16 @@ class MasterCache
     {
         return Redis::flushAll();
     }
+
+    /**
+     * 获取到指定正则匹配的所有key
+     * @param string $pattern
+     * @return array
+     * @author 郭庆
+     */
+    public function getKeys($pattern)
+    {
+        return Redis::keys($pattern);
+    }
+
 }
