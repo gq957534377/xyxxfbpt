@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         '\App\Console\Commands\Save_Feedback',
         '\App\Console\Commands\Clear_Redis',//一键清缓存
         '\App\Console\Commands\Add_Redis',//一键加缓存
+        '\App\Console\Commands\CheckList',//一键加缓存
     ];
 
     /**
@@ -32,6 +33,8 @@ class Kernel extends ConsoleKernel
                  ->hourly();
         //活动状态更新每天一点凌晨
         $schedule->command('chageAction:status')->dailyAt('1:00');
+        //检查list
+        $schedule->command('CheckList')->everyMinute();
 
         $schedule->command('save:feedback')->dailyAt('23:00');
     }
