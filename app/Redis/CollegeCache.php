@@ -340,7 +340,7 @@ class CollegeCache extends MasterCache
 
         if ($sqlLength != $listLength) {
             if (!$this->delKey($key)) return false;
-            return $this->$this->mysqlToList($where, $key);
+            return $this->mysqlToList($where, $key);
         }else{
             return true;
         }

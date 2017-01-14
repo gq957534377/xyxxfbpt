@@ -194,6 +194,6 @@
 
     <script src="{{ asset('admin/js/classie.js') }}"></script>
     <script src="{{ asset('admin/js/modaleffects.js') }}"></script>
-    <script src="{{ asset('jsService/Model/user/userRole.js') }}"></script>
+    <script src="{{ asset('JsService/Model/user/userRole.js') }}"></script>
 
 @endsection

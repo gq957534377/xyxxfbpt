@@ -3,7 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Redis\ActionCache;
+use App\Redis\ArticleCache;
 use App\Redis\CollegeCache;
+use App\Redis\ProjectCache;
 use Illuminate\Console\Command;
 
 class CheckList extends Command
@@ -23,17 +25,26 @@ class CheckList extends Command
     protected $description = '检测list是否与数据库一致';
     protected static $actionCache;
     protected static $collegeCache;
+    protected static $articleCache;
+    protected static $projectCache;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(ActionCache $actionCache, CollegeCache $collegeCache)
+    public function __construct(
+        ActionCache $actionCache,
+        CollegeCache $collegeCache,
+        ArticleCache $articleCache,
+        ProjectCache $projectCache
+    )
     {
         parent::__construct();
         self::$actionCache = $actionCache;
         self::$collegeCache = $collegeCache;
+        self::$articleCache = $articleCache;
+        self::$projectCache = $projectCache;
     }
 
     /**
@@ -47,5 +58,9 @@ class CheckList extends Command
         self::$actionCache->check();
         //检测学院活动list是否正常
         self::$collegeCache->check();
+        //文章list检查
+        self::$articleCache->check();
+        //项目list检查
+        self::$projectCache->check();
     }
 }

@@ -131,5 +131,5 @@
 @section('script')
     <script src="{{ asset('admin/js/classie.js') }}"></script>
     <script src="{{ asset('admin/js/modaleffects.js') }}"></script>
-    <script src="{{ asset('jsService/Model/user/userInfo.js') }}"></script>
+    <script src="{{ asset('JsService/Model/user/userInfo.js') }}"></script>
 @endsection
