@@ -114,6 +114,6 @@ class WebAdminStore
      */
     public function getList($where,$filed)
     {
-        return DB::table(self::$table)->where($where)->orderBy('addtime','desc')->lists($filed);
+        return DB::table(self::$table)->where($where)->orderBy('add_time','desc')->lists($filed);
     }
 }

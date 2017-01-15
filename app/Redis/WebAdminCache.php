@@ -148,7 +148,7 @@ class WebAdminCache extends MasterCache
      */
     public function check()
     {
-        if (!$this->checkList(self::$lkey)) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey);
+        if (!$this->checkList(self::$lkey)) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey);
     }
 }
 

@@ -253,16 +253,16 @@ class ProjectCache extends MasterCache
      */
     public function check()
     {
-        if (!$this->checkList(self::$lkey.'1', ['status' => 1, 'financing_stage' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1');
-        if (!$this->checkList(self::$lkey.'2', ['status' => 1, 'financing_stage' => 2])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2');
-        if (!$this->checkList(self::$lkey.'3', ['status' => 1, 'financing_stage' => 3])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'3');
-        if (!$this->checkList(self::$lkey.'4', ['status' => 1, 'financing_stage' => 4])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'4');
-        if (!$this->checkList(self::$lkey.'5', ['status' => 1, 'financing_stage' => 5])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'5');
-        if (!$this->checkList(self::$lkey.'6', ['status' => 1, 'financing_stage' => 6])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'6');
-        if (!$this->checkList(self::$lkey.'7', ['status' => 1, 'financing_stage' => 7])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'7');
-        if (!$this->checkList(self::$lkey.'8', ['status' => 1, 'financing_stage' => 8])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'8');
-        if (!$this->checkList(self::$lkey.'9', ['status' => 1, 'financing_stage' => 9])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'9');
-        if (!$this->checkList(self::$lkey.'10', ['status' => 1, 'financing_stage' => 10])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'10');
-        if (!$this->checkList(self::$lkey.'11', ['status' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'11');
+        if (!$this->checkList(self::$lkey.'1', ['status' => 1, 'financing_stage' => 1])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'1');
+        if (!$this->checkList(self::$lkey.'2', ['status' => 1, 'financing_stage' => 2])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'2');
+        if (!$this->checkList(self::$lkey.'3', ['status' => 1, 'financing_stage' => 3])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'3');
+        if (!$this->checkList(self::$lkey.'4', ['status' => 1, 'financing_stage' => 4])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'4');
+        if (!$this->checkList(self::$lkey.'5', ['status' => 1, 'financing_stage' => 5])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'5');
+        if (!$this->checkList(self::$lkey.'6', ['status' => 1, 'financing_stage' => 6])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'6');
+        if (!$this->checkList(self::$lkey.'7', ['status' => 1, 'financing_stage' => 7])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'7');
+        if (!$this->checkList(self::$lkey.'8', ['status' => 1, 'financing_stage' => 8])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'8');
+        if (!$this->checkList(self::$lkey.'9', ['status' => 1, 'financing_stage' => 9])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'9');
+        if (!$this->checkList(self::$lkey.'10', ['status' => 1, 'financing_stage' => 10])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'10');
+        if (!$this->checkList(self::$lkey.'11', ['status' => 1])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'11');
     }
 }
