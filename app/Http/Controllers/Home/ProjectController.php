@@ -112,7 +112,7 @@ class ProjectController extends Controller
         // 项目详情
         $res = self::$projectServer->getProject($id);
 
-        if($res['StatusCode'] == '400') return view('errors.404');
+        if($res['StatusCode'] == '400' || $res['ResultData']->status != 1) return view('errors.404');
 
 //        $likeNum = self::$commentServer->likeCount($id);
 //        //判断点赞状态

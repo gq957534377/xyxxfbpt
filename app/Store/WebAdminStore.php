@@ -92,4 +92,28 @@ class WebAdminStore
             ->where($where)
             ->first();
     }
+
+    /**
+     * 计算符合条件的总条数
+     * @param $where
+     * @return int
+     * @author 郭庆
+     */
+    public function getCount($where)
+    {
+        return DB::table(self::$table)
+            ->where($where)
+            ->count();
+    }
+
+    /**
+     *拿取同一个字段下的所有数据
+     * @param $where
+     * @return mixed
+     * author 郭庆
+     */
+    public function getList($where,$filed)
+    {
+        return DB::table(self::$table)->where($where)->orderBy('add_time','desc')->lists($filed);
+    }
 }

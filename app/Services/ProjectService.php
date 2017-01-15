@@ -83,7 +83,6 @@ class ProjectService {
      */
     public function changeStatus($data)
     {
-        $this->changeCache($data['id'], (int)$data['status']);
 
         $updateData = array();
 
@@ -100,6 +99,7 @@ class ProjectService {
 
         if ($res==0) return ['StatusCode' => '400', 'ResultData' => '修改数据失败'];
 
+        $this->changeCache($data['id'], (int)$data['status']);//更新缓存
         return ['StatusCode' => '200','ResultData'=>'修改成功'];
     }
 

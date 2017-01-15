@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Store\CollegeStore;
 use App\Store\CommentStore;
 use App\Store\LikeStore;
 use App\Store\ActionStore;
@@ -28,6 +29,7 @@ class CommentAndLikeService
     protected static $projectStore;
     protected static $sendStore;
     protected static $commentCache;
+    protected static $collegeStore;
 
     public function __construct(
         ActionStore $actionStore,
@@ -36,7 +38,8 @@ class CommentAndLikeService
         UserStore $userStore,
         ProjectStore $projectStore,
         SendStore $sendStore,
-        CommentCache $commentCache
+        CommentCache $commentCache,
+        CollegeStore $collegeStore
     ){
         self::$actionStore = $actionStore;
         self::$commentStore = $commentStore;
@@ -45,6 +48,7 @@ class CommentAndLikeService
         self::$projectStore = $projectStore;
         self::$sendStore = $sendStore;
         self::$commentCache = $commentCache;
+        self::$collegeStore = $collegeStore;
     }
 
     /**
@@ -84,9 +88,17 @@ class CommentAndLikeService
                 $data = self::$projectStore->getOneData(['guid' => $id]);
                 break;
 
-            default :
+            case 3 :
                 $data = self::$actionStore->getOneData(['guid' => $id]);
+                break;
 
+            case 4 :
+                $data = self::$collegeStore->getOneData(['guid' => $id]);
+                break;
+
+            default :
+                $data = [];
+                break;
         }
 
         if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有相关内容信息'];

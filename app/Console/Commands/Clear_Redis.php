@@ -19,7 +19,7 @@ class Clear_Redis extends Command
      *
      * @var string
      */
-    protected $description = '一键清空缓存';
+    protected $description = '一键清空缓存 eg: php artisan Clear_Redis --u guoqing';
     protected static $masterCache;
     /**
      * Create a new command instance.

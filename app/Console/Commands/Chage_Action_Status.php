@@ -46,8 +46,10 @@ class Chage_Action_Status extends Command
      */
     public function handle()
     {
+        \Log::info('--------------------------------修改活动状态任务调度开始----------------------------------');
         $this->chageActionStatus();
         $this->chageCollegeStatus();
+        \Log::info('--------------------------------修改活动状态list任务调度结束----------------------------------');
     }
 
     /**

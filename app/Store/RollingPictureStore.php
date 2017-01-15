@@ -66,4 +66,27 @@ class RollingPictureStore
             ->where('id', $id)
             ->first();
     }
+
+    /**
+     *拿取同一个字段
+     * @param $where
+     * @return mixed
+     * author 郭庆
+     */
+    public function getList($where,$filed)
+    {
+        return DB::table(self::$table)->where($where)->orderBy('addtime','desc')->lists($filed);
+    }
+
+    /**
+     * 计算符合条件的总条数
+     * @param $where
+     * @author 郭庆
+     */
+    public function getCount($where)
+    {
+        return DB::table(self::$table)
+            ->where($where)
+            ->count();
+    }
 }
