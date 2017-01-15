@@ -67,7 +67,7 @@ class ArticleCache extends MasterCache
     /**
      * 获取一条文章详情
      * @param $guid
-     * @return array
+     * @return object|bool
      */
     public function getOneArticle($guid)
     {

@@ -193,7 +193,7 @@ class ActionCache extends MasterCache
                 $offset = $nums * ($nowPage-1);
 
                 //获取条数
-                $totals = $offset + $nums - 1;
+                $totals = $offset + $nums;
 
                 $lists = array_slice($result, $offset, $totals);
             }else{
