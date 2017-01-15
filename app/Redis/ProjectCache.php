@@ -179,6 +179,14 @@ class ProjectCache extends MasterCache
     {
         $this ->lPushLists(self::$lkey.$data->financing_stage, $data->guid);
         $this ->lPushLists(self::$lkey.'11', $data->guid);
+
+        if($this->exists(self::$hkey.$data->guid)) {
+            $result3 = $this->delKey(self::$hkey.$data->guid);
+            if(!$result3) {
+                Log::info('Redis哈希移出失败,key=>'.self::$hkey.$data->guid);
+            }
+        }
+
         $this->createHash([$data]);
     }
 
@@ -191,14 +199,18 @@ class ProjectCache extends MasterCache
     {
         $result1 = $this->delList(self::$lkey.$data->financing_stage, $data->guid);
         $result2 = $this ->delList(self::$lkey.'11', $data->guid);
-        $this->delKey(self::$hkey.$data->guid);
+        $result3 = $this->delKey(self::$hkey.$data->guid);
 
-        if($result1) {
+        if(!$result1) {
             Log::info('Redis索引移出失败,'.self::$lkey.$data->financing_stage.'=>'.$data->guid.'');
         }
 
-        if($result2) {
+        if(!$result2) {
             Log::info('Redis索引移出失败,'.self::$lkey.'11'.'=>'.$data->guid.'');
+        }
+
+        if(!$result3) {
+            Log::info('Redis哈希移出失败,key=>'.self::$hkey.$data->guid);
         }
 
     }
