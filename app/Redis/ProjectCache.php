@@ -91,7 +91,10 @@ class ProjectCache extends MasterCache
 
                 if(!$temp[0]) return false;
 
-                $this->createHash($temp);
+                if($temp[0]->status == 1) {
+                    $this->createHash($temp);
+                }
+
                 $data[] = $temp[0];
             }
 
