@@ -66,6 +66,7 @@ class CheckList extends Command
      */
     public function handle()
     {
+        \Log::info('111');
         //检测活动list是否正常
         self::$actionCache->check();
         //检测学院活动list是否正常
