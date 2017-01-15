@@ -25,7 +25,7 @@ class CheckList extends Command
      *
      * @var string
      */
-    protected $description = '检测list是否与数据库一致';
+    protected $description = '任务调度：检测list是否与数据库一致(每小时一次)（php artisan CheckList）';
     protected static $actionCache;
     protected static $collegeCache;
     protected static $articleCache;
