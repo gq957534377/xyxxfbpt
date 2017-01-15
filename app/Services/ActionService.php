@@ -65,8 +65,11 @@ class ActionService
     public function actionOrder($data)
     {
         //判断是否已经报名
-        $action = self::$actionOrderStore->getSomeField(['user_id' => $data['user_id']], 'action_id');
-        $isHas = in_array($data['action_id'], $action);
+        if ((int)$data['list'] == 3){
+            $isHas = self::$actionCache->getOrderActions($data['user_id'], $data['action_id']);
+        }else{
+            $isHas = self::$collegeCache->getOrderColleges($data['user_id'], $data['action_id']);
+        }
         if($isHas) return ['StatusCode' => '400', 'ResultData' => "已经报名参加"];
 
         //添加新的报名记录
@@ -86,7 +89,11 @@ class ActionService
             //上述俩个操作全部成功则返回成功
             if($res && $result){
                 DB::commit();
-                self::$actionCache->addOrder($data['user_id'], $data['action_id'], 1);
+                if ((int)$data['list'] == 3){
+                    self::$collegeCache->addOrder($data['user_id'], $data['action_id'], 1);
+                }else{
+                    self::$actionCache->addOrder($data['user_id'], $data['action_id'], 1);
+                }
                 return ['StatusCode' => '200', 'ResultData' => "报名成功"];
             }else{
                 return ['StatusCode' => '500', 'ResultData' => "存储有误，报名失败"];

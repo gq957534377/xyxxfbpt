@@ -48,6 +48,13 @@
                                 {{$data->contentTitle}}
                             @endif
                         </a>
+                    @elseif($data->type == 4)
+                        <a href="{{route('school.show', $data->action_id) }}">
+                            <span>活动</span>
+                            @if(!empty($data->contentTitle))
+                                {{$data->contentTitle}}
+                            @endif
+                        </a>
                     @endif
                 </p>
                 <div class="col-xs-12 zxz-comment">
