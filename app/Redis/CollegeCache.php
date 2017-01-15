@@ -319,8 +319,13 @@ class CollegeCache extends MasterCache
         $lists[] = $this->mysqlToList(['type' => 2, 'status' => 2], self::$lkey."2:2");
         $lists[] = $this->mysqlToList(['type' => 2, 'status' => 3], self::$lkey."2:3");
         $lists[] = $this->mysqlToList(['type' => 2, 'status' => 5], self::$lkey."2:5");
+        $lists[] = $this->mysqlToList(['type' => 3, 'status' => 1], self::$lkey."3:1");
+        $lists[] = $this->mysqlToList(['type' => 3, 'status' => 2], self::$lkey."3:2");
+        $lists[] = $this->mysqlToList(['type' => 3, 'status' => 3], self::$lkey."3:3");
+        $lists[] = $this->mysqlToList(['type' => 3, 'status' => 5], self::$lkey."3:5");
         $lists[] = $this->mysqlToList(['type' => 1], self::$lkey."1");
         $lists[] = $this->mysqlToList(['type' => 2], self::$lkey."2");
+        $lists[] = $this->mysqlToList(['type' => 3], self::$lkey."3");
         foreach ($lists as $list)
         {
             $this->getDataByList($list);
