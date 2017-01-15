@@ -87,11 +87,14 @@ class ProjectCache extends MasterCache
             if ($this->exists($index)) {
                 $data[] = CustomPage::arrayToObject($this->getHash($index));
             } else {
-                $temp[0] = self::$project_store->getOneData(['guid' => $value, 'status' => 1]);
+                $temp[0] = self::$project_store->getOneData(['guid' => $value]);
 
                 if(!$temp[0]) return false;
 
-                $this->createHash($temp);
+                if($temp[0]->status == 1) {
+                    $this->createHash($temp);
+                }
+
                 $data[] = $temp[0];
             }
 
