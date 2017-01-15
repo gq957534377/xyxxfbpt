@@ -123,7 +123,7 @@ class PictureStore
      *拿取同一个字段下的所有数据
      * @param $where
      * @return mixed
-     * author 张洵之
+     * author 郭庆
      */
     public function getList($where,$filed)
     {

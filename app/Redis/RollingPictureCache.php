@@ -111,5 +111,58 @@ class RollingPictureCache extends MasterCache
         }
         return $res;
     }
+
+    /**
+     * 将指定条件查询到的所有guid加入redis list中
+     * @param $where [] 查询条件
+     * @param $key string list KEY
+     * @author 郭庆
+     */
+    public function mysqlToList($where, $key)
+    {
+        //从数据库获取所有的guid
+        $guids = self::$rollingPictureStore->getList($where, 'id');
+
+        if (!$guids) return [];
+        //将获取到的所有guid存入redis
+        $redisList = $this->rPushLists($key, $guids);
+        if (!$redisList) {
+            Log::error("将数据库数据写入list失败,list为：".$key);
+            return $guids;
+        }else{
+            return $guids;
+        }
+    }
+
+    /**
+     * 检测list
+     * @param
+     * @return bool
+     * @author 郭庆
+     */
+    public function checkList($key)
+    {
+        $sqlLength = self::$rollingPictureStore->getCount(['status' => 1]);
+        if (!$this->exists($key)) return true;
+        $listLength = count(array_unique($this->getBetweenList($key, 0, -1)));
+
+        if ($sqlLength != $listLength) {
+            if (!$this->delKey($key)) return false;
+            return $this->mysqlToList(['status' => 1], $key);
+        }else{
+            return true;
+        }
+    }
+
+    /**
+     * 任务调度查list异常
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function check()
+    {
+        if (!$this->checkList(self::$lkey)) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey);
+    }
 }
 

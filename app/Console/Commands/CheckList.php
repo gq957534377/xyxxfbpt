@@ -7,6 +7,8 @@ use App\Redis\ArticleCache;
 use App\Redis\CollegeCache;
 use App\Redis\PictureCache;
 use App\Redis\ProjectCache;
+use App\Redis\RollingPictureCache;
+use App\Redis\WebAdminCache;
 use Illuminate\Console\Command;
 
 class CheckList extends Command
@@ -29,6 +31,8 @@ class CheckList extends Command
     protected static $articleCache;
     protected static $projectCache;
     protected static $pictureCache;
+    protected static $rollingPictureCache;
+    protected static $webAdminCache;
 
     /**
      * Create a new command instance.
@@ -40,7 +44,9 @@ class CheckList extends Command
         CollegeCache $collegeCache,
         ArticleCache $articleCache,
         ProjectCache $projectCache,
-        PictureCache $pictureCache
+        PictureCache $pictureCache,
+        RollingPictureCache $rollingPictureCache,
+        WebAdminCache $webAdminCache
     )
     {
         parent::__construct();
@@ -49,6 +55,8 @@ class CheckList extends Command
         self::$articleCache = $articleCache;
         self::$projectCache = $projectCache;
         self::$pictureCache = $pictureCache;
+        self::$rollingPictureCache = $rollingPictureCache;
+        self::$webAdminCache = $webAdminCache;
     }
 
     /**
@@ -68,5 +76,9 @@ class CheckList extends Command
         self::$projectCache->check();
         //机构list检查
         self::$pictureCache->check();
+        //检查首页轮播图list
+        self::$rollingPictureCache->check();
+        //检查网站底部配置信息list
+        self::$webAdminCache->check();
     }
 }
