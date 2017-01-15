@@ -5,13 +5,13 @@ namespace App\Console\Commands;
 use Faker\Provider\Uuid;
 use Illuminate\Console\Command;
 use App\Services\SafetyService;
+use App\Redis\MasterCache;
 use App\Redis\BaseRedis;
 
 class Save_Feedback extends Command
 {
     protected static $safetyService = null;
-    protected static $dataFeedback = 'HASH_FEED_BACK';
-    protected static $indexFeedback = 'LIST_FEED_BACK_INDEX';
+    protected static $masterCache;
 
     /**
      * The name and signature of the console command.
@@ -32,9 +32,10 @@ class Save_Feedback extends Command
      *
      * @return void
      */
-    public function __construct(SafetyService $safetyService)
+    public function __construct(SafetyService $safetyService, MasterCache $masterCache)
     {
         parent::__construct();
+        self::$masterCache = $masterCache;
         self::$safetyService = $safetyService;
     }
 
@@ -46,12 +47,12 @@ class Save_Feedback extends Command
      */
     public function handle()
     {
-        $count = self::$safetyService->getString(STRING_FEEDBACK_COUNT . date('Y-m-d', time()));
-        BaseRedis::expireRedis(STRING_FEEDBACK_COUNT . date("Y-m-d",strtotime("-1 day")), REDIS_FEEDBACK_LIFE_TIME);
-        BaseRedis::expireRedis(LIST_FEED_BACK_INDEX . date("Y-m-d",strtotime("-1 day")), REDIS_FEEDBACK_LIFE_TIME);
-        BaseRedis::expireRedis(HASH_FEED_BACK . date("Y-m-d",strtotime("-1 day")), REDIS_FEEDBACK_LIFE_TIME);
-        BaseRedis::expireRedis(SET_FEEDBACK_IP . date("Y-m-d",strtotime("-1 day")), REDIS_FEEDBACK_LIFE_TIME);
-
+        \Log::info(date('Y-m-d', time()) .'111111111111111111111111111111！');
+        $count = self::$safetyService->getString(STRING_FEEDBACK_COUNT_ . date('Y-m-d', time()));
+        self::$masterCache->setTime(STRING_FEEDBACK_COUNT_ . date("Y-m-d",strtotime("-1 day")), REDIS_FEEDBACK_LIFE_TIME);
+        self::$masterCache->setTime(LIST_FEED_BACK_INDEX_ . date("Y-m-d",strtotime("-1 day")), REDIS_FEEDBACK_LIFE_TIME);
+        self::$masterCache->setTime(HASH_FEED_BACK_ . date("Y-m-d",strtotime("-1 day")), REDIS_FEEDBACK_LIFE_TIME);
+        self::$masterCache->setTime(SET_FEEDBACK_IP_ . date("Y-m-d",strtotime("-1 day")), REDIS_FEEDBACK_LIFE_TIME);
         // 判断总记录数有没有超过限定写入文件的警戒线
         if ($count >= REDIS_FEEDBACK_WARNING_FILE) {
             \Log::info(date('Y-m-d', time()) .'意见数过多，请去指定文件检查是否有异常！');
@@ -62,14 +63,13 @@ class Save_Feedback extends Command
             $arr = [];
             // 循环得到哈希中的所有数据
             for ($i = 0; $i < $count; $i++) {
-                $guid = BaseRedis::getListInIndex(LIST_FEED_BACK_INDEX . date('Y-m-d', time()), $i);
-                $str = BaseRedis::getHMGet(HASH_FEED_BACK . date('Y-m-d', time()), $guid);
+                $guid = BaseRedis::getListInIndex(LIST_FEED_BACK_INDEX_ . date('Y-m-d', time()), $i);
+                $str = BaseRedis::getHMGet(HASH_FEED_BACK_ . date('Y-m-d', time()), $guid);
 
                 $obj = json_decode($str[0]);
                 if (empty($obj)) return;
                 $guid1 = Uuid::uuid();
                 $arr[] = ['guid' => $guid1, 'email' => $obj->fb_email, 'feedback' => $obj->description, 'ip' => $obj->ip, 'addtime' => time()];
-
             }
             \DB::table('data_feedback_info')->insert($arr);
         }
