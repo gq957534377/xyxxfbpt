@@ -15,7 +15,7 @@
     <section class="container-fluid hang">
         <div class="row vidio_block">
             <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 top_left">
-                {{--<img src="{{ asset('home/img/demoimg/test7.jpg') }}">--}}
+                {{--<img src="{{ asset('home/img/test7.jpg') }}">--}}
                 <img src="{{ $data->banner_img }}">
             </div>
             <!--项目主要属性开始-->

@@ -125,12 +125,16 @@ class UserController extends Controller
         $roleInfo = self::$userRoleServer->getRoleInfo($id);
 
         // 获取用户的项目
-        $countProjects =self::$projectServer->getCount(['guid' => $id]);
+        $countProjects =self::$projectServer->getCount(['user_guid' => $id]);
+
+        // 获取评论数
+        $comments = self::$commentServer->commentCount(['user_id' => $id, 'status' => 1]);
 
         return view('home.user.index', [
             'userInfo'     => $info['ResultData'],
             'roleInfo'     => $roleInfo,
-            'countProject' => $countProjects,
+            'countProjects' => $countProjects['ResultData'],
+            'comments' => $comments['ResultData'],
         ]);
     }
 
@@ -561,9 +565,23 @@ class UserController extends Controller
     public function countProjects(Request $request)
     {
         if (!isset($request->guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少请求参数']);
-        // 获取项目数
-        $result = self::$projectServer->getCount(['guid' => $request->guid]);
-        return response()->json($result);
+
+        // 获取用户角色
+        $userInfo = self::$userServer->userInfo(['guid' => $request->guid]);
+
+        if ($userInfo['StatusCode'] == '200') {
+            $role = $userInfo['ResultData']->role;
+        }
+
+        // 根据角色返回项目数
+        if ($role == 2 || $role == 23) {
+            // 获取项目数
+            $result = self::$projectServer->getCount(['guid' => $request->guid]);
+            return response()->json($result);
+        } else {
+            return response()->json(['StatusCode' => '400', 'ResultData' => '请先成为创业者']);
+        }
+
     }
 
     /**

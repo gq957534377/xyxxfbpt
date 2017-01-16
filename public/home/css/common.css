@@ -94,9 +94,9 @@ header {
     /*background-image: url("../img/icon_user.png");*/
 }
 /*.top-right > a:first-child:hover {*/
-    /*color: #ffffff;*/
-    /*background-size: 20%;*/
-    /*background: #ff9035 no-repeat;*/
+/*color: #ffffff;*/
+/*background-size: 20%;*/
+/*background: #ff9035 no-repeat;*/
 /*}*/
 .top-right > a:last-child img {
     display: block;
@@ -106,12 +106,12 @@ header {
 /** 登录后的头像样式  刘峻廷
 ************/
 /*.top-right > ul:first-child {*/
-    /*padding-left:5px;*/
-    /*margin-bottom:0;*/
+/*padding-left:5px;*/
+/*margin-bottom:0;*/
 /*}*/
 /*.top-right > ul > li:first-child > a:first-child img {*/
-    /*display: inline-block;*/
-    /*max-width: 3em;*/
+/*display: inline-block;*/
+/*max-width: 3em;*/
 /*}*/
 /*top样式 结束*/
 
@@ -1134,6 +1134,7 @@ body .list-inline > li {
 #custom-width-modal>div>div>div {
     width: 780px;height: 470px;
 }
+
 #J_wkitPluginWrap{
     width:150px;
     height:470px !important;
@@ -1143,6 +1144,7 @@ body .list-inline > li {
     width:623px;
     height:468px;
 }
+
 #J_wkitMsgContent{
     width: 623px;
     height: 354.68px;
@@ -1159,6 +1161,7 @@ body .list-inline > li {
 #J_wkitPluginFrame{
     width: 148px; height: 293px;
 }
+
 #error-info {
     display: none;
 }

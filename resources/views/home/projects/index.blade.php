@@ -10,7 +10,7 @@
 @section('content')
 <!-- 广告图 Start-->
     <section class="hang">
-        <img src="{{ asset('home/img/demoimg/dd.jpg') }}">
+        <img src="{{ asset('home/img/dd.jpg') }}">
     </section>
 <!-- 广告图 End-->
 
