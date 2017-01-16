@@ -1131,6 +1131,31 @@ body .list-inline > li {
 #custom-width-modal>div>div>div {
     width: 780px;height: 470px;
 }
+#J_wkitPluginWrap{
+    width:150px;
+    height:470px !important;
+    margin-right:5px;
+}
+#J_wkitChatWrap{
+    width:623px;
+    height:468px;
+}
+#J_wkitMsgContent{
+    width: 623px;
+    height: 354.68px;
+}
+#J_wkitMsgInputWrap{
+    width: 623px;
+    height: 111.32px;
+}
+#J_wkitPluginFrameWrap{
+    width: 148px;
+    height: 293px;
+    margin-top: 5px;
+}
+#J_wkitPluginFrame{
+    width: 148px; height: 293px;
+}
 #error-info {
     display: none;
 }
