@@ -42,7 +42,7 @@ class FeedbackService
         $guid = Common::getUuid();
 
         // 数据总数
-        $count = self::$safetyService->getString(STRING_FEEDBACK_COUNT . $time);
+        $count = self::$safetyService->getString(STRING_FEEDBACK_COUNT_ . $time);
 
         // 给日志打警告线
         if (($count >= REDIS_FEEDBACK_WARNING) && (($count % 100) == 0)) {
@@ -57,19 +57,19 @@ class FeedbackService
         if ($count >= $fileCount) {
             // 当等于规定条数时,将前面的数据全部写到文件,以当前时间命名文件
             if ($count == $fileCount) {
-                $data = self::$baseRedis->selHGetAll(HASH_FEED_BACK . $time);
+                $data = self::$baseRedis->selHGetAll(HASH_FEED_BACK_ . $time);
             }
             Common::writeFile($data);
-            self::$safetyService->saveIpInSet(SET_FEEDBACK_IP . $time, $data['ip']);
+            self::$safetyService->saveIpInSet(SET_FEEDBACK_IP_ . $time, $data['ip']);
         } else {
             // 小于500条写入redis(以下失效时间均为2天)
-            self::$baseRedis->hSet(HASH_FEED_BACK . $time, $guid, json_encode($data));
-            self::$baseRedis->addRpush(LIST_FEED_BACK_INDEX . $time, $guid);
-            self::$safetyService->saveIpInSet(SET_FEEDBACK_IP . $time, $data['ip']);
+            self::$baseRedis->hSet(HASH_FEED_BACK_ . $time, $guid, json_encode($data));
+            self::$baseRedis->addRpush(LIST_FEED_BACK_INDEX_ . $time, $guid);
+            self::$safetyService->saveIpInSet(SET_FEEDBACK_IP_ . $time, $data['ip']);
 
         }
         // 不管写文件还是redis,都在自增
-        self::$safetyService->getCount(STRING_FEEDBACK_COUNT . $time);
+        self::$safetyService->getCount(STRING_FEEDBACK_COUNT_ . $time);
 
         return ['StatusCode' => '200', 'ResultData' => '感谢您的参与'];
 
@@ -133,11 +133,11 @@ class FeedbackService
         // end索引 因为起始为0 所以减一
         $nextPage = $nowPage * $forPages - 1;
         // 索引记录。
-        $list = self::$baseRedis->selRpush(LIST_FEED_BACK_INDEX . $time, $newPage, $nextPage);
+        $list = self::$baseRedis->selRpush(LIST_FEED_BACK_INDEX_ . $time, $newPage, $nextPage);
         // 内容记录
-        $result = self::$baseRedis->selHMGet(HASH_FEED_BACK . $time, $list);
+        $result = self::$baseRedis->selHMGet(HASH_FEED_BACK_ . $time, $list);
         // 总记录数
-        $count = self::$baseRedis->getHLenCount(LIST_FEED_BACK_INDEX . $time);
+        $count = self::$baseRedis->getHLenCount(LIST_FEED_BACK_INDEX_ . $time);
         // 总页数
         $totalPage = $totalPage = ceil($count / $forPages);
         $data[0] = $list;

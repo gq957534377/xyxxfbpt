@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
         //活动状态更新每天一点凌晨
         $schedule->command('chageAction:status')->dailyAt('1:00');
         //检查list每小时检查一次
-        $schedule->command('CheckList')->everyMinute();
+        $schedule->command('CheckList')->hourly();
 
         $schedule->command('save:feedback')->dailyAt('23:00');
     }

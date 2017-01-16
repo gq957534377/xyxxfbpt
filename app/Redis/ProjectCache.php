@@ -223,6 +223,7 @@ class ProjectCache extends MasterCache
      */
     public function mysqlToList($where, $key)
     {
+        if ($this->exists($key)) return $this->getBetweenList($key, 0, -1);
         //从数据库获取所有的guid
         $guids = self::$project_store->getList($where, 'guid');
 
