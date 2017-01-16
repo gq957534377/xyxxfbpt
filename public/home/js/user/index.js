@@ -153,7 +153,7 @@ $(document).ready(function () {
             beforeSend: ajaxBeforeSend($('.loading')),
             success: function (msg) {
                 switch (msg.StatusCode) {
-                    case '403':
+                    case '400':
                         $(".loading").hide();
                         swal('消息提示', msg.ResultData, "warning");
                         break;
