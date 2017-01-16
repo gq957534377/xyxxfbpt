@@ -10,7 +10,7 @@
 
 @section('content')
     <section class="bannerimg hang">
-        <img src="{{ asset('home/img/demoimg/dd.jpg') }}">
+        <img src="{{ asset('home/img/dd.jpg') }}">
     </section>
     <section class="container">
 
@@ -99,9 +99,9 @@
 
             <!----广告位开始----->
             <div class="guanggao col-lg-3 col-md-3 col-sm-12 hidden-xs ">
-                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/demoimg/zf3.jpg') }}" alt=""></a>
-                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/demoimg/zf2.jpg') }}" alt=""></a>
-                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/demoimg/zf1.jpg') }}" alt=""></a>
+                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/zf3.jpg') }}" alt=""></a>
+                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/zf2.jpg') }}" alt=""></a>
+                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/zf1.jpg') }}" alt=""></a>
             </div>
             <!----广告位结束----->
         </div>

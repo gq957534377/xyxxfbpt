@@ -7,7 +7,7 @@
 @endsection
 @section('content')
     <section class="bannerimg hang">
-        <img src="{{ asset('home/img/demoimg/dd.jpg') }}">
+        <img src="{{ asset('home/img/dd.jpg') }}">
     </section>
     <!---类型选择层开始---->
     <section class="container-fluid comment-section">
