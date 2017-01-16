@@ -131,13 +131,17 @@
                     nowPage:nowPage,
                     typeId:typeId
                 },
+                beforeSend:function () {
+                    $('.loads').addClass('loads_change');
+                },
                 success:function (data) {
 
                     if(data.StatusCode == "400" || data.ResultData.length<4) {
                         $('.loads').remove();
                     }
 
-                    createDom(data.ResultData)
+                    createDom(data.ResultData);
+                    $('.loads').removeClass('loads_change');
                 }
             })
         });
