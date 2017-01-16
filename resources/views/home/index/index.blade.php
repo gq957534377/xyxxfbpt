@@ -74,7 +74,7 @@
                     </a>
                 </div>
                 <ul>
-                    <li><a href="#">项目投资</a></li>
+                    <li><a href="{{ route('project.index') }}">项目投资</a></li>
                     <li><a href="{{ route('action.index', ['type' => '2']) }}">参加创业大赛</a></li>
                 </ul>
             </nav>
