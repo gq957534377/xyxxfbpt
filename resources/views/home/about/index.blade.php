@@ -37,7 +37,7 @@
             @if(!empty($type))
                 <div class="bgc-0 col-sm-10 pad-clr @if($type != 1)hidden @endif">
                     <p>关于我们</p>
-                    <img class="img-responsive" src="{{asset('home/img/demoimg/about-us.jpg')}}">
+                    <img class="img-responsive" src="{{asset('home/img/about-us.jpg')}}">
                     <p class="indent">
                         奇立英雄会创业平台，是一个针对高成长创新企业的综合创业服务平台。平台于2017年1月正式上线，我们致力于打造一个集学习、推广、社交等为一体的O2O创业孵化加速器，涵盖创业教育和创业公关等创业服务。<br><br>
                         奇立英雄会创业平台精准定位不同人群的创业需求，展开多维度的创业人群服务，积极开展创新政策先行先试，激发各类主体的创新活力，通过构建愈发完整的“双创”政务服务体系，搭建对应的信息资源、公共技术服务平台，完善创业人才引进、创业辅导服务链条，打造一个多元创业人群的“强磁场”。<br><br>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="bgc-0 col-sm-10 pad-clr @if($type != 2)hidden @endif ">
                     <p>免责声明</p>
-                    <img class="img-responsive" src="{{asset('home/img/demoimg/about-us.jpg')}}">
+                    <img class="img-responsive" src="{{asset('home/img/about-us.jpg')}}">
                     <p>
                         一、保护用户隐私是奇立英雄会网站的一项基本政策，奇立英雄会保证不对外公开或向第三方提供单个用户的注册资料及用户在使用网络服务时存储在奇立英雄会的非公开内容，但下列情况除外：<br>
                         （1）事先获得用户的明确授权；<br>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="bgc-0 col-sm-10 pad-clr @if($type != 3)hidden @endif">
                     <p>版权申明</p>
-                    <img class="img-responsive" src="{{asset('home/img/demoimg/about-us.jpg')}}">
+                    <img class="img-responsive" src="{{asset('home/img/about-us.jpg')}}">
                     <p>
                         1.本站版权属于  xxx有限公司所有，xxx有限公司书面授权，任何企业、网站、个人不得转载、摘编、镜像或利用其它方式使用本站内容。经xxx有限公司授权使用作品的，应在授权范围内使用，并注明“来源：www.xxx.cn ” ，同时不得将稿件提供给任何第三方，违者本网将保留依法处理的权利。有关作品内容、版权、合作和其它问题，请发信至xxx@xxx.cn。
                     </p>
@@ -91,7 +91,7 @@
             @else
                 <div class="bgc-0 col-sm-10 pad-clr ">
                     <p>关于我们</p>
-                    <img class="img-responsive" src="{{asset('home/img/demoimg/about-us.jpg')}}">
+                    <img class="img-responsive" src="{{asset('home/img/about-us.jpg')}}">
                     <p class="indent">
                         奇立英雄会创业平台，是一个针对高成长创新企业的综合创业服务平台。平台于2017年1月正式上线，我们致力于打造一个集学习、推广、社交等为一体的O2O创业孵化加速器，涵盖创业教育和创业公关等创业服务。<br><br>
                         奇立英雄会创业平台精准定位不同人群的创业需求，展开多维度的创业人群服务，积极开展创新政策先行先试，激发各类主体的创新活力，通过构建愈发完整的“双创”政务服务体系，搭建对应的信息资源、公共技术服务平台，完善创业人才引进、创业辅导服务链条，打造一个多元创业人群的“强磁场”。<br><br>
@@ -100,7 +100,7 @@
                 </div>
                 <div class="bgc-0 col-sm-10 pad-clr ">
                     <p>免责声明</p>
-                    <img class="img-responsive" src="{{asset('home/img/demoimg/about-us.jpg')}}">
+                    <img class="img-responsive" src="{{asset('home/img/about-us.jpg')}}">
                     <p>
                         一、保护用户隐私是奇立英雄会网站的一项基本政策，奇立英雄会保证不对外公开或向第三方提供单个用户的注册资料及用户在使用网络服务时存储在奇立英雄会的非公开内容，但下列情况除外：<br>
                         （1）事先获得用户的明确授权；<br>
@@ -137,7 +137,7 @@
                 </div>
                 <div class="bgc-0 col-sm-10 pad-clr ">
                     <p>版权申明</p>
-                    <img class="img-responsive" src="{{asset('home/img/demoimg/about-us.jpg')}}">
+                    <img class="img-responsive" src="{{asset('home/img/about-us.jpg')}}">
                     <p>
                         1.本站版权属于  xxx有限公司所有，xxx有限公司书面授权，任何企业、网站、个人不得转载、摘编、镜像或利用其它方式使用本站内容。经xxx有限公司授权使用作品的，应在授权范围内使用，并注明“来源：www.xxx.cn ” ，同时不得将稿件提供给任何第三方，违者本网将保留依法处理的权利。有关作品内容、版权、合作和其它问题，请发信至xxx@xxx.cn。
                     </p>

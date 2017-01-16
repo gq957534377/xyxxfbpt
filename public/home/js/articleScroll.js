@@ -1,12 +1,6 @@
 /**
  * Created by wangt on 2016/12/22.
  */
-function ajaxBeforeModel() {
-    $('#data').html('');
-    $('.loads').html('<img class="loading" src="/home/img/loading.gif" hidden>');
-    $('.loads').addClass('loads_change');
-    $('.loading').show();
-}
 var nowPage = 2;
 var type = $('#article-type').val();
 $('.loads').click(function () {
@@ -15,7 +9,10 @@ $('.loads').click(function () {
         url:url,
         type:'get',
         data:{'nowPage':nowPage,'type':type},
-        before  : ajaxBeforeModel(),
+        beforeSend:function () {
+            //最新
+            $('.loads').addClass('loads_change');
+        },
         success:function (data) {
             var html = '';
             if (data.StatusCode == '200') {
@@ -41,6 +38,7 @@ $('.loads').click(function () {
                     html += '</div>';
                     html += '</li>';
                 });
+                // 最新
                 $('.article-list').append(html);
             }
             if (nowPage < data.ResultData.totalPage){
@@ -48,7 +46,7 @@ $('.loads').click(function () {
             }else {
                 $('.loads').remove();
             }
-            $('.loading').hide();
+            $('.loads').removeClass('loads_change');
         }
     });
 });
