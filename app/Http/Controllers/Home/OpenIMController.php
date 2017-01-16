@@ -75,7 +75,7 @@ class OpenIMController extends Controller
         if ($resultCookie != 'ok') return response()->json($resultCookie);
         $ip = $request->getClientIp();
 
-        if (self::$safetyService->checkIpInSet(SET_FEEDBACK_IP . date('Y-m-d', time()), $ip)) {
+        if (self::$safetyService->checkIpInSet(SET_FEEDBACK_IP_ . date('Y-m-d', time()), $ip)) {
             return ['StatusCode' => '400','ResultData' => '谢谢支持，您已经提过意见了，请明天再来'];
         };
         // 验证过滤数据

@@ -141,18 +141,26 @@ class ArticleService
     {
         // 判断article缓存是否存在
         if(!self::$articleCache->exists(LIST_ARTICLE_INFO_.$where['type'])){
-            // 获取数据库里的所有文章列表,并且转对象为数组
-            $article_list = CustomPage::objectToArray(self::$articleStore->getAllGuid($where));
+            // 判断guid有没有取失败
+            $guidArr = self::$articleStore->getAllGuid($where);
+            if (!empty($guidArr)) {
+                // 获取数据库里的所有文章列表,并且转对象为数组
+                $article_list = CustomPage::objectToArray($guidArr);
+            }
+
             $result = $this->selectData($where, $nowPage, $forPages, $url, $disPlay);
             // 存入redis缓存
-            if(count($article_list)){
-                // 把数据保存进HASH
-                foreach ($result['ResultData']['data'] as $item) {
-                    $info = CustomPage::objectToArray($item);
-                    self::$articleCache->addHash(HASH_ARTICLE_INFO_ .$info['guid'] , $info);
+            if ($result['StatusCode'] == '200') {
+                if(count($article_list)){
+                    // 把数据保存进HASH
+                    foreach ($result['ResultData']['data'] as $item) {
+                        $info = CustomPage::objectToArray($item);
+                        self::$articleCache->addHash(HASH_ARTICLE_INFO_ .$info['guid'] , $info);
+                    }
+                    self::$articleCache->setArticleList($article_list, $where['type']);
                 }
-                self::$articleCache->setArticleList($article_list, $where['type']);
             }
+
         } else {
             // 直接读取缓存数据,并把数组转换为对象
             $result = $this->selectArticleRedis($forPages, $nowPage, $where['type']);
@@ -381,7 +389,7 @@ class ArticleService
 
     /**
      * 分页查询 得到指定类型的数据
-     * @param $request
+     * @param array $data  条件数组  主要['user_id' => 用户的GUID]
      * @return array
      * @author 王通
      */
@@ -490,7 +498,7 @@ class ArticleService
 
     /**
      * 把预览数据从缓存中取出
-     * @param $id
+     * @param string $id    GUID标识
      * @return array
      * @author 王通
      */
@@ -508,9 +516,9 @@ class ArticleService
 
     /**
      * 获取八条文章，根据给定条件
-     * @param $type
-     * @param int $take
-     * @param int $status
+     * @param int $type  文章类型
+     * @param int $take    文章条数
+     * @param int $status  文章状态
      * @return array
      * @author 刘峻廷
      * @modify 王通
@@ -520,18 +528,27 @@ class ArticleService
         // 判断article缓存是否存在
         if(!self::$articleCache->exists(LIST_ARTICLE_INFO_.$type)){
             // 获取数据库里的所有文章列表,并且转对象为数组
-            $article_list = CustomPage::objectToArray(self::$articleStore->getAllGuid(['type' => $type, 'status' => $status]));
+            // 判断guid有没有取失败
+            $guidArr = self::$articleStore->getAllGuid(['type' => $type, 'status' => $status]);
+            if (!empty($guidArr)) {
+                // 获取数据库里的所有文章列表,并且转对象为数组
+                $article_list = CustomPage::objectToArray($guidArr);
+            }
             $result = $this->selectData(['type' => $type], 1, $take, 'aaa', false);
             // 存入redis缓存
-            if(count($article_list)){
-                // 把数据保存进HASH
-                foreach ($result['ResultData']['data'] as $item) {
-                    $info = CustomPage::objectToArray($item);
-                    self::$articleCache->addHash(HASH_ARTICLE_INFO_ .$info['guid'] , $info);
+            // 判断返回值是否正确
+            if ($result['StatusCode'] == '200') {
+                if(count($article_list)){
+                    // 把数据保存进HASH
+                    foreach ($result['ResultData']['data'] as $item) {
+                        $info = CustomPage::objectToArray($item);
+                        self::$articleCache->addHash(HASH_ARTICLE_INFO_ .$info['guid'] , $info);
+                    }
+                    self::$articleCache->setArticleList($article_list, $type);
                 }
-                self::$articleCache->setArticleList($article_list, $type);
+                $result = $result['ResultData']['data'];
             }
-            $result = $result['ResultData']['data'];
+
 
         } else {
             // 直接读取缓存数据,并把数组转换为对象
@@ -553,9 +570,9 @@ class ArticleService
 
     /**
      * 获取四条随机文章，根据给定条件
-     * @param $type
-     * @param int $take
-     * @param int $status
+     * @param int $type    文章类型
+     * @param int $take   随机文章的数量
+     * @param int $status     文章状态
      * @return array
      * @author 王通
      */

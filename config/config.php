@@ -2,16 +2,33 @@
 
 define('PAGENUM', 5);//评论页数据
 
-define('SET_FEEDBACK_IP', 'SET:FEEDBACK:IPLIST:');
-define('STRING_FEEDBACK_COUNT', 'STRING:FEEDBACK:COUNT');
-define('HASH_FEED_BACK', 'HASH:FEED:BACK');
-define('LIST_FEED_BACK_INDEX', 'LIST:FEED:BACK:INDEX');
 
-// Redis超时事件   如果这里写一天，代表redis保存两天
+/**
+ * 用户建议  Redis超时事件   如果这里写一天，代表redis保存两天
+ * 说明：因为redis超时设置的原理是，设置昨天的key超时时间，今天一天，加上昨天大约保存两天时间
+ * 作用： 限制指定可以超时
+ *
+ * VALUE =  INT  代表时间秒数
+ * @author 王通
+ */
 define('REDIS_FEEDBACK_LIFE_TIME', 3599 * 24);
-// 警戒线
+/**
+ * 警戒线
+ * 说明：如果当天评论数超过警戒线，则任务调度时，不再写入数据库
+ * 作用： 限制写入数据库的数量
+ *
+ * VALUE =  NUM   代表条数
+ * @author 王通
+ */
 define('REDIS_FEEDBACK_WARNING', 200);
-// 写文件的限制
+/**
+ * 写文件的限制
+ * 说明：如果当天评论数超过限制，则用户提交建议是，不再写入缓存，将直接写入文件存储
+ * 作用： 限制写入数据库的数量
+ *
+ * VALUE =  NUM   代表条数
+ * @author 王通
+ */
 define('REDIS_FEEDBACK_WARNING_FILE', 500);
 
 // 等级签名key

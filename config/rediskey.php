@@ -268,5 +268,44 @@ define('HASH_ROLLINGPICTURE_INFO_', 'HASH:ROLLINGPICTURE:INFO:');
 define('String_USER_ACCOUNT_', 'STRING:USER:ACCOUNT:');
 
 
+/**
+ * 用户建议
+ * 作用： 存储今天提交过建议的用户IP，防止其二次提交，用的是无序列表
+ *
+ * KEY = SET:FEEDBACK:IPLIST:[DATE]     意见IP的时间。
+ * VALUE =  IP  提意见的用户IP。
+ * @author 王通
+ */
+define('SET_FEEDBACK_IP_', 'SET:FEEDBACK:IPLIST:');
+/**
+ * 用户建议总数
+ * 作用： 存储今天的总用户建议数，如果数量超标，选择性处理
+ *
+ * KEY = STRING:FEEDBACK:COUNT:[DATE]     每天统计KEY。
+ * VALUE =  NUM  标识一个数量数字
+ * @author 王通
+ */
+define('STRING_FEEDBACK_COUNT_', 'STRING:FEEDBACK:COUNT:');
+/**
+ * 用户建议内容
+ * 作用： 存储用户建议的数据
+ *
+ * KEY = HASH:FEED:BACK:[DATA]     用户的建议时间。
+ * VALUE =  每一条建议的内容  标识一个数量数字
+ * @author 王通
+ */
+define('HASH_FEED_BACK_', 'HASH:FEED:BACK:');
+/**
+ * 用户建议GUID 列表，查询具体数据使用
+ * 作用： 存储建议guid列表
+ *
+ * KEY = LIST:FEED:BACK:INDEX:[DATA]     用户的建议时间。
+ * VALUE =  每一条建议的UGID，用来唯一标示这个建议
+ * @author 王通
+ */
+define('LIST_FEED_BACK_INDEX_', 'LIST:FEED:BACK:INDEX:');
+
+
+
 
 
