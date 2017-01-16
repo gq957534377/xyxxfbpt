@@ -145,6 +145,9 @@
                 url:url,
                 type:'get',
                 data:{'nowPage':nowPage,'type':type,'status':sta},
+                beforeSend:function () {
+                    $('.loads').addClass('loads_change');
+                },
                 success:function (data) {
 
                     data['ResultData']['data'].map(function (action) {
@@ -163,6 +166,7 @@
 
                         $('.rodeing-list').append(html);
                     });
+                    $('.loads').removeClass('loads_change');
                     if (nowPage<data.ResultData['totalPage']){
                         nowPage++;
                     }else {

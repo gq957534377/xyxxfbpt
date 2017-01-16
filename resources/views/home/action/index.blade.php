@@ -142,6 +142,9 @@
                 url:url,
                 type:'get',
                 data:{'nowPage':nowPage,'type':type,'status':sta},
+                beforeSend:function () {
+                    $('.loads').addClass('loads_change');
+                },
                 success:function (data) {
                     data['ResultData']['data'].map(function (action) {
                         var html = '';
@@ -158,6 +161,7 @@
                         html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><span class="road-banner-join">' + status(parseInt(action.status)) + '</span></li></ul></div></div></div></li>';
                         $('.rodeing-list').append(html);
                     });
+                    $('.loads').removeClass('loads_change');
                     if (nowPage<data.ResultData['totalPage']){
                         nowPage++;
                     }else {
