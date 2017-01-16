@@ -187,7 +187,7 @@
                                     {{--<input class="form-control" type="text" id="auth-code" placeholder="请输入验证码">--}}
                                 {{--</div>--}}
                                 {{--<div class="col-xs-6 col-sm-6">--}}
-                                    {{--<img src="{{asset('home/img/demoimg/code-auth.jpg')}}">--}}
+                                    {{--<img src="{{asset('home/img/code-auth.jpg')}}">--}}
                                 {{--</div>--}}
                             {{--</div>--}}
                             {{--<div class="clearfix"></div>--}}

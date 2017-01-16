@@ -189,8 +189,8 @@
                 {{--<li class="row">--}}
                 {{--<a href="#">--}}
                 {{--<div class="section2_img col-sm-3">--}}
-                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
-                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/xiaoyu.jpg') }}">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/xiaoyu.jpg') }}">--}}
                 {{--</div>--}}
                 {{--<div class="section2_center col-sm-6">--}}
                 {{--<div class="section2_center_title">--}}
@@ -224,8 +224,8 @@
                 {{--<li class="row">--}}
                 {{--<a href="#">--}}
                 {{--<div class="section2_img col-sm-3">--}}
-                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
-                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/xiaoyu.jpg') }}">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/xiaoyu.jpg') }}">--}}
                 {{--</div>--}}
                 {{--<div class="section2_center col-sm-6">--}}
                 {{--<div class="section2_center_title">--}}
@@ -259,8 +259,8 @@
                 {{--<li class="row">--}}
                 {{--<a href="#">--}}
                 {{--<div class="section2_img col-sm-3">--}}
-                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
-                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/demoimg/xiaoyu.jpg') }}">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/xiaoyu.jpg') }}">--}}
+                {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="hidden-767" src="{{ asset('home/img/xiaoyu.jpg') }}">--}}
                 {{--</div>--}}
                 {{--<div class="section2_center col-sm-6">--}}
                 {{--<div class="section2_center_title">--}}
@@ -451,7 +451,7 @@
         {{--<li class="col-sm-3">--}}
         {{--<a href="#">--}}
         {{--<div class="img_block">--}}
-        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/test.jpg') }}">--}}
         {{--<div>--}}
         {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
         {{--</div>--}}
@@ -471,7 +471,7 @@
         {{--<li class="col-sm-3">--}}
         {{--<a href="#">--}}
         {{--<div class="img_block">--}}
-        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/test.jpg') }}">--}}
         {{--<div>--}}
         {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
         {{--</div>--}}
@@ -491,7 +491,7 @@
         {{--<li class="col-sm-3">--}}
         {{--<a href="#">--}}
         {{--<div class="img_block">--}}
-        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/test.jpg') }}">--}}
         {{--<div>--}}
         {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
         {{--</div>--}}
@@ -511,7 +511,7 @@
         {{--<li class="col-sm-3">--}}
         {{--<a href="#">--}}
         {{--<div class="img_block">--}}
-        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/test.jpg') }}">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/test.jpg') }}">--}}
         {{--<div>--}}
         {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
         {{--</div>--}}
@@ -533,7 +533,7 @@
         {{--<li class="col-sm-3">--}}
         {{--<a href="#">--}}
         {{--<div class="img_block">--}}
-        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/5837b19bN7c6a2b50.jpg') }}">--}}
         {{--<div>--}}
         {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
         {{--</div>--}}
@@ -553,7 +553,7 @@
         {{--<li class="col-sm-3">--}}
         {{--<a href="#">--}}
         {{--<div class="img_block">--}}
-        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/5837b19bN7c6a2b50.jpg') }}">--}}
         {{--<div>--}}
         {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
         {{--</div>--}}
@@ -573,7 +573,7 @@
         {{--<li class="col-sm-3">--}}
         {{--<a href="#">--}}
         {{--<div class="img_block">--}}
-        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/5837b19bN7c6a2b50.jpg') }}">--}}
         {{--<div>--}}
         {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
         {{--</div>--}}
@@ -593,7 +593,7 @@
         {{--<li class="col-sm-3">--}}
         {{--<a href="#">--}}
         {{--<div class="img_block">--}}
-        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/5837b19bN7c6a2b50.jpg') }}">--}}
+        {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/5837b19bN7c6a2b50.jpg') }}">--}}
         {{--<div>--}}
         {{--<p>关注NOBADAY，这个冬天的盛宴，携家人共同感受机制的冰雪户外运动</p>--}}
         {{--</div>--}}
@@ -630,7 +630,7 @@
             {{--<li class="col-sm-6">--}}
             {{--<div class="bg-mg">--}}
             {{--<div class="bg-mg-f">--}}
-            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/Roadshow.jpg') }}"/>--}}
             {{--</div>--}}
             {{--</div>--}}
             {{--<div>--}}
@@ -642,7 +642,7 @@
             {{--<li class="col-sm-6">--}}
             {{--<div class="bg-mg">--}}
             {{--<div class="bg-mg-f">--}}
-            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/Roadshow.jpg') }}"/>--}}
             {{--</div>--}}
             {{--</div>--}}
             {{--<div>--}}
@@ -654,7 +654,7 @@
             {{--<li class="col-sm-6">--}}
             {{--<div class="bg-mg">--}}
             {{--<div class="bg-mg-f">--}}
-            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/Roadshow.jpg') }}"/>--}}
             {{--</div>--}}
             {{--</div>--}}
             {{--<div>--}}
@@ -666,7 +666,7 @@
             {{--<li class="col-sm-6">--}}
             {{--<div class="bg-mg">--}}
             {{--<div class="bg-mg-f">--}}
-            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/demoimg/Roadshow.jpg') }}"/>--}}
+            {{--<img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ asset('home/img/Roadshow.jpg') }}"/>--}}
             {{--</div>--}}
             {{--</div>--}}
             {{--<div>--}}
