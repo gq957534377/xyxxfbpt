@@ -37,7 +37,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pad-cr my-home-entrepreneur-info">
             <div class="b-all-3 bgc-0">
-                <p>0</p>
+                <p>{{ isset($comments) ? $comments : 0 }}</p>
                 <p class="mar-cb"><a href="{{ route('commentlike') }}">评论</a></p>
             </div>
             <div class="b-all-3 bgc-0">
