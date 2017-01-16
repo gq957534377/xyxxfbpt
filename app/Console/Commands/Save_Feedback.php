@@ -47,7 +47,6 @@ class Save_Feedback extends Command
      */
     public function handle()
     {
-        \Log::info(date('Y-m-d', time()) .'111111111111111111111111111111！');
         $count = self::$safetyService->getString(STRING_FEEDBACK_COUNT_ . date('Y-m-d', time()));
         self::$masterCache->setTime(STRING_FEEDBACK_COUNT_ . date("Y-m-d",strtotime("-1 day")), REDIS_FEEDBACK_LIFE_TIME);
         self::$masterCache->setTime(LIST_FEED_BACK_INDEX_ . date("Y-m-d",strtotime("-1 day")), REDIS_FEEDBACK_LIFE_TIME);
