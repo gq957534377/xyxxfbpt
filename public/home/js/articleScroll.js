@@ -10,6 +10,7 @@ $('.loads').click(function () {
         type:'get',
         data:{'nowPage':nowPage,'type':type},
         beforeSend:function () {
+            //最新
             $('.loads').addClass('loads_change');
         },
         success:function (data) {
@@ -37,6 +38,7 @@ $('.loads').click(function () {
                     html += '</div>';
                     html += '</li>';
                 });
+                // 最新
                 $('.article-list').append(html);
             }
             if (nowPage < data.ResultData.totalPage){
