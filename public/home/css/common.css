@@ -1112,6 +1112,9 @@ body .list-inline > li {
 .loads:after{
     content: "点击加载更多";
 }
+.loads_change:after{
+    content: "正在加载中。。。";
+}
 .loads:hover{
     color:#FF9036;
 }
