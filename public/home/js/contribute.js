@@ -66,7 +66,17 @@ $(function () {
  */
 $('.bg-del').on('click', function () {
     me = $(this);
-    deleteAjax ('DELETE', {'id' : [me.data('delete')]});
+    swal({
+        title: "是否删除",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "删除",
+        cancelButtonText: "取消",
+    }, function(){
+        deleteAjax ('DELETE', {'id' : [me.data('delete')]});
+    });
+    //
     // deleteAjax(me.data('delete'));
 });
 
@@ -82,7 +92,18 @@ $('#delete').on('click', function () {
             guidArr[k++];
         };
     }
-    deleteAjax ('DELETE', {'id' : guidArr});
+    // 删除弹框
+    swal({
+        title: "是否删除",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "删除",
+        cancelButtonText: "取消"
+    }, function(){
+        deleteAjax ('DELETE', {'id' : guidArr});
+    });
+
 });
 
 
@@ -92,7 +113,10 @@ $('#delete').on('click', function () {
  */
 function deleteAjax(method, id)
 {
+    var a = $('.tab-info-top > .selected').html().substring(4,5);
+     $('.tab-info-top > .selected').html(a);
 
+    return ;
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -123,7 +147,7 @@ function deleteAjax(method, id)
                     $.each(id.id, function (key, val) {
                         $('#' + val).parent().parent().parent().remove();
                     })
-
+                    $('.tab-info-top > .selected').html('aaa');
                     swal('删除成功');
                     break;
             }
