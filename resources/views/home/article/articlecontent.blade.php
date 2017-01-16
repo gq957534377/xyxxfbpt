@@ -14,7 +14,7 @@
 
 @section('content')
     <section class="bannerimg hang">
-        <img src="{{ asset('home/img/demoimg/dd.jpg') }}">
+        <img src="{{ asset('home/img/dd.jpg') }}">
     </section>
     @if(!empty($StatusCode) && $StatusCode == '200')
         <div id="article-type" class="hidden">{{ $ResultData->type }}</div>

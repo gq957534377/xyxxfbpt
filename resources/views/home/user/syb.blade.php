@@ -31,8 +31,8 @@
                             <p class="col-xs-12 pad-cl mar-cb">1.请确保身份证处于有效期内</p>
                             <p class="col-xs-12 pad-cl">2.横向拍摄，确保身份证照片完整、清晰</p>
                             <div class="col-xs-12 col-sm-offset-2 col-sm-10 upload_card_box">
-                                <img src="{{ asset('home/img/demoimg/zhengmian.jpg') }}">
-                                <img src="{{ asset('home/img/demoimg/fanmian.jpg') }}">
+                                <img src="{{ asset('home/img/zhengmian.jpg') }}">
+                                <img src="{{ asset('home/img/fanmian.jpg') }}">
                             </div>
                             <p class="col-xs-12 pad-clr"><br>第一步：上传正面<br></p>
                             <input type="hidden" name="syb_card_a">
