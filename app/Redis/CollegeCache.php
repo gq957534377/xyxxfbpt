@@ -73,6 +73,8 @@ class CollegeCache extends MasterCache
      */
     public function mysqlToList($where, $key)
     {
+        if ($this->exists($key)) return $this->getBetweenList($key, 0, -1);
+
         //从数据库获取所有的guid
         $guids = self::$college_store->getGuids($where);
 
@@ -193,7 +195,7 @@ class CollegeCache extends MasterCache
                 $offset = $nums * ($nowPage-1);
 
                 //获取条数
-                $totals = $offset + $nums - 1;
+                $totals = $offset + $nums;
 
                 $lists = array_slice($result, $offset, $totals);
             }else{
@@ -317,8 +319,13 @@ class CollegeCache extends MasterCache
         $lists[] = $this->mysqlToList(['type' => 2, 'status' => 2], self::$lkey."2:2");
         $lists[] = $this->mysqlToList(['type' => 2, 'status' => 3], self::$lkey."2:3");
         $lists[] = $this->mysqlToList(['type' => 2, 'status' => 5], self::$lkey."2:5");
+        $lists[] = $this->mysqlToList(['type' => 3, 'status' => 1], self::$lkey."3:1");
+        $lists[] = $this->mysqlToList(['type' => 3, 'status' => 2], self::$lkey."3:2");
+        $lists[] = $this->mysqlToList(['type' => 3, 'status' => 3], self::$lkey."3:3");
+        $lists[] = $this->mysqlToList(['type' => 3, 'status' => 5], self::$lkey."3:5");
         $lists[] = $this->mysqlToList(['type' => 1], self::$lkey."1");
         $lists[] = $this->mysqlToList(['type' => 2], self::$lkey."2");
+        $lists[] = $this->mysqlToList(['type' => 3], self::$lkey."3");
         foreach ($lists as $list)
         {
             $this->getDataByList($list);
@@ -354,23 +361,23 @@ class CollegeCache extends MasterCache
      */
     public function check()
     {
-        if (!$this->check(['type' => 1, 'status' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:1');
-        if (!$this->check(['type' => 1, 'status' => 2])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:2');
-        if (!$this->check(['type' => 1, 'status' => 3])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:3');
-        if (!$this->check(['type' => 1, 'status' => 4])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:4');
-        if (!$this->check(['type' => 1, 'status' => 5])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:5');
-        if (!$this->check(['type' => 2, 'status' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:1');
-        if (!$this->check(['type' => 2, 'status' => 2])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:2');
-        if (!$this->check(['type' => 2, 'status' => 3])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:3');
-        if (!$this->check(['type' => 2, 'status' => 4])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:4');
-        if (!$this->check(['type' => 2, 'status' => 5])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:5');
-        if (!$this->check(['type' => 3, 'status' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'3:1');
-        if (!$this->check(['type' => 3, 'status' => 2])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'3:2');
-        if (!$this->check(['type' => 3, 'status' => 3])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'3:3');
-        if (!$this->check(['type' => 3, 'status' => 4])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'3:4');
-        if (!$this->check(['type' => 3, 'status' => 5])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'3:5');
-        if (!$this->check(['type' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1');
-        if (!$this->check(['type' => 2])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2');
-        if (!$this->check(['type' => 3])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'3');
+        if (!$this->checkList(['type' => 1, 'status' => 1])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:1');
+        if (!$this->checkList(['type' => 1, 'status' => 2])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:2');
+        if (!$this->checkList(['type' => 1, 'status' => 3])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:3');
+        if (!$this->checkList(['type' => 1, 'status' => 4])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:4');
+        if (!$this->checkList(['type' => 1, 'status' => 5])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:5');
+        if (!$this->checkList(['type' => 2, 'status' => 1])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:1');
+        if (!$this->checkList(['type' => 2, 'status' => 2])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:2');
+        if (!$this->checkList(['type' => 2, 'status' => 3])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:3');
+        if (!$this->checkList(['type' => 2, 'status' => 4])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:4');
+        if (!$this->checkList(['type' => 2, 'status' => 5])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:5');
+        if (!$this->checkList(['type' => 3, 'status' => 1])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'3:1');
+        if (!$this->checkList(['type' => 3, 'status' => 2])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'3:2');
+        if (!$this->checkList(['type' => 3, 'status' => 3])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'3:3');
+        if (!$this->checkList(['type' => 3, 'status' => 4])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'3:4');
+        if (!$this->checkList(['type' => 3, 'status' => 5])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'3:5');
+        if (!$this->checkList(['type' => 1])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'1');
+        if (!$this->checkList(['type' => 2])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'2');
+        if (!$this->checkList(['type' => 3])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'3');
     }
 }

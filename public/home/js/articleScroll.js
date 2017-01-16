@@ -11,7 +11,6 @@ $('.loads').click(function () {
         type:'get',
         data:{'nowPage':nowPage,'type':type},
         success:function (data) {
-            console.log(data);
             var html = '';
             if (data.StatusCode == '200') {
                 $.each(data.ResultData.data, function (key, val) {
@@ -38,8 +37,6 @@ $('.loads').click(function () {
                 });
                 $('.article-list').append(html);
             }
-            console.log(data.ResultData.totalPage);
-            console.log(nowPage);
             if (nowPage < data.ResultData.totalPage){
                 nowPage+=1;
             }else {

@@ -170,8 +170,9 @@ class ArticleStore
 
     /**
      * 获取指定条数随机数据
-     * @param $where
-     * @param $number
+     * @param array $where  数据条件
+     * @param int $number 取出的条数
+     * @param int $start 开始的位置
      * @return mixed
      * @author 王通
      */

@@ -67,7 +67,7 @@ class ArticleCache extends MasterCache
     /**
      * 获取一条文章详情
      * @param $guid
-     * @return array
+     * @return object|bool
      */
     public function getOneArticle($guid)
     {
@@ -145,6 +145,8 @@ class ArticleCache extends MasterCache
      */
     public function mysqlToList($where, $key)
     {
+        if ($this->exists($key)) return $this->getBetweenList($key, 0, -1);
+
         //从数据库获取所有的guid
         $guids = self::$article_store->getAllGuid($where);
 
@@ -187,8 +189,8 @@ class ArticleCache extends MasterCache
      */
     public function check()
     {
-        if (!$this->checkList(self::$lkey.'1:1', ['type' => 1, 'status' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'1:1');
-        if (!$this->checkList(self::$lkey.'2:1', ['type' => 2, 'status' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey.'2:1');
+        if (!$this->checkList(self::$lkey.'1', 1)) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'1');
+        if (!$this->checkList(self::$lkey.'2', 2)) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey.'2');
     }
 
 

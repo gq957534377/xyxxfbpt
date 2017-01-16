@@ -121,6 +121,7 @@ class PictureCache extends MasterCache
      */
     public function mysqlToList($where, $key)
     {
+        if ($this->exists($key)) return $this->getBetweenList($key, 0, -1);
         //从数据库获取所有的guid
         $guids = self::$pictureStore->getList($where, 'id');
 
@@ -163,7 +164,7 @@ class PictureCache extends MasterCache
      */
     public function check()
     {
-        if (!$this->checkList(self::$lkey, ['status' => 1])) Log::waring('任务调度，检测到list异常，未成功解决'.self::$lkey);
+        if (!$this->checkList(self::$lkey, ['status' => 1])) Log::warning('任务调度，检测到list异常，未成功解决'.self::$lkey);
     }
 }
 
