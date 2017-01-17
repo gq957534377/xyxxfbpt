@@ -11,8 +11,7 @@ namespace App\Redis;
 use App\Tools\CustomPage;
 use App\Store\CommentStore;
 use App\Store\UserStore;
-use Illuminate\Contracts\Logging\Log;
-use Illuminate\Support\Facades\Redis;
+use Log;
 
 class CommentCache extends MasterCache
 {
