@@ -59,6 +59,7 @@
 }
 .selected {
     background-color: #ff9036;
+    color: #fff !important;
 }
 .selected::after {
     /*content: url("../img/index_nav.png");*/
