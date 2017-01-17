@@ -62,12 +62,12 @@
     color: #fff !important;
 }
 .selected::after {
-    /*content: url("../img/index_nav.png");*/
-    content: "▼";
+    content: url("../img/icon-sanjiao.png");
+    /*content: "▼";*/
     color: #ff9035;
     font-size: 18px;
     position: relative;
-    top: 22px;
+    top: 19px;
     left: -40%;
     z-index: 999;
 }
