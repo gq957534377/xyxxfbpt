@@ -90,7 +90,10 @@ $('#delete').on('click', function () {
         if ($('.checkbox-contri:eq('+i+')').is(':checked')) {
             guidArr[i] = $('.checkbox-contri:eq('+i+')').attr('id');
             guidArr[k++];
-        };
+        }
+    }
+    if (guidArr.length == 0) {
+        return;
     }
     // 删除弹框
     swal({
@@ -113,10 +116,6 @@ $('#delete').on('click', function () {
  */
 function deleteAjax(method, id)
 {
-    var a = $('.tab-info-top > .selected').html().substring(4,5);
-     $('.tab-info-top > .selected').html(a);
-
-    return ;
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -146,8 +145,10 @@ function deleteAjax(method, id)
                     $(".loading").hide();
                     $.each(id.id, function (key, val) {
                         $('#' + val).parent().parent().parent().remove();
-                    })
-                    $('.tab-info-top > .selected').html('aaa');
+                    });
+                    var a = $('.tab-info-top > .selected').html();
+                    var num = a.match(/\((\S*)\)/)[1];
+                    $('.tab-info-top > .selected').html(a.replace(num, num - 1));
                     swal('删除成功');
                     break;
             }

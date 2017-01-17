@@ -61,22 +61,22 @@
     {{--表格盒子结束--}}
 
     {{--修改信息弹出框 --}}
-    <div id="user-change" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-sm" id="fabu">
-            <div class="modal-content">
-                <div id = "" class="modal-header">
-                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>
-                </div>
-                <div class="modal-body">
+    {{--<div id="user-change" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">--}}
+        {{--<div class="modal-dialog modal-sm" id="fabu">--}}
+            {{--<div class="modal-content">--}}
+                {{--<div id = "" class="modal-header">--}}
+                    {{--<button class="close" type="button" data-dismiss="modal" aria-hidden="true"><span class="text-danger">x</span></button>--}}
+                {{--</div>--}}
+                {{--<div class="modal-body">--}}
 
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" data-name="" class="btn btn-primary">修改</button>
-                </div>
+                {{--</div>--}}
+                {{--<div class="modal-footer">--}}
+                    {{--<button type="submit" data-name="" class="btn btn-primary">修改</button>--}}
+                {{--</div>--}}
 
-            </div>
-        </div>
-    </div>
+            {{--</div>--}}
+        {{--</div>--}}
+    {{--</div>--}}
     {{--查看详情弹出框 --}}
     <div id="user-info" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" id="fabu">
