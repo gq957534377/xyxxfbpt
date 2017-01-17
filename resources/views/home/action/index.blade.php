@@ -1,5 +1,5 @@
 @extends('home.layouts.master')
-
+@section('title', '活动')
 @section('style')
     <link href="{{ asset('home/css/roading.css') }}" rel="stylesheet">
 @endsection

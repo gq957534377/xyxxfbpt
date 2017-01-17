@@ -1,6 +1,6 @@
 @extends('home.layouts.master')
 
-@section('title', '创新作品')
+@section('title', '学院活动')
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('home/css/roading.css') }}">
