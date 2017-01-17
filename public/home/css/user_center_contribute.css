@@ -60,6 +60,16 @@
 .selected {
     background-color: #ff9036;
 }
+.selected::after {
+    /*content: url("../img/index_nav.png");*/
+    content: "▼";
+    color: #ff9035;
+    font-size: 18px;
+    position: relative;
+    top: 22px;
+    left: -40%;
+    z-index: 999;
+}
 @media (max-width: 767px) {
 }
 /*屏幕宽度大于等于768px小于992px时,bootstrap row容器宽度750px*/
