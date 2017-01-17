@@ -66,7 +66,17 @@ $(function () {
  */
 $('.bg-del').on('click', function () {
     me = $(this);
-    deleteAjax ('DELETE', {'id' : [me.data('delete')]});
+    swal({
+        title: "是否删除",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "删除",
+        cancelButtonText: "取消",
+    }, function(){
+        deleteAjax ('DELETE', {'id' : [me.data('delete')]});
+    });
+    //
     // deleteAjax(me.data('delete'));
 });
 
@@ -80,9 +90,23 @@ $('#delete').on('click', function () {
         if ($('.checkbox-contri:eq('+i+')').is(':checked')) {
             guidArr[i] = $('.checkbox-contri:eq('+i+')').attr('id');
             guidArr[k++];
-        };
+        }
     }
-    deleteAjax ('DELETE', {'id' : guidArr});
+    if (guidArr.length == 0) {
+        return;
+    }
+    // 删除弹框
+    swal({
+        title: "是否删除",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "删除",
+        cancelButtonText: "取消"
+    }, function(){
+        deleteAjax ('DELETE', {'id' : guidArr});
+    });
+
 });
 
 
@@ -92,7 +116,6 @@ $('#delete').on('click', function () {
  */
 function deleteAjax(method, id)
 {
-
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -122,8 +145,10 @@ function deleteAjax(method, id)
                     $(".loading").hide();
                     $.each(id.id, function (key, val) {
                         $('#' + val).parent().parent().parent().remove();
-                    })
-
+                    });
+                    var a = $('.tab-info-top > .selected').html();
+                    var num = a.match(/\((\S*)\)/)[1];
+                    $('.tab-info-top > .selected').html(a.replace(num, num - 1));
                     swal('删除成功');
                     break;
             }
