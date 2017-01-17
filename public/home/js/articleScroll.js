@@ -19,10 +19,10 @@ $('.loads').click(function () {
                 $.each(data.ResultData.data, function (key, val) {
                     html += '<li class="row">';
                     html += '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">';
-                    html += '<a href="/article/"'+ val.guid +'><img onerror="this.src=/home/img/zxz.png" src="'+ val.banner +'"></a>';
+                    html += '<a href="/article/'+ val.guid +'" target="_blank"><img onerror="this.src=/home/img/zxz.png" src="'+ val.banner +'"></a>';
                     html += '</div>';
                     html += '<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">';
-                    html += '<h3><a href="/article/'+ val.guid +'">' + val.title + '</a></h3>';
+                    html += '<h3><a href="/article/'+ val.guid +'" target="_blank">' + val.title + '</a></h3>';
                     html += '<p>' + val.brief + '</p>';
                     html += '<div class="row list-font-bottom">';
                     html += '<span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">'+ formatDate(val.addtime) +'</span>';
