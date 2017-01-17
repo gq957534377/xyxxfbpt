@@ -90,9 +90,9 @@ class ActionService
             if($res && $result){
                 DB::commit();
                 if ((int)$data['list'] == 3){
-                    self::$collegeCache->addOrder($data['user_id'], $data['action_id'], 1);
+                    self::$collegeCache->addOrder($data['user_id'], $data['action_id'], 1, true);
                 }else{
-                    self::$actionCache->addOrder($data['user_id'], $data['action_id'], 1);
+                    self::$actionCache->addOrder($data['user_id'], $data['action_id'], 1, true);
                 }
                 return ['StatusCode' => '200', 'ResultData' => "报名成功"];
             }else{

@@ -279,6 +279,12 @@ class CollegeCache extends MasterCache
         $this->addCollegeList($oldType, $status, $guid);
     }
 
+    /**
+     * 获取学院活动的报名记录
+     * @param
+     * @return array
+     * @author 郭庆
+     */
     public function getOrderColleges($user_id, $action_id)
     {
         $key = self::$orderKey.$user_id.':'.$action_id;
@@ -296,10 +302,20 @@ class CollegeCache extends MasterCache
         }
     }
 
-    public function addOrder($user_id, $action_id, $value)
+    /**
+     * 添加报名记录
+     * @param
+     * @return array
+     * @author 郭庆
+     */
+    public function addOrder($user_id, $action_id, $value, $order = false)
     {
         $key = self::$orderKey.$user_id.':'.$action_id;
+        $hash = self::$hkey.$action_id;
         if (!$this->addString($key, $value)) Log::error('添加学院活动'.$user_id.'用户报名'.$action_id.'活动记录失败');
+        if ($this->exists($hash) && $order){
+            if (!$this->hIncrBy($hash, 'people', 1)) Log::error('添加学院活动'.$user_id.'用户报名'.$action_id.'活动报名人数自增一失败');
+        }
     }
 
     /**

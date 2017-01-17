@@ -255,6 +255,18 @@ class MasterCache
     }
 
     /**
+     * 给hash中某一个字段加一个值
+     * @param $key string hash的key
+     * @param $filed string 所要自增的字段
+     * @param $value int 所要自增的值
+     * @return array
+     * @author 郭庆
+     */
+    public function hIncrBy($key, $filed, $value)
+    {
+        return Redis::hIncrBy($key, $filed, $value);
+    }
+    /**
      * 得到一个string
      * @param   string  $key
      * @return  string|bool: If key didn't exist, FALSE is returned. Otherwise, the value related to this key is returned.
