@@ -70,6 +70,8 @@ Route::group(['domain' => ADMIN_URL,'namespace' => 'Admin'],function(){
  */
 
 Route::group(['domain'=>HOME_URL ,'namespace' => 'Home'],function() {
+    //公共类
+    Route::get('errors/{status}', 'CommonController@errors');
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 关于我们
