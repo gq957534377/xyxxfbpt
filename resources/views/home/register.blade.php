@@ -44,7 +44,7 @@
 
         <button id="submit" type="submit">注 册</button>
     </form>
-    <a href="http://www.jq22.com/demo/jquery-Sharelink20151012/index.html">
+    <a href="{{url('/login')}}">
         <button type="button" class="register-tis">已经有账号？</button>
     </a>
 

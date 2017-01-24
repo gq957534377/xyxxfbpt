@@ -25,7 +25,7 @@
 		<button id="submit" type="submit">登 陆</button>
 	</form>
 
-	<a href="http://www.jq22.com/demo/jquery-Sharelink20151012/register.html">
+	<a href="{{url('/register')}}">
 		<button type="button" class="register-tis">还有没有账号？</button>
 	</a>
 
