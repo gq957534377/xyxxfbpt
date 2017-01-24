@@ -36,6 +36,7 @@ class RegisterController extends Controller
     {
         if (!empty(session('user'))) return redirect('/');
         $cookie = \App\Tools\Common::generateCookie('checkCode');
+
         $val = md5(session()->getId());
         return response()->view('home.register', ['sesid' => $val])->withCookie($cookie);
     }

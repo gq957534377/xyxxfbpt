@@ -175,13 +175,13 @@ class LoginController extends Controller
      * @return \Gregwar\Captcha\PhraseBuilder|null|string
      * @author 刘峻廷
      */
-    public function captcha($tmp, Request $request)
+    public function captcha()
     {
         $result = Common::checkCookie('checkCode', '验证码');
         if ($result != 'ok') {
             return Common::captchaStatus();
         }
-        return Common::captcha($tmp);
+        return Common::captcha();
     }
 
     /**

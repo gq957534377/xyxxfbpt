@@ -134,7 +134,7 @@ class LoginController extends Controller
      */
     public function captcha($tmp)
     {
-        return Common::captcha($tmp);
+        return Common::captcha();
     }
 
     /**

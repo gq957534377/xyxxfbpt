@@ -19,13 +19,13 @@
                     <li data-target="#carousel-example-generic" data-slide-to="2"></li>
                 </ol>
                 <div class="carousel-inner" role="listbox">
-                    <div class="item active"> <a href="content.html" target="_blank"><img src="images/img1.jpg" alt="" /></a>
+                    <div class="item active"> <a href="content.html" target="_blank"><img src="{{asset('home/images/img1.jpg')}}" alt="" /></a>
                         <div class="carousel-caption"> 欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 </div>
                         <span class="carousel-bg"></span> </div>
-                    <div class="item"> <a href="content.html" target="_blank"><img src="images/img2.jpg" alt="" /></a>
+                    <div class="item"> <a href="content.html" target="_blank"><img src="{{asset('home/images/img2.jpg')}}" alt="" /></a>
                         <div class="carousel-caption"> 欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 </div>
                         <span class="carousel-bg"></span> </div>
-                    <div class="item"> <a href="content.html" target="_blank"><img src="images/img3.jpg" alt="" /></a>
+                    <div class="item"> <a href="content.html" target="_blank"><img src="{{asset('home/images/img3.jpg')}}" alt="" /></a>
                         <div class="carousel-caption"> 欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 </div>
                         <span class="carousel-bg"></span> </div>
                 </div>

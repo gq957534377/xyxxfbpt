@@ -66,7 +66,7 @@ class Common {
      * @return PhraseBuilder|null|string
      * @author 刘峻廷
      */
-    public static function captcha($tmp)
+    public static function captcha()
     {
         $phrase = new PhraseBuilder();
         // 设置验证码位数,
@@ -94,7 +94,7 @@ class Common {
         header("Content-Type:image/jpeg");
         // 将图片输出
         $builder->output();
-
+        return $phrase;
 
     }
 

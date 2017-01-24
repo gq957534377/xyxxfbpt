@@ -1,55 +1,67 @@
-@extends('home.layouts.master')
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>校园信息发布平台-欢迎您的加入</title>
+    <link rel="stylesheet" href="{{asset('home/css/register.css')}}">
+</head>
+<body>
 
-@section('title','欢迎来到英雄会登录中心!')
+<div class="register-container">
+    <h1>校园信息发布平台</h1>
 
-@section('menu')
-
-@endsection
-
-@section('style')
-<link rel="stylesheet" href="{{ asset('home/css/base.css') }}">
-<link rel="stylesheet" href="{{ asset('home/css/register.css') }}">
-<link href="{{ asset('home/css/sweet-alert.min.css') }}" rel="stylesheet">
-@endsection
-
-
-<!--登录主要内容 Start-->
-@section('content')
-    <!--登录主要内容 Start-->
-    <div class="row content-login">
-    	<div class="container loginpanel">
-    		<div class="login_title">注册账号</div>
-
-            <div id="error-info" class="alert alert-danger"></div>
-
-    		<form id="signUpForm" class="form-inline" action="{{ url('/register') }}" method="post">
-                <input name="stage" type="text" hidden value="1">
-                <ul class="input_block_1">
-                    <li>
-                        <input type="text" name="tel" placeholder="请输入您的手机号" />
-                    </li>
-                    <li>
-                        <input class="code" name="code" type="text"  placeholder="请输入验证码" />
-                        <img id="captcha" data-sesid="{{ $sesid }}" src="{{url('/code/captcha/' . $sesid)}}">
-                    </li>
-                </ul>
-                <div class="input_block_2">
-                    <span>
-                      点击“立即注册”，表示您同意并愿意遵守<a href="#">注册用户协议</a>
-                    </span>
-                </div>
-                <div class="btn_block">
-                    <button type="submit" class="btn btn-warning btn-block btn-lg">立即注册</button>
-                    <a href="{{url('/login')}}" type="button" class="btn btn-default btn-block btn-lg">返回登录</a>
-                </div>
-    		</form>
-
-    	</div>
+    <div class="connect">
+        <p style="left: 0%;">欢迎您的加入</p>
     </div>
 
-@endsection
+    <form action="http://www.jq22.com/demo/jquery-Sharelink20151012/register.html" method="post" id="registerForm"
+          novalidate="novalidate">
+        <div>
+            <input type="text" name="username" class="username" placeholder="您的用户名" autocomplete="off">
+        </div>
+        <div>
+            <input type="password" name="password" class="password" placeholder="输入密码" oncontextmenu="return false"
+                   onpaste="return false">
+        </div>
+        <div>
+            <input type="password" name="confirm_password" class="confirm_password" placeholder="再次输入密码"
+                   oncontextmenu="return false" onpaste="return false">
+        </div>
+        <div>
+            <input type="text" name="phone_number" class="phone_number" placeholder="输入手机号码" autocomplete="off"
+                   id="number">
+        </div>
+        <div>
+            <input class="code" name="code" type="text"  style="width: 50%; margin-left: -3px;" placeholder="请输入验证码" />
+            <img id="captcha" style="margin-bottom: -17px;" data-sesid="{{ $sesid }}" src="{{url('/code/captcha/' . $sesid)}}">
+        </div>
 
-@section('script')
-    <script src="{{ asset('home/js/sweet-alert.min.js') }}"></script>
-    <script src="{{ asset('home/js/registerValidate.js') }}"></script>
-@endsection
+        <div>
+            <input class="code" name="code" type="text"  style="width: 50%; margin-left: -3px;" placeholder="请输入手机验证码" />
+            <button type="button" style="width:118px;margin-bottom: -17px;" id="sendCode" class="btn btn-defult">发送验证码</button>
+        </div>
+
+        <button id="submit" type="submit">注 册</button>
+    </form>
+    <a href="http://www.jq22.com/demo/jquery-Sharelink20151012/index.html">
+        <button type="button" class="register-tis">已经有账号？</button>
+    </a>
+
+</div>
+
+@include('home.public.footer')
+<script src="{{asset('home/js/jquery-2.1.4.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('home/js/nprogress.js')}}" type="text/javascript"></script>
+<script src="{{asset('home/js/bootstrap.min.js')}}" type="text/javascript"></script>
+<script type="text/javascript" src="{{asset('home/js/jquery.leanModal.min.js')}}"></script>
+
+<!--背景图片自动更换-->
+<script src="{{asset('home/js/supersized.3.2.7.min.js')}}"></script>
+<script src="{{asset('home/js/supersized-init.js')}}"></script>
+<!--表单验证-->
+<script src="{{asset('home/js/jquery.validate.min.js')}}"></script>
+<script src="{{asset('home/js/registerValidate.js')}}"></script>
+
+</body>
+</html>

@@ -1,62 +1,47 @@
-﻿@extends('home.layouts.master')
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>校园信息发布平台-欢迎您的加入</title>
+	<link rel="stylesheet" href="{{asset('home/css/register.css')}}">
+</head>
+<body>
 
-@section('title','欢迎来到英雄会登录中心!')
+<div class="login-container">
+	<h1>校园信息发布平台</h1>
 
-@section('menu')
+	<div class="connect">
+		<p style="left: 0%;">Link the school. Share to shool.</p>
+	</div>
 
-@endsection
+	<form action="http://www.jq22.com/demo/jquery-Sharelink20151012/index.html" method="post" id="loginForm" novalidate="novalidate">
+		<div>
+			<input type="text" name="username" class="username" placeholder="用户名/手机号" autocomplete="off">
+		</div>
+		<div>
+			<input type="password" name="password" class="password" placeholder="密码" oncontextmenu="return false" onpaste="return false">
+		</div>
+		<button id="submit" type="submit">登 陆</button>
+	</form>
 
-@section('style')
-  <link rel="stylesheet" href="{{ asset('home/css/base.css') }}">
-  <link rel="stylesheet" href="{{ asset('home/css/login.css') }}">
-@endsection
+	<a href="http://www.jq22.com/demo/jquery-Sharelink20151012/register.html">
+		<button type="button" class="register-tis">还有没有账号？</button>
+	</a>
 
-@section('content')
-<!--登录主要内容 Start-->
-    <div class="content-login">
-		@include('admin.public.errors')
-		@include('admin.public.success')
-    	<div class="container loginpanel">
-    		<div class="login_title">登录</div>
-			<div id="error-info" class="alert alert-danger"></div>
-    		<form id="signOnForm" class="form-inline" action="{{url('/login')}}" method="post">
-	    		<ul class="input_block_1">
-	    			<li>
-	    				<input type="text" name="tel"  placeholder="输入手机号" />
-	    			</li>
-	    			<li>
-	    				<input type="password" name="password" placeholder="输入密码" />
-	    			</li>
-					<li id="login-code" {{ $errCheck ? '' : 'hidden' }}>
-						<input class="code" name="code" type="text"  placeholder="请输入验证码" />
-						<img id="captcha" data-sesid="1" src="{{url('/code/captcha/1')}}">
-					</li>
-	    		</ul>
-	    		<div class="input_block_2">
-	    			<div class="checkbox select_block">
-	    				<label >
-	    					<input type="checkbox"/>
-	    					<span class="input_checkbox"><i class="fa fa-check"></i></span>
-	    					<span class="input_checkbox_title">记住密码</span>
-	    				</label>
-	    			</div>
-	    			<span class="link_pwd"><a href="{{ url('/login/create') }}">忘记密码？</a></span>
-	    		</div>
-				<div class="btn_block">
-					<button type="submit" id="login" class="btn btn-warning btn-block btn-lg">立即登录</button>
-					<a href="{{url('/register')}}" type="button" class="btn btn-default btn-block btn-lg">注册账号</a>
-				</div>
-    		</form>
+</div>
+@include('home.public.footer')
 
-    	</div>
-    </div>
-<!--登录主要内容 End-->
-@endsection
+<script src="{{asset('home/js/jquery-2.1.4.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('home/js/loginRegister.js')}}" type="text/javascript"></script>
+<script src="{{asset('home/js/nprogress.js')}}" type="text/javascript"></script>
+<script src="{{asset('home/js/bootstrap.min.js')}}" type="text/javascript"></script>
+<script type="text/javascript" src="{{asset('home/js/jquery.leanModal.min.js')}}"></script>
 
-@section('script')
-	<script src="{{ asset('home/js/loginValidate.js') }}"></script>
-
-@endsection
-
-
-
+<!--背景图片自动更换-->
+<script src="{{asset('home/js/supersized.3.2.7.min.js')}}"></script>
+<script src="{{asset('home/js/supersized-init.js')}}"></script>
+<!--表单验证-->
+<script src="{{asset('home/js/jquery.validate.min.js')}}"></script>
+</body>
+</html>

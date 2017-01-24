@@ -1,9 +1,7 @@
 <script src="{{asset('home/js/jquery-2.1.4.min.js')}}" type="text/javascript"></script>
 <script src="{{asset('home/js/nprogress.js')}}" type="text/javascript"></script>
 <script src="{{asset('home/js/bootstrap.min.js')}}" type="text/javascript"></script>
-<script type="text/javascript" src="{{asset('home/js/jquery-1.9.1.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('home/js/jquery.leanModal.min.js')}}"></script>
-<script src="http://www.jq22.com/js/jq.js"></script>
 <script type="text/javascript">
 
     $(function(){

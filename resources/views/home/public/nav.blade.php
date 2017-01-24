@@ -17,7 +17,7 @@
                 <mark id="nicknameBox">登陆</mark>
             </a>
             <span class="hidden-xs">|</span>
-            <a class="pad-l12-xs" href="{{ url('/logout') }}">注册</a>
+            <a class="pad-l12-xs" href="{{ url('/register') }}">注册</a>
         </div>
     @endif
     <ul class="nav hidden-xs-nav">
