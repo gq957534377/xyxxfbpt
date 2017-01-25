@@ -9,7 +9,7 @@
 <body>
 
 <div class="register-container">
-    <h1>校园信息发布平台</h1>
+    <a href="{{ url('/') }}" style="text-decoration:none;color: white"><h1>校园信息发布平台</h1></a>
 
     <div class="connect">
         <p style="left: 0%;">欢迎您的加入</p>

@@ -9,7 +9,7 @@
 <body>
 
 <div class="login-container">
-	<h1>校园信息发布平台</h1>
+	<a href="{{ url('/') }}" style="text-decoration:none;color: white"><h1>校园信息发布平台</h1></a>
 
 	<div class="connect">
 		<p style="left: 0%;">Link the school. Share to shool.</p>
