@@ -169,7 +169,6 @@ class UserService {
 
     }
 
-
     /**
      * 验证手机号是否存在
      * @param $data

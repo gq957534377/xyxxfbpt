@@ -15,10 +15,10 @@
         <p style="left: 0%;">欢迎您的加入</p>
     </div>
 
-    <form action="http://www.jq22.com/demo/jquery-Sharelink20151012/register.html" method="post" id="registerForm"
-          novalidate="novalidate">
+    <form action="{{ url('/register') }}" method="post" id="registerForm" novalidate="novalidate">
+        {{csrf_field()}}
         <div>
-            <input type="text" name="username" class="username" placeholder="您的用户名" autocomplete="off">
+            <input type="text" name="username" id="nickname" class="username" placeholder="您的用户名" autocomplete="off">
         </div>
         <div>
             <input type="password" name="password" class="password" placeholder="输入密码" oncontextmenu="return false"
@@ -33,13 +33,15 @@
                    id="number">
         </div>
         <div>
-            <input class="code" name="code" type="text"  style="width: 50%; margin-left: -3px;" placeholder="请输入验证码" />
             <img id="captcha" style="margin-bottom: -17px;" data-sesid="{{ $sesid }}" src="{{url('/code/captcha/' . $sesid)}}">
+            <input class="code" id="codes" name="code" type="text" style="width: 50%; margin-left: -3px;" placeholder="请输入验证码"/>
         </div>
 
         <div>
-            <input class="code" name="code" type="text"  style="width: 50%; margin-left: -3px;" placeholder="请输入手机验证码" />
-            <button type="button" style="width:118px;margin-bottom: -17px;" id="sendCode" class="btn btn-defult">发送验证码</button>
+            <button type="button" style="width:118px;margin-bottom: -17px;" id="sendCode" class="btn btn-defult">发送验证码
+            </button>
+            <input class="code" name="phone_code" type="text" style="width: 50%; margin-left: -3px;"
+                   placeholder="请输入手机验证码"/>
         </div>
 
         <button id="submit" type="submit">注 册</button>
@@ -62,6 +64,5 @@
 <!--表单验证-->
 <script src="{{asset('home/js/jquery.validate.min.js')}}"></script>
 <script src="{{asset('home/js/registerValidate.js')}}"></script>
-
 </body>
 </html>

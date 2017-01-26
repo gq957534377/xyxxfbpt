@@ -38,10 +38,7 @@ $(document).ready(function(){
                 required:true,//必填
                 minlength:3, //最少3个字符
                 maxlength:10,//最多10个字符
-                remote:{
-                    url:"http://kouss.com/demo/Sharelink/remote.json",//用户名重复检查，别跨域调用
-                    type:"post",
-                },
+                remote:true,
             },
             password:{
                 required:true,
@@ -61,7 +58,11 @@ $(document).ready(function(){
             },
             code:{
                 required:true,
-                operateor:checkCode,
+                checkCode:true,
+            },
+            phone_code:{
+                required:true,
+                // operateor:checkCode,
             }
         },
         //错误信息提示
@@ -88,9 +89,14 @@ $(document).ready(function(){
             },
             phone_number:{
                 required:"请输入手机号码",
-                phone_number:"请输入正确的手机号",
                 digits:"请输入正确的手机号码",
             },
+            code:{
+                required:"请输入验证码"
+            },
+            phone_code:{
+                required:"请输入手机验证码"
+            }
 
         },
     });
@@ -100,6 +106,43 @@ $(document).ready(function(){
         var phone_number = /^1[34578]\d{9}$/;
         return this.optional(element) || (length == 11 && phone_number.test(value));
     }, "手机号码格式错误");
+
+    jQuery.validator.addMethod("remote", function(value, element) {
+        var url = "/register/"+value+"/edit";
+        var result;
+        $.ajax({
+            url: url,
+            type: 'get',
+            async: false,
+            success:function (data) {
+                if (data.StatusCode === '400'){
+                    result = false;
+                }else{
+                    result = true;
+                }
+            }
+        });
+        return result;
+    }, "用户名已存在");
+
+    jQuery.validator.addMethod("checkCode", function(value, element) {
+        var url = "/register/create";
+        var result;
+        $.ajax({
+            url: url,
+            type: 'get',
+            data: {code:value},
+            async: false,
+            success:function (data) {
+                if (data.StatusCode === '200'){
+                    result = true;
+                }else{
+                    result = false;
+                }
+            }
+        });
+        return result;
+    }, "验证码错误");
 });
 
 
@@ -118,31 +161,37 @@ function updateCaptcha(me) {
 $("#registerForm").on('click','#sendCode',function(){
 
     var phone =$("#number").val();
-    // 传输
-    var url = '/register/'+phone;
-    $.ajax({
-        type: "GET",
-        url: url,
-        success:function(data){
-            console.log(data);
-            switch (data.StatusCode){
-                case '400':
-                    // promptBoxHandle('警告',data.ResultData);
-                    $('#error-info').html(data.ResultData).fadeIn(1000);
-                    $('#error-info').fadeOut(2000);
-                    setTime($("#sendCode"));
-                    break;
-
-                case '200':
-                    $('#error-info').html(data.ResultData).fadeIn(1000);
-                    $('#error-info').fadeOut(2000);
-                    setTime($("#sendCode"));
-                    break;
+    var length = phone.length;
+    var phone_number = /^1[34578]\d{9}$/;
+    if (length == 11 && phone_number.test(phone)){
+        $.ajax({
+            type: "GET",
+            url: '/register/create',
+            data:{code: $("#codes").val()},
+            success:function (data) {
+                if (data.StatusCode === '200'){
+// 传输
+                    var url = '/register/'+phone;
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        success:function(data){
+                            alert(data.ResultData);
+                            if (data.StatusCode === '200'){
+                                setTime($("#sendCode"));
+                            }
+                        }
+                    });
+                }else {
+                    alert(data.ResultData);
+                }
             }
-        }
-    });
-
+        });
+    }else {
+        alert("请输入正确的手机格式");
+    }
 });
+
 // 短信验证发送后计时器
 var countdown=60;
 function setTime(obj) {

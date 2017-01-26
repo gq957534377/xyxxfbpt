@@ -94,7 +94,7 @@ class Common {
         header("Content-Type:image/jpeg");
         // 将图片输出
         $builder->output();
-        return $phrase;
+//        return $phrase;
 
     }
 
