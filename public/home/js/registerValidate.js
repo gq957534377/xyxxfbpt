@@ -143,6 +143,7 @@ $(document).ready(function(){
         });
         return result;
     }, "验证码错误");
+
 });
 
 

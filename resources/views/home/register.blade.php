@@ -15,7 +15,7 @@
         <p style="left: 0%;">欢迎您的加入</p>
     </div>
 
-    <form action="{{ url('/register') }}" method="post" id="registerForm" novalidate="novalidate">
+    <form action="{{ url('/register') }}" method="post" id="registerForm" novalidate="novalidate" onsubmit="return false">
         {{csrf_field()}}
         <div>
             <input type="text" name="username" id="nickname" class="username" placeholder="您的用户名" autocomplete="off">

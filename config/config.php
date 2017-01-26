@@ -51,7 +51,7 @@ define('STR_LIMIT', 20);
 // 短信接口相关配置
 define('SMS_APP_KEY', '23578050');                              // 应用 APP KEY
 define('SMS_APP_SECRET', '2a07331f605055bb9d70a5220097e2cb');   // 应用 APP Secret
-define('SMS_FREE_SIGN_NAME', '奇立英雄会');                       // 短信签名
+define('SMS_FREE_SIGN_NAME', '奇立英雄会');                  // 短信签名
 define('SMS_TEMPLATE_CODE', 'SMS_34865398');                    // 短信模板ID
 // 七牛云存储接口相关配置
 define('QINIU_ACCESS_KEY', 'c_M1yo7k90djYAgDst93NM3hLOz1XqYIKYhaNJZ4'); // 七牛访问KEY

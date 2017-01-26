@@ -70,20 +70,21 @@ class UserService {
     {
 
         // 检验用户是否被注册
-//        $result = self::$accountCache->getOneAccount($data['tel']);
-        $result = self::$accountCache->stringAccount($data['tel']);
+//        $result = self::$accountCache->getOneAccount($data['phone_number']);
+        $result = self::$accountCache->stringAccount($data['phone_number']);
 
         // 返回真，用户存在
         if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
 
         // 返回假，添加数据，先对数据提纯
         $data['guid'] = Common::getUuid();
-        $data['password'] = Common::cryptString($data['tel'], $data['password'], 'hero');
+        $data['password'] = Common::cryptString($data['phone_number'], $data['password'], 'hero');
         $data['addtime'] = $_SERVER['REQUEST_TIME'];
 
-        $phone = $data['tel'];
+        $phone = $data['phone_number'];
         unset($data['confirm_password']);
         unset($data['stage']);
+        unset($data['username']);
 
         // 执行事务
         DB::beginTransaction();
@@ -100,7 +101,7 @@ class UserService {
         // $countUsers = self::$userStore->countUsers();
 
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
-        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'tel' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg', 'addtime' => $data['addtime']]);
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'phone_number' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg', 'addtime' => $data['addtime']]);
         if (!$userInfo) {
             Log::error('用户注册信息写入失败', $userInfo);
             DB::rollback();
@@ -155,7 +156,7 @@ class UserService {
         };
 
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
-        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'],'nickname' => $nickname,'tel' => $phone,'email' =>  $data['email'],'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'],'nickname' => $nickname,'phone_number' => $phone,'email' =>  $data['email'],'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
 
         if (!$userInfo) {
             Log::error('用户注册信息写入失败',$userInfo);
@@ -178,8 +179,8 @@ class UserService {
     {
         if (empty($data)) return false;
         // 检验用户是否被注册
-//        $result = self::$accountCache->getOneAccount($data['tel']);
-        $result = self::$accountCache->stringAccount($data['tel']);
+//        $result = self::$accountCache->getOneAccount($data['phone_number']);
+        $result = self::$accountCache->stringAccount($data['phone_number']);
         // 返回真，用户存在
         return $result;
     }
@@ -193,13 +194,13 @@ class UserService {
     public function  loginCheck($data)
     {
         // 存在，判断list队列中该账户是否存在
-//        $temp = self::$accountCache->getOneAccount($data['tel']);
-        $temp = self::$accountCache->stringAccount($data['tel']);
+//        $temp = self::$accountCache->getOneAccount($data['phone_number']);
+        $temp = self::$accountCache->stringAccount($data['phone_number']);
 
         // 返回假，说明此账号不存在
         if(!$temp) return ['StatusCode' => '400','ResultData' => '账号不存在或输入错误！'];
         // 对密码进行加密
-        $pass = Common::cryptString($data['tel'], $data['password'], 'hero');
+        $pass = Common::cryptString($data['phone_number'], $data['password'], 'hero');
         // 密码校验
         if ($pass != $temp->password) return ['StatusCode' => '400','ResultData' => '密码错误！'];
 
@@ -219,19 +220,19 @@ class UserService {
             return ['StatusCode' => '400', 'ResultData' => '请求失败'];
         }
         // redis 同步更新
-//        $redisInfo = self::$accountCache->setOneAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['tel' => $data['tel']])));
-        self::$accountCache->addNewAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['tel' => $data['tel']])));
+//        $redisInfo = self::$accountCache->setOneAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['phone_number' => $data['phone_number']])));
+        self::$accountCache->addNewAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['phone_number' => $data['phone_number']])));
 
         //将一些用户的信息推到session里，方便维持
         $userInfo = self::$userStore->getOneData(['guid' => $temp->guid]);
 
         // 用户信息缺失，需要给用户信息表重新插入一条基本信息
         if (!$userInfo) {
-            Log::error('账号异常，用户信息缺失', ['guid' => $temp->guid, 'tel' => $temp->tel, 'time' => $time ]);
-            $userInfo = self::$userStore->addUserInfo(['guid' => $temp->guid, 'tel' => $temp->tel]);
+            Log::error('账号异常，用户信息缺失', ['guid' => $temp->guid, 'phone_number' => $temp->phone_number, 'time' => $time ]);
+            $userInfo = self::$userStore->addUserInfo(['guid' => $temp->guid, 'phone_number' => $temp->phone_number]);
 
             if (!$userInfo) {
-                Log::error('账号异常，用户信息缺失,补充用户信息失败', ['guid' => $temp->guid, 'tel' => $temp->tel, 'time' => $time, 'headpic' => '/home/img/user_center.jpg' ]);
+                Log::error('账号异常，用户信息缺失,补充用户信息失败', ['guid' => $temp->guid, 'phone_number' => $temp->phone_number, 'time' => $time, 'headpic' => '/home/img/user_center.jpg' ]);
                 return ['StatusCode' => '400','ResultData' => '账号异常，请联系管理员！'];
             }
         }
@@ -259,25 +260,25 @@ class UserService {
     public function talChangePassword($data)
     {
         // 查询用户的信息
-        $result = self::$homeStore->getOneData(['tel' => $data['tel']]);
+        $result = self::$homeStore->getOneData(['phone_number' => $data['phone_number']]);
 
         // 判断数据
         if (!$result) return ['StatusCode' => '400', 'ResultData' => '账号不存在'];
 
         //加密密码
-        $pass = Common::cryptString($result->tel, $data['password'], 'hero');
+        $pass = Common::cryptString($result->phone_number, $data['password'], 'hero');
 
         if ($result->password == $pass) return ['StatusCode' => '400', 'ResultData' => '原始密码与新密码相同，请更换密码'];
         if($result->status != '1') return ['StatusCode' => '400','ResultData' => '账号存在异常，已锁定，请紧快与客服联系！'];
         // 更新密码
 
-        $result = self::$homeStore->updateData(['tel' => $data['tel']], ['password' => $pass]);
+        $result = self::$homeStore->updateData(['phone_number' => $data['phone_number']], ['password' => $pass]);
         Session::put('sms',null);
         if (!$result) {
             \Log::error('前端用户修改密码失败', $result);
             return ['StatusCode' => '400', 'ResultData' => '修改密码失败'];
         } else {
-            self::$accountCache->addNewAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['tel' => $data['tel']])));
+            self::$accountCache->addNewAccount(CustomPage::objectToArray(self::$homeStore->getOneData(['phone_number' => $data['phone_number']])));
             return ['StatusCode' => '200', 'ResultData' => '修改密码成功'];
         }
     }
@@ -510,23 +511,23 @@ class UserService {
     {
         // 执行事务
         \DB::beginTransaction();
-        $oldTel = self::$homeStore->getOneData(['guid' => $guid])->tel;
-        $result = self::$homeStore->updateData(['guid' => $guid], ['tel' => $data]);
+        $oldTel = self::$homeStore->getOneData(['guid' => $guid])->phone_number;
+        $result = self::$homeStore->updateData(['guid' => $guid], ['phone_number' => $data]);
 
         if (!$result) {
-            \Log::error('用户账号手机绑定修改失败', ['guid' => $guid, ['tel' => $data]]);
+            \Log::error('用户账号手机绑定修改失败', ['guid' => $guid, ['phone_number' => $data]]);
             return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
         }
 
-        $result = self::$userStore->updateUserInfo(['guid' => $guid], ['tel' => $data]);
+        $result = self::$userStore->updateUserInfo(['guid' => $guid], ['phone_number' => $data]);
 
         if (!$result) {
-            \Log::error('用户账号手机绑定，更新用户中心信息表失败', ['guid' => $guid], ['tel' => $data]);
+            \Log::error('用户账号手机绑定，更新用户中心信息表失败', ['guid' => $guid], ['phone_number' => $data]);
             \DB::rollback();
             return ['StatusCode' => '400', 'ResultData' => '手机改绑失败!'];
         }
 
-//        $redisResult = self::$accountCache->changeOneAccount(self::$homeStore->getOneData(['guid' => $guid])->tel, CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $guid])));
+//        $redisResult = self::$accountCache->changeOneAccount(self::$homeStore->getOneData(['guid' => $guid])->phone_number, CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $guid])));
         self::$accountCache->changeOneString($oldTel, CustomPage::objectToArray(self::$homeStore->getOneData(['guid' => $guid])));
 
         \DB::commit();
