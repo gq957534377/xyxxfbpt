@@ -1,4 +1,3 @@
-
 //jquery.validate表单验证
 $(document).ready(function(){
     //登陆表单验证
@@ -29,10 +28,55 @@ $(document).ready(function(){
                 maxlength:"密码至多为32个字符",
             },
         },
+        //提交
+        submitHandler: function(form)
+        {
+            var data = {};
+            var t = $('form').serializeArray();
+            $.each(t, function(i, v) {
+                data[v.name] = v.value;
+            });
 
+            $.ajax({
+                url:'login',
+                type:'post',
+                data:data,
+                success:function (data) {
+                    if (data.StatusCode === '200'){
+                        window.location.href="/";
+                    }else {
+                        alert(data.ResultData);
+                    }
+                }
+            });
+
+        },
     });
     //注册表单验证
     $("#registerForm").validate({
+        submitHandler: function(form)
+        {
+            var data = {};
+            var t = $('form').serializeArray();
+            $.each(t, function(i, v) {
+                data[v.name] = v.value;
+            });
+
+            $.ajax({
+                url:'register',
+                type:'post',
+                data:data,
+                success:function (data) {
+                    if (data.StatusCode === '200'){
+                        alert('注册成功！');
+                        window.location.href="/";
+                    }else {
+                        alert(data.ResultData);
+                    }
+                }
+            });
+
+        },
         rules:{
             username:{
                 required:true,//必填
@@ -100,6 +144,7 @@ $(document).ready(function(){
 
         },
     });
+
     //添加自定义验证规则
     jQuery.validator.addMethod("phone_number", function(value, element) {
         var length = value.length;

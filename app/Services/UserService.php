@@ -74,7 +74,7 @@ class UserService {
         $result = self::$accountCache->stringAccount($data['phone_number']);
 
         // 返回真，用户存在
-        if ($result) return ['status' => '400', 'msg' => '用户已存在！'];
+        if ($result) return ['StatusCode' => '400', 'ResultData' => '用户已存在！'];
 
         // 返回假，添加数据，先对数据提纯
         $data['guid'] = Common::getUuid();
@@ -94,7 +94,7 @@ class UserService {
         // 数据写入失败
         if (!$loginInfo) {
             Log::error('注册用户失败', $data);
-            return ['status' => '500', 'msg' => '数据写入失败！'];
+            return ['StatusCode' => '500', 'ResultData' => '数据写入失败！'];
         };
 
         // 获取当前的用户量
@@ -105,14 +105,14 @@ class UserService {
         if (!$userInfo) {
             Log::error('用户注册信息写入失败', $userInfo);
             DB::rollback();
-            return ['status' => '500', 'msg' => '用户信息添加失败，请重新注册!'];
+            return ['StatusCode' => '500', 'ResultData' => '用户信息添加失败，请重新注册!'];
         } else {
             // 用户注册成功，写入redis
             $data['status'] = 1;
 //            self::$accountCache->insertOneAccount($data);
             self::$accountCache->addNewAccount($data);
             DB::commit();
-            return ['status'=>'200', 'msg'=>'注册成功'];
+            return ['StatusCode'=>'200', 'ResultData'=>'注册成功'];
         }
 
 

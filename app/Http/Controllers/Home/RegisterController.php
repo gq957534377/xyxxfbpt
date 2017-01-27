@@ -84,7 +84,8 @@ class RegisterController extends Controller
         $validator = Validator::make($data, $validate, $valiinfo);
 
         if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
-
+        // 验证手机验证码
+        if ($data['phone_code'] != session('sms')['smsCode']) return response()->json(['StatusCode' => '400', 'ResultData' => '手机验证码错误']);
         $data['ip'] = $request->getClientIp();
         session(['phone_number' => $data['phone_number']]);
         unset($data['_token']);
@@ -93,7 +94,12 @@ class RegisterController extends Controller
         unset($data['phone_code']);
         // 提交数据到业务层，检验用户是否存在
         $info = self::$userServer->addUser($data);
-        return response()->json(['StatusCode' => '200', 'ResultData' => $info['msg']]);
+        //注册成功，提供登陆所需要的数据
+        if ($info['StatusCode'] == '200'){
+            // 获取登录IP
+            $data['ip'] = $request->getClientIp();
+        }
+        return response()->json($info);
     }
 
     /**
