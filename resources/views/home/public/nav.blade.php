@@ -13,7 +13,7 @@
     @else
         <div class="top-right" style="margin-left: 13%">
 
-            <a class="hidden-xs" id="modaltrigger">
+            <a class="hidden-xs" id="modaltrigger" href="{{ url('/login') }}">
                 <mark id="nicknameBox">登陆</mark>
             </a>
             <span class="hidden-xs">|</span>

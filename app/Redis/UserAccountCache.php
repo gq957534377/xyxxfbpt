@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Log;
 class UserAccountCache extends MasterCache
 {
 
-    private static $lkey = LIST_USER_ACCOUNT;      //用户列表key
-    private static $hkey = HASH_USER_ACCOUNT_;     //用户hash表key
     private static $skey = String_USER_ACCOUNT_;     //用户string表key
 
     private static $homeStore;

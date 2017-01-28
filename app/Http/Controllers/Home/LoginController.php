@@ -41,8 +41,10 @@ class LoginController extends Controller
             $k = false;
         } else {
             $k = true;
+            $val = md5(session()->getId());
+            return response()->view('home.login', ['errCheck' => $k, 'sesid' => $val])->withCookie($cookie);
         }
-        return response()->view('home.login', ['errCheck' => $k])->withCookie($cookie)->withCookie($checkCode);
+        return response()->view('home.login', ['errCheck' => $k])->withCookie($cookie);
     }
 
     /**
@@ -80,26 +82,23 @@ class LoginController extends Controller
         $errNum = self::$safetyService->getString($data['ip']);
         // 判断登录次数如果超过限定的话，
         if ($errNum > LOGIN_ERROR_NUM) {
-            if (session('code') != $request['code']) {
-                return response()->json(['StatusCode' => '411','ResultData' => '请输入正确验证码']);
+            if (session('code') != $data['code']) {
+                return response()->json(['StatusCode' => '400','ResultData' => '请输入正确验证码']);
             }
         };
         //验证数据
         $this->validate($request,[
-            'tel' =>  'required',
-            'password' => 'required|min:6|max:18',
+            'phone_number' =>  'required',
+            'password' => 'required',
         ], [
-            'tel.required' => '手机号不能为空',
-            'password.required' => '密码不能为空',
-            'password.min' => '密码过短',
-            'password.mix' => '密码过长',
+            'phone_number.required' => '手机号不能为空',
+            'password.required' => '密码不能为空'
         ]);
-
 
         // 校验邮箱和账号,拿到状态码
         $info = self::$userServer->loginCheck($data);
         // 每登录错误一次，切验证码为空，则错误次数加一。
-        if ($info['StatusCode'] != '200' && empty($request['code'])) {
+        if ($info['StatusCode'] != '200' && empty($data['code'])) {
             // 如果错误次数超过三次，则返回错误信息，前台显示验证码输入框
             if (self::$safetyService->getCountIp($data['ip']) > LOGIN_ERROR_NUM) {
                 return response()->json(['StatusCode' => '411','ResultData' => '请输入验证码']);
@@ -149,7 +148,7 @@ class LoginController extends Controller
         $sms = session('sms');
         if ($data['code'] != $sms['smsCode']) {
             return response()->json(['StatusCode' => '400','ResultData' => ['验证码错误!']]);
-        } elseif ($data['tel'] != $sms['phone']) {
+        } elseif ($data['phone_number'] != $sms['phone']) {
             return response()->json(['StatusCode' => '400','ResultData' => ['请输入正确手机号!']]);
         } elseif ($data['password'] != $data['confirm_password']) {
             return response()->json(['StatusCode' => '400','ResultData' => ['两次密码不相同!']]);
@@ -212,7 +211,7 @@ class LoginController extends Controller
         $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
         if(!preg_match($preg, $id)) return response()->json(['StatusCode'=>'400','ResultData' =>'请输入正确的手机号！']);
         // 查询该手机是否已注册
-        $info = self::$userServer->checkUser(['tel' => $id]);
+        $info = self::$userServer->checkUser(['phone_number' => $id]);
 
         if(empty($info->status)) return response()->json(['StatusCode'=>'400','ResultData' => '该手机号暂未注册，请输入正确手机号！']);
         if($info->status != 1) return response()->json(['StatusCode'=>'400','ResultData' => '该手机号异常，请联系管理员！']);

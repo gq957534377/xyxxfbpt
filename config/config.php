@@ -38,7 +38,7 @@ define('REGISTER_SIGNATURE', 'luanqibazaodezifuchuan');
 define('COOKIE_LIFETIME', 1800);
 
 // 每小时登录错误N次之后，输入验证码才可以登录
-define('LOGIN_ERROR_NUM', 5);
+define('LOGIN_ERROR_NUM', 3);
 // 检测错误时间区间
 define('LOGIN_ERROR_NUM_TIME', 3600);
 // Redis Hash 超时时间

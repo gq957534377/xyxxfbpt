@@ -9,10 +9,11 @@
 namespace App\Services;
 
 use App\Redis\BaseRedis;
+use App\Redis\MasterCache;
 use Illuminate\Support\Facades\Log;
 use Storage;
 
-class SafetyService
+class SafetyService extends MasterCache
 {
 
     /**
@@ -47,7 +48,6 @@ class SafetyService
     /**
      * 得到string的值
      * @param $key
-     * @return bool|string
      * @author 王通
      */
     public function getString($key)
@@ -56,6 +56,16 @@ class SafetyService
         return BaseRedis::getRedis($key);
     }
 
+    /**
+     *
+     * @param
+     * @author 郭庆
+     */
+    public static function delString($key)
+    {
+        if (empty($key)) return false;
+        return \Redis::del($key);
+    }
     /**
      * 得到list记录条数
      * @param $key

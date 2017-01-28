@@ -3,30 +3,24 @@ $(document).ready(function(){
     //登陆表单验证
     $("#loginForm").validate({
         rules:{
-            username:{
-                required:true,//必填
-                minlength:3, //最少6个字符
-                maxlength:10,//最多20个字符
-            },
             password:{
                 required:true,
-                minlength:3,
-                maxlength:32,
             },
+            phone_number:{
+                required:true,
+                phone_number:true,//自定义的规则
+                digits:true,//整数
+            }
         },
         //错误信息提示
         messages:{
-            username:{
-                required:"必须填写用户名",
-                minlength:"用户名至少为3个字符",
-                maxlength:"用户名至多为10个字符",
-                remote: "用户名已存在",
-            },
             password:{
-                required:"必须填写密码",
-                minlength:"密码至少为3个字符",
-                maxlength:"密码至多为32个字符",
+                required:"请输入密码",
             },
+            phone_number:{
+                required:"请输入手机号码",
+                digits:"请输入正确的手机号码",
+            }
         },
         //提交
         submitHandler: function(form)
@@ -44,6 +38,8 @@ $(document).ready(function(){
                 success:function (data) {
                     if (data.StatusCode === '200'){
                         window.location.href="/";
+                    }else if(data.StatusCode === '411') {
+                        // window.location.href="login";
                     }else {
                         alert(data.ResultData);
                     }

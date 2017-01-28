@@ -136,11 +136,11 @@ class UserService {
         $data['password'] = Common::cryptString($data['email'],$data['password'],'hero');
         $data['addtime'] = $_SERVER['REQUEST_TIME'];
         // 保存两个用户信息字段
-        $nickname = $data['nickname'];
+        $username = $data['username'];
         $phone = $data['phone'];
         unset($data['confirm_password']);
         unset($data['_token']);
-        unset($data['nickname']);
+        unset($data['username']);
         unset($data['code']);
         unset($data['phone']);
 
@@ -156,7 +156,7 @@ class UserService {
         };
 
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
-        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'],'nickname' => $nickname,'phone_number' => $phone,'email' =>  $data['email'],'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'],'username' => $username,'phone_number' => $phone,'email' =>  $data['email'],'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg']);
 
         if (!$userInfo) {
             Log::error('用户注册信息写入失败',$userInfo);
@@ -242,12 +242,12 @@ class UserService {
         //获取用户信息头像
         $temp->headpic = $userInfo->headpic;
         //获取用户昵称
-        $temp->nickname = $userInfo->nickname;
+        $temp->username = $userInfo->username;
         //获取用户的Memeber状态
         $temp->memeber = $userInfo->memeber;
 
         Session::put('user', $temp);
-
+        SafetyService::delString($data['ip']);
         return ['StatusCode' => '200','ResultData' => '登录成功！'];
     }
 
@@ -347,7 +347,7 @@ class UserService {
 
         if(!$info) return ['StatusCode' => '400','ResultData' => '修改失败，您并没有做什么修改！'];
 
-        session('user')->nickname = $data['nickname'];
+        session('user')->username = $data['username'];
 
         return ['StatusCode' => '200','ResultData' => '更新成功!'];
     }
@@ -428,7 +428,7 @@ class UserService {
          $userInfo = self::$userStore->getOneData(['guid' => $request->guid]);
 
          // 给新邮箱发送邮件
-         $name = $userInfo->nickname;
+         $name = $userInfo->username;
          $content = strtolower(str_random(4));
          $to = $request->newEmail;
 
