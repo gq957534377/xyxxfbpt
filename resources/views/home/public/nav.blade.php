@@ -41,10 +41,37 @@
 </div>
 <!--/超小屏幕不显示-->
 <div class="visible-xs header-xs"><!--超小屏幕可见-->
+
+
     <div class="navbar-header header-xs-logo">
+        @if(!empty(session('user')))
+            <div style="float: left">
+                <div class="top-left">
+                    <a href=""><img id="topAvatar" class="img-circle" style="width: 11%;margin-bottom: -12%;"
+                                    src="{{ session('user')->headpic }}" data-id=""></a>
+                    <br>
+                    <a class="" href="" style="margin-left: 0%">
+                        <font size="2" color="#f0f8ff">{{ session('user')->username }}</font>
+                    </a>
+                </div>
+                <div style="float: right;margin-right: 49%;margin-top: -22%;">
+                    <a class="pad-l12-xs" href="{{ url('/logout') }}"><font size="2" color="#f0f8ff">退出</font></a>
+                </div>
+            </div>
+        @else
+            <div class="top-right" style="margin-left: 2%;margin-bottom: -9%;">
+
+                <a class="pad-l12-xs" href="{{ url('/login') }}">
+                    <font size="2" color="#f0f8ff">登陆</font>
+                </a>
+                |
+                <a class="pad-l12-xs" href="{{ url('/register') }}"><font size="2" color="#f0f8ff">注册</font></a>
+            </div>
+        @endif
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-xs-menu"
-                aria-expanded="false" aria-controls="navbar"><span
-                    class="glyphicon glyphicon-menu-hamburger"></span></button>
+                aria-expanded="false" aria-controls="navbar">
+            <span class="glyphicon glyphicon-menu-hamburger"></span>
+        </button>
     </div>
     <div id="header-xs-menu" class="navbar-collapse collapse">
         <ul class="nav navbar-nav header-xs-nav">

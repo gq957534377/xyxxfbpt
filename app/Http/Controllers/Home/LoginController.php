@@ -35,7 +35,7 @@ class LoginController extends Controller
         if (!empty(session('user'))) return redirect('/');
         $cookie = Common::generateCookie('login');
         // 获取登录错误次数 判断是否要显示验证码
-        $checkCode = Common::generateCookie('checkCode');
+
         $errNum = self::$safetyService->getString(Input::getClientIp());
         if (empty($errNum) || $errNum < LOGIN_ERROR_NUM) {
             $k = false;
@@ -73,9 +73,9 @@ class LoginController extends Controller
     {
         // 登陆安全验证
         $result = Common::checkCookie('login', '登陆');
-        if ($result != 'ok') return $result;
-
+        if (!$result) return $result;
         $data = $request->all();
+
         // 获取登录IP
         $data['ip'] = $request->getClientIp();
         // 获取登录错误次数
@@ -95,7 +95,7 @@ class LoginController extends Controller
             'password.required' => '密码不能为空'
         ]);
 
-        // 校验邮箱和账号,拿到状态码
+        // 校验账号,拿到状态码
         $info = self::$userServer->loginCheck($data);
         // 每登录错误一次，切验证码为空，则错误次数加一。
         if ($info['StatusCode'] != '200' && empty($data['code'])) {

@@ -1,7 +1,7 @@
 @extends('home.layouts.master')
 
 {{--@section('style')--}}
-    {{--<link href="{{ asset('home/css/index.css') }}" rel="stylesheet">--}}
+    {{--<link href="{{{ asset('home/css/index.css') }}" rel="stylesheet">--}}
 
 {{--@endsection--}}
 
@@ -34,19 +34,19 @@
             <div class="content-block hot-content hidden-xs">
                 <h2 class="title"><strong>本周热门排行</strong></h2>
                 <ul>
-                    <li class="large"><a href="content.html" target="_blank"><img src="images/img3.jpg" alt="">
+                    <li class="large"><a href="content.html" target="_blank"><img src="{{ asset('home/images/img3.jpg') }}" alt="">
                             <h3> 欢迎来到校园信息发布平台 </h3>
                         </a></li>
-                    <li><a href="content.html" target="_blank"><img src="images/logo.jpg" alt="">
+                    <li><a href="content.html" target="_blank"><img src="{{ asset('home/images/logo.jpg') }}" alt="">
                             <h3> 欢迎来到校园信息发布平台,在这里可以看到校园最新信息的发布等 </h3>
                         </a></li>
-                    <li><a href="content.html" target="_blank"><img src="images/img2.jpg" alt="">
+                    <li><a href="content.html" target="_blank"><img src="{{ asset('home/images/img2.jpg') }}" alt="">
                             <h3> 欢迎来到校园信息发布平台,在这里可以看到校园最新信息的发布等 </h3>
                         </a></li>
-                    <li><a href="content.html" target="_blank"><img src="images/img1.jpg" alt="">
+                    <li><a href="content.html" target="_blank"><img src="{{ asset('home/images/img1.jpg') }}" alt="">
                             <h3> 欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 </h3>
                         </a></li>
-                    <li><a href="content.html" target="_blank"><img src="images/logo.jpg" alt="">
+                    <li><a href="content.html" target="_blank"><img src="{{ asset('home/images/logo.jpg') }}" alt="">
                             <h3> 欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 </h3>
                         </a></li>
                 </ul>
@@ -55,7 +55,7 @@
                 <h2 class="title"><strong>最新文章</strong></h2>
                 <div class="row">
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/logo.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/logo.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/img1.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/img1.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/img2.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/img2.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -94,7 +94,7 @@
                 <h2 class="title"><strong>最新活动</strong></h2>
                 <div class="row">
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/logo.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/logo.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -109,7 +109,7 @@
                 <h2 class="title"><strong>最新通知</strong></h2>
                 <div class="row">
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/logo.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/logo.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -120,7 +120,7 @@
                         </div>
                     </div>
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/img1.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/img1.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/img2.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/img2.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -146,7 +146,7 @@
                 <h2 class="title"><strong>最新二手交易</strong></h2>
                 <div class="row">
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/logo.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/logo.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -157,7 +157,7 @@
                         </div>
                     </div>
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/img1.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/img1.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -168,7 +168,7 @@
                         </div>
                     </div>
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/img2.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/img2.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -183,7 +183,7 @@
                 <h2 class="title"><strong>最新社会新闻</strong></h2>
                 <div class="row">
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/logo.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/logo.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -194,7 +194,7 @@
                         </div>
                     </div>
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/img1.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/img1.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>
@@ -205,7 +205,7 @@
                         </div>
                     </div>
                     <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="images/img2.jpg" alt=""> </a> </div>
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4"> <a target="_blank" href="index.html"><img src="{{ asset('home/images/img2.jpg') }}" alt=""> </a> </div>
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt> <a href="index.html" target="_blank" > 校园信息发布平台正式上线！ </a> </dt>

@@ -16,25 +16,25 @@
     <div class="sidebar-block recommend">
         <h2 class="title"><strong>热门推荐</strong></h2>
         <ul>
-            <li><a target="_blank" href="index.html"> <span class="thumb"><img src="images/icon/icon.png" alt=""></span> <span class="text">校园信息发布平台的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
-            <li><a target="_blank" href="index.html"> <span class="thumb"><img src="images/icon/icon.png" alt=""></span> <span class="text">校园信息发布平台的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
-            <li><a target="_blank" href="index.html"> <span class="thumb"><img src="images/icon/icon.png" alt=""></span> <span class="text">校园信息发布平台的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
-            <li><a target="_blank" href="index.html"> <span class="thumb"><img src="images/icon/icon.png" alt=""></span> <span class="text">校园信息发布平台的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
-            <li><a target="_blank" href="index.html"> <span class="thumb"><img src="images/icon/icon.png" alt=""></span> <span class="text">校园信息发布平台的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
+            <li><a target="_blank" href="index.html"> <span class="thumb"><img src="{{ asset('home/images/icon/icon.png') }}" alt=""></span> <span class="text">校园信息发布平台的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
+            <li><a target="_blank" href="index.html"> <span class="thumb"><img src="{{ asset('home/images/icon/icon.png') }}" alt=""></span> <span class="text">校园信息发布平台的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
+            <li><a target="_blank" href="index.html"> <span class="thumb"><img src="{{ asset('home/images/icon/icon.png') }}" alt=""></span> <span class="text">校园信息发布平台的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
+            <li><a target="_blank" href="index.html"> <span class="thumb"><img src="{{ asset('home/images/icon/icon.png') }}" alt=""></span> <span class="text">校园信息发布平台的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
+            <li><a target="_blank" href="index.html"> <span class="thumb"><img src="{{ asset('home/images/icon/icon.png') }}" alt=""></span> <span class="text">校园信息发布平台的SHORTCUT和ICON图标 ...</span> <span class="text-muted">阅读(2165)</span></a></li>
         </ul>
     </div>
     <div class="sidebar-block comment">
         <h2 class="title"><strong>最新评论</strong></h2>
         <ul>
-            <li data-toggle="tooltip" data-placement="top" title="站长的评论"><a target="_blank" href="index.html"><span class="face"><img src="images/icon/icon.png" alt=""></span> <span class="text"><strong>校园信息发布平台站长</strong> (2015-10-18) 说：<br />
+            <li data-toggle="tooltip" data-placement="top" title="站长的评论"><a target="_blank" href="index.html"><span class="face"><img src="{{ asset('home/images/icon/icon.png') }}" alt=""></span> <span class="text"><strong>校园信息发布平台站长</strong> (2015-10-18) 说：<br />
           欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 ...</span></a></li>
-            <li data-toggle="tooltip" data-placement="top" title="读者墙上的评论"><a target="_blank" href="index.html"><span class="face"><img src="{{asset('home/images/icon/icon.png')}}" alt=""></span> <span class="text"><strong>校园信息发布平台站长</strong> (2015-10-18) 说：<br />
+            <li data-toggle="tooltip" data-placement="top" title="读者墙上的评论"><a target="_blank" href="index.html"><span class="face"><img src="{{ asset('home/images/icon/icon.png') }}" alt=""></span> <span class="text"><strong>校园信息发布平台站长</strong> (2015-10-18) 说：<br />
           欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 ...</span></a></li>
-            <li data-toggle="tooltip" data-placement="top" title="校园信息发布平台的SHORTCUT和ICON图标...的评论"><a target="_blank" href="index.html"><span class="face"><img src="{{asset('home/images/icon/icon.png')}}" alt=""></span> <span class="text"><strong>校园信息发布平台站长</strong> (2015-10-18) 说：<br />
+            <li data-toggle="tooltip" data-placement="top" title="校园信息发布平台的SHORTCUT和ICON图标...的评论"><a target="_blank" href="index.html"><span class="face"><img src="{{ asset('home/images/icon/icon.png') }}" alt=""></span> <span class="text"><strong>校园信息发布平台站长</strong> (2015-10-18) 说：<br />
           欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 ...</span></a></li>
-            <li data-toggle="tooltip" data-placement="top" title="校园信息发布平台的SHORTCUT和ICON图标...的评论"><a target="_blank" href="index.html"><span class="face"><img src="images/icon/icon.png" alt=""></span> <span class="text"><strong>校园信息发布平台站长</strong> (2015-10-18) 说：<br />
+            <li data-toggle="tooltip" data-placement="top" title="校园信息发布平台的SHORTCUT和ICON图标...的评论"><a target="_blank" href="index.html"><span class="face"><img src="{{ asset('home/images/icon/icon.png') }}" alt=""></span> <span class="text"><strong>校园信息发布平台站长</strong> (2015-10-18) 说：<br />
           欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 ...</span></a></li>
-            <li data-toggle="tooltip" data-placement="top" title="校园信息发布平台的SHORTCUT和ICON图标...的评论"><a target="_blank" href="index.html"><span class="face"><img src="images/icon/icon.png" alt=""></span> <span class="text"><strong>校园信息发布平台站长</strong> (2015-10-18) 说：<br />
+            <li data-toggle="tooltip" data-placement="top" title="校园信息发布平台的SHORTCUT和ICON图标...的评论"><a target="_blank" href="index.html"><span class="face"><img src="{{ asset('home/images/icon/icon.png') }}" alt=""></span> <span class="text"><strong>校园信息发布平台站长</strong> (2015-10-18) 说：<br />
           欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 ...</span></a></li>
         </ul>
     </div>

@@ -39,7 +39,7 @@ $(document).ready(function(){
                     if (data.StatusCode === '200'){
                         window.location.href="/";
                     }else if(data.StatusCode === '411') {
-                        // window.location.href="login";
+                        window.location.href="login";
                     }else {
                         alert(data.ResultData);
                     }
