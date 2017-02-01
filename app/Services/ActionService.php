@@ -227,6 +227,7 @@ class ActionService
         }else{
             $count = self::$actionCache->getCount($where);
         }
+
         if (!$count) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
 
         //获取对应页的数据

@@ -1,119 +1,64 @@
 @extends('home.layouts.master')
-@section('title', '活动')
-@section('style')
-    <link href="{{ asset('home/css/roading.css') }}" rel="stylesheet">
-@endsection
+
+{{--@section('style')--}}
+{{--<link href="{{{ asset('home/css/index.css') }}" rel="stylesheet">--}}
+
+{{--@endsection--}}
+@section('title', '校园活动')
 
 @section('menu')
     @parent
 @endsection
 
 @section('content')
-    <section class="bannerimg hang">
-        <img src="{{ asset('home/img/dd.jpg') }}">
-    </section>
-    <section class="container">
+    <div class="content-wrap"><!--内容-->
+        <div class="content">
 
-        <div class="nav-status-bar col-xs-12 pad-clr">
-            @if($type == 1)
-            <span>路演活动</span>
-            <span class="pull-right">路演活动</span>
-            @elseif($type == 2)
-            <span>创业大赛</span>
-            <span class="pull-right">创业大赛</span>
-            @endif
-            <span class="pull-right">＞</span>
-            <span class="pull-right">活动</span>
-            <div></div>
-        </div>
-
-        <ul class="nav-status-bar-type col-xs-12 pad-clr">
-            <li @if($status == 204)class="nav-status-bar-type-active" @endif><a href="/action?type={{$type}}">所有</a></li>
-            <li @if($status == 1)class="nav-status-bar-type-active" @endif><a href="/action?type={{$type}}&status=1">报名中</a></li>
-            <li @if($status == 5)class="nav-status-bar-type-active" @endif><a href="/action?type={{$type}}&status=5">等待开始</a></li>
-            <li @if($status == 2)class="nav-status-bar-type-active" @endif><a href="/action?type={{$type}}&status=2">进行中</a></li>
-            <li @if($status == 3)class="nav-status-bar-type-active" @endif><a href="/action?type={{$type}}&status=3">往期回顾</a></li>
-        </ul>
-
-    </section>
-
-    <section class="container">
-        <div class="row add-margin-bottom">
-            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-
-                @if($StatusCode == 204)
-                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <span style="color: #999999">暂无数据呦~亲 O(∩_∩)O~</span>
-                    </li>
-                @else
-                    @if($StatusCode == 200)
-                        <!--路演列表块开始-->
-                        <ul class="row rodeing-list">
-                            @foreach($ResultData['data'] as $action)
-                                <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="row">
-                                        <div class="rodeing-img col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                                            <a target="_blank" href="{{ route('action.show', $action->guid) }}"><img src="{{ $action->banner }}"  onerror="this.src='{{asset('home/img/zxz.png')}}'"></a>
-                                        </div>
-                                        <div class="rodeing-font col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                                            <h2>
-                                                <a target="_blank" href="{{ route('action.show', $action->guid) }}">
-                                                    {{ $action->title }}
-                                                </a>
-                                            </h2>
-                                            <div class="rodeing-class">
-                                                <ul class="row">
-                                                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ date('Y年m月d日 H:m',$action->start_time) }}——{{ date('Y年m月d日 H:m',$action->end_time) }}</li>
-                                                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ $action->address }}</li>
-                                                    <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        @if($action->status == 1)
-                                                        <span class="road-banner-join">报名中</span>
-                                                            @elseif($action->status == 2)
-                                                            <span class="road-banner-join">进行中</span>
-                                                        @elseif($action->status == 3)
-                                                            <span class="road-banner-join">已结束</span>
-                                                        @elseif($action->status == 5)
-                                                            <span class="road-banner-join">报名已经截止</span>
-                                                        @endif
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
-                        @if($ResultData['totalPage'] > $nowPage)
-                        <div data-type="{{$type}}" data-status="{{$status}}" class="loads" id="more_list"></div>
-                        @endif
-                            <!--路演列表块结束-->
-                        @else
-                        <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                            <span style="color: #999999">出错了~{{$ResultData}}O(∩_∩)O~</span>
-                        </li>
-                        @endif
-
-                @endif
-
+            <div class="content-block new-content">
+                <h2 class="title"><strong>最新社会新闻</strong></h2>
+                {{--{{dd($ResultData)}}--}}
+                <div class="row">
+                    @foreach($ResultData['data'] as $action)
+                        {{--{{dd($action)}}--}}
+                        <div class="news-list">
+                            <div class="news-img col-xs-5 col-sm-5 col-md-4"><a target="_blank"
+                                                                                href="{{ url('action/'.$action->guid) }}"><img
+                                            src="{{ $action->banner }}" alt="{{ $action->title }}"> </a></div>
+                            <div class="news-info col-xs-7 col-sm-7 col-md-8">
+                                <dl>
+                                    <dt><a href="{{ url('action/'.$action->guid) }}"
+                                           target="_blank"> {{ $action->title }} </a></dt>
+                                    <dd><span class="name"><a href="{{ url('action/'.$action->guid) }}"
+                                                              title="由 {{ $action->group }} 发布"
+                                                              rel="author">{{ $action->group }}</a></span> <span
+                                                class="identity"></span> <span
+                                                class="time"> {{ date('Y-m-d H:m', $action->addtime) }} </span> <span
+                                                class="identity"></span><a class="btn-success" href="index.html">报名中</a></dd>
+                                    <dd class="text">{{ $action->brief }}</dd>
+                                    <dd class="text">活动时间： {{ date('Y-m-d H:m', $action->start_time) }}
+                                        到 {{ date('Y-m-d H:m', $action->end_time) }}</dd>
+                                </dl>
+                                <div class="news_bot col-sm-7 col-md-8"><span class="tags visible-lg visible-md"> <a
+                                                href=" {{ url('/') }}">本站</a> <a
+                                                href="{{ url('/') }}">校园信息发布平台</a> </span> <span
+                                            class="look"> 共 <strong>2126</strong> 人围观，发现 <strong> 12 </strong> 个不明物体 </span>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                {!! $ResultData['pages'] !!}
+                {{--<div class="quotes" style="margin-top:15px"><span class="disabled">首页</span><span class="disabled">上一页</span><span class="current">1</span><a href="index.html">2</a><a href="index.html">下一页</a><a href="index.html">尾页</a></div>--}}
             </div>
-
-            <!----广告位开始----->
-            <div class="guanggao col-lg-3 col-md-3 col-sm-12 hidden-xs ">
-                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/zf3.jpg') }}" alt=""></a>
-                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/zf2.jpg') }}" alt=""></a>
-                <a href="#" class="col-sm-4 col-md-12 pad-clr"><img src="{{ asset('home/img/zf1.jpg') }}" alt=""></a>
-            </div>
-            <!----广告位结束----->
         </div>
-    </section>
+    </div>
 @endsection
-
 @section('script')
     <script src="{{ asset('JsService/Model/date.js') }} "></script>
     <script>
         function status(status) {
             var result;
-            switch (status){
+            switch (status) {
                 case 1:
                     result = '报名中';
                     break;
@@ -137,15 +82,15 @@
         var sta = $('#more_list').data('status');
 
         $('#more_list').click(function () {
-            var url="action/create";
+            var url = "action/create";
             $.ajax({
-                url:url,
-                type:'get',
-                data:{'nowPage':nowPage,'type':type,'status':sta},
-                beforeSend:function () {
+                url: url,
+                type: 'get',
+                data: {'nowPage': nowPage, 'type': type, 'status': sta},
+                beforeSend: function () {
                     $('.loads').addClass('loads_change');
                 },
-                success:function (data) {
+                success: function (data) {
                     data['ResultData']['data'].map(function (action) {
                         var html = '';
                         html += '<li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">';
@@ -162,14 +107,14 @@
                         $('.rodeing-list').append(html);
                     });
                     $('.loads').removeClass('loads_change');
-                    if (nowPage<data.ResultData['totalPage']){
+                    if (nowPage < data.ResultData['totalPage']) {
                         nowPage++;
-                    }else {
+                    } else {
                         $('#more_list').remove();
                     }
                 }
             });
         });
-
     </script>
 @endsection
+

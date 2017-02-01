@@ -53,7 +53,7 @@
         </style>
 
         <script type="text/javascript" src="http://www.qq.com/404/search_children.js?edition=small" charset="utf-8"
-                homePageUrl="http://www.jg110.com" homePageName="返回奇立英雄会"></script>
+                homePageUrl="{{ url('/') }}" homePageName="返回校园信息发布平台"></script>
 
     </head>
     <body>

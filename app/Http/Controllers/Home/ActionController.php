@@ -50,7 +50,7 @@ class ActionController extends Controller
             $where['status'] = $data['status'];
         }
         $nowPage = 1;
-        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action', false, false);
+        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action/create?type=1', false, true);
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
@@ -74,6 +74,7 @@ class ActionController extends Controller
         }
         $result['type'] = $data['type'];
         $result['nowPage'] = $nowPage;
+//        dd($result);
         return view('home.action.index', $result);
     }
 
@@ -92,7 +93,7 @@ class ActionController extends Controller
             $where = ['type'=> $request->type];
         }
         $nowPage = !empty($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
-        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action', false, false);
+        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action/create?type=1', false, false);
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
