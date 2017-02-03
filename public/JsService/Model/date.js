@@ -9,7 +9,7 @@ function getLocalTime(ns) {
     var date=now.getDate();
     var hour=now.getHours();
     var minute=now.getMinutes();
-    return year+"年"+month+"月"+date+"日 "+hour+":"+fix(minute, 2);
+    return year+"-"+month+"-"+date+" "+hour+":"+fix(minute, 2);
 }
 
 //时间转换

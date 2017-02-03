@@ -50,7 +50,7 @@ class ActionController extends Controller
             $where['status'] = $data['status'];
         }
         $nowPage = 1;
-        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action/create?type=1', false, true);
+        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action/create', false, true);
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
@@ -73,7 +73,6 @@ class ActionController extends Controller
             $result['status'] = '204';
         }
         $result['type'] = $data['type'];
-        $result['nowPage'] = $nowPage;
 //        dd($result);
         return view('home.action.index', $result);
     }
@@ -86,14 +85,16 @@ class ActionController extends Controller
      */
     public function create(Request $request)
     {
+        $data = $request->all();
         // 获取活动类型 -> 活动类型的所有数据
-        if ($request->status != 204 && !empty($request->status)){
-            $where = ['type'=> $request->type, 'status' => $request->status];
+        if (!empty($data['status']) && $data['status'] != 204){
+            $where = ['type'=> $data['type'], 'status' => $data['status']];
         }else{
-            $where = ['type'=> $request->type];
+            $where = ['type'=> $data['type']];
         }
-        $nowPage = !empty($request->nowPage) ? (int)$request->nowPage:1;//获取当前页
-        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action/create?type=1', false, false);
+
+        $nowPage = $data['nowPage'];//获取当前页
+        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action/create', false);
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
