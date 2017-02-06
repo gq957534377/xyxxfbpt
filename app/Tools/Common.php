@@ -139,7 +139,7 @@ class Common {
         $req->setRecNum($phone)
             ->setSmsParam($setSmsParam)
             ->setSmsFreeSignName(SMS_FREE_SIGN_NAME)
-            ->setSmsTemplateCode(SMS_TEMPLATE_CODE);
+            ->setSmsTemplateCode(SMS_TEMPLATE_REGISTER_CODE);
         // 返回发送成功信息
         $info = $client->execute($req);
         if(property_exists($info,'result')){

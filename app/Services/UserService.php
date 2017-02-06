@@ -296,7 +296,7 @@ class UserService {
         // 判断该号码两分中内是否发过短信
         $sms = Session::get('sms');
         $number = mt_rand(100000, 999999);
-        $content = ['phone' => $phone,'number' => $number];
+        $content = ['phone' => $phone,'code' => $number];
         $resIp = SafetyService::checkIpSMSCode(\Request::getClientIp(), $number);
         $resPhoto = SafetyService::checkPhoneSMSCode($phone, $number);
         if ($resIp || $resPhoto) {

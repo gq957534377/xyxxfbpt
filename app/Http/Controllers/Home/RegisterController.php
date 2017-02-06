@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Home;
 
 use App\Services\UserService as UserServer;
-use App\Tools\Common;
 use App\Tools\Safety;
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
 use Validator;
-use App\Redis\BaseRedis;
 
 
 class RegisterController extends Controller
@@ -92,6 +89,9 @@ class RegisterController extends Controller
         unset($data['confirm_password']);
         unset($data['code']);
         unset($data['phone_code']);
+        unset($data['method']);
+        unset($data['uri']);
+
         // 提交数据到业务层，检验用户是否存在
         $info = self::$userServer->addUser($data);
         //注册成功，提供登陆所需要的数据

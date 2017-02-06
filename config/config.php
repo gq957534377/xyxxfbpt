@@ -49,10 +49,11 @@ define('STRING_OVERTIME', 600);
 // 首页显示字符数常量
 define('STR_LIMIT', 20);
 // 短信接口相关配置
-define('SMS_APP_KEY', '23578050');                              // 应用 APP KEY
-define('SMS_APP_SECRET', '2a07331f605055bb9d70a5220097e2cb');   // 应用 APP Secret
-define('SMS_FREE_SIGN_NAME', '奇立英雄会');                  // 短信签名
-define('SMS_TEMPLATE_CODE', 'SMS_34865398');                    // 短信模板ID
+define('SMS_APP_KEY', '23623270');                              // 应用 APP KEY
+define('SMS_APP_SECRET', 'e95ddca21fa444e64ed4c143b2da1157');   // 应用 APP Secret
+define('SMS_FREE_SIGN_NAME', '校园信息发布平台');                  // 短信签名
+define('SMS_TEMPLATE_REGISTER_CODE', 'SMS_44455707');           // 注册短信模板ID
+define('SMS_TEMPLATE_CHANGERPASSWORD_CODE', 'SMS_44410546');    // 修改密码短信模板ID
 // 七牛云存储接口相关配置
 define('QINIU_ACCESS_KEY', 'c_M1yo7k90djYAgDst93NM3hLOz1XqYIKYhaNJZ4'); // 七牛访问KEY
 define('QINIU_SECRET_KEY', 'Gb2K_HZbepbu-A45y646sP1NNZF3AqzY_w680d5h'); // 七牛访问秘钥
