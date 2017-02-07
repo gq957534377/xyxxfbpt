@@ -22,7 +22,7 @@
     @endif
     <ul class="nav hidden-xs-nav">
         <li class="active"><a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
-        <li><a href="{{ url('/action') }}"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
+        <li><a href="{{ url('/action?type=1') }}"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
         <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
         <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
         <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
@@ -76,7 +76,7 @@
     <div id="header-xs-menu" class="navbar-collapse collapse">
         <ul class="nav navbar-nav header-xs-nav">
             <li class="active"><a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
-            <li><a href="index.html"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
+            <li><a href="{{ url('action?type=1') }}"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
             <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
             <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
             <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>

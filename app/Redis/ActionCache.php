@@ -19,11 +19,13 @@ class ActionCache extends MasterCache
 
     private static $action_store;
     private static $actionOrderStore;
+    private static $pictureCache;
 
-    public function __construct(ActionStore $actionStore, ActionOrderStore $actionOrderStore)
+    public function __construct(ActionStore $actionStore, ActionOrderStore $actionOrderStore, PictureCache$pictureCache)
     {
         self::$action_store = $actionStore;
         self::$actionOrderStore = $actionOrderStore;
+        self::$pictureCache = $pictureCache;
     }
 
     /**
@@ -131,7 +133,18 @@ class ActionCache extends MasterCache
             $result = $this->getOneAction($guid);
             //将获取的数据转对象存入数组和数据库一个样子
             if (!empty($result)){
-                $data[] = CustomPage::arrayToObject($result);
+                $result = CustomPage::arrayToObject($result);
+                $group = self::$pictureCache->getOnePicture($result->group);
+                if (empty($group)){
+                    if ($group == []){
+                        $group = '个人';
+                    }else{
+                        \Log::info('获取'.$result->guid.'活动详情的组织机构失败!');
+                        return ['StatusCode'=> '500','ResultData' => "获取组织机构信息失败"];
+                    }
+                }
+                $result->group = $group;
+                $data[] = $result;
             }else{
                 return false;
             }
