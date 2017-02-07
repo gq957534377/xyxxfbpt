@@ -35,7 +35,7 @@
                                         </span>
                                         <span class="identity"></span>
                                         <span class="time"> {{ date('Y-m-d H:m', $action->addtime) }} </span> <span
-                                                class="identity"></span><a class="btn-success" href="index.html">报名中</a>
+                                                class="identity"></span><a class="btn-success" href="index.html">@if($action->status == 1) 报名中 @elseif($action->status == 2) 进行中 @elseif($action->status == 3) 已结束 @elseif($action->status == 4) 已取消 @elseif($action->status == 5) 报名已经截止 @endif</a>
                                     </dd>
                                     <dd class="text">{{ $action->brief }}</dd>
                                     <dd class="text">活动时间： {{ date('Y-m-d H:m', $action->start_time) }}

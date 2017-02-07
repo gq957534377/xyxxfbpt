@@ -55,10 +55,10 @@ define('SMS_FREE_SIGN_NAME', '校园信息发布平台');                  // �
 define('SMS_TEMPLATE_REGISTER_CODE', 'SMS_44455707');           // 注册短信模板ID
 define('SMS_TEMPLATE_CHANGERPASSWORD_CODE', 'SMS_44410546');    // 修改密码短信模板ID
 // 七牛云存储接口相关配置
-define('QINIU_ACCESS_KEY', 'c_M1yo7k90djYAgDst93NM3hLOz1XqYIKYhaNJZ4'); // 七牛访问KEY
-define('QINIU_SECRET_KEY', 'Gb2K_HZbepbu-A45y646sP1NNZF3AqzY_w680d5h'); // 七牛访问秘钥
-define('QINIU_BUCKET', 'yingxionghui');                                 // 七牛存储空间
-define('QINIU_URL', 'http://oj6lmh2uo.bkt.clouddn.com/');               // 七牛访问url
+define('QINIU_ACCESS_KEY', 'Z6fxJAffaB5yK9VpW_85SUWVBosEr_yXSCsODjmm'); // 七牛访问KEY
+define('QINIU_SECRET_KEY', 'VKyfWX4e7TdHwXbkss6m9gwE9-uGMfsjSvYGUvqS'); // 七牛访问秘钥
+define('QINIU_BUCKET', 'guoqing2');                                 // 七牛存储空间
+define('QINIU_URL', 'http://ol0fkmsij.bkt.clouddn.com/');               // 七牛访问url
 //前台域名配置
 define('HOME_URL', 'www.xyxxfb.com');
 //后台域名配置
