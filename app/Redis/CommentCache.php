@@ -118,9 +118,8 @@ class CommentCache extends MasterCache
             Log::info('用户ID为'.$data->user_id.'的用户信息查询失败，导致该用户有关评论数据无法添加至缓存');
             return false;
         }
-
         $data->userImg = $userData->headpic;//添加用户头像
-        $data->nikename = $userData->nickname;//添加用户昵称
+        $data->nikename = $userData->username;//添加用户昵称
         return $data;
     }
 

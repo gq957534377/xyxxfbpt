@@ -50,7 +50,7 @@ class ActionController extends Controller
             $where['status'] = $data['status'];
         }
         $nowPage = 1;
-        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action/create', false, true);
+        $result = self::$actionServer->selectData($where, $nowPage, 5, '/action/create', false, true);
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
@@ -94,7 +94,7 @@ class ActionController extends Controller
         }
 
         $nowPage = $data['nowPage'];//获取当前页
-        $result = self::$actionServer->selectData($where, $nowPage, 2, '/action/create', false);
+        $result = self::$actionServer->selectData($where, $nowPage, 5, '/action/create', false);
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){

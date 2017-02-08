@@ -1,9 +1,5 @@
 @extends('home.layouts.master')
 
-{{--@section('style')--}}
-{{--<link href="{{{ asset('home/css/index.css') }}" rel="stylesheet">--}}
-
-{{--@endsection--}}
 @section('title', '校园活动')
 
 @section('menu')
@@ -14,7 +10,7 @@
     <div class="content-wrap"><!--内容-->
         <div class="content">
             <div class="content-block new-content">
-                <h2 class="title"><strong>最新社会新闻</strong></h2>
+                <h2 class="title"><strong>最新校园活动</strong></h2>
                 {{--{{dd($ResultData)}}--}}
                 <div class="row">
                     @foreach($ResultData['data'] as $action)
