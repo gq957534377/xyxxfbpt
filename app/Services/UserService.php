@@ -84,6 +84,7 @@ class UserService {
         $phone = $data['phone_number'];
         unset($data['confirm_password']);
         unset($data['stage']);
+        $name = $data['username'];
         unset($data['username']);
 
         // 执行事务
@@ -101,7 +102,7 @@ class UserService {
         // $countUsers = self::$userStore->countUsers();
 
         // 添加数据成功到登录表，然后在往用户信息表里插入一条
-        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'phone_number' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg', 'addtime' => $data['addtime']]);
+        $userInfo = self::$userStore->addUserInfo(['guid' => $data['guid'], 'username' => $name, 'phone_number' => $phone, 'headpic' => 'http://ogd29n56i.bkt.clouddn.com/20161129112051.jpg', 'addtime' => $data['addtime']]);
         if (!$userInfo) {
             Log::error('用户注册信息写入失败', $userInfo);
             DB::rollback();

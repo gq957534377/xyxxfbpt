@@ -49,7 +49,7 @@ function createCommentDom(data) {
         var html = '';
         html += '<ul>';
         html += '<li><span class="face"><img src="' + data[i].userImg + '"></span>';
-        html += '<span class="text"><strong>' + data[i].nickname + '</strong> (' + date(data[i].addtime) + ') 说：<br/>' + data[i].content + '</span></li></ul>';
+        html += '<span class="text"><strong>' + data[i].nikename + '</strong> (' + date(data[i].addtime) + ') 说：<br/>' + data[i].content + '</span></li></ul>';
 
         $('#js_comment').append(html);
     }
