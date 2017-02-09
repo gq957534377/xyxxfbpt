@@ -5,6 +5,34 @@
         .col-lg-3 {
             width: 73%;
         }
+
+        .sweet-alert p {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+        }
+
+        button.confirm {
+            background-color: #34c73b !important;
+            box-shadow: none !important;
+        }
+
+        .sweet-alert .sa-icon.sa-success .sa-placeholder {
+            border: 4px solid #34c73b;
+        }
+
+        .sweet-alert .sa-icon.sa-success .sa-line {
+            background-color: #34c73b !important;
+        }
+
+        .sweet-alert .sa-icon.sa-error {
+            border-color: #d74548;
+        }
+
+        .sweet-alert .sa-icon.sa-error .sa-line {
+            background-color: #d74548;
+        }
+
     </style>
 @endsection
 @section('title', '活动详情')
@@ -81,26 +109,36 @@
             </div>
             <div class="content-block comment">
                 <h2 class="title"><strong>评论</strong></h2>
-                <form action="comment.php" method="post" class="form-inline" id="comment-form">
+                <form id="comment" method="post" class="form-inline">
                     <div class="comment-form">
-                        <textarea placeholder="你的评论可以一针见血" name="commentContent"></textarea>
+                        <textarea placeholder="你的评论可以一针见血" name="content"></textarea>
+                        <input name="action_id" value="{{ $contentId}}" type="hidden">
+                        <input name="type" value="3" type="hidden">
                         <div class="comment-form-footer">
-                            <div class="comment-form-text">请先 <a href="javascript:;">登录</a> 或 <a
-                                        href="javascript:;">注册</a>，也可匿名评论
-                            </div>
+                            @if(!$isLogin)
+                                <div class="comment-form-text">请先 <a href="{{ url('/login') }}">登录</a> 或 <a
+                                            href="{{ url('/register') }}">注册</a>
+                                </div>
+                            @endif
                             <div class="comment-form-btn">
                                 <button type="submit" class="btn btn-default btn-comment">提交评论</button>
                             </div>
                         </div>
                     </div>
                 </form>
-                <div class="comment-content">
-                    <ul>
-                        <li><span class="face"><img src="images/icon.png" alt=""></span> <span
-                                    class="text"><strong>异清轩站长</strong> (2015-10-18) 说：<br/>
-              欢迎来到异清轩技术博客，在这里可以看到网站前端和后端的技术等在这里可以看到网站前端和后端的技术等在这里可以看到网站前端和后端的技术等 ...</span></li>
-                    </ul>
+                <div class="comment-content" id="js_comment">
+                    @if($data['StatusCode'] == '200' && $comment['StatusCode'] == '200')
+                        @foreach($comment['ResultData'] as $datas)
+                            <ul>
+                                <li><span class="face"><img src="{{ $datas->userImg }}" alt=""></span> <span
+                                            class="text"><strong>{{ $datas->nikename }}</strong> ({{ date('Y-m-d H:m:s', $datas->addtime) }}
+                                        ) 说：<br/>
+                                        {{ $datas->content }}</span></li>
+                            </ul>
+                        @endforeach
+                    @endif
                 </div>
+                <div id="js_pages" class="pull-right">{!! $pageStyle !!}</div>
             </div>
             <div class="content-block related-content visible-lg visible-md">
                 <h2 class="title"><strong>相关推荐</strong></h2>
@@ -120,7 +158,88 @@
     <!--/内容-->
 @endsection
 @section('script')
+    <script src="{{asset('home/js/jquery.validate.min.js')}}"></script>
+    <script src="http://cdn.rooyun.com/js/classie.js"></script>
+    <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
+    <script src="{{ asset('home/js/commentForpage.js') }}"></script>
+    <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script>
+        var token = $('meta[name="csrf-token"]').attr('content');
+        @if($isLogin && $data['StatusCode'] == '200')
+        $('#js_enroll').click(function () {
+            var obj = $(this);
+            $.ajax({
+                type: 'post',
+                url: "/action_order",
+                headers: {
+                    'X-CSRF-TOKEN': token
+                },
+                data: {user_id: "{{$isLogin}}", action_id: "{{$data['ResultData']->guid}}", list: "{{$list}}"},
+                success: function (data) {
+                    if (data.StatusCode === "200") {
+                        swal(data.ResultData, '可以到个人中心“我参加的活动”查看', "success");
+                        $('#baomingNum').html('已报名' + ({{$data['ResultData']->people}}+1) + '人');
+                        obj.html("已报名").unbind("click");
+                    } else {
+                        swal(data.ResultData, '错误代码：' + data.StatusCode, "error");
+                    }
+                }
+            })
+        });
+        //点赞功能暂时注释
+        {{--$('.collect').click(function () {--}}
+            {{--var obj = $(this);--}}
+            {{--var temp = obj.parent('p').is('.taoxin')?-1:1;--}}
+            {{--var num = parseInt($('#likeNum').html())--}}
+            {{--$.ajax({--}}
+                {{--type:"get",--}}
+                {{--url:"/action/{{$data['ResultData']->guid}}/edit",--}}
+                {{--headers: {--}}
+                    {{--'X-CSRF-TOKEN': token--}}
+                {{--},--}}
+                {{--data:{type:3},--}}
+                {{--success:function (data) {--}}
+                    {{--switch (data.StatusCode){--}}
+                        {{--case '200':obj.parent('p').toggleClass('taoxin');$('#likeNum').html(num+temp);break;--}}
+                        {{--case '400':swal('警告', data.ResultData, "waring");break;--}}
+                    {{--}--}}
+                {{--},--}}
+                {{--error: function(XMLHttpRequest){--}}
+                    {{--var number = XMLHttpRequest.status;--}}
+                    {{--var msg = "Error: "+number+",数据异常！";--}}
+                    {{--swal('点赞失败', msg, "error");--}}
+                {{--}--}}
+            {{--})--}}
+        {{--})--}}
+        @else
+            $('#js_enroll').click(function () {
+            alert('请登录后操作！');
+            login();
+        });
+        //点赞功能暂时注释
+        //        $('.collect').click(function () {
+        //            swal({
+        //                    title: '请登录后操作', // 标题，自定
+        //                            text: '请登陆后再进行点赞操作',   // 内容，自定
+        //                            type: "warning",    // 类型，分别为error、warning、success，以及info
+        //                            showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
+        //                            confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
+        //                },
+        //                function (isConfirm) {
+        //                    swal('请登录后操作', '请登陆后再进行点赞操作', "warning");
+        //                    login();
+        //                });
+        //        });
+        $('#comment').click(function () {
+            alert('请登录后操作！');
+            login();
+        });
+        @endif
+        function login() {
+            window.location.href = "{{route('login.index')}}";
+        }
+
+
         //分享按钮
         window._bd_share_config = {
             "common": {
