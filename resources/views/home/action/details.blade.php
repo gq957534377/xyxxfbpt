@@ -6,33 +6,6 @@
             width: 73%;
         }
 
-        .sweet-alert p {
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 22px;
-        }
-
-        button.confirm {
-            background-color: #34c73b !important;
-            box-shadow: none !important;
-        }
-
-        .sweet-alert .sa-icon.sa-success .sa-placeholder {
-            border: 4px solid #34c73b;
-        }
-
-        .sweet-alert .sa-icon.sa-success .sa-line {
-            background-color: #34c73b !important;
-        }
-
-        .sweet-alert .sa-icon.sa-error {
-            border-color: #d74548;
-        }
-
-        .sweet-alert .sa-icon.sa-error .sa-line {
-            background-color: #d74548;
-        }
-
     </style>
 @endsection
 @section('title', '活动详情')
@@ -59,8 +32,8 @@
                     </ul>
                 </header>
                 <article class="news_content">
-                    <div>
-                        <div>
+                    <div class="row">
+                        <div class="col-md-8">
                             <li><strong>
                                     <h7>活动时间:</h7>
                                 </strong> {{ date('Y年m月d日 H点', $data['ResultData']->start_time) }}
@@ -73,24 +46,42 @@
                                 </strong> {{ $data['ResultData']->address }}</li>
                             <li><strong>
                                     <h7>报名情况:</h7>
-                                </strong> 已报名<strong>{{ $data['ResultData']->people }}</strong>人
+                                </strong> 已报名<strong id="people">{{ $data['ResultData']->people }}</strong>人
                                 限额(<strong>{{ $data['ResultData']->limit }}</strong>)人
                             </li>
                         </div>
-
+                        <div class="col-md-4">
+                            @if($data['ResultData']->status == 1)
+                                @if(!$isHas)
+                                    <button id="js_enroll" type="button" class="btn road-banner-join">我要报名</button>
+                                @else
+                                    <button type="button" class="btn road-banner-join">已报名</button>
+                                @endif
+                            @elseif($data['ResultData']->status == 5)
+                                <button type="button" class="btn road-banner-join disabled">报名截止</button>
+                            @elseif($data['ResultData']->status == 2)
+                                <button type="button" class="btn road-banner-join disabled">活动已开始</button>
+                            @elseif($data['ResultData']->status == 3)
+                                <button type="button" class="btn road-banner-join disabled">活动已结束</button>
+                            @elseif($data['ResultData']->status == 4)
+                                <button type="button" class="btn road-banner-join disabled">活动已取消</button>
+                            @endif
+                        </div>
                     </div>
 
                     <div style="height: 10px">
                     </div>
-                    <p>{!! $data['ResultData']->describe !!}</p>
+                    <div>
+                        <p>{!! $data['ResultData']->describe !!}</p>
+                    </div>
                 </article>
-                <div class="zambia"><a href="javascript:;" name="zambia" rel=""><span
-                                class="glyphicon glyphicon-thumbs-up"></span> 赞（0）</a></div>
+                <div class="zambia"><a class="collect" name="zambia" rel=""><span
+                                class="glyphicon glyphicon-thumbs-up"></span><span id="zan">赞</span>（<span id="zanNum">0</span>）</a></div>
 
                 <div class="tags news_tags">标签： <span data-toggle="tooltip" data-placement="bottom"
-                                                      title="查看关于 本站 的文章"><a href="index.html">本站</a></span> <span
-                            data-toggle="tooltip" data-placement="bottom" title="查看关于 异清轩 的文章"><a
-                                href="index.html">异清轩</a></span>
+                                                      title="查看关于 本站 的文章"><a href="{{ url('/') }}">本站</a></span> <span
+                            data-toggle="tooltip" data-placement="bottom"><a
+                                href="{{ url('/') }}">信息平台</a></span>
                 </div>
             @endif
             <p>分享到:</p>
@@ -177,8 +168,8 @@
                 data: {user_id: "{{$isLogin}}", action_id: "{{$data['ResultData']->guid}}", list: "{{$list}}"},
                 success: function (data) {
                     if (data.StatusCode === "200") {
-                        swal(data.ResultData, '可以到个人中心“我参加的活动”查看', "success");
-                        $('#baomingNum').html('已报名' + ({{$data['ResultData']->people}}+1) + '人');
+                        alert('报名成功！');
+                        $('#people').html('{{ $data['ResultData']->people +1 }}');
                         obj.html("已报名").unbind("click");
                     } else {
                         swal(data.ResultData, '错误代码：' + data.StatusCode, "error");
@@ -187,49 +178,45 @@
             })
         });
         //点赞功能暂时注释
-        {{--$('.collect').click(function () {--}}
-            {{--var obj = $(this);--}}
-            {{--var temp = obj.parent('p').is('.taoxin')?-1:1;--}}
-            {{--var num = parseInt($('#likeNum').html())--}}
-            {{--$.ajax({--}}
-                {{--type:"get",--}}
-                {{--url:"/action/{{$data['ResultData']->guid}}/edit",--}}
-                {{--headers: {--}}
-                    {{--'X-CSRF-TOKEN': token--}}
-                {{--},--}}
-                {{--data:{type:3},--}}
-                {{--success:function (data) {--}}
-                    {{--switch (data.StatusCode){--}}
-                        {{--case '200':obj.parent('p').toggleClass('taoxin');$('#likeNum').html(num+temp);break;--}}
-                        {{--case '400':swal('警告', data.ResultData, "waring");break;--}}
-                    {{--}--}}
-                {{--},--}}
-                {{--error: function(XMLHttpRequest){--}}
-                    {{--var number = XMLHttpRequest.status;--}}
-                    {{--var msg = "Error: "+number+",数据异常！";--}}
-                    {{--swal('点赞失败', msg, "error");--}}
-                {{--}--}}
-            {{--})--}}
-        {{--})--}}
+        $('.collect').click(function () {
+            var obj = $(this);
+            var temp = obj.parent('p').is('.taoxin') ? -1 : 1;
+            var num = parseInt($('#likeNum').html())
+            $.ajax({
+                type: "get",
+                url: "/action/{{$data['ResultData']->guid}}/edit",
+                headers: {
+                    'X-CSRF-TOKEN': token
+                },
+                data: {type: 3},
+                success: function (data) {
+                    switch (data.StatusCode) {
+                        case '200':
+                            $('#zan').html('已赞');
+                            $('#zanNum').html(parseInt($('#zanNum').html())+1);
+                            break;
+                        case '400':
+                            alert(data.ResultData);
+                            break;
+                    }
+                },
+                error: function (XMLHttpRequest) {
+                    var number = XMLHttpRequest.status;
+                    var msg = "Error: " + number + ",数据异常！";
+                    alert(msg);
+                }
+            })
+        })
         @else
             $('#js_enroll').click(function () {
             alert('请登录后操作！');
             login();
         });
         //点赞功能暂时注释
-        //        $('.collect').click(function () {
-        //            swal({
-        //                    title: '请登录后操作', // 标题，自定
-        //                            text: '请登陆后再进行点赞操作',   // 内容，自定
-        //                            type: "warning",    // 类型，分别为error、warning、success，以及info
-        //                            showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
-        //                            confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
-        //                },
-        //                function (isConfirm) {
-        //                    swal('请登录后操作', '请登陆后再进行点赞操作', "warning");
-        //                    login();
-        //                });
-        //        });
+        $('.collect').click(function () {
+            alert('请登录后操作！');
+            login();
+        });
         $('#comment').click(function () {
             alert('请登录后操作！');
             login();

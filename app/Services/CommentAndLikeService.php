@@ -303,7 +303,7 @@ class CommentAndLikeService
     {
 
         $userImg = session('user')->headpic;
-        $nikename = session('user')->nickname;
+        $nikename = session('user')->username;
         return [
             'userImg' => $userImg,
             'nikename' => $nikename,
@@ -368,9 +368,8 @@ class CommentAndLikeService
                 return false ;
             }
 
-
             $data->userImg = $userInfoData->headpic;//添加用户头像
-            $data->nikename = $userInfoData->nickname;//添加用户昵称
+            $data->nikename = $userInfoData->username;//添加用户昵称
         }
 
         return ['StatusCode' => '200', 'ResultData' => $commentData];
