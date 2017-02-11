@@ -3,9 +3,9 @@
     @if(!empty(session('user')))
         <div class="top-right">
             <a href=""><img id="topAvatar" class="img-circle" style="width: 106%"
-                            src="{{asset('home/images/ea5acc07864b.jpg')}}" data-id=""></a>
+                            src="{{ session('user')->headpic }}" data-id=""></a>
             <a class="hidden-xs" href="" style="margin-left: 24%">
-                <mark id="nicknameBox">庆欧巴~</mark>
+                <mark id="nicknameBox">{{ session('user')->username }}</mark>
             </a>
             <span class="hidden-xs">|</span>
             <a class="pad-l12-xs" href="{{ url('/logout') }}">退出</a>

@@ -143,16 +143,16 @@ class ActionController extends Controller
         if ($data['StatusCode'] == '404'){
             return view('errors.404');
         }
-//        $likeNum = self::$commentServer->likeCount($id);//点赞人数
+        $likeNum = self::$commentServer->likeCount($id);//点赞人数
         $commentData = self::$commentServer->getComent($id,1);//评论数据
         $pageStyle = self::$commentServer->getPageStyle($id, 1);//分页样式
         //$isHas（是否已经报名参加）的设置
         if (!!empty(session('user')->guid)){
             $isLogin = false;
             $isHas = false;
-//            $likeStatus = 2;
+            $likeStatus = 2;
         }else{
-//            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
+            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
             $isHas = self::$actionCache->getOrderActions(session('user')->guid, $id);//当前用户是否报名参加活动
             $isLogin = session('user')->guid;
         }
@@ -163,8 +163,8 @@ class ActionController extends Controller
             "data" => $data,
             'isLogin' => $isLogin,
             'isHas' => $isHas,
-//            'likeNum' => $likeNum,
-//            'likeStatus' => $likeStatus,
+            'likeNum' => $likeNum,
+            'likeStatus' => $likeStatus,
             'comment' => $commentData,
             'contentId' => $id,
             'rand' => $rand,

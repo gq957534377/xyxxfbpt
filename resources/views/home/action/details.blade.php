@@ -75,8 +75,8 @@
                         <p>{!! $data['ResultData']->describe !!}</p>
                     </div>
                 </article>
-                <div class="zambia"><a class="collect" name="zambia" rel=""><span
-                                class="glyphicon glyphicon-thumbs-up"></span><span id="zan">赞</span>（<span id="zanNum">0</span>）</a></div>
+                <div class="zambia"><a @if($likeStatus != 1) class="collect" @endif rel=""><span
+                                class="glyphicon glyphicon-thumbs-up"></span><span id="zan">@if($likeStatus != 1)赞@else已赞@endif</span>（<span id="zanNum">{{ $likeNum }}</span>）</a></div>
 
                 <div class="tags news_tags">标签： <span data-toggle="tooltip" data-placement="bottom"
                                                       title="查看关于 本站 的文章"><a href="{{ url('/') }}">本站</a></span> <span
