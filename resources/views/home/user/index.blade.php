@@ -1,6 +1,6 @@
 @extends('home.layouts.userCenter')
 
-@section('title','用户中心')
+@section('title','我的主页')
 
 @section('style')
     <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
@@ -12,7 +12,7 @@
 @section('content')
 
     <!--我的主页内容开始-->
-    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 my-home fs-c-4 fs-14">
+    <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10 my-home fs-c-4 fs-14 content-wrap">
         <!--基本信息开始-->
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 pad-cl my-home-basic">
             <!-- 头像修改 Start -->
@@ -22,7 +22,7 @@
                         <div id="crop-avatar">
                             <div class="avatar-view" title="">
                                 <img class="user_avatar img-circle"
-                                     src="{{ session('user')->headpic ? session('user')->headpic : asset('home/img/user_center.jpg') }}" alt="Logo">
+                                     src="{{ session('user')->headpic ? session('user')->headpic : asset('home/images/user_center.jpg') }}" alt="Logo">
                             </div>
                         </div>
                     </div>
@@ -30,8 +30,8 @@
             </div>
             <!-- 头像修改 End -->
             <div class="col-sm-10 col-md-9 col-lg-10 pad-clr">
-                <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ $userInfo->nickname or '--'}}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
-                <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->tel or '--'}}</p>
+                <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ $userInfo->username or '--'}}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
+                <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->phone_number or '--'}}</p>
                 <p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6 {{$userInfo->emails or 'hidden'}}">{{ $userInfo->email or '--'}}</p>
             </div>
         </div>
@@ -54,7 +54,7 @@
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog">
             <div class="modal-dialog">
-                <img src="{{asset('home/img/load.gif')}}" class="loading pull-right">
+                <img src="{{asset('home/images/load.gif')}}" class="loading pull-right">
                 <div class="modal-content">
                     <div class="modal-header bgc-6 fs-c-0">
                         <h4 class="modal-title">修改昵称</h4>

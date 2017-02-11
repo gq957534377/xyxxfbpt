@@ -21,13 +21,11 @@
         </div>
     @endif
     <ul class="nav hidden-xs-nav">
-        <li class="active"><a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
-        <li><a href="{{ url('/action?type=1') }}"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
-        <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
-        <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
-        <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
-        <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>校园学习</a></li>
-        <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a></li>
+        <li class="active"><a href="{{ url('/user/'.session('user')->guid) }}"><span class="glyphicon glyphicon-home"></span>我的主页</a></li>
+        <li><a href="{{ url('/action_order?list=1&type=1&status=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a></li>
+        <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>我的文章</a></li>
+        <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>我的评论</a></li>
+        <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>我的二手交易</a></li>
     </ul>
     <div class="feeds"><a class="feed feed-xlweibo" href="index.html" target="_blank"><i></i>新浪微博</a> <a
                 class="feed feed-txweibo" href="index.html" target="_blank"><i></i>腾讯微博</a> <a class="feed feed-rss"
@@ -50,7 +48,7 @@
                     <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle" style="width: 11%;margin-bottom: -12%;"
                                     src="{{ session('user')->headpic }}" data-id="{{ session('user')->guid }}"></a>
                     <br>
-                    <a class="{{ url('/user/'.session('user')->guid) }}" href="" style="margin-left: 0%">
+                    <a class="" href="{{ url('/user/'.session('user')->guid) }}" style="margin-left: 0%">
                         <font size="2" color="#f0f8ff">{{ session('user')->username }}</font>
                     </a>
                 </div>
@@ -75,20 +73,11 @@
     </div>
     <div id="header-xs-menu" class="navbar-collapse collapse">
         <ul class="nav navbar-nav header-xs-nav">
-            <li class="active"><a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
-            <li><a href="{{ url('action?type=1') }}"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
-            <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
-            <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
-            <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
-            <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>校园学习</a></li>
-            <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a></li>
+            <li class="active"><a href="{{ url('/user/'.session('user')->guid) }}"><span class="glyphicon glyphicon-home"></span>我的主页</a></li>
+            <li><a href="{{ url('/action_order?list=1&type=1&status=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a></li>
+            <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>我的文章</a></li>
+            <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>我的评论</a></li>
+            <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>我的二手交易</a></li>
         </ul>
-        <form class="navbar-form" action="search.php" method="post" style="padding:0 25px;">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="请输入关键字">
-                <span class="input-group-btn">
-            <button class="btn btn-default btn-search" type="submit">搜索</button>
-            </span></div>
-        </form>
     </div>
 </div>

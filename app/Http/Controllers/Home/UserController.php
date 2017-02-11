@@ -196,12 +196,12 @@ class UserController extends Controller
         $data = $request->all();
         //数据验证过滤
         $validator = Validator::make($request->all(),[
-            'nickname' => 'required|string|max:10|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
+            'username' => 'required|string|max:10|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
         ],[
-            'nickname.required' => '请输入昵称',
-            'nickname.string' => '请输入正确的格式',
-            'nickname.max' => '昵称长度不允许超过10个字符',
-            'nickname.regex' => '只允许输入中文、字母、数字、下划线',
+            'username.required' => '请输入昵称',
+            'username.string' => '请输入正确的格式',
+            'username.max' => '昵称长度不允许超过10个字符',
+            'username.regex' => '只允许输入中文、字母、数字、下划线',
         ]);
 
         // 数据验证失败，响应信息
