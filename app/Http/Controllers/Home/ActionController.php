@@ -73,6 +73,7 @@ class ActionController extends Controller
             $result['status'] = '204';
         }
         $result['type'] = $data['type'];
+
 //        dd($result);
         return view('home.action.index', $result);
     }

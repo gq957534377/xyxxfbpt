@@ -10,7 +10,7 @@
     <div class="content-wrap"><!--内容-->
         <div class="content">
             <div class="content-block new-content">
-                <h2 class="title"><strong>最新校园活动</strong></h2>
+                <h2 class="title"><strong>@if((int)$type == 1)文娱活动@elseif((int)$type == 2)学术活动@elseif((int)$type == 3)竞赛活动@endif</strong></h2>
                 {{--{{dd($ResultData)}}--}}
                 <div class="row">
                     @foreach($ResultData['data'] as $action)

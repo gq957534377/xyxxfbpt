@@ -3,7 +3,7 @@
     @if(!empty(session('user')))
         <div class="top-right">
             <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle" style="width: 106%"
-                            src="{{ session('user')->headpic }}" data-id="{{ session('user')->guid }}"></a>
+                                                                     src="{{ session('user')->headpic }}" data-id="{{ session('user')->guid }}"></a>
             <a class="hidden-xs" href="{{ url('/user/'.session('user')->guid) }}" style="margin-left: 24%">
                 <mark id="nicknameBox">{{ session('user')->username }}</mark>
             </a>
@@ -20,14 +20,35 @@
             <a class="pad-l12-xs" href="{{ url('/register') }}">注册</a>
         </div>
     @endif
-    <ul class="nav hidden-xs-nav">
-        <li class="active"><a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
-        <li><a href="{{ url('/action?type=1') }}"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
-        <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
-        <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
-        <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
-        <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>校园学习</a></li>
-        <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a></li>
+    <ul class="nav hidden-xs-nav nav-box">
+        <li class="active">
+            <a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a>
+            <div>这是第一个块</div>
+        </li>
+        <li><a><span class="glyphicon glyphicon-erase"></span>校园活动</a>
+            <div>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ url('/action?type=1') }}"><span class="glyphicon glyphicon-erase"></span>文娱活动</a>
+                    <li><a href="{{ url('/action?type=2') }}"><span class="glyphicon glyphicon-erase"></span>学术活动</a>
+                    <li><a href="{{ url('/action?type=3') }}"><span class="glyphicon glyphicon-erase"></span>竞赛活动</a>
+                </ul>
+            </div>
+        </li>
+        <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a>
+            <div>这是第三个块</div>
+        </li>
+        <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a>
+            <div>这是第一个块</div>
+        </li>
+        <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a>
+            <div>这是第一个块</div>
+        </li>
+        <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>校园学习</a>
+            <div>这是第一个块</div>
+        </li>
+        <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a>
+            <div>这是第一个块</div>
+        </li>
     </ul>
     <div class="feeds"><a class="feed feed-xlweibo" href="index.html" target="_blank"><i></i>新浪微博</a> <a
                 class="feed feed-txweibo" href="index.html" target="_blank"><i></i>腾讯微博</a> <a class="feed feed-rss"
@@ -45,17 +66,17 @@
 
     <div class="navbar-header header-xs-logo">
         @if(!empty(session('user')))
-            <div style="float: left">
+            <div style="float: left;margin-left: 26px;">
                 <div class="top-left">
-                    <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle" style="width: 11%;margin-bottom: -12%;"
-                                    src="{{ session('user')->headpic }}" data-id="{{ session('user')->guid }}"></a>
+                    <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle" style="width: 15%;margin-bottom: -12%;"
+                                                                             src="{{ session('user')->headpic }}" data-id="{{ session('user')->guid }}"></a>
                     <br>
                     <a class="{{ url('/user/'.session('user')->guid) }}" href="" style="margin-left: 0%">
-                        <font size="2" color="#f0f8ff">{{ session('user')->username }}</font>
+                        <font size="2" color="#f0f8ff" style="font-size: 10px;margin-left: -5px;">{{ session('user')->username }}</font>
                     </a>
                 </div>
                 <div style="float: right;margin-right: 49%;margin-top: -22%;">
-                    <a class="pad-l12-xs" href="{{ url('/logout') }}"><font size="2" color="#f0f8ff">退出</font></a>
+                    {{--<a class="pad-l12-xs" href="{{ url('/logout') }}"><font size="2" color="#f0f8ff">退出</font></a>--}}
                 </div>
             </div>
         @else
@@ -70,18 +91,28 @@
         @endif
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-xs-menu"
                 aria-expanded="false" aria-controls="navbar">
-            <span class="glyphicon glyphicon-menu-hamburger"></span>
+            <span class="glyphicon glyphicon-menu-hamburger" style="margin-top: 14px;"></span>
         </button>
     </div>
     <div id="header-xs-menu" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav header-xs-nav">
+        <ul class="nav navbar-nav header-xs-nav nav-box">
             <li class="active"><a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
             <li><a href="{{ url('action?type=1') }}"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
-            <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
-            <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
-            <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
-            <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>校园学习</a></li>
-            <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a></li>
+            <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a>
+                <div>这是第三个块</div>
+            </li>
+            <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a>
+                <div>这是第二个块</div>
+            </li>
+            <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a>
+                <div>这是第二个块</div>
+            </li>
+            <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>校园学习</a>
+                <div>这是第二个块</div>
+            </li>
+            <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a>
+                <div>这是第二个块</div>
+            </li>
         </ul>
         <form class="navbar-form" action="search.php" method="post" style="padding:0 25px;">
             <div class="input-group">
