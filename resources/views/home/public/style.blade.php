@@ -3,6 +3,7 @@
 <link type="text/css" href="{{asset('home/css/nprogress.css')}}" rel="stylesheet">
 <link rel="apple-touch-icon-precomposed" href="{{asset('images/icon/icon.png')}}">
 <link rel="shortcut icon" href="{{asset('images/icon/favicon.ico')}}">
+<link href="{{ asset('admin/css/material-design-iconic-font.min.css') }}" rel="stylesheet">
 <style>
     .top-right {
         margin: 0 1em 0 0;

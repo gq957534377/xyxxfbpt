@@ -10,7 +10,16 @@
     <div class="content-wrap"><!--内容-->
         <div class="content">
             <div class="content-block new-content">
-                <h2 class="title"><strong>@if((int)$type == 1)文娱活动@elseif((int)$type == 2)学术活动@elseif((int)$type == 3)竞赛活动@endif</strong></h2>
+                <ul class="min_title">
+                    <li class=" btn @if((int)$type == 1)btn-success @else btn-default @endif">
+                        <a href="{{ url('/action?type=1') }}">文娱活动</a></li>
+                    <li class=" btn @if((int)$type == 2)btn-success @else btn-default @endif">
+                        <a href="{{ url('/action?type=2') }}">学术活动</a></li>
+                    <li class=" btn @if((int)$type == 3)btn-success @else btn-default @endif">
+                        <a href="{{ url('/action?type=3') }}">竞赛活动</a></li>
+                </ul>
+
+                <h2 class="title" id="action_type"><strong>@if((int)$type == 1)文娱活动@elseif((int)$type == 2)学术活动@elseif((int)$type == 3)竞赛活动@endif</strong></h2>
                 {{--{{dd($ResultData)}}--}}
                 <div class="row">
                     @foreach($ResultData['data'] as $action)
@@ -31,7 +40,10 @@
                                         </span>
                                         <span class="identity"></span>
                                         <span class="time"> {{ date('Y-m-d H:m', $action->addtime) }} </span> <span
-                                                class="identity"></span><a class="btn-success" href="index.html">@if($action->status == 1) 报名中 @elseif($action->status == 2) 进行中 @elseif($action->status == 3) 已结束 @elseif($action->status == 4) 已取消 @elseif($action->status == 5) 报名已经截止 @endif</a>
+                                                class="identity"></span><a class="btn-success" href="index.html">@if($action->status == 1)
+                                                报名中 @elseif($action->status == 2) 进行中 @elseif($action->status == 3)
+                                                已结束 @elseif($action->status == 4) 已取消 @elseif($action->status == 5)
+                                                报名已经截止 @endif</a>
                                     </dd>
                                     <dd class="text">{{ $action->brief }}</dd>
                                     <dd class="text">活动时间： {{ date('Y-m-d H:m', $action->start_time) }}
@@ -89,7 +101,7 @@
 
                     html += '<div class="news-info col-xs-7 col-sm-7 col-md-8"><dl>';
                     html += '<dt><a href="action/' + e.guid + '" target="_blank">' + e.title + '</a></dt>';
-                    html += '<dd><span class="name"><a href="'+ e.group.pointurl +'" target="_blank" title="由 ' + e.group.name + '发布" rel="author">' + e.group.name + '</a></span>';
+                    html += '<dd><span class="name"><a href="' + e.group.pointurl + '" target="_blank" title="由 ' + e.group.name + '发布" rel="author">' + e.group.name + '</a></span>';
                     html += '<span class="identity"></span><span class="time">' + getLocalTime(e.addtime) + '</span>';
                     html += '<span class="identity"></span><a class="btn-success" href="index.html">' + status(e.status) + '</a></dd>';
                     html += '<dd class="text">' + e.brief + '</dd>';
