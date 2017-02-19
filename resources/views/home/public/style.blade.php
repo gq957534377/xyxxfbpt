@@ -4,6 +4,7 @@
 <link rel="apple-touch-icon-precomposed" href="{{asset('images/icon/icon.png')}}">
 <link rel="shortcut icon" href="{{asset('images/icon/favicon.ico')}}">
 <link href="{{ asset('admin/css/material-design-iconic-font.min.css') }}" rel="stylesheet">
+<link href="{{ asset('home/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet">
 <style>
     .top-right {
         margin: 0 1em 0 0;
