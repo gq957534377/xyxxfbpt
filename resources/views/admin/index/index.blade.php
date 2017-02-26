@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
-@section('title', '功能测试')
+@section('title', '校园信息发布平台后台')
         {{-- 弹出表单开始 --}}
 
         <!--继承组件-->
@@ -26,7 +26,7 @@
 
 @endsection
 {{-- AlertInfoEnd --}}
-<h1>英雄会后台管理系统</h1>
+<h1>校园信息发布平台后台管理系统</h1>
 
 @endsection
 

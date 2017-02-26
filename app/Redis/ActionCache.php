@@ -197,7 +197,6 @@ class ActionCache extends MasterCache
         //拼接list key
         $key = $this -> getlistKey($where);
         if (!$key) return false;
-
         //如果list不存在，从数据库取出所有guid并存入redis
         if (!$this->exists($key)){
             $result = $this->mysqlToList($where, $key);

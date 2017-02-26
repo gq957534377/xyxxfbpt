@@ -18,9 +18,7 @@
                     <li class=" btn @if((int)$type == 3)btn-success @else btn-default @endif">
                         <a href="{{ url('/action?type=3') }}">竞赛活动</a></li>
                 </ul>
-
                 <h2 class="title" id="action_type"><strong>@if((int)$type == 1)文娱活动@elseif((int)$type == 2)学术活动@elseif((int)$type == 3)竞赛活动@endif</strong></h2>
-                {{--{{dd($ResultData)}}--}}
                 <div class="row">
                     @foreach($ResultData['data'] as $action)
                         <div class="news-list">

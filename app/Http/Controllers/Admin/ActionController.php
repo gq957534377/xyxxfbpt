@@ -10,8 +10,9 @@ use App\Services\ActionService as ActionServer;
 
 class ActionController extends Controller
 {
-    protected  static $actionServer;
-    protected  static $pictureStore;
+    protected static $actionServer;
+    protected static $pictureStore;
+
     public function __construct(ActionServer $actionServer, PictureStore $pictureStore)
     {
         self::$actionServer = $actionServer;
@@ -28,7 +29,7 @@ class ActionController extends Controller
     {
         $type = (int)$request->get('type');
 
-        return view('admin.action.index',['type' => $type]);
+        return view('admin.action.index', ['type' => $type]);
     }
 
     /**
@@ -41,44 +42,35 @@ class ActionController extends Controller
     public function create(Request $request)
     {
         $data = $request->all();
-        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
+        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"] : 1;//获取当前页
         $forPages = 3;//一页的数据条数
         $status = $data["status"];//文章状态：已发布 待审核 已下架
         $type = (int)$data["type"];//获取文章类型
         $where = [];
 
-        if($status){
+        if ($status) {
             $where["status"] = (int)$status;
         }
-        if ($type == 3) {
-            if (isset($data['college_type'])){
-                if ($data['college_type'] != 4){
-                    $where['type'] = (int)$data['college_type'];
-                }
-            }
-            $list = true;
-        } else {
-            $list = false;
-            $where['type'] = $type;
-        }
 
-        $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create", $list);
-        if($result["StatusCode"] == '200'){
-            foreach ($result['ResultData']['data'] as $v){
+        $where['type'] = $type;
+
+        $result = self::$actionServer->selectData($where, $nowPage, $forPages, "/action/create");
+        if ($result["StatusCode"] == '200') {
+            foreach ($result['ResultData']['data'] as $v) {
                 $status = self::$actionServer->setStatusByTime($v);
-                if ($status['status']){
-                    if (!is_string($status['msg'])){
-                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg'],$type);
-                        if ($chage['StatusCode'] != '200'){
-                            Log::info("管理员用户第一次请求更改活动状态失败".$v->guid);
-                        }else{
+                if ($status['status']) {
+                    if (!is_string($status['msg'])) {
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
+                        if ($chage['StatusCode'] != '200') {
+                            Log::info("管理员用户第一次请求更改活动状态失败" . $v->guid);
+                        } else {
                             $v->status = $status['msg'];
                         }
                     }
                 }
             }
         }
-        return response() -> json($result);
+        return response()->json($result);
     }
 
     /**
@@ -89,9 +81,9 @@ class ActionController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request -> all();
-        $result = self::$actionServer -> insertData($data);
-        return response() -> json($result);
+        $data = $request->all();
+        $result = self::$actionServer->insertData($data);
+        return response()->json($result);
     }
 
     /**
@@ -100,11 +92,11 @@ class ActionController extends Controller
      * @return array
      * @author 郭庆
      */
-    public function show($id,Request $request)
+    public function show($id, Request $request)
     {
         $list = $request->get('list');
-        $result = self::$actionServer -> getData($id,$list);
-        return response() -> json($result);
+        $result = self::$actionServer->getData($id);
+        return response()->json($result);
     }
 
     /**
@@ -115,10 +107,10 @@ class ActionController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $status = $request -> input("status");
+        $status = $request->input("status");
         $list = $request->get('list');
-        $result = self::$actionServer -> changeStatus($id, $status, $list);
-        return response() -> json($result);
+        $result = self::$actionServer->changeStatus($id, $status, $list);
+        return response()->json($result);
     }
 
     /**
@@ -129,11 +121,11 @@ class ActionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request -> all();
+        $data = $request->all();
         $where = ["guid" => $id];
 
-        $result = self::$actionServer -> upDta($where, $data, $data['list']);
-        return response() -> json($result);
+        $result = self::$actionServer->upDta($where, $data);
+        return response()->json($result);
     }
 
     /**
@@ -155,16 +147,17 @@ class ActionController extends Controller
     public function actionAdd()
     {
         $group = self::$pictureStore->getGroup();
-        if (!empty($group)){
+        if (!empty($group)) {
             return view('admin.action.add', ['StatusCode' => '200', 'ResultData' => $group]);
-        }else{
-            if ($group == []){
+        } else {
+            if ($group == []) {
                 return view('admin.action.add', ['StatusCode' => '204', 'ResultData' => '暂时没有合作机构或投资机构，请添加后再进行发布']);
-            }else{
+            } else {
                 return view('admin.action.add', ['StatusCode' => '500', 'ResultData' => '服务器忙，请稍后重试']);
             }
         }
     }
+
     /**
      * 返回活动修改视图
      * @param $id 活动id
@@ -174,13 +167,14 @@ class ActionController extends Controller
     public function actionChange($id, $list)
     {
         //旧信息
-        $result = self::$actionServer -> getData($id,$list);
+        $result = self::$actionServer->getData($id);
         $result['list'] = (int)$list;
 
         $group = self::$pictureStore->getGroup();
         $result['group'] = $group;
         return view('admin.action.edit', $result);
     }
+
     /**
      * 返回报名列表管理视图
      * @param $id 活动id

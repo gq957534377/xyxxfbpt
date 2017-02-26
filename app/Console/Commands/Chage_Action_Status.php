@@ -86,7 +86,7 @@ class Chage_Action_Status extends Command
      */
     public static function chageCollegeStatus()
     {
-        $result = self::$actionServer->getAllAction(false);
+        $result = self::$actionServer->getAllAction();
         if ($result["status"]) {
             foreach ($result['msg'] as $v) {
                 $status = self::$actionServer->setStatusByTime($v);

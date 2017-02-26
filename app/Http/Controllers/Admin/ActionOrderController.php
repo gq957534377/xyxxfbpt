@@ -36,7 +36,7 @@ class ActionOrderController extends Controller
         $id = $request->get('id');
         $list = (int)$request->get('list');
 
-        $result = self::$actionServer -> getData($id,$list);
+        $result = self::$actionServer -> getData($id);
         return view('admin.action.actionOrder',$result);
     }
 

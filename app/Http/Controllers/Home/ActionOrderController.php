@@ -10,8 +10,9 @@ use App\Services\ActionService as ActionServer;
 
 class ActionOrderController extends Controller
 {
-    protected  static $actionServer;
-    protected  static $actionOrderStore;
+    protected static $actionServer;
+    protected static $actionOrderStore;
+
     public function __construct(
         ActionServer $actionServer,
         ActionOrderStore $actionOrderStore)
@@ -30,32 +31,32 @@ class ActionOrderController extends Controller
     {
         $data = $request->all();
         $list = (int)$data['list'];
-        $actions = self::$actionOrderStore->getSomeField(['user_id'=>session('user')->guid], 'action_id');
+        $actions = self::$actionOrderStore->getSomeField(['user_id' => session('user')->guid], 'action_id');
         $where = [];
-        if (!empty($data['type']) && $list != 3){
+        if (!empty($data['type']) && $list != 3) {
             $where["type"] = $data['type'];
         }
 
-        if (!empty($data['status'])){
+        if (!empty($data['status'])) {
             $where["status"] = (int)$data["status"];
             $status = $data['status'];
-        }else{
+        } else {
             $status = 6;
         }
-        if (!$actions){
-            if ($actions == []){
-                return view('home.user.activity.index',['StatusCode' => '204', 'ResultData' => ['list'=>$list, 'status'=>$status, 'data' => "你还未报名参加任何活动"]]);
-            }else{
-                return view('home.user.activity.index',['StatusCode' => '400', 'ResultData' => ['list'=>$list, 'status'=>$status, 'data' => "获取所报名参加的活动失败"]]);
+        if (!$actions) {
+            if ($actions == []) {
+                return view('home.user.activity.index', ['StatusCode' => '204', 'ResultData' => ['list' => $list, 'status' => $status, 'data' => "你还未报名参加任何活动"]]);
+            } else {
+                return view('home.user.activity.index', ['StatusCode' => '400', 'ResultData' => ['list' => $list, 'status' => $status, 'data' => "获取所报名参加的活动失败"]]);
             }
         }
 
-        $nowPage = !empty($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
+        $nowPage = !empty($data["nowPage"]) ? (int)$data["nowPage"] : 1;//获取当前页
         $forPages = 3;//一页的数据条数
 
-        $result = self::$actionServer->getOrderActions($where, $actions, $nowPage, $forPages, 'action_order/create',$list);
+        $result = self::$actionServer->getOrderActions($where, $actions, $nowPage, $forPages, 'action_order/create');
         $result['ResultData']['status'] = $status;
-        return view('home.user.activity.index',$result);
+        return view('home.user.activity.index', $result);
     }
 
     /**
@@ -68,45 +69,45 @@ class ActionOrderController extends Controller
     {
         $data = $request->all();
         $list = (int)$data['list'];
-        $actions = self::$actionOrderStore->getSomeField(['user_id'=>session('user')->guid], 'action_id');
+        $actions = self::$actionOrderStore->getSomeField(['user_id' => session('user')->guid], 'action_id');
         $where = [];
-        if (!empty($data['type']) && $list != 3){
+        if (!empty($data['type']) && $list != 3) {
             $where["type"] = $data['type'];
         }
 
-        if (!empty($data['status'])){
+        if (!empty($data['status'])) {
             $where["status"] = (int)$data["status"];
             $status = $data['status'];
-        }else{
+        } else {
             $status = 6;
         }
-        if (!$actions){
-            if ($actions == []){
-                return response() -> json(['StatusCode' => '204', 'ResultData' => ['list'=>$list, 'status'=>$status, 'data' => "你还未报名参加任何活动"]]);
-            }else{
-                return response() -> json(['StatusCode' => '400', 'ResultData' => ['list'=>$list, 'status'=>$status, 'data' => "获取所报名参加的活动失败"]]);
+        if (!$actions) {
+            if ($actions == []) {
+                return response()->json(['StatusCode' => '204', 'ResultData' => ['list' => $list, 'status' => $status, 'data' => "你还未报名参加任何活动"]]);
+            } else {
+                return response()->json(['StatusCode' => '400', 'ResultData' => ['list' => $list, 'status' => $status, 'data' => "获取所报名参加的活动失败"]]);
             }
         }
 
-        $nowPage = !empty($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
+        $nowPage = !empty($data["nowPage"]) ? (int)$data["nowPage"] : 1;//获取当前页
         $forPages = 3;//一页的数据条数
         $where = [];
 
-        if(!empty($data["status"])){
+        if (!empty($data["status"])) {
             $where["status"] = (int)$data["status"];
         }
-        if (!empty($data['type']) && $list != 3){
+        if (!empty($data['type']) && $list != 3) {
             $where["type"] = $data['type'];
         }
 
-        $result = self::$actionServer->getOrderActions($where, $actions, $nowPage, $forPages, 'action_order/create',$list);
+        $result = self::$actionServer->getOrderActions($where, $actions, $nowPage, $forPages, 'action_order/create');
         $result['status'] = $status;
-        return response() -> json($result);
+        return response()->json($result);
     }
 
     /**
      * 向活动报名表插入数据
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      * @author 郭庆
      */

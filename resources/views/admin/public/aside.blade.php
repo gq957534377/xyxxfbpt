@@ -25,9 +25,9 @@
 
             <li class="has-submenu"><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i> <span class="nav-label">活动管理</span></a>
                 <ul class="list-unstyled">
-                    <li><a href="{{asset('action?type=1')}}">路演活动管理</a></li>
-                    <li><a href="{{asset('action?type=2')}}">创业大赛管理</a></li>
-                    <li><a href="{{asset('action?type=3')}}">英雄学院管理</a></li>
+                    <li><a href="{{asset('action?type=1')}}">文娱活动管理</a></li>
+                    <li><a href="{{asset('action?type=2')}}">学术活动管理</a></li>
+                    <li><a href="{{asset('action?type=3')}}">竞赛活动管理</a></li>
                 </ul>
             </li>
 

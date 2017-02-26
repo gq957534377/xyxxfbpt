@@ -119,7 +119,7 @@ class SchoolController extends Controller
     public function show($id)
     {
         //所需要数据的获取
-        $data = self::$actionServer->getData($id,3);//活动详情
+        $data = self::$actionServer->getData($id);//活动详情
         if ($data['StatusCode'] == '200' && (int)$data['ResultData']->status == 4){
             $data['StatusCode'] = '400';
             $data['ResultData'] = '该活动已被删除';
@@ -141,7 +141,7 @@ class SchoolController extends Controller
             $isLogin = session('user')->guid;
         }
 
-        $rand = self::$actionServer->getRandomActions(false);
+        $rand = self::$actionServer->getRandomActions();
         //返回详情页
         return view("home.action.details", [
             "list" => 3,

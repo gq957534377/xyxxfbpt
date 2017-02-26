@@ -50,14 +50,14 @@ class ActionController extends Controller
             $where['status'] = $data['status'];
         }
         $nowPage = 1;
-        $result = self::$actionServer->selectData($where, $nowPage, 5, '/action/create', false, true);
+        $result = self::$actionServer->selectData($where, $nowPage, 5, '/action/create');
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
-                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], $data['type']);
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
                         if ($chage['StatusCode'] != '200'){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
@@ -95,14 +95,14 @@ class ActionController extends Controller
         }
 
         $nowPage = $data['nowPage'];//获取当前页
-        $result = self::$actionServer->selectData($where, $nowPage, 5, '/action/create', false);
+        $result = self::$actionServer->selectData($where, $nowPage, 5, '/action/create');
 
         if($result["StatusCode"] == '200'){
             foreach ($result['ResultData']['data'] as $v){
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status']){
                     if (!is_string($status['msg'])){
-                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], $where['type']);
+                        $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
                         if ($chage['StatusCode'] != '200'){
                             Log::info("管理员用户第一次请求更改活动状态失败".$v->guid.':'.$chage['ResultData']);
                         }else{
@@ -137,7 +137,7 @@ class ActionController extends Controller
     public function show($id)
     {
         //所需要数据的获取
-        $data = self::$actionServer->getData($id,false);//活动详情
+        $data = self::$actionServer->getData($id);//活动详情
         if ($data['StatusCode'] == '200' && (int)$data['ResultData']->status == 4){
             return view('errors.404');
         }
@@ -157,7 +157,7 @@ class ActionController extends Controller
             $isHas = self::$actionCache->getOrderActions(session('user')->guid, $id);//当前用户是否报名参加活动
             $isLogin = session('user')->guid;
         }
-        $rand = self::$actionServer->getRandomActions(true);
+        $rand = self::$actionServer->getRandomActions();
         //返回详情页
         return view("home.action.details", [
             "list" => 1,
