@@ -78,7 +78,6 @@
                             </li>
                             <li style="line-height: 40px" style="line-height: 40px"><strong>真实姓名 ：</strong><mark><span id="realname"></span></mark></li>
                             <li style="line-height: 40px"><strong>昵称 ：</strong><span id="nickname"></span></li>
-                            <li style="line-height: 40px"><strong>性别 ：</strong><span id="sex"></span></li>
                             <li style="line-height: 40px"><strong>电话 ：</strong><ins><span id="phone"></span></ins></li>
                             <li style="line-height: 40px"><strong>邮箱 ：</strong><span id="email"></span></li>
 

@@ -41,7 +41,6 @@ function htmlStr( data) {
         '<tr>' +
         '<th class ="text-center">姓名</th>' +
         '<th class ="text-center">类型</th>' +
-        '<th class ="text-center">性别</th>' +
         '<th class ="text-center">手机</th>' +
         '<th class ="text-center">邮箱</th>' +
         '<th class ="text-center">操作</th>' +
@@ -74,17 +73,12 @@ function htmlStr( data) {
             str += '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
         }
         str += '</td>';
-        if(v.sex == 1){
-            str += '<td>男</td>';
-        }else{
-            str +=  '<td>女</td>';
-        }
 
-        str +=  '<td>' + v.tel + '</td>';
+        str +=  '<td>' + v.phone_number + '</td>';
         str +=  '<td>' + v.email + '</td>';
         str +=  '<td>';
-        str +=  '<a href="javascript:;" data-nickname="' + v.nickname + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
-            '" data-birthday="'+v.birthday+'" data-sex ="'+v.sex+'" data-tel ="'+v.tel+'" data-email="'+v.email+
+        str +=  '<a href="javascript:;" data-nickname="' + v.username + '" data-realname="'+ v.realname +'" data-role ="'+v.role+
+            '" data-tel ="'+v.phone_number+'" data-email="'+v.email+
             '" data-headpic="'+v.headpic+'" data-introduction="'+v.introduction+
             '" data-memeber="'+v.memeber+'" data-addtime="'+v.addtime+'" data-status="'+v.status+
             '" class="user_info"><button class="btn btn-warning btn-xs">详情</button></a>';
@@ -108,23 +102,13 @@ function htmlStr( data) {
  * */
 function userInfo() {
     $('.user_info').click(function () {
-
         var data = $(this).data();
+
         $('#head').attr('src',data.headpic);
         $('#realname').text(data.realname);
         $('#nickname').text(data.nickname);
 
-        switch (data.sex){
-            case 1:
-                var sex = '男';
-                break;
-            case 2:
-                var sex = '女';
-                break;
-            default:
-                var sex = '未填写';
-        }
-        $('#sex').text(sex);
+
         $('#phone').text(data.tel);
         $('#email').text(data.email);
         $('#introduction').text(data.introduction);
@@ -166,7 +150,6 @@ function userInfo() {
         }
         $('#status').html(status);
         $('#introduction').text(data.introduction);
-        $('#').text();
 
         $('#user-info').modal('show');
 

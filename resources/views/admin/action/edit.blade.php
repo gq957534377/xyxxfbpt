@@ -56,25 +56,14 @@
                     <label for="field-3">活动类型</label>
                     <div for="field-3">
                         <select class="form-control" id="action" name="type" disabled="true">
-                            <option value="1" @if($list !=3 && $ResultData->type == 1) selected @endif>路演活动</option>
-                            <option value="2" @if($list !=3 && $ResultData->type == 2) selected @endif>创业大赛</option>
-                            <option value="3" @if($list == 3) selected @endif>英雄学院</option>
+                            <option value="1" @if($ResultData->type == 1) selected @endif>文娱活动</option>
+                            <option value="2" @if($ResultData->type == 2) selected @endif>学术活动</option>
+                            <option value="3" @if($ResultData->type == 3) selected @endif>大赛活动</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6" id="type" style="display: @if($list == 3)block @endif none">
-                <div class="form-group">
-                    <label for="field-3">培训类型</label>
-                    <div for="field-3">
-                        <select id="type1" class="form-control" name="" disabled="true">
-                            <option value="1" @if($ResultData->type == 1) selected @endif>企业管理</option>
-                            <option value="2" @if($ResultData->type == 2) selected @endif>资金管理</option>
-                            <option value="3" @if($ResultData->type == 3) selected @endif>人才管理</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -415,7 +404,7 @@
                             brief: $('textarea[name=brief]').val(),
                             describe: $('textarea[name=describe]').val(),
                         };
-                        var url = '/action/{{$ResultData->guid}}?list={{$list}}';
+                        var url = '/action/{{$ResultData->guid}}';
                         data.append("type", resul.type);
                         data.append("title", resul.title);
                         data.append("author", resul.author);

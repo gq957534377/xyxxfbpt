@@ -191,7 +191,7 @@
 </div>
 <h3 class="title">@if($type == 1)文娱活动管理@elseif($type == 2)学术活动管理@else竞赛活动管理@endif</h3>
 {{--<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>--}}
-<a href="/action_add?list={{$type}}">
+<a href="/action_add">
     <button class="btn btn-primary" id="add">发布活动</button>
 </a>
 <img src="/admin/images/load.gif" class="loading">
@@ -223,7 +223,7 @@
 
         //全局变量参数的设置
         var token = $('meta[name="csrf-token"]').attr('content');
-        var list_type = "{{$type}}";//活动类型：1：路演 2：大赛 3：学习
+        var list_type = "{{$type}}";//活动类型：1：文娱 2：学术 3：竞赛
         var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
         var college_type = 4;
 
