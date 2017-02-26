@@ -30,24 +30,20 @@ class ActionOrderController extends Controller
     public function index(Request $request)
     {
         $data = $request->all();
-        $list = (int)$data['list'];
         $actions = self::$actionOrderStore->getSomeField(['user_id' => session('user')->guid], 'action_id');
-        $where = [];
-        if (!empty($data['type']) && $list != 3) {
-            $where["type"] = $data['type'];
-        }
-
         if (!empty($data['status'])) {
             $where["status"] = (int)$data["status"];
             $status = $data['status'];
         } else {
             $status = 6;
         }
+        $where['type'] = $data['type'];
+
         if (!$actions) {
             if ($actions == []) {
-                return view('home.user.activity.index', ['StatusCode' => '204', 'ResultData' => ['list' => $list, 'status' => $status, 'data' => "你还未报名参加任何活动"]]);
+                return view('home.user.activity.index', ['StatusCode' => '204', 'ResultData' => ['type' => $data['type'], 'status' => $status, 'data' => "你还未报名参加任何活动"]]);
             } else {
-                return view('home.user.activity.index', ['StatusCode' => '400', 'ResultData' => ['list' => $list, 'status' => $status, 'data' => "获取所报名参加的活动失败"]]);
+                return view('home.user.activity.index', ['StatusCode' => '400', 'ResultData' => ['type' => $data['type'], 'status' => $status, 'data' => "获取所报名参加的活动失败"]]);
             }
         }
 
@@ -56,6 +52,7 @@ class ActionOrderController extends Controller
 
         $result = self::$actionServer->getOrderActions($where, $actions, $nowPage, $forPages, 'action_order/create');
         $result['ResultData']['status'] = $status;
+        $result['ResultData']['type'] = $data['type'];
         return view('home.user.activity.index', $result);
     }
 
@@ -68,11 +65,10 @@ class ActionOrderController extends Controller
     public function create(Request $request)
     {
         $data = $request->all();
-        $list = (int)$data['list'];
         $actions = self::$actionOrderStore->getSomeField(['user_id' => session('user')->guid], 'action_id');
         $where = [];
-        if (!empty($data['type']) && $list != 3) {
-            $where["type"] = $data['type'];
+        if (!empty($data['type'])) {
+            $where["type"] = (int)$data['type'];
         }
 
         if (!empty($data['status'])) {
@@ -83,9 +79,9 @@ class ActionOrderController extends Controller
         }
         if (!$actions) {
             if ($actions == []) {
-                return response()->json(['StatusCode' => '204', 'ResultData' => ['list' => $list, 'status' => $status, 'data' => "你还未报名参加任何活动"]]);
+                return response()->json(['StatusCode' => '204', 'ResultData' => ['type' => $data['type'], 'status' => $status, 'data' => "你还未报名参加任何活动"]]);
             } else {
-                return response()->json(['StatusCode' => '400', 'ResultData' => ['list' => $list, 'status' => $status, 'data' => "获取所报名参加的活动失败"]]);
+                return response()->json(['StatusCode' => '400', 'ResultData' => ['type' => $data['type'], 'status' => $status, 'data' => "获取所报名参加的活动失败"]]);
             }
         }
 
@@ -93,15 +89,9 @@ class ActionOrderController extends Controller
         $forPages = 3;//一页的数据条数
         $where = [];
 
-        if (!empty($data["status"])) {
-            $where["status"] = (int)$data["status"];
-        }
-        if (!empty($data['type']) && $list != 3) {
-            $where["type"] = $data['type'];
-        }
-
         $result = self::$actionServer->getOrderActions($where, $actions, $nowPage, $forPages, 'action_order/create');
         $result['status'] = $status;
+        $result['type'] = $data['type'];
         return response()->json($result);
     }
 

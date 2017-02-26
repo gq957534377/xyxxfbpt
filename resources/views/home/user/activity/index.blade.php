@@ -5,7 +5,7 @@
 @section('style')
     <link href="{{ asset('home/css/user_center_my_road.css') }}" rel="stylesheet">
     <style>
-        .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+        .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
             z-index: 3;
             color: #fff;
             cursor: default;
@@ -26,9 +26,15 @@
                 <p>活动类型：</p>
             </div>
             <ul class="col-sm-9 col-md-9 col-lg-10 road-type mar-clr mar-cb pad-clr">
-                <li class=""><a @if($ResultData['list'] == 1)class="active" @endif href="{{asset('/action_order?list=1&type=1')}}">路演活动</a></li>
-                <li class=""><a @if($ResultData['list'] == 2)class="active" @endif href="{{asset('/action_order?list=2&type=2')}}">创业大赛</a></li>
-                <li class=""><a @if($ResultData['list'] == 3)class="active" @endif href="{{asset('/action_order?list=3')}}">英雄学院</a></li>
+                <li class="">
+                    <a @if($ResultData['type'] == 1)class="active" @endif href="{{asset('/action_order?type=1')}}">文娱活动</a>
+                </li>
+                <li class="">
+                    <a @if($ResultData['type'] == 2)class="active" @endif href="{{asset('/action_order?type=2')}}">学术活动</a>
+                </li>
+                <li class="">
+                    <a @if($ResultData['type'] == 3)class="active" @endif href="{{asset('/action_order?type=3')}}">竞赛活动</a>
+                </li>
             </ul>
         </div>
         <div class="row mar-clr bb-3">
@@ -36,11 +42,21 @@
                 <p>活动状态：</p>
             </div>
             <ul class="col-sm-9 col-md-9 col-lg-10 road-time mar-clr pad-clr">
-                <li class='pad-r2-xs @if($ResultData['status'] == 6) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'])}}">全部</a></li>
-                <li class='pad-r2-xs @if($ResultData['status'] == 1) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=1')}}">报名中</a></li>
-                <li class='pad-r2-xs @if($ResultData['status'] == 5) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=5')}}">等待开始</a></li>
-                <li class='pad-r2-xs @if($ResultData['status'] == 2) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=2')}}">进行中</a></li>
-                <li class='pad-r2-xs @if($ResultData['status'] == 3) active @endif'><a href="{{asset('/action_order?list='.$ResultData['list'].'&type='.$ResultData['list'].'&status=3')}}">已结束</a></li>
+                <li class='pad-r2-xs @if($ResultData['status'] == 6) active @endif'>
+                    <a href="{{asset('/action_order?type='.$ResultData['list'])}}">全部</a>
+                </li>
+                <li class='pad-r2-xs @if($ResultData['status'] == 1) active @endif'>
+                    <a href="{{asset('/action_order?type='.$ResultData['list'].'&status=1')}}">报名中</a>
+                </li>
+                <li class='pad-r2-xs @if($ResultData['status'] == 5) active @endif'>
+                    <a href="{{asset('/action_order?type='.$ResultData['list'].'&status=5')}}">等待开始</a>
+                </li>
+                <li class='pad-r2-xs @if($ResultData['status'] == 2) active @endif'>
+                    <a href="{{asset('/action_order?type='.$ResultData['list'].'&status=2')}}">进行中</a>
+                </li>
+                <li class='pad-r2-xs @if($ResultData['status'] == 3) active @endif'>
+                    <a href="{{asset('/action_order?type='.$ResultData['list'].'&status=3')}}">已结束</a>
+                </li>
             </ul>
         </div>
 
@@ -54,44 +70,36 @@
                 @foreach($ResultData['data'] as $action)
                     <div class="row mar-clr bb-3 mar-b15 pad-b15">
                         <div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">
-                            <a target="_blank" @if($ResultData['list'] == 3) href="{{asset('/school/'.$action->guid)}}" @else href="{{asset('/action/'.$action->guid)}}" @endif><img src="{{ $action->banner }}"  alt=""></a>
+                            <a target="_blank" href="{{asset('/action/'.$action->guid)}}"><img src="{{ $action->banner }}" alt=""></a>
                         </div>
                         <div class="road-font col-lg-7 col-md-12 col-sm-12 pad-clr">
                             <h2>
-                                @if($ResultData['list'] == 3)
-                                    <a target="_blank" href="{{asset('/school/'.$action->guid)}}">
-                                        @else
-                                            <a target="_blank" href="{{asset('/action/'.$action->guid)}}">
-                                                @endif
-                                                {{ $action->title }}
-                                            </a>
+                                <a target="_blank" href="{{asset('/action/'.$action->guid)}}">
+                                    {{ $action->title }}
+                                </a>
                             </h2>
                             <div class="row mar-clr road-class-u mar-b5">
                                 <p class="col-sm-6 col-xs-12 pad-clr">
-                                    @if($ResultData['list'] == 3)
-                                        @if($action->type == 1)
-                                            企业管理
-                                        @elseif($action->type == 2)
-                                            资金管理
-                                        @elseif($action->type == 3)
-                                            人才管理
-                                        @endif
-                                    @else
-                                        @if($action->type == 1)
-                                            路演活动
-                                        @elseif($action->type == 2)
-                                            创业大赛
-                                        @endif
+                                    @if($action->type == 1)
+                                        文娱活动
+                                    @elseif($action->type == 2)
+                                        学术活动
+                                    @elseif($action->type == 3)
+                                        竞赛活动
                                     @endif
                                 </p>
                                 <p class="col-sm-6 col-xs-12 pad-clr">{{ $action->author }}</p>
                             </div>
                             <div class="road-class-d mar-b5">
-                                <p class="col-xs-12 pad-clr">{{ date('Y年m月d日 H:m', $action->start_time) }}--{{ date('Y年m月d日 H:m', $action->end_time) }}</p>
+                                <p class="col-xs-12 pad-clr">{{ date('Y年m月d日 H:m', $action->start_time) }}
+                                    --{{ date('Y年m月d日 H:m', $action->end_time) }}</p>
                                 <p class="col-xs-12 pad-clr mar-emt05">{{ $action->address }}</p>
                                 <div class="clearfix"></div>
                             </div>
-                            <button type="button" class="btn active-join-status disabled">@if($action->status == 1)报名中@elseif($action->status == 2)进行中@elseif($action->status == 3)已结束@elseif($action->status == 4)该活动已取消@elseif($action->status == 5)报名截止@endif</button>
+                            <button type="button" class="btn active-join-status disabled">@if($action->status == 1)
+                                    报名中@elseif($action->status == 2)进行中@elseif($action->status == 3)
+                                    已结束@elseif($action->status == 4)该活动已取消@elseif($action->status == 5)
+                                    报名截止@endif</button>
                         </div>
                     </div>
                 @endforeach
@@ -116,7 +124,7 @@
         //活动状态展示
         function statu(status) {
             var res;
-            switch (status){
+            switch (status) {
                 case 1:
                     res = "报名中";
                     break;
@@ -135,41 +143,6 @@
             }
             return res;
         }
-        //活动类型展示
-        function type(type) {
-            var res;
-            if ("{{$ResultData['list']}}" != 3)
-            {
-                switch (type){
-                    case 1:
-                        res = '路演活动';
-                        break;
-                    case 2:
-                        res = '创业大赛';
-                        break;
-                    default:
-                        break;
-                }
-            }else{
-                switch (type){
-                    case 1:
-                        res = '企业管理';
-                        break;
-                    case 2:
-                        res = '资金管理';
-                        break;
-                    case 3:
-                        res = '人才管理 ';
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return res;
-        }
-
-
 
         function getPage() {
             $('.pagination li').click(function () {
@@ -179,10 +152,10 @@
                 }
 
                 var url;
-                if (status == 6){
+                if (status == 6) {
                     url = $(this).children().prop('href') + '&list=' + list + '&type=' + list;
-                }else {
-                    url = $(this).children().prop('href') + '&list=' + list + '&type=' + list +'&status=' + status;
+                } else {
+                    url = $(this).children().prop('href') + '&list=' + list + '&type=' + list + '&status=' + status;
                 }
 
                 $.ajax({
@@ -191,40 +164,32 @@
                         $('#list').html('');
                         $('#data').html('');
                         console.log(data);
-                        if (data.StatusCode === '200'){
+                        if (data.StatusCode === '200') {
                             var html = '';
-                            $.each(data.ResultData.data, function (i,v) {
-                                html+='<div class="row mar-clr bb-3"><div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">';
-                                html+='<a target="_blank"';
-                                if(data.ResultData.list === 3){
-                                    html+= 'href="/school/'+v.guid+'">';
-                                }else{
-                                    html += 'href="/action/'+v.guid+'">';
-                                }
-                                html += '<img src="'+v.banner+'"></a></div>';
-                                html+='<div class="road-font col-lg-7 col-md-12 col-sm-12 pad-clr"><h2>';
-                                if(data.ResultData.list === 3){
-                                    html+='<a href="/school/'+v.guid+'">';
-                                }else{
-                                    html+='<a target="_blank" href="/action/'+v.guid+'">';
-                                }
+                            $.each(data.ResultData.data, function (i, v) {
+                                html += '<div class="row mar-clr bb-3"><div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">';
+                                html += '<a target="_blank"';
+                                html += 'href="/action/' + v.guid + '">';
+                                html += '<img src="' + v.banner + '"></a></div>';
+                                html += '<div class="road-font col-lg-7 col-md-12 col-sm-12 pad-clr"><h2>';
+                                html += '<a target="_blank" href="/action/' + v.guid + '">';
                                 html += v.title;
                                 html += '</a></h2><div class="row mar-clr road-class-u">';
                                 html += '<p class="col-sm-6 col-xs-12 pad-clr">';
                                 html += type(v.type);
-                                html += '</p><p class="col-sm-6 col-xs-12 pad-clr">'+v.author+'</p></div>';
+                                html += '</p><p class="col-sm-6 col-xs-12 pad-clr">' + v.author + '</p></div>';
                                 html += '<div class="road-class-d">';
-                                html += '<p class="col-xs-12 pad-clr">'+getLocalTime(v.start_time)+'--'+getLocalTime(v.end_time)+'</p>';
-                                html += '<p class="col-xs-12 pad-clr">'+v.address+'</p></div>';
-                                html += '<button type="button" class="btn active-join-status disabled">'+statu(parseInt(v.status))+'</button>';
+                                html += '<p class="col-xs-12 pad-clr">' + getLocalTime(v.start_time) + '--' + getLocalTime(v.end_time) + '</p>';
+                                html += '<p class="col-xs-12 pad-clr">' + v.address + '</p></div>';
+                                html += '<button type="button" class="btn active-join-status disabled">' + statu(parseInt(v.status)) + '</button>';
                                 html += '</div></div>';
                             });
                             console.log(html);
                             $('#list').html(html);
                             $('#data').html(data.ResultData.pages);
                             getPage();
-                        }else{
-                            $('#list').html('好像出错了呦:'+data.ResultData.data+',错误代码：'+data.StatusCode);
+                        } else {
+                            $('#list').html('好像出错了呦:' + data.ResultData.data + ',错误代码：' + data.StatusCode);
                         }
                     }
                 });

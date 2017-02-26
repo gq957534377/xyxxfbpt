@@ -22,7 +22,7 @@
     @endif
     <ul class="nav hidden-xs-nav">
         <li class="active"><a href="{{ url('/user/'.session('user')->guid) }}"><span class="glyphicon glyphicon-home"></span>我的主页</a></li>
-        <li><a href="{{ url('/action_order?list=1&type=1&status=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a></li>
+        <li><a href="{{ url('/action_order?type=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a></li>
         <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>我的文章</a></li>
         <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>我的评论</a></li>
         <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>我的二手交易</a></li>
@@ -74,7 +74,7 @@
     <div id="header-xs-menu" class="navbar-collapse collapse">
         <ul class="nav navbar-nav header-xs-nav">
             <li class="active"><a href="{{ url('/user/'.session('user')->guid) }}"><span class="glyphicon glyphicon-home"></span>我的主页</a></li>
-            <li><a href="{{ url('/action_order?list=1&type=1&status=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a></li>
+            <li><a href="{{ url('/action_order?&type=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a></li>
             <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>我的文章</a></li>
             <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>我的评论</a></li>
             <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>我的二手交易</a></li>
