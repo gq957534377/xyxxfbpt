@@ -77,21 +77,9 @@
                     <label for="field-3">活动类型</label>
                     <div for="field-3">
                         <select class="form-control" id="action" name="type">
-                            <option value="1">路演活动</option>
-                            <option value="2">创业大赛</option>
-                            <option value="3">英雄学院</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6" id="type" style="display: none">
-                <div class="form-group">
-                    <label for="field-3">培训类型</label>
-                    <div for="field-3">
-                        <select id="type1" class="form-control" name="">
-                            <option value="1">企业管理</option>
-                            <option value="2">资金管理</option>
-                            <option value="3">人才管理</option>
+                            <option value="1">文娱活动</option>
+                            <option value="2">学术活动</option>
+                            <option value="3">大赛活动</option>
                         </select>
                     </div>
                 </div>
@@ -400,19 +388,6 @@
                 required: '缩略图不能为空'
             }
         };
-
-        //分类查看数据
-        $('#action').change(function () {
-            if ($(this).val() === '3'){
-                $('#type').css('display','block');
-                $(this).attr('name','');
-                $('#type1').attr('name','type')
-            }else {
-                $('#type').css('display','none');
-                $(this).attr('name','type');
-                $('#type1').attr('name','')
-            }
-        });
 
         //发布
         !function ($) {

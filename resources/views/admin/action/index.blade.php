@@ -1,31 +1,32 @@
 @extends('admin.layouts.master')
 @section('style')
-<style>
-    .loading {
-        z-index: 999;
-        position: absolute;
-        display: none;
-    }
-    #alert-info {
-        padding-left: 10px;
-    }
+    <style>
+        .loading {
+            z-index: 999;
+            position: absolute;
+            display: none;
+        }
 
-    table {
-        font-size: 14px;
-    }
+        #alert-info {
+            padding-left: 10px;
+        }
 
-    .table button {
-        margin-right: 15px;
-    }
+        table {
+            font-size: 14px;
+        }
 
-    .btn {
-        border-radius: 7px;
-        padding: 6px 16px;
-    }
+        .table button {
+            margin-right: 15px;
+        }
 
-</style>
-<link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
-<link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
+        .btn {
+            border-radius: 7px;
+            padding: 6px 16px;
+        }
+
+    </style>
+    <link href="{{asset('cropper/css/cropper.min.css')}}" rel="stylesheet"/>
+    <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
 @endsection
 @section('content')
 @section('title', '活动管理')
@@ -188,35 +189,20 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-<h3 class="title">@if($type == 1)路演活动管理@elseif($type == 2)创业大赛管理@else英雄学院管理@endif</h3>
+<h3 class="title">@if($type == 1)文娱活动管理@elseif($type == 2)学术活动管理@else竞赛活动管理@endif</h3>
 {{--<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布活动</button>--}}
-<a href="/action_add?list={{$type}}"><button class="btn btn-primary" id="add">发布活动</button></a>
+<a href="/action_add?list={{$type}}">
+    <button class="btn btn-primary" id="add">发布活动</button>
+</a>
 <img src="/admin/images/load.gif" class="loading">
-@if($type == 3)
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <h4 class="col-md-4">培训类型:</h4>
-                    <div class="col-md-8">
-                        <select class="form-control" id="college" name="action">
-                            <option value="4">所有培训</option>
-                            <option value="1">企业管理</option>
-                            <option value="2">资金管理</option>
-                            <option value="3">人才管理</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-    @endif
-            <br><br>
-    <div class="page-title">
-        <button class="btn btn-success status1" data-status="1">报名中</button>
-        <button class="btn btn-default status1" data-status="2">活动进行中...</button>
-        <button class="btn btn-default status1" data-status="3">往期回顾</button>
-        <button class="btn btn-default status1" data-status="4">回收站</button>
-        <button class="btn btn-default status1" data-status="5">报名截止，等待开始</button>
-    </div>
-    <div class="panel" id="data"></div>
+<div class="page-title">
+    <button class="btn btn-success status1" data-status="1">报名中</button>
+    <button class="btn btn-default status1" data-status="2">活动进行中...</button>
+    <button class="btn btn-default status1" data-status="3">往期回顾</button>
+    <button class="btn btn-default status1" data-status="4">回收站</button>
+    <button class="btn btn-default status1" data-status="5">报名截止，等待开始</button>
+</div>
+<div class="panel" id="data"></div>
 @include('admin.public.banner')
 @endsection
 @section('script')
@@ -236,26 +222,26 @@
         {{--全局变量的设置--}}
 
         //全局变量参数的设置
-        var token       = $('meta[name="csrf-token"]').attr('content');
-        var list_type   = "{{$type}}";//活动类型：1：路演 2：大赛 3：学习
+        var token = $('meta[name="csrf-token"]').attr('content');
+        var list_type = "{{$type}}";//活动类型：1：路演 2：大赛 3：学习
         var list_status = 1;//活动状态：1：报名中 2：进行中 3：往期回顾 4：回收站 5：报名截止，等待开始
         var college_type = 4;
 
         function updates() {
-            
+
         }
 
         function groups() {
             var result;
             $.ajax({
-                url:'/web_admins/create?type=23',
-                type:'get',
+                url: '/web_admins/create?type=23',
+                type: 'get',
                 async: false,
-                success:function (data) {
+                success: function (data) {
                     result = data;
                 },
-                error:function () {
-                  result = '获取机构列表失败'
+                error: function () {
+                    result = '获取机构列表失败'
                 }
             });
             return result;
@@ -264,9 +250,9 @@
         groupMessage = groups();
         function group(id) {
             var result = '个人';
-            $.each(groupMessage,function (i,v) {
+            $.each(groupMessage, function (i, v) {
 
-                if (v.id == id){
+                if (v.id == id) {
                     result = v.name;
                 }
             });
@@ -276,32 +262,18 @@
         //活动类型展示
         function type(type) {
             var res;
-            if ("{{$type}}" != 3)
-            {
-                switch (type){
-                    case 1:
-                        res = '路演活动';
-                        break;
-                    case 2:
-                        res = '创业大赛';
-                        break;
-                    default:
-                        break;
-                }
-            }else{
-                switch (type){
-                    case 1:
-                        res = '企业管理';
-                        break;
-                    case 2:
-                        res = '资金管理';
-                        break;
-                    case 3:
-                        res = '人才管理 ';
-                        break;
-                    default:
-                        break;
-                }
+            switch (type) {
+                case 1:
+                    res = '文娱活动';
+                    break;
+                case 2:
+                    res = '学术活动';
+                    break;
+                case 3:
+                    res = '竞赛活动';
+                    break;
+                default:
+                    break;
             }
 
             return res;
@@ -323,7 +295,7 @@
 
         //列表活动类型设置
         function listType(type, status) {
-            list_type   = type;
+            list_type = type;
             list_status = status;
             list(type, status);
         }
@@ -334,23 +306,24 @@
         });
 
         function initAlert() {
-            !function($) {
+            !function ($) {
                 "use strict";
 
-                var SweetAlert = function() {};
+                var SweetAlert = function () {
+                };
 
                 //examples
-                SweetAlert.prototype.init = function() {
+                SweetAlert.prototype.init = function () {
 
                     //禁用弹出确认框
-                    $('.status').click(function(){
+                    $('.status').click(function () {
 
                         var guid = $(this).data('name');
                         var status = $(this).data('status');
                         var statusMessage;
-                        if (status != 1){
+                        if (status != 1) {
                             statusMessage = "禁用";
-                        }else{
+                        } else {
                             statusMessage = "启用";
                         }
 
@@ -359,8 +332,8 @@
 
 
                         swal({
-                            title: "确定要"+statusMessage+"?",
-                            text: "当前操作"+statusMessage+"该活动的展示!",
+                            title: "确定要" + statusMessage + "?",
+                            text: "当前操作" + statusMessage + "该活动的展示!",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",
@@ -368,17 +341,17 @@
                             cancelButtonText: "取消",
                             closeOnConfirm: false,
                             closeOnCancel: false
-                        }, function(isConfirm){
+                        }, function (isConfirm) {
                             if (isConfirm) {
                                 //发送请求
-                                var url   = '/action/' + guid + '/edit/?status=' + status+'&list='+list_type;
+                                var url = '/action/' + guid + '/edit/?status=' + status + '&list=' + list_type;
                                 $.ajax({
-                                    url     : url,
-                                    success : function (data) {
-                                        if(data.StatusCode != '200'){
+                                    url: url,
+                                    success: function (data) {
+                                        if (data.StatusCode != '200') {
                                             swal(data.ResultData, statusMessage + '失败', "danger");
-                                        }else{
-                                            swal(data.ResultData, '成功'+statusMessage+'该活动', "success");
+                                        } else {
+                                            swal(data.ResultData, '成功' + statusMessage + '该活动', "success");
                                             tr.remove();
                                         }
                                     },
@@ -395,7 +368,7 @@
             }(window.jQuery),
 
 //initializing
-                    function($) {
+                    function ($) {
                         "use strict";
                         $.SweetAlert.init()
                     }(window.jQuery);
@@ -405,12 +378,12 @@
         function showInfo() {
             $('.info').click(function () {
                 var ajax = new ajaxController();
-                var url  = '/action/' + $(this).data('name')+'?list='+list_type;
+                var url = '/action/' + $(this).data('name') + '?list=' + list_type;
                 ajax.ajax({
-                    url     : url,
-                    before  : ajaxBeforeNoHiddenModel,
-                    success : showInfoList,
-                    error   : ajaxErrorModel
+                    url: url,
+                    before: ajaxBeforeNoHiddenModel,
+                    success: showInfoList,
+                    error: ajaxErrorModel
                 });
             });
         }
@@ -418,12 +391,12 @@
         //查看报名情况
         function checkAction() {
             $('.bm').click(function () {
-                if ($(this).data('num') === 0){
+                if ($(this).data('num') === 0) {
                     $('#myModal').modal('show');
                     $('#alert-info').html('<p>暂无报名情况</p>');
-                }else{
-                    var url  = '/action_order?id=' + $(this).data('name')+'&list='+list_type;
-                    window.location.href=url;
+                } else {
+                    var url = '/action_order?id=' + $(this).data('name') + '&list=' + list_type;
+                    window.location.href = url;
                 }
             });
         }
@@ -431,12 +404,12 @@
         // 页面加载时触发事件请求分页数据
         function list(type, status) {
             var ajax = new ajaxController();
-            var url  = '/action/create?type=' + type + '&status=' + status+'&college_type='+college_type;
+            var url = '/action/create?type=' + type + '&status=' + status + '&college_type=' + college_type;
             ajax.ajax({
-                url     : url,
-                before  : ajaxBeforeModel,
-                success : getInfoList,
-                error   : ajaxErrorModel,
+                url: url,
+                before: ajaxBeforeModel,
+                success: getInfoList,
+                error: ajaxErrorModel,
             });
         }
         list(list_type, list_status);
