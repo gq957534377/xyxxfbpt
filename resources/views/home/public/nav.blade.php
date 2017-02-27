@@ -33,7 +33,7 @@
                 </ul>
             </div>
         </li>
-        <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a>
+        <li><a href=""><span class="glyphicon glyphicon-inbox"></span>校园文章</a>
             <div>
                 <ul class="nav hidden-xs-nav">
                     <li><a href="{{ route('article.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-erase"></span>爱情文章</a>
@@ -104,7 +104,7 @@
         <ul class="nav navbar-nav header-xs-nav nav-box">
             <li class="active"><a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
             <li><a href="{{ url('action?type=1') }}"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
-            <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
+            <li><a href="{{ route('article.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
             <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
             <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
             <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>校园学习</a></li>

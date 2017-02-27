@@ -12,13 +12,13 @@
             <div class="content-block new-content">
                 <ul class="min_title">
                     <li class=" btn @if((int)$type == 1)btn-success @else btn-default @endif">
-                        <a href="{{ url('/action?type=1') }}">爱情文章</a></li>
+                        <a href="{{ url('/article?type=1') }}">爱情文章</a></li>
                     <li class=" btn @if((int)$type == 2)btn-success @else btn-default @endif">
-                        <a href="{{ url('/action?type=2') }}">亲情文章</a></li>
+                        <a href="{{ url('/article?type=2') }}">亲情文章</a></li>
                     <li class=" btn @if((int)$type == 3)btn-success @else btn-default @endif">
-                        <a href="{{ url('/action?type=3') }}">友情文章</a></li>
+                        <a href="{{ url('/article?type=3') }}">友情文章</a></li>
                     <li class=" btn @if((int)$type == 4)btn-success @else btn-default @endif">
-                        <a href="{{ url('/action?type=3') }}">生活随笔</a></li>
+                        <a href="{{ url('/article?type=4') }}">生活随笔</a></li>
                 </ul>
                 <h2 class="title" id="action_type"><strong>@if((int)$type == 1)爱情文章@elseif((int)$type == 2)
                             亲情文章@elseif((int)$type == 3)友情文章@elseif((int)$type == 4)生活状态@endif</strong></h2>
@@ -53,12 +53,12 @@
                                 </div>
                             </div>
                         @endforeach
-                        <div id="pages">{!! $ResultData['pages'] !!}</div>
-                    @else
-                        <p>{{$ResultData}}</p>
-                    @endif
-
                 </div>
+                <div id="pages">{!! $ResultData['pages'] !!}</div>
+                @else
+                    <p>{{$ResultData}}</p>
+                @endif
+
 
                 <div id="url" style="display: none" data-type="{{ $type }}">
                     {{--<div class="quotes" style="margin-top:15px"><span class="disabled">首页</span><span class="disabled">上一页</span><span class="current">1</span><a href="index.html">2</a><a href="index.html">下一页</a><a href="index.html">尾页</a></div>--}}
@@ -97,11 +97,11 @@
                 var html = '<div class="news-list">';
                 $.each(data.ResultData.data, function (i, e) {
                     html += '<div class="news-img col-xs-5 col-sm-5 col-md-4">'
-                    html += '<a target="_blank" href="' + 'action/' + e.guid + '">';
+                    html += '<a target="_blank" href="' + 'article/' + e.guid + '">';
                     html += '<img src="' + e.banner + '" alt="' + e.title + '"> </a></div>';
 
                     html += '<div class="news-info col-xs-7 col-sm-7 col-md-8"><dl>';
-                    html += '<dt><a href="action/' + e.guid + '" target="_blank">' + e.title + '</a></dt>';
+                    html += '<dt><a href="article/' + e.guid + '" target="_blank">' + e.title + '</a></dt>';
                     html += '<dd><span class="name"><a href="' + e.group.pointurl + '" target="_blank" title="由 ' + e.group.name + '发布" rel="author">' + e.group.name + '</a></span>';
                     html += '<span class="identity"></span><span class="time">' + getLocalTime(e.addtime) + '</span>';
                     html += '<span class="identity"></span><a class="btn-success" href="index.html">' + status(e.status) + '</a></dd>';
