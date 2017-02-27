@@ -23,7 +23,6 @@
     <ul class="nav hidden-xs-nav nav-box">
         <li class="active">
             <a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a>
-            <div>这是第一个块</div>
         </li>
         <li><a><span style="font-size: 25px;" class="zmdi zmdi-odnoklassniki"></span>校园活动</a>
             <div>
@@ -35,7 +34,14 @@
             </div>
         </li>
         <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>校园文章</a>
-            <div>开发中....</div>
+            <div>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('article.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-erase"></span>爱情文章</a>
+                    <li><a href="{{ route('article.index', ['type' => '2']) }}"><span class="glyphicon glyphicon-erase"></span>亲情文章</a>
+                    <li><a href="{{ route('article.index', ['type' => '3']) }}"><span class="glyphicon glyphicon-erase"></span>友情文章</a>
+                    <li><a href="{{ route('article.index', ['type' => '4']) }}"><span class="glyphicon glyphicon-erase"></span>生活随笔</a>
+                </ul>
+            </div>
         </li>
         <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a>
             <div>开发中....</div>

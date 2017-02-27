@@ -1,95 +1,152 @@
 @extends('home.layouts.master')
 
-
-@section('style')
-  <link rel="stylesheet" href="{{ asset('home/css/list.css') }}">
-  <link href="{{ asset('home/css/zhengce.css') }}" rel="stylesheet">
-@endsection
+@section('title', '校园文章')
 
 @section('menu')
-  @parent
+    @parent
 @endsection
 
 @section('content')
-  <section class="bannerimg hang">
-    <img src="{{ asset('home/img/dd.jpg') }}">
-  </section>
-    <!--内容开始--->
-    <section class="container-fluid">
-      <input id="article-type" type="text" hidden value="{{ $type or 1 }}">
-      <div class="row content">
-        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 content-left">
-          @if(empty($type) || $type == 1)
-              <h2>市场咨讯</h2>
-              @section('title', '市场咨讯')
-          @else
-              <h2>创业政策</h2>
-              @section('title', '创业政策')
-          @endif
-          <ul class="article-list">
-            @if(!empty($StatusCode) && $StatusCode == '200')
-              @foreach($ResultData['data'] as $val)
-                <li class="row">
-                  <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 list-img">
-                    <a href="/article/{{ $val->guid }}" target="_blank"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}"></a>
-                  </div>
-                  <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 list-font">
-                    <h3><a href="/article/{{ $val->guid }}" target="_blank">{{ $val->title }}</a></h3>
-                    <p>{{ $val->brief }}</p>
-                    <div class="row list-font-bottom">
-                      <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">{{ date('Y-m-d H:i', $val->addtime) }}</span>
-                      <span class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                      <div class="bg-mg">
-                        <div class="bg-mg-f">
-                          <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->headPic }}">
-                        </div>
-                      </div>
-                      <div class="bg-mg-name">{{ $val->author or '匿名' }}</div>
-                    </span>
-                    </div>
-                  </div>
-                </li>
-              @endforeach
-            @else
-              <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <span style="color: #999999;text-align:center;">暂无数据呦~亲 O(∩_∩)O~</span>
-              </li>
-            @endif
-          </ul>
-          @if(!empty($StatusCode) && $StatusCode == '200' && $ResultData['totalPage'] != 1)
-              <div class="loads"></div>
-          @endif
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 content-right">
-          <div class="guangao row">
-            {{--*/$i=rand(1,3);/*--}}
-            <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/zf'.$i.'.jpg') }}"></a>
-          </div>
-          <div class="row news-list-title">
-            <h2>您可能感兴趣的内容</h2>
-          </div>
-          <ul class="row news-list">
+    <div class="content-wrap"><!--内容-->
+        <div class="content">
+            <div class="content-block new-content">
+                <ul class="min_title">
+                    <li class=" btn @if((int)$type == 1)btn-success @else btn-default @endif">
+                        <a href="{{ url('/action?type=1') }}">爱情文章</a></li>
+                    <li class=" btn @if((int)$type == 2)btn-success @else btn-default @endif">
+                        <a href="{{ url('/action?type=2') }}">亲情文章</a></li>
+                    <li class=" btn @if((int)$type == 3)btn-success @else btn-default @endif">
+                        <a href="{{ url('/action?type=3') }}">友情文章</a></li>
+                    <li class=" btn @if((int)$type == 4)btn-success @else btn-default @endif">
+                        <a href="{{ url('/action?type=3') }}">生活随笔</a></li>
+                </ul>
+                <h2 class="title" id="action_type"><strong>@if((int)$type == 1)爱情文章@elseif((int)$type == 2)
+                            亲情文章@elseif((int)$type == 3)友情文章@elseif((int)$type == 4)生活状态@endif</strong></h2>
+                <div class="row">
+                    @if(!empty($StatusCode) && $StatusCode == '200')
+                        @foreach($ResultData['data'] as $val)
+                            <div class="news-list">
+                                <div class="news-img col-xs-5 col-sm-5 col-md-4"><a target="_blank"
+                                                                                    href="{{ url('article/'.$val->guid) }}"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}" alt="{{ $val->title }}">
+                                    </a></div>
+                                <div class="news-info col-xs-7 col-sm-7 col-md-8">
+                                    <dl>
+                                        <dt>
+                                            <a href="{{ url('article/'.$val->guid) }}" target="_blank">
+                                                {{ $val->title }}
+                                            </a>
+                                        </dt>
+                                        <dd>
+                                        <span class="name">
+                                            <a title="由 {{ $val->author }} 发布" rel="author">{{ $val->author }}</a>
+                                        </span>
+                                            <span class="identity"></span>
+                                            <span class="time"> {{ date('Y-m-d H:m', $val->addtime) }} </span>
+                                        </dd>
+                                        <dd class="text">{{ $val->brief }}</dd>
+                                    </dl>
+                                    <div class="news_bot col-sm-7 col-md-8"><span class="tags visible-lg visible-md"> <a
+                                                    href=" {{ url('/') }}">本站</a> <a
+                                                    href="{{ url('/') }}">校园信息发布平台</a> </span> <span
+                                                class="look"> 共 <strong>2126</strong> 人阅读，发现 <strong> 12 </strong> 个不明物体 </span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        <div id="pages">{!! $ResultData['pages'] !!}</div>
+                    @else
+                        <p>{{$ResultData}}</p>
+                    @endif
 
-            @if(!empty($StatusCode) && $StatusCode == '200' && $ResultData['RandomList']['StatusCode'] == '200')
-                @foreach($ResultData['RandomList']['ResultData'] as $key => $val)
-                <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <h3><a href="/article/{{ $val->guid }}" target="_blank">{{ $val->title }}</a></h3>
-                  <div class="news-list-time">
-                    <span>{{ date('Y-m-d', $val->addtime) }}</span>
-                  </div>
-                </li>
-                @endforeach
-            @endif
+                </div>
 
-          </ul>
-          <!-- <div class="btn-ll">
-            浏览更多
-          </div> -->
+                <div id="url" style="display: none" data-type="{{ $type }}">
+                    {{--<div class="quotes" style="margin-top:15px"><span class="disabled">首页</span><span class="disabled">上一页</span><span class="current">1</span><a href="index.html">2</a><a href="index.html">下一页</a><a href="index.html">尾页</a></div>--}}
+                </div>
+            </div>
         </div>
-      </div>
-    </section>
-      <!--内容结束--->
+    </div>
 @endsection
 @section('script')
-<script src="{{ asset('/home/js/articleScroll.js') }}"></script>
+    <script src="{{ asset('JsService/Model/date.js') }} "></script>
+    <script>
+        function pageList() {
+            $('.pagination li').click(function (event) {
+                event.preventDefault();
+                var class_name = $(this).prop('class');
+                if (class_name === 'disabled' || class_name === 'active') {
+                    return false;
+                }
+
+                var list_type = $('#url').data('type');
+                var list_status = $('#url').data('status');
+
+                var url = $(this).children().prop('href') + '&type=' + list_type + '&status=' + list_status;
+
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    success: addList,
+                });
+            });
+        }
+        pageList();
+
+        function addList(data) {
+            if (data.StatusCode === '200') {
+                var html = '<div class="news-list">';
+                $.each(data.ResultData.data, function (i, e) {
+                    html += '<div class="news-img col-xs-5 col-sm-5 col-md-4">'
+                    html += '<a target="_blank" href="' + 'action/' + e.guid + '">';
+                    html += '<img src="' + e.banner + '" alt="' + e.title + '"> </a></div>';
+
+                    html += '<div class="news-info col-xs-7 col-sm-7 col-md-8"><dl>';
+                    html += '<dt><a href="action/' + e.guid + '" target="_blank">' + e.title + '</a></dt>';
+                    html += '<dd><span class="name"><a href="' + e.group.pointurl + '" target="_blank" title="由 ' + e.group.name + '发布" rel="author">' + e.group.name + '</a></span>';
+                    html += '<span class="identity"></span><span class="time">' + getLocalTime(e.addtime) + '</span>';
+                    html += '<span class="identity"></span><a class="btn-success" href="index.html">' + status(e.status) + '</a></dd>';
+                    html += '<dd class="text">' + e.brief + '</dd>';
+                    html += '<dd class="text">活动时间: ' + getLocalTime(e.start_time) + ' 到 ' + getLocalTime(e.end_time) + '</dd>';
+                    html += '</dl>';
+
+                    html += '<div class="news_bot col-sm-7 col-md-8">';
+                    html += '<span class="tags visible-lg visible-md">';
+                    html += '<a href="/">本站</a><a href="/">校园信息发布平台</a> </span>';
+                    html += '<span class="look"> 共 <strong>2126</strong> 人围观，发现 <strong> 12 </strong> 个不明物体 </span>';
+                    html += '</div></div></div>';
+                });
+                $('.row').html(html);
+                $('#pages').html(data.ResultData.pages);
+                pageList();
+            } else if (data.StatusCode === '204') {
+                $('.row').html('<p style="padding:20px;" class="text-center">暂时没有活动信息！</p>');
+            } else {
+                $('.row').html('<p>' + data.ResultData + '</p>');
+            }
+        }
+
+        function status(status) {
+            var result;
+            switch (parseInt(status)) {
+                case 1:
+                    result = '报名中';
+                    break;
+                case 2:
+                    result = '进行中';
+                    break;
+                case 3:
+                    result = '已结束';
+                    break;
+                case 4:
+                    result = '已取消';
+                    break;
+                case 5:
+                    result = '报名已经截止';
+                    break;
+            }
+            return result;
+        }
+
+    </script>
 @endsection
+

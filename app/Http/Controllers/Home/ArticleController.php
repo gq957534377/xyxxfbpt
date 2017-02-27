@@ -31,31 +31,24 @@ class ArticleController extends Controller
      *
      * @return \Illuminate\Http\Response
      * @author 郭庆
-     * @modify 王通
      */
     public function index(Request $request)
     {
-
-        if (!empty($request['type'])) {
-            $where["status"] = 1;
-            $where['type'] = $request['type'];
-            $result = self::$articleServer->selectArticle($where, 1, self::$forPages, "/article/create", false);
-
-            $result['type'] = $request['type'];
-            // 随机取四条文章信息
-            $randomList = self::$articleServer->getRandomArticles($where['type'], 4, 1);
-            $result['ResultData']['RandomList'] = $randomList;
-
-            return view('home.article.index', $result);
+        // 获取活动类型 -> 活动类型的对应状态的所有数据
+        $data = $request->all();
+        $where = [];
+        if (!empty($data['type'])){
+            $where['type'] = $data['type'];
         }
-
-        return view('errors.404');
+        if (!empty($data['status'])){
+            $where['status'] = $data['status'];
+        }
+        $nowPage = 1;
+        $result = self::$articleServer->selectData($where, $nowPage, 5, '/article/create');
+        $result['type'] = $data['type'];
+        return view('home.article.index', $result);
     }
 
-    public function waterfall(Request $request)
-    {
-
-    }
     /**
      *  查询分页数据，瀑布流
      *

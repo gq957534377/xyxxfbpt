@@ -85,46 +85,59 @@ class ArticleService
     /**
      * 分页查询
      * @param array $where 查询条件
-     * @param int $nowPage  当前页
+     * @param int $nowPage 当前页
      * @param int $forPages 一页获取的数量
      * @param string $url 请求的路由url
      * @param boolean $disPlay 是否需要分页样式
-     * @return array
      * author 郭庆
      */
-    public function selectData($where, $nowPage, $forPages, $url, $disPlay=true)
+    public function selectData($where, $nowPage, $forPages, $url, $disPlay = true)
     {
-        //查询总记录数
-        $count = self::$articleStore->getCount($where);
-        if (!$count) {
-            //如果没有数据直接返回201空数组，函数结束
-            if ($count == 0) return ['StatusCode' => '204', 'ResultData' => []];
-            return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
-        }
+        //获取符合条件的数据的总量
+        $count = self::$articleCache->getCount($where);
+
+        if (!$count) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
+        //获取对应页的数据
+        $result['data'] = self::$articleCache->getPageDatas($where, $forPages, $nowPage);
         //计算总页数
         $totalPage = ceil($count / $forPages);
 
-        //获取对应页的数据
-        $result['data'] = self::$articleStore->forPage($nowPage, $forPages, $where);
-        if($result['data']){
-            if ($disPlay && $totalPage>1) {
+        if ($result['data']) {
+            if ($disPlay && $totalPage > 1) {
                 //创建分页样式
                 $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
 
-                if($creatPage){
+                if ($creatPage) {
                     $result["pages"] = $creatPage;
-                }else{
-                    return ['StatusCode' => '500','ResultData' => '生成分页样式发生错误'];
+                } else {
+                    return ['StatusCode' => '500', 'ResultData' => '生成分页样式发生错误'];
                 }
-            }else{
+
+            } else {
                 $result['totalPage'] = $totalPage;
                 $result["pages"] = '';
             }
-            return ['StatusCode' => '200','ResultData' => $result];
-        }else{
-            return ['StatusCode' => '500','ResultData' => '获取分页数据失败！'];
+            return ['StatusCode' => '200', 'ResultData' => $result];
+        } else {
+            return ['StatusCode' => '500', 'ResultData' => '获取分页数据失败！'];
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * 分页查询 判断是否查redis
      * @param array $where 查询条件
@@ -135,8 +148,6 @@ class ArticleService
      * @return array
      * author 王通
      */
-
-
     public function selectArticle($where, $nowPage, $forPages, $url, $disPlay = true)
     {
         // 判断article缓存是否存在
@@ -146,6 +157,8 @@ class ArticleService
             if (!empty($guidArr)) {
                 // 获取数据库里的所有文章列表,并且转对象为数组
                 $article_list = CustomPage::objectToArray($guidArr);
+            }else{
+                return ['StatusCode' => '500', 'ResultData' => '获取失败'];
             }
 
             $result = $this->selectData($where, $nowPage, $forPages, $url, $disPlay);
