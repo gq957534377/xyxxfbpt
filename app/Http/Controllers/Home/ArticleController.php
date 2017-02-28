@@ -12,20 +12,22 @@ use App\Services\CommentAndLikeService as CommentServer;
 
 class ArticleController extends Controller
 {
-    protected  static $articleServer;
-    protected  static $userServer;
-    protected  static $commentServer;
+    protected static $articleServer;
+    protected static $userServer;
+    protected static $commentServer;
     protected static $forPages = 5;
 
     public function __construct(
         ArticleServer $articleServer,
         UserServer $userServer,
         CommentServer $commentServer
-    ) {
+    )
+    {
         self::$articleServer = $articleServer;
         self::$userServer = $userServer;
         self::$commentServer = $commentServer;
     }
+
     /**
      * 根据所选文章类型导航，返回相应的列表页+数据.
      *
@@ -37,14 +39,12 @@ class ArticleController extends Controller
         // 获取活动类型 -> 活动类型的对应状态的所有数据
         $data = $request->all();
         $where = [];
-        if (!empty($data['type'])){
+        if (!empty($data['type'])) {
             $where['type'] = $data['type'];
         }
-        if (!empty($data['status'])){
-            $where['status'] = $data['status'];
-        }
+        $where['status'] = 1;
         $nowPage = 1;
-        $result = self::$articleServer->selectData($where, $nowPage, 5, '/article/create');
+        $result = self::$articleServer->selectData($where, $nowPage, self::$forPages, '/article/create');
         $result['type'] = $data['type'];
         return view('home.article.index', $result);
     }
@@ -57,42 +57,40 @@ class ArticleController extends Controller
      */
     public function create(Request $request)
     {
+        // 获取活动类型 -> 活动类型的对应状态的所有数据
         $data = $request->all();
-        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:2;   // 获取当前页
-        $forPages = self::$forPages;                      // 一页的数据条数
-        $type = $data["type"];              // 获取文章类型
         $where = [];
-        $where["status"] = 1;
-
-        if($type!="null"){
-            if ($type != 3){
-                $where["type"] = $type;
-            }
+        if (!empty($data['type'])) {
+            $where['type'] = $data['type'];
         }
-        $result = self::$articleServer->selectArticle($where, $nowPage, $forPages, "/article/create",false);
+        $where['status'] = 1;
+        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"] : 2;   // 获取当前页
+
+        $result = self::$articleServer->selectData($where, $nowPage, self::$forPages, '/article/create');
+        $result['type'] = $data['type'];
         return response()->json($result);
     }
 
     /**
      * Store a newly created resource in storage.
      * 向文章表插入数据
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      * @author 郭庆
      */
     public function store(Request $request)
     {
-        $data = $request -> all();
-        $result = self::$articleServer -> articleOrder($data);
-        if(!$result['status']) return response() -> json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-        return response() -> json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
+        $data = $request->all();
+        $result = self::$articleServer->articleOrder($data);
+        if (!$result['status']) return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
+        return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
     }
 
     /**
      * 显示文章详情
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      * @author 王通
      * @modify 张洵之
@@ -134,20 +132,20 @@ class ArticleController extends Controller
         //判断是否点赞了
         $isHas = self::$articleServer->getLike($user_id, $id);
 
-        if($isHas['status']) {
+        if ($isHas['status']) {
             if ($isHas['msg']->support == 1) {
                 $setLike = self::$articleServer->chargeLike($user_id, $id, ['support' => 2]);
             } else {
                 $setLike = self::$articleServer->chargeLike($user_id, $id, ['support' => 1]);
             }
 
-            if ($setLike) return ['StatusCode' => '200',  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
-            return ['StatusCode' => '400',  'ResultData' => '点赞失败'];
-        }else{
+            if ($setLike) return ['StatusCode' => '200', 'ResultData' => self::$articleServer->getLikeNum($id)['msg']];
+            return ['StatusCode' => '400', 'ResultData' => '点赞失败'];
+        } else {
 
             //没有点赞则加一条新记录
-            $result = self::$articleServer -> setLike(['support' => 1, 'action_id' => $id, 'user_id' => $user_id]);
-            if($result['status']) return ['StatusCode' => '200',  'ResultData' => self::$articleServer-> getLikeNum($id)['msg']];
+            $result = self::$articleServer->setLike(['support' => 1, 'action_id' => $id, 'user_id' => $user_id]);
+            if ($result['status']) return ['StatusCode' => '200', 'ResultData' => self::$articleServer->getLikeNum($id)['msg']];
             return ['StatusCode' => '400', 'ResultData' => '点赞失败'];
         }
     }
@@ -167,7 +165,7 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -199,14 +197,14 @@ class ArticleController extends Controller
     /**
      * 新增评论
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      * @author 王通
      * @modify 张洵之
      */
     public function setComment(Request $request)
     {
-        if(!isset(session('user')->guid)) return response()->json(['StatusCode' => '401','ResultData' => '请登录后在评论']);
+        if (!isset(session('user')->guid)) return response()->json(['StatusCode' => '401', 'ResultData' => '请登录后在评论']);
 
         $data = $request->all();
         // 验证参数
@@ -221,7 +219,7 @@ class ArticleController extends Controller
             'content.max' => '评论过长',
         ]);
         if ($validator->fails()) {
-            return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+            return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
         }
 
         $data['user_id'] = session('user')->guid;
@@ -239,7 +237,7 @@ class ArticleController extends Controller
      */
     public function commentShow()
     {
-       return view('home.comment.index');
+        return view('home.comment.index');
     }
 
 

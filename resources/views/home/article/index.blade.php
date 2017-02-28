@@ -79,9 +79,8 @@
                 }
 
                 var list_type = $('#url').data('type');
-                var list_status = $('#url').data('status');
 
-                var url = $(this).children().prop('href') + '&type=' + list_type + '&status=' + list_status;
+                var url = $(this).children().prop('href') + '&type=' + list_type;
 
                 $.ajax({
                     url: url,
@@ -93,6 +92,7 @@
         pageList();
 
         function addList(data) {
+            console.log(data);
             if (data.StatusCode === '200') {
                 var html = '<div class="news-list">';
                 $.each(data.ResultData.data, function (i, e) {
@@ -102,11 +102,9 @@
 
                     html += '<div class="news-info col-xs-7 col-sm-7 col-md-8"><dl>';
                     html += '<dt><a href="article/' + e.guid + '" target="_blank">' + e.title + '</a></dt>';
-                    html += '<dd><span class="name"><a href="' + e.group.pointurl + '" target="_blank" title="由 ' + e.group.name + '发布" rel="author">' + e.group.name + '</a></span>';
+                    html += '<dd><span class="name"><a title="由'+e.author+' 发布" rel="author">'+e.author+'</a></span>';
                     html += '<span class="identity"></span><span class="time">' + getLocalTime(e.addtime) + '</span>';
-                    html += '<span class="identity"></span><a class="btn-success" href="index.html">' + status(e.status) + '</a></dd>';
                     html += '<dd class="text">' + e.brief + '</dd>';
-                    html += '<dd class="text">活动时间: ' + getLocalTime(e.start_time) + ' 到 ' + getLocalTime(e.end_time) + '</dd>';
                     html += '</dl>';
 
                     html += '<div class="news_bot col-sm-7 col-md-8">';
