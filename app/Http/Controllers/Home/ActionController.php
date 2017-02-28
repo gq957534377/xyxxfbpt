@@ -148,7 +148,7 @@ class ActionController extends Controller
         $commentData = self::$commentServer->getComent($id,1);//评论数据
         $pageStyle = self::$commentServer->getPageStyle($id, 1);//分页样式
         //$isHas（是否已经报名参加）的设置
-        if (!!empty(session('user')->guid)){
+        if (empty(session('user')->guid)){
             $isLogin = false;
             $isHas = false;
             $likeStatus = 2;

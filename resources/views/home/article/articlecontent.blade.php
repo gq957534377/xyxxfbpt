@@ -1,138 +1,184 @@
 @extends('home.layouts.master')
-@section('title', '详情')
+
 @section('style')
-    <link href="{{ asset('home/css/articleContent.css') }}" rel="stylesheet">
-    <link href="{{ asset('home/css/sweet-alert.min.css') }}" rel="stylesheet">
     <style>
+        .col-lg-3 {
+            width: 73%;
+        }
 
     </style>
 @endsection
+@section('title', $data->title)
 
 @section('menu')
     @parent
 @endsection
 
 @section('content')
-    <section class="bannerimg hang">
-        <img src="{{ asset('home/img/dd.jpg') }}">
-    </section>
-    @if(!empty($StatusCode) && $StatusCode == '200')
-        <div id="article-type" class="hidden">{{ $ResultData->type }}</div>
-        <section class="container-fluid">
-          <div class="row content">
+    <div class="content-wrap"><!--内容-->
+        <div class="content">
+            <header class="news_header">
+                <h2>{{ $data->title }}</h2>
+                <ul>
+                    <li>
+                        <a href="">{{ $data->author }}</a>
+                        发布于 {{ $data->addtime }}</li>
+                    <li>
+                        栏目：<a href="{{ url('article?type='.$data->type) }}" title="" target="_blank">校园活动</a>
+                    </li>
+                    <li>作者：<strong>{{ $data->author }}</strong></li>
+                    <li>共 <strong>2345</strong> 人围观</li>
+                    <li><strong>123</strong> 个不明物体</li>
+                </ul>
+            </header>
+            <article class="news_content">
+                <div style="height: 10px">
+                </div>
+                <div>
+                    <p>{!! $data->describe !!}</p>
+                </div>
+            </article>
+            <div class="zambia"><a @if($likeStatus != 1) class="collect" @endif rel=""><span
+                            class="glyphicon glyphicon-thumbs-up"></span><span id="zan">@if($likeStatus != 1)赞@else
+                            已赞@endif</span>（<span id="zanNum">{{ $likeNum }}</span>）</a></div>
 
-            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 content-left">
-              <div class="row article-title">
-                <h2 class="col-lg-12 col-md-12 col-sm-12 col-xs-12">{{ $ResultData->title }}</h2>
-              </div>
-              <div class="row article-content">
-                <div class="bg-mg col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                  <div class="bg-mg-f">
-                    <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $ResultData->headPic }}">
-                  </div>
-                </div>
-                <div class="author-name col-lg-11 col-md-11 col-sm-11 col-xs-11">
-                  <p>
-                    {{ $ResultData->author or '匿名' }} {{ date('Y-m-d H:i', $ResultData->addtime) }}
-                  </p>
-                </div>
-                <div class="fwb col-lg-12 col-md-12 col-sm-12 col-xs-12">{!! $ResultData->describe !!}</div>
-              </div>
-              {{--<div class="row article-bottom">--}}
-                  {{--@if($ResultData->like)--}}
-                        {{--<span id="like" data-id="{{ $ResultData->guid }}" class="taoxin col-lg-2 col-md-2 col-sm-2 col-xs-2 ">--}}
-                             {{--<span></span><span id="likeNum">{{ $ResultData->likeNum}}</span>--}}
-                        {{--</span>--}}
-                  {{--@else--}}
-                      {{--<span id="like" data-id="{{ $ResultData->guid }}" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">--}}
-                            {{--<span></span> <span id="likeNum">{{ $ResultData->likeNum}}</span>--}}
-                        {{--</span>--}}
-                  {{--@endif--}}
-                {{--<span class="col-lg-10 col-md-10 col-sm-10 col-xs-12 fenxiang">--}}
-                  {{--<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>--}}
-{{--<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>--}}
-                {{--</span>--}}
-              {{--</div>--}}
-                <!--评论区域开始-->
-                <div class="row pl-block">
-                    <h2 class="col-lg-8 col-md-8 col-sm-8 col-xs-8">评论</h2>
-                    <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></a>
-                    <a href="{{asset('comment')}}" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 hidden">更多评论></a>
-                    <ul id="commentlist" class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <!---循环遍历开始-->
-                        <li class="row inputs">
-                            <form id="comment" method = 'post'>
-                                <input name="action_id" value="{{ $ResultData->guid or 0 }}" hidden>
-                                <input name="type" value="1" hidden>
-                                <textarea name="content" required></textarea>
-                                <button type="submit" class="subbtn btn btn-warning" >提交</button>
-                            </form>
-                        </li>
-                        <div id="js_comment">
-                        @if($ResultData->comment['StatusCode'] == '200')
-                            @foreach($ResultData->comment['ResultData'] as $val)
-                                <li class="row">
-                                    <div class="user-img col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                        <div class="user-img-bgs">
-                                            <img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->userImg }}">
-                                        </div>
-                                    </div>
-                                    <div class="user-say col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                                        <div class="row user-say1">
-                                            <span>{{ $val->nikename }}</span>
-                                            <span>{{ date('Y-m-d H:m:s',$val->changetime) }}</span>
-                                        </div>
-                                        <div class="row user-say2">
-                                            <p>{{ $val->content }}</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            @endforeach
-                        @endif
+            <div class="tags news_tags">标签： <span data-toggle="tooltip" data-placement="bottom"
+                                                  title="查看关于 本站 的文章"><a href="{{ url('/') }}">本站</a></span> <span
+                        data-toggle="tooltip" data-placement="bottom"><a
+                            href="{{ url('/') }}">信息平台</a></span>
+            </div>
+            <p>分享到:</p>
+            <div class="bdsharebuttonbox col-lg-3 col-md-4 col-sm-4 col-xs-9 pad-clr pad-l30-md pad-l30-sm">
+                <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"
+                                                                    title="分享到QQ空间"></a><a href="#" class="bds_tsina"
+                                                                                           data-cmd="tsina"
+                                                                                           title="分享到新浪微博"></a><a
+                        href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren"
+                                                                                       data-cmd="renren"
+                                                                                       title="分享到人人网"></a><a href="#"
+                                                                                                             class="bds_weixin"
+                                                                                                             data-cmd="weixin"
+                                                                                                             title="分享到微信"></a>
+
+            </div>
+            <div class="content-block comment">
+                <h2 class="title"><strong>评论</strong></h2>
+                <form id="comment" method="post" class="form-inline">
+                    <div class="comment-form">
+                        <textarea placeholder="你的评论可以一针见血" name="content"></textarea>
+                        <input name="action_id" value="{{ $contentId}}" type="hidden">
+                        <input name="type" value="3" type="hidden">
+                        <div class="comment-form-footer">
+                            @if(!$isLogin)
+                                <div class="comment-form-text">请先 <a href="{{ url('/login') }}">登录</a> 或 <a
+                                            href="{{ url('/register') }}">注册</a>
+                                </div>
+                            @endif
+                            <div class="comment-form-btn">
+                                <button type="submit" class="btn btn-default btn-comment">提交评论</button>
+                            </div>
                         </div>
-                        <div id="js_pages" class="pull-right">{!! $ResultData->pageStyle !!}</div>
-                    </ul>
+                    </div>
+                </form>
+                <div class="comment-content" id="js_comment">
+                    @if($comment['StatusCode'] == '200')
+                        @foreach($comment['ResultData'] as $datas)
+                            <ul>
+                                <li><span class="face"><img src="{{ $datas->userImg }}" alt=""></span> <span
+                                            class="text"><strong>{{ $datas->nikename }}</strong> ({{ date('Y-m-d H:m:s', $datas->addtime) }}
+                                        ) 说：<br/>
+                                        {{ $datas->content }}</span></li>
+                            </ul>
+                        @endforeach
+                    @endif
                 </div>
-                <!--评论区域开始-->
+                <div id="js_pages" class="pull-right">{!! $pageStyle !!}</div>
             </div>
-
-
-            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 content-right">
-              <div class="guangao row">
-                <a href="#"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" class="col-lg-12 col-md-12" src="{{ asset('home/img/test13.jpg') }}"></a>
-              </div>
-              <div class="row news-list-title">
-                <h2>你可能感兴趣的文章</h2>
-              </div>
-              <ul class="row news-list">
-                  @if(!empty($StatusCode) && $StatusCode == '200' && $RandomList['StatusCode'] == '200')
-                      @foreach($RandomList['ResultData'] as $key => $val)
-                          <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                              <h3><a href="/article/{{ $val->guid }}" target="_blank">{{ $val->title }}</a></h3>
-                              <div class="news-list-time">
-                                  <span>{{ date('Y-m-d', $val->addtime) }}</span>
-                              </div>
-                          </li>
-                      @endforeach
-                  @endif
-              </ul>
-
+            <div class="content-block related-content visible-lg visible-md">
+                <h2 class="title"><strong>相关推荐</strong></h2>
+                <ul>
+                    @if($rand['StatusCode'] == '200')
+                        @foreach($rand['ResultData'] as $rand)
+                            <li>
+                                <h3><a href="/article/{{ $rand->guid }}">{{ $rand->title }}</a></h3>
+                            </li>
+                        @endforeach
+                    @endif
+                </ul>
             </div>
-            </div>
-        </section>
-    @else
-        <li class="request-error-info col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h2>文章被删除，或者请求错误</h2>
-        </li>
-
-    @endif
+        </div>
+    </div>
+    <!--/内容-->
 @endsection
-
 @section('script')
+    <script src="{{asset('home/js/jquery.validate.min.js')}}"></script>
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
     <script src="http://cdn.rooyun.com/js/modaleffects.js"></script>
-    <script src="{{asset('admin/js/sweet-alert.min.js')}}"></script>
     <script src="{{ asset('home/js/commentForpage.js') }}"></script>
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
-    <script src="{{ asset('home/js/article.js') }}"></script>
+    <script>
+        var token = $('meta[name="csrf-token"]').attr('content');
+        @if($isLogin)
+
+        //点赞功能暂时注释
+        $('.collect').click(function () {
+            var obj = $(this);
+            var temp = obj.parent('p').is('.taoxin') ? -1 : 1;
+            var num = parseInt($('#likeNum').html())
+            $.ajax({
+                type: "get",
+                url: "/article/{{$data->guid}}/edit",
+                headers: {
+                    'X-CSRF-TOKEN': token
+                },
+                data: {type: 3},
+                success: function (data) {
+                    switch (data.StatusCode) {
+                        case '200':
+                            $('#zan').html('已赞');
+                            $('#zanNum').html(parseInt($('#zanNum').html()) + 1);
+                            break;
+                        case '400':
+                            alert(data.ResultData);
+                            break;
+                    }
+                },
+                error: function (XMLHttpRequest) {
+                    var number = XMLHttpRequest.status;
+                    var msg = "Error: " + number + ",数据异常！";
+                    alert(msg);
+                }
+            })
+        })
+        @else
+        //点赞功能暂时注释
+        $('.collect').click(function () {
+            alert('请登录后操作！');
+            login();
+        });
+        $('#comment').click(function () {
+            alert('请登录后操作！');
+            login();
+        });
+        @endif
+        function login() {
+            window.location.href = "{{route('login.index')}}";
+        }
+
+
+        //分享按钮
+        window._bd_share_config = {
+            "common": {
+                "bdSnsKey": {},
+                "bdText": "",
+                "bdMini": "2",
+                "bdMiniList": false,
+                "bdPic": "",
+                "bdStyle": "0",
+                "bdSize": "24"
+            }, "share": {}
+        };
+        with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+    </script>
 @endsection
+

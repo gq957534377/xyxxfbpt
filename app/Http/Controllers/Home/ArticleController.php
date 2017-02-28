@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Redis\ArticleCache;
+use App\Tools\CustomPage;
 use Illuminate\Http\Request;
-
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
@@ -15,17 +16,20 @@ class ArticleController extends Controller
     protected static $articleServer;
     protected static $userServer;
     protected static $commentServer;
+    protected static $articleCache;
     protected static $forPages = 5;
 
     public function __construct(
         ArticleServer $articleServer,
         UserServer $userServer,
-        CommentServer $commentServer
+        CommentServer $commentServer,
+        ArticleCache $articleCache
     )
     {
         self::$articleServer = $articleServer;
         self::$userServer = $userServer;
         self::$commentServer = $commentServer;
+        self::$articleCache = $articleCache;
     }
 
     /**
@@ -88,7 +92,6 @@ class ArticleController extends Controller
 
     /**
      * 显示文章详情
-     * Display the specified resource.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -97,21 +100,34 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $result = self::$articleServer->getData($id);
-//        $result['ResultData']->likeNum = self::$commentServer->likeCount($id);
-        // 判断有没有文章信息
-        if ($result['StatusCode'] == '200') {
-            $randomList = self::$articleServer->getRandomArticles($result['ResultData']->type, 4, 1);
+        $data = CustomPage::arrayToObject(self::$articleCache->getOneArticle($id));
+        if (!$data || $data->status != 1) return view('errors.404');
 
-            $result['RandomList'] = $randomList;
+        $rand = self::$articleServer->getRandomArticles($data->type, 4, 1);
 
-            // 获取评论表+like表中某一个文章的评论
-            $comment = self::$commentServer->getComent($id, 1);
-            $pageStyle = self::$commentServer->getPageStyle($id, 1);
-            // 判断有没有评论信息
-            $result['ResultData']->comment = $comment;
-            $result['ResultData']->pageStyle = $pageStyle;
+        $likeNum = self::$commentServer->likeCount($id);//点赞人数
+        // 获取评论表+like表中某一个文章的评论
+        $comment = self::$commentServer->getComent($id, 1);
+        $pageStyle = self::$commentServer->getPageStyle($id, 1);
+
+        if (empty(session('user')->guid)) {
+            $likeStatus = 2;
+            $isLogin = false;
+        } else {
+            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
+            $isLogin = session('user')->guid;
         }
+        $result = [
+            'data' => $data,
+            'isLogin' => $isLogin,
+            'likeNum' => $likeNum,
+            'likeStatus' => $likeStatus,
+            'comment' => $comment,
+            'contentId' => $id,
+            'rand' => $rand,
+            'pageStyle' => $pageStyle
+        ];
+        // 判断有没有评论信息
         return view('home.article.articlecontent', $result);
     }
 
