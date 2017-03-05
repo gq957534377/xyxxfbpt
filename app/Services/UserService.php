@@ -321,9 +321,9 @@ class UserService {
         }else{
 
             $resp =  Common::sendSms($phone, $content);
-
+Log::info($content['code']);
             // 发送失败
-            if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送!！'];
+//            if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送!！'];
             $arr = ['phone' => $phone,'time' => $nowTime,'smsCode' => $number];
             Session::put('sms',$arr);
             Log::info(date('Y-m-d', $nowTime) . \Request::getClientIp() . '请求短信' . '手机号' . $phone);
@@ -630,6 +630,26 @@ class UserService {
         if (!$result) return ['StatusCode' => '400', 'ResultData' => '请添加公司信息'];
 
         return ['StatusCode' => '200', 'ResultData' => $result];
+    }
+
+
+    /**
+     * 获取图片验证码
+     *
+     * @author jacklin
+     */
+    public function getCaptcha($page)
+    {
+        //cookie安全验证
+        $cookie = \Cookie::get($page);
+
+        //验证不通过有两种情况 接口攻击或用户cookie失效
+        if ($cookie != md5(REGISTER_SIGNATURE . $page)) {
+            // 如果有真实用户session标识，cookie失效处理，否则返回静态图片
+            if (!empty(session(REAL_USER))) return ['StatusCode' => 400, 'cookie失效'];
+            return ['StatusCode' => 403, '直接访问接口'];
+        };
+        return ['StatusCode' => 200, 'ResultData' => Common::captcha($page)];
     }
 
 }

@@ -237,12 +237,13 @@ class Common {
      *
      * @return string
      *
-     * @author 王通
+     * @author 郭鹏超
      */
     public static function generateCookie($key)
     {
         // 检查传过来的key是否为空
         if (empty($key)) return false;
+
         // 对cookie进行加密
         $value = md5(REGISTER_SIGNATURE . $key);
         return cookie($key, $value, COOKIE_LIFETIME);
@@ -300,5 +301,24 @@ class Common {
         $date = date('Ymd', $_SERVER['REQUEST_TIME']);
         // 追加写文件
         return Storage::disk('local')->append($date . '.txt', $content);
+    }
+
+    /**
+     * 返回静态图片的验证码
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @author 郭鹏超
+     * @author jacklin
+     */
+    public static function CaptchaImg()
+    {
+        // 获取0-99的文件名
+        $fileName = mt_rand(0, 99);
+        // 定义七牛上验证码的路由
+        $path = 'http://' . QINIU_BUCKET_YZM . '/';
+        //拼接url
+        $file = $path . $fileName . '.jpeg';
+        //返回图片
+        return response(file_get_contents($file), 200);
     }
 }

@@ -33,7 +33,7 @@
                    id="number">
         </div>
         <div>
-            <img id="captcha" style="margin-bottom: -17px;" data-sesid="{{ $sesid }}" src="{{url('/code/captcha/' . $sesid)}}">
+            <img id="captcha" style="margin-bottom: -17px;" data-sesid="1" src="{{url('/getCaptcha/1/register')}}">
             <input class="code" id="codes" name="code" type="text" style="width: 50%; margin-left: -3px;" placeholder="请输入验证码"/>
         </div>
 

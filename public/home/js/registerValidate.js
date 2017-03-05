@@ -54,18 +54,24 @@ $(document).ready(function(){
         {
             var data = {};
             var t = $('form').serializeArray();
+            console.log(t);
             $.each(t, function(i, v) {
                 data[v.name] = v.value;
             });
-
+            var token       = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': token
+                }
+            });
             $.ajax({
                 url:'register',
                 type:'post',
                 data:data,
                 success:function (data) {
                     if (data.StatusCode === '200'){
-                        alert('注册成功！');
-                        window.location.href="/";
+                        alert('注册成功,请登录！');
+                        window.location.href="/login";
                     }else {
                         alert(data.ResultData);
                     }
@@ -194,8 +200,8 @@ captcha.onclick = function(){
     updateCaptcha($(this));
 };
 function updateCaptcha(me) {
-    var url = '/code/captcha/';
-    url = url + me.data('sesid') + Math.ceil(Math.random()*100);
+    var url = '/getCaptcha/';
+    url = url + me.data('sesid') + Math.ceil(Math.random()*100)+'/register';
     me.attr('src', url);
 }
 

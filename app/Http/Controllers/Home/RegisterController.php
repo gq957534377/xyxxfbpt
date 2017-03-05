@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Services\UserService as UserServer;
+use App\Tools\Common;
 use App\Tools\Safety;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -30,10 +31,11 @@ class RegisterController extends Controller
      */
     public function index()
     {
-        if (!empty(session('user'))) return redirect('/');
-        $cookie = \App\Tools\Common::generateCookie('checkCode');
-        $val = md5(session()->getId());
-        return response()->view('home.register', ['sesid' => $val])->withCookie($cookie);
+        // 放置注册页面的cookie
+        $cookie = Common::generateCookie('register');
+        // 放置真实用户标识
+        Session::flash(REAL_USER, '1');
+        return response()->view('home.register')->withCookie($cookie);
     }
 
     /**
@@ -59,11 +61,8 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        // 登陆安全验证
-        $result = \App\Tools\Common::checkCookie('checkCode', '登陆');
-        if ($result != 'ok') return $result;
-        $data = $request->all();
-
+        $data = $request->except('_token');
+        // 数据验证
         $validate = [
             'password' => 'required|min:6',
             'confirm_password' => 'required|min:6',
@@ -74,30 +73,16 @@ class RegisterController extends Controller
             'password.min' => '密码过短，不能小于６位',
             'confirm_password.min' => '确认密码密码过短，不能小于６位',
         ];
-
-
-        // 验证过滤数据
         $validator = Validator::make($data, $validate, $valiinfo);
-
         if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
+
         // 验证手机验证码
         if ($data['phone_code'] != session('sms')['smsCode']) return response()->json(['StatusCode' => '400', 'ResultData' => '手机验证码错误']);
-        $data['ip'] = $request->getClientIp();
         session(['phone_number' => $data['phone_number']]);
-        unset($data['_token']);
-        unset($data['confirm_password']);
-        unset($data['code']);
-        unset($data['phone_code']);
-        unset($data['method']);
-        unset($data['uri']);
 
         // 提交数据到业务层，检验用户是否存在
-        $info = self::$userServer->addUser($data);
-        //注册成功，提供登陆所需要的数据
-        if ($info['StatusCode'] == '200'){
-            // 获取登录IP
-            $data['ip'] = $request->getClientIp();
-        }
+        $info = self::$userServer->addUser(["username" => $data['username'], "password" => $data['password'], "phone_number" => $data['phone_number']]);
+
         return response()->json($info);
     }
 
@@ -159,5 +144,24 @@ class RegisterController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * 获取验证码
+     *
+     * @param $num
+     * @param $page
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     * @author jacklin
+     */
+    public function getCaptcha($num, $page)
+    {
+        // 获取验证码
+        $res = self::$userServer->getCaptcha($page);
+        // 真实用户返回cookie
+        if ($res['StatusCode'] == 400) return response()->json($res)->withCookie(Common::generateCookie($page));
+        // 接口攻击返回静态图片
+        if ($res['StatusCode'] == 403) return Common::CaptchaImg();
+        return $res['ResultData'];
     }
 }

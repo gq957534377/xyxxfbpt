@@ -77,7 +77,7 @@ Route::group(['domain'=>HOME_URL ,'namespace' => 'Home'],function() {
     // 关于我们
     Route::get('/about','HomeController@aboutWe');
     // 验证码
-    Route::get('/code/captcha/{tmp}', 'LoginController@captcha');
+    Route::get('/getCaptcha/{mun}/{page}', 'RegisterController@getCaptcha');
     // 前台登录页
     Route::resource('/login', 'LoginController');
 

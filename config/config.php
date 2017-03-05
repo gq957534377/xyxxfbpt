@@ -68,6 +68,13 @@ define('ADMIN_URL', 'admin.xyxxfb.com');
 // 首页合作机构，投资机构。轮播图，网页页脚信息，过期时间
 define('WEB_PIC_TIME', 60 * 60 * 24 * 30);
 
+// 真实用户标识
+define('REAL_USER', 'real_user');
+// 登陆错误统计失效时间30分钟
+define('LOGIN_COUNT_KET_TIME', 1800);
+// 静态验证码存储空间
+define('QINIU_BUCKET_YZM', 'olt6kf7lb.bkt.clouddn.com');
+
 
 
 
