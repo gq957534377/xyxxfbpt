@@ -12,13 +12,12 @@ use Illuminate\Support\Facades\Session;
 use App\Services\SafetyService;
 
 
-
 class LoginController extends Controller
 {
     protected static $userServer = null;
     protected static $safetyService;
 
-    public function __construct(UserServer $userServer,SafetyService $safetyService)
+    public function __construct(UserServer $userServer, SafetyService $safetyService)
     {
         self::$userServer = $userServer;
         self::$safetyService = $safetyService;
@@ -64,8 +63,7 @@ class LoginController extends Controller
     /**
      * 登录校验
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
      * @author 刘峻廷
      * @modify 王通
      */
@@ -75,6 +73,7 @@ class LoginController extends Controller
         $result = Common::checkCookie('login', '登陆');
         if (!$result) return $result;
         $data = $request->all();
+        $fild = filter_var($data['phone_number'], FILTER_VALIDATE_INT) ? 'phone_number' : 'username';
 
         // 获取登录IP
         $data['ip'] = $request->getClientIp();
@@ -83,25 +82,25 @@ class LoginController extends Controller
         // 判断登录次数如果超过限定的话，
         if ($errNum > LOGIN_ERROR_NUM) {
             if (session('code') != $data['code']) {
-                return response()->json(['StatusCode' => '400','ResultData' => '请输入正确验证码']);
+                return response()->json(['StatusCode' => '400', 'ResultData' => '请输入正确验证码']);
             }
         };
         //验证数据
-        $this->validate($request,[
-            'phone_number' =>  'required',
+        $this->validate($request, [
+            'phone_number' => 'required',
             'password' => 'required',
         ], [
-            'phone_number.required' => '手机号不能为空',
+            'phone_number.required' => '手机号/用户名不能为空',
             'password.required' => '密码不能为空'
         ]);
 
         // 校验账号,拿到状态码
-        $info = self::$userServer->loginCheck($data);
+        $info = self::$userServer->loginCheck(['password' => $data['password'], $fild => $data['phone_number'], 'ip' => $data['ip']]);
         // 每登录错误一次，切验证码为空，则错误次数加一。
         if ($info['StatusCode'] != '200' && empty($data['code'])) {
             // 如果错误次数超过三次，则返回错误信息，前台显示验证码输入框
             if (self::$safetyService->getCountIp($data['ip']) > LOGIN_ERROR_NUM) {
-                return response()->json(['StatusCode' => '411','ResultData' => '请输入验证码']);
+                return response()->json(['StatusCode' => '411', 'ResultData' => '请输入验证码']);
             };
         }
         return response()->json($info);
@@ -111,7 +110,7 @@ class LoginController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -122,7 +121,7 @@ class LoginController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -133,8 +132,8 @@ class LoginController extends Controller
     /**
      * 忘记密码，修改密码
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      * @author 王通
      */
@@ -147,11 +146,11 @@ class LoginController extends Controller
 //        dd(session('sms'), $data);
         $sms = session('sms');
         if ($data['code'] != $sms['smsCode']) {
-            return response()->json(['StatusCode' => '400','ResultData' => ['验证码错误!']]);
+            return response()->json(['StatusCode' => '400', 'ResultData' => ['验证码错误!']]);
         } elseif ($data['phone_number'] != $sms['phone']) {
-            return response()->json(['StatusCode' => '400','ResultData' => ['请输入正确手机号!']]);
+            return response()->json(['StatusCode' => '400', 'ResultData' => ['请输入正确手机号!']]);
         } elseif ($data['password'] != $data['confirm_password']) {
-            return response()->json(['StatusCode' => '400','ResultData' => ['两次密码不相同!']]);
+            return response()->json(['StatusCode' => '400', 'ResultData' => ['两次密码不相同!']]);
         }
         $result = self::$userServer->talChangePassword($data);
         return response()->json($result);
@@ -160,7 +159,7 @@ class LoginController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -205,16 +204,16 @@ class LoginController extends Controller
         // 判断存在
         if (empty($id)) return false;
         if ($request['piccode'] != session('code')) {
-            return response()->json(['StatusCode'=>'400','ResultData' =>'验证码错误！']);
+            return response()->json(['StatusCode' => '400', 'ResultData' => '验证码错误！']);
         }
         // 手机号校验
         $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
-        if(!preg_match($preg, $id)) return response()->json(['StatusCode'=>'400','ResultData' =>'请输入正确的手机号！']);
+        if (!preg_match($preg, $id)) return response()->json(['StatusCode' => '400', 'ResultData' => '请输入正确的手机号！']);
         // 查询该手机是否已注册
         $info = self::$userServer->checkUser(['phone_number' => $id]);
 
-        if(empty($info->status)) return response()->json(['StatusCode'=>'400','ResultData' => '该手机号暂未注册，请输入正确手机号！']);
-        if($info->status != 1) return response()->json(['StatusCode'=>'400','ResultData' => '该手机号异常，请联系管理员！']);
+        if (empty($info->status)) return response()->json(['StatusCode' => '400', 'ResultData' => '该手机号暂未注册，请输入正确手机号！']);
+        if ($info->status != 1) return response()->json(['StatusCode' => '400', 'ResultData' => '该手机号异常，请联系管理员！']);
 
         // 真，发送短信
         $info = self::$userServer->sendSmsCode($id);

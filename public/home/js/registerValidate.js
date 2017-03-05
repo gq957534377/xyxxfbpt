@@ -8,8 +8,6 @@ $(document).ready(function(){
             },
             phone_number:{
                 required:true,
-                phone_number:true,//自定义的规则
-                digits:true,//整数
             }
         },
         //错误信息提示
@@ -18,8 +16,7 @@ $(document).ready(function(){
                 required:"请输入密码",
             },
             phone_number:{
-                required:"请输入手机号码",
-                digits:"请输入正确的手机号码",
+                required:"请输入手机/用户名",
             }
         },
         //提交

@@ -19,7 +19,7 @@
           novalidate="novalidate" onsubmit="return false">
         {{csrf_field()}}
         <div>
-            <input type="text" name="phone_number" class="phone_number" placeholder="手机号" autocomplete="off">
+            <input type="text" name="phone_number" class="phone_number" placeholder="手机号/用户名" autocomplete="off">
         </div>
         <div>
             <input type="password" name="password" class="password" placeholder="密码" oncontextmenu="return false"

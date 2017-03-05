@@ -143,7 +143,6 @@ class UserAccountCache extends MasterCache
     /**
      * String类型缓存账号 测试
      * @param string $phone_number
-     * @return object $data
      * @author 刘峻廷
      */
     public function stringAccount($phone_number)
