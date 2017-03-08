@@ -1,8 +1,8 @@
 <link href="{{asset('home/css/bootstrap.min.css')}}" type="text/css" rel="stylesheet">
 <link href="{{asset('home/css/style.css')}}" type="text/css" rel="stylesheet">
 <link type="text/css" href="{{asset('home/css/nprogress.css')}}" rel="stylesheet">
-<link rel="apple-touch-icon-precomposed" href="{{asset('images/icon/icon.png')}}">
-<link rel="shortcut icon" href="{{asset('images/icon/favicon.ico')}}">
+<link rel="apple-touch-icon-precomposed" href="{{asset('home/images/icon/icon.png')}}">
+<link rel="shortcut icon" href="{{asset('home/images/icon/favicon.ico')}}">
 <link href="{{ asset('admin/css/material-design-iconic-font.min.css') }}" rel="stylesheet">
 <link href="{{ asset('home/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet">
 <style>

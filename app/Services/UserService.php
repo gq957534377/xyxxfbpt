@@ -324,7 +324,7 @@ class UserService
             return ['StatusCode' => '200', 'ResultData' => '发送成功，请注意查收！'];
         } else {
 
-            $resp = Common::sendSms($phone, $content);
+//            $resp = Common::sendSms($phone, $content);
             Log::info($content['code']);
             // 发送失败
 //            if(!$resp) return ['StatusCode' => '400','ResultData' => '短信发送失败，请重新发送!！'];
