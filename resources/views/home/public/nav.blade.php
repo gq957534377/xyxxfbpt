@@ -43,8 +43,17 @@
                 </ul>
             </div>
         </li>
-        <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a>
-            <div>开发中....</div>
+        <li><a href=""><span class="glyphicon glyphicon-globe"></span>校园通知</a>
+            <div>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('notice.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-erase"></span>俩办通知</a>
+                    <li><a href="{{ route('notice.index', ['type' => '2']) }}"><span class="glyphicon glyphicon-erase"></span>其他通知</a>
+                    <li><a href="{{ route('notice.index', ['type' => '3']) }}"><span class="glyphicon glyphicon-erase"></span>本科教学</a>
+                    <li><a href="{{ route('notice.index', ['type' => '4']) }}"><span class="glyphicon glyphicon-erase"></span>研究生教学</a>
+                    <li><a href="{{ route('notice.index', ['type' => '5']) }}"><span class="glyphicon glyphicon-erase"></span>科技信息</a>
+                    <li><a href="{{ route('notice.index', ['type' => '6']) }}"><span class="glyphicon glyphicon-erase"></span>社科信息</a>
+                </ul>
+            </div>
         </li>
         <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a>
             <div>开发中....</div>
@@ -105,7 +114,7 @@
             <li class="active"><a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
             <li><a href="{{ url('action?type=1') }}"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
             <li><a href="{{ route('article.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
-            <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
+            <li><a href="{{ route('notice.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
             <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
             <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>校园学习</a></li>
             <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a></li>

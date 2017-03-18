@@ -32,10 +32,8 @@ Route::group(['domain' => ADMIN_URL,'namespace' => 'Admin'],function(){
         Route::resource('/project_approval', 'CrowdFundingController');
         //众筹修改内容
         Route::post("/crowdfunding_revise",'CrowdFundingController@revise');
-        //发布项目
-        Route::resource('/project', 'ProjectController');
-        //众筹管理
-        Route::resource('/project_approval', 'CrowdFundingController');
+        //发布通知
+        Route::resource('/notice', 'NoticeController');
         //分页
         Route::get("/crowd_forpage",'CrowdFundingController@forPage');
         //查看可发布的中筹项目
@@ -95,8 +93,10 @@ Route::group(['domain'=>HOME_URL ,'namespace' => 'Home'],function() {
     Route::get('/commentForPage','ProjectController@commentForPage');
     // 点赞
 //    Route::resource('/article/like', 'ArticleController@like');
-    //文章内容页 创业政策 市场咨询
+    //文章内容页
     Route::resource('/article', 'ArticleController');
+    // 校园通知
+    Route::resource('/notice', 'NoticeController');
 
     //写评论
     Route::resource('/article/setcomment', 'ArticleController@setComment');

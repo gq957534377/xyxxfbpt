@@ -5,7 +5,7 @@
     <div class="logo">
         <a href="{{ url('/') }}" class="logo-expanded">
             <i class="ion-social-buffer"></i>
-            <span class="nav-label">英雄会后台管理系统</span>
+            <span class="nav-label">校园信息发布平台</span>
         </a>
     </div>
     <!-- / brand -->
@@ -13,16 +13,6 @@
     <!-- Navbar Start -->
     <nav class="navigation">
         <ul class="list-unstyled">
-            {{--<li class="active"><a href="{{url('/')}}"><i class="zmdi zmdi-view-dashboard"></i> <span class="nav-label">控制台</span></a></li>--}}
-
-            {{--<li>--}}
-                {{--<a href="{{url('user')}}"><i class="zmdi zmdi-view-list"></i> <span class="nav-label">用户管理</span></a>--}}
-            {{--</li>--}}
-
-            {{--<li class="has-submenu">--}}
-                {{--<a href="{{url('project_approval')}}"><i class="fa fa-dollar"></i> <span class="nav-label">众筹管理</span></a>--}}
-            {{--</li>--}}
-
             <li class="has-submenu"><a href=""><i class="fa fa-bullhorn" aria-hidden="true"></i> <span class="nav-label">活动管理</span></a>
                 <ul class="list-unstyled">
                     <li><a href="{{asset('action?type=1')}}">文娱活动管理</a></li>
@@ -31,15 +21,10 @@
                 </ul>
             </li>
 
-            <li class="has-submenu"><a href="{{asset('/article')}}"><i class="ion-android-book" aria-hidden="true"></i> <span class="nav-label">内容管理</span></a>
+            <li class="has-submenu"><a href="{{url('/article')}}"><i class="ion-android-book" aria-hidden="true"></i> <span class="nav-label">校园文章管理</span></a>
             </li>
-            {{--项目发布--}}
-            <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">项目发布管理</span><span class="menu-arrow"></span></a>
-                <ul class="list-unstyled">
-                    <li><a href="{{url('project/unchecked')}}">待审核项目</a></li>
-                    <li><a href="{{url('project/pass')}}">已上线项目</a></li>
-                    <li><a href="{{url('project/nopass')}}">回收站</a></li>
-                </ul>
+            {{--校园文章管理--}}
+            <li class="has-submenu"><a href="{{ url('notice') }}"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">校园通知管理</span><span class="menu-arrow"></span></a>
             </li>
             {{--网站管理--}}
             <li class="has-submenu"><a href="#"><i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="nav-label">网站管理</span><span class="menu-arrow"></span></a>

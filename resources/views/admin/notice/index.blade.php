@@ -23,7 +23,7 @@
     <link href="{{asset('cropper/css/sitelogo.css')}}" rel="stylesheet"/>
 @endsection
 @section('content')
-@section('title', '内容管理')
+@section('title', '校园通知管理')
 {{-- 弹出表单开始 --}}
 <!--继承组件-->
 <!--替换按钮ID-->
@@ -40,7 +40,7 @@
     <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 @endsection
 {{-- 弹出表单结束 --}}
-{{--发布文章表单--}}
+{{--发布通知表单--}}
 <div id="con-close-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog" id="fabu" style="width: 64%;">
@@ -48,95 +48,76 @@
             <form data-name="" role="form" id="yz_fb" onsubmit="return false">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="title">文章发布</h4>
+                    <h4 class="title">通知发布</h4>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="field-3">文章类型</label>
+                                <label for="field-3">通知类型</label>
                                 <div for="field-3">
                                     <select class="form-control" id="type" name="type">
-                                        <option value="1">爱情文章</option>
-                                        <option value="2">亲情文章</option>
-                                        <option value="3">友情文章</option>
-                                        <option value="4">生活随笔</option>
+                                        <option value="1">两办通知</option>
+                                        <option value="2">其他通知</option>
+                                        <option value="3">本科教学</option>
+                                        <option value="4">研究生教学</option>
+                                        <option value="4">科技信息</option>
+                                        <option value="4">社科信息</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-10">
                             <div class="form-group">
-                                <label for="field-1" class="control-label">文章标题</label>
+                                <label for="field-1" class="control-label">通知标题</label>
                                 <input type="text" class="form-control" id="title" name="title"
-                                       placeholder="article title...">
+                                       placeholder="notice title...">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group mar-b30">
-                                <label for="inputfile" class="col-md-2 control-label pad-cr"><span
-                                            class="form-star">*</span>缩略图</label>
-                                <input type="hidden" name="banner">
-                                <div class="col-md-5">
-                                    <div class="ibox-content">
-                                        <div class="row">
-                                            <div id="crop-avatar" class="col-md-6">
-                                                <div class="avatar-view" title="">
-                                                    <img src="{{ asset('home/img/upload-card.png') }}"
-                                                         id="article_thumb_img" alt="Logo"
-                                                         style="width: 200px;height: 150px;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
                             <div class="form-group">
-                                <label for="field-1" class="control-label">文章来源</label>
+                                <label for="field-1" class="control-label">通知来源</label>
                                 <input type="text" class="form-control" id="source" name="source"
-                                       placeholder="article source...">
+                                       placeholder="notice source...">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group no-margin">
-                                <label for="field-7" class="control-label">文章简述</label>
+                                <label for="field-7" class="control-label">通知简述</label>
                                 <textarea class="form-control autogrow" id="brief" name="brief"
-                                          placeholder="Write something about your article"
+                                          placeholder="Write something about your notice"
                                           style="overflow: hidden; word-wrap: break-word; resize: none; height: 104px;">                                                        </textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-12 control-label">文章详情</label>
+                        <label class="col-md-12 control-label">通知详情</label>
                         <div class="col-md-12">
                             <textarea id="UE" name="describe" class="describe"></textarea>
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer" id="caozuo">
                     <button type="button" class="btn btn-white" data-dismiss="modal">取消</button>
-                    <button type="submit" data-name="" class="article_update btn btn-primary" id="add_article">发布
+                    <button type="submit" data-name="" class="notice_update btn btn-primary" id="add_notice">发布
                     </button>
                 </div>
             </form>
         </div>
     </div>
 </div><!-- /.modal -->
-{{--修改文章表单--}}
+{{--修改通知表单--}}
 <div class="modal fade bs-example-modal-lg" id="xg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" id="myLargeModalLabel">修改文章</h4>
+                <h4 class="modal-title" id="myLargeModalLabel">修改通知</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal p-20" data-name="" role="form" id="yz_xg" onsubmit="return false">
@@ -144,42 +125,24 @@
                     <div class="row">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="field-3">文章类型</label>
+                                <label for="field-3">通知类型</label>
                                 <div for="field-3">
                                     <select class="form-control" id="xg_type" name="type">
-                                        <option value="1">爱情文章</option>
-                                        <option value="2">亲情文章</option>
-                                        <option value="3">友情文章</option>
-                                        <option value="4">生活随笔</option>
+                                        <option value="1">两办通知</option>
+                                        <option value="2">其他通知</option>
+                                        <option value="3">本科教学</option>
+                                        <option value="4">研究生教学</option>
+                                        <option value="4">科技信息</option>
+                                        <option value="4">社科信息</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-9" style="margin-left: 68px;">
                             <div class="form-group">
-                                <label for="field-1" class="control-label">文章标题</label>
+                                <label for="field-1" class="control-label">通知标题</label>
                                 <input type="text" class="form-control" id="xg_title" name="title"
-                                       placeholder="article title...">
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="form-group mar-b30">
-                                <label for="inputfile" class="col-md-2 pad-cr"><span
-                                            class="form-star">*</span>缩略图</label>
-                                <input type="hidden" name="banner">
-                                <div class="col-md-10">
-                                    <div class="ibox-content">
-                                        <div class="row">
-                                            <div id="crop-avatar2" class="col-md-12">
-                                                <div class="avatar-view" title="">
-                                                    <img src="{{ asset('home/img/upload-card.png') }}"
-                                                         id="charge_thumb_img" alt="Logo"
-                                                         style="width: 200px;height: 150px;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                       placeholder="notice title...">
                             </div>
                         </div>
                     </div>
@@ -187,24 +150,24 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="field-1" class="control-label">文章来源</label>
+                                <label for="field-1" class="control-label">通知来源</label>
                                 <input type="text" class="form-control" id="xg_source" name="source"
-                                       placeholder="article source...">
+                                       placeholder="notice source...">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group no-margin">
-                                <label for="field-7" class="control-label">文章简述</label>
+                                <label for="field-7" class="control-label">通知简述</label>
                                 <textarea class="form-control autogrow" id="xg_brief" name="brief"
-                                          placeholder="Write something about your article"
+                                          placeholder="Write something about your notice"
                                           style="overflow: hidden; word-wrap: break-word; resize: none; height: 104px;">                                                        </textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <label class="col-md-12 control-label">文章详情</label>
+                        <label class="col-md-12 control-label">通知详情</label>
                         <div class="col-md-12">
                             <textarea id="UE1" name="describe" class="describe"></textarea>
                         </div>
@@ -218,26 +181,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-{{--否决理由表单--}}
-<div id="panel-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
-     style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content p-0 b-0">
-            <div class="panel panel-color panel-primary">
-                <div class="panel-heading">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h3 class="panel-title">请填写否决理由</h3>
-                </div>
-                <div class="panel-body">
-                    <textarea id="reason" style="width: 100%;"></textarea><br><br>
-                    <center>
-                        <button class="btn btn-danger status" id="pass_form" data-status="3">否决</button>
-                    </center>
-                </div>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
 {{--新的详情页--}}
 <div id="full-width-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="full-width-modalLabel"
@@ -279,8 +222,8 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div>
-<h3 class="title">文章管理</h3>
-<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">文章发布</button>
+<h3 class="title">通知管理</h3>
+<button class="btn btn-primary" data-toggle="modal" data-target="#con-close-modal">发布通知</button>
 {{--大菊花转转转--}}
 <img src="{{asset('/admin/images/load.gif')}}" class="loading">
 
@@ -289,15 +232,17 @@
     <div class="page-title">
         <div class="row">
             <div class="col-md-1">
-                <h3 id="list_title" class="title">管理员文稿</h3>
+                <h3 id="list_title" class="title">已发布</h3>
             </div>
             <div class="col-md-1">
                 <select class="form-control" id="xz_type" name="xz_type">
                     <option value="null">所有</option>
-                    <option value="1">爱情文章</option>
-                    <option value="2">亲情文章</option>
-                    <option value="3">友情文章</option>
-                    <option value="4">生活随笔</option>
+                    <option value="1">两办通知</option>
+                    <option value="2">其他通知</option>
+                    <option value="3">本科教学</option>
+                    <option value="4">研究生教学</option>
+                    <option value="4">科技信息</option>
+                    <option value="4">社科信息</option>
                 </select>
             </div>
             <div class="col-md-10">
@@ -307,30 +252,15 @@
         <br>
         <div class="btn-group-vertical">
             <div class="btn-group-vertical">
-                <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+                <button type="button" class="btn btn-success dropdown-toggle list-status" data-status="1">
                     已发布
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" data-status="1">
-                    <li><a href="#" class="status1" data-user="1">管理员文稿</a></li>
-                    <li><a href="#" class="status1" data-user="2">用户来稿</a></li>
-                </ul>
-            </div>
-            <div class="btn-group-vertical">
-                <button type="button" data-status="2" class="status1 btn btn-default dropdown-toggle"
-                        data-toggle="dropdown">
-                    待审核...
                 </button>
             </div>
+
             <div class="btn-group-vertical">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    已下架
-                    <span class="caret"></span>
+                <button type="button" class="btn btn-default dropdown-toggle list-status" data-status="2">
+                    已删除
                 </button>
-                <ul class="dropdown-menu" data-status="3">
-                    <li><a href="#" class="status1" data-user="1">管理员文稿</a></li>
-                    <li><a href="#" class="status1" data-user="2">用户来稿</a></li>
-                </ul>
             </div>
         </div>
     </div>
@@ -342,9 +272,8 @@
     <!--引用ajax模块-->
     <script src="{{asset('JsService/Controller/ajaxController.js')}}" type="text/javascript"></script>
     <script src="{{asset('JsService/Model/ajaxBeforeModel.js')}}" type="text/javascript"></script>
-    <script src="{{asset('JsService/Model/article/articleAjaxSuccessModel.js')}}" type="text/javascript"></script>
+    <script src="{{asset('JsService/Model/notice/noticeAjaxSuccessModel.js')}}" type="text/javascript"></script>
     <script src="{{asset('JsService/Model/ajaxErrorModel.js')}}" type="text/javascript"></script>
-    <script src="{{asset('JsService/Model/pageList.js')}}" type="text/javascript"></script>
     <!--alertInfo end-->
     <script src="{{asset('/admin/js/jquery.validate.min.js')}}"></script>
     <script src="http://cdn.rooyun.com/js/classie.js"></script>
@@ -410,9 +339,8 @@
 
         //全局变量参数的设置
         var token = $('meta[name="csrf-token"]').attr('content');
-        var list_type = null;//活动类型： 1：爱情文章，2：亲情文章 3：友情文章 4：生活随笔 5：所有
-        var list_status = 1;//文章状态：1：已发布 2：待审核 3：已下架
-        var list_user = 1;//用户类型：1：管理员  2：普通用户
+        var list_type = null;//通知类型
+        var list_status = 1;//通知状态：1：已发布 2：已删除
 
         //验证规则
         var rules = {
@@ -435,60 +363,44 @@
                 required: true,
                 minlength: 50
             },
-            banner: {
-                required: true,
-            }
         };
         //提示信息
         var messages = {
             type: {
-                required: '请输入文章类型'
+                required: '请输入通知类型'
             },
             title: {
-                required: '请输入文章标题'
+                required: '请输入通知标题'
             },
             brief: {
-                required: '请输入文章简述'
+                required: '请输入通知简述'
             },
             source: {
-                required: '请输入文章来源'
+                required: '请输入通知来源'
             },
             describe: {
-                required: '请输入路演详情'
+                required: '请输入通知详情'
             },
-            banner: {
-                required: '缩略图不能为空'
-            }
         };
 
-        //列表文章类型设置
-        function listType(type, status, user) {
+        //列表通知类型设置
+        function listType(type, status) {
             list_type = type;
             list_status = status;
-            list_user = user;
-            list(type, status, user);
+            list(type, status);
         }
         //分类查看数据
         $('#xz_type').change(function () {
-            listType($('#xz_type').val(), list_status, list_user);
+            listType($('#xz_type').val(), list_status);
         });
 
-        //状态+用户选择
-        $('.status1').off('click').on('click', function () {
-            if ($(this).data('status') == 2) {
-                $('.dropdown-toggle').removeClass('btn-success').addClass('btn-default');
+        //状态选择
+        $('.list-status').off('click').on('click', function () {
+                $('.list-status').removeClass('btn-success').addClass('btn-default');
                 $(this).addClass('btn-success');
-                list_status = 2;
-                list_user = 2;
                 $('#list_title').html($(this).html());
-            } else {
-                $('.dropdown-toggle').removeClass('btn-success').addClass('btn-default');
-                $(this).parent().parent().siblings('button').addClass('btn-success');
-                list_status = $(this).parent().parent().data('status');
-                list_user = $(this).data('user');
-                $('#list_title').html($(this).parent().html());
-            }
-            listType(list_type, list_status, list_user);
+                list_status = $(this).data('status');
+            listType(list_type, list_status);
         });
 
         //确认谈框
@@ -531,7 +443,7 @@
 
                         swal({
                             title: "确定要" + statusMessage + "?",
-                            text: "当前操作将" + statusMessage + "该文章的展示!",
+                            text: "当前操作将" + statusMessage + "该通知的展示!",
                             type: "warning",
                             showCancelButton: true,
                             confirmButtonColor: "#DD6B55",
@@ -542,23 +454,14 @@
                         }, function (isConfirm) {
                             if (isConfirm) {
                                 //发送请求
-                                var url;
-                                if (status == 3 && list_user == 2) {
-                                    if (passId) {
-                                        url = '/article/' + passId + '/edit/?status=' + status + '&user=' + list_user + '&reason=' + $('#reason').val();
-                                    } else {
-                                        url = '/article/' + guid + '/edit/?status=' + status + '&user=' + list_user + '&reason=' + $('#reason').val();
-                                    }
-                                } else {
-                                    url = '/article/' + guid + '/edit/?status=' + status + '&user=' + list_user;
-                                }
+                                var url = '/notice/' + guid + '/edit/?status=' + status;
                                 $.ajax({
                                     url: url,
                                     success: function (data) {
                                         if (data.StatusCode != 200) {
-                                            swal(data.ResultData, statusMessage + '文章失败', "danger");
+                                            swal(data.ResultData, statusMessage + '通知失败', "danger");
                                         } else {
-                                            swal(data.ResultData, '成功' + statusMessage + '文章', "success");
+                                            swal(data.ResultData, '成功' + statusMessage + '通知', "success");
                                             $('#panel-modal').modal('hide');
 //                                            passDom.remove();
                                             tr.remove();
@@ -616,10 +519,8 @@
                         data.append("describe", resul.describe);
                         data.append("banner", resul.banner);
                         data.append("source", resul.source);
-                        if (!resul.banner) {
-                            swal('请填写完毕', '缩略图不能为空', "error");
-                        } else {
-                            var url = '/article/' + $('input[name=id]').val();
+
+                            var url = '/notice/' + $('input[name=id]').val();
                             $.ajax({
                                 url: url,
                                 type: 'put',
@@ -628,22 +529,21 @@
                                 success: check,
                                 error: ajaxErrorModel
                             });
-                        }
                         function check(data) {
                             $('.loading').hide();
                             if (data) {
                                 if (data.StatusCode === '200') {
                                     swal({
                                             title: data.ResultData, // 标题，自定
-                                            text: '请到对应文章类型管理列表查看',   // 内容，自定
+                                            text: '请到对应通知类型管理列表查看',   // 内容，自定
                                             type: "success",    // 类型，分别为error、warning、success，以及info
                                             showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
                                             confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
                                         },
                                         function (isConfirm) {
                                             $('.bs-example-modal-lg').modal('hide');
-                                            swal(data.ResultData, '请到对应文章类型管理列表查看', "success");
-                                            listType(resul.type, list_status, list_user);
+                                            swal(data.ResultData, '请到对应通知类型管理列表查看', "success");
+                                            listType(resul.type, list_status);
                                         });
                                 } else {
                                     swal(data.ResultData, '错误代码：' + data.StatusCode, "error");
@@ -702,14 +602,12 @@
                         data.append("describe", resul.describe);
                         data.append("banner", resul.banner);
                         data.append("source", resul.source);
-                        if (!resul.banner) {
-                            swal('请填写完毕', '缩略图不能为空', "error");
-                        } else {
+
                             if (!resul.describe) {
                                 swal('请填写完毕', '详情描述不能为空', "error");
                             } else {
                                 $.ajax({
-                                    url: '/article',
+                                    url: '/notice',
                                     type: 'post',
                                     data: resul,
                                     before: ajaxBeforeNoHiddenModel,
@@ -717,28 +615,27 @@
                                     error: ajaxErrorModel
                                 });
                             }
-                        }
                         function check(data) {
                             $('.loading').hide();
                             if (data) {
                                 if (data.StatusCode === '200') {
                                     swal({
                                             title: data.ResultData, // 标题，自定
-                                            text: '请到对应文章类型管理列表查看',   // 内容，自定
+                                            text: '请到对应通知类型管理列表查看',   // 内容，自定
                                             type: "success",    // 类型，分别为error、warning、success，以及info
                                             showCancelButton: false, // 展示取消按钮，点击后会取消接下来的进程（下面那个function）
                                             confirmButtonColor: '#DD6B55',  // 确认用途的按钮颜色，自定
                                         },
                                         function (isConfirm) {
                                             $('#con-close-modal').modal('hide');
-                                            swal(data.ResultData, '请到对应文章类型管理列表查看', "success");
+                                            swal(data.ResultData, '请到对应通知类型管理列表查看', "success");
                                             $('#yz_fb').find('input[name=title]').val('');
                                             $('#yz_fb').find('input[name=source]').val('');
                                             $('#yz_fb').find('input[name=banner]').val('');
-                                            $('#article_thumb_img').attr('src', 'home/img/upload-card.png');
+                                            $('#notice_thumb_img').attr('src', 'home/img/upload-card.png');
                                             $('#yz_fb').find('textarea[name=brief]').val('');
                                             ue.setContent('');
-                                            listType(resul.type, list_status, list_user);
+                                            listType(resul.type, list_status);
                                         });
                                 } else {
                                     swal(data.ResultData, '错误代码：' + data.StatusCode, "error");
@@ -765,12 +662,12 @@
                 $.FormValidator.init()
             }(window.jQuery);
 
-        //修改文章信息展示旧的信息
+        //修改通知信息展示旧的信息
         function updates() {
             $('.charge-road').click(function () {
                 $('.loading').hide();
                 var ajax = new ajaxController();
-                var url = '/article/' + $(this).data('name') + '?user=' + list_user;
+                var url = '/notice/' + $(this).data('name');
                 ajax.ajax({
                     url: url,
                     before: ajaxBeforeNoHiddenModel,
@@ -780,12 +677,12 @@
             });
         }
 
-        //展示文章信息详情
+        //展示通知信息详情
         function showInfo() {
             $('.info').click(function () {
                 var ajax = new ajaxController();
                 ajax.ajax({
-                    url: '/article/' + $(this).data('name'),
+                    url: '/notice/' + $(this).data('name'),
                     before: ajaxBeforeNoHiddenModel,
                     success: showInfoList,
                     error: ajaxErrorModel
@@ -799,7 +696,7 @@
         // 页面加载时触发事件请求分页数据
         function list(type, status, user) {
             var ajax = new ajaxController();
-            var url = '/article/create?type=' + type + '&status=' + status + '&user=' + user;
+            var url = '/notice/create?type=' + type + '&status=' + status;
             ajax.ajax({
                 url: url,
                 before: ajaxBeforeModel,
@@ -807,6 +704,6 @@
                 error: ajaxErrorModel
             });
         }
-        listType(list_type, list_status, list_user);
+        listType(list_type, list_status);
     </script>
 @endsection

@@ -5,7 +5,7 @@
 
 function listHtml(data) {
     var html = '';
-    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th style="text-align:center;">文章类型</th><th style="text-align:center;">文章标题</th><th style="text-align:center;">发布人</th><th style="text-align:center;">发布时间</th><th style="text-align:center;">文章状态</th><th style="text-align:center;">文章来源</th><th style="text-align:center;">操作</th></tr></thead><tbody>';
+    html += '<div class="panel-body"><table class="table table-bordered table-striped"><thead><tr><th style="text-align:center;">通知类型</th><th style="text-align:center;">通知标题</th><th style="text-align:center;">发布人</th><th style="text-align:center;">发布时间</th><th style="text-align:center;">通知状态</th><th style="text-align:center;">通知来源</th><th style="text-align:center;">操作</th></tr></thead><tbody>';
     $.each(data.ResultData.data, function (i, e) {
         html += '<tr class="gradeX">';
         html += '<td>' + type(e.type) + '</td>';
@@ -15,17 +15,11 @@ function listHtml(data) {
         html += '<td>' + status(e.status) + '</td>';
         html += '<td>' + e.source + '</td>';
         html += '<td><a class="info btn btn-xs btn-warning tooltips" style="border-radius: 6px;" data-name="' + e.guid + '" href="javascript:;" data-toggle="modal" data-target="#full-width-modal">详情</a>&nbsp';
-        if (e.user == 1) {
+        if (e.status == 1) {
+            html += '<a class="btn btn-xs btn-danger tooltips status" style="border-radius: 6px;" data-name="' + e.guid + '" data-status="' + 2 + '">删除</a>&nbsp';
+        } else if (e.status == 2) {
             html += '<a class="btn btn-xs btn-info tooltips charge-road" style="border-radius: 6px;" data-name="' + e.guid + '" data-toggle="modal" data-target=".bs-example-modal-lg">修改</a>&nbsp';
-        }
-        if (e.status == 1 && e.status != 2) {
-            html += '<a class="btn btn-xs btn-danger tooltips status" style="border-radius: 6px;" data-name="' + e.guid + '" data-status="' + 3 + '">删除</a>&nbsp';
-        } else if (e.status == 3 && e.status != 2) {
             html += '<a class="btn btn-xs btn-danger tooltips status" style="border-radius: 6px;" data-name="' + e.guid + '" data-status="' + 1 + '">启用</a>&nbsp';
-        }
-        if (e.status == 2) {
-            html += '<a class="btn btn-xs btn-primary tooltips" style="border-radius: 6px;" href="javascript:;"><i data-name="' + e.guid + '" data-status="' + 1 + '" class="status" style="margin-bottom: 6px">通过</i></a>&nbsp';
-            html += '<a class="btn btn-xs btn-danger tooltips" style="border-radius: 6px;" href="javascript:;"><i class="pass" data-name="' + e.guid + '" data-status="' + 3 + '" style="margin-bottom: 6px" data-toggle="modal" data-target="#panel-modal">否决</i></a>&nbsp';
         }
         html += '</td>';
     });
@@ -33,30 +27,36 @@ function listHtml(data) {
     return html;
 }
 
-//文章类型展示
+//通知类型展示
 function type(type) {
     var res;
     switch (type) {
         case 1:
-            res = '爱情文章';
+            res = '两办通知';
             break;
         case 2:
-            res = '亲情文章';
+            res = '其他通知';
             break;
         case 3:
-            res = '友情文章';
+            res = '本科教学';
             break;
         case 4:
-            res = '生活随笔';
+            res = '研究生教学';
+            break;
+        case 5:
+            res = '科技信息';
+            break;
+        case 6:
+            res = '社科信息';
             break;
         default:
-            res = '其他';
+            res = '--';
             break;
     }
     return res;
 }
 
-//文章状态
+//通知状态
 function status(status) {
     var res;
     switch (status) {
@@ -64,10 +64,10 @@ function status(status) {
             res = '已发布';
             break;
         case 2:
-            res = '待审核...';
+            res = '已删除';
             break;
         default:
-            res = '已下架';
+            res = '--';
             break;
     }
     return res;
@@ -87,7 +87,7 @@ function date(data) {
     ue1.setContent(data.describe);
     $('.loading').hide();
 }
-// 显示文章信息详情
+// 显示通知信息详情
 function showInfoList(data) {
     $('.loading').hide();
     if (data) {
@@ -107,4 +107,56 @@ function showInfoList(data) {
         $('#alert-form').hide();
         $('#alert-info').html('<p>未知的错误</p>');
     }
+}
+
+// 获取分页数据并加载显示在页面
+function getInfoList(data) {
+    $('.loading').hide();
+    if (data) {
+        if (data.StatusCode === '200') {
+            $('#data').html(listHtml(data));
+            $('#page').html(data.ResultData.pages);
+            getPage();
+            updates();
+            initAlert();
+            showInfo();
+            checkAction();
+        } else if (data.StatusCode === '204') {
+            $('#data').html('<p style="padding:20px;" class="text-center">没有数据,请添加数据！</p>');
+        } else {
+            $('#myModal').modal('show');
+            $('#alert-form').hide();
+            $('#alert-info').html('<p>' + data.ResultData + '</p>');
+        }
+    } else {
+        $('#myModal').modal('show');
+        $('#alert-form').hide();
+        $('#alert-info').html('<p>未知的错误</p>');
+    }
+}
+
+// 分页li点击触发获取ajax事件获取分页
+function getPage() {
+    $('.pagination li').click(function () {
+        var class_name = $(this).prop('class');
+        if (class_name === 'disabled' || class_name === 'active') {
+            return false;
+        }
+
+        var url = $(this).children().prop('href') + '&type=' + list_type + '&status=' + list_status;
+
+        var ajax = new ajaxController();
+        ajax.ajax({
+            url: url,
+            before: ajaxBeforeModel,
+            success: getInfoList,
+            error: ajaxErrorModel
+        });
+        return false;
+    });
+}
+
+//时间转换
+function getLocalTime(nS) {
+    return new Date(parseInt(nS) * 1000).toLocaleString().replace(/年|月/g, "-").replace(/日/g, " ");
 }
