@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Tools\Avatar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\noticeService as NoticeServer;
+use App\Services\NoticeService as NoticeServer;
 use Illuminate\Support\Facades\Validator;
 
 class NoticeController extends Controller

@@ -6,7 +6,7 @@ use App\Tools\CustomPage;
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
-use App\Services\noticeService as NoticeServer;
+use App\Services\NoticeService as NoticeServer;
 use App\Services\UserService as UserServer;
 use App\Services\CommentAndLikeService as CommentServer;
 
