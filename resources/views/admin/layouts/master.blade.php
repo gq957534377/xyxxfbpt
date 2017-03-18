@@ -20,7 +20,7 @@
         }
 
     </style>
-    <title>@section('title')hero-后台管理系统@show</title>
+    <title>@section('title')校园信息发布平台后台管理@show</title>
     @include('admin.public.style')
     @yield('styles')
 </head>

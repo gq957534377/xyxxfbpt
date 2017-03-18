@@ -5,27 +5,27 @@ namespace App\Http\Controllers\Admin;
 use App\Tools\Avatar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\ArticleService as ArticleServer;
+use App\Services\noticeService as NoticeServer;
 use Illuminate\Support\Facades\Validator;
 
-class ArticleController extends Controller
+class NoticeController extends Controller
 {
-    protected static $articleServer;
+    protected static $noticeServer;
 
-    public function __construct(ArticleServer $articleServer)
+    public function __construct(NoticeServer $noticeServer)
     {
-        self::$articleServer = $articleServer;
+        self::$noticeServer = $noticeServer;
     }
 
     /**
-     * 文章后台首页
+     * 通知后台首页
      *
      * @return array
      * @author 郭庆
      */
     public function index()
     {
-        return view('admin.article.index');
+        return view('admin.notice.index');
     }
 
     /**
@@ -39,9 +39,8 @@ class ArticleController extends Controller
         $data = $request->all();
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"] : 1;//获取当前页
         $forPages = 5;//一页的数据条数
-        $status = $data["status"];//文章状态：已发布 待审核 已下架
-        $type = $data["type"];//获取文章类型
-        $user = $data["user"];//用户类型
+        $status = $data["status"];//通知状态：已发布 待审核 已下架
+        $type = $data["type"];//获取通知类型
 
         $where = [];
         if ($status) {
@@ -50,15 +49,12 @@ class ArticleController extends Controller
         if ($type != 'null') {
             $where["type"] = $type;
         }
-        if ($user) {
-            $where['user'] = $user;
-        }
-        $result = self::$articleServer->selectDatas($where, $nowPage, $forPages, "/article/create");
+        $result = self::$noticeServer->selectDatas($where, $nowPage, $forPages, "/notice/create");
         return response()->json($result);
     }
 
     /**
-     * 向文章表插入数据
+     * 向通知表插入数据
      *
      * @return array
      * @author 郭庆
@@ -66,30 +62,27 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data['user'] = 1;
         $data['status'] = 1;
-        $data['author'] = session('manager')->email;
-        $data['headPic'] = "/admin/images/logo.jpg";
 
-        $result = self::$articleServer->insertData($data);
+        $result = self::$noticeServer->insertData($data);
 
         return response()->json($result);
     }
 
     /**
-     * 拿取一条文章信息详情
+     * 拿取一条通知信息详情
      *
      * @return array
      * @author 郭庆
      */
     public function show($id)
     {
-        $result = self::$articleServer->getData($id);
+        $result = self::$noticeServer->getData($id);
         return response()->json($result);
     }
 
     /**
-     * 修改文章状态
+     * 修改通知状态
      *
      * @return array
      * @author 郭庆
@@ -100,15 +93,15 @@ class ArticleController extends Controller
         $user = $request->input('user');
 
         if ($status == 3 && $user == 2) {
-            $result = self::$articleServer->upDta(['guid' => $id], ['status' => 3, 'reason' => $request["reason"], 'user' => 2]);
+            $result = self::$noticeServer->upDta(['guid' => $id], ['status' => 3, 'reason' => $request["reason"], 'user' => 2]);
         } else {
-            $result = self::$articleServer->changeStatus(['id' => $id], $status);
+            $result = self::$noticeServer->changeStatus(['id' => $id], $status);
         }
         return response()->json($result);
     }
 
     /**
-     * 更改文章信息内容
+     * 更改通知信息内容
      *
      * @return array
      * @author 郭庆
@@ -117,7 +110,7 @@ class ArticleController extends Controller
     {
         $data = $request->all();
         $where = ["guid" => $id];
-        $result = self::$articleServer->upDta($where, $data);
+        $result = self::$noticeServer->upDta($where, $data);
         return response()->json($result);
     }
 

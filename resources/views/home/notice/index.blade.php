@@ -1,6 +1,6 @@
 @extends('home.layouts.master')
 
-@section('title', '校园文章')
+@section('title', '校园通知')
 
 @section('menu')
     @parent
@@ -12,27 +12,28 @@
             <div class="content-block new-content">
                 <ul class="min_title">
                     <li class=" btn @if((int)$type == 1)btn-success @else btn-default @endif">
-                        <a href="{{ url('/article?type=1') }}">爱情文章</a></li>
+                        <a href="{{ url('/notice?type=1') }}">俩办通知</a></li>
                     <li class=" btn @if((int)$type == 2)btn-success @else btn-default @endif">
-                        <a href="{{ url('/article?type=2') }}">亲情文章</a></li>
+                        <a href="{{ url('/notice?type=2') }}">其他通知</a></li>
                     <li class=" btn @if((int)$type == 3)btn-success @else btn-default @endif">
-                        <a href="{{ url('/article?type=3') }}">友情文章</a></li>
+                        <a href="{{ url('/notice?type=3') }}">本科教学</a></li>
                     <li class=" btn @if((int)$type == 4)btn-success @else btn-default @endif">
-                        <a href="{{ url('/article?type=4') }}">生活随笔</a></li>
+                        <a href="{{ url('/notice?type=4') }}">研究生教学</a></li>
+                    <li class=" btn @if((int)$type == 4)btn-success @else btn-default @endif">
+                        <a href="{{ url('/notice?type=4') }}">科技信息</a></li>
+                    <li class=" btn @if((int)$type == 4)btn-success @else btn-default @endif">
+                        <a href="{{ url('/notice?type=4') }}">社科信息</a></li>
                 </ul>
-                <h2 class="title" id="action_type"><strong>@if((int)$type == 1)爱情文章@elseif((int)$type == 2)
-                            亲情文章@elseif((int)$type == 3)友情文章@elseif((int)$type == 4)生活状态@endif</strong></h2>
+                <h2 class="title" id="action_type"><strong>@if((int)$type == 1)俩办通知@elseif((int)$type == 2)
+                            其他通知@elseif((int)$type == 3)本科教学@elseif((int)$type == 4)研究生教学@elseif((int)$type == 5)科技信息@elseif((int)$type == 6)社科信息@endif</strong></h2>
                 <div class="row">
                     @if(!empty($StatusCode) && $StatusCode == '200')
                         @foreach($ResultData['data'] as $val)
                             <div class="news-list">
-                                <div class="news-img col-xs-5 col-sm-5 col-md-4"><a target="_blank"
-                                                                                    href="{{ url('article/'.$val->guid) }}"><img onerror="this.src='{{asset('home/img/zxz.png')}}'" src="{{ $val->banner }}" alt="{{ $val->title }}">
-                                    </a></div>
                                 <div class="news-info col-xs-7 col-sm-7 col-md-8">
                                     <dl>
                                         <dt>
-                                            <a href="{{ url('article/'.$val->guid) }}" target="_blank">
+                                            <a href="{{ url('notice/'.$val->guid) }}" target="_blank">
                                                 {{ $val->title }}
                                             </a>
                                         </dt>
@@ -58,7 +59,7 @@
                     @endif
                 </div>
                 @if(!empty($StatusCode) && $StatusCode == '200')
-                    <div id="pages">{!! $ResultData['pages'] !!}</div>
+                <div id="pages">{!! $ResultData['pages'] !!}</div>
                 @endif
 
                 <div id="url" style="display: none" data-type="{{ $type }}">
@@ -98,12 +99,8 @@
                 var html = '<div class="news-list">';
                 $.each(data.ResultData.data, function (i, e) {
                     html += '<div class="news-list">';
-                    html += '<div class="news-img col-xs-5 col-sm-5 col-md-4">'
-                    html += '<a target="_blank" href="' + 'article/' + e.guid + '">';
-                    html += '<img src="' + e.banner + '" alt="' + e.title + '"> </a></div>';
-
                     html += '<div class="news-info col-xs-7 col-sm-7 col-md-8"><dl>';
-                    html += '<dt><a href="article/' + e.guid + '" target="_blank">' + e.title + '</a></dt>';
+                    html += '<dt><a href="notice/' + e.guid + '" target="_blank">' + e.title + '</a></dt>';
                     html += '<dd><span class="name"><a title="由'+e.author+' 发布" rel="author">'+e.author+'</a></span>';
                     html += '<span class="identity"></span><span class="time">' + getLocalTime(e.addtime) + '</span>';
                     html += '<dd class="text">' + e.brief + '</dd>';

@@ -20,6 +20,7 @@
                 </ul>
                 <h2 class="title" id="action_type"><strong>@if((int)$type == 1)文娱活动@elseif((int)$type == 2)学术活动@elseif((int)$type == 3)竞赛活动@endif</strong></h2>
                 <div class="row">
+                    @if(!empty($StatusCode) && $StatusCode == '200')
                     @foreach($ResultData['data'] as $action)
                         <div class="news-list">
                             <div class="news-img col-xs-5 col-sm-5 col-md-4"><a target="_blank"
@@ -55,8 +56,13 @@
                             </div>
                         </div>
                     @endforeach
+                        @else
+                            <p>{{$ResultData}}</p>
+                        @endif
                 </div>
-                <div id="pages">{!! $ResultData['pages'] !!}</div>
+                @if(!empty($StatusCode) && $StatusCode == '200')
+                    <div id="pages">{!! $ResultData['pages'] !!}</div>
+                @endif
                 <div id="url" style="display: none" data-type="{{ $type }}" data-status="{{ $status }}">
                     {{--<div class="quotes" style="margin-top:15px"><span class="disabled">首页</span><span class="disabled">上一页</span><span class="current">1</span><a href="index.html">2</a><a href="index.html">下一页</a><a href="index.html">尾页</a></div>--}}
                 </div>
@@ -93,7 +99,8 @@
             if (data.StatusCode === '200') {
                 var html = '<div class="news-list">';
                 $.each(data.ResultData.data, function (i, e) {
-                    html += '<div class="news-img col-xs-5 col-sm-5 col-md-4">'
+                    html += '<div class="news-list">';
+                    html += '<div class="news-img col-xs-5 col-sm-5 col-md-4">';
                     html += '<a target="_blank" href="' + 'action/' + e.guid + '">';
                     html += '<img src="' + e.banner + '" alt="' + e.title + '"> </a></div>';
 
