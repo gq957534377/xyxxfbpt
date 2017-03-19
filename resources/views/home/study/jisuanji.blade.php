@@ -50,7 +50,7 @@
                     </tr>
                     </tbody>
                 </table>
-                <div id="#R"></div>
+                <div id="R"></div>
             </div>
 
             <p>分享到:</p>
@@ -124,7 +124,8 @@
                     success: function (data) {
                         if (data.StatusCode == "200") {
                             if (data.ResultData.Result == '1') {
-                                $('#table').attr('display', 'block');
+                                var data = data.ResultData;
+                                $('#table').show();
                                 $("#tr").html("<td>"
                                     + data.ZJH + "</td><td>" + data.XM + "</td><td>" + data.DD + "</td></tr>");
                                 if (data.DD == "优秀" || data.DD == "合格") {

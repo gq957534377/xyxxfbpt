@@ -51,10 +51,10 @@ class JisuanjiController extends Controller
         );
 
         $result = ExtCurl::request('http://tyfishing.cn/NCRE.aspx?action=getCJ&ZJH=' . $data['ZJH'] . '&XM=' . $data['XM'], 'GET', null, false, '', $header, 'http://tyfishing.cn/sxuncre.aspx');
+//dd($result);
+        if (strlen($result) > 100) return response()->json(['StatusCode' => '500', 'ResultData' => '远程服务端出错']);
 
-        if (strlen($result) != 14) return response()->json(['StatusCode' => '500', 'ResultData' => '远程服务端出错']);
-
-        return response()->json(['StatusCode' => '200', 'ResultData' => \Qiniu\json_decode($result)]);
+        return response()->json(['StatusCode' => '200', 'ResultData' => json_decode($result)]);
     }
 
     /**
