@@ -56,10 +56,18 @@
             </div>
         </li>
         <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a>
-            <div>开发中....</div>
+            <div>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href=""><span class="glyphicon glyphicon-erase"></span>开发中</a>
+                </ul>
+            </div>
         </li>
-        <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>校园学习</a>
-            <div>开发中....</div>
+        <li><a href=""><span class="glyphicon glyphicon-tags"></span>校园学习</a>
+            <div>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('jisuanji.index') }}"><span class="glyphicon glyphicon-erase"></span>计算机等级考试查询</a>
+                </ul>
+            </div>
         </li>
         <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a>
             <div>开发中....</div>
@@ -116,7 +124,7 @@
             <li><a href="{{ route('article.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
             <li><a href="{{ route('notice.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
             <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
-            <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>校园学习</a></li>
+            <li><a href="{{ route('study.index') }}"><span class="glyphicon glyphicon-tags"></span>校园学习</a></li>
             <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a></li>
         </ul>
         <form class="navbar-form" action="search.php" method="post" style="padding:0 25px;">

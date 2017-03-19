@@ -15,46 +15,46 @@
  * 后台入口
  */
 //路由组中指定域名，命名空间
-Route::group(['domain' => ADMIN_URL,'namespace' => 'Admin'],function(){
+Route::group(['domain' => ADMIN_URL, 'namespace' => 'Admin'], function () {
     //补充资源控制器
-    Route::get('/code/captcha/{tmp}','LoginController@captcha');
+    Route::get('/code/captcha/{tmp}', 'LoginController@captcha');
     // 后台登录页
-    Route::resource('/login','LoginController');
+    Route::resource('/login', 'LoginController');
     // 后台登出
     Route::get('/logout', 'LoginController@logout');
     // 后台注册页
-   // Route::resource('/register','RegisterController');
+    // Route::resource('/register','RegisterController');
     // 后台,中间件检验是否登录
-    Route::group(['middleware'=> 'AdminMiddleware'],function() {
+    Route::group(['middleware' => 'AdminMiddleware'], function () {
         // 后台首页
         Route::resource('/', 'AdminController');
         //众筹
         Route::resource('/project_approval', 'CrowdFundingController');
         //众筹修改内容
-        Route::post("/crowdfunding_revise",'CrowdFundingController@revise');
+        Route::post("/crowdfunding_revise", 'CrowdFundingController@revise');
         //发布通知
         Route::resource('/notice', 'NoticeController');
         //分页
-        Route::get("/crowd_forpage",'CrowdFundingController@forPage');
+        Route::get("/crowd_forpage", 'CrowdFundingController@forPage');
         //查看可发布的中筹项目
-        Route::get("/select_publish",'CrowdFundingController@selectPublish');
+        Route::get("/select_publish", 'CrowdFundingController@selectPublish');
         //活动管理
         Route::resource('/action', 'ActionController');
-        Route::resource('/action_add','ActionController@actionAdd');
-        Route::resource('/action_change/{id}/{list}/','ActionController@actionChange');
+        Route::resource('/action_add', 'ActionController@actionAdd');
+        Route::resource('/action_change/{id}/{list}/', 'ActionController@actionChange');
         //活动报名管理
-        Route::resource('/action_order','ActionOrderController');
+        Route::resource('/action_order', 'ActionOrderController');
         //内容管理
         Route::resource('/article', 'ArticleController');
-        Route::resource('/banner','ArticleController@bannerpic');
+        Route::resource('/banner', 'ArticleController@bannerpic');
         // 网站管理
         Route::resource('/web_admins/uploadorganizpic', 'WebAdminstrationController@uploadOrganizPic');
         Route::resource('/web_admins', 'WebAdminstrationController');
 
         // 用户管理bate
-        Route::resource('/user_management','UserManagementController');
+        Route::resource('/user_management', 'UserManagementController');
         // 角色申请管理
-        Route::resource('/role_management','RoleManagementController');
+        Route::resource('/role_management', 'RoleManagementController');
 
         // 意见管理
         Route::resource('/feedback', 'FeedbackController');
@@ -67,18 +67,21 @@ Route::group(['domain' => ADMIN_URL,'namespace' => 'Admin'],function(){
  * 前台入口
  */
 
-Route::group(['domain'=>HOME_URL ,'namespace' => 'Home'],function() {
+Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
     //公共类
     Route::get('errors/{status}', 'CommonController@errors');
     // 前台首页
     Route::resource('/', 'HomeController@index');
     // 关于我们
-    Route::get('/about','HomeController@aboutWe');
+    Route::get('/about', 'HomeController@aboutWe');
     // 验证码
     Route::get('/getCaptcha/{mun}/{page}', 'RegisterController@getCaptcha');
     // 前台登录页
     Route::resource('/login', 'LoginController');
-
+// 前台计算机等级考试成绩查询
+    Route::resource('/jisuanji', 'JisuanjiController');
+    // 前台手机端校园学习
+    Route::resource('/study', 'StudyController');
     // 获取修改密码的验证码
     Route::resource('/changepwd/code', 'LoginController@sendSms');
     // 前台注册页
@@ -89,8 +92,8 @@ Route::group(['domain'=>HOME_URL ,'namespace' => 'Home'],function() {
     //活动内容页
     Route::resource('/action', 'ActionController');
     //七牛TokenToken
-    Route::get('/getQiniuToken','ProjectController@getToken');
-    Route::get('/commentForPage','ProjectController@commentForPage');
+    Route::get('/getQiniuToken', 'ProjectController@getToken');
+    Route::get('/commentForPage', 'ProjectController@commentForPage');
     // 点赞
 //    Route::resource('/article/like', 'ArticleController@like');
     //文章内容页
@@ -107,49 +110,49 @@ Route::group(['domain'=>HOME_URL ,'namespace' => 'Home'],function() {
     //发布项目
     Route::resource('/project', 'ProjectController');
     //项目列表ajax请求
-    Route::post('/project/list','ProjectController@lists')->name('projectList');
+    Route::post('/project/list', 'ProjectController@lists')->name('projectList');
     // openIM 阿里云旺
     Route::resource('/openim', 'OpenIMController');
 
     //中间件，检验是否登录
-    Route::group(['middleware'=>'HomeMiddleware'],function(){
+    Route::group(['middleware' => 'HomeMiddleware'], function () {
         //获取角色信息
-        Route::get('/roleinfo/{id}','UserController@roleInfo');
+        Route::get('/roleinfo/{id}', 'UserController@roleInfo');
         // 用户角色
-        Route::resource('/cardpic','RoleController@cardpic');
-        Route::resource('/identity','RoleController');
+        Route::resource('/cardpic', 'RoleController@cardpic');
+        Route::resource('/identity', 'RoleController');
         // 修改头像
-        Route::resource('/headpic','UserController@headpic');
-        Route::resource('/uploadcard','UserController@uploadCard');
+        Route::resource('/headpic', 'UserController@headpic');
+        Route::resource('/uploadcard', 'UserController@uploadCard');
         // 修改账号绑定信息
-        Route::resource('/user/sendsms','UserController@sendSms');
-        Route::resource('/user/sendemail','UserController@sendEmail');
-        Route::resource('/user/change/email','UserController@changeEmail');
-        Route::resource('/user/change/phone','UserController@changeTel');
-        Route::resource('/user/change/password','UserController@changePassword');
+        Route::resource('/user/sendsms', 'UserController@sendSms');
+        Route::resource('/user/sendemail', 'UserController@sendEmail');
+        Route::resource('/user/change/email', 'UserController@changeEmail');
+        Route::resource('/user/change/phone', 'UserController@changeTel');
+        Route::resource('/user/change/password', 'UserController@changePassword');
         // 个人中心页
         // 评论和赞
-        Route::get('/user/commentandlike','UserController@commentAndLike')->name('commentlike');
-        Route::post('/user/commentandlike','UserController@getLike')->name('getLike');
+        Route::get('/user/commentandlike', 'UserController@commentAndLike')->name('commentlike');
+        Route::post('/user/commentandlike', 'UserController@getLike')->name('getLike');
         //我的项目
-        Route::get('/user/myProject','UserController@myProject');
-        Route::get('/user/countprojects','UserController@countProjects');
-        Route::get('/user/realname/{guid}','UserController@getRealName');
-        Route::resource('/user','UserController');
+        Route::get('/user/myProject', 'UserController@myProject');
+        Route::get('/user/countprojects', 'UserController@countProjects');
+        Route::get('/user/realname/{guid}', 'UserController@getRealName');
+        Route::resource('/user', 'UserController');
         // 前台登出
-        Route::get('/logout','LoginController@logout');
+        Route::get('/logout', 'LoginController@logout');
         //众筹用户投钱
-        Route::get("/investment/{project_id}","CrowdFundingController@investment");
+        Route::get("/investment/{project_id}", "CrowdFundingController@investment");
 
-        Route::resource('/project_user','ProjectUsersController');
+        Route::resource('/project_user', 'ProjectUsersController');
 
         //活动报名管理
-        Route::resource('/action_order','ActionOrderController');
+        Route::resource('/action_order', 'ActionOrderController');
         //投稿管理
         Route::resource('/send/get_article_info', 'SendController@getArticleInfo');
         Route::resource('/send', 'SendController');
 
-        Route::resource('/upload','ActionController@upload');
+        Route::resource('/upload', 'ActionController@upload');
     });
 
 

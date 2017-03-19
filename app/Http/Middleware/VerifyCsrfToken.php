@@ -13,6 +13,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         //
-        'laravel-ueditor/server*'
+        'laravel-ueditor/server*',
+        'http://tyfishing.cn/NCRE.aspx'
     ];
 }
