@@ -28,23 +28,15 @@ Route::group(['domain' => ADMIN_URL, 'namespace' => 'Admin'], function () {
     Route::group(['middleware' => 'AdminMiddleware'], function () {
         // 后台首页
         Route::resource('/', 'AdminController');
-        //众筹
-        Route::resource('/project_approval', 'CrowdFundingController');
-        //众筹修改内容
-        Route::post("/crowdfunding_revise", 'CrowdFundingController@revise');
-        //发布通知
+        //校园通知管理
         Route::resource('/notice', 'NoticeController');
-        //分页
-        Route::get("/crowd_forpage", 'CrowdFundingController@forPage');
-        //查看可发布的中筹项目
-        Route::get("/select_publish", 'CrowdFundingController@selectPublish');
-        //活动管理
+        //校园活动管理
         Route::resource('/action', 'ActionController');
         Route::resource('/action_add', 'ActionController@actionAdd');
         Route::resource('/action_change/{id}/{list}/', 'ActionController@actionChange');
         //活动报名管理
         Route::resource('/action_order', 'ActionOrderController');
-        //内容管理
+        //校园文章管理
         Route::resource('/article', 'ArticleController');
         Route::resource('/banner', 'ArticleController@bannerpic');
         // 网站管理
@@ -53,13 +45,6 @@ Route::group(['domain' => ADMIN_URL, 'namespace' => 'Admin'], function () {
 
         // 用户管理bate
         Route::resource('/user_management', 'UserManagementController');
-        // 角色申请管理
-        Route::resource('/role_management', 'RoleManagementController');
-
-        // 意见管理
-        Route::resource('/feedback', 'FeedbackController');
-
-
     });
 });
 
@@ -78,7 +63,7 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
     Route::get('/getCaptcha/{mun}/{page}', 'RegisterController@getCaptcha');
     // 前台登录页
     Route::resource('/login', 'LoginController');
-// 前台计算机等级考试成绩查询
+    // 前台计算机等级考试成绩查询
     Route::resource('/jisuanji', 'JisuanjiController');
     // 前台手机端校园学习
     Route::resource('/study', 'StudyController');
@@ -87,32 +72,20 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
     // 前台注册页
     Route::resource('/register/checkphoto', 'RegisterController@checkPhoto');
     Route::resource('/register', 'RegisterController');
-    //众筹
-    Route::resource('/crowd_funding', 'CrowdFundingController');
     //活动内容页
     Route::resource('/action', 'ActionController');
     //七牛TokenToken
     Route::get('/getQiniuToken', 'ProjectController@getToken');
     Route::get('/commentForPage', 'ProjectController@commentForPage');
-    // 点赞
-//    Route::resource('/article/like', 'ArticleController@like');
     //文章内容页
     Route::resource('/article', 'ArticleController');
     // 校园通知
     Route::resource('/notice', 'NoticeController');
-
     //写评论
     Route::resource('/article/setcomment', 'ArticleController@setComment');
     //显示评论详情页
     Route::resource('/comment', 'ArticleController@commentShow');
-    //学院内容页
-    Route::resource('/school', 'SchoolController');
-    //发布项目
-    Route::resource('/project', 'ProjectController');
-    //项目列表ajax请求
-    Route::post('/project/list', 'ProjectController@lists')->name('projectList');
-    // openIM 阿里云旺
-    Route::resource('/openim', 'OpenIMController');
+
     Route::resource('/news', 'NewsController');
 
     //中间件，检验是否登录
@@ -135,17 +108,10 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
         // 评论和赞
         Route::get('/user/commentandlike', 'UserController@commentAndLike')->name('commentlike');
         Route::post('/user/commentandlike', 'UserController@getLike')->name('getLike');
-        //我的项目
-        Route::get('/user/myProject', 'UserController@myProject');
-        Route::get('/user/countprojects', 'UserController@countProjects');
         Route::get('/user/realname/{guid}', 'UserController@getRealName');
         Route::resource('/user', 'UserController');
         // 前台登出
         Route::get('/logout', 'LoginController@logout');
-        //众筹用户投钱
-        Route::get("/investment/{project_id}", "CrowdFundingController@investment");
-
-        Route::resource('/project_user', 'ProjectUsersController');
 
         //活动报名管理
         Route::resource('/action_order', 'ActionOrderController');
