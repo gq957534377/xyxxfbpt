@@ -54,7 +54,7 @@ class NoticeController extends Controller
      *  查询分页数据，瀑布流
      *
      * @return \Illuminate\Http\Response
-     * @author 王通
+     * @author 杨志宇
      */
     public function create(Request $request)
     {
@@ -92,8 +92,8 @@ class NoticeController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
-     * @author 王通
-     * @modify 张洵之
+     * @author 杨志宇
+     * @modify 杨志宇
      */
     public function show($id)
     {
@@ -192,7 +192,7 @@ class NoticeController extends Controller
      * @param $id
      * @return array
      * @author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public function like(Request $request)
     {
@@ -212,8 +212,8 @@ class NoticeController extends Controller
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
-     * @author 王通
-     * @modify 张洵之
+     * @author 杨志宇
+     * @modify 杨志宇
      */
     public function setComment(Request $request)
     {
@@ -246,7 +246,7 @@ class NoticeController extends Controller
     /**
      * 评论详情页
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * author 张洵之
+     * author 杨志宇
      */
     public function commentShow()
     {

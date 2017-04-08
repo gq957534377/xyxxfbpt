@@ -166,7 +166,7 @@
         }
         /**
          * 修改全选，取消全选状态
-         * @author 王通
+         * @author 杨志宇
          */
         $('#data').on('click', '#check-all', function () {
             if ($(this).children('span').html() == '全选') {
@@ -180,7 +180,7 @@
 
         /**
          * 修改复选框状态
-         * @author 王通
+         * @author 杨志宇
          */
         $('#data').on('click', '.checkbox-list', function () {
             var num = $('.checkbox-list').size();
@@ -202,7 +202,7 @@
 
         /**
          * 删除所有的列表
-         * @author 王通
+         * @author 杨志宇
          */
         $('#data').on('click', '#delete-all', function () {
             var num = $('.checkbox-list').size();
@@ -227,7 +227,7 @@
 
         /**
          * 详情
-         *@author 王通
+         *@author 杨志宇
          */
         $('#data').on('click', '.btn-info', function () {
             var email = $(this).parent().siblings('.feedb-email').html();
@@ -330,7 +330,7 @@
         /**
          * 删除记录 回掉，删除几个记录
          * @param obj
-         * @author 王通
+         * @author 杨志宇
          */
         function delOk(obj, k) {
             if (k <= 0) {

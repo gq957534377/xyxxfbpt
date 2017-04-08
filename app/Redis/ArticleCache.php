@@ -1,7 +1,7 @@
 <?php
 /**
  * article redis 缓存仓库
- * @author lw  beta
+ * @author 郭庆  beta
  */
 namespace App\Redis;
 
@@ -127,7 +127,7 @@ class ArticleCache extends MasterCache
      * 从左边写入redis
      * @param $data
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function insertLeftCache($data)
     {

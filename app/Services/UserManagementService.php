@@ -41,7 +41,7 @@ class userManagementService
      * @param $table 要查询的数据仓库
      * @param $where    查询条件
      * @return int 返回数据的条数
-     * @author lw
+     * @author 郭庆
      */
     public function getCount($table, $where)
     {
@@ -73,7 +73,7 @@ class userManagementService
      * @param $nowPage  当天页
      * @param $pageNums     每页显示的数据条数
      * @return array    返回的数据列表
-     * @author lw
+     * @author 郭庆
      */
     public function getTypelist($table, $where, $nowPage, $pageNums)
     {
@@ -101,7 +101,7 @@ class userManagementService
     /**
      * user类型参数规则
      * @return array 返回请求的参数匹配规则
-     * @author lw
+     * @author 郭庆
      */
     public function userRoles()
     {
@@ -146,7 +146,7 @@ class userManagementService
      * @param $pageNums     每页条数
      * @param $search       查询字符串
      * @return string   返回拼装好的HTML字符串
-     * @author lw
+     * @author 郭庆
      */
     public function paramHandle($url, $count, $nowPage, $pageNums, $search)
     {
@@ -182,7 +182,7 @@ class userManagementService
      * @param $where array、 用户guid
      * @param $status  array  要修改的状态
      * @return bool  修改成功为真  失败假
-     * @author lw
+     * @author 郭庆
      */
     public function changeStatus($where, $status)
     {

@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: 张洵之
+ * User: 杨志宇
  * Date: 2016/11/2
  * Time: 10:59
  */
@@ -17,7 +17,7 @@ class UploadService
      *
      * $param  object $userStore
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
      public function uploadFile($file)
     {
@@ -43,7 +43,7 @@ class UploadService
      * 判断上传文件是否可以上传
      *
      * @return bool
-     * @ auther 张洵之
+     * @ auther 杨志宇
      */
     private function checkFile($file)
     {
@@ -62,7 +62,7 @@ class UploadService
      * 文件重命名
      *
      * @return string
-     * @auther 张洵之
+     * @auther 杨志宇
      */
     private function reName($endname)
     {

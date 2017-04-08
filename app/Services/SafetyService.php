@@ -20,7 +20,7 @@ class SafetyService extends MasterCache
      * 把IP写入指定的set中
      * @param $ip
      * @return bool false代表写入失败，黑名单中已存在，true代表成功
-     * @author 王通
+     * @author 杨志宇
      */
     public function saveIpInSet($setKey, $ip)
     {
@@ -31,7 +31,7 @@ class SafetyService extends MasterCache
      * 检查IP有没有存在于set中
      * @param $ip 要判断的ip
      * @return bool    true 代表已经被加入黑名单，false，没有被加入黑名单
-     * @author 王通
+     * @author 杨志宇
      */
     public function checkIpInSet($setKey, $ip)
     {
@@ -48,7 +48,7 @@ class SafetyService extends MasterCache
     /**
      * 得到string的值
      * @param $key
-     * @author 王通
+     * @author 杨志宇
      */
     public function getString($key)
     {
@@ -70,7 +70,7 @@ class SafetyService extends MasterCache
      * 得到list记录条数
      * @param $key
      * @return bool|int
-     * @author 王通
+     * @author 杨志宇
      */
     public function getLLen ($key)
     {
@@ -94,7 +94,7 @@ class SafetyService extends MasterCache
      * 设置同一个IP访问多少次显示验证码
      * @param $key
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function getCountIp($key)
     {
@@ -109,7 +109,7 @@ class SafetyService extends MasterCache
     /**
      * 请求数量，以及通过sessionID验证
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @author 王通
+     * @author 杨志宇
      */
     public static function session_number($tmp)
     {
@@ -124,7 +124,7 @@ class SafetyService extends MasterCache
      * 通过IP请求数量验证
      * @param $ip
      * @return bool  false代表可以请求，true代表疑似攻击，不能请求
-     * @author 王通
+     * @author 杨志宇
      */
     public static function number($ip, $num, $name = '接口名')
     {
@@ -146,7 +146,7 @@ class SafetyService extends MasterCache
      * 把IP加入黑名单
      * @param $ip
      * @return bool false代表写入失败，黑名单中已存在，true代表成功
-     * @author 王通
+     * @author 杨志宇
      */
     public static function addIpBlackList($ip)
     {
@@ -158,7 +158,7 @@ class SafetyService extends MasterCache
      * 防止快速刷新
      * @param $ip
      * @return bool  false代表可以请求，true代表疑似攻击，不能请求
-     * @author 王通
+     * @author 杨志宇
      */
     public static function preventFastRefresh($ip)
     {
@@ -198,7 +198,7 @@ class SafetyService extends MasterCache
      * @param $ip
      * @param $code
      * @return bool  false代表可以请求，true代表疑似攻击，不能请求
-     * @author 王通
+     * @author 杨志宇
      */
     public static function checkIpSMSCode($ip, $code)
     {
@@ -247,7 +247,7 @@ class SafetyService extends MasterCache
      * @param $ip
      * @param $code
      * @return bool  false代表可以请求，true代表疑似攻击，不能请求
-     * @author 王通
+     * @author 杨志宇
      */
     public static function checkPhoneSMSCode($ip, $code)
     {
@@ -297,7 +297,7 @@ class SafetyService extends MasterCache
      * @param $key          请求接口的名称
      * @param $content      请求的内容
      * @param $number       限制请求的数量
-     * @author 王通
+     * @author 杨志宇
      */
     public static function checkSqlNum($key, $content, $number)
     {

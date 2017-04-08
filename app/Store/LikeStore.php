@@ -116,7 +116,7 @@ class LikeStore{
      * @param array $where  查询条件
      * @param string $field 字段名
      * @return mixed
-     * author 张洵之
+     * author 杨志宇
      */
     public function getLikeStatus($where, $field)
     {

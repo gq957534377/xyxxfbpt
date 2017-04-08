@@ -27,7 +27,7 @@ class LoginController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
-     * @modify 王通
+     * @modify 杨志宇
      */
     public function index()
     {
@@ -50,7 +50,7 @@ class LoginController extends Controller
      * 修改密码界面
      *
      * @return \Illuminate\Http\Response
-     * @author 王通
+     * @author 杨志宇
      */
     public function create()
     {
@@ -64,8 +64,8 @@ class LoginController extends Controller
      * 登录校验
      *
      * @param  \Illuminate\Http\Request $request
-     * @author 刘峻廷
-     * @modify 王通
+     * @author 郭庆
+     * @modify 杨志宇
      */
     public function store(Request $request)
     {
@@ -135,7 +135,7 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
-     * @author 王通
+     * @author 杨志宇
      */
     public function update(Request $request, $id)
     {
@@ -171,7 +171,7 @@ class LoginController extends Controller
      * 获取图片验证码
      * @param $tmp
      * @return \Gregwar\Captcha\PhraseBuilder|null|string
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function captcha()
     {
@@ -185,7 +185,7 @@ class LoginController extends Controller
     /**
      * 登出
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function logout()
     {
@@ -197,7 +197,7 @@ class LoginController extends Controller
      * 发送短信验证码短信
      * @param  int $id
      * @return \Illuminate\Http\Response
-     * @author 王通
+     * @author 杨志宇
      */
     public function sendSms(Request $request, $id)
     {

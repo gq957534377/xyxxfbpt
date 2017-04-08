@@ -120,7 +120,7 @@ class CollegeStore
      * @param $type
      * @param int $number
      * @return mixed
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function takeActions($where,$number)
     {
@@ -132,7 +132,7 @@ class CollegeStore
      * @param $where
      * @param $number
      * @return mixed
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function takeSchoolData($number)
     {
@@ -202,7 +202,7 @@ class CollegeStore
      * @param $where
      * @param $number
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function RandomActions($number, $start)
     {

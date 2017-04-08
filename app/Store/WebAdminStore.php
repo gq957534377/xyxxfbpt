@@ -18,7 +18,7 @@ class WebAdminStore
      * 更新网站管理表数据
      * @param $data
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function saveWebAdmin($data)
     {
@@ -30,7 +30,7 @@ class WebAdminStore
      * 软删除旧信息
      * @param $data
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function delWebAdmin($id)
     {
@@ -58,7 +58,7 @@ class WebAdminStore
     /**
      * 得到表中未被软删除的数据
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function getConfig()
     {
@@ -71,7 +71,7 @@ class WebAdminStore
     /**
      * 查询网站基本信息
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function getWebInfo()
     {
@@ -83,7 +83,7 @@ class WebAdminStore
     /**
      * 得到指定id的数据
      * @param
-     * @author 王通
+     * @author 杨志宇
      */
     public function getOneWebInfo ($where)
     {

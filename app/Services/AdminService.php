@@ -23,7 +23,7 @@ class AdminService {
      * 用户注册
      * @param array $data
      * @return string
-     * @auther 刘峻廷
+     * @auther 郭庆
      */
     public static function addUser($data)
     {
@@ -50,7 +50,7 @@ class AdminService {
      * 登录验证并更新登录时间和IP
      * @param $data
      * @return string
-     * @auther 刘峻廷
+     * @auther 郭庆
      */
     public function loginCheck($data){
         //先进行密码加密

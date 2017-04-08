@@ -19,7 +19,7 @@ class ActionStore
      * 插入数据
      * @param $data
      * @return null
-     * author 张洵之
+     * author 杨志宇
      */
     public function insertData($data)
     {
@@ -43,7 +43,7 @@ class ActionStore
      * @param $tolPage
      * @param $where
      * @return null
-     * author 张洵之
+     * author 杨志宇
      */
     public function forPage($page, $tolPage, $where)
     {
@@ -86,7 +86,7 @@ class ActionStore
      * @param $where
      * @param $data
      * @return null
-     * author 张洵之
+     * author 杨志宇
      */
     public function upload($where, $data)
     {
@@ -108,7 +108,7 @@ class ActionStore
      * @param $type
      * @param int $number
      * @return mixed
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function takeActions($where,$number)
     {
@@ -167,7 +167,7 @@ class ActionStore
      * @param $where
      * @param $number
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function RandomActions($number, $start)
     {

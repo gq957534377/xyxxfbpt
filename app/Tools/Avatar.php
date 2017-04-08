@@ -11,7 +11,7 @@ class Avatar{
      * 上传用户头像
      * @param $data
      * @return array|\Illuminate\Http\JsonResponse
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public static function avatar($data)
     {

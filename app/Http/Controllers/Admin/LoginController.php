@@ -49,7 +49,7 @@ class LoginController extends Controller
      * 后台登录
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function store(Request $request)
     {
@@ -130,7 +130,7 @@ class LoginController extends Controller
 
     /**
      * 返回验证码
-     * @auther 刘峻廷
+     * @auther 郭庆
      */
     public function captcha($tmp)
     {
@@ -139,7 +139,7 @@ class LoginController extends Controller
 
     /**
      * 登出
-     * @author 王飞龙
+     * @author 杨志宇
      */
     public function logout()
     {

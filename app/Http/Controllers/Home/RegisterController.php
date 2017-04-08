@@ -26,8 +26,8 @@ class RegisterController extends Controller
     }
 
     /**
-     * @author 刘峻廷
-     * @modify 王通
+     * @author 郭庆
+     * @modify 杨志宇
      */
     public function index()
     {
@@ -56,8 +56,8 @@ class RegisterController extends Controller
      * 注册新用户
      * @param Request $request
      * @return string
-     * @author 刘峻廷
-     * @modify 王通
+     * @author 郭庆
+     * @modify 杨志宇
      */
     public function store(Request $request)
     {
@@ -152,7 +152,7 @@ class RegisterController extends Controller
      * @param $num
      * @param $page
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     * @author jacklin
+     * @author 郭庆
      */
     public function getCaptcha($num, $page)
     {

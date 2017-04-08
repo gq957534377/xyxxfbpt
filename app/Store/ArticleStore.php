@@ -44,7 +44,7 @@ class ArticleStore
      * 获取IN数组中对应的用户账户，
      *
      * @return \Illuminate\Http\Response
-     * @author 王通
+     * @author 杨志宇
      */
     public function getDataUserId($where)
     {
@@ -112,7 +112,7 @@ class ArticleStore
      * @param $where
      * @param $data
      * @return null
-     * author 王通
+     * author 杨志宇
      */
     public function updataAll($where, $data)
     {
@@ -132,7 +132,7 @@ class ArticleStore
      * 得到指定状态的数量
      * @param $where
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function getCount($where)
     {
@@ -145,7 +145,7 @@ class ArticleStore
      * 获取一条数据
      *@param array $where
      * @return \Illuminate\Http\Response
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function getOneDatas($where)
     {
@@ -157,7 +157,7 @@ class ArticleStore
      * @param $where
      * @param $number
      * @return mixed
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function takeArticles($where, $number)
     {
@@ -174,7 +174,7 @@ class ArticleStore
      * @param int $number 取出的条数
      * @param int $start 开始的位置
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function RandomArticles($where, $number, $start)
     {
@@ -188,7 +188,7 @@ class ArticleStore
     /**
      * 获取所有文章列表
      * @return mixed
-     * @author lw beta
+     * @author 郭庆 beta
      */
     public function getAllArticle()
     {

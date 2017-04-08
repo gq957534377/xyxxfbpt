@@ -50,7 +50,7 @@ class UserService
      * 获取用户信息
      * @param $where
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function userInfo($where)
     {
@@ -65,8 +65,8 @@ class UserService
      * 注册用户
      * @param $data
      * @return string
-     * @author 刘峻廷
-     * @modify 王通
+     * @author 郭庆
+     * @modify 杨志宇
      */
     public function addUser($data)
     {
@@ -125,7 +125,7 @@ class UserService
      * 注册用户 旧
      * @param $data
      * @return string
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function addUserOld($data)
     {
@@ -192,8 +192,8 @@ class UserService
      * 用户登录
      * @param array $data
      * @return string
-     * @auther 刘峻廷
-     * @modify 王通
+     * @auther 郭庆
+     * @modify 杨志宇
      */
     public function loginCheck($data)
     {
@@ -259,7 +259,7 @@ class UserService
      * 忘记密码的情况，修改密码
      * @param $data
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function talChangePassword($data)
     {
@@ -291,8 +291,8 @@ class UserService
      * 发送短信，时间间隔验证
      * @param $phone
      * @return string
-     * @author 刘峻廷
-     * @modify 王通
+     * @author 郭庆
+     * @modify 杨志宇
      */
     public function sendSmsCode($phone)
     {
@@ -341,7 +341,7 @@ class UserService
      * @param $where
      * @param $data
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function updataUserInfo($where, $data)
     {
@@ -363,7 +363,7 @@ class UserService
      * @param $where
      * @param $data
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function avatar($guid, $avatarName)
     {
@@ -386,7 +386,7 @@ class UserService
      * 账号密码修改
      * @param object $request
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function changePassword($request)
     {
@@ -426,7 +426,7 @@ class UserService
      * 发送Email
      * @param object $request
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function sendEmail($request)
     {
@@ -467,7 +467,7 @@ class UserService
      * @param $data
      * @param $guid
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function changeEmail($where, $data)
     {
@@ -510,7 +510,7 @@ class UserService
      * @param $data
      * @param $guid
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function changeTel($guid, $data)
     {
@@ -544,7 +544,7 @@ class UserService
      * 获取账号信息
      * @param $where
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function accountInfo($where)
     {
@@ -600,7 +600,7 @@ class UserService
      * 添加公司
      * @param $data
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function addCompany($data)
     {
@@ -623,7 +623,7 @@ class UserService
      * 获取公司信息
      * @param $where
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function getCompany($where)
     {
@@ -640,7 +640,7 @@ class UserService
     /**
      * 获取图片验证码
      *
-     * @author jacklin
+     * @author 郭庆
      */
     public function getCaptcha($page)
     {

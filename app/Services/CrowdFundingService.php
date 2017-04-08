@@ -29,7 +29,7 @@ class CrowdFundingService
      * 返回众筹首页所需动态数据
      *
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function dynamicDataIndex()
     {
@@ -79,7 +79,7 @@ class CrowdFundingService
      * 返回众筹列表页所需动态数据
      *@param object $request
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function dynamicDataList($id,$request)
     {
@@ -124,7 +124,7 @@ class CrowdFundingService
      * 判断请求信息类型
      * @param $id
      *@return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function AdminShow($id)
     {
@@ -152,7 +152,7 @@ class CrowdFundingService
      * 查询众筹项目资料
      * @param $projectId
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function publish($projectId,$status)
     {
@@ -171,7 +171,7 @@ class CrowdFundingService
      * 查询项目资金详情
      * @param $projectId
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function revise($projectId)
     {
@@ -189,7 +189,7 @@ class CrowdFundingService
      * 下架方法
      * @param $projectId
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     function close($projectId){
         $where = ['project_id' => $projectId];
@@ -208,7 +208,7 @@ class CrowdFundingService
      * 执行众筹发布
      * @param $request
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function startCrowdFuding($request)
     {
@@ -232,7 +232,7 @@ class CrowdFundingService
      * 修改众筹表
      * @param $request
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function reviseCrowdFunding($request)
     {
@@ -261,7 +261,7 @@ class CrowdFundingService
      * 生成分页样式
      * @param $request
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function forPage($request)
     {
@@ -300,7 +300,7 @@ class CrowdFundingService
      * @param $data
      * @param $myStatus
      * @return null
-     * author 张洵之
+     * author 杨志宇
      */
     public function forPageHtml($data,$myStatus)
     {
@@ -323,7 +323,7 @@ class CrowdFundingService
     /**
      * 查看可发布项目的标题
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function selectPublish()
     {
@@ -341,7 +341,7 @@ class CrowdFundingService
      * 创建发布众筹项目；
      * @param array $data
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function insertCrowdFunding($data,$project_status)
     {
@@ -369,7 +369,7 @@ class CrowdFundingService
      * @param $request
      * @param $id
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function serverRoute($request,$id)
     {
@@ -387,7 +387,7 @@ class CrowdFundingService
      * 创建存储数据
      * @param $request
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function createUplodData($request)
     {
@@ -412,7 +412,7 @@ class CrowdFundingService
      * 创建众筹项目
      * @param $request
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function insertCrowd($request)
     {
@@ -439,7 +439,7 @@ class CrowdFundingService
      * 重新发布众筹数据
      * @param $request
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function updataCrowd($request)
     {
@@ -463,7 +463,7 @@ class CrowdFundingService
      * 获取详情页数据
      * @param $project_id
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function crowdContent($project_id)
     {
@@ -483,7 +483,7 @@ class CrowdFundingService
      * @param $id
      * @param $request
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function insertCapital($id,$request)
     {

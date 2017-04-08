@@ -24,7 +24,7 @@ class SendController extends Controller
      * 展示我的投稿页面
      *
      * @return
-     * @author 王通
+     * @author 杨志宇
      */
     public function index(Request $request)
     {
@@ -105,7 +105,7 @@ class SendController extends Controller
      *
      * @return array
      * @author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public function store(Request $request)
     {
@@ -167,7 +167,7 @@ class SendController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      * @author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public function show($id)
     {
@@ -231,7 +231,7 @@ class SendController extends Controller
      * js得到文章信息
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @author 王通
+     * @author 杨志宇
      */
     public function getArticleInfo(Request $request)
     {

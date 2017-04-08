@@ -56,7 +56,7 @@ class CommentAndLikeService
      * @param array $where 查询条件
      * @param int $page 页码
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getForPageUserComment($where, $page)
     {
@@ -73,7 +73,7 @@ class CommentAndLikeService
      * @param string $id 内容id
      * @param int $type 内容类型 1-文章；2-项目；3-活动；
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getContentInContentId($id,$type)
     {
@@ -110,7 +110,7 @@ class CommentAndLikeService
      * 数据解封包
      * @param array $data 要被解封包的数据
      * @return null
-     * author 张洵之
+     * author 杨志宇
      */
     public function openData($data)
     {
@@ -124,7 +124,7 @@ class CommentAndLikeService
      * @param array $where 查询条件
      * @param string $table 表名
      * @return mixed
-     * author 张洵之
+     * author 杨志宇
      */
     public function forPage( $request, $where, $table)
     {
@@ -138,7 +138,7 @@ class CommentAndLikeService
      *为每条数据添加与之相关的内容数据
      * @param array $commentData 评论数据
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getContents($commentData)
     {
@@ -164,7 +164,7 @@ class CommentAndLikeService
      * @param int $page 页码
      * @param object $request Request对象
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getCommentsTitles($page, $request)
     {
@@ -197,7 +197,7 @@ class CommentAndLikeService
      * @param array $where 查询条件
      * @param int $page  页码
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getLikeData($where, $page)
     {
@@ -213,7 +213,7 @@ class CommentAndLikeService
      * @param int $page 页码
      * @param object $request Request对象
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getLikesTitles($page, $request)
     {
@@ -249,8 +249,8 @@ class CommentAndLikeService
      * @param array $data 前台数据
      * @return array
      * @author 郭庆
-     * @modify 王通
-     * @modify 张洵之
+     * @modify 杨志宇
+     * @modify 杨志宇
      */
     public  function comment($data)
     {
@@ -280,7 +280,7 @@ class CommentAndLikeService
      * @param string $acricle_id   文章ID
      * @param string $user_id  用户ID
      * @return int $time  时间戳
-     * @author 王通
+     * @author 杨志宇
      */
     public  function getUserCommentTime ($acricle_id, $user_id)
     {
@@ -297,7 +297,7 @@ class CommentAndLikeService
      * @param string $time 评论发布日期
      * @param string $content   评论内容
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getUserCommentData($time,$content)
     {
@@ -317,7 +317,7 @@ class CommentAndLikeService
      * @param int|string $contentId 内容ID
      * @param int $page 页码
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getComent($contentId, $page)
     {
@@ -352,7 +352,7 @@ class CommentAndLikeService
      * 为评论数据添加该数据有关用户信息数据
      * @param array $commentData 评论数据
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function addUserInfo($commentData)
     {
@@ -380,7 +380,7 @@ class CommentAndLikeService
      * @param string $userId 用户id
      * @param string $contentId 内容id
      * @return bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function likeStatus($userId, $contentId)
     {
@@ -407,7 +407,7 @@ class CommentAndLikeService
      * 查询用户上次与本次操作间隔是否合法
      * @param array $where 查询条件
      * @return bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function likeTime($where)
     {
@@ -429,7 +429,7 @@ class CommentAndLikeService
      * @param string $contentId 内容ID
      * @param int $type 点赞外联属性 1-文章；2-项目；3-活动；
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function changeLike($contentId, $type)
     {
@@ -472,7 +472,7 @@ class CommentAndLikeService
      * 统计某个内容点赞数量
      * @param string|int $contentId 内容ID
      * @return int
-     * author 张洵之
+     * author 杨志宇
      */
     public function likeCount($contentId)
     {
@@ -486,7 +486,7 @@ class CommentAndLikeService
      * 统计评论数量
      * @param string|int $contentId 内容ID
      * @return int
-     * author 张洵之
+     * author 杨志宇
      */
     public function commentCount($where)
     {
@@ -499,7 +499,7 @@ class CommentAndLikeService
      * @param string $id 内容id
      * @param int $nowPage 当前页
      * @return string
-     * author 张洵之
+     * author 杨志宇
      */
     public function getPageStyle($id,$nowPage)
     {

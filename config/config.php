@@ -9,7 +9,7 @@ define('PAGENUM', 5);//评论页数据
  * 作用： 限制指定可以超时
  *
  * VALUE =  INT  代表时间秒数
- * @author 王通
+ * @author 杨志宇
  */
 define('REDIS_FEEDBACK_LIFE_TIME', 3599 * 24);
 /**
@@ -18,7 +18,7 @@ define('REDIS_FEEDBACK_LIFE_TIME', 3599 * 24);
  * 作用： 限制写入数据库的数量
  *
  * VALUE =  NUM   代表条数
- * @author 王通
+ * @author 杨志宇
  */
 define('REDIS_FEEDBACK_WARNING', 200);
 /**
@@ -27,7 +27,7 @@ define('REDIS_FEEDBACK_WARNING', 200);
  * 作用： 限制写入数据库的数量
  *
  * VALUE =  NUM   代表条数
- * @author 王通
+ * @author 杨志宇
  */
 define('REDIS_FEEDBACK_WARNING_FILE', 500);
 

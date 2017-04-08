@@ -31,7 +31,7 @@ class CommentCache extends MasterCache
      * 返回某条内容下的评论数量
      * @param  string $contentId 内容ID
      * @return bool|string
-     * author 张洵之
+     * author 杨志宇
      */
     public function getCommentNum($contentId)
     {
@@ -52,7 +52,7 @@ class CommentCache extends MasterCache
      * @param int $nowPage
      * @param string $contentId
      * @return array|null
-     * author 张洵之
+     * author 杨志宇
      */
     public function getCacheIndex($nowPage, $contentId)
     {
@@ -68,7 +68,7 @@ class CommentCache extends MasterCache
      * 创建缓存索引
      * @param string $contentId 详情页guid
      * @return bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function createIndex($contentId)
     {
@@ -85,7 +85,7 @@ class CommentCache extends MasterCache
      * 创建评论详情的hash缓存
      * @param object $data
      * @return bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function createCache($data)
     {
@@ -101,7 +101,7 @@ class CommentCache extends MasterCache
      * 拼装一条评论数据
      * @param int $id 评论id
      * @return \App\Store\one|bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function getCommentData($id)
     {
@@ -127,7 +127,7 @@ class CommentCache extends MasterCache
      * 拿取评论数据
      * @param array $data 索引数组
      * @return array|bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function getCache($data)
     {
@@ -161,7 +161,7 @@ class CommentCache extends MasterCache
      * 增加评论缓存索引数据
      * @param int $id 评论id
      * @param string $contentId 内容guid
-     * author 张洵之
+     * author 杨志宇
      */
     public function insertIndex($id, $contentId)
     {

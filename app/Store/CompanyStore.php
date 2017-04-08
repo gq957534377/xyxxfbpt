@@ -17,7 +17,7 @@ class CompanyStore{
      * 添加一条数据
      * @param $data
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public static function addOneData($data)
     {
@@ -30,7 +30,7 @@ class CompanyStore{
      * 获取指定一条数据
      * @param $where
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public static function getOneData($where)
     {
@@ -43,7 +43,7 @@ class CompanyStore{
      * @param $where  string  用户guid
      * @param $status  array  要修改的状态
      * @return bool
-     *@author lw
+     *@author 郭庆
      */
     public function changeStatus($where, $status)
     {

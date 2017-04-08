@@ -30,7 +30,7 @@ class WebAdminService
     /**
      * 得到所有的配置表数据
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getAllWebConf ()
     {
@@ -55,7 +55,7 @@ class WebAdminService
      * 更新WebAdmin 配置表
      * @param $data
      * @return array
-     * $author 王通
+     * $author 杨志宇
      */
     public function saveWebAdmin ($data)
     {
@@ -115,7 +115,7 @@ class WebAdminService
      * 图片上传到七牛
      * @param $request
      * @return array|\Illuminate\Http\JsonResponse
-     * @author 王通
+     * @author 杨志宇
      */
     public function uploadImg ($request, $field)
     {
@@ -141,7 +141,7 @@ class WebAdminService
     /**
      * 得到页面基本信息
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getWebInfo ()
     {

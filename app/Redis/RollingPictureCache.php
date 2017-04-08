@@ -23,7 +23,7 @@ class RollingPictureCache extends MasterCache
     /** 单例引入
      *
      * @param WebAdminService $webAdminService
-     * @author 王通
+     * @author 杨志宇
      */
     public function __construct(RollingPictureStore $rollingPictureStore)
     {
@@ -59,7 +59,7 @@ class RollingPictureCache extends MasterCache
     /**
      * 取出哈希中的值
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function selRedisInfo()
     {
@@ -93,7 +93,7 @@ class RollingPictureCache extends MasterCache
     /**
      * 取出轮播图数据
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getRollingPictureRedis()
     {

@@ -48,7 +48,7 @@ class Common {
      * @param string $str 自定义string
      * @param int $position 截取位置
      * @return string
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public static function cryptString($tel, $pass, $str = 'twitch', $position = 5)
     {
@@ -64,7 +64,7 @@ class Common {
      * @param $tmp
      * @param $model
      * @return PhraseBuilder|null|string
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public static function captcha()
     {
@@ -101,7 +101,7 @@ class Common {
     /**
      * 返回静态验证码图片
      * @return string
-     * @author 王通
+     * @author 杨志宇
      */
     public static function captchaStatus()
     {
@@ -119,7 +119,7 @@ class Common {
      * @param $smsFreeSignName  兄弟会
      * @param $tmeplateCode     SMS_25700502
      * @return false|object
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public static function sendSms($phone,$setSmsParam)
     {
@@ -156,7 +156,7 @@ class Common {
      * @param  (string|null) $filed 要做集合查询的字段
      * @param  array $where 被查询的集合||查询条件
      * @return mixed(array | false)
-     * @author 张洵之
+     * @author 杨志宇
      */
     public static function  getPageUrls($data, $table, $url, $n,$filed,$where)
     {
@@ -237,7 +237,7 @@ class Common {
      *
      * @return string
      *
-     * @author 郭鹏超
+     * @author 郭庆
      */
     public static function generateCookie($key)
     {
@@ -254,7 +254,7 @@ class Common {
      *
      * @param $key
      *
-     * @author 王通
+     * @author 杨志宇
      */
     public static function checkCookie($key, $msg)
     {
@@ -279,7 +279,7 @@ class Common {
      * @param string $type
      * @return bool
      *
-     * @author 王通
+     * @author 杨志宇
      */
 
     public static function writeFile($content, $type = '')
@@ -307,8 +307,8 @@ class Common {
      * 返回静态图片的验证码
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
-     * @author 郭鹏超
-     * @author jacklin
+     * @author 郭庆
+     * @author 郭庆
      */
     public static function CaptchaImg()
     {

@@ -37,7 +37,7 @@ class ProjectService {
      * @param $where
      * @return array
      * @author 贾济林
-     * @modify 张洵之
+     * @modify 杨志宇
      */
     public function getData($nowPage,$pageNum, $where)
     {
@@ -58,8 +58,8 @@ class ProjectService {
      * 随机拿取指定条数 数据
      * @param int $number 默认3条
      * @return array
-     * @author 刘峻廷
-     * @modify 张洵之
+     * @author 郭庆
+     * @modify 杨志宇
      */
     public function takeData($number = 3)
     {
@@ -79,7 +79,7 @@ class ProjectService {
      * @param $data
      * @return array
      * @author 贾济林
-     * @modify 张洵之
+     * @modify 杨志宇
      */
     public function changeStatus($data)
     {
@@ -110,7 +110,7 @@ class ProjectService {
      * @param $status
      * @return array
      * @author 贾济林
-     * @modify 张洵之
+     * @modify 杨志宇
      */
     public function getPage($nowpage, $num, $status)
     {
@@ -128,7 +128,7 @@ class ProjectService {
      * 取出详情数据
      * @param string $id 项目guid
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getProject($id)
     {
@@ -183,7 +183,7 @@ class ProjectService {
      * @param $where
      * @param $data
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function deletProject($where)
     {
@@ -200,7 +200,7 @@ class ProjectService {
      * 向项目信息表添加数据
      * @param $data
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function addProjects($data)
     {
@@ -221,7 +221,7 @@ class ProjectService {
      * @param string $tab1 一级分隔符
      * @param string $tab2 二级分隔符
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function openData($str, $tab1, $tab2)
     {
@@ -238,7 +238,7 @@ class ProjectService {
      * 返回条件下的项目数量
      * @param $where
      * @return mixed
-     * author 张洵之
+     * author 杨志宇
      */
     public function getCount($where)
     {
@@ -251,7 +251,7 @@ class ProjectService {
      * 返回一条数据(用于用户项目的修改)
      * @param $where
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getOneData($where)
     {
@@ -278,7 +278,7 @@ class ProjectService {
      * @param $guid
      * @param $status
      * @return mixed
-     * author 张洵之
+     * author 杨志宇
      */
     public function changeCache($guid, $status)
     {
@@ -295,7 +295,7 @@ class ProjectService {
      * 创建缓存
      * @param $guid
      * @return bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function createCache($guid)
     {
@@ -308,7 +308,7 @@ class ProjectService {
      * 删除缓存
      * @param $guid
      * @return bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function deleltCache($guid)
     {

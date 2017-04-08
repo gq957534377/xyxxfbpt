@@ -36,7 +36,7 @@ class OpenIMService
     /**
      * 保存IM信息
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function saveIM()
     {
@@ -47,7 +47,7 @@ class OpenIMService
      * 获取指定ID用户的IM信息
      * @param $id
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getOpenIM($uid, $nick, $icon_url, $mobile)
     {
@@ -89,7 +89,7 @@ class OpenIMService
      * 把用户信息写入到IMservice
      *
      *
-     * @author 王通
+     * @author 杨志宇
      */
     public function userToIM($userid, $password, $nick, $icon_url, $mobile)
     {

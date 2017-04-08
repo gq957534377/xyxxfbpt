@@ -17,7 +17,7 @@ class UserStore
      * 查询用户信息
      * @param $where
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function getOneData($where)
     {
@@ -28,7 +28,7 @@ class UserStore
      * 添加用户信息
      * @param array $data
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function addUserInfo($data)
     {
@@ -41,7 +41,7 @@ class UserStore
     /**
      * 统计当前有多少个用户
      * @return mixed
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function countUsers()
     {
@@ -53,7 +53,7 @@ class UserStore
      * @param array $where
      * @param array $data
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function updateUserInfo($where,$data)
     {
@@ -71,7 +71,7 @@ class UserStore
      * @param $tolPage
      *
      * @return mixed
-     * @author lw
+     * @author 郭庆
      */
     public function forPage($page, $tolPage, $where)
     {
@@ -86,7 +86,7 @@ class UserStore
     /**
      * @param $where 查询条件
      * @return bool 返回的条数
-     * @author lw
+     * @author 郭庆
      */
     public function getUserCount($where)
     {
@@ -99,7 +99,7 @@ class UserStore
      * @param $nowPage  当前页数
      * @param $pageNums     每页显示条数
      * @return array    用户列表
-     * @author lw
+     * @author 郭庆
      */
     public function getUserTypelist($where, $nowPage, $pageNums)
     {
@@ -116,7 +116,7 @@ class UserStore
      * @param $where  string  用户guid
      * @param $status  array  要修改的状态
      * @return bool
-     *@author lw
+     *@author 郭庆
      */
     public function changeStatus($where, $status)
     {

@@ -42,7 +42,7 @@ class UserController extends Controller
      * 显示个人中心页
      *
      * @return \Illuminate\Http\Response
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function index()
     {
@@ -63,7 +63,7 @@ class UserController extends Controller
     /**
      * 添加公司信息
      * @param Request $request
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function store(Request $request)
     {
@@ -112,7 +112,7 @@ class UserController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function show($id)
     {
@@ -141,8 +141,8 @@ class UserController extends Controller
     /**
      * 显示修改账号页面
      * @param $id
-     * @author 刘峻廷
-     * @modify 王通
+     * @author 郭庆
+     * @modify 杨志宇
      */
     public function edit($id)
     {
@@ -188,7 +188,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function update(Request $request, $id)
     {
@@ -227,7 +227,7 @@ class UserController extends Controller
     /**
      * 修改个人头像
      * @param Request $request
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function headpic(Request $request)
     {
@@ -257,7 +257,7 @@ class UserController extends Controller
     /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function uploadCard(Request $request)
     {
@@ -282,7 +282,7 @@ class UserController extends Controller
      * 修改账号密码
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function changePassword(Request $request)
     {
@@ -311,7 +311,7 @@ class UserController extends Controller
      * @param Request $request
      * @param $guid
      * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function changeEmail(Request $request)
     {
@@ -344,8 +344,8 @@ class UserController extends Controller
      * @param Request $request
      * @param $guid
      * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
-     * @modify 王通
+     * @author 郭庆
+     * @modify 杨志宇
      */
     public function changeTel(Request $request, $guid)
     {
@@ -405,8 +405,8 @@ class UserController extends Controller
      * 修改绑定手机，发送短信验证
      * @param $guid
      * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
-     * @author 王通
+     * @author 郭庆
+     * @author 杨志宇
      */
     public function sendSms(Request $request, $guid)
     {
@@ -449,7 +449,7 @@ class UserController extends Controller
 
     /**
      * Send Email for user
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function sendEmail(Request $request)
     {
@@ -472,7 +472,7 @@ class UserController extends Controller
      /**
      * 用户中心的点赞与评论
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * author 张洵之
+     * author 杨志宇
      */
     public function commentAndLike(Request $request)
     {
@@ -508,7 +508,7 @@ class UserController extends Controller
      * 我的点赞ajax数据请求接口
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * author 张洵之
+     * author 杨志宇
      */
     public function getLike(Request $request)
     {
@@ -520,7 +520,7 @@ class UserController extends Controller
     /**
      * 用户中心我的项目
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
-     * author 张洵之
+     * author 杨志宇
      */
     public function myProject(Request $request)
     {
@@ -560,7 +560,7 @@ class UserController extends Controller
      * 获取个人项目数
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function countProjects(Request $request)
     {
@@ -588,7 +588,7 @@ class UserController extends Controller
      * 获取用户真实姓名
      * @param $guid
      * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function getRealName($guid)
     {

@@ -15,7 +15,7 @@ class BaseRedis
      * @param $key
      * @param $val
      * @param int $time
-     * $author 王通
+     * $author 杨志宇
      */
     public static function setRedis ($key, $val)
     {
@@ -31,7 +31,7 @@ class BaseRedis
      * @param $key
      * @param $val
      * @param int $time
-     * $author 王通
+     * $author 杨志宇
      */
     public static function setexRedis ($key, $val, $time)
     {
@@ -48,7 +48,7 @@ class BaseRedis
      * @param $key
      * @param $val
      * @param int $time
-     * $author 王通
+     * $author 杨志宇
      */
     public static function getRedis ($key)
     {
@@ -64,7 +64,7 @@ class BaseRedis
      * 得到列表的长度
      * @param $key
      * @return bool|int
-     * @author 王通
+     * @author 杨志宇
      */
     public static function getLLen($key)
     {
@@ -80,7 +80,7 @@ class BaseRedis
      * @param $key
      * @param $index
      * @return bool|String
-     * @author 王通
+     * @author 杨志宇
      */
     public static function getListInIndex($key, $index)
     {
@@ -98,7 +98,7 @@ class BaseRedis
      * 制定键累加，并且返回当前累加的值
      * @param $key
      * @return int
-     * @author 王通
+     * @author 杨志宇
      */
     public static function incrRedis ($key)
     {
@@ -109,7 +109,7 @@ class BaseRedis
      * 验证指定KEY是否存在
      * @param $key
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public static function existsRedis ($key)
     {
@@ -120,7 +120,7 @@ class BaseRedis
      * 设置超时时间
      * @param $key
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public static function expireRedis ($key, $time)
     {
@@ -132,7 +132,7 @@ class BaseRedis
      * @param $key 集合的键值
      * @param $value  集合的值
      * @return mixed 返回0，表示失败，1表示成功
-     * @author 王通
+     * @author 杨志宇
      */
     public static function addSet ($key, $value)
     {
@@ -144,7 +144,7 @@ class BaseRedis
      * @param $key
      * @param $value
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public static function checkSet ($key, $value)
     {
@@ -157,7 +157,7 @@ class BaseRedis
      * @param $hashKey
      * @param $value
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public static function hSet($key, $hashKey, $value)
     {
@@ -169,7 +169,7 @@ class BaseRedis
      * @param $key
      * @param $hashKey1
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public static function hDel($key, $hashKey1)
     {
@@ -180,7 +180,7 @@ class BaseRedis
      * 得到指定redis集合的值
      * @param $key
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function selSet($key)
     {
@@ -191,7 +191,7 @@ class BaseRedis
      * 得到指定redis哈希的值
      * @param $key
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function selHGetAll($key)
     {
@@ -202,7 +202,7 @@ class BaseRedis
      * 删除指定的哈希字段
      * @param $key
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function delHash($key, $hashkey)
     {
@@ -212,7 +212,7 @@ class BaseRedis
     /**
      * 向列表中插入数据
      * @return int
-     * @author 王通
+     * @author 杨志宇
      */
     public function addRpush($key, $value)
     {
@@ -225,7 +225,7 @@ class BaseRedis
      * @param $start
      * @param $end
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function selRpush($key, $start, $end)
     {
@@ -237,7 +237,7 @@ class BaseRedis
      * @param $key
      * @param $hashKeys
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function selHMGet($key, $hashKeys)
     {
@@ -248,7 +248,7 @@ class BaseRedis
      * 获取列表的长度
      * @param $key
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function getHLenCount($key)
     {
@@ -259,7 +259,7 @@ class BaseRedis
      * 移除列表元素
      * @param $key
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function delLRem($key, $value, $count)
     {
@@ -270,7 +270,7 @@ class BaseRedis
      * 管道操作
      * @param $key
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function delPipeline($keyArr, $indexFeedback, $dataFeedback)
     {

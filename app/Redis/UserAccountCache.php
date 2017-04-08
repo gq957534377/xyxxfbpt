@@ -1,7 +1,7 @@
 <?php
 /**
  * 用户中心 redis 缓存仓库
- * @author 刘峻廷
+ * @author 郭庆
  */
 namespace App\Redis;
 
@@ -24,7 +24,7 @@ class UserAccountCache extends MasterCache
 //    /**
 //     * 用户账号写入List缓存
 //     * @param $data
-//     * @author 刘峻廷
+//     * @author 郭庆
 //     */
 //    public function setUserAccountList()
 //    {
@@ -42,7 +42,7 @@ class UserAccountCache extends MasterCache
 //    /**
 //     * 用户账号写入Hash缓存
 //     * @param $phone_number
-//     * @author 刘峻廷
+//     * @author 郭庆
 //     */
 //    public function userAccountHash($phone_number)
 //    {
@@ -68,7 +68,7 @@ class UserAccountCache extends MasterCache
 //    /**
 //     * 获取指定账号信息
 //     * @param $where
-//     * @author 刘峻廷
+//     * @author 郭庆
 //     */
 //    public function getOneAccount($phone_number)
 //    {
@@ -88,7 +88,7 @@ class UserAccountCache extends MasterCache
 //     * 写入一条hash 账户信息
 //     * @param $data
 //     * @return bool
-//     * @author 刘峻廷
+//     * @author 郭庆
 //     */
 //    public function setOneAccount($data)
 //    {
@@ -100,7 +100,7 @@ class UserAccountCache extends MasterCache
 //     * 添加一条新记录
 //     * @param $data
 //     * @return bool
-//     * @author 刘峻廷
+//     * @author 郭庆
 //     */
 //    public function insertOneAccount($data)
 //    {
@@ -122,7 +122,7 @@ class UserAccountCache extends MasterCache
 //     * @param $oldTel
 //     * @param $data
 //     * @return bool
-//     * @author 刘峻廷
+//     * @author 郭庆
 //     */
 //    public function changeOneAccount($oldTel, $data)
 //    {
@@ -143,7 +143,7 @@ class UserAccountCache extends MasterCache
     /**
      * String类型缓存账号 测试
      * @param string $phone_number
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function stringAccount($phone_number)
     {
@@ -167,7 +167,7 @@ class UserAccountCache extends MasterCache
      * 添加新的用户账号
      * @param $data
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function addNewAccount($data)
     {
@@ -185,7 +185,7 @@ class UserAccountCache extends MasterCache
      * @param $oldTel
      * @param $data
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function changeOneString($oldTel, $data)
     {

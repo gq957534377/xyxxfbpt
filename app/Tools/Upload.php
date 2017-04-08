@@ -51,7 +51,7 @@ class Upload{
      * 验证文件
      * @param $file
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     private static function checkFile($file)
     {
@@ -69,7 +69,7 @@ class Upload{
 
     /**
      * 文件重新命名
-     * @author 刘峻廷
+     * @author 郭庆
      */
     private static function reName($file)
     {
@@ -82,7 +82,7 @@ class Upload{
     /**
      * 文件存储位置
      * @param $type
-     * @author 刘峻廷
+     * @author 郭庆
      */
     private static function path()
     {

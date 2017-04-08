@@ -12,7 +12,7 @@ class AdminMiddleware
      * @param $request
      * @param Closure $next
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function handle($request, Closure $next)
     {

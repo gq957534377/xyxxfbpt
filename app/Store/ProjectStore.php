@@ -35,7 +35,7 @@ class ProjectStore {
      *拿取同一个字段下的所有数据
      * @param $where
      * @return mixed
-     * author 张洵之
+     * author 杨志宇
      */
     public function getList($where,$filed)
     {
@@ -45,7 +45,7 @@ class ProjectStore {
     /**
      * 随机拿取3条数据
      * @return mixed
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function takeData($number)
     {
@@ -76,7 +76,7 @@ class ProjectStore {
      * @param $status
      * @return mixed
      * author 贾济林
-     * @modify 张洵之
+     * @modify 杨志宇
      */
     public function getPage($nowPage, $pageNum, $where)
     {
@@ -92,7 +92,7 @@ class ProjectStore {
      * 获得指定集合内容
      * @param string $filed array $where
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getWhereIn($filed,$where)
     {
@@ -104,7 +104,7 @@ class ProjectStore {
     /**
      * 获取一条数据
      *@param array $where
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function getOneData($where)
     {
@@ -115,7 +115,7 @@ class ProjectStore {
      * 统计数量
      * @param array $where
      * @return mixed
-     * author 张洵之
+     * author 杨志宇
      */
     public function getCount($where)
     {

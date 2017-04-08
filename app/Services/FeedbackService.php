@@ -34,7 +34,7 @@ class FeedbackService
      * 保存反馈信息
      * @param $data
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function saveFeedback($data)
     {
@@ -81,7 +81,7 @@ class FeedbackService
      * @param $forPages
      * @param $url
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getFeedbackList($where, $nowPage, $forPages, $url, $disPlay = true)
     {
@@ -122,7 +122,7 @@ class FeedbackService
      * @param $forPages
      * @param $url
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getFeedbackListOld($nowPage, $forPages, $url)
     {
@@ -155,7 +155,7 @@ class FeedbackService
      * 删除多条意见
      * @param $key
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function delFeedback($keyArr)
     {

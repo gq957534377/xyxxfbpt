@@ -18,7 +18,7 @@ class ApplyInvestorStore
      * 根据指定条件，获取最新一条的记录
      * @param $where
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function getOneData($where)
     {
@@ -30,7 +30,7 @@ class ApplyInvestorStore
      * 添加一条记录
      * @param $data
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function addOneData($data)
     {
@@ -43,7 +43,7 @@ class ApplyInvestorStore
      * @param $where
      * @param $data
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function updataOneData($where, $data)
     {
@@ -54,7 +54,7 @@ class ApplyInvestorStore
     /**
      * @param $where 查询条件
      * @return bool 返回的条数
-     * @author lw
+     * @author 郭庆
      */
     public function getInvCount($where)
     {
@@ -67,7 +67,7 @@ class ApplyInvestorStore
      * @param $nowPage  当前页数
      * @param $pageNums     每页显示条数
      * @return array    用户列表
-     * @author lw
+     * @author 郭庆
      */
     public function getInvlist($where, $nowPage, $pageNums)
     {
@@ -83,7 +83,7 @@ class ApplyInvestorStore
      * @param $where  string  用户guid
      * @param $status  array  要修改的状态
      * @return bool
-     *@author lw
+     *@author 郭庆
      */
     public function changeStatus($where, $status)
     {

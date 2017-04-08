@@ -45,7 +45,7 @@ class SendStore
      * 获取IN数组中对应的数据
      *
      * @return \Illuminate\Http\Response
-     * @author 王通
+     * @author 杨志宇
      */
     public function getAllData($where)
     {
@@ -98,7 +98,7 @@ class SendStore
      * @param $where
      * @param $data
      * @return null
-     * author 王通
+     * author 杨志宇
      */
     public function updataAll($where, $data)
     {
@@ -118,7 +118,7 @@ class SendStore
      * 得到指定状态的数量
      * @param $where
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function getCount ($where)
     {
@@ -129,7 +129,7 @@ class SendStore
      * 获取一条数据
      *@param array $where
      * @return \Illuminate\Http\Response
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function getOneDatas($where)
     {

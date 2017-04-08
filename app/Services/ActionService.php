@@ -126,7 +126,7 @@ class ActionService
     /**
      * 检查日期是否合乎逻辑
      *
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function checkTime($data)
     {

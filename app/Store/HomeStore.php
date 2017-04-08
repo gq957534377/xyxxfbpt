@@ -17,7 +17,7 @@ class HomeStore {
      * 查询一条记录
      * @param array $where
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function getOneData($where)
     {
@@ -31,7 +31,7 @@ class HomeStore {
      * 添加一条数据
      * @param array $data
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function addData($data)
     {
@@ -46,7 +46,7 @@ class HomeStore {
      * @param array $where
      * @param array $data
      * @return bool
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function updateData($where,$data)
     {
@@ -60,7 +60,7 @@ class HomeStore {
      * @param $where string 需要启用或者禁用的用户ID
      * @param $status int  1 为启用  2为禁用
      * @return bool 成功true ，失败 false；
-     * @author lw
+     * @author 郭庆
      */
     public function changeStatus($where, $status)
     {
@@ -72,7 +72,7 @@ class HomeStore {
     /**
      * 获取所有账户
      * @return mixed
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function getAllData()
     {
@@ -82,7 +82,7 @@ class HomeStore {
     /**
      * 获取所有用户的账号  Tel
      * @return mixed
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function getAccounts()
     {

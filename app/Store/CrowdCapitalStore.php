@@ -19,7 +19,7 @@ class CrowdCapitalStore
      * 插入数据
      * @param $data
      * @return bool|null
-     * author 张洵之
+     * author 杨志宇
      */
     public function insertData($data)
     {
@@ -34,7 +34,7 @@ class CrowdCapitalStore
      * 基本条件查询
      * @param $where
      * @return null
-     * author 张洵之
+     * author 杨志宇
      */
     public function getData($where)
     {

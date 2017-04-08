@@ -132,7 +132,7 @@ class ActionController extends Controller
      * @param $request
      * @param $id
      * @author 郭庆
-     *@modify 张洵之
+     *@modify 杨志宇
      */
     public function show($id)
     {
@@ -179,7 +179,7 @@ class ActionController extends Controller
      * @param $id
      * @return array
      *
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function edit($id,Request $request)
     {

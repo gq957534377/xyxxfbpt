@@ -20,7 +20,7 @@ class PictureStore
      * 保存图片信息
      * @param $data array
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function savePicture ($data)
     {
@@ -31,7 +31,7 @@ class PictureStore
     /**
  * 得到指定类型的数据
  * @param $where
- * @author 王通
+ * @author 杨志宇
  */
     public function getPicture ($where)
     {
@@ -58,7 +58,7 @@ class PictureStore
      * 得到指定类型的数据 IN一次性获取
      * @param $where
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function getPictureIn ($where)
     {
@@ -72,7 +72,7 @@ class PictureStore
      * 得到所有未删除的数据
      * @param $where
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function getPictureAll ()
     {
@@ -85,7 +85,7 @@ class PictureStore
      * 删除指定ID的数据
      * @param $where
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function updatePic ($where, $field)
     {

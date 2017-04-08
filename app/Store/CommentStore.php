@@ -87,7 +87,7 @@ class CommentStore{
      * @param array $where
      * @param string $field
      * @return mixed
-     * author 张洵之
+     * author 杨志宇
      */
     public function getPageLists($nowPage,$where,$field)
     {
@@ -103,7 +103,7 @@ class CommentStore{
      * @param $action_id
      * @param $user_id
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function getCommentTime ($action_id, $user_id)
     {
@@ -119,7 +119,7 @@ class CommentStore{
      * 统计数量
      * @param array $where
      * @return mixed
-     * author 张洵之
+     * author 杨志宇
      */
     public function getCount($where)
     {
@@ -131,7 +131,7 @@ class CommentStore{
      * @param $where
      * @param $field
      * @return mixed
-     * author 张洵之
+     * author 杨志宇
      */
     public function getLists($where, $field)
     {

@@ -52,7 +52,7 @@ class NoticeService
      * @param $type 通知类型
      * @return array
      * @author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public static function selectByType($type)
     {
@@ -171,7 +171,7 @@ class NoticeService
      * @param string $url 请求的路由url
      * @param boolean $disPlay 是否需要分页样式
      * @return array
-     * author 王通
+     * author 杨志宇
      */
     public function selectArticle($where, $nowPage, $forPages, $url, $disPlay = true)
     {
@@ -213,7 +213,7 @@ class NoticeService
      * @param $nowPage  int   当前页
      * @param $type   数据的类型
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function selectArticleRedis($forPages, $nowPage, $type)
     {
@@ -232,7 +232,7 @@ class NoticeService
      * @param $guid
      * @return array  通知的信息，数组格式
      * author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public function getData($guid)
     {
@@ -263,7 +263,7 @@ class NoticeService
      * @param $user
      * @return array
      * author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public function changeStatus($guidAll, $status, $user = 1)
     {
@@ -404,7 +404,7 @@ class NoticeService
      * 分页查询 得到指定类型的数据
      * @param array $data 条件数组  主要['user_id' => 用户的GUID]
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function selectTypeDataNum($data)
     {
@@ -483,7 +483,7 @@ class NoticeService
     /**
      * 点赞
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function like($user_id, $id)
     {
@@ -513,7 +513,7 @@ class NoticeService
      * 把预览数据从缓存中取出
      * @param string $id GUID标识
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getCacheContribution($id)
     {
@@ -533,8 +533,8 @@ class NoticeService
      * @param int $take 通知条数
      * @param int $status 通知状态
      * @return array
-     * @author 刘峻廷
-     * @modify 王通
+     * @author 郭庆
+     * @modify 杨志宇
      */
     public function getTakeArticles($type, $take = 8, $status = 1)
     {
@@ -587,7 +587,7 @@ class NoticeService
      * @param int $take 随机通知的数量
      * @param int $status 通知状态
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getRandomArticles($type, $take = 4, $status = 1)
     {
@@ -608,7 +608,7 @@ class NoticeService
      * @param $type  string  '1'  or  '2'  获取数据的类型
      * @param $num   int   数量
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     protected function getRandomRedisArticle($type, $num)
     {
@@ -650,7 +650,7 @@ class NoticeService
      * @param $data  数组，['action_id' => '通知ID', 'user_id' => '用户ID', 'count '评论内容']
      * @return array
      * @author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public static function comment($data)
     {
@@ -680,7 +680,7 @@ class NoticeService
      * @param $status
      * @return array
      * @author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public static function getArticleByUser($id, $status)
     {

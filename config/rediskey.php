@@ -7,7 +7,7 @@
  *
  * KEY = LIST:ARTICLE:INFO:[类型]     类型：1 表示市场咨询，2，表示创业政策。
  * VALUE =  data_article_info  中的 每个文章的GUID，用来查询对应哈希中的数据
- * @author 王通
+ * @author 杨志宇
  */
 define('LIST_ARTICLE_INFO_', 'LIST:ARTICLE:INFO:');
 
@@ -19,7 +19,7 @@ define('LIST_ARTICLE_INFO_', 'LIST:ARTICLE:INFO:');
  *
  * KEY = HASH:ARTICLE:INFO:[GUID]     GUID 为指定文章的唯一标示。
  * VALUE =  data_article_info  表中每个文章的详细信息。
- * @author 王通
+ * @author 杨志宇
  */
 define('HASH_ARTICLE_INFO_', 'HASH:ARTICLE:INFO:');
 
@@ -27,7 +27,7 @@ define('HASH_ARTICLE_INFO_', 'HASH:ARTICLE:INFO:');
 
 /**
  * 项目融资阶段分类list
- * 作者：张洵之
+ * 作者：杨志宇
  * 作用：项目列表信息分类;
  * key = LIST:PROJECT:INFO:[（1--11）];
  * value = data_project_info表中的项目guid;
@@ -39,7 +39,7 @@ define('LIST_PROJECT_INFO_','LIST:PROJECT:INFO:');
 
 /**
  * 项目详情hash
- * 作者：张洵之
+ * 作者：杨志宇
  * 作用：data_project_info表中一条项目记录的Hash缓存
  * key= HASH:PROJECT:INFO:[guid]
  * value = data_project_info表中一条项目记录
@@ -51,7 +51,7 @@ define('HASH_PROJECT_INFO_','HASH:PROJECT:INFO:');
 
 /**
  * 评论string
- * 作者：张洵之
+ * 作者：杨志宇
  * 作用：存取一个详情页下的所有评论数量;
  * key = STRING:COMMENT:NUM:[内容guid];
  * value = 详情页下的所有评论数量;
@@ -62,7 +62,7 @@ define('STRING_COMMENT_NUM_','STRING:COMMENT:NUM:');
 
 /**
  * 评论list
- * 作者：张洵之
+ * 作者：杨志宇
  * 作用：用于评论索引;
  * key = LIST:COMMENT:INFO:[内容guid];
  * value = data_comment_info表中的主键id;
@@ -73,7 +73,7 @@ define('LIST_COMMENT_INFO_','LIST:COMMENT:INFO:');
 
 /**
  * 评论hash
- * 作者：张洵之
+ * 作者：杨志宇
  * 作用：用于存取一条评论的所有信息;
  * key = HASH:COMMENT:INFO:[评论主键id];
  * value = 一条评论的所有信息;
@@ -84,7 +84,7 @@ define('HASH_COMMENT_INFO_','HASH:COMMENT:INFO:');
 
 /**
  * 用户信息hash
- * 作者：张洵之
+ * 作者：杨志宇
  * 作用：用于存取一条用户信息;
  * key = HASH:USERINFO:INFO:[用户guid];
  * value = data_user_info表中的主键id;
@@ -173,7 +173,7 @@ define('HASH_COLLEGE_INFO_','HASH:COLLEGE:INFO:');
 
 /**
  * 用户账号列表 -- 存储所有用户的账号
- * @author 刘峻廷
+ * @author 郭庆
  * KEY   = LIST:USER:ACCOUNT:[手机号] or LIST:USER:ACCOUNT:[邮箱] (二期可能加上邮箱登录)
  * VALUE = data_user_login 表中所有用户的手机号（邮箱）
  */
@@ -183,7 +183,7 @@ define('LIST_USER_ACCOUNT', 'LIST:USER:ACCOUNT');
 
 /**
  * 用户账号信息表 -- 存储所有用户账号相关信息
- * @author 刘峻廷
+ * @author 郭庆
  * KEY   = HASH:USER:ACCOUNT:[手机号or邮箱]
  * VALUE = data_user_login 表中用户账户相关所有数据
  */
@@ -197,7 +197,7 @@ define('HASH_USER_ACCOUNT_', 'HASH:USER:ACCOUNT:');
  *
  * KEY = LIST:WEBADMIN:INFO
  * VALUE = data_web_info 表的ID
- * @author 王通
+ * @author 杨志宇
  */
 define('LIST_WEBADMIN_INFO', 'LIST:WEBADMIN:INFO');
 
@@ -209,7 +209,7 @@ define('LIST_WEBADMIN_INFO', 'LIST:WEBADMIN:INFO');
  *
  * KEY = HASH:WEBADMIN:INFO:[ID]      ID   是信息的索引ID。
  * VALUE = data_web_info 表的未删除信息记录。
- * @author 王通
+ * @author 杨志宇
  */
 define('HASH_WEBADMIN_INFO_', 'HASH:WEBADMIN:INFO:');
 
@@ -221,7 +221,7 @@ define('HASH_WEBADMIN_INFO_', 'HASH:WEBADMIN:INFO:');
  *
  * KEY = LIST:PICTURE:INFO
  * VALUE = data_picture_info 表的未删除索引记录。
- * @author 王通
+ * @author 杨志宇
  */
 define('LIST_PICTURE_INFO', 'LIST:PICTURE:INFO');
 
@@ -233,7 +233,7 @@ define('LIST_PICTURE_INFO', 'LIST:PICTURE:INFO');
  *
  * KEY = HASH:PICTURE:INFO:[ID]   ID 为机构的索引ID
  * VALUE = data_picture_info 表的未删除记录详情。
- * @author 王通
+ * @author 杨志宇
  */
 define('HASH_PICTURE_INFO_', 'HASH:PICTURE:INFO:');
 
@@ -245,7 +245,7 @@ define('HASH_PICTURE_INFO_', 'HASH:PICTURE:INFO:');
  *
  * KEY = LIST:ROLLINGPICTURE:INFO
  * VALUE = data_rollingpicture_info   轮播图的相信信息
- * @author 王通
+ * @author 杨志宇
  */
 define('LIST_ROLLINGPICTURE_INFO', 'LIST:ROLLINGPICTURE:INFO');
 
@@ -257,7 +257,7 @@ define('LIST_ROLLINGPICTURE_INFO', 'LIST:ROLLINGPICTURE:INFO');
  *
  * KEY = HASH:ROLLINGPICTURE:INFO:[ID]    ID为轮播图的索引ID
  * VALUE = data_rollingpicture_info   轮播图的相信信息
- * @author 王通
+ * @author 杨志宇
  */
 define('HASH_ROLLINGPICTURE_INFO_', 'HASH:ROLLINGPICTURE:INFO:');
 
@@ -274,7 +274,7 @@ define('String_USER_ACCOUNT_', 'STRING:USER:ACCOUNT:');
  *
  * KEY = SET:FEEDBACK:IPLIST:[DATE]     意见IP的时间。
  * VALUE =  IP  提意见的用户IP。
- * @author 王通
+ * @author 杨志宇
  */
 define('SET_FEEDBACK_IP_', 'SET:FEEDBACK:IPLIST:');
 /**
@@ -283,7 +283,7 @@ define('SET_FEEDBACK_IP_', 'SET:FEEDBACK:IPLIST:');
  *
  * KEY = STRING:FEEDBACK:COUNT:[DATE]     每天统计KEY。
  * VALUE =  NUM  标识一个数量数字
- * @author 王通
+ * @author 杨志宇
  */
 define('STRING_FEEDBACK_COUNT_', 'STRING:FEEDBACK:COUNT:');
 /**
@@ -292,7 +292,7 @@ define('STRING_FEEDBACK_COUNT_', 'STRING:FEEDBACK:COUNT:');
  *
  * KEY = HASH:FEED:BACK:[DATA]     用户的建议时间。
  * VALUE =  每一条建议的内容  标识一个数量数字
- * @author 王通
+ * @author 杨志宇
  */
 define('HASH_FEED_BACK_', 'HASH:FEED:BACK:');
 /**
@@ -301,7 +301,7 @@ define('HASH_FEED_BACK_', 'HASH:FEED:BACK:');
  *
  * KEY = LIST:FEED:BACK:INDEX:[DATA]     用户的建议时间。
  * VALUE =  每一条建议的UGID，用来唯一标示这个建议
- * @author 王通
+ * @author 杨志宇
  */
 define('LIST_FEED_BACK_INDEX_', 'LIST:FEED:BACK:INDEX:');
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * 众筹表数据仓储层
- * User: 张洵之
+ * User: 杨志宇
  * Date: 2016/11/9
  * Time: 14:10
  */
@@ -18,7 +18,7 @@ class CrowdFundingStore
      * 返回拥有该字段最大值的整条记录
      * @param string $field
      * @return array
-     * @ author 张洵之
+     * @ author 杨志宇
      */
     public function selectMaxOne($field)
     {
@@ -36,7 +36,7 @@ class CrowdFundingStore
      * 返回某字段的和
      * @param string $field
      * @return array
-     * @ author 张洵之
+     * @ author 杨志宇
      */
     public function fieldSum($field)
     {
@@ -54,7 +54,7 @@ class CrowdFundingStore
      * 返回条件查询某列结果
      * @param array $where string $field
      * @return array
-     * @ author 张洵之
+     * @ author 杨志宇
      */
     public function selectLists($where,$field)
     {
@@ -67,7 +67,7 @@ class CrowdFundingStore
      * 返回条件查询数量
      * @param array $where
      * @return int
-     * @ author 张洵之
+     * @ author 杨志宇
      */
     public function selectListNum($where)
     {
@@ -81,7 +81,7 @@ class CrowdFundingStore
      * 分页获得指定条件内容
      * @param string $filed array $where int $page  int $pages
      * @return array
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function getList($where,$field,$page,$pages)
     {
@@ -98,7 +98,7 @@ class CrowdFundingStore
      * 更新数据
      * @param $where
      * @param $update
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function uplodData($where,$update)
     {
@@ -113,7 +113,7 @@ class CrowdFundingStore
      * @param $page
      * @param $tolPage
      * @return null
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function forPage($page,$tolPage,$where)
     {
@@ -132,7 +132,7 @@ class CrowdFundingStore
      * 基本条件查询
      * @param $where
      * @return null
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function getWhere($where)
     {
@@ -146,7 +146,7 @@ class CrowdFundingStore
      * @param $field
      * @param $where
      * @return null
-     * author 张洵之
+     * author 杨志宇
      */
     public function getWhereIn($field,$where)
     {
@@ -163,7 +163,7 @@ class CrowdFundingStore
      * 添加数据
      * @param $data
      * @return int|null
-     * @author 张洵之
+     * @author 杨志宇
      */
     public function insertData($data)
     {
@@ -179,7 +179,7 @@ class CrowdFundingStore
      * @param $field
      * @param $data
      * @return bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function addFunshing($where,$data)
     {

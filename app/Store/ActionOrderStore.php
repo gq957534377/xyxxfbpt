@@ -23,7 +23,7 @@ class ActionOrderStore{
      * 插入数据
      * @param $data
      * @return null
-     * author 张洵之
+     * author 杨志宇
      */
     public function insertData($data)
     {
@@ -88,7 +88,7 @@ class ActionOrderStore{
      * @param $tolPage
      * @param $where
      * @return null
-     * author 张洵之
+     * author 杨志宇
      */
     public function forPage($page, $tolPage, $where)
     {

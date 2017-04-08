@@ -17,7 +17,7 @@ class OpenIMStore
      * 判断账号是会否存在
      * @param $data
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function getInfo ($data)
     {
@@ -29,7 +29,7 @@ class OpenIMStore
      * 把IM账号信息保存到数据库
      * @param $data
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function insertInfo ($data)
     {

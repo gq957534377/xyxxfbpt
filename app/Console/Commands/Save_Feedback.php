@@ -43,7 +43,7 @@ class Save_Feedback extends Command
      * 定时任务，每天凌晨把意见写入数据库
      *
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function handle()
     {

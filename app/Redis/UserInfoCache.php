@@ -26,7 +26,7 @@ class UserInfoCache extends MasterCache
      * 取得一条用户缓存
      * @param string $userId 用户guid
      * @return array|bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function getOneUserCache($userId)
     {

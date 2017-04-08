@@ -1,7 +1,7 @@
 <?php
 /**
  * action redis 缓存仓库
- * @author lw  beta
+ * @author 郭庆  beta
  */
 namespace App\Redis;
 

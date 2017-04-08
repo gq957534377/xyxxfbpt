@@ -20,7 +20,7 @@ class FeedbackStore
      * 获取总记录数
      * @param $where
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function getCount($where)
     {
@@ -34,7 +34,7 @@ class FeedbackStore
      * @param $where 查询条件
      * @param $sort 排序方式（默认desc降序）
      * @return null
-     * author 王通
+     * author 杨志宇
      */
     public function forPage($page, $tolPage, $where, $sort = "desc")
     {
@@ -50,7 +50,7 @@ class FeedbackStore
      * 删除指定数据
      * @param $arr  数组，一次性删除多条
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function delFeedback($arr)
     {

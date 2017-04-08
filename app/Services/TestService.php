@@ -1,7 +1,7 @@
 <?php
 /**
  * article 缓存服务
- * @author lw  beta
+ * @author 郭庆  beta
  */
 namespace App\Services;
 

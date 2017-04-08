@@ -52,7 +52,7 @@ class UserRoleService {
      * 创业者 验证字段
      * @param $request
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function sybValidator($request)
     {
@@ -97,7 +97,7 @@ class UserRoleService {
      * 投资者 验证字段
      * @param $request
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function investorValidator($request)
     {
@@ -137,7 +137,7 @@ class UserRoleService {
      * 申请角色
      * @param array $data
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function applyRole($data) {
         // 校验当前用户的角色
@@ -209,7 +209,7 @@ class UserRoleService {
     /**
      * 获取角色信息，存入session
      * @param $guid
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function getRoleInfo($guid)
     {
@@ -242,7 +242,7 @@ class UserRoleService {
      * @param $where
      * @param $data
      * @return array
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function updateRoleInfo($where, $data)
     {

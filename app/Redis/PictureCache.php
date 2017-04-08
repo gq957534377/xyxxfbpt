@@ -51,7 +51,7 @@ class PictureCache extends MasterCache
     /**
      * 取出哈希中的值
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function selRedisInfo()
     {
@@ -99,7 +99,7 @@ class PictureCache extends MasterCache
      * 取出所有的合作机构，以及投资机构
      * @param $val
      * @return array|bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function getRedisPicture($val)
     {

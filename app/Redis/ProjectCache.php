@@ -1,7 +1,7 @@
 <?php
 /**
  * Project redis 缓存仓库
- * @author 张洵之
+ * @author 杨志宇
  */
 
 namespace App\Redis;
@@ -27,7 +27,7 @@ class ProjectCache extends MasterCache
      * 创建listKey
      * @param int $type list索引
      * @return bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function createList($type)
     {
@@ -53,7 +53,7 @@ class ProjectCache extends MasterCache
      * 创建hash
      * @param object|array $data
      * @return bool
-     * author 张洵之
+     * author 杨志宇
      */
     public function createHash($data)
     {
@@ -74,7 +74,7 @@ class ProjectCache extends MasterCache
      * 拿取项目缓存
      * @param $indexArray
      * @return array
-     * author 张洵之
+     * author 杨志宇
      */
     public function getProjectHash($indexArray)
     {
@@ -104,12 +104,12 @@ class ProjectCache extends MasterCache
 
     /**
      * 分页返回项目数据
-     * author 张洵之
+     * author 杨志宇
      * @param int $nowPage 当前页
      * @param int $pageNum 一页的数据量
      * @param array $where 条件
      * @return array|null
-     * author 张洵之
+     * author 杨志宇
      */
     public function getPageData($nowPage, $pageNum, $where)
     {
@@ -144,7 +144,7 @@ class ProjectCache extends MasterCache
      * 针对首页刷新随机项目数据的方法
      * @param $number
      * @return array|bool|mixed|null
-     * author 张洵之
+     * author 杨志宇
      */
     public function takeData($number)
     {
@@ -173,7 +173,7 @@ class ProjectCache extends MasterCache
     /**
      * 将后台推送项目加入缓存
      * @param object $data
-     * author 张洵之
+     * author 杨志宇
      */
     public function insertCache($data)
     {
@@ -193,7 +193,7 @@ class ProjectCache extends MasterCache
     /**
      * 将缓存移出缓存（后台）
      * @param object $data
-     * author 张洵之
+     * author 杨志宇
      */
     public function deletCache($data)
     {

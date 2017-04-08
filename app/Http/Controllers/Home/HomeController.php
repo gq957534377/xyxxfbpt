@@ -25,7 +25,7 @@ class HomeController extends Controller
      * 构造函数注入
      * HomeController constructor.
      * @param ProjectService $projectServer
-     * @ author 刘峻廷
+     * @ author 郭庆
      */
     public function __construct(
         ProjectServer $projectServer,
@@ -46,7 +46,7 @@ class HomeController extends Controller
      * 首页渲染.
      *
      * @return \Illuminate\Http\Response
-     * @ author 刘峻廷
+     * @ author 郭庆
      */
     public function index()
     {

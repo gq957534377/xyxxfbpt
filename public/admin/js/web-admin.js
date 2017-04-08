@@ -42,7 +42,7 @@ function ajaxBeforeModel() {
 }
 /**
  * 加载指定类型的数据
- * @author 王通
+ * @author 杨志宇
  **/
 function listType(type) {
 

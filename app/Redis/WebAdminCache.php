@@ -50,7 +50,7 @@ class WebAdminCache extends MasterCache
     /**
      * 取出哈希中的值
      * @return  $data array  把数据转换成常用操作模式，[object]
-     * @author 王通
+     * @author 杨志宇
      */
     public function selRedisInfo()
     {
@@ -84,7 +84,7 @@ class WebAdminCache extends MasterCache
     /**
      * 取出所有的网页基本信息
      * @return array|mixed
-     * @author 王通
+     * @author 杨志宇
      */
     public function getWebInfo()
     {

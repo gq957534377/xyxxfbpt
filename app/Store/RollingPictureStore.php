@@ -19,7 +19,7 @@ class RollingPictureStore
     /**
      * 取出所有的轮播图
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getAllPic()
     {
@@ -31,7 +31,7 @@ class RollingPictureStore
      * 保存图片信息
      * @param $data array
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function savePicture ($data)
     {
@@ -43,7 +43,7 @@ class RollingPictureStore
      * 删除指定ID的数据
      * @param $where
      * @return bool
-     * @author 王通
+     * @author 杨志宇
      */
     public function updataRolling ($where, $field)
     {
@@ -57,7 +57,7 @@ class RollingPictureStore
      * 通过ID取出单条数据
      * @param $id string
      * @return bool|mixed|static
-     * @author 王通
+     * @author 杨志宇
      */
     public function getOneData($id)
     {

@@ -30,7 +30,7 @@ class RoleController extends Controller
     /**
      * 身份初始视图
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function index(Request $request)
     {
@@ -53,7 +53,7 @@ class RoleController extends Controller
      * 申请角色
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function store(Request $request)
     {
@@ -89,7 +89,7 @@ class RoleController extends Controller
      * 获取用户角色信息
      * @param string $id
      * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function show(Request $request, $id)
     {
@@ -175,7 +175,7 @@ class RoleController extends Controller
      * 上传图片文件
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function cardPic(Request $request)
     {

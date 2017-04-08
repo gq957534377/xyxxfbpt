@@ -23,7 +23,7 @@ class AdminStore{
      * 查询一条数据
      * @param array $where
      * @return one data
-     * @ auther 刘峻廷
+     * @ auther 郭庆
      */
     public function getOneData($where)
     {
@@ -38,7 +38,7 @@ class AdminStore{
     /**
      * 查询所有数据
      * @return mixed
-     * @auther 刘峻廷
+     * @auther 郭庆
      */
     public function getAllData()
     {
@@ -49,7 +49,7 @@ class AdminStore{
      * 添加记录到数据
      * @param array $data
      * @return bool
-     * @auther 刘峻廷
+     * @auther 郭庆
      */
     public function addData($data)
     {
@@ -62,7 +62,7 @@ class AdminStore{
      * @param array $where
      * @param array $data
      * @return bool
-     * @auther 刘峻廷
+     * @auther 郭庆
      */
     public function updateData($where,$data)
     {

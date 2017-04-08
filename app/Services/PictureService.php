@@ -24,7 +24,7 @@ class PictureService
     /** 单例引入
      *
      * @param WebAdminService $webAdminService
-     * @author 王通
+     * @author 杨志宇
      */
     public function __construct(
         PictureStore $picturestore,
@@ -41,7 +41,7 @@ class PictureService
      * 保存轮播图
      * @param $data
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function saveCarousel ($data)
     {
@@ -70,7 +70,7 @@ class PictureService
      * 保存合作机构,投资机构所有信息
      * @param $data
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function saveCooper ($data, $type)
     {
@@ -105,7 +105,7 @@ class PictureService
     /**
      * 得到所有指定类型图片
      * @param $val  int  3 标识投资机构，5 表示合作机构
-     * @author 王通
+     * @author 杨志宇
      */
     public function getPicture ($val)
     {
@@ -121,7 +121,7 @@ class PictureService
     /**
      * 得到所有指定类型图片
      * @param $val array  数组，示例[3, 5] 代表合作机构投资机构都要
-     * @author 王通
+     * @author 杨志宇
      */
     public function getPictureIn ($val)
     {
@@ -137,7 +137,7 @@ class PictureService
 
     /**
      * 得到轮播图
-     * @author 王通
+     * @author 杨志宇
      */
     public function getRollingPicture()
     {
@@ -153,7 +153,7 @@ class PictureService
     /**
      * 删除指定ID的图片
      * @param $id
-     * @author 王通
+     * @author 杨志宇
      */
     public function delPicture ($id, $type)
     {
@@ -182,7 +182,7 @@ class PictureService
     /**
      * 更新指定ID的图片
      * @param $id
-     * @author 王通
+     * @author 杨志宇
      */
     public function updatePicture ($id, $data)
     {

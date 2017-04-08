@@ -55,7 +55,7 @@ class UserManagementController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @author lw
+     * @author 郭庆
      */
     public function show(Request $request)
     {   //数据初始化

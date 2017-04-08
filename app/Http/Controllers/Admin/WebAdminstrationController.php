@@ -22,7 +22,7 @@ class WebAdminstrationController extends Controller
     /** 单例引入
      *
      * @param WebAdminService $webAdminService
-     * @author 王通
+     * @author 杨志宇
      */
     public function __construct(
         WebAdminService $webAdminService,
@@ -42,7 +42,7 @@ class WebAdminstrationController extends Controller
     /**
      * 网站管理页面
      *
-     * @author 王通
+     * @author 杨志宇
      */
     public function index(Request $request)
     {
@@ -59,7 +59,7 @@ class WebAdminstrationController extends Controller
     /**
      * 请求界面数据
      * @return \Illuminate\Http\Response
-     * @author 王通
+     * @author 杨志宇
      */
     public function create(Request $request)
     {
@@ -150,7 +150,7 @@ class WebAdminstrationController extends Controller
      * 上传 更改
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @author 王通
+     * @author 杨志宇
      */
     public function uploadOrganizPic (Request $request)
     {
@@ -252,7 +252,7 @@ class WebAdminstrationController extends Controller
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @author 王通
+     * @author 杨志宇
      */
     public function destroy($id, Request $request)
     {

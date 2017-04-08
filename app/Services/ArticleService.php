@@ -52,7 +52,7 @@ class ArticleService
      * @param $type 文章类型
      * @return array
      * @author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public static function selectByType($type)
     {
@@ -171,7 +171,7 @@ class ArticleService
      * @param string $url 请求的路由url
      * @param boolean $disPlay 是否需要分页样式
      * @return array
-     * author 王通
+     * author 杨志宇
      */
     public function selectArticle($where, $nowPage, $forPages, $url, $disPlay = true)
     {
@@ -213,7 +213,7 @@ class ArticleService
      * @param $nowPage  int   当前页
      * @param $type   数据的类型
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function selectArticleRedis($forPages, $nowPage, $type)
     {
@@ -232,7 +232,7 @@ class ArticleService
      * @param $guid
      * @return array  文章的信息，数组格式
      * author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public function getData($guid)
     {
@@ -263,7 +263,7 @@ class ArticleService
      * @param $user
      * @return array
      * author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public function changeStatus($guidAll, $status, $user = 1)
     {
@@ -429,7 +429,7 @@ class ArticleService
      * 分页查询 得到指定类型的数据
      * @param array $data 条件数组  主要['user_id' => 用户的GUID]
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function selectTypeDataNum($data)
     {
@@ -508,7 +508,7 @@ class ArticleService
     /**
      * 点赞
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function like($user_id, $id)
     {
@@ -538,7 +538,7 @@ class ArticleService
      * 把预览数据从缓存中取出
      * @param string $id GUID标识
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getCacheContribution($id)
     {
@@ -558,8 +558,8 @@ class ArticleService
      * @param int $take 文章条数
      * @param int $status 文章状态
      * @return array
-     * @author 刘峻廷
-     * @modify 王通
+     * @author 郭庆
+     * @modify 杨志宇
      */
     public function getTakeArticles($type, $take = 8, $status = 1)
     {
@@ -612,7 +612,7 @@ class ArticleService
      * @param int $take 随机文章的数量
      * @param int $status 文章状态
      * @return array
-     * @author 王通
+     * @author 杨志宇
      */
     public function getRandomArticles($type, $take = 4, $status = 1)
     {
@@ -633,7 +633,7 @@ class ArticleService
      * @param $type  string  '1'  or  '2'  获取数据的类型
      * @param $num   int   数量
      * @return mixed
-     * @author 王通
+     * @author 杨志宇
      */
     protected function getRandomRedisArticle($type, $num)
     {
@@ -675,7 +675,7 @@ class ArticleService
      * @param $data  数组，['action_id' => '文章ID', 'user_id' => '用户ID', 'count '评论内容']
      * @return array
      * @author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public static function comment($data)
     {
@@ -705,7 +705,7 @@ class ArticleService
      * @param $status
      * @return array
      * @author 郭庆
-     * @modify 王通
+     * @modify 杨志宇
      */
     public static function getArticleByUser($id, $status)
     {

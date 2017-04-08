@@ -13,7 +13,7 @@ class HomeMiddleware
      * @param $request
      * @param Closure $next
      * @return mixed
-     * @author 刘峻廷
+     * @author 郭庆
      */
     public function handle($request, Closure $next)
     {
