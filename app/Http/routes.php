@@ -113,6 +113,7 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
     Route::post('/project/list', 'ProjectController@lists')->name('projectList');
     // openIM 阿里云旺
     Route::resource('/openim', 'OpenIMController');
+    Route::resource('/news', 'NewsController');
 
     //中间件，检验是否登录
     Route::group(['middleware' => 'HomeMiddleware'], function () {

@@ -2,8 +2,10 @@
     <h1 class="logo"><a href="{{url('/')}}/" title="校园信息发布平台"></a></h1>
     @if(!empty(session('user')))
         <div class="top-right">
-            <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle" style="width: 106%"
-                                                                     src="{{ session('user')->headpic }}" data-id="{{ session('user')->guid }}"></a>
+            <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle"
+                                                                     style="width: 106%"
+                                                                     src="{{ session('user')->headpic }}"
+                                                                     data-id="{{ session('user')->guid }}"></a>
             <a class="hidden-xs" href="{{ url('/user/'.session('user')->guid) }}" style="margin-left: 24%">
                 <mark id="nicknameBox">{{ session('user')->username }}</mark>
             </a>
@@ -36,22 +38,32 @@
         <li><a href=""><span class="glyphicon glyphicon-inbox"></span>校园文章</a>
             <div>
                 <ul class="nav hidden-xs-nav">
-                    <li><a href="{{ route('article.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-erase"></span>爱情文章</a>
-                    <li><a href="{{ route('article.index', ['type' => '2']) }}"><span class="glyphicon glyphicon-erase"></span>亲情文章</a>
-                    <li><a href="{{ route('article.index', ['type' => '3']) }}"><span class="glyphicon glyphicon-erase"></span>友情文章</a>
-                    <li><a href="{{ route('article.index', ['type' => '4']) }}"><span class="glyphicon glyphicon-erase"></span>生活随笔</a>
+                    <li><a href="{{ route('article.index', ['type' => '1']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>爱情文章</a>
+                    <li><a href="{{ route('article.index', ['type' => '2']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>亲情文章</a>
+                    <li><a href="{{ route('article.index', ['type' => '3']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>友情文章</a>
+                    <li><a href="{{ route('article.index', ['type' => '4']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>生活随笔</a>
                 </ul>
             </div>
         </li>
         <li><a href=""><span class="glyphicon glyphicon-globe"></span>校园通知</a>
             <div>
                 <ul class="nav hidden-xs-nav">
-                    <li><a href="{{ route('notice.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-erase"></span>俩办通知</a>
-                    <li><a href="{{ route('notice.index', ['type' => '2']) }}"><span class="glyphicon glyphicon-erase"></span>其他通知</a>
-                    <li><a href="{{ route('notice.index', ['type' => '3']) }}"><span class="glyphicon glyphicon-erase"></span>本科教学</a>
-                    <li><a href="{{ route('notice.index', ['type' => '4']) }}"><span class="glyphicon glyphicon-erase"></span>研究生教学</a>
-                    <li><a href="{{ route('notice.index', ['type' => '5']) }}"><span class="glyphicon glyphicon-erase"></span>科技信息</a>
-                    <li><a href="{{ route('notice.index', ['type' => '6']) }}"><span class="glyphicon glyphicon-erase"></span>社科信息</a>
+                    <li><a href="{{ route('notice.index', ['type' => '1']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>俩办通知</a>
+                    <li><a href="{{ route('notice.index', ['type' => '2']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>其他通知</a>
+                    <li><a href="{{ route('notice.index', ['type' => '3']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>本科教学</a>
+                    <li><a href="{{ route('notice.index', ['type' => '4']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>研究生教学</a>
+                    <li><a href="{{ route('notice.index', ['type' => '5']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>科技信息</a>
+                    <li><a href="{{ route('notice.index', ['type' => '6']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>社科信息</a>
                 </ul>
             </div>
         </li>
@@ -69,8 +81,49 @@
                 </ul>
             </div>
         </li>
-        <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a>
-            <div>开发中....</div>
+        <li><a href=""><span class="glyphicon glyphicon-tags"></span>新闻</a>
+            <div style="height: 439px">
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('news.index' ,['type' => 'top']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>头条新闻</a>
+                </ul>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('news.index' ,['type' => 'shehui']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>社会新闻</a>
+                </ul>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('news.index' ,['type' => 'guonei']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>国内新闻</a>
+                </ul>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('news.index' ,['type' => 'guoji']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>国际新闻</a>
+                </ul>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('news.index' ,['type' => 'yule']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>娱乐新闻</a>
+                </ul>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('news.index' ,['type' => 'tiyu']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>体育新闻</a>
+                </ul>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('news.index' ,['type' => 'junshi']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>军事新闻</a>
+                </ul>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('news.index' ,['type' => 'keji']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>科技新闻</a>
+                </ul>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('news.index' ,['type' => 'caijing']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>财经新闻</a>
+                </ul>
+                <ul class="nav hidden-xs-nav">
+                    <li><a href="{{ route('news.index' ,['type' => 'shishang']) }}"><span
+                                    class="glyphicon glyphicon-erase"></span>时尚新闻</a>
+                </ul>
+            </div>
         </li>
     </ul>
     <div class="feeds"><a class="feed feed-xlweibo" href="index.html" target="_blank"><i></i>新浪微博</a> <a
@@ -91,11 +144,14 @@
         @if(!empty(session('user')))
             <div style="float: left;margin-left: 26px;">
                 <div class="top-left">
-                    <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle" style="width: 15%;margin-bottom: -12%;"
-                                                                             src="{{ session('user')->headpic }}" data-id="{{ session('user')->guid }}"></a>
+                    <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle"
+                                                                             style="width: 15%;margin-bottom: -12%;"
+                                                                             src="{{ session('user')->headpic }}"
+                                                                             data-id="{{ session('user')->guid }}"></a>
                     <br>
                     <a class="{{ url('/user/'.session('user')->guid) }}" href="" style="margin-left: 0%">
-                        <font size="2" color="#f0f8ff" style="font-size: 10px;margin-left: -5px;">{{ session('user')->username }}</font>
+                        <font size="2" color="#f0f8ff"
+                              style="font-size: 10px;margin-left: -5px;">{{ session('user')->username }}</font>
                     </a>
                 </div>
                 <div style="float: right;margin-right: 49%;margin-top: -22%;">
@@ -121,11 +177,14 @@
         <ul class="nav navbar-nav header-xs-nav nav-box">
             <li class="active"><a href="{{url('/')}}"><span class="glyphicon glyphicon-home"></span>网站首页</a></li>
             <li><a href="{{ url('action?type=1') }}"><span class="glyphicon glyphicon-erase"></span>校园活动</a></li>
-            <li><a href="{{ route('article.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-inbox"></span>校园文章</a></li>
-            <li><a href="{{ route('notice.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-globe"></span>校园通知</a></li>
+            <li><a href="{{ route('article.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-inbox"></span>校园文章</a>
+            </li>
+            <li><a href="{{ route('notice.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-globe"></span>校园通知</a>
+            </li>
             <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
             <li><a href="{{ route('study.index') }}"><span class="glyphicon glyphicon-tags"></span>校园学习</a></li>
-            <li><a href="friendly.html"><span class="glyphicon glyphicon-tags"></span>社会新闻</a></li>
+            <li><a href="{{ route('news.index' ,['type' => 'top']) }}"><span class="glyphicon glyphicon-tags"></span>社会新闻</a>
+            </li>
         </ul>
         <form class="navbar-form" action="search.php" method="post" style="padding:0 25px;">
             <div class="input-group">
