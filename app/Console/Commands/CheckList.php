@@ -27,9 +27,7 @@ class CheckList extends Command
      */
     protected $description = '任务调度：检测list是否与数据库一致(每小时一次)（php artisan CheckList）';
     protected static $actionCache;
-    protected static $collegeCache;
     protected static $articleCache;
-    protected static $projectCache;
     protected static $pictureCache;
     protected static $rollingPictureCache;
     protected static $webAdminCache;
@@ -41,9 +39,7 @@ class CheckList extends Command
      */
     public function __construct(
         ActionCache $actionCache,
-        CollegeCache $collegeCache,
         ArticleCache $articleCache,
-        ProjectCache $projectCache,
         PictureCache $pictureCache,
         RollingPictureCache $rollingPictureCache,
         WebAdminCache $webAdminCache
@@ -51,9 +47,7 @@ class CheckList extends Command
     {
         parent::__construct();
         self::$actionCache = $actionCache;
-        self::$collegeCache = $collegeCache;
         self::$articleCache = $articleCache;
-        self::$projectCache = $projectCache;
         self::$pictureCache = $pictureCache;
         self::$rollingPictureCache = $rollingPictureCache;
         self::$webAdminCache = $webAdminCache;
@@ -69,12 +63,8 @@ class CheckList extends Command
         \Log::info('----------------------------------检测list任务调度----------------------------------');
         //检测活动list是否正常
         self::$actionCache->check();
-        //检测学院活动list是否正常
-        self::$collegeCache->check();
         //文章list检查
         self::$articleCache->check();
-        //项目list检查
-        self::$projectCache->check();
         //机构list检查
         self::$pictureCache->check();
         //检查首页轮播图list

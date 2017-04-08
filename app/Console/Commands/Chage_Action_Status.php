@@ -48,7 +48,6 @@ class Chage_Action_Status extends Command
     {
         \Log::info('--------------------------------修改活动状态任务调度开始----------------------------------');
         $this->chageActionStatus();
-        $this->chageCollegeStatus();
         \Log::info('--------------------------------修改活动状态list任务调度结束----------------------------------');
     }
 
@@ -65,7 +64,7 @@ class Chage_Action_Status extends Command
             foreach ($result['msg'] as $v) {
                 $status = self::$actionServer->setStatusByTime($v);
                 if ($status['status'] && !is_string($status['msg'])) {
-                    $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], 1);
+                    $chage = self::$actionServer->changeStatus($v->guid, $status['msg']);
                     if ($chage['StatusCode'] != '200') {
                         Log::error("任务调度请求更改活动状态失败" . $v->guid . ':' . $chage['ResultData']);
                     } else {
@@ -75,32 +74,6 @@ class Chage_Action_Status extends Command
             }
         } else {
             \Log::info("任务调度更改活动状态——获取活动列表失败" . ':' . $result['msg']);
-        }
-    }
-
-    /**
-     * 任务调度 更改学院活动状态
-     * @param
-     * @return array
-     * @author 郭庆
-     */
-    public static function chageCollegeStatus()
-    {
-        $result = self::$actionServer->getAllAction();
-        if ($result["status"]) {
-            foreach ($result['msg'] as $v) {
-                $status = self::$actionServer->setStatusByTime($v);
-                if ($status['status'] && !is_string($status['msg'])) {
-                    $chage = self::$actionServer->changeStatus($v->guid, $status['msg'], 3);
-                    if ($chage['StatusCode'] != '200') {
-                        Log::error("任务调度请求更改学院活动状态失败" . $v->guid . ':' . $chage['ResultData']);
-                    } else {
-                        Log::info("任务调度请求更改\"" . $v->guid . "\"学院活动状态成功!" . ':' . $chage['ResultData']);
-                    }
-                }
-            }
-        } else {
-            \Log::info("任务调度更改学院活动状态——获取学院活动列表失败" . ':' . $result['msg']);
         }
     }
 }

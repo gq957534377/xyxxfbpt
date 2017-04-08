@@ -27,9 +27,7 @@ class Add_Redis extends Command
      */
     protected $description = '一键加缓存 eg:php artisan Add_Redis --u guoqing';
     protected static $actionCache;
-    protected static $collegeCache;
     protected static $articleService;
-    protected static $projectCache;
     protected static $pictureService;
     protected static $webAdminService;
     protected static $masterCache;
@@ -41,9 +39,7 @@ class Add_Redis extends Command
      */
     public function __construct(
         ActionCache $actionCache,
-        CollegeCache $collegeCache,
         ArticleService $articleService,
-        ProjectCache $projectCache,
         PictureService $pictureService,
         WebAdminService $webAdminService,
         MasterCache $masterCache
@@ -51,9 +47,7 @@ class Add_Redis extends Command
     {
         parent::__construct();
         self::$actionCache = $actionCache;
-        self::$collegeCache = $collegeCache;
         self::$articleService = $articleService;
-        self::$projectCache = $projectCache;
         self::$pictureService = $pictureService;
         self::$webAdminService = $webAdminService;
         self::$masterCache = $masterCache;
@@ -78,27 +72,6 @@ class Add_Redis extends Command
             $this->line('添加活动缓存中....');
             self::$actionCache->reloadCache();
             $this->info('活动添加成功!');
-
-            $this->line('添加学院缓存中....');
-            self::$collegeCache->reloadCache();
-            $this->info('学院活动添加成功!');
-
-            $this->line('添加项目缓存中....');
-            self::$projectCache->getPageData(1, 8, ['status' => 1]);
-            $this->info('默认项目添加成功!');
-
-            $this->line('添加十种项目类型缓存中....');
-            self::$projectCache->getPageData(1, 8, ['status' => 1, 'financing_stage' => 1]);
-            self::$projectCache->getPageData(1, 8, ['status' => 1, 'financing_stage' => 2]);
-            self::$projectCache->getPageData(1, 8, ['status' => 1, 'financing_stage' => 3]);
-            self::$projectCache->getPageData(1, 8, ['status' => 1, 'financing_stage' => 4]);
-            self::$projectCache->getPageData(1, 8, ['status' => 1, 'financing_stage' => 5]);
-            self::$projectCache->getPageData(1, 8, ['status' => 1, 'financing_stage' => 6]);
-            self::$projectCache->getPageData(1, 8, ['status' => 1, 'financing_stage' => 7]);
-            self::$projectCache->getPageData(1, 8, ['status' => 1, 'financing_stage' => 8]);
-            self::$projectCache->getPageData(1, 8, ['status' => 1, 'financing_stage' => 9]);
-            self::$projectCache->getPageData(1, 8, ['status' => 1, 'financing_stage' => 10]);
-            $this->info('十种项目类型添加成功!');
 
             $this->line('添加机构缓存中....');
             self::$pictureService->getPictureIn([3, 5]);
