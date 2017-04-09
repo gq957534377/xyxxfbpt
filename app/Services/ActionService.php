@@ -201,7 +201,7 @@ class ActionService
     {
         //获取符合条件的数据的总量
         $count = self::$actionCache->getCount($where);
-
+dd($count);
         if (!$count) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
         //获取对应页的数据
         $result['data'] = self::$actionCache->getPageDatas($where, $forPages, $nowPage);

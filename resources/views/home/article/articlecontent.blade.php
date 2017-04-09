@@ -22,7 +22,7 @@
                 <ul>
                     <li>
                         <a href="">{{ $data->author }}</a>
-                        发布于 {{ $data->addtime }}</li>
+                        发布于 {{ date('Y-m-d H:m:s',$data->addtime) }}</li>
                     <li>
                         栏目：<a href="{{ url('article?type='.$data->type) }}" title="" target="_blank">校园活动</a>
                     </li>

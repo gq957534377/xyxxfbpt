@@ -55,14 +55,16 @@ class NoticeStore
             ->distinct()
             ->get();
     }
+
     /**
-     * 分页查询数据
-     * @param $page 当前页
-     * @param $tolPage 总页数
-     * @param $where 查询条件
-     * @param $sort 排序方式（默认desc降序）
-     * @return null
-     * author 郭庆
+     * 说明: 分页查询数据
+     *
+     * @param $page
+     * @param $tolPage
+     * @param $where
+     * @param string $sort
+     * @return mixed
+     * @author 郭庆
      */
     public function forPage($page, $tolPage, $where, $sort="desc")
     {

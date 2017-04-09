@@ -2,82 +2,54 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Store\ActionStore;
+use App\Store\ArticleStore;
+use App\Store\NoticeStore;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
-use App\Services\ProjectService as ProjectServer;
-use App\Services\ActionService as ActionServer;
-use App\Services\ArticleService as ArticleServer;
-use App\Services\PictureService;
 use App\Store\RollingPictureStore;
-use App\Tools\Common;
 
 
 class HomeController extends Controller
 {
-    protected static $projectServer = null;
-    protected static $actionServer = null;
-    protected static $pictureService = null;
-    protected static $articleServer = null;
     protected static $rollingPictureStore = null;
+    protected static $actionStore = null;
+    protected static $articleStore = null;
+    protected static $noticeStore = null;
 
-    /**
-     * 构造函数注入
-     * HomeController constructor.
-     * @param ProjectService $projectServer
-     * @ author 郭庆
-     */
     public function __construct(
-        ProjectServer $projectServer,
-        ActionServer $actionServer,
-        PictureService $pictureService,
-        ArticleServer $articleServer,
+        ActionStore $actionStore,
+        ArticleStore $articleStore,
+        NoticeStore $noticeStore,
         RollingPictureStore $rollingPictureStore
     )
     {
-        self::$projectServer = $projectServer;
-        self::$actionServer = $actionServer;
-        self::$pictureService = $pictureService;
-        self::$articleServer = $articleServer;
         self::$rollingPictureStore = $rollingPictureStore;
+        self::$actionStore = $actionStore;
+        self::$articleStore = $articleStore;
+        self::$noticeStore = $noticeStore;
     }
 
     /**
-     * 首页渲染.
+     * 说明: 首页渲染
      *
      * @return \Illuminate\Http\Response
-     * @ author 郭庆
+     * @author 郭庆
      */
     public function index()
     {
-        // 精选项目,随机拿取3条
-        $projectResult = self::$projectServer->takeData();
-
-        // 路演活动
-        $roadShowResult = self::$actionServer->selectData(['type'=>1], 1, 3, 'action/create', false, false);
-        // 创业大赛
-        $sybResult = self::$actionServer->selectData(['type'=>2], 1, 3, 'action/create', false, false);
-        // 学习培训活动
-        $schollResult = self::$actionServer->selectData(['status'=>1], 1, 2, 'school/create', true, false);
-
-        // 咨询
-        $articles = self::$articleServer->getTakeArticles(1);
-
-        // 投资合作机构管理，
-        $picArr = self::$pictureService->getPictureIn([3, 5]);
-        // 轮播图
-        $rollingPic = self::$pictureService->getRollingPicture();
-        // 设置cookie
-        $cookie = Common::generateCookie('feedback');
+        // 活动
+        $action = self::$actionStore->forPage(1, 3, []);
+        $article = self::$articleStore->forPage(1, 3, ['status' => 1]);
+        $notice = self::$noticeStore->forPage(1, 3, ['status' => 1]);
+        $pic = self::$rollingPictureStore->getAllPic();
         return response()->view('home.index.index', [
-            'projects'      => $projectResult['ResultData'],
-            'roadShows'     => $roadShowResult,
-            'sybs'          => $sybResult,
-            'schools'       => $schollResult,
-            'picArr'        => $picArr['ResultData'],
-            'rollingPic'    => $rollingPic['ResultData'],
-            'articles'      => $articles['ResultData'],
-        ])->withCookie($cookie);
+            'action' => $action,
+            'article' => $article,
+            'notice' => $notice,
+            'pic' => $pic
+        ]);
     }
 
     /**
