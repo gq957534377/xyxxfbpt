@@ -78,4 +78,30 @@ class AdminService {
         Session::put('manager',$temp);
         return ['status' => '200', 'msg' => '登录成功!'];
     }
+
+    /**
+     * 注册超级管理员
+     *
+     * @param $data
+     * @return array
+     * @author 郭庆
+     */
+    public function addAdministrator($data)
+    {
+        if (empty($data['email']) || empty($data['password'])) return ['status' => 401,'msg' => '缺少必要的参数！'];
+
+        // 查询邮箱是否已经注册
+        $temp = self::$adminStore->getOneData(['email'=>$data['email']]);
+        if($temp) return ['status' => 405,'msg' => '已被注册，请换一个！'];
+
+        // 写入数据
+        $data['guid'] = Common::getUuid();
+        $data['password'] = Common::cryptString($data['email'], $data['password']);
+        $data['addtime'] = time();
+        $res = self::$adminStore->addData($data);
+
+        if(!$res) return ['status' => 501,'msg' => '服务器繁忙，注册失败！'];
+        return ['status' => 200,'msg' => '注册成功！'];
+
+    }
 }

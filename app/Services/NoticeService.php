@@ -16,7 +16,6 @@ use App\Store\LikeStore;
 use App\Tools\Common;
 use App\Services\UserService as UserServer;
 use App\Tools\CustomPage;
-use App\Redis\ArticleCache;
 use Log;
 
 class NoticeService
@@ -29,14 +28,13 @@ class NoticeService
     protected static $common;
     protected static $likeStore;
     protected static $userServer;
-    protected static $articleCache;
+    protected static $noticeCache;
 
     public function __construct(
         NoticeStore $noticeStore,
         CommentStore $commentStore,
         LikeStore $likeStore,
-        UserServer $userServer,
-        ArticleCache $articleCache
+        UserServer $userServer
     )
     {
         self::$noticeStore = $noticeStore;
@@ -44,7 +42,6 @@ class NoticeService
         self::$likeStore = $likeStore;
         self::$noticeStore = $noticeStore;
         self::$userServer = $userServer;
-        self::$articleCache = $articleCache;
     }
 
     /**
@@ -78,7 +75,6 @@ class NoticeService
 
         //判断插入是否成功，并返回结果
         if (isset($result)) {
-            self::$articleCache->insertLeftCache([$data]);
             return ['StatusCode' => '200', 'ResultData' => '发布成功'];
         }
         return ['StatusCode' => '500', 'ResultData' => '通知发布失败'];
@@ -91,6 +87,7 @@ class NoticeService
      * @param int $forPages 一页获取的数量
      * @param string $url 请求的路由url
      * @param boolean $disPlay 是否需要分页样式
+     * @return array
      * author 郭庆
      */
     public function selectDatas($where, $nowPage, $forPages, $url, $disPlay = true)
@@ -125,109 +122,6 @@ class NoticeService
     }
 
     /**
-     * 说明:
-     *
-     * @param $where
-     * @param $nowPage
-     * @param $forPages
-     * @param $url
-     * @param bool $disPlay
-     * @return array
-     * @author 郭庆
-     */
-    public function selectData($where, $nowPage, $forPages, $url, $disPlay = true)
-    {
-        //获取符合条件的数据的总量
-        $count = self::$articleCache->getCount($where);
-        if (!$count) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
-        //获取对应页的数据
-        $result['data'] = self::$articleCache->getPageDatas($where, $forPages, $nowPage);
-        //计算总页数
-        $totalPage = ceil($count / $forPages);
-        if ($result['data']) {
-            if ($disPlay && $totalPage > 1) {
-                //创建分页样式
-                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
-                if ($creatPage) {
-                    $result["pages"] = $creatPage;
-                } else {
-                    return ['StatusCode' => '500', 'ResultData' => '生成分页样式发生错误'];
-                }
-            } else {
-                $result['totalPage'] = $totalPage;
-                $result["pages"] = '';
-            }
-            return ['StatusCode' => '200', 'ResultData' => $result];
-        } else {
-            return ['StatusCode' => '500', 'ResultData' => '获取分页数据失败！'];
-        }
-    }
-
-    /**
-     * 分页查询 判断是否查redis
-     * @param array $where 查询条件
-     * @param int $nowPage 当前页
-     * @param int $forPages 一页获取的数量
-     * @param string $url 请求的路由url
-     * @param boolean $disPlay 是否需要分页样式
-     * @return array
-     * author 杨志宇
-     */
-    public function selectArticle($where, $nowPage, $forPages, $url, $disPlay = true)
-    {
-        // 判断article缓存是否存在
-        if (!self::$articleCache->exists(LIST_ARTICLE_INFO_ . $where['type'])) {
-            // 判断guid有没有取失败
-            $guidArr = self::$noticeStore->getAllGuid($where);
-            if (!empty($guidArr)) {
-                // 获取数据库里的所有通知列表,并且转对象为数组
-                $article_list = CustomPage::objectToArray($guidArr);
-            } else {
-                return ['StatusCode' => '500', 'ResultData' => '获取失败'];
-            }
-
-            $result = $this->selectData($where, $nowPage, $forPages, $url, $disPlay);
-            // 存入redis缓存
-            if ($result['StatusCode'] == '200') {
-                if (count($article_list)) {
-                    // 把数据保存进HASH
-                    foreach ($result['ResultData']['data'] as $item) {
-                        $info = CustomPage::objectToArray($item);
-                        self::$articleCache->addHash(HASH_ARTICLE_INFO_ . $info['guid'], $info);
-                    }
-                    self::$articleCache->setArticleList($article_list, $where['type']);
-                }
-            }
-
-        } else {
-            // 直接读取缓存数据,并把数组转换为对象
-            $result = $this->selectArticleRedis($forPages, $nowPage, $where['type']);
-        }
-
-        return $result;
-    }
-
-    /**
-     * 读取redis数据，并且把得到的数据转换成对象
-     * @param $forPages  int   一页获取的数量
-     * @param $nowPage  int   当前页
-     * @param $type   数据的类型
-     * @return array
-     * @author 杨志宇
-     */
-    public function selectArticleRedis($forPages, $nowPage, $type)
-    {
-        // 读取list长度
-        $count = self::$articleCache->getLength(LIST_ARTICLE_INFO_ . $type);
-        // 分页页数
-        $totalPage = ceil($count / $forPages);
-        $result['data'] = self::$articleCache->getArticleList($forPages, $nowPage, $type);
-        $result['totalPage'] = $totalPage;
-        return ['StatusCode' => '200', 'ResultData' => $result];
-
-    }
-
-    /**
      * 查询相关通知信息
      * @param $guid
      * @return array  通知的信息，数组格式
@@ -236,7 +130,7 @@ class NoticeService
      */
     public function getData($guid)
     {
-        $data = self::$articleCache->getOneArticle($guid);
+        $data = self::$noticeStore->getOneData(['guid' => $guid]);
         // 判断有没有取到数据
         if (!empty($data)) {
 //            // 如果登录，则判断点赞记录
@@ -275,9 +169,7 @@ class NoticeService
             if (empty($result) || !is_array($result) || (count($result) != 1) || ($result[0]->user_id != session('user')->guid)) {
                 return ['StatusCode' => '400', 'ResultData' => "没有权限"];
             } else {
-
                 $Data = self::$noticeStore->updataAll($guidAll['id'], ["status" => $status]);
-
             }
         }
         //判断修改结果并返回
@@ -303,11 +195,11 @@ class NoticeService
                 // 更新redis
                 $dataInfo = self::$noticeStore->getOneData(['guid' => $where['guid']]);
                 if ($data['status'] == 5 || $data['status'] == 3) {
-                    $res = self::$articleCache->delList(LIST_ARTICLE_INFO_ . $dataInfo->type, $dataInfo->guid);
+                    $res = self::$noticeCache->delList(LIST_ARTICLE_INFO_ . $dataInfo->type, $dataInfo->guid);
                 }
             }
             // 删除哈希值
-            self::$articleCache->delKey(HASH_ARTICLE_INFO_ . $where['guid']);
+            self::$noticeCache->delKey(HASH_ARTICLE_INFO_ . $where['guid']);
             return ['StatusCode' => '200', 'ResultData' => "修改成功"];
         } else {
             if ($Data == 0) return ['StatusCode' => '204', 'ResultData' => '未作任何更改'];
@@ -345,13 +237,13 @@ class NoticeService
     /**
      * 获取点赞记录用于检测是否点赞
      * @param $user_id
-     * @param $article_id
+     * @param $notice_id
      * @return array
      * @author 郭庆
      */
-    public static function getLike($user_id, $article_id)
+    public static function getLike($user_id, $notice_id)
     {
-        $result = self::$likeStore->getOneData(['action_id' => $article_id, 'user_id' => $user_id]);
+        $result = self::$likeStore->getOneData(['action_id' => $notice_id, 'user_id' => $user_id]);
         if (!$result) return ['status' => false, 'msg' => '还未点赞'];
         return ['status' => true, 'msg' => $result];
     }
@@ -388,14 +280,14 @@ class NoticeService
     /**
      * 修改点赞/不支持
      * @param $user_id
-     * @param $article_id
+     * @param $notice_id
      * @param $data
      * @return array
      * @author 郭庆
      */
-    public static function chargeLike($user_id, $article_id, $data)
+    public static function chargeLike($user_id, $notice_id, $data)
     {
-        $result = self::$likeStore->updateData(['user_id' => $user_id, 'action_id' => $article_id], $data);
+        $result = self::$likeStore->updateData(['user_id' => $user_id, 'action_id' => $notice_id], $data);
         if ($result) return ['status' => true, 'msg' => $result];
         return ['status' => false, 'msg' => '操作失败'];
     }
@@ -421,47 +313,6 @@ class NoticeService
         // 判断有没有分页数据
         return ['StatusCode' => '200', 'ResultData' => $result];
 
-    }
-
-    /**
-     * 用户发布文稿
-     * @param $data
-     * @return array
-     * @author 郭庆
-     */
-    public function addArticle($data)
-    {
-        unset($data['verif_code']);
-        // 判断是否为修改文稿内容
-        if (!empty($data['write'])) {
-            $guid = $data['write'];
-            unset($data['write']);
-            $this->upDta(['guid' => $guid], ['status' => 5]);
-        }
-        unset($data['write']);
-        $data["guid"] = Common::getUuid();
-        $data["addtime"] = time();
-        $data['user'] = 2;
-        // 判断是否是预览
-        if ($data['status'] == 0) {
-            $md5Guid = md5(session('user')->guid);
-            // 预览内容写入redis，
-            if (BaseRedis::setexRedis($md5Guid, json_encode($data), 1800)) {
-                return ['StatusCode' => '200.1', 'ResultData' => $md5Guid];
-            };
-            return ['StatusCode' => '400', 'ResultData' => '预览出错，请联系管理员！'];
-        }
-        if ($data['status'] != '2' && $data['status'] != '4') {
-            $data['status'] = '4';
-        }
-        $result = self::$noticeStore->insertData($data);
-        //判断插入是否成功，如果成功则写入redis并返回结果
-
-        if (isset($result)) {
-            session(['code' => '']);
-            return ['StatusCode' => '200', 'ResultData' => '保存成功'];
-        }
-        return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
     }
 
     /**
@@ -510,78 +361,6 @@ class NoticeService
     }
 
     /**
-     * 把预览数据从缓存中取出
-     * @param string $id GUID标识
-     * @return array
-     * @author 杨志宇
-     */
-    public function getCacheContribution($id)
-    {
-        $data = BaseRedis::getRedis($id);
-        if (!empty($data)) {
-            $result = json_decode($data);
-            return ['StatusCode' => '200', 'ResultData' => $result];
-        } else {
-            return ['StatusCode' => '400', 'ResultData' => '查询失败'];
-        }
-
-    }
-
-    /**
-     * 获取八条通知，根据给定条件
-     * @param int $type 通知类型
-     * @param int $take 通知条数
-     * @param int $status 通知状态
-     * @return array
-     * @author 郭庆
-     * @modify 杨志宇
-     */
-    public function getTakeArticles($type, $take = 8, $status = 1)
-    {
-        // 判断article缓存是否存在
-        if (!self::$articleCache->exists(LIST_ARTICLE_INFO_ . $type)) {
-            // 获取数据库里的所有通知列表,并且转对象为数组
-            // 判断guid有没有取失败
-            $guidArr = self::$noticeStore->getAllGuid(['type' => $type, 'status' => $status]);
-            if (!empty($guidArr)) {
-                // 获取数据库里的所有通知列表,并且转对象为数组
-                $article_list = CustomPage::objectToArray($guidArr);
-            }
-            $result = $this->selectData(['type' => $type], 1, $take, 'aaa', false);
-            // 存入redis缓存
-            // 判断返回值是否正确
-            if ($result['StatusCode'] == '200') {
-                if (count($article_list)) {
-                    // 把数据保存进HASH
-                    foreach ($result['ResultData']['data'] as $item) {
-                        $info = CustomPage::objectToArray($item);
-                        self::$articleCache->addHash(HASH_ARTICLE_INFO_ . $info['guid'], $info);
-                    }
-                    self::$articleCache->setArticleList($article_list, $type);
-                }
-                $result = $result['ResultData']['data'];
-            }
-
-
-        } else {
-            // 直接读取缓存数据,并把数组转换为对象
-            $result = $this->selectArticleRedis($take, 1, $type);
-            $result = $result['ResultData']['data'];
-
-        }
-
-
-//        if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
-//
-//        // 获取通知数据
-//        $result = self::$noticeStore->takeArticles(['type' => '1', 'status' => $status], $take);
-//        dd($result);
-//        if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
-
-        return ['StatusCode' => '200', 'ResultData' => $result];
-    }
-
-    /**
      * 获取四条随机通知，根据给定条件
      * @param int $type 通知类型
      * @param int $take 随机通知的数量
@@ -589,107 +368,10 @@ class NoticeService
      * @return array
      * @author 杨志宇
      */
-    public function getRandomArticles($type, $take = 4, $status = 1)
+    public function getRandomNotices($type, $take = 4, $status = 1)
     {
-        if (!self::$articleCache->exists(LIST_ARTICLE_INFO_ . $type)) {
-            if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '请求参数缺失'];
-            $start = self::$noticeStore->getCount(['type' => $type, 'status' => $status]);
-            // 获取通知数据
-            $result = self::$noticeStore->RandomArticles(['type' => $type, 'status' => $status], $take, rand(1, $start - $take));
-            if (!$result) return ['StatusCode' => '400', 'ResultData' => '暂无数据'];
-        } else {
-            $result = $this->getRandomRedisArticle($type, $take);
-        };
+        if (empty($type)) return ['StatusCode' => '400', 'ResultData' => '数据参数有误'];
+        $result = self::$noticeStore->getData(['status' => $status,'type'=>$type], $take);
         return ['StatusCode' => '200', 'ResultData' => $result];
-    }
-
-    /**
-     * 随机获取前四条数据的具体方法
-     * @param $type  string  '1'  or  '2'  获取数据的类型
-     * @param $num   int   数量
-     * @return mixed
-     * @author 杨志宇
-     */
-    protected function getRandomRedisArticle($type, $num)
-    {
-        // 得到list的长度
-        $count = self::$articleCache->getLength(LIST_ARTICLE_INFO_ . $type);
-        // 随机获取四个数字
-        $numArr = range(0, $count - 1);
-        shuffle($numArr);
-        $nowPageArr = array_slice($numArr, 0, $num);
-
-        // 根据随机数，通过索引得到想要的数据
-        for ($i = 0; $i < $num; $i++) {
-            $res = self::$articleCache->getArticleList(1, $nowPageArr[$i], $type);
-            if (!empty($res)) {
-                $data[$i] = $res[0];
-            }
-
-        }
-        $result = $data;
-        return $result;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //暂时不用的方法--------------------------------------------------------------------------------------------------------------
-    /**
-     * 发表评论
-     * @param $data  数组，['action_id' => '通知ID', 'user_id' => '用户ID', 'count '评论内容']
-     * @return array
-     * @author 郭庆
-     * @modify 杨志宇
-     */
-    public static function comment($data)
-    {
-        $data["time"] = date("Y-m-d H:i:s", time());
-
-
-        // 判断两次评论之间的时间间隔
-        $oldTime = self::getUserCommentTime($data['action_id'], session('user')->guid);
-        if (($oldTime + config('safety.COMMENT_TIME')) > time()) {
-            return ['StatusCode' => '400', 'ResultData' => '两次评论间隔过短，请稍后重试'];
-        };
-
-        $result = self::$commentStore->addData($data);
-        if ($result) {
-            // 获取评论信息
-            $comment = self::getComment($data['action_id'], 1);
-            return ['StatusCode' => '200', 'ResultData' => $comment['ResultData'][0]];
-        }
-
-        return ['StatusCode' => '400', 'ResultData' => '存储数据发生错误'];
-
-    }
-
-    /**
-     * 获取指定用户所发表的所有通知
-     * @param $id
-     * @param $status
-     * @return array
-     * @author 郭庆
-     * @modify 杨志宇
-     */
-    public static function getArticleByUser($id, $status)
-    {
-        $result = self::$noticeStore->getData(['user_id' => $id, 'status' => $status]);
-        if ($result) {
-            return ['StatusCode' => '200', 'ResultData' => $result];
-        } else {
-            return ['StatusCode' => '201', 'ResultData' => '没有数据'];
-        }
-
     }
 }

@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         '\App\Console\Commands\Clear_Redis',//一键清缓存
         '\App\Console\Commands\Add_Redis',//一键加缓存
         '\App\Console\Commands\CheckList',//一键加缓存
+        '\App\Console\Commands\CreateAdministrator',//添加后台超级管理员账号
     ];
 
     /**

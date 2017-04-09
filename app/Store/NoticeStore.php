@@ -66,7 +66,7 @@ class NoticeStore
      * @return mixed
      * @author 郭庆
      */
-    public function forPage($page, $tolPage, $where, $sort="desc")
+    public function forPage($page, $tolPage, $where, $sort = "desc")
     {
         return DB::table(self::$table)
             ->where($where)
@@ -80,9 +80,11 @@ class NoticeStore
      * @return mixed
      * @author 郭庆
      */
-    public static function getData($where)
+    public static function getData($where, $limit = '')
     {
-        return DB::table(self::$table)->where($where)->orderBy("addtime", "desc")->get();
+        $temp = DB::table(self::$table)->where($where)->orderBy("addtime", "desc");
+        if (empty($limit)) return $temp->get();
+        return $temp->take($limit)->get();
     }
 
 
@@ -145,7 +147,7 @@ class NoticeStore
 
     /**
      * 获取一条数据
-     *@param array $where
+     * @param array $where
      * @return \Illuminate\Http\Response
      * @author 杨志宇
      */
@@ -172,7 +174,7 @@ class NoticeStore
 
     /**
      * 获取指定条数随机数据
-     * @param array $where  数据条件
+     * @param array $where 数据条件
      * @param int $number 取出的条数
      * @param int $start 开始的位置
      * @return mixed

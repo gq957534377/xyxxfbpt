@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Store\NoticeStore;
 use App\Tools\CustomPage;
 use Illuminate\Http\Request;
 use Validator;
@@ -15,18 +16,20 @@ class NoticeController extends Controller
     protected static $noticeServer;
     protected static $userServer;
     protected static $commentServer;
-    protected static $noticeCache;
     protected static $forPages = 5;
+    protected static $noticeStore = 5;
 
     public function __construct(
         NoticeServer $noticeServer,
         UserServer $userServer,
-        CommentServer $commentServer
+        CommentServer $commentServer,
+        NoticeStore $noticeStore
     )
     {
         self::$noticeServer = $noticeServer;
         self::$userServer = $userServer;
         self::$commentServer = $commentServer;
+        self::$noticeStore = $noticeStore;
     }
 
     /**
@@ -73,18 +76,14 @@ class NoticeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * 向文章表插入数据
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * 说明:
+     *
+     * @param Request $request
      * @author 郭庆
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $result = self::$noticeServer->noticeOrder($data);
-        if (!$result['status']) return response()->json(['StatusCode' => 400, 'ResultData' => $result['msg']]);
-        return response()->json(['StatusCode' => 200, 'ResultData' => $result['msg']]);
+
     }
 
     /**
@@ -97,8 +96,7 @@ class NoticeController extends Controller
      */
     public function show($id)
     {
-        $data = CustomPage::arrayToObject(self::$noticeCache->getOnenotice($id));
-        if (!$data || $data->status != 1) return view('errors.404');
+        $data = self::$noticeStore->getOneData(['guid' => $id]);
 
         $rand = self::$noticeServer->getRandomnotices($data->type, 4, 1);
 
