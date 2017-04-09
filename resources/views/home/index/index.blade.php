@@ -47,20 +47,20 @@
             <div class="content-block hot-content hidden-xs">
                 <h2 class="title"><strong>本周热门排行</strong></h2>
                 <ul>
-                    <li class="large"><a href="content.html" target="_blank"><img
+                    <li class="large"><a href="" target="_blank"><img
                                     src="{{ asset('home/images/img3.jpg') }}" alt="">
                             <h3> 欢迎来到校园信息发布平台 </h3>
                         </a></li>
-                    <li><a href="content.html" target="_blank"><img src="{{ asset('home/images/logo.jpg') }}" alt="">
+                    <li><a href="" target="_blank"><img src="{{ asset('home/images/logo.jpg') }}" alt="">
                             <h3> 欢迎来到校园信息发布平台,在这里可以看到校园最新信息的发布等 </h3>
                         </a></li>
-                    <li><a href="content.html" target="_blank"><img src="{{ asset('home/images/img2.jpg') }}" alt="">
+                    <li><a href="" target="_blank"><img src="{{ asset('home/images/img2.jpg') }}" alt="">
                             <h3> 欢迎来到校园信息发布平台,在这里可以看到校园最新信息的发布等 </h3>
                         </a></li>
-                    <li><a href="content.html" target="_blank"><img src="{{ asset('home/images/img1.jpg') }}" alt="">
+                    <li><a href="" target="_blank"><img src="{{ asset('home/images/img1.jpg') }}" alt="">
                             <h3> 欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 </h3>
                         </a></li>
-                    <li><a href="content.html" target="_blank"><img src="{{ asset('home/images/logo.jpg') }}" alt="">
+                    <li><a href="" target="_blank"><img src="{{ asset('home/images/logo.jpg') }}" alt="">
                             <h3> 欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布等 </h3>
                         </a></li>
                 </ul>
