@@ -152,7 +152,7 @@ class NoticeService
 
     /**
      * 修改通知状态
-     * @param $guidAll 数组，['guid1', 'guid2', ***]
+     * @param $guidAll array，['guid1', 'guid2', ***]
      * @param $status
      * @param $user
      * @return array
@@ -191,15 +191,6 @@ class NoticeService
         $data["addtime"] = time();
         $Data = self::$noticeStore->upload($where, $data);
         if ($Data) {
-            if (!empty($data['status'])) {
-                // 更新redis
-                $dataInfo = self::$noticeStore->getOneData(['guid' => $where['guid']]);
-                if ($data['status'] == 5 || $data['status'] == 3) {
-                    $res = self::$noticeCache->delList(LIST_ARTICLE_INFO_ . $dataInfo->type, $dataInfo->guid);
-                }
-            }
-            // 删除哈希值
-            self::$noticeCache->delKey(HASH_ARTICLE_INFO_ . $where['guid']);
             return ['StatusCode' => '200', 'ResultData' => "修改成功"];
         } else {
             if ($Data == 0) return ['StatusCode' => '204', 'ResultData' => '未作任何更改'];

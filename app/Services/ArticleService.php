@@ -638,22 +638,15 @@ class ArticleService
     protected function getRandomRedisArticle($type, $num)
     {
         // 得到list的长度
-        $count = self::$articleCache->getLength(LIST_ARTICLE_INFO_ . $type);
+        $count = self::$articleCache->getLength(config('rediskey.LIST_ARTICLE_INFO_') . $type);
         // 随机获取四个数字
         $numArr = range(0, $count - 1);
         shuffle($numArr);
         $nowPageArr = array_slice($numArr, 0, $num);
 
         // 根据随机数，通过索引得到想要的数据
-        for ($i = 0; $i < $num; $i++) {
-            $res = self::$articleCache->getArticleList(1, $nowPageArr[$i], $type);
-            if (!empty($res)) {
-                $data[$i] = $res[0];
-            }
-
-        }
-        $result = $data;
-        return $result;
+        $res = self::$articleCache->getArticleList($num, $nowPageArr[0], $type);
+        return $res;
     }
 
 
