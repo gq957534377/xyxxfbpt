@@ -42,6 +42,7 @@
                 <p>活动状态：</p>
             </div>
             <ul class="col-sm-9 col-md-9 col-lg-10 road-time mar-clr pad-clr">
+                @if($StatusCode == '200')
                 <li class='pad-r2-xs @if($ResultData['status'] == 6) active @endif'>
                     <a href="{{asset('/action_order?type='.$ResultData['list'])}}">全部</a>
                 </li>
@@ -57,6 +58,7 @@
                 <li class='pad-r2-xs @if($ResultData['status'] == 3) active @endif'>
                     <a href="{{asset('/action_order?type='.$ResultData['list'].'&status=3')}}">已结束</a>
                 </li>
+                    @endif
             </ul>
         </div>
 
@@ -65,7 +67,7 @@
             <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span style="color: #999999">你还未参加任何活动呦~亲 O(∩_∩)O~</span>
             </li>
-        @elseif($StatusCode === '200')
+        @elseif($StatusCode == '200')
             <div id="list">
                 @foreach($ResultData['data'] as $action)
                     <div class="row mar-clr bb-3 mar-b15 pad-b15">
@@ -119,6 +121,7 @@
 @section('script')
     <script src="{{asset('JsService/Model/date.js')}}"></script>
     <script>
+        @if($StatusCode == '200')
         var status = "{{$ResultData['status']}}";
         var list = "{{$ResultData['list']}}";
         //活动状态展示
@@ -197,5 +200,6 @@
             });
         }
         getPage();
+        @endif
     </script>
 @endsection

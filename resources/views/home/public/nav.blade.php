@@ -126,15 +126,15 @@
             </div>
         </li>
     </ul>
-    <div class="feeds"><a class="feed feed-xlweibo" href="index.html" target="_blank"><i></i>新浪微博</a> <a
-                class="feed feed-txweibo" href="index.html" target="_blank"><i></i>腾讯微博</a> <a class="feed feed-rss"
-                                                                                               href="index.html"
-                                                                                               target="_blank"><i></i>订阅本站</a>
-        <a class="feed feed-weixin" data-toggle="popover" data-trigger="hover" title="微信扫一扫" data-html="true"
-           data-content="<img src='images/weixin.jpg' alt=''>" href="javascript:;" target="_blank"><i></i>关注微信</a>
+    <div class="feeds"><a class="feed feed-xlweibo" href="http://blog.guoq.xin/" target="_blank"><i></i>博客</a> <a
+                class="feed feed-txweibo" href="http://weibo.com/u/3912137536" target="_blank"><i></i>新浪微博</a> <a class="feed feed-rss"
+                                                                                               href="http://www.jianshu.com/u/08986e4feb77"
+                                                                                               target="_blank"><i></i>简书</a>
+        <a class="feed feed-weixin" data-toggle="popover" data-trigger="hover" data-html="true"
+           data-content="<img src='{{ asset('home/images/weixin.jpg') }}' alt=''>" href="javascript:;" target="_blank"><i></i>关注微信</a>
     </div>
-    <div class="wall"><a href="readerWall.html" target="_blank">读者墙</a> | <a href="tags.html"
-                                                                             target="_blank">标签云</a></div>
+    {{--<div class="wall"><a href="readerWall.html" target="_blank">读者墙</a> | <a href="tags.html"--}}
+                                                                             {{--target="_blank">标签云</a></div>--}}
 </div>
 <!--/超小屏幕不显示-->
 <div class="visible-xs header-xs"><!--超小屏幕可见-->

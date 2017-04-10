@@ -28,7 +28,7 @@
         @if($errCheck)
             <div>
                 <img id="captcha" style="margin-bottom: -17px;" data-sesid="{{ $sesid }}"
-                     src="{{url('/code/captcha/' . $sesid)}}">
+                     src="{{url('/getCaptcha/'.$sesid.'/register')}}">
                 <input class="code" id="codes" name="code" type="text" style="width: 50%; margin-left: -3px;"
                        placeholder="请输入验证码"/>
             </div>
