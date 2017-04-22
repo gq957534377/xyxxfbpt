@@ -66,7 +66,10 @@
 </section>
 <div><a href="javascript:;" class="gotop" style="display:none;"></a></div>
 <!--/返回顶部-->
-@include('home.public.script')
+<script src="{{asset('home/js/jquery-2.1.4.min.js')}}" type="text/javascript"></script>
+<script src="{{asset('home/js/nprogress.js')}}" type="text/javascript"></script>
+<script src="{{asset('home/js/bootstrap.min.js')}}" type="text/javascript"></script>
+<script type="text/javascript" src="{{asset('home/js/jquery.leanModal.min.js')}}"></script>
 
 @yield('script')
 </body>

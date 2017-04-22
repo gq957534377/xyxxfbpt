@@ -32,7 +32,7 @@ class ProjectController extends Controller
 
     /**返回项目列表页
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @author 贾济林
+     * @author guoqing
      * @modify 刘峻廷
      * @modify 张洵之
      */
@@ -82,7 +82,7 @@ class ProjectController extends Controller
      * 项目发布
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * @author 贾济林
+     * @author guoqing
      * @modify 张洵之
      */
     public function store(Request $request)
@@ -121,7 +121,7 @@ class ProjectController extends Controller
      * 返回项目详情视图
      * @param $id
      * @return bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @author 贾济林
+     * @author guoqing
      * @modify 刘峻廷
      * @modify 张洵之
      */

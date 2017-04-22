@@ -42,7 +42,7 @@ class ProjectService
      * 获取指定条件的数据
      * @param $where
      * @return array
-     * @author 贾济林
+     * @author guoqing
      * @modify 张洵之
      */
     public function getData($nowPage, $pageNum, $where)
@@ -84,7 +84,7 @@ class ProjectService
      * 修改项目状态
      * @param $data
      * @return array
-     * @author 贾济林
+     * @author guoqing
      * @modify 张洵之
      */
     public function changeStatus($data)
@@ -115,7 +115,7 @@ class ProjectService
      * @param $num
      * @param $status
      * @return array
-     * @author 贾济林
+     * @author guoqing
      * @modify 张洵之
      */
     public function getPage($nowpage, $num, $status)
@@ -171,7 +171,7 @@ class ProjectService
      * @param $data
      * @param $where
      * @return array
-     * @author 贾济林
+     * @author guoqing
      */
     public function updateData($data, $where)
     {

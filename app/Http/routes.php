@@ -122,6 +122,8 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
         Route::resource('userGoods', 'userGoodsController');
 
         Route::resource('/upload', 'ActionController@upload');
+        //七牛TokenToken
+        Route::get('/getQiniuToken','userGoodsController@getToken');
     });
 
 

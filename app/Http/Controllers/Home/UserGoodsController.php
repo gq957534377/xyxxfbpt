@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Home;
 
 use App\Services\GoodsService;
+use App\Store\GoodsStore;
+use App\Tools\Common;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -11,9 +13,12 @@ use App\Http\Controllers\Controller;
 class UserGoodsController extends Controller
 {
     private static $goodsService;
-    public function __construct(GoodsService $goodsService)
+    private static $goodsStore;
+
+    public function __construct(GoodsService $goodsService, GoodsStore $goodsStore)
     {
         self::$goodsService = $goodsService;
+        self::$goodsStore = $goodsStore;
     }
 
     /**
@@ -38,18 +43,40 @@ class UserGoodsController extends Controller
      */
     public function create()
     {
-        //
+        return view('home.user.goods.add');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 说明: 个人中心发布商品
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return mixed
+     * @author 郭庆
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->except('_token');
+        // 数据验证过滤
+        $validator = \Validator::make($data, [
+            'name' => 'required|max:64',
+            'price' => 'required|integer',
+            'content' => 'required',
+            'brief' => 'required|max:120',
+            'qq' => 'required|integer',
+            'tel' => 'required|integer',
+            'wechat' => 'required',
+            'banner' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator->errors()->all());
+        }
+
+        $data['addtime'] = time();
+        $data['author'] = session('user')->guid;
+        $data['guid']=Common::getUuid();
+        $result = self::$goodsStore->insertData($data);
+        if (empty($result)) return back()->withErrors('添加失败');
+        return back()->withErrors('发布成功', 'success');
     }
 
     /**
@@ -95,5 +122,17 @@ class UserGoodsController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * 返回七牛存储Token
+     * @return \Illuminate\Http\JsonResponse
+     * author guoqing
+     */
+    public function getToken()
+    {
+        $token = Common::getToken();
+        $result = ['uptoken' => $token];
+        return response()->json($result);
     }
 }

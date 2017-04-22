@@ -189,7 +189,7 @@ class Common {
     /**
      * 返回七牛upToken
      * @return mixed
-     * @author 贾济林
+     * @author guoqing
      */
     public static function getToken()
     {
@@ -213,7 +213,7 @@ class Common {
      * @param $filePath
      * @param $key
      * @return array
-     * @author 贾济林
+     * @author guoqing
      */
     public static function QiniuUpload($filePath,$key)
     {

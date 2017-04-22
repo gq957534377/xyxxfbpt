@@ -11,7 +11,7 @@ class ProjectStore {
      * 增加数据
      * @param $data
      * @return bool
-     * @author 贾济林
+     * @author guoqing
      */
     public function addData($data)
     {
@@ -23,7 +23,7 @@ class ProjectStore {
      * 获取制定条件的数据
      * @param $where
      * @return bool
-     * @author 贾济林
+     * @author guoqing
      */
     public function getData($where)
     {
@@ -61,7 +61,7 @@ class ProjectStore {
      * @param $param
      * @param $data
      * @return bool
-     * author 贾济林
+     * author guoqing
      */
     public function update($param, $data)
     {
@@ -75,7 +75,7 @@ class ProjectStore {
      * @param $pageNum
      * @param $status
      * @return mixed
-     * author 贾济林
+     * author guoqing
      * @modify 杨志宇
      */
     public function getPage($nowPage, $pageNum, $where)
