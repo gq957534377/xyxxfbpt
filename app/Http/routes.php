@@ -87,6 +87,7 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
     Route::resource('/comment', 'ArticleController@commentShow');
 
     Route::resource('/news', 'NewsController');
+    Route::resource('/goods', 'GoodsController');
 
     //中间件，检验是否登录
     Route::group(['middleware' => 'HomeMiddleware'], function () {
@@ -118,6 +119,7 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
         //投稿管理
         Route::resource('/send/get_article_info', 'SendController@getArticleInfo');
         Route::resource('/send', 'SendController');
+        Route::resource('userGoods', 'userGoodsController');
 
         Route::resource('/upload', 'ActionController@upload');
     });

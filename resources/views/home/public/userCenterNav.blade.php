@@ -25,7 +25,7 @@
         <li><a href="{{ url('/action_order?type=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a></li>
         <li><a href="{{ route('send.index') }}"><span class="glyphicon glyphicon-inbox"></span>我的文章</a></li>
         <li><a href="{{ url('user/commentandlike') }}"><span class="glyphicon glyphicon-globe"></span>我的评论</a></li>
-        <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>我的二手交易</a></li>
+        <li><a href="{{ url('userGoods') }}"><span class="glyphicon glyphicon-user"></span>我的二手交易</a></li>
     </ul>
     <div class="feeds"><a class="feed feed-xlweibo" href="index.html" target="_blank"><i></i>新浪微博</a> <a
                 class="feed feed-txweibo" href="index.html" target="_blank"><i></i>腾讯微博</a> <a class="feed feed-rss"
@@ -77,7 +77,7 @@
             <li><a href="{{ url('/action_order?&type=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a></li>
             <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>我的文章</a></li>
             <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>我的评论</a></li>
-            <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>我的二手交易</a></li>
+            <li><a href="{{ url('userGoods') }}"><span class="glyphicon glyphicon-user"></span>我的二手交易</a></li>
         </ul>
     </div>
 </div>

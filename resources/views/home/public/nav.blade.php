@@ -67,12 +67,8 @@
                 </ul>
             </div>
         </li>
-        <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a>
-            <div>
-                <ul class="nav hidden-xs-nav">
-                    <li><a href=""><span class="glyphicon glyphicon-erase"></span>开发中</a>
-                </ul>
-            </div>
+        <li><a href="{{ route('goods.index') }}"><span class="glyphicon glyphicon-user"></span>校园二手交易</a>
+
         </li>
         <li><a href=""><span class="glyphicon glyphicon-tags"></span>校园学习</a>
             <div>
@@ -181,7 +177,7 @@
             </li>
             <li><a href="{{ route('notice.index', ['type' => '1']) }}"><span class="glyphicon glyphicon-globe"></span>校园通知</a>
             </li>
-            <li><a href="about.html"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
+            <li><a href="{{ route('goods.index') }}"><span class="glyphicon glyphicon-user"></span>校园二手交易</a></li>
             <li><a href="{{ route('study.index') }}"><span class="glyphicon glyphicon-tags"></span>校园学习</a></li>
             <li><a href="{{ route('news.index' ,['type' => 'top']) }}"><span class="glyphicon glyphicon-tags"></span>社会新闻</a>
             </li>
