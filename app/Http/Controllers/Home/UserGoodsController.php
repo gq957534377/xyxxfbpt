@@ -95,14 +95,19 @@ class UserGoodsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 说明: 删除操作
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     * @author 郭庆
      */
     public function edit($id)
     {
-        //
+        if (empty($id)) return response()->json(['StatusCode' => '400', '数据参数有误！']);
+
+        $res = self::$goodsStore->upload(['guid' => $id], ['status' => 2]);
+        if (empty($res)) return response()->json(['StatusCode' => '500', '删除失败']);
+        return response()->json(['StatusCode' => '200', '删除成功！']);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Home;
 
 use App\Services\GoodsService;
+use App\Store\GoodsStore;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -11,9 +12,11 @@ use App\Http\Controllers\Controller;
 class GoodsController extends Controller
 {
     private static $goodsService;
-    public function __construct(GoodsService $goodsService)
+    private static $goodsStore;
+    public function __construct(GoodsService $goodsService, GoodsStore $goodsStore)
     {
         self::$goodsService = $goodsService;
+        self::$goodsStore = $goodsStore;
     }
     /**
      * 说明: 商品列表页
@@ -41,6 +44,17 @@ class GoodsController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
@@ -51,26 +65,24 @@ class GoodsController extends Controller
         //
     }
 
+
     /**
-     * Display the specified resource.
+     * 说明: 展示详情页面
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @author 郭庆
      */
     public function show($id)
     {
-        //
-    }
+        if (empty($id)) return view('errors.404');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $data = self::$goodsStore->getOneData(['guid'=>$id]);
+        if (empty($data) || $data->status != 1) view('errors.404');
+
+        return view('home.goods.details',[
+            'data'=>$data
+        ]);
     }
 
     /**

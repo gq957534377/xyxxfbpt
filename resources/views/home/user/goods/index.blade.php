@@ -4,6 +4,7 @@
 
 @section('style')
     <link href="{{ asset('home/css/user_center_my_road.css') }}" rel="stylesheet">
+    <link href="{{asset('admin/css/sweet-alert.min.css')}}" rel="stylesheet">
     <style>
         .pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
             z-index: 3;
@@ -11,6 +12,27 @@
             cursor: default;
             background-color: #ff9600;
             border-color: #ff9600;
+        }
+        .sweet-alert p {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 22px;
+        }
+        button.confirm {
+            background-color: #34c73b !important;
+            box-shadow: none !important;
+        }
+        .sweet-alert .sa-icon.sa-success .sa-placeholder {
+            border: 4px solid #34c73b;
+        }
+        .sweet-alert .sa-icon.sa-success .sa-line {
+            background-color: #34c73b;
+        }
+        .sweet-alert .sa-icon.sa-error {
+            border-color: #d74548;
+        }
+        .sweet-alert .sa-icon.sa-error .sa-line {
+            background-color: #d74548;
         }
     </style>
 @endsection
@@ -43,7 +65,7 @@
                                         {{ $goods->name }}
                                     </a>
                                     <a href="userGoods/{{ $goods->guid }}">修改</a>
-                                    <a data-user="{{ $goods->guid }}">删除</a>
+                                    <a data-user="{{ $goods->guid }}" class="del">删除</a>
                                 <h3 style="color: red">{{ $goods->price }}元</h3>
                                 </dt>
                                 <dd>
@@ -70,3 +92,46 @@
     </div>
     <!--我参加的路演列表结束-->
 @endsection
+
+@section('script')
+    <script src="{{ asset('admin/js/sweet-alert.min.js') }}"></script>
+    <script>
+        // 删除操作
+        $('.del').click(function () {
+            var This = $(this);
+            var title = '确定删除';
+            var message = '当前操作将永久删除该商品，此操作无法恢复';
+            swal({
+                title: title,
+                text: message,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: '确定',
+                cancelButtonText: "取消",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    var url = '/userGoods/' + This.data('user') + '/edit';
+                    $.ajax({
+                        url: url,
+                        success: function (data) {
+                            if (data.StatusCode != '200') {
+                                swal('删除失败', data.ResultData, "error");
+                            } else {
+                                swal('删除成功', data.ResultData, "success");
+                                This.parents('.news-list').remove();
+                            }
+                        }
+                    });
+                } else {
+                    swal("已取消！", "没有做任何修改！", "error");
+                    return false;
+                }
+            });
+            return false;
+        })
+    </script>
+@endsection
+

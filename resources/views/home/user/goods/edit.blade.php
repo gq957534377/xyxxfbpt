@@ -133,6 +133,7 @@
             getToken();
         });
 
+        // 获取七牛token
         var getToken = function () {
             $.ajax({
                 url: $('#uptoken_url').val(),
