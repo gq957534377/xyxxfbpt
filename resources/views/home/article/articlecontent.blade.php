@@ -38,6 +38,7 @@
                     <p>{!! $data->describe !!}</p>
                 </div>
             </article>
+            @if($data->status == 1)
             <div class="zambia"><a @if($likeStatus != 1) class="collect" @endif rel=""><span
                             class="glyphicon glyphicon-thumbs-up"></span><span id="zan">@if($likeStatus != 1)赞@else
                             已赞@endif</span>（<span id="zanNum">{{ $likeNum }}</span>）</a></div>
@@ -106,6 +107,7 @@
                     @endif
                 </ul>
             </div>
+                @endif
         </div>
     </div>
     <!--/内容-->
@@ -118,7 +120,7 @@
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script>
         var token = $('meta[name="csrf-token"]').attr('content');
-        @if($isLogin)
+        @if($data->status == 1 && $isLogin)
 
         //点赞功能暂时注释
         $('.collect').click(function () {

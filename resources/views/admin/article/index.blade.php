@@ -454,7 +454,7 @@
                 required: '请输入文章来源'
             },
             describe: {
-                required: '请输入路演详情'
+                required: '请输入活动详情'
             },
             banner: {
                 required: '缩略图不能为空'

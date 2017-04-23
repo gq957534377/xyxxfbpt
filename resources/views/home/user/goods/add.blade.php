@@ -111,7 +111,7 @@
             </div>
         </form>
     </div>
-    <!--我参加的路演列表结束-->
+    <!--我参加的活动列表结束-->
 @endsection
 @section('script')
     <script src="{{ asset('imageInput/js/ssi-uploader.min.js') }}"></script>

@@ -23,7 +23,7 @@ class ArticleStore
      */
     public function insertData($data)
     {
-        return $result = DB::table(self::$table)->insertGetId($data);
+        return $result = DB::table(self::$table)->insert($data);
     }
 
     /**

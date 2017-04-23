@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Store\ArticleStore;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\ArticleService as ArticleServer;
@@ -12,12 +13,15 @@ use App\Tools\Common;
 
 class SendController extends Controller
 {
-    protected  static $articleServer;
-    protected  static $userServer;
-    public function __construct(UserServer $userServer, ArticleServer $articleServer)
+    protected static $articleServer;
+    protected static $userServer;
+    protected static $articleStore;
+
+    public function __construct(UserServer $userServer, ArticleServer $articleServer, ArticleStore $articleStore)
     {
         self::$articleServer = $articleServer;
         self::$userServer = $userServer;
+        self::$articleStore = $articleStore;
     }
 
     /**
@@ -32,7 +36,7 @@ class SendController extends Controller
 //        // 判断有没有传递参数
 
         $data = $request->all();
-        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"]:1;//获取当前页
+        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"] : 1;//获取当前页
         $forPages = 5;//一页的数据条数
         // 判断现在查询的是哪一类数据
         if (empty(session('status'))) {
@@ -53,11 +57,11 @@ class SendController extends Controller
 
 
         $where = [];
-        if($status){
+        if ($status) {
             $where["status"] = $status;
         }
-        if($type!="null"){
-            if ($type != 3){
+        if ($type != "null") {
+            if ($type != 3) {
                 $where["type"] = $type;
             }
         }
@@ -67,12 +71,13 @@ class SendController extends Controller
         $result = self::$articleServer->selectData($where, $nowPage, $forPages, "/send");
         $result['TypeDataNum'] = self::$articleServer->selectTypeDataNum($where)['ResultData'];
         $result['status'] = $data['status'];
-        switch ($data['status'])
-        {
-            case 1: case 2:
+        switch ($data['status']) {
+            case 1:
+            case 2:
                 return view('home.user.contribution.indexRelease', $result);
                 break;
-            case 3:case 4:
+            case 3:
+            case 4:
                 return view('home.user.contribution.indexRejection', $result);
                 break;
             default:
@@ -90,42 +95,37 @@ class SendController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * 返回投稿页面
      *
      * @return \Illuminate\Http\Response
      * @author 郭庆
      */
-    public function create(Request $request)
+    public function create()
     {
-
+        return view('home.user.article.add');
     }
 
     /**
-     * 用户投稿
+     * 说明: 投稿
      *
-     * @return array
+     * @param Request $request
+     * @return mixed
      * @author 郭庆
-     * @modify 杨志宇
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        $data = $request->except('_token');
+        if (empty($data)) return back()->withErrors('数据参数有误');
 
-        // 判断验证法是否在正确
-        if ($data['verif_code'] != session('code')) {
-            return response()->json(['StatusCode' => '400', 'ResultData' => '验证码错误']);
-            // 判断图片是否正确
-        }
         // 验证过滤数据
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:80',
             'brief' => 'required|max:150',
             'describe' => 'required',
             'source' => 'required|max:80',
-            'verif_code' => 'required',
             'banner' => 'required',
             'status' => 'required',
-        ],[
+        ], [
             'title.required' => '标题不能为空',
             'title.max' => '标题过长',
             'brief.required' => '导语不能为空',
@@ -133,38 +133,36 @@ class SendController extends Controller
             'describe.required' => '内容不能为空',
             'source.required' => '来源不能为空',
             'source.max' => '来源过长',
-            'verif_code.required' => '验证码不能为空',
             'banner.required' => '图片不能为空',
             'status.required' => '参数错误',
         ]);
-        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
-//        if (empty(Redis::get('picture_contri' . session('user')->guid))) {
-//            return response()->json(['StatusCode' => '400', 'ResultData' => '图片上传失败']);
-//        }
-//        $data['banner'] = Redis::get('picture_contri' . session('user')->guid);
-//
-
-        //Redis::set('picture_contri' . session('user')->guid, null);
+        if ($validator->fails()) return back()->withErrors($validator->errors()->all());
 
         $data['user_id'] = session('user')->guid;
         // 取出用户信息
         $res = self::$userServer->userInfo(['guid' => $data['user_id']]);
-        if ($res['StatusCode'] ==  '200'){
-            $data['author'] = $res['ResultData']->nickname;
+        if ($res['StatusCode'] == '200') {
+            $data['author'] = $res['ResultData']->username;
             $data['headpic'] = $res['ResultData']->headpic;
-        }else{
+        } else {
             $data['author'] = '佚名';
             $data['headpic'] = '/home/images/logo.jpg';
         }
-        $result = self::$articleServer->addArticle($data);
-        return response()->json($result);
+        $data['addtime'] = time();
+
+        if ($data['status'] == 'yl') return view('home.article.articlecontent', ['data' => json_decode(collect($data)->toJson())]);
+
+        $data['guid'] = Common::getUuid();
+        $result = self::$articleStore->insertData($data);
+        if (empty($result)) return back()->withErrors('操作失败');
+        return back()->withErrors('操作成功！', 'success');
     }
 
 
     /**
      * 展示预览（未发布）
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      * @author 郭庆
      * @modify 杨志宇
@@ -179,7 +177,7 @@ class SendController extends Controller
     /**
      * 给前台传出对应id的所有数据
      *
-     * @param  int  $id
+     * @param  int $id
      * @return array
      * @author 郭庆
      */
@@ -193,8 +191,8 @@ class SendController extends Controller
     /**
      * 修改文稿内容
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @author 郭庆
      */
     public function update(Request $request, $id)
@@ -202,7 +200,7 @@ class SendController extends Controller
         $data = $request->all();
         $data['user'] = 2;
         $result = self::$articleServer->upDta(['guid' => $id], $data);
-        if($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
+        if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
         return ['StatusCode' => 400, 'ResultData' => $result['msg']];
     }
 

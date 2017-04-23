@@ -16,7 +16,7 @@
 @endsection
 
 @section('content')
-    <!--我参加的路演列表开始-->
+    <!--我参加的活动列表开始-->
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10  mar-clr my-road">
         <div>
             <span>我参加的活动</span>
@@ -115,7 +115,7 @@
 
     <!--活动列表块结束-->
     </div>
-    <!--我参加的路演列表结束-->
+    <!--我参加的活动列表结束-->
 @endsection
 
 @section('script')
