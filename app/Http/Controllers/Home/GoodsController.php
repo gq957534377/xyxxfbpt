@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Services\CommentAndLikeService;
 use App\Services\GoodsService;
 use App\Store\GoodsStore;
 use Illuminate\Http\Request;
@@ -13,11 +14,15 @@ class GoodsController extends Controller
 {
     private static $goodsService;
     private static $goodsStore;
-    public function __construct(GoodsService $goodsService, GoodsStore $goodsStore)
+    private static $commentServer;
+
+    public function __construct(GoodsService $goodsService, GoodsStore $goodsStore, CommentAndLikeService $commentServer)
     {
         self::$goodsService = $goodsService;
         self::$goodsStore = $goodsStore;
+        self::$commentServer = $commentServer;
     }
+
     /**
      * 说明: 商品列表页
      *
@@ -77,11 +82,30 @@ class GoodsController extends Controller
     {
         if (empty($id)) return view('errors.404');
 
-        $data = self::$goodsStore->getOneData(['guid'=>$id]);
+        $data = self::$goodsStore->getOneData(['guid' => $id]);
         if (empty($data) || $data->status != 1) view('errors.404');
 
-        return view('home.goods.details',[
-            'data'=>$data
+        $likeNum = self::$commentServer->likeCount($id);//点赞人数
+        $commentData = self::$commentServer->getComent($id, 1);//评论数据
+        $pageStyle = self::$commentServer->getPageStyle($id, 1);//分页样式
+        //$isHas（是否已经报名参加）的设置
+        if (empty(session('user')->guid)) {
+            $isLogin = false;
+            $likeStatus = 2;
+        } else {
+            $likeStatus = self::$commentServer->likeStatus(session('user')->guid, $id);//当前用户点赞状态
+            $isLogin = session('user')->guid;
+        }
+        //返回详情页
+        return view("home.goods.details", [
+            "list" => 1,
+            "data" => $data,
+            'isLogin' => $isLogin,
+            'likeNum' => $likeNum,
+            'likeStatus' => $likeStatus,
+            'comment' => $commentData,
+            'contentId' => $id,
+            'pageStyle' => $pageStyle
         ]);
     }
 

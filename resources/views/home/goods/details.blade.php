@@ -8,7 +8,7 @@
 
     </style>
 @endsection
-@section('title', '活动详情')
+@section('title', '二手交易详情')
 
 @section('menu')
     @parent
@@ -17,73 +17,41 @@
 @section('content')
     <div class="content-wrap"><!--内容-->
         <div class="content">
-            @if($data['StatusCode'] == '200')
-                <header class="news_header">
-                    <h2>{{ $data['ResultData']->title }}</h2>
-                    <ul>
-                        <li>
-                            <a href="{{ $data['ResultData']->group->pointurl }}">{{ $data['ResultData']->group->name }}</a>
-                            发布于 {{ $data['ResultData']->addtime }}</li>
-                        <li>栏目：<a href="{{ url('action?type='.$data['ResultData']->type) }}" title="" target="_blank">校园活动</a>
-                        </li>
-                        <li>负责人：<strong>{{ $data['ResultData']->author }}</strong></li>
-                        <li>共 <strong>2345</strong> 人围观</li>
-                        <li><strong>123</strong> 个不明物体</li>
-                    </ul>
-                </header>
-                <article class="news_content">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <li><strong>
-                                    <h7>活动时间:</h7>
-                                </strong> {{ date('Y年m月d日 H点', $data['ResultData']->start_time) }}
-                                <strong>到</strong> {{ date('Y年m月d日 H点', $data['ResultData']->end_time) }}</li>
-                            <li><strong>
-                                    <h7>报名截止时间:</h7>
-                                </strong> {{ date('Y年m月d日 H点', $data['ResultData']->deadline) }}</li>
-                            <li><strong>
-                                    <h7>活动地点:</h7>
-                                </strong> {{ $data['ResultData']->address }}</li>
-                            <li><strong>
-                                    <h7>报名情况:</h7>
-                                </strong> 已报名<strong id="people">{{ $data['ResultData']->people }}</strong>人
-                                限额(<strong>{{ $data['ResultData']->limit }}</strong>)人
-                            </li>
-                        </div>
-                        <div class="col-md-4">
-                            @if($data['ResultData']->status == 1)
-                                @if(!$isHas)
-                                    <button id="js_enroll" type="button" class="btn road-banner-join">我要报名</button>
-                                @else
-                                    <button type="button" class="btn road-banner-join">已报名</button>
-                                @endif
-                            @elseif($data['ResultData']->status == 5)
-                                <button type="button" class="btn road-banner-join disabled">报名截止</button>
-                            @elseif($data['ResultData']->status == 2)
-                                <button type="button" class="btn road-banner-join disabled">活动已开始</button>
-                            @elseif($data['ResultData']->status == 3)
-                                <button type="button" class="btn road-banner-join disabled">活动已结束</button>
-                            @elseif($data['ResultData']->status == 4)
-                                <button type="button" class="btn road-banner-join disabled">活动已取消</button>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div style="height: 10px">
-                    </div>
-                    <div>
-                        <p>{!! $data['ResultData']->describe !!}</p>
-                    </div>
-                </article>
-                <div class="zambia"><a @if($likeStatus != 1) class="collect" @endif rel=""><span
-                                class="glyphicon glyphicon-thumbs-up"></span><span id="zan">@if($likeStatus != 1)赞@else已赞@endif</span>（<span id="zanNum">{{ $likeNum }}</span>）</a></div>
-
-                <div class="tags news_tags">标签： <span data-toggle="tooltip" data-placement="bottom"
-                                                      title="查看关于 本站 的文章"><a href="{{ url('/') }}">本站</a></span> <span
-                            data-toggle="tooltip" data-placement="bottom"><a
-                                href="{{ url('/') }}">信息平台</a></span>
+            <header class="news_header">
+                <h2>{{ $data->name }}</h2>
+                <ul>
+                    <li>
+                        发布于 {{ date('Y-m-d H:m:s', $data->addtime )}}</li>
+                    <li>栏目：<a>校园二手交易</a>
+                    </li>
+                </ul>
+            </header>
+            <article class="news_content">
+                <div style="height: 10px">
                 </div>
-            @endif
+                <div class="sponsor">
+                    <p class=""><span><strong>价格：</strong></span><h3 style="color: red">{{ $data->price }}元</h3></p>
+
+                    <p class=""><span><strong>电话：</strong></span><a target="_blank"
+                                                     href="">{{ $data->name }}</a>
+                    </p>
+                    <p class=""><span><strong>QQ：</strong></span>{{ $data->qq }}</p>
+                    <p class=""><span><strong>微信：</strong></span>{{ $data->wechat }}</p>
+                    <p class="">{{ $data->brief}}</p>
+                </div>
+                <div>
+                    <p>{!! $data->content !!}</p>
+                </div>
+            </article>
+            <div class="zambia"><a @if($likeStatus != 1) class="collect" @endif rel=""><span
+                            class="glyphicon glyphicon-thumbs-up"></span><span id="zan">@if($likeStatus != 1)赞@else
+                            已赞@endif</span>（<span id="zanNum">{{ $likeNum }}</span>）</a></div>
+
+            <div class="tags news_tags">标签： <span data-toggle="tooltip" data-placement="bottom"
+                                                  title="关于 本站"><a href="{{ url('/') }}">本站</a></span> <span
+                        data-toggle="tooltip" data-placement="bottom"><a
+                            href="{{ url('/') }}">信息平台</a></span>
+            </div>
             <p>分享到:</p>
             <div class="bdsharebuttonbox col-lg-3 col-md-4 col-sm-4 col-xs-9 pad-clr pad-l30-md pad-l30-sm">
                 <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"
@@ -118,7 +86,7 @@
                     </div>
                 </form>
                 <div class="comment-content" id="js_comment">
-                    @if($data['StatusCode'] == '200' && $comment['StatusCode'] == '200')
+                    @if($comment['StatusCode'] == '200')
                         @foreach($comment['ResultData'] as $datas)
                             <ul>
                                 <li><span class="face"><img src="{{ $datas->userImg }}" alt=""></span> <span
@@ -130,19 +98,6 @@
                     @endif
                 </div>
                 <div id="js_pages" class="pull-right">{!! $pageStyle !!}</div>
-            </div>
-            <div class="content-block related-content visible-lg visible-md">
-                <h2 class="title"><strong>相关推荐</strong></h2>
-                <ul>
-                    @if($rand['StatusCode'] == '200')
-                        @foreach($rand['ResultData'] as $rand)
-                            <li><a target="_blank" href="/action/{{ $rand->guid }}"><img src="{{ $rand->banner }}"
-                                                                                         alt="{{ $rand->title }}">
-                                    <h3><a href="/action/{{ $rand->guid }}">{{ $rand->title }}</a></h3>
-                                </a></li>
-                        @endforeach
-                    @endif
-                </ul>
             </div>
         </div>
     </div>
@@ -156,27 +111,7 @@
     <script src="{{ asset('home/js/commentValidate.js') }}"></script>
     <script>
         var token = $('meta[name="csrf-token"]').attr('content');
-        @if($isLogin && $data['StatusCode'] == '200')
-        $('#js_enroll').click(function () {
-            var obj = $(this);
-            $.ajax({
-                type: 'post',
-                url: "/action_order",
-                headers: {
-                    'X-CSRF-TOKEN': token
-                },
-                data: {user_id: "{{$isLogin}}", action_id: "{{$data['ResultData']->guid}}", list: "{{$list}}"},
-                success: function (data) {
-                    if (data.StatusCode === "200") {
-                        alert('报名成功！');
-                        $('#people').html('{{ $data['ResultData']->people +1 }}');
-                        obj.html("已报名").unbind("click");
-                    } else {
-                        swal(data.ResultData, '错误代码：' + data.StatusCode, "error");
-                    }
-                }
-            })
-        });
+        @if($isLogin)
         //点赞功能暂时注释
         $('.collect').click(function () {
             var obj = $(this);
@@ -184,7 +119,7 @@
             var num = parseInt($('#likeNum').html())
             $.ajax({
                 type: "get",
-                url: "/action/{{$data['ResultData']->guid}}/edit",
+                url: "/action/{{$data->guid}}/edit",
                 headers: {
                     'X-CSRF-TOKEN': token
                 },
@@ -193,7 +128,7 @@
                     switch (data.StatusCode) {
                         case '200':
                             $('#zan').html('已赞');
-                            $('#zanNum').html(parseInt($('#zanNum').html())+1);
+                            $('#zanNum').html(parseInt($('#zanNum').html()) + 1);
                             break;
                         case '400':
                             alert(data.ResultData);
