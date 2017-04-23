@@ -30,23 +30,31 @@
         @elseif($StatusCode == '200')
             <div id="list">
                 @foreach($ResultData['data'] as $goods)
-                    <div class="row mar-clr bb-3 mar-b15 pad-b15">
-                        <div class="road-img col-lg-5 col-md-12 col-sm-12 pad-clr">
-                            <a target="_blank" href="{{asset('/userGoods/'.$goods->guid)}}"><img
-                                        src="{{ $goods->banner }}" alt=""></a>
+                    <div class="news-list">
+                        <div class="news-img col-xs-5 col-sm-5 col-md-4">
+                            <a target="_blank" href="{{ url('goods/'.$goods->guid) }}">
+                                <img src="{{ $goods->banner }}" alt="{{ $goods->name }}">
+                            </a>
                         </div>
-                        <div class="road-font col-lg-7 col-md-12 col-sm-12 pad-clr">
-                            <h2>
-                                <a target="_blank" href="{{asset('/goods/'.$goods->guid)}}">
-                                    {{ $goods->name }}
-                                </a>
-                            </h2>
-                            <div class="row mar-clr road-class-u mar-b5">
-                                <p class="col-sm-6 col-xs-12 pad-clr">{{ $goods->author }}</p>
-                            </div>
-                            <div class="row mar-clr road-class-u mar-b5">
-                                <p class="col-sm-6 col-xs-12 pad-clr">{{ date('Y-m-d H:m:s',$goods->addtime) }}</p>
-                            </div>
+                        <div class="news-info col-xs-7 col-sm-7 col-md-8">
+                            <dl>
+                                <dt>
+                                    <a href="{{ url('goods/'.$goods->guid) }}" target="_blank">
+                                        {{ $goods->name }}
+                                    </a>
+                                    <a href="userGoods/{{ $goods->guid }}">修改</a>
+                                    <a data-user="{{ $goods->guid }}">删除</a>
+                                <h3 style="color: red">{{ $goods->price }}元</h3>
+                                </dt>
+                                <dd>
+                                        <span class="name">
+                                            <strong>QQ:</strong><span>{{ $goods->qq }}</span>&nbsp&nbsp <strong>电话:</strong><span>{{ $goods->tel }}</span>&nbsp&nbsp <strong>微信:</strong><span>{{ $goods->wechat }}</span>&nbsp&nbsp
+                                        </span>
+                                </dd>
+                                <dt>
+                                    <span class="time"> {{ date('Y-m-d H:m', $goods->addtime) }} </span></dt>
+                                <dd class="text">{{ $goods->brief }}</dd>
+                            </dl>
                         </div>
                     </div>
                 @endforeach

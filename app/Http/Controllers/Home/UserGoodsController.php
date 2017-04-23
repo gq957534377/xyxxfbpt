@@ -73,21 +73,25 @@ class UserGoodsController extends Controller
 
         $data['addtime'] = time();
         $data['author'] = session('user')->guid;
-        $data['guid']=Common::getUuid();
+        $data['guid'] = Common::getUuid();
         $result = self::$goodsStore->insertData($data);
         if (empty($result)) return back()->withErrors('添加失败');
         return back()->withErrors('发布成功', 'success');
     }
 
     /**
-     * Display the specified resource.
+     * 说明: 修改页面展示
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return mixed
+     * @author 郭庆
      */
     public function show($id)
     {
-        //
+        if (empty($id)) return view('errors.404');
+        $data = self::$goodsStore->getOneData(['guid' => $id]);
+        if (empty($data)) return view('errors.404');
+        return view('home.user.goods.edit', ['data' => $data]);
     }
 
     /**
@@ -102,15 +106,36 @@ class UserGoodsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 说明: 修改提交操作
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
+     * @return $mixed
+     * @author 郭庆
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->except('_token', '_method');
+        // 数据验证过滤
+        $validator = \Validator::make($data, [
+            'name' => 'required|max:64',
+            'price' => 'required|integer',
+            'content' => 'required',
+            'brief' => 'required|max:120',
+            'qq' => 'required|integer',
+            'tel' => 'required|integer',
+            'wechat' => 'required',
+            'banner' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator->errors()->all());
+        }
+
+        $result = self::$goodsStore->upload(['guid' => $id], $data);
+        if (!empty($result)) return back()->withErrors('修改成功！', 'success');
+
+        if ($result == 0) return back()->withErrors('未作任何更改！');
+        return back()->withErrors('修改失败！');
     }
 
     /**
