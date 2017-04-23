@@ -71,27 +71,8 @@ class SendController extends Controller
         $result = self::$articleServer->selectData($where, $nowPage, $forPages, "/send");
         $result['TypeDataNum'] = self::$articleServer->selectTypeDataNum($where)['ResultData'];
         $result['status'] = $data['status'];
-        switch ($data['status']) {
-            case 1:
-            case 2:
-                return view('home.user.contribution.indexRelease', $result);
-                break;
-            case 3:
-            case 4:
-                return view('home.user.contribution.indexRejection', $result);
-                break;
-            default:
-                $result['sesid'] = md5(session()->getId());
-                $checkCode = Common::generateCookie('checkCode');
-                if (empty($data['write'])) {
-                    return response()->view('home.user.contribution.index', $result)->withCookie($checkCode);
-                } else {
-                    $result['write'] = $data['write'];
-                    return response()->view('home.user.contribution.index', $result)->withCookie($checkCode);
-                }
 
-                break;
-        }
+        return view('home.user.article.index', $result);
     }
 
     /**
