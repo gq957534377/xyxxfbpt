@@ -101,7 +101,7 @@ class ArticleController extends Controller
     public function show($id)
     {
         $data = CustomPage::arrayToObject(self::$articleCache->getOneArticle($id));
-        if (!$data || $data->status != 1) return view('errors.404');
+        if (!$data) return view('errors.404');
 
         $rand = self::$articleServer->getRandomArticles($data->type, 4, 1);
 

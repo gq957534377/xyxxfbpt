@@ -2,8 +2,10 @@
     <h1 class="logo"><a href="{{url('/')}}/" title="校园信息发布平台"></a></h1>
     @if(!empty(session('user')))
         <div class="top-right">
-            <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle" style="width: 106%"
-                            src="{{ session('user')->headpic }}" data-id="{{ session('user')->guid }}"></a>
+            <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle"
+                                                                     style="width: 106%"
+                                                                     src="{{ session('user')->headpic }}"
+                                                                     data-id="{{ session('user')->guid }}"></a>
             <a class="hidden-xs" href="{{ url('/user/'.session('user')->guid) }}" style="margin-left: 24%">
                 <mark id="nicknameBox">{{ session('user')->username }}</mark>
             </a>
@@ -21,9 +23,11 @@
         </div>
     @endif
     <ul class="nav hidden-xs-nav">
-        <li class="active"><a href="{{ url('/user/'.session('user')->guid) }}"><span class="glyphicon glyphicon-home"></span>我的主页</a></li>
+        <li class="active"><a href="{{ url('/user/'.session('user')->guid) }}"><span
+                        class="glyphicon glyphicon-home"></span>我的主页</a></li>
         <li><a href="{{ url('/action_order?type=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a></li>
-        <li><a href="{{ route('send.index') }}"><span class="glyphicon glyphicon-inbox"></span>我的文章</a></li>
+        <li><a href="{{ route('send.index',['status'=>1]) }}"><span class="glyphicon glyphicon-inbox"></span>我的文章</a>
+        </li>
         <li><a href="{{ url('user/commentandlike') }}"><span class="glyphicon glyphicon-globe"></span>我的评论</a></li>
         <li><a href="{{ url('userGoods') }}"><span class="glyphicon glyphicon-user"></span>我的二手交易</a></li>
     </ul>
@@ -45,8 +49,10 @@
         @if(!empty(session('user')))
             <div style="float: left">
                 <div class="top-left">
-                    <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle" style="width: 11%;margin-bottom: -12%;"
-                                    src="{{ session('user')->headpic }}" data-id="{{ session('user')->guid }}"></a>
+                    <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle"
+                                                                             style="width: 11%;margin-bottom: -12%;"
+                                                                             src="{{ session('user')->headpic }}"
+                                                                             data-id="{{ session('user')->guid }}"></a>
                     <br>
                     <a class="" href="{{ url('/user/'.session('user')->guid) }}" style="margin-left: 0%">
                         <font size="2" color="#f0f8ff">{{ session('user')->username }}</font>
@@ -73,10 +79,12 @@
     </div>
     <div id="header-xs-menu" class="navbar-collapse collapse">
         <ul class="nav navbar-nav header-xs-nav">
-            <li class="active"><a href="{{ url('/user/'.session('user')->guid) }}"><span class="glyphicon glyphicon-home"></span>我的主页</a></li>
-            <li><a href="{{ url('/action_order?&type=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a></li>
-            <li><a href="index.html"><span class="glyphicon glyphicon-inbox"></span>我的文章</a></li>
-            <li><a href="index.html"><span class="glyphicon glyphicon-globe"></span>我的评论</a></li>
+            <li class="active"><a href="{{ url('/user/'.session('user')->guid) }}"><span
+                            class="glyphicon glyphicon-home"></span>我的主页</a></li>
+            <li><a href="{{ url('/action_order?&type=1') }}"><span class="glyphicon glyphicon-erase"></span>我参加的活动</a>
+            </li>
+            <li><a href="{{ route('send.index',['status'=>1]) }}"><span class="glyphicon glyphicon-inbox"></span>我的文章</a></li>
+            <li><a href="{{ url('user/commentandlike') }}"><span class="glyphicon glyphicon-globe"></span>我的评论</a></li>
             <li><a href="{{ url('userGoods') }}"><span class="glyphicon glyphicon-user"></span>我的二手交易</a></li>
         </ul>
     </div>

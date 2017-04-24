@@ -1,6 +1,6 @@
 @extends('home.layouts.userCenter')
 
-@section('title','我的二手')
+@section('title','修改文稿')
 
 @section('style')
     <link href="{{ asset('home/css/user_center_my_road.css') }}" rel="stylesheet">
@@ -37,45 +37,44 @@
 @endsection
 
 @section('content')
+    @include('home.public.error')
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10  mar-clr my-road row">
-        @include('home.public.error')
         <input type="hidden" id="domain" value="{{ QINIU_URL }}">
         <input type="hidden" id="uptoken_url" value="{{url('getQiniuToken')}}">
-        <form action="{{ url('userGoods/'.$data->guid) }}" id="add-form" class="add2-form" method="post">
+        <form action="{{ url("send/{$data->guid}") }}" id="add-form" class="add2-form" method="post">
             {{ csrf_field() }}
-            {{ method_field('PUT') }}
-            {{--<input type="hidden" name="_method" value="PUT">--}}
+            {{ method_field('put') }}
             <div class="modal-header">
-                <h4 class="modal-title">修改商品</h4>
+                <h4 class="modal-title">投稿</h4>
             </div>
+            <input type="hidden" value="2">
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label for="field-1" class="control-label">商品名：</label>
-                            <input type="text" class="form-control" name="name" value="{{ $data->name }}"
-                                   placeholder="请输入商品名">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="field-1" class="control-label">价格：</label>
-                            <input type="text" class="form-control" name="price" value="{{ $data->price }}"
-                                   placeholder="请输入价格">
-                        </div>
-                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="field-1" class="control-label">商品简述：</label>
-                            <textarea type="text" class="form-control" name="brief"
-                                      placeholder="请输入商品简述">{{ $data->brief }}</textarea>
+                            <label for="field-1" class="control-label">标题：</label>
+                            <input type="text" class="form-control" name="title" placeholder="请输入文章标题" value="{{ $data->title }}">
                         </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>文章类型：</label>
+                        <select class="form-control" id="action" name="type" value="{{ $data->type }}">
+                            <option value="1">爱情文章</option>
+                            <option value="2">亲情文章</option>
+                            <option value="3">友情文章</option>
+                            <option value="4">生活随笔</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="field-1" class="control-label">简述：</label>
+                        <textarea type="text" class="form-control" name="brief"
+                                  placeholder="请输入文章简述">{{ $data->brief }}</textarea>
                     </div>
                 </div>
                 <div class="row">
-                    <label class="col-md-12 control-label">商品详情：</label>
+                    <label class="col-md-12 control-label">详情：</label>
                     <div class="col-md-12">
-                        <textarea id="UE" name="content">{{ $data->content }}</textarea>
+                        <textarea id="UE" name="describe">{{ $data->describe }}</textarea>
                     </div>
                 </div>
                 <img src="{{ $data->banner }}" style="width: 100%;height: 100%" id="img">
@@ -91,31 +90,19 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label for="field-1" class="control-label">QQ：</label>
-                            <input type="text" value="{{ $data->qq }}" class="form-control" name="qq"
-                                   placeholder="请输入QQ号">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="field-1" class="control-label">电话：</label>
-                            <input type="text" class="form-control" value="{{ $data->tel }}" name="tel"
-                                   placeholder="请输入电话">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="field-1" class="control-label">微信：</label>
-                            <input type="text" class="form-control" name="wechat" value="{{ $data->wechat }}"
-                                   placeholder="请输入微信">
+                            <label for="field-1" class="control-label">来源：</label>
+                            <input type="text" class="form-control" name="source" value="{{ $data->source }}" placeholder="请输入来源">
                         </div>
                     </div>
                 </div>
             </div>
+            <input id="status" name="status" type="hidden">
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info">修改</button>
+                <button type="submit" class="btn-tj btn btn-info">提交审核</button>
+                <button type="submit" class="btn-cg btn btn-info">保存草稿</button>
+                <button type="submit" class="btn-yl btn btn-info">预览</button>
             </div>
         </form>
     </div>
@@ -129,11 +116,19 @@
     <script src="{{asset('/laravel-ueditor/ueditor.config.js') }}"></script>
     <script src="{{asset('/laravel-ueditor/ueditor.all.min.js')}}"></script>
     <script>
+        $('.btn-tj').click(function () {
+            $('#status').val(2);
+        });
+        $('.btn-cg').click(function () {
+            $('#status').val(4);
+        });
+        $('.btn-yl').click(function () {
+            $('#status').val('yl');
+        });
         $(function () {
             getToken();
         });
 
-        // 获取七牛token
         var getToken = function () {
             $.ajax({
                 url: $('#uptoken_url').val(),
@@ -154,7 +149,6 @@
                             }
                             var domian = $('#domain').val();
                             $('#path').val(domian + xhr.key);
-                            $('#img').attr('src', domian + xhr.key)
                         }
                     });
                 }
@@ -214,60 +208,44 @@
         // 上传表单验证
         $("#add-form").validate({
             rules: {
-                name: {
+                title: {
                     required: true,
-                    maxlength: 64
-                },
-                price: {
-                    required: true,
-                    number: true,
-                },
-                content: {
-                    required: true,
+                    maxlength: 80
                 },
                 brief: {
                     required: true,
-                    maxlength: 120
+                    maxlength: 150
                 },
-                qq: {
+                describe: {
                     required: true,
-                    digits: true
                 },
-                tel: {
+                source: {
                     required: true,
-                    digits: true
+                    maxlength: 80
                 },
-                wechat: {
+                banner: {
                     required: true,
                 },
             },
             //错误信息提示
             messages: {
-                name: {
-                    required: '请输入商品名',
-                    maxlength: '商品名最多64个字符'
-                },
-                price: {
-                    required: '请输入商品价格',
-                    number: '请输入数字',
-                },
-                content: {
-                    required: '请输入商品详情',
+                title: {
+                    required: '请输入文章标题',
+                    maxlength: '标题最80个字符'
                 },
                 brief: {
-                    required: '请输入商品简述',
-                    maxlength: '商品简述最多120个字符'
+                    required: '请输入文章简述',
+                    maxlength: '文章简述最多150个字符'
                 },
-                qq: {
-                    required: '请输入QQ号',
-                    digits: '请输入正确格式QQ号'
+                describe: {
+                    required: '请输入文章详情',
                 },
-                tel: {
-                    required: '请输入手机号',
-                    digits: '请输入正确的手机号格式'
+                source: {
+                    required: '请输入文章来源',
+                    maxlength: '文章来源最多80个字符'
                 },
-                wechat: {
-                    required: '请输入微信账号',
+                banner: {
+                    required: '请上传缩略图',
                 },
             },
         });

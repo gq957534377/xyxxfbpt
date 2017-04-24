@@ -32,45 +32,30 @@ class SendController extends Controller
      */
     public function index(Request $request)
     {
-
-//        // 判断有没有传递参数
-
         $data = $request->all();
         $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"] : 1;//获取当前页
         $forPages = 5;//一页的数据条数
-        // 判断现在查询的是哪一类数据
-        if (empty(session('status'))) {
-            if (empty($data["status"])) {
-                session(['status' => '2']);
-            } else {
-                session(['status' => $data["status"]]);
-            }
-        } else {
-            if (!empty($data["status"])) {
-                session(['status' => $data["status"]]);
-            }
-        }
-        // 设置索要查询的类型
-        $data["status"] = session('status');
-        $status = session('status');//文章状态：已发布 待审核 已下架
-        $type = 1;//获取文章类型
-
-
         $where = [];
-        if ($status) {
-            $where["status"] = $status;
-        }
-        if ($type != "null") {
-            if ($type != 3) {
-                $where["type"] = $type;
-            }
+        $url = "send";
+        if (!empty($data['status'])) {
+            $where['status'] = $data['status'];
+            $url = $url . "?status=" . $data['status'];
         }
         $where['user_id'] = session('user')->guid;
 
+        $num[1] = self::$articleStore->getCount(['status' => 1, 'user_id' => $where['user_id']]);
+        $num[2] = self::$articleStore->getCount(['status' => 2, 'user_id' => $where['user_id']]);
+        $num[3] = self::$articleStore->getCount(['status' => 3, 'user_id' => $where['user_id']]);
+        $num[4] = self::$articleStore->getCount(['status' => 4, 'user_id' => $where['user_id']]);
+
         // 分页查询 得到指定类型的数据
-        $result = self::$articleServer->selectData($where, $nowPage, $forPages, "/send");
-        $result['TypeDataNum'] = self::$articleServer->selectTypeDataNum($where)['ResultData'];
-        $result['status'] = $data['status'];
+        $result = self::$articleServer->select($where, $nowPage, $forPages, $url);
+        if (empty($data['status'])) {
+            $result['status'] = null;
+        } else {
+            $result['status'] = $data['status'];
+        }
+        $result['num'] = $num;
 
         return view('home.user.article.index', $result);
     }
@@ -134,6 +119,7 @@ class SendController extends Controller
         if ($data['status'] == 'yl') return view('home.article.articlecontent', ['data' => json_decode(collect($data)->toJson())]);
 
         $data['guid'] = Common::getUuid();
+        $data['user'] = 2;
         $result = self::$articleStore->insertData($data);
         if (empty($result)) return back()->withErrors('操作失败');
         return back()->withErrors('操作成功！', 'success');
@@ -141,7 +127,7 @@ class SendController extends Controller
 
 
     /**
-     * 展示预览（未发布）
+     * 修改页面旧数据展示
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -150,39 +136,82 @@ class SendController extends Controller
      */
     public function show($id)
     {
-        $result = self::$articleServer->getCacheContribution($id);
-        return view('home.user.contribution.browse', $result);
+        if (empty($id)) return view('errors.404');
 
+        $result = self::$articleStore->getOneData(['guid' => $id]);
+        if (empty($result)) return view('errors.404');
+        return view('home.user.article.edit', ['data' => $result]);
     }
 
     /**
-     * 给前台传出对应id的所有数据
+     * 修改文章状态
      *
      * @param  int $id
      * @return array
      * @author 郭庆
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        $result = self::$articleServer->getData($id);
-        if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
-        return ['StatusCode' => 400, 'ResultData' => $result['msg']];
+        $data = $request->all();
+        if (empty($id) || empty($data['status'])) return response()->json(['StatusCode' => '400', 'ResultData' => '参数有误']);
+
+        $result = self::$articleStore->upload(['guid' => $id], ['status' => $data['status']]);
+        if (empty($result)) return response()->json(['StatusCode' => '500', 'ResultData' => '操作失败']);
+        return response()->json(['StatusCode' => '200', 'ResultData' => '操作成功']);
     }
 
     /**
-     * 修改文稿内容
+     * 修改文稿内容 or 预览
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
+     * @return mixed
      * @author 郭庆
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $data['user'] = 2;
-        $result = self::$articleServer->upDta(['guid' => $id], $data);
-        if ($result['status']) return ['StatusCode' => 200, 'ResultData' => $result['msg']];
-        return ['StatusCode' => 400, 'ResultData' => $result['msg']];
+        $data = $request->except('_token','_method');
+        // 验证过滤数据
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:80',
+            'brief' => 'required|max:150',
+            'describe' => 'required',
+            'source' => 'required|max:80',
+            'banner' => 'required',
+            'status' => 'required',
+        ], [
+            'title.required' => '标题不能为空',
+            'title.max' => '标题过长',
+            'brief.required' => '导语不能为空',
+            'brief.max' => '简介过长',
+            'describe.required' => '内容不能为空',
+            'source.required' => '来源不能为空',
+            'source.max' => '来源过长',
+            'banner.required' => '图片不能为空',
+            'status.required' => '参数错误',
+        ]);
+        if ($validator->fails()) return back()->withErrors($validator->errors()->all());
+
+        if ($data['status'] == 'yl'){
+            $data['user_id'] = session('user')->guid;
+            // 取出用户信息
+            $res = self::$userServer->userInfo(['guid' => $data['user_id']]);
+            if ($res['StatusCode'] == '200') {
+                $data['author'] = $res['ResultData']->username;
+                $data['headpic'] = $res['ResultData']->headpic;
+            } else {
+                $data['author'] = '佚名';
+                $data['headpic'] = '/home/images/logo.jpg';
+            }
+            $data['addtime'] = time();
+
+            return view('home.article.articlecontent', ['data' => json_decode(collect($data)->toJson())]);
+        }else{
+            $result = self::$articleStore->upload(['guid'=>$id],$data);
+            if (!empty($result)) return back()->withErrors('操作成功！','success');
+            if ($result == 0) return back()->withErrors('未作任何更改！');
+            return back()->withErrors('操作失败');
+        }
     }
 
     /**

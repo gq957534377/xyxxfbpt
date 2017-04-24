@@ -43,7 +43,7 @@
         <div style="display: inline-block">
             <span>我的二手交易</span>
         </div>
-        <a style="float: right;margin-top: 15px;" href="{{ url('userGoods/create') }}" class="btn-success">发布商品</a>
+        <a style="float: right;margin-top: 15px;" href="{{ url('userGoods/create') }}" class="btn btn-primary">发布商品</a>
         <!--活动列表块开始-->
         @if($StatusCode === '204')
             <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

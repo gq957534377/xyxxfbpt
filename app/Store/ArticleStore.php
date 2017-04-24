@@ -36,7 +36,6 @@ class ArticleStore
     {
         return DB::table(self::$table)
             ->where($where)
-            ->where('status', '<>', 5)
             ->first();
     }
 
