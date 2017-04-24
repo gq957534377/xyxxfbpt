@@ -40,10 +40,10 @@
 @section('content')
     <!--我参加的活动列表开始-->
     <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10  mar-clr my-road">
-        <div>
+        <div style="display: inline-block">
             <span>我的二手交易</span>
         </div>
-        <a href="{{ url('userGoods/create') }}" class="btn-success">发布商品</a>
+        <a style="float: right;margin-top: 15px;" href="{{ url('userGoods/create') }}" class="btn-success">发布商品</a>
         <!--活动列表块开始-->
         @if($StatusCode === '204')
             <li class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -61,13 +61,13 @@
                         <div class="news-info col-xs-7 col-sm-7 col-md-8">
                             <dl>
                                 <dt>
-                                    <a href="{{ url('goods/'.$goods->guid) }}" target="_blank">
+                                    <a style="width: 50%;" href="{{ url('goods/'.$goods->guid) }}" target="_blank">
                                         {{ $goods->name }}
                                     </a>
-                                    <a href="userGoods/{{ $goods->guid }}">修改</a>
-                                    <a data-user="{{ $goods->guid }}" class="del">删除</a>
-                                <h3 style="color: red">{{ $goods->price }}元</h3>
+                                    <a style="float: right;width: auto;" href="userGoods/{{ $goods->guid }}">修改</a>
+                                    <a style="float: right; width: auto;margin-right: 10px;" data-user="{{ $goods->guid }}" class="del">删除</a>
                                 </dt>
+                                <h3 style="color: red">{{ $goods->price }}元</h3>
                                 <dd>
                                         <span class="name">
                                             <strong>QQ:</strong><span>{{ $goods->qq }}</span>&nbsp&nbsp <strong>电话:</strong><span>{{ $goods->tel }}</span>&nbsp&nbsp <strong>微信:</strong><span>{{ $goods->wechat }}</span>&nbsp&nbsp
