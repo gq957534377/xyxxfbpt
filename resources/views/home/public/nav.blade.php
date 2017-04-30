@@ -2,10 +2,10 @@
     <h1 class="logo"><a href="{{url('/')}}/" title="校园信息发布平台"></a></h1>
     @if(!empty(session('user')))
         <div class="top-right">
-            <a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle"
-                                                                     style="width: 106%"
+            <center><a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle"
+                                                                     style="width: 66%"
                                                                      src="{{ session('user')->headpic }}"
-                                                                     data-id="{{ session('user')->guid }}"></a>
+                                                                     data-id="{{ session('user')->guid }}"></a></center>
             <a class="hidden-xs" href="{{ url('/user/'.session('user')->guid) }}" style="margin-left: 24%">
                 <mark id="nicknameBox">{{ session('user')->username }}</mark>
             </a>
@@ -127,7 +127,7 @@
                                                                                                href="http://www.jianshu.com/u/08986e4feb77"
                                                                                                target="_blank"><i></i>简书</a>
         <a class="feed feed-weixin" data-toggle="popover" data-trigger="hover" data-html="true"
-           data-content="<img src='{{ asset('home/images/weixin.jpg') }}' alt=''>" href="javascript:;" target="_blank"><i></i>关注微信</a>
+           data-content="<img src='{{ asset('home/images/wx.png') }}' alt=''>" href="javascript:;" target="_blank"><i></i>关注微信</a>
     </div>
     {{--<div class="wall"><a href="readerWall.html" target="_blank">读者墙</a> | <a href="tags.html"--}}
                                                                              {{--target="_blank">标签云</a></div>--}}
