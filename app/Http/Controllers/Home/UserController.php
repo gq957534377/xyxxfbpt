@@ -22,8 +22,8 @@ class UserController extends Controller
     protected static $userServer = null;
     protected static $userRoleServer = null;
     protected static $uploadServer = null;
-    protected  static $commentServer = null;
-    protected  static  $projectServer = null;
+    protected static $commentServer = null;
+    protected static $projectServer = null;
 
     public function __construct(
         UserServer $userServer,
@@ -31,13 +31,15 @@ class UserController extends Controller
         UploadServer $uploadServer,
         CommentServer $commentServer,
         ProjectServer $projectServer
-    ){
+    )
+    {
         self::$userServer = $userServer;
         self::$userRoleServer = $userRoleServer;
         self::$uploadServer = $uploadServer;
         self::$commentServer = $commentServer;
         self::$projectServer = $projectServer;
     }
+
     /**
      * 显示个人中心页
      *
@@ -73,7 +75,7 @@ class UserController extends Controller
         $role = self::$userServer->userInfo(['guid' => $request->guid])['ResultData']->role;
 
         if ($role == 2 || $role == 23) {
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
                 'company' => 'required|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
                 'abbreviation' => 'required|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
                 'address' => 'required',
@@ -81,7 +83,7 @@ class UserController extends Controller
                 'url' => 'required',
                 'field' => 'required|regex:/^[\x80-\xff_\-\/_a-zA-Z0-9]+$/',
                 'organize_card' => 'required',
-            ],[
+            ], [
                 'company.required' => '请输入公司名称',
                 'company.regex' => '公司名称只允许输入中文、字母、数字、下划线',
                 'abbreviation.required' => '请输入公司简称',
@@ -95,7 +97,7 @@ class UserController extends Controller
                 'organize_card.required' => '请上传组织机构代码证',
             ]);
             // 数据验证失败，响应信息
-            if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+            if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
 
             $data['addtime'] = $_SERVER['REQUEST_TIME'];
             $result = self::$userServer->addCompany($data);
@@ -110,13 +112,13 @@ class UserController extends Controller
     /**
      * 提取个人信息
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      * @author 郭庆
      */
     public function show($id)
     {
-        if(empty($id)) return response()->json(['StatusCode' => '400','ResultData' => '服务器数据异常']);
+        if (empty($id)) return response()->json(['StatusCode' => '400', 'ResultData' => '服务器数据异常']);
 
         // 获取到用户的id，返回数据
         $info = self::$userServer->userInfo(['guid' => $id]);
@@ -125,14 +127,14 @@ class UserController extends Controller
         $roleInfo = self::$userRoleServer->getRoleInfo($id);
 
         // 获取用户的项目
-        $countProjects =self::$projectServer->getCount(['user_guid' => $id]);
+        $countProjects = self::$projectServer->getCount(['user_guid' => $id]);
 
         // 获取评论数
         $comments = self::$commentServer->commentCount(['user_id' => $id, 'status' => 1]);
 
         return view('home.user.index', [
-            'userInfo'     => $info['ResultData'],
-            'roleInfo'     => $roleInfo,
+            'userInfo' => $info['ResultData'],
+            'roleInfo' => $roleInfo,
             'countProjects' => $countProjects['ResultData'],
             'comments' => $comments['ResultData'],
         ]);
@@ -147,7 +149,7 @@ class UserController extends Controller
     public function edit($id)
     {
         // 获取账号信息
-        $result = self::$userServer->accountInfo(['guid' => $id ]);
+        $result = self::$userServer->accountInfo(['guid' => $id]);
 
         if ($result['StatusCode'] != '200') {
             return view('home.user.accountSettings.index');
@@ -173,7 +175,6 @@ class UserController extends Controller
         }
 
 
-
         $accountInfo = $result['ResultData'];
         $accountInfo->tel = $tel;
         $accountInfo->email = $email;
@@ -185,8 +186,8 @@ class UserController extends Controller
 
     /**
      * 更改用户信息
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      * @author 郭庆
      */
@@ -195,9 +196,9 @@ class UserController extends Controller
         // 获取修改数据
         $data = $request->all();
         //数据验证过滤
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'username' => 'required|string|max:10|regex:/^[\x80-\xff_a-zA-Z0-9]+$/',
-        ],[
+        ], [
             'username.required' => '请输入昵称',
             'username.string' => '请输入正确的格式',
             'username.max' => '昵称长度不允许超过10个字符',
@@ -205,7 +206,7 @@ class UserController extends Controller
         ]);
 
         // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
 
         // 将验证后的数据交给Server层
         $info = self::$userServer->updataUserInfo(['guid' => $id], $data);
@@ -216,7 +217,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -232,23 +233,23 @@ class UserController extends Controller
     public function headpic(Request $request)
     {
         //数据验证过滤
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
-        ],[
+        ], [
             'avatar_file.required' => '上传文件为空!',
             'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
 
         ]);
         // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
         //上传
         $info = Avatar::avatar($request);
-        if ($info['status'] == '400') return response()->json(['StatusCode' => '400','ResultData' => '文件上传失败!']);
+        if ($info['status'] == '400') return response()->json(['StatusCode' => '400', 'ResultData' => '文件上传失败!']);
         $avatarName = $info['msg'];
 
         $guid = $request->all()['guid'];
         // 转交service 层，存储
-        $info = self::$userServer->avatar($guid,$avatarName);
+        $info = self::$userServer->avatar($guid, $avatarName);
 
         // 返回状态信息
         return response()->json($info);
@@ -262,15 +263,15 @@ class UserController extends Controller
     public function uploadCard(Request $request)
     {
         //数据验证过滤
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'card_pic' => 'required|mimes:png,gif,jpeg,jpg,bmp'
-        ],[
+        ], [
             'card_pic.required' => '上传文件为空!',
             'card_pic.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
 
         ]);
         // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
 
         // 上传
         $result = Upload::UploadFile($request->file('card_pic'));
@@ -278,6 +279,7 @@ class UserController extends Controller
         return response()->json($result);
 
     }
+
     /**
      * 修改账号密码
      * @param Request $request
@@ -286,11 +288,11 @@ class UserController extends Controller
      */
     public function changePassword(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'guid' => 'required',
             'password' => 'required',
             'new_password' => 'required|min:6',
-        ],[
+        ], [
             'guid' => '缺少数据信息',
             'password' => '请输入原始密码',
             'new_password' => '请输入新密码',
@@ -298,7 +300,7 @@ class UserController extends Controller
 
         ]);
         // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
 
         // 提交数据给业务层
         $result = self::$userServer->changePassword($request);
@@ -306,6 +308,7 @@ class UserController extends Controller
         return response()->json($result);
 
     }
+
     /**
      * 更换邮箱绑定
      * @param Request $request
@@ -316,19 +319,19 @@ class UserController extends Controller
     public function changeEmail(Request $request)
     {
         // 验证过滤数据
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'captcha_email' => 'required',
-        ],[
+        ], [
             'captcha_email.requried' => '请输入验证码!',
         ]);
 
-        if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+        if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
 
         // 获取要更改的数据
         $newEmail = Session::get('email');
 
         // 数据判断
-        if (trim($request->captcha_email) != $newEmail['code']  ) return response()->json(['StatusCode' => '400', 'RsultData' => '验证码错误']);
+        if (trim($request->captcha_email) != $newEmail['code']) return response()->json(['StatusCode' => '400', 'RsultData' => '验证码错误']);
 
         // 简单数据验证后，提交给业务层
         $info = self::$userServer->changeEmail($request->guid, $newEmail['email']);
@@ -350,53 +353,53 @@ class UserController extends Controller
     public function changeTel(Request $request, $guid)
     {
         if (!isset($request->step) && empty(session('sms')['phone']) && session('sms')['phone'] != $request->tel) {
-            return response()->json(['StatusCode' => '400','ResultData' => '非法请求！']);
+            return response()->json(['StatusCode' => '400', 'ResultData' => '非法请求！']);
         }
 
         switch ($request->step) {
             case '1':
                 // 验证过滤数据
-                $validator = Validator::make($request->all(),[
+                $validator = Validator::make($request->all(), [
                     'captcha' => 'required',
-                ],[
+                ], [
                     'captcha.required' => '请输入验证码',
                 ]);
 
-                if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+                if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
 
                 // 验证码比对
                 // Session::get('sms')['smsCode']
                 if (empty(Session::get('sms')['smsCode']) || $request->captcha != Session::get('sms')['smsCode']) {
-                    return response()->json(['StatusCode' => '400','ResultData' => '输入的验证码错误！']);
+                    return response()->json(['StatusCode' => '400', 'ResultData' => '输入的验证码错误！']);
                 }
 
                 // 看是否是第三步 验证新手机的验证码
                 if (isset($request->tel)) {
                     $result = self::$userServer->changeTel($guid, $request->tel);
 
-                    if (!$result) return response()->json(['StatusCode' => '400','ResultData' => '手机号改绑失败！']);
+                    if (!$result) return response()->json(['StatusCode' => '400', 'ResultData' => '手机号改绑失败！']);
 
-                    return response()->json(['StatusCode' => '200','ResultData' => '手机号改绑成功，请重新登录!']);
+                    return response()->json(['StatusCode' => '200', 'ResultData' => '手机号改绑成功，请重新登录!']);
 
                 } else {
                     session(['sms' => '']);
-                    return response()->json(['StatusCode' => '200','ResultData' => '短信验证通过...']);
+                    return response()->json(['StatusCode' => '200', 'ResultData' => '短信验证通过...']);
                 }
 
-            break;
+                break;
             case '2':
 
                 //验证数据，手机号校验
                 $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
-                if(!preg_match($preg,$request->tel)) return response()->json(['StatusCode' => '400','ResultData' => '请输入正确的手机号!']);
+                if (!preg_match($preg, $request->tel)) return response()->json(['StatusCode' => '400', 'ResultData' => '请输入正确的手机号!']);
 
                 // 判断该手机是否已经存在
                 $result = self::$userServer->checkUser(['tel' => $request->tel]);
 
-                if ($result) return response()->json(['StatusCode' => '400','ResultData' => '该号码已存在！']);
+                if ($result) return response()->json(['StatusCode' => '400', 'ResultData' => '该号码已存在！']);
                 session(['sms' => '']);
-                return response()->json(['StatusCode' => '200','ResultData' => $request->tel]);
-            break;
+                return response()->json(['StatusCode' => '200', 'ResultData' => $request->tel]);
+                break;
         }
 
     }
@@ -412,21 +415,21 @@ class UserController extends Controller
     {
         if (isset($request->phone)) {
             // 验证过滤数据
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
                 'phone' => 'required|max:11|min:11',
                 'code' => 'required'
-            ],[
+            ], [
                 'phone.required' => '请输入手机号',
                 'phone.max' => '手机号最大为11位',
                 'phone.min' => '手机号最少为11位',
                 'code.required' => '请输入验证码',
             ]);
-            if ($validator->fails()) return response()->json(['StatusCode' => '400','ResultData' => $validator->errors()->all()]);
+            if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
             //验证数据，手机号校验
             $preg = '/^(1(([3578][0-9])|(47)|[8][0126789]))\d{8}$/';
-            if(!preg_match($preg,$request->phone)) return response()->json(['StatusCode' => '400','ResultData' => '请输入正确的手机号!']);
+            if (!preg_match($preg, $request->phone)) return response()->json(['StatusCode' => '400', 'ResultData' => '请输入正确的手机号!']);
             if ($request->code != session('code')) {
-                return response()->json(['StatusCode' => '400','ResultData' => '请输入正确的验证码!']);
+                return response()->json(['StatusCode' => '400', 'ResultData' => '请输入正确的验证码!']);
             } else {
                 session(['code' => '']);
             }
@@ -453,15 +456,15 @@ class UserController extends Controller
      */
     public function sendEmail(Request $request)
     {
-       if (!isset($request->guid) || !isset($request->newEmail)) return response()->json(['StatusCode' => '400', '缺少数据信息']);
+        if (!isset($request->guid) || !isset($request->newEmail)) return response()->json(['StatusCode' => '400', '缺少数据信息']);
 
-       // 确认当前用户是否存在
-       $userAccount = self::$userServer->accountInfo(['guid' => $request->guid]);
+        // 确认当前用户是否存在
+        $userAccount = self::$userServer->accountInfo(['guid' => $request->guid]);
 
-       if ($userAccount['StatusCode'] == '400') {
-           \Log::error('查询账户信息失败', $userAccount);
-           return response()->json(['StatusCode' => '400', 'ResultData' => '当前账号不存在!']);
-       }
+        if ($userAccount['StatusCode'] == '400') {
+            \Log::error('查询账户信息失败', $userAccount);
+            return response()->json(['StatusCode' => '400', 'ResultData' => '当前账号不存在!']);
+        }
 
         $result = self::$userServer->sendEmail($request);
 
@@ -469,39 +472,19 @@ class UserController extends Controller
     }
 
 
-     /**
+    /**
      * 用户中心的点赞与评论
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * author 杨志宇
      */
     public function commentAndLike(Request $request)
     {
+        $data = $request->all();
         //获得第一页的评论数据与被之被评论内容标题
-        $nowPage = (int)$request->input('nowPage');
-        $commentResult = self::$commentServer->getCommentsTitles($nowPage,$request);
-        //去除评论干扰项
-        unset($request['nowPage']);
-        $likeResult = self::$commentServer->getLikesTitles(1,$request);
-        
-        if ($commentResult['StatusCode'] == '200') {
-            $commentPage = $commentResult['ResultData']['pageData'];
-            unset($commentResult['ResultData']['pageData']);
-            $commentData = $commentResult['ResultData'];
-        }else{
-            $commentData = false;
-            $commentPage = false;
-        }
+        $nowPage = (int)$request->input('nowPage') ?? 1;
+        $commentResult = self::$commentServer->selectComment(['user_id' => session('user')->guid], $nowPage, 5, 'user/commentandlike');
 
-        if ($likeResult['StatusCode'] == '200') {
-            $likePage = $likeResult['ResultData']['pageData'];
-            unset($likeResult['ResultData']['pageData']);
-            $likeData = $likeResult['ResultData'];
-        }else{
-            $likeData = false;
-            $likePage = false;
-        }
-
-        return view('home.user.commentAndLike',['commentData' => $commentData, 'likeData'  => $likeData, 'commentPage' => $commentPage, 'likePage' => $likePage]);
+        return view('home.user.commentAndLike', $commentResult);
     }
 
     /**
@@ -513,7 +496,7 @@ class UserController extends Controller
     public function getLike(Request $request)
     {
         $nowPage = $request->input('nowPage');
-        $likeResult = self::$commentServer->getLikesTitles($nowPage,$request);
+        $likeResult = self::$commentServer->getLikesTitles($nowPage, $request);
         return response()->json($likeResult);
     }
 
@@ -527,15 +510,15 @@ class UserController extends Controller
         $user_guid = session('user')->guid;
         $role = session('user')->role;
 
-        if($role == 1 || $role == 3) {
-            return redirect(route('user.show',$user_guid))->with(['errorNumber' => '403']);
+        if ($role == 1 || $role == 3) {
+            return redirect(route('user.show', $user_guid))->with(['errorNumber' => '403']);
         }
 
         $where = ['user_guid' => $user_guid];
         $nowPage = $request->input('nowPage');
         $pageNum = 6;//一页的数据量
 
-        if(!$nowPage) {
+        if (!$nowPage) {
             $nowPage = 1;
         }
 
@@ -546,14 +529,14 @@ class UserController extends Controller
             $pageNum,
             null,
             $where
-            );
+        );
 
-        if($pageView['totalPage']<=1) {
-            $pageView =[];
+        if ($pageView['totalPage'] <= 1) {
+            $pageView = [];
         }
 
-        $result = self::$projectServer->getData($nowPage, $pageNum,$where);
-        return view('home.user.myProject', ['data' => $result['ResultData'], 'pageView'=>$pageView]);
+        $result = self::$projectServer->getData($nowPage, $pageNum, $where);
+        return view('home.user.myProject', ['data' => $result['ResultData'], 'pageView' => $pageView]);
     }
 
     /**
@@ -592,7 +575,7 @@ class UserController extends Controller
      */
     public function getRealName($guid)
     {
-        if (!isset($guid)) return response()->json(['StatusCode' => '400','ResultData' => '请求参数缺失']);
+        if (!isset($guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '请求参数缺失']);
 
         $result = self::$userServer->userInfo(['guid' => $guid]);
 

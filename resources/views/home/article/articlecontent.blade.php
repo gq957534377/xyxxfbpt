@@ -68,7 +68,7 @@
                     <div class="comment-form">
                         <textarea placeholder="你的评论可以一针见血" name="content"></textarea>
                         <input name="action_id" value="{{ $contentId}}" type="hidden">
-                        <input name="type" value="3" type="hidden">
+                        <input name="type" value="2" type="hidden">
                         <div class="comment-form-footer">
                             @if(!$isLogin)
                                 <div class="comment-form-text">请先 <a href="{{ url('/login') }}">登录</a> 或 <a

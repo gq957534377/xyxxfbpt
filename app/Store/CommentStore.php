@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\DB;
  *
  * @package App\Store
  */
-class CommentStore{
+class CommentStore
+{
     // 表名
     protected static $table = 'data_comment_info';
 
@@ -35,12 +36,30 @@ class CommentStore{
      * @return object|false
      * @author 郭庆
      */
-    public function getPageData($nowPage,$where)
+    public function getPageData($nowPage, $where)
     {
         return DB::table(self::$table)
             ->where($where)
             ->forPage($nowPage, PAGENUM)
-            ->orderBy('changetime','desc')
+            ->orderBy('changetime', 'desc')
+            ->get();
+    }
+
+    /**
+     * 分页查询数据
+     * @param $page
+     * @param $tolPage
+     * @param $where
+     * @return null
+     * author 杨志宇
+     */
+    public function forPage($page, $tolPage, $where)
+    {
+        if (!is_int($page) || !is_int($tolPage) || !is_array($where)) return false;
+        return DB::table(self::$table)
+            ->where($where)
+            ->orderBy("addtime", "desc")
+            ->forPage($page, $tolPage)
             ->get();
     }
 
@@ -76,7 +95,7 @@ class CommentStore{
      * @return bool
      * @author 郭庆
      */
-    public function updateData($where,$data)
+    public function updateData($where, $data)
     {
         return DB::table(self::$table)->where($where)->update($data);
     }
@@ -89,12 +108,12 @@ class CommentStore{
      * @return mixed
      * author 杨志宇
      */
-    public function getPageLists($nowPage,$where,$field)
+    public function getPageLists($nowPage, $where, $field)
     {
         return DB::table(self::$table)
             ->where($where)
             ->forPage($nowPage, PAGENUM)
-            ->orderBy('time','desc')
+            ->orderBy('time', 'desc')
             ->lists($field);
     }
 
@@ -105,7 +124,7 @@ class CommentStore{
      * @return mixed
      * @author 杨志宇
      */
-    public function getCommentTime ($action_id, $user_id)
+    public function getCommentTime($action_id, $user_id)
     {
         return DB::table(self::$table)
             ->where('action_id', $action_id)

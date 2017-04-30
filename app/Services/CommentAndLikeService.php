@@ -8,10 +8,13 @@
 
 namespace App\Services;
 
+use App\Store\ArticleStore;
 use App\Store\CollegeStore;
 use App\Store\CommentStore;
+use App\Store\GoodsStore;
 use App\Store\LikeStore;
 use App\Store\ActionStore;
+use App\Store\NoticeStore;
 use App\Store\ProjectStore;
 use App\Store\SendStore;
 use App\Tools\Common;
@@ -30,6 +33,9 @@ class CommentAndLikeService
     protected static $sendStore;
     protected static $commentCache;
     protected static $collegeStore;
+    protected static $articleStore;
+    protected static $noticeStore;
+    protected static $goodsStore;
 
     public function __construct(
         ActionStore $actionStore,
@@ -39,8 +45,12 @@ class CommentAndLikeService
         ProjectStore $projectStore,
         SendStore $sendStore,
         CommentCache $commentCache,
-        CollegeStore $collegeStore
-    ){
+        CollegeStore $collegeStore,
+        ArticleStore $articleStore,
+        NoticeStore $noticeStore,
+        GoodsStore $goodsStore
+    )
+    {
         self::$actionStore = $actionStore;
         self::$commentStore = $commentStore;
         self::$likeStore = $likeStore;
@@ -49,6 +59,9 @@ class CommentAndLikeService
         self::$sendStore = $sendStore;
         self::$commentCache = $commentCache;
         self::$collegeStore = $collegeStore;
+        self::$articleStore = $articleStore;
+        self::$noticeStore = $noticeStore;
+        self::$goodsStore = $goodsStore;
     }
 
     /**
@@ -75,10 +88,10 @@ class CommentAndLikeService
      * @return array
      * author 杨志宇
      */
-    public function getContentInContentId($id,$type)
+    public function getContentInContentId($id, $type)
     {
         //被评论的内容数据
-        switch ($type){
+        switch ($type) {
 
             case 1 :
                 $data = self::$sendStore->getOneDatas(['guid' => $id]);
@@ -114,7 +127,7 @@ class CommentAndLikeService
      */
     public function openData($data)
     {
-        if($data['StatusCode'] == '200') return $data["ResultData"];
+        if ($data['StatusCode'] == '200') return $data["ResultData"];
         return false;
     }
 
@@ -126,7 +139,7 @@ class CommentAndLikeService
      * @return mixed
      * author 杨志宇
      */
-    public function forPage( $request, $where, $table)
+    public function forPage($request, $where, $table)
     {
         $url = $request->url();
         return Common::getPageUrls($request, $table, $url, 5, null, $where);
@@ -145,18 +158,79 @@ class CommentAndLikeService
 //        dd($commentData);
         foreach ($commentData as $data) {
             //内容表数据
-            $contentData = $this->openData($this->getContentInContentId($data->action_id,$data->type));
+            $contentData = $this->openData($this->getContentInContentId($data->action_id, $data->type));
 
             if (empty($contentData)) {
                 $data->contentTitle = "内容已被删除";
 
-            }else{
-                $data->contentTitle = $contentData ->title;
+            } else {
+                $data->contentTitle = $contentData->title;
             }
 
         }
 
         return ['StatusCode' => '200', 'ResultData' => $commentData];
+    }
+
+    /**
+     * 说明: 评论分页数据
+     *
+     * @param $where
+     * @param $nowPage
+     * @param $forPages
+     * @param $url
+     * @return array
+     * @author 郭庆
+     */
+    public static function selectComment($where, $nowPage, $forPages, $url)
+    {
+        //获取符合条件的数据的总量
+        $count = self::$commentStore->getCount($where);
+        if (!$count) return ['StatusCode' => '204', 'ResultData' => "暂无评论"];
+
+        //获取对应页的数据
+        $result['data'] = self::$commentStore->forPage($nowPage, $forPages, $where);
+
+        //计算总页数
+        $totalPage = ceil($count / $forPages);
+
+        if ($result['data']) {
+            if ($totalPage > 1) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+
+                if ($creatPage) {
+                    $result["pages"] = $creatPage;
+                } else {
+                    return ['StatusCode' => '500', 'ResultData' => '生成分页样式发生错误'];
+                }
+
+            } else {
+                $result['totalPage'] = $totalPage;
+                $result["pages"] = '';
+            }
+            foreach ($result['data'] as $comment) {
+                $title = '';
+                switch ($comment->type) {
+                    case 1:
+                        $title = self::$actionStore->getOneData(['guid' => $comment->action_id]);
+                        break;
+                    case 2:
+                        $title = self::$articleStore->getOneData(['guid' => $comment->action_id]);
+                        break;
+                    case 3:
+                        $title = self::$noticeStore->getOneData(['guid' => $comment->action_id]);
+                        break;
+                    case 4:
+                        $title = self::$goodsStore->getOneData(['guid' => $comment->action_id]);
+                        break;
+                }
+                $comment->title = $title;
+            }
+            return ['StatusCode' => '200', 'ResultData' => $result];
+        } else {
+            return ['StatusCode' => '500', 'ResultData' => '获取分页数据失败！'];
+        }
     }
 
     /**
@@ -173,7 +247,7 @@ class CommentAndLikeService
         //分页样式
         $pageData = $this->forPage($request, $where, 'data_comment_info');
 
-        if(empty($pageData)) return ['StatusCode' => '400', 'ResultData' => '分页方法错误'];
+        if (empty($pageData)) return ['StatusCode' => '400', 'ResultData' => '分页方法错误'];
 
         //评论表数据
         $commentData = $this->openData($this->getForPageUserComment($where, $page));
@@ -183,9 +257,9 @@ class CommentAndLikeService
         //拼装了内容标题的评论数据
         $commentData = $this->openData($this->getContents($commentData));
         //拼装分页样式
-        if($pageData['totalPage']>1){
+        if ($pageData['totalPage'] > 1) {
             $commentData['pageData'] = $pageData;
-        }else{
+        } else {
             $commentData['pageData'] = null;
         }
 
@@ -195,13 +269,13 @@ class CommentAndLikeService
     /**
      * 分页获得点赞数据
      * @param array $where 查询条件
-     * @param int $page  页码
+     * @param int $page 页码
      * @return array
      * author 杨志宇
      */
     public function getLikeData($where, $page)
     {
-        $data = self::$likeStore->getPageData($page,$where);
+        $data = self::$likeStore->getPageData($page, $where);
 
         if (empty($data)) return ['StatusCode' => '400', 'ResultData' => '暂时没有相关内容信息'];
 
@@ -223,7 +297,7 @@ class CommentAndLikeService
         //分页样式
         $pageData = $this->forPage($request, $where, 'data_like_info');
 
-        if(empty($pageData)) return ['StatusCode' => '400', 'ResultData' => '分页方法错误'];
+        if (empty($pageData)) return ['StatusCode' => '400', 'ResultData' => '分页方法错误'];
 
         //点赞数据
         $likeData = $this->openData($this->getLikeData($where, $page));
@@ -235,9 +309,9 @@ class CommentAndLikeService
 
         if (empty($likeDatas)) return ['StatusCode' => '400', 'ResultData' => '点赞数据拼装失败'];
 
-        if($pageData['totalPage']>1){
+        if ($pageData['totalPage'] > 1) {
             $likeDatas['pageData'] = $pageData;
-        }else{
+        } else {
             $likeDatas['pageData'] = null;
         }
 
@@ -252,12 +326,12 @@ class CommentAndLikeService
      * @modify 杨志宇
      * @modify 杨志宇
      */
-    public  function comment($data)
+    public function comment($data)
     {
         $data["addtime"] = time();
         $data["changetime"] = time();
         // 判断两次评论之间的时间间隔
-        $oldTime = $this->getUserCommentTime ($data['action_id'], session('user')->guid);
+        $oldTime = $this->getUserCommentTime($data['action_id'], session('user')->guid);
 
         if (($oldTime + config('safety.COMMENT_TIME')) > time()) {
             return ['StatusCode' => '400', 'ResultData' => '两次评论间隔过短，请稍后重试'];
@@ -265,7 +339,7 @@ class CommentAndLikeService
 
         $result = self::$commentStore->addData($data);
 
-        if(!empty($result)) {
+        if (!empty($result)) {
             self::$commentCache->insertIndex($result, $data['action_id']);
 
             return ['StatusCode' => '200', 'ResultData' => '评论发表成功！'];
@@ -277,12 +351,12 @@ class CommentAndLikeService
 
     /**
      * 得到该用户上次评论同文章的时间
-     * @param string $acricle_id   文章ID
-     * @param string $user_id  用户ID
+     * @param string $acricle_id 文章ID
+     * @param string $user_id 用户ID
      * @return int $time  时间戳
      * @author 杨志宇
      */
-    public  function getUserCommentTime ($acricle_id, $user_id)
+    public function getUserCommentTime($acricle_id, $user_id)
     {
         $res = self::$commentStore->getCommentTime($acricle_id, $user_id);
         if (empty($res)) {
@@ -295,11 +369,11 @@ class CommentAndLikeService
     /**
      * 拼装评论成功后返回的数据
      * @param string $time 评论发布日期
-     * @param string $content   评论内容
+     * @param string $content 评论内容
      * @return array
      * author 杨志宇
      */
-    public function getUserCommentData($time,$content)
+    public function getUserCommentData($time, $content)
     {
 
         $userImg = session('user')->headpic;
@@ -307,7 +381,7 @@ class CommentAndLikeService
         return [
             'userImg' => $userImg,
             'nikename' => $nikename,
-            'time' => date('Y-m-d H:m:s',$time),
+            'time' => date('Y-m-d H:m:s', $time),
             'content' => $content
         ];
     }
@@ -324,23 +398,23 @@ class CommentAndLikeService
         //取得索引list
         $cacheIndex = self::$commentCache->getCacheIndex($page, $contentId);
 
-        if(!$cacheIndex){
+        if (!$cacheIndex) {
             //检查评论数量
-            if(!self::$commentCache->getCommentNum($contentId)) return ['StatusCode' => '400', 'ResultData' => '暂无评论'];
+            if (!self::$commentCache->getCommentNum($contentId)) return ['StatusCode' => '400', 'ResultData' => '暂无评论'];
 
             self::$commentCache->createIndex($contentId);//创建缓存索引
 
             $commentData = $this->getForPageUserComment(['action_id' => $contentId, 'status' => 1], $page);//取得评论表数据
 
-            if($commentData['StatusCode'] == '400') return $commentData;
+            if ($commentData['StatusCode'] == '400') return $commentData;
 
             $data = $this->addUserInfo($this->openData($commentData));//为每条评论添加对应用户信息
 
-            if ($data['StatusCode'] == 200){
+            if ($data['StatusCode'] == 200) {
                 self::$commentCache->createCache($data['ResultData']);
             }
 
-        }else{
+        } else {
             $cache = self::$commentCache->getCache($cacheIndex);
             $data = ['StatusCode' => '200', 'ResultData' => $cache];
         }
@@ -356,16 +430,16 @@ class CommentAndLikeService
      */
     public function addUserInfo($commentData)
     {
-        if(!$commentData) return false;
+        if (!$commentData) return false;
 
         foreach ($commentData as $data) {
             $userInfoData = self::$userStore->getOneData(['guid' => $data->user_id]);
 
             if (empty($userInfoData)) {
 
-                Log::info('用户ID为'.$data->user_id.'的用户信息查询失败，导致该用户有关评论数据生成失败');
+                Log::info('用户ID为' . $data->user_id . '的用户信息查询失败，导致该用户有关评论数据生成失败');
 
-                return false ;
+                return false;
             }
 
             $data->userImg = $userInfoData->headpic;//添加用户头像
@@ -387,7 +461,7 @@ class CommentAndLikeService
         $where = ['action_id' => $contentId, 'user_id' => $userId];
         $result = self::$likeStore->getLikeStatus($where, 'support');
 
-        if(!$result) $result[0] =null;
+        if (!$result) $result[0] = null;
 
         switch ($result[0]) {
             case 1 :
@@ -413,12 +487,12 @@ class CommentAndLikeService
     {
         $result = self::$likeStore->getLikeStatus($where, 'changetime');
 
-        if($result) {
+        if ($result) {
             $nowTime = time();//当前时间戳
             $changeTime = $result[0];//上次操作时间戳
-            $time = $nowTime -$changeTime;//两次操作时间差值
+            $time = $nowTime - $changeTime;//两次操作时间差值
 
-            if($time<15) return false;
+            if ($time < 15) return false;
 
         }
         return true;
@@ -439,7 +513,7 @@ class CommentAndLikeService
         $where = ['action_id' => $contentId, 'user_id' => $userId];
 
         //查询用户上次与本次操作间隔是否合法
-        if(!$this->likeTime($where)) return ['StatusCode' => '400', 'ResultData' => '操作过于频繁请稍后再试！'];
+        if (!$this->likeTime($where)) return ['StatusCode' => '400', 'ResultData' => '操作过于频繁请稍后再试！'];
 
         $data = [
             'action_id' => $contentId, //内容ID
@@ -478,10 +552,11 @@ class CommentAndLikeService
     {
         $num = self::$likeStore->getSupportNum($contentId);
 
-        if($num) return $num;
+        if ($num) return $num;
 
         return 0;
     }
+
     /**
      * 统计评论数量
      * @param string|int $contentId 内容ID
@@ -501,13 +576,13 @@ class CommentAndLikeService
      * @return string
      * author 杨志宇
      */
-    public function getPageStyle($id,$nowPage)
+    public function getPageStyle($id, $nowPage)
     {
         $cache = self::$commentCache->getCommentNum($id);
         $totalNum = $cache;
-        $totalPage = (int)ceil($totalNum/PAGENUM);
-        if($totalPage<=1) return null;
+        $totalPage = (int)ceil($totalNum / PAGENUM);
+        if ($totalPage <= 1) return null;
 
-        return CustomPage::getSelfPageView($nowPage, $totalPage, $id,null);
+        return CustomPage::getSelfPageView($nowPage, $totalPage, $id, null);
     }
 }

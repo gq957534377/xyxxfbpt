@@ -81,8 +81,7 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
     Route::resource('/article', 'ArticleController');
     // 校园通知
     Route::resource('/notice', 'NoticeController');
-    //写评论
-    Route::resource('/article/setcomment', 'ArticleController@setComment');
+
     //显示评论详情页
     Route::resource('/comment', 'ArticleController@commentShow');
 
@@ -91,6 +90,8 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
 
     //中间件，检验是否登录
     Route::group(['middleware' => 'HomeMiddleware'], function () {
+        //写评论
+        Route::resource('/article/setcomment', 'ArticleController@setComment');
         //获取角色信息
         Route::get('/roleinfo/{id}', 'UserController@roleInfo');
         // 用户角色
@@ -108,7 +109,6 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
         // 个人中心页
         // 评论和赞
         Route::get('/user/commentandlike', 'UserController@commentAndLike')->name('commentlike');
-        Route::post('/user/commentandlike', 'UserController@getLike')->name('getLike');
         Route::get('/user/realname/{guid}', 'UserController@getRealName');
         Route::resource('/user', 'UserController');
         // 前台登出
