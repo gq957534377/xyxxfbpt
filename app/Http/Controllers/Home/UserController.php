@@ -449,7 +449,7 @@ class UserController extends Controller
         if (!isset($guid) || empty(session('user')->guid)) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少数据']);
 
         // 拿到给用户的手机号
-        $tel = self::$userServer->accountInfo(['guid' => session('user')->guid])['ResultData']->tel;
+        $tel = self::$userServer->accountInfo(['guid' => session('user')->guid])['ResultData']->phone_number;
         // 发送短信
         $info = self::$userServer->sendSmsCode($tel);
 
