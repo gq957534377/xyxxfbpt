@@ -123,7 +123,7 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
 
         Route::resource('/upload', 'ActionController@upload');
         //七牛TokenToken
-        Route::get('/getQiniuToken','userGoodsController@getToken');
+        Route::get('/getQiniuToken','UserGoodsController@getToken');
     });
 
 
