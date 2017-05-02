@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Home;
 
+use App\Store\ArticleStore;
+use App\Store\GoodsStore;
 use App\Tools\Common;
 use Illuminate\Http\Request;
 
@@ -24,20 +26,26 @@ class UserController extends Controller
     protected static $uploadServer = null;
     protected static $commentServer = null;
     protected static $projectServer = null;
+    protected static $articleStore = null;
+    protected static $goodsStore = null;
 
     public function __construct(
         UserServer $userServer,
         UserRoleServer $userRoleServer,
         UploadServer $uploadServer,
         CommentServer $commentServer,
-        ProjectServer $projectServer
+        ProjectServer $projectServer,
+        ArticleStore $articleStore,
+        GoodsStore $goodsStore
     )
     {
         self::$userServer = $userServer;
+        self::$goodsStore = $goodsStore;
         self::$userRoleServer = $userRoleServer;
         self::$uploadServer = $uploadServer;
         self::$commentServer = $commentServer;
         self::$projectServer = $projectServer;
+        self::$articleStore = $articleStore;
     }
 
     /**
@@ -118,25 +126,23 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if (empty($id)) return response()->json(['StatusCode' => '400', 'ResultData' => '服务器数据异常']);
+        if (empty($id)) return view('errors.404');
 
         // 获取到用户的id，返回数据
         $info = self::$userServer->userInfo(['guid' => $id]);
 
-        // 获取用户相关角色信息
-        $roleInfo = self::$userRoleServer->getRoleInfo($id);
+        // 获取已发表文章数量
+        $article = self::$articleStore->getCount(['user_id' => $id, 'status' => 1]);
 
-        // 获取用户的项目
-        $countProjects = self::$projectServer->getCount(['user_guid' => $id]);
+        // 获取已发布商品的数量
+        $goods = self::$goodsStore->getCount(['author' => $id, 'status' => 1]);
 
-        // 获取评论数
-        $comments = self::$commentServer->commentCount(['user_id' => $id, 'status' => 1]);
-
+        if ($info['StatusCode'] != '200') return view('errors.500');
+        // 返回视图
         return view('home.user.index', [
             'userInfo' => $info['ResultData'],
-            'roleInfo' => $roleInfo,
-            'countProjects' => $countProjects['ResultData'],
-            'comments' => $comments['ResultData'],
+            'article' => $article,
+            'goods' => $goods
         ]);
     }
 

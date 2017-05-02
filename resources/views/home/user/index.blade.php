@@ -9,7 +9,7 @@
     <link href="{{ asset('home/css/user_center_account_setting.css') }}" rel="stylesheet">
     <link href="{{ asset('home/css/common.css') }}" rel="stylesheet">
     <style>
-        .user_info:after{
+        .user_info:after {
             content: '';
             display: table;
             clear: both;
@@ -25,13 +25,15 @@
         <!--基本信息开始-->
         <div style="position: relative;" class="col-xs-12 col-sm-12 col-md-8 col-lg-8 pad-cl my-home-basic">
             <!-- 头像修改 Start -->
-            <div  class="col-sm-2 col-md-3 col-lg-2 pad-clr" style="left:15px;position:absolute;display: inline-block;width: 20%;">
+            <div class="col-sm-2 col-md-3 col-lg-2 pad-clr"
+                 style="left:15px;position:absolute;display: inline-block;width: 20%;">
                 <div class="ibox-content">
                     <div class="row">
                         <div id="crop-avatar">
                             <div class="avatar-view" title="">
                                 <img class="user_avatar img-circle"
-                                     src="{{ session('user')->headpic ? session('user')->headpic : asset('home/images/user_center.jpg') }}" alt="Logo">
+                                     src="{{ session('user')->headpic ? session('user')->headpic : asset('home/images/user_center.jpg') }}"
+                                     alt="Logo">
                             </div>
                         </div>
                     </div>
@@ -39,32 +41,36 @@
             </div>
             <!-- 头像修改 End -->
             {{--<div class="col-sm-10 col-md-9 col-lg-10 pad-clr user_info" style="display: inline-block;width: 66%;padding-left: 68px;margin-top: 7px;">--}}
-                {{--<p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ $userInfo->username or '--'}}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>--}}
-                {{--<p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->phone_number or '--'}}</p>--}}
-                {{--<p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6 {{$userInfo->emails or 'hidden'}}">{{ $userInfo->email or '--'}}</p>--}}
+            {{--<p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ $userInfo->username or '--'}}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>--}}
+            {{--<p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->phone_number or '--'}}</p>--}}
+            {{--<p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6 {{$userInfo->emails or 'hidden'}}">{{ $userInfo->email or '--'}}</p>--}}
             {{--</div>--}}
-            <div class="col-sm-10 col-md-9 col-lg-10 pad-clr user_info" style="margin-left:10%;display: inline-block;width: 66%;padding-left: 68px;margin-top: 7px;">
-                <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span class="user_nickname">{{ $userInfo->username or '--'}}</span><a id="userInfoEdit" href="javascript:void(0);">编辑</a></p>
+            <div class="col-sm-10 col-md-9 col-lg-10 pad-clr user_info"
+                 style="margin-left:10%;display: inline-block;width: 66%;padding-left: 68px;margin-top: 7px;">
+                <p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 pad-cr">昵称：<span
+                            class="user_nickname">{{ $userInfo->username or '--'}}</span><a id="userInfoEdit"
+                                                                                            href="javascript:void(0);">编辑</a>
+                </p>
                 <p class="user_tel col-xs-12 col-sm-5 col-md-6 col-lg-4">{{ $userInfo->phone_number or '--'}}</p>
                 <p class="user_email col-xs-12 col-sm-6 col-md-6 col-lg-6 {{$userInfo->emails or 'hidden'}}">{{ $userInfo->email or '--'}}</p>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 pad-cr my-home-entrepreneur-info">
             <div class="b-all-3 bgc-0">
-                <p>{{ isset($comments) ? $comments : 0 }}</p>
-                <p class="mar-cb"><a href="{{ route('commentlike') }}">活动</a></p>
+                <p>{{ $goods ?? 0 }}</p>
+                <p class="mar-cb"><a href="{{ route('userGoods.index') }}">二手</a></p>
             </div>
             <div class="b-all-3 bgc-0">
-                <p>{{ isset($countProjects) ? $countProjects : 0 }}</p>
-                <p class="mar-cb"><a href="javascript:void(0);" class="toTheProject">文章</a></p>
+                <p>{{ $article ?? 0 }}</p>
+                <p class="mar-cb"><a href="{{ route('send.index',['status'=>1]) }}" class="toTheProject">文章</a></p>
             </div>
 
         </div>
         <!--基本信息结束-->
 
         <!--修改头像弹出框 Start-->
-            @include('home.public.avatar')
-        <!--修改头像弹出框 End-->
+    @include('home.public.avatar')
+    <!--修改头像弹出框 End-->
 
         <!-- 模态框（Modal） -->
         <div class="modal fade" id="userInfoModal" tabindex="-1" role="dialog">
@@ -83,11 +89,15 @@
                         <div class="col-xs-12">
                             <label class="col-xs-12 control-label mar-b5">用户昵称</label>
                             <div class="col-xs-12">
-                                <input type="text" name="nickname" maxlength="10" class="form-control form-title"  placeholder="输入新的昵称">
+                                <input type="text" name="nickname" maxlength="10" class="form-control form-title"
+                                       placeholder="输入新的昵称">
                             </div>
                             <div class="col-xs-12 nickname_sub">
-                                <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="editSubmit">保存</button>
-                                <button type="button" class="btn btn-default userInfoReset" data-dismiss="modal">取消</button>
+                                <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="editSubmit">
+                                    保存
+                                </button>
+                                <button type="button" class="btn btn-default userInfoReset" data-dismiss="modal">取消
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -105,8 +115,8 @@
             <div class="binding col-xs-12 bb-1 pad-clr">
                 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pad-clr binding-tel">
                     <p class="col-xs-12 col-sm-12 col-md-3 col-lg-2 pad-clr">安全手机</p>
-                    <p class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ isset($accountInfo->tel) ? 'binded' : 'unbinded'}}">{{ isset($accountInfo->tel) ? '已绑定' : '未绑定'}}</p>
-                    <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ isset($accountInfo->tel) ? $accountInfo->tel : ''}}</p>
+                    <p class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ !empty($userInfo->phone_number) ? 'binded' : 'unbinded'}}">{{ !empty($userInfo->phone_number) ? '已绑定' : '未绑定'}}</p>
+                    <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ !empty($userInfo->phone_number) ? $userInfo->phone_number : ''}}</p>
                     <p class="col-xs-12 col-sm-12 pad-clr fs-c-5">安全手机将可用于登录和修改密码</p>
                 </div>
                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 pad-clr">
@@ -116,13 +126,16 @@
             <div class="binding col-xs-12 bb-1 pad-clr">
                 <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pad-clr binding-email">
                     <p class="col-xs-12 col-sm-12 col-md-3 col-lg-2 pad-clr">安全邮箱</p>
-                    <p id="emailBinded" class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ isset($accountInfo->email) ? 'binded' : 'unbinded'}}">{{ isset($accountInfo->email) ? '已绑定' : '未绑定'}}</p>
-                    <p id='email' class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ isset($accountInfo->email) ? $accountInfo->email : ''}}</p>
+                    <p id="emailBinded"
+                       class="col-xs-4 col-sm-4 col-md-3 col-lg-2 pad-cr {{ !empty($userInfo->email) ? 'binded' : 'unbinded'}}">{{ !empty($userInfo->email) ? '已绑定' : '未绑定'}}</p>
+                    <p id='email'
+                       class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr">{{ !empty($userInfo->email) ? $userInfo->email : ''}}</p>
                     <p class="col-xs-6 col-sm-3 col-md-5 col-lg-4 pad-clr"></p>
                     <p class="col-xs-12 col-sm-12 pad-clr fs-c-5">安全邮箱将可用于登录和修改密码</p>
                 </div>
                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 pad-clr">
-                    <a href="javascript:void(0);" class="btn btn-0 bgc-0 fs-c-4 b-all-2 wid-3 fs-16 zxz" id="changeEmail">{{ isset($accountInfo->email) ? '更换' : '绑定'}}</a>
+                    <a href="javascript:void(0);" class="btn btn-0 bgc-0 fs-c-4 b-all-2 wid-3 fs-16 zxz"
+                       id="changeEmail">{{ !empty($userInfo->email) ? '更换' : '绑定'}}</a>
                 </div>
             </div>
             <div class="binding col-xs-12 bb-1 pad-clr">
@@ -140,7 +153,7 @@
             <!-- 模态框（Modal） -->
             <div class="modal fade" id="changeTelModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
-                    <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" >
+                    <img src="{{asset('home/images/load.gif')}}" class="loading pull-right">
                     <div class="modal-content">
                         <div class="modal-header bgc-6 fs-c-0">
                             <h4 class="modal-title">修改手机号</h4>
@@ -163,14 +176,18 @@
                                 <div class="col-sm-9 pad-cl">
                                     <input type="text" class="form-control form-title" id="captcha" placeholder="输入验证码">
                                 </div>
-                                <label for="captcha" id="resend_captcha_label" class="col-sm-3 control-label line-h-1 hidden  pad-cl">重新发送<span>54</span>秒</label>
+                                <label for="captcha" id="resend_captcha_label"
+                                       class="col-sm-3 control-label line-h-1 hidden  pad-cl">重新发送<span>54</span>秒</label>
                                 <div class="col-sm-3 control-label line-h-1" id="resend_captcha">
-                                    <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-5 border-no resend_captcha" >获取短信验证码</button>
+                                    <button type="button"
+                                            class="btn btn-1 bgc-2 fs-c-1 zxz wid-5 border-no resend_captcha">获取短信验证码
+                                    </button>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer border-no h-align-1">
-                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_one">下一步</button>
+                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="step_one">下一步
+                            </button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                             {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                         </div>
@@ -209,15 +226,18 @@
                                     </select>
                                 </label>
                                 <label class="col-xs-12 col-sm-6 control-label pad-cl-xs pad-cr-xs">
-                                    <input id="newTel" type="text" class="form-control form-title"  placeholder="手机号">
+                                    <input id="newTel" type="text" class="form-control form-title" placeholder="手机号">
                                 </label>
                                 <div class="clearfix"></div>
                             </div>
                         </div>
                         <div class="modal-footer border-no h-align-1 hidden">
-                            <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_two">下一步</button>
+                            <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="step_two">下一步
+                            </button>
                             <button type="button" class="btn btn-default" id="tel_return">返回</button>
-                            <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-default tel_btn_reset pull-right" data-dismiss="modal">
+                                取消
+                            </button>
                         </div>
                         <!--第二步 填写新手机号 结束-->
 
@@ -251,11 +271,15 @@
                             <!--发送提示    &    验证错误提示  结束-->
                             <div class="form-group mar-cb">
                                 <div class="col-sm-9 pad-cl">
-                                    <input type="text" class="form-control form-title" id="captcha_two" placeholder="请输入您收到的短信验证码">
+                                    <input type="text" class="form-control form-title" id="captcha_two"
+                                           placeholder="请输入您收到的短信验证码">
                                 </div>
-                                <label id="resend_captcha_laravel_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
+                                <label id="resend_captcha_laravel_two" for="captcha_"
+                                       class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
                                 <div class="col-sm-3 control-label line-h-1 pad-cr pad-cl-xs" id="resend_captcha_two">
-                                    <button type="button" class="btn btn-1 bgc-2 fs-c-1 zxz wid-5 border-no resend_captcha" >获取短信验证码</button>
+                                    <button type="button"
+                                            class="btn btn-1 bgc-2 fs-c-1 zxz wid-5 border-no resend_captcha">获取短信验证码
+                                    </button>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -271,7 +295,9 @@
                             </div>
                         </div>
                         <div class="modal-footer border-no h-align-1 hidden">
-                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="step_three">下一步</button>
+                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="step_three">
+                                下一步
+                            </button>
                             <button type="button" class="btn btn-default tel_btn_reset" data-dismiss="modal">取消</button>
                         </div>
 
@@ -297,7 +323,9 @@
                             <p class="fs-c-0 fw-1">您已成功修改安全手机</p>
                         </div>
                         <div class="modal-footer border-no h-align-1 pad-ct hidden">
-                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" data-dismiss="modal" id="step_four">关闭</button>
+                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" data-dismiss="modal"
+                                    id="step_four">关闭
+                            </button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
@@ -308,7 +336,7 @@
             <!-- 模态框（Modal） -->
             <div class="modal fade" id="changeEmailModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
-                    <img src="{{asset('home/images/load.gif')}}" class="loading pull-right" >
+                    <img src="{{asset('home/images/load.gif')}}" class="loading pull-right">
                     <div class="modal-content">
                         <div class="modal-header bgc-6 fs-c-0">
                             <h4 class="modal-title">修改邮箱</h4>
@@ -322,14 +350,17 @@
                             <!--Email 错误提示 End-->
                             <div class="form-group">
                                 <label class="col-xs-12 control-label pad-cl">
-                                    <input id="newEmail" type="email" class="form-control form-title"  placeholder="邮箱">
+                                    <input id="newEmail" type="email" class="form-control form-title" placeholder="邮箱">
                                 </label>
                             </div>
 
                         </div>
                         <div class="modal-footer border-no h-align-1">
-                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_one">下一步</button>
-                            <button type="button" class="btn btn-default btn_email_reset" data-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="email_step_one">
+                                下一步
+                            </button>
+                            <button type="button" class="btn btn-default btn_email_reset" data-dismiss="modal">取消
+                            </button>
                         </div>
                         <!--第二步 验证新邮箱-->
                         <div class="modal-body email-step-two hidden">
@@ -338,24 +369,34 @@
                             <div id="errorEmailBox_two" class="alert alert-danger hidden">验证码验证失败！</div>
                             <!--Email 错误提示 End-->
                             <!--////////////////////-->
-                            <p class="fs-c-0 fw-1">我们向: <span id="toEmail">15110313915@qq.com</span>发送了验证邮件<br>请你输入邮箱中的验证码</p>
+                            <p class="fs-c-0 fw-1">我们向: <span id="toEmail">15110313915@qq.com</span>发送了验证邮件<br>请你输入邮箱中的验证码
+                            </p>
                             <!--发送提示    &    验证错误提示  结束-->
 
                             <div class="form-group mar-cb">
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control form-title" id="captcha_email" placeholder="验证码">
+                                    <input type="text" class="form-control form-title" id="captcha_email"
+                                           placeholder="验证码">
                                 </div>
-                                <label id="resend_email_two" for="captcha_" class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
+                                <label id="resend_email_two" for="captcha_"
+                                       class="col-sm-3 control-label line-h-1 hidden">重新发送<span>54</span>秒</label>
                                 <div class="col-sm-3 control-label line-h-1">
-                                    <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha" id="resend_captcha_email">重新发送</button>
+                                    <button type="submit"
+                                            class="btn btn-1 bgc-2 fs-c-1 zxz wid-2 border-no resend_captcha"
+                                            id="resend_captcha_email">重新发送
+                                    </button>
                                 </div>
                             </div>
 
                         </div>
                         <div class="modal-footer border-no h-align-1 hidden">
-                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="email_step_two">下一步</button>
+                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="email_step_two">
+                                下一步
+                            </button>
                             <button type="button" class="btn btn-default" id="email_return">返回</button>
-                            <button type="button" class="btn btn-default btn_email_reset pull-right" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-default btn_email_reset pull-right"
+                                    data-dismiss="modal">取消
+                            </button>
                             {{--<p class="mar-emt1"><a class="fs-c-6" href="#">我为何收不到验证码</a></p>--}}
                         </div>
                         <!--第三步 修改成功-->
@@ -363,7 +404,9 @@
                             <p class="fs-c-0 fw-1">您已成功修改安全邮箱</p>
                         </div>
                         <div class="modal-footer border-no h-align-1 pad-ct hidden">
-                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" data-dismiss="modal" id="email_step_three">关闭</button>
+                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" data-dismiss="modal"
+                                    id="email_step_three">关闭
+                            </button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
@@ -385,37 +428,46 @@
                         <!--Email 错误提示 End-->
                         <!--第一步 填写-->
                         <div class="modal-body key-step-one">
-                            <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8" enctype="multipart/form-data">
+                            <form class="form-horizontal" role="form" method="POST" action="#" accept-charset="UTF-8"
+                                  enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="key_old" class="col-xs-12 control-label mar-b5">输入旧密码</label>
                                     <div class="col-xs-12">
-                                        <input type="password" class="form-control form-title"  placeholder="旧密码" id="key_old">
+                                        <input type="password" class="form-control form-title" placeholder="旧密码"
+                                               id="key_old">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="key_old" class="col-xs-12 control-label mar-b5">输入新密码</label>
                                     <div class="col-xs-12">
-                                        <input type="password" class="form-control form-title"  placeholder="新密码" id="key_new">
+                                        <input type="password" class="form-control form-title" placeholder="新密码"
+                                               id="key_new">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="key_old" class="col-xs-12 control-label mar-b5">重复新密码</label>
                                     <div class="col-xs-12">
-                                        <input type="password" class="form-control form-title"  placeholder="新密码" id="key_new_two">
+                                        <input type="password" class="form-control form-title" placeholder="新密码"
+                                               id="key_new_two">
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer border-no h-align-1 pad-ct">
-                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs"  id="key_step_one">确认修改</button>
-                            <button type="button" class="btn btn-default btn_password_reset" data-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" id="key_step_one">
+                                确认修改
+                            </button>
+                            <button type="button" class="btn btn-default btn_password_reset" data-dismiss="modal">取消
+                            </button>
                         </div>
                         <!--第二步 结果提示-->
                         <div class="modal-body key-step-two hidden">
                             <p class="fs-c-0 fw-1">您已成功修改密码</p>
                         </div>
                         <div class="modal-footer border-no h-align-1 pad-ct hidden">
-                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" data-dismiss="modal" id="key_step_two">关闭</button>
+                            <button type="submit" class="btn btn-1 bgc-2 fs-c-1 zxz wid-4 wid-2-xs" data-dismiss="modal"
+                                    id="key_step_two">关闭
+                            </button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal -->
