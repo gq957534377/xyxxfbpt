@@ -1,6 +1,6 @@
 @extends('home.layouts.master')
 
-@section('title','欢迎来到英雄会登录中心!')
+@section('title','欢迎来到校园信息发布平台登录中心!')
 
 @section('menu')
 

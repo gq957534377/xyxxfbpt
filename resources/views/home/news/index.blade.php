@@ -33,14 +33,15 @@
                         <a href="{{ url('/news?type=shishang') }}">时尚</a></li>
                 </ul>
                 <h2 class="title" id="action_type"><strong>
-                            @if($type == 'top')头条@elseif($type == 'shehui')
+                        @if($type == 'top')头条@elseif($type == 'shehui')
                             社会@elseif($type == 'guonei')国内@elseif($type == 'guoji')
                             国际@elseif($type == 'yule')娱乐@elseif($type == 'tiyu')
                             体育@elseif($type == 'junshi')军事@elseif($type == 'keji')
                             科技@elseif($type == 'caijing')财经@elseif($type == 'shishang')
                             时尚@endif</strong></h2>
                 <div class="row">
-                    @if(empty($news->error_code))
+                    {{--{{ dd($news) }}--}}
+                    @if(!empty($news) && empty($news->error_code))
                         @foreach($news->result->data as $val)
                             <div class="news-list">
                                 <div class="news-img col-xs-5 col-sm-5 col-md-4"><a target="_blank"
@@ -74,7 +75,11 @@
                             </div>
                         @endforeach
                     @else
-                        <p>{{$news->reason}}</p>
+                        @if(empty($news))
+                            <p>网络出错了！</p>
+                        @else
+                            <p>{{$news->reason}}</p>
+                        @endif
                     @endif
                 </div>
                 <div id="url" style="display: none" data-type="{{ $type }}">

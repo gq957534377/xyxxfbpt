@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\userManagementService as Users;
+use App\Services\UserManagementService as Users;
 
 class UserManagementController extends Controller
 {
@@ -23,10 +23,12 @@ class UserManagementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $nowPage = $request->get('nowPage') ?? 1;
+        $userInfo = self::$users->selectData(['status' => 1], $nowPage, 10, 'user_management');
         //返回后台用户管理首页
-        return view('admin.user.index');
+        return view('admin.user.index', $userInfo);
     }
 
     /**

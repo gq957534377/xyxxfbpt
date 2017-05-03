@@ -34,8 +34,7 @@
 
         <br>
         <button class="btn btn-success status1" data-status="1">联系方式及备案管理</button>
-        <button class="btn btn-default status1" data-status="2">合作机构管理</button>
-        <button class="btn btn-default status1" data-status="3">投资机构管理</button>
+        <button class="btn btn-default status1" data-status="2">机构管理</button>
         <button class="btn btn-default status1" data-status="4">轮播图管理</button>
     </div>
     <hr>

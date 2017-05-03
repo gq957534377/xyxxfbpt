@@ -3,39 +3,64 @@
 namespace App\Services;
 
 use App\Store\UserStore;
-use App\Store\ApplySybStore;
-use App\Store\ApplyInvestorStore;
-use App\Store\ApplyMemberStore;
 use App\Store\HomeStore;
-use App\Store\CompanyStore;
-
 use App\Tools\CustomPage;
 use DB;
 
-class userManagementService
+class UserManagementService
 {
     protected static $data_user_info;    //data_user_info 数据仓库
-    protected static $data_apply_syb;    //data_apply_syb 申请创业者数据仓库
-    protected static $data_apply_investor;  //data_apply_investor 申请投资者
-    protected static $data_apply_member;    //data_apply_member 申请英雄会会员
     protected static $data_user_login;    //data_user_login 用户登录数据仓库
-    protected static $data_company_info;    //用户公司数据仓库
 
    public function __construct(
        UserStore $userStore,
-       ApplySybStore $applySybStore,
-       ApplyInvestorStore $applyInvestorStore,
-       ApplyMemberStore $applyMemberStore,
-       HomeStore $homeStore,
-       CompanyStore $companyStore
+       HomeStore $homeStore
    ){
        self::$data_user_info = $userStore;
-       self::$data_apply_syb = $applySybStore;
-       self::$data_apply_investor = $applyInvestorStore;
-       self::$data_apply_member = $applyMemberStore;
        self::$data_user_login = $homeStore;
-       self::$data_company_info = $companyStore;
    }
+
+    /**
+     * 说明: 获取用户分页数据
+     *
+     * @param $where
+     * @param $nowPage
+     * @param $forPages
+     * @param $url
+     * @return array
+     * @author 郭庆
+     */
+    public function selectData($where, $nowPage, $forPages, $url)
+    {
+        //获取符合条件的数据的总量
+        $count = self::$data_user_info->getUserCount($where);
+        if (!$count) return ['StatusCode' => '204', 'ResultData' => "暂无数据"];
+        //计算总页数
+        $totalPage = ceil($count / $forPages);
+
+        //获取对应页的数据
+        $result['data'] = self::$data_user_info->getUserTypelist($where, $nowPage, $forPages);
+
+        if (!empty($result['data'])) {
+            if ($totalPage > 1) {
+                //创建分页样式
+                $creatPage = CustomPage::getSelfPageView($nowPage, $totalPage, $url, null);
+
+                if ($creatPage) {
+                    $result["pages"] = $creatPage;
+                } else {
+                    return ['StatusCode' => '500', 'ResultData' => '生成分页样式发生错误'];
+                }
+
+            } else {
+                $result['totalPage'] = $totalPage;
+                $result["pages"] = '';
+            }
+            return ['StatusCode' => '200', 'ResultData' => $result];
+        } else {
+            return ['StatusCode' => '500', 'ResultData' => '获取分页数据失败！'];
+        }
+    }
 
     /** 获取条数
      * @param $table 要查询的数据仓库
@@ -112,11 +137,11 @@ class userManagementService
                 ['status' => 1, 'role' => 1],    //查询data_user_info表,普通用户
                 ['status' => 1, 'role' => 2],      //创业者用户
                 ['status' => 1, 'role' => 3],      //投资者用户
-                ['status' => 1, 'memeber' => 2],      //英雄会会员
+                ['status' => 1, 'memeber' => 2],      //校园信息发布平台会员
                 ['status' => 2, 'role' => 1],      //'已禁用普通用户' =>查询data_user_info表,普通用户
                 ['status' => 2, 'role' => 2],     //'已禁用创业者用户' =>
                 ['status' => 2, 'role' => 3],     //'已禁用投资者用户' =>
-                ['status' => 2, 'memeber' => 2],    //'已禁用英雄会成员' =>
+                ['status' => 2, 'memeber' => 2],    //'已禁用校园信息发布平台成员' =>
         ];
         return $userRoles;
     }
@@ -201,7 +226,7 @@ class userManagementService
     /**
      * 审核用户操作
      * @param  string $guid 需要审核的用户
-     * @param  int $role  审核的角色 2：创业者  3 投资者 4 英雄会员
+     * @param  int $role  审核的角色 2：创业者  3 投资者 4 校园信息发布平台员
      * @param  int $status 通过的状态  6 审核通过  7 拒绝
      * @return bool 成功 return true   失败  return false
      */
@@ -228,7 +253,7 @@ class userManagementService
                     break;
 
                 case 4:
-                    //英雄会会员
+                    //校园信息发布平台会员
                     $res = self::$data_apply_member->changeStatus($where, $status);
                     if(!$res) return false;
                     return true;
@@ -278,7 +303,7 @@ class userManagementService
                     break;
 
                 case 4:
-                    //通过用户审核英雄会员
+                    //通过用户审核校园信息发布平台员
                     DB::beginTransaction();
                     $res5 = self::$data_apply_member->changeStatus($where, ['status' => 6]);    //  status = 6
                     $res6 = self::$data_user_info->changeMember($where);   //用户信息角色 memeber=2

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>英雄会后台注册</title>
+    <title>校园信息发布平台后台注册</title>
     @include('admin.public.style')
 </head>
 <body>

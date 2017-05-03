@@ -70,7 +70,7 @@ function htmlStr( data) {
             str += '<span class="text-success text-xs">投资者&nbsp;</span>';
         }
         if(v.memeber == 2){
-            str += '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
+            str += '<span class="text-danger text-xs">校园信息发布平台员&nbsp;</span>';
         }
         str += '</td>';
 
@@ -131,7 +131,7 @@ function userInfo() {
         //会员身份选择
         switch(data.memeber){
             case 2:
-                var member = '<span class="text-danger text-xs">英雄会员&nbsp;</span>';
+                var member = '<span class="text-danger text-xs">校园信息发布平台员&nbsp;</span>';
                 break;
             default:
                 var member = '';

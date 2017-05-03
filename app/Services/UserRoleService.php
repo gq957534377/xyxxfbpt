@@ -154,7 +154,7 @@ class UserRoleService {
                 $info = self::$applyInvestorStore->getOneData(['guid' => $data['guid']]);
                 break;
             case '4':
-                if ($userInfo->role == '4') return  ['StatusCode' => '400', 'ResultData' => '您已是英雄会成员，无需申请！'];
+                if ($userInfo->role == '4') return  ['StatusCode' => '400', 'ResultData' => '您已是校园信息发布平台成员，无需申请！'];
                 $info = self::$applyMemberStore->getOneData(['guid' => $data['guid']]);
                 break;
         }
