@@ -55,7 +55,9 @@
                             </div>
                         @endforeach
                     @else
-                        <p>{{$ResultData}}</p>
+                        <div>
+                            <center><h4>{{$ResultData}}</h4></center>
+                        </div>
                     @endif
                 </div>
                 @if(!empty($StatusCode) && $StatusCode == '200')

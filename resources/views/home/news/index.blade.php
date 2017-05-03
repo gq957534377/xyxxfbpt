@@ -76,9 +76,13 @@
                         @endforeach
                     @else
                         @if(empty($news))
-                            <p>网络出错了！</p>
+                            <div>
+                                <center><h4>网络出错了！</h4></center>
+                            </div>
                         @else
-                            <p>{{$news->reason}}</p>
+                            <div>
+                                <center><h4>{{$news->reason}}</h4></center>
+                            </div>
                         @endif
                     @endif
                 </div>

@@ -9,42 +9,34 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use App\Services\UserService as UserServer;
-use App\Services\UserRoleService as UserRoleServer;
 use App\Services\UploadService as UploadServer;
 use Illuminate\Support\Facades\Validator;
 use App\Tools\Avatar;
 use App\Tools\Upload;
 use App\Services\CommentAndLikeService as CommentServer;
 use Illuminate\Support\Facades\Session;
-use App\Services\ProjectService as ProjectServer;
 
 
 class UserController extends Controller
 {
     protected static $userServer = null;
-    protected static $userRoleServer = null;
     protected static $uploadServer = null;
     protected static $commentServer = null;
-    protected static $projectServer = null;
     protected static $articleStore = null;
     protected static $goodsStore = null;
 
     public function __construct(
         UserServer $userServer,
-        UserRoleServer $userRoleServer,
         UploadServer $uploadServer,
         CommentServer $commentServer,
-        ProjectServer $projectServer,
         ArticleStore $articleStore,
         GoodsStore $goodsStore
     )
     {
         self::$userServer = $userServer;
         self::$goodsStore = $goodsStore;
-        self::$userRoleServer = $userRoleServer;
         self::$uploadServer = $uploadServer;
         self::$commentServer = $commentServer;
-        self::$projectServer = $projectServer;
         self::$articleStore = $articleStore;
     }
 

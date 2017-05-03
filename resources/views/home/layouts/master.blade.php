@@ -37,7 +37,6 @@
     @section('menu')
         <header>
 
-        @include('home.public.loginAlert')
         @include('home.public.nav')
         </header>
     @show
