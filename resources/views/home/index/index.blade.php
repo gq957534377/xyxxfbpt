@@ -158,66 +158,43 @@
                     </div>
                 @endif
 
-                <h2 class="title"><strong>最新二手交易</strong></h2>
-                <div class="row">
-                    <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"><a target="_blank" href="index.html"><img
-                                        src="{{ asset('home/images/logo.jpg') }}" alt=""> </a></div>
-                        <div class="news-info col-xs-7 col-sm-7 col-md-8">
-                            <dl>
-                                <dt><a href="index.html" target="_blank"> 校园信息发布平台正式上线！ </a></dt>
-                                <dd><span class="name"><a href="index.html" title="由 校园信息发布平台 发布"
-                                                          rel="author">校园信息发布平台</a></span> <span
-                                            class="identity"></span> <span class="time"> 2015-10-19 </span></dd>
-                                <dd class="text">
-                                    欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布，还有CMS内容管理系统，包括但不限于这些还有CMS内容管理系统，包括但不限于这些。
-                                </dd>
-                            </dl>
-                            <div class="news_bot col-sm-7 col-md-8"><span class="tags visible-lg visible-md"> <a
-                                            href="index.html">本站</a> <a href="index.html">校园信息发布平台</a> </span> <span
-                                        class="look"> 共 <strong>2126</strong> 人围观，发现 <strong> 12 </strong> 个不明物体 </span>
-                            </div>
+                    @if(!empty($goods))
+                        <h2 class="title"><strong>最新二手交易</strong></h2>
+                        <div class="row">
+                            @foreach($goods as $good)
+                                    <div class="news-list">
+                                        <div class="news-img col-xs-5 col-sm-5 col-md-4">
+                                            <a target="_blank" href="{{ url('goods/'.$good->guid) }}">
+                                                <img src="{{ $good->banner }}" alt="{{ $good->name }}">
+                                            </a>
+                                        </div>
+                                        <div class="news-info col-xs-7 col-sm-7 col-md-8">
+                                            <dl>
+                                                <dt>
+                                                    <a href="{{ url('goods/'.$good->guid) }}" target="_blank">
+                                                        {{ $good->name }}
+                                                    </a>
+                                                <h3 style="color: red">{{ $good->price }}元</h3>
+                                                </dt>
+                                                <dd>
+                                        <span class="name">
+                                            <strong>QQ:</strong><span>{{ $good->qq }}</span>&nbsp&nbsp <strong>电话:</strong><span>{{ $good->tel }}</span>&nbsp&nbsp <strong>微信:</strong><span>{{ $good->wechat }}</span>&nbsp&nbsp
+                                        </span>
+                                                </dd>
+                                                <dt>
+                                                    <span class="time"> {{ date('Y-m-d H:m', $good->addtime) }} </span></dt>
+                                                <dd class="text">{{ $good->brief }}</dd>
+                                            </dl>
+                                            <div class="news_bot col-sm-7 col-md-8"><span class="tags visible-lg visible-md"> <a
+                                                            href=" {{ url('/') }}">本站</a> <a
+                                                            href="{{ url('/') }}">校园信息发布平台</a> </span> <span
+                                                        class="look"> 共 <strong>2126</strong> 人围观，发现 <strong> 12 </strong> 个不明物体 </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                         </div>
-                    </div>
-                    <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"><a target="_blank" href="index.html"><img
-                                        src="{{ asset('home/images/img1.jpg') }}" alt=""> </a></div>
-                        <div class="news-info col-xs-7 col-sm-7 col-md-8">
-                            <dl>
-                                <dt><a href="index.html" target="_blank"> 校园信息发布平台正式上线！ </a></dt>
-                                <dd><span class="name"><a href="index.html" title="由 校园信息发布平台 发布"
-                                                          rel="author">校园信息发布平台</a></span> <span
-                                            class="identity"></span> <span class="time"> 2015-10-19 </span></dd>
-                                <dd class="text">
-                                    欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布，还有CMS内容管理系统，包括但不限于这些还有CMS内容管理系统，包括但不限于这些。
-                                </dd>
-                            </dl>
-                            <div class="news_bot col-sm-7 col-md-8"><span class="tags visible-lg visible-md"> <a
-                                            href="index.html">本站</a> <a href="index.html">校园信息发布平台</a> </span> <span
-                                        class="look"> 共 <strong>2126</strong> 人围观，发现 <strong> 12 </strong> 个不明物体 </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="news-list">
-                        <div class="news-img col-xs-5 col-sm-5 col-md-4"><a target="_blank" href="index.html"><img
-                                        src="{{ asset('home/images/img2.jpg') }}" alt=""> </a></div>
-                        <div class="news-info col-xs-7 col-sm-7 col-md-8">
-                            <dl>
-                                <dt><a href="index.html" target="_blank"> 校园信息发布平台正式上线！ </a></dt>
-                                <dd><span class="name"><a href="index.html" title="由 校园信息发布平台 发布"
-                                                          rel="author">校园信息发布平台</a></span> <span
-                                            class="identity"></span> <span class="time"> 2015-10-19 </span></dd>
-                                <dd class="text">
-                                    欢迎来到校园信息发布平台，在这里可以看到校园最新信息的发布，还有CMS内容管理系统，包括但不限于这些还有CMS内容管理系统，包括但不限于这些。
-                                </dd>
-                            </dl>
-                            <div class="news_bot col-sm-7 col-md-8"><span class="tags visible-lg visible-md"> <a
-                                            href="index.html">本站</a> <a href="index.html">校园信息发布平台</a> </span> <span
-                                        class="look"> 共 <strong>2126</strong> 人围观，发现 <strong> 12 </strong> 个不明物体 </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    @endif
 
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Home;
 
 use App\Store\ActionStore;
 use App\Store\ArticleStore;
+use App\Store\GoodsStore;
 use App\Store\NoticeStore;
 use Illuminate\Http\Request;
 
@@ -17,18 +18,21 @@ class HomeController extends Controller
     protected static $actionStore = null;
     protected static $articleStore = null;
     protected static $noticeStore = null;
+    protected static $goodsStore = null;
 
     public function __construct(
         ActionStore $actionStore,
         ArticleStore $articleStore,
         NoticeStore $noticeStore,
-        RollingPictureStore $rollingPictureStore
+        RollingPictureStore $rollingPictureStore,
+        GoodsStore $goodsStore
     )
     {
         self::$rollingPictureStore = $rollingPictureStore;
         self::$actionStore = $actionStore;
         self::$articleStore = $articleStore;
         self::$noticeStore = $noticeStore;
+        self::$goodsStore = $goodsStore;
     }
 
     /**
@@ -44,11 +48,13 @@ class HomeController extends Controller
         $article = self::$articleStore->forPage(1, 3, ['status' => 1]);
         $notice = self::$noticeStore->forPage(1, 3, ['status' => 1]);
         $pic = self::$rollingPictureStore->getAllPic();
+        $goods = self::$goodsStore->forPage(1,3,['status'=>1]);
         return response()->view('home.index.index', [
             'action' => $action,
             'article' => $article,
             'notice' => $notice,
-            'pic' => $pic
+            'pic' => $pic,
+            'goods'=>$goods
         ]);
     }
 
