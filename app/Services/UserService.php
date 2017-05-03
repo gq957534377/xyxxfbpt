@@ -450,7 +450,7 @@ class UserService
 
         // 发送Email
         $flag = Mail::send('home.email.emails', ['name' => $name, 'content' => $content], function ($message) use ($to) {
-            $message->to($to)->subject('琦力英雄会，邮箱改绑');
+            $message->to($to)->subject('校园信息发布平台，邮箱改绑');
         });
 
         if (!$flag) return ['StatusCode' => '400', 'ResultData' => '邮件发送失败！'];
@@ -475,7 +475,7 @@ class UserService
         if (empty($where) || empty($data)) return ['StatusCode' => '400', 'ResultData' => '缺少数据信息'];
 
         // 判断当前用户的邮箱和更新的邮箱进行比对
-        $result = self::$homeStore->getOneData(['guid' => $where]);
+        $result = self::$userStore->getOneData(['guid' => $where]);
 
         if (!$result) return ['StatusCode' => '400', 'ResultData' => '当前用户不存在！'];
 
@@ -484,13 +484,13 @@ class UserService
 
         // 新改绑的邮箱是否已经存在
 
-        $result = self::$homeStore->getOneData(['email' => $data]);
+        $result = self::$userStore->getOneData(['email' => $data]);
 
         if ($result) ['StatusCode' => '400', 'ResultData' => '您输入的新邮箱已存在，请更换一个!'];
 
         // 更新邮箱
 
-        $result = self::$homeStore->updateData(['guid' => $where], ['email' => $data]);
+        $result = self::$userStore->updateUserInfo(['guid' => $where], ['email' => $data]);
 
         if (!$result) {
             \Log::error('更换邮箱错误', $result);
