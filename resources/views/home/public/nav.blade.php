@@ -73,7 +73,8 @@
         <li><a href=""><span class="glyphicon glyphicon-tags"></span>校园学习</a>
             <div>
                 <ul class="nav hidden-xs-nav">
-                    <li><a href="{{ route('jisuanji.index') }}"><span class="glyphicon glyphicon-erase"></span>计算机等级考试查询</a>
+                    <li><a href="{{ route('jisuanji.index') }}"><span class="glyphicon glyphicon-erase"></span>计算机等级成绩查询</a>
+                    <li><a href="{{ route('ncre.index') }}"><span class="glyphicon glyphicon-erase"></span>ncre成绩查询</a>
                 </ul>
             </div>
         </li>

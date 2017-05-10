@@ -65,6 +65,8 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
     Route::resource('/login', 'LoginController');
     // 前台计算机等级考试成绩查询
     Route::resource('/jisuanji', 'JisuanjiController');
+    // ncre成绩查询
+    Route::resource('/ncre', 'NcreController');
     // 前台手机端校园学习
     Route::resource('/study', 'StudyController');
     // 获取修改密码的验证码
