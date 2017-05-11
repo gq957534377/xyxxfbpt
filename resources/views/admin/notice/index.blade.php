@@ -61,8 +61,8 @@
                                         <option value="2">其他通知</option>
                                         <option value="3">本科教学</option>
                                         <option value="4">研究生教学</option>
-                                        <option value="4">科技信息</option>
-                                        <option value="4">社科信息</option>
+                                        <option value="5">科技信息</option>
+                                        <option value="6">社科信息</option>
                                     </select>
                                 </div>
                             </div>

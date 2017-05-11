@@ -26,8 +26,26 @@ class NcreController extends Controller
      */
     public function index()
     {
-        
-        return view('admin.notice.index');
+        $result = $this->read('xls', '成绩数据(140014).xls');
+//        dd($result);
+//        dd(count($result));
+        for ($i = 2; $i < count($result); $i++) {
+//            dd(strlen($result[$i][5]),((int)$result[$i][5])*1000);
+
+            settype($result[$i][5], "int");
+
+            $res = self::$ncreStore->insertData([
+                'xm' => $result[$i][2],
+                'xb' => $result[$i][3],
+                'csrq' => $result[$i][4],
+                'zjh' => $result[$i][5],
+                'cj' => $result[$i][6],
+                'dd' => $result[$i][7],
+                'zsbh' => $result[$i][8],
+                'file' => '140014',
+                'addtime' => time()]);
+//            dd($res);
+        }
     }
 
     /**
@@ -63,12 +81,7 @@ class NcreController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $data['status'] = 1;
 
-        $result = self::$noticeServer->insertData($data);
-
-        return response()->json($result);
     }
 
     /**
@@ -79,8 +92,7 @@ class NcreController extends Controller
      */
     public function show($id)
     {
-        $result = self::$noticeServer->getData($id);
-        return response()->json($result);
+
     }
 
     /**
@@ -91,15 +103,7 @@ class NcreController extends Controller
      */
     public function edit(Request $request, $id)
     {
-        $status = $request->input("status");
-        $user = $request->input('user');
 
-        if ($status == 3 && $user == 2) {
-            $result = self::$noticeServer->upDta(['guid' => $id], ['status' => 3, 'reason' => $request["reason"], 'user' => 2]);
-        } else {
-            $result = self::$noticeServer->changeStatus(['id' => $id], $status);
-        }
-        return response()->json($result);
     }
 
     /**
@@ -110,10 +114,7 @@ class NcreController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $where = ["guid" => $id];
-        $result = self::$noticeServer->upDta($where, $data);
-        return response()->json($result);
+
     }
 
     /**
@@ -127,29 +128,42 @@ class NcreController extends Controller
 
     }
 
+
     /**
-     * 上传图片到七牛
-     * @param $request
+     * 说明: 读文件
+     *
+     * @param $file_type
+     * @param $filename
+     * @param string $encode
      * @return array
      * @author 郭庆
      */
-    public function bannerPic(Request $request)
+    public function read($file_type, $filename, $encode = 'utf-8')
     {
-        //数据验证过滤
-        $validator = Validator::make($request->all(), [
-            'avatar_file' => 'required|mimes:png,gif,jpeg,jpg,bmp'
-        ], [
-            'avatar_file.required' => '上传文件为空!',
-            'avatar_file.mimes' => '上传的文件类型错误，请上传合法的文件类型:png,gif,jpeg,jpg,bmp。'
+        $dir = dirname(__FILE__);
+        include $dir . '/PHPExcel/Classes/PHPExcel.php';
 
-        ]);
-        // 数据验证失败，响应信息
-        if ($validator->fails()) return response()->json(['StatusCode' => '400', 'ResultData' => $validator->errors()->all()]);
-        //上传
-        $info = Avatar::avatar($request);
-        if ($info['status'] == '400') return response()->json(['StatusCode' => '400', 'ResultData' => '文件上传失败!']);
-        $avatarName = $info['msg'];
-
-        return response()->json(['StatusCode' => '200', 'ResultData' => $avatarName]);
+        if ($file_type == "xlsx") {
+            $objReader = \PHPExcel_IOFactory::createReader('Excel2007');
+        } else {
+            $objReader = \PHPExcel_IOFactory::createReader('Excel5');
+        }
+        $objPHPExcel = new \PHPExcel();
+        $objReader->setReadDataOnly(true);
+        $objPHPExcel = $objReader->load($filename);
+        $objWorksheet = $objPHPExcel->getActiveSheet();
+        $highestRow = $objWorksheet->getHighestRow();
+        $highestColumn = $objWorksheet->getHighestColumn();
+        $highestColumnIndex = \PHPExcel_Cell::columnIndexFromString($highestColumn);
+        $excelData = array();
+        for ($row = 1; $row <= $highestRow; $row++) {
+            for ($col = 0; $col < $highestColumnIndex; $col++) {
+                if ($objWorksheet->getCellByColumnAndRow(0, $row)->getValue() === null) {
+                    continue;
+                }
+                $excelData[$row][] = $objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
+            }
+        }
+        return $excelData;
     }
 }
