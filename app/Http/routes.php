@@ -38,6 +38,7 @@ Route::group(['domain' => ADMIN_URL, 'namespace' => 'Admin'], function () {
         Route::resource('/action_order', 'ActionOrderController');
         //校园文章管理
         Route::resource('/article', 'ArticleController');
+        Route::resource('ncre', 'NcreController');
         Route::resource('/banner', 'ArticleController@bannerpic');
         // 网站管理
         Route::resource('/web_admins/uploadorganizpic', 'WebAdminstrationController@uploadOrganizPic');
