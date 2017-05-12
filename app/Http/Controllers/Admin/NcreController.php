@@ -7,6 +7,7 @@ use App\Tools\Avatar;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\NoticeService as NoticeServer;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class NcreController extends Controller
@@ -26,22 +27,7 @@ class NcreController extends Controller
      */
     public function index()
     {
-        $result = $this->read('xls', '成绩数据(140009).xls');
-        for ($i = 2; $i < count($result); $i++) {
-            settype($result[$i][5], "int");
-            $result[$i][5] = (string)$result[$i][5];
-            if (strlen($result[$i][5]) == 17) {
-                $result[$i][5] = $result[$i][5] . 'X';
-            }
-            $res = self::$ncreStore->insertData([
-                'csrq' => $result[$i][4],
-                'zjh' => (string)$result[$i][5],
-                'cj' => $result[$i][6],
-                'dd' => $result[$i][7],
-                'zsbh' => $result[$i][8],
-                'file' => '140009',
-                'addtime' => time()]);
-        }
+
     }
 
     /**
@@ -52,21 +38,7 @@ class NcreController extends Controller
      */
     public function create(Request $request)
     {
-        $data = $request->all();
-        $nowPage = isset($data["nowPage"]) ? (int)$data["nowPage"] : 1;//获取当前页
-        $forPages = 5;//一页的数据条数
-        $status = $data["status"];//通知状态：已发布 待审核 已下架
-        $type = $data["type"];//获取通知类型
 
-        $where = [];
-        if ($status) {
-            $where["status"] = $status;
-        }
-        if ($type != 'null') {
-            $where["type"] = $type;
-        }
-        $result = self::$noticeServer->selectDatas($where, $nowPage, $forPages, "/notice/create");
-        return response()->json($result);
     }
 
     /**
@@ -88,7 +60,30 @@ class NcreController extends Controller
      */
     public function show($id)
     {
-
+        $result = $this->read('xls', '成绩数据(' . $id . ').xls');
+        if (empty($result)) return view('errors.404');
+        DB::beginTransaction();
+        try {
+            for ($i = 2; $i < count($result); $i++) {
+                settype($result[$i][5], "int");
+                $result[$i][5] = (string)$result[$i][5];
+                if (strlen($result[$i][5]) == 17) {
+                    $result[$i][5] = $result[$i][5] . 'X';
+                }
+                self::$ncreStore->insertData([
+                    'csrq' => $result[$i][4],
+                    'zjh' => (string)$result[$i][5],
+                    'cj' => $result[$i][6],
+                    'dd' => $result[$i][7],
+                    'zsbh' => $result[$i][8],
+                    'file' => '140009',
+                    'addtime' => time()]);
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            return view('errors.500');
+        }
+        DB::commit();
     }
 
     /**
