@@ -48,7 +48,7 @@ class NcreController extends Controller
     {
         $data = $request->except('_token');
         if (empty($data['XM']) || empty($data['ZJH'])) return response()->json(['StatusCode' => '400', 'ResultData' => '缺少参数']);
-        $result = self::$ncreStore->getOneData(['xm' => $data['XM'], 'zjh' => $data['ZJH']]);
+        $result = self::$ncreStore->getOneData(['zjh' => $data['ZJH']]);
         if(empty($result)) return response()->json(['StatusCode' => '400', 'ResultData' => '不存在该记录']);
         else return response()->json(['StatusCode' => '200', 'ResultData' => $result]);
     }

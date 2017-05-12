@@ -26,25 +26,21 @@ class NcreController extends Controller
      */
     public function index()
     {
-        $result = $this->read('xls', '成绩数据(140014).xls');
-//        dd($result);
-//        dd(count($result));
+        $result = $this->read('xls', '成绩数据(140009).xls');
         for ($i = 2; $i < count($result); $i++) {
-//            dd(strlen($result[$i][5]),((int)$result[$i][5])*1000);
-
             settype($result[$i][5], "int");
-
+            $result[$i][5] = (string)$result[$i][5];
+            if (strlen($result[$i][5]) == 17) {
+                $result[$i][5] = $result[$i][5] . 'X';
+            }
             $res = self::$ncreStore->insertData([
-                'xm' => $result[$i][2],
-                'xb' => $result[$i][3],
                 'csrq' => $result[$i][4],
-                'zjh' => $result[$i][5],
+                'zjh' => (string)$result[$i][5],
                 'cj' => $result[$i][6],
                 'dd' => $result[$i][7],
                 'zsbh' => $result[$i][8],
-                'file' => '140014',
+                'file' => '140009',
                 'addtime' => time()]);
-//            dd($res);
         }
     }
 

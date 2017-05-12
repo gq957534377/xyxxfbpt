@@ -40,7 +40,6 @@
                     <thread>
                         <tr>
                             <th style="text-align:center;">身份证号</th>
-                            <th style="text-align:center;">姓名</th>
                             <th style="text-align:center;">成绩</th>
                         <tr>
                     </thread>
@@ -127,12 +126,8 @@
                             var data = data.ResultData;
                             $('#table').show();
                             $("#tr").html("<td>"
-                                + data.zjh + "</td><td>" + data.xm + "</td><td>" + data.cj + "</td></tr>");
-                            if (data.dd == "优秀" || data.dd == "合格") {
-                                $("#R").html("<span style='color:red;'>恭喜您已通过该考试，请注意软件学院网站合格证书领取通知！</span>");
-                            } else if (data.dd == "不合格") {
-                                $("#R").html("<span style='color:blue;'>考试未通过，请继续努力，请注意软件学院网站报名通知！</span>");
-                            }
+                                + data.zjh + "</td><td>" + status(data.dd) + "</td></tr>");
+                            $("#R").html(span(data.dd));
                         } else {
                             alert(data.ResultData);
                         }
@@ -143,6 +138,32 @@
                 });
             },
         });
+
+        function status(dd) {
+            switch (dd) {
+                case -1:
+                    return "缺考";
+                case 0:
+                    return "不合格";
+                case 1:
+                    return "及格";
+                case 3:
+                    return "优秀";
+            }
+        }
+
+        function span(dd) {
+            switch (dd) {
+                case -1:
+                    return "<span style='color:green;'>该考生未按时参加考试！</span>";
+                case 0:
+                    return "<span style='color:blue;'>考试未通过，请继续努力，请注意软件学院网站报名通知！</span>";
+                case 1:
+                    return "<span style='color:red;'>恭喜您已通过该考试，请注意软件学院网站合格证书领取通知！</span>";
+                case 3:
+                    return "<span style='color:red;'>恭喜您已通过该考试，并获得优秀的成绩，请注意软件学院网站合格证书领取通知！</span>";
+            }
+        }
     </script>
 @endsection
 
