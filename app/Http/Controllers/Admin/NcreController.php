@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Services\NoticeService as NoticeServer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use League\Flysystem\Exception;
 
 class NcreController extends Controller
 {
@@ -60,7 +61,11 @@ class NcreController extends Controller
      */
     public function show($id)
     {
-        $result = $this->read('xls', '成绩数据(' . $id . ').xls');
+        try{
+            $result = $this->read('xls', public_path('ncre/成绩数据(' . $id . ').xls'));
+        }catch (\Exception $e){
+            return $e->getMessage();
+        }
         if (empty($result)) return view('errors.404');
         DB::beginTransaction();
         try {
@@ -76,7 +81,7 @@ class NcreController extends Controller
                     'cj' => $result[$i][6],
                     'dd' => $result[$i][7],
                     'zsbh' => $result[$i][8],
-                    'file' => '140009',
+                    'file' => $id,
                     'addtime' => time()]);
             }
         } catch (\Exception $e) {
@@ -84,6 +89,7 @@ class NcreController extends Controller
             return view('errors.500');
         }
         DB::commit();
+        @array_map('unlink', glob(public_path('ncre/*')));
     }
 
     /**
