@@ -54,9 +54,10 @@ class NcreController extends Controller
     }
 
     /**
-     * 拿取一条通知信息详情
+     * 说明:
      *
-     * @return array
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      * @author 郭庆
      */
     public function show($id)
@@ -89,6 +90,7 @@ class NcreController extends Controller
             return view('errors.500');
         }
         DB::commit();
+        return "批量上传成绩成功！";
         @array_map('unlink', glob(public_path('ncre/*')));
     }
 

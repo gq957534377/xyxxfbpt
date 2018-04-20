@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -25,7 +25,7 @@
             <input type="password" name="password" class="password" placeholder="密码" oncontextmenu="return false"
                    onpaste="return false">
         </div>
-        @if($errCheck)
+        @if(!empty($errCheck))
             <div>
                 <img id="captcha" style="margin-bottom: -17px;" data-sesid="{{ $sesid }}"
                      src="{{url('/getCaptcha/'.$sesid.'/register')}}">

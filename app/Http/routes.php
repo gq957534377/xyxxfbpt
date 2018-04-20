@@ -67,7 +67,7 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
     // 前台计算机等级考试成绩查询
     Route::resource('/jisuanji', 'JisuanjiController');
     // ncre成绩查询
-    Route::resource('/ncre', 'NcreController');
+    Route::resource('/ncres', 'NcreController');
     // 前台手机端校园学习
     Route::resource('/study', 'StudyController');
     // 获取修改密码的验证码
@@ -122,7 +122,7 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
         //投稿管理
         Route::resource('/send/get_article_info', 'SendController@getArticleInfo');
         Route::resource('/send', 'SendController');
-        Route::resource('userGoods', 'userGoodsController');
+        Route::resource('userGoods', 'UserGoodsController');
 
         Route::resource('/upload', 'ActionController@upload');
         //七牛TokenToken
@@ -132,5 +132,3 @@ Route::group(['domain' => HOME_URL, 'namespace' => 'Home'], function () {
 
 });
 
-//redis缓存隔离demo路由
-//Route::resource('/test','TestController');

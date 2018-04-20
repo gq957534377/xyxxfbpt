@@ -42,10 +42,8 @@ class ArticleController extends Controller
     {
         // 获取活动类型 -> 活动类型的对应状态的所有数据
         $data = $request->all();
-        $where = [];
-        if (!empty($data['type'])) {
-            $where['type'] = $data['type'];
-        }
+        if (empty($data['type'])) return view('errors.404');
+        $where['type'] = $data['type'];
         $where['status'] = 1;
         $nowPage = 1;
         $result = self::$articleServer->selectData($where, $nowPage, self::$forPages, '/article/create');

@@ -3,9 +3,9 @@
     @if(!empty(session('user')))
         <div class="top-right">
             <center><a href="{{ url('/user/'.session('user')->guid) }}"><img id="topAvatar" class="img-circle"
-                                                                     style="width: 66%"
-                                                                     src="{{ session('user')->headpic }}"
-                                                                     data-id="{{ session('user')->guid }}"></a></center>
+                                                                             style="width: 66%"
+                                                                             src="{{ session('user')->headpic }}"
+                                                                             data-id="{{ session('user')->guid }}"></a></center>
             <a class="hidden-xs" href="{{ url('/user/'.session('user')->guid) }}" style="margin-left: 24%">
                 <mark id="nicknameBox">{{ session('user')->username }}</mark>
             </a>
@@ -73,8 +73,8 @@
         <li><a href=""><span class="glyphicon glyphicon-tags"></span>校园学习</a>
             <div>
                 <ul class="nav hidden-xs-nav">
-                    <li><a href="{{ route('jisuanji.index') }}"><span class="glyphicon glyphicon-erase"></span>计算机等级成绩查询</a>
-                    <li><a href="{{ route('ncre.index') }}"><span class="glyphicon glyphicon-erase"></span>ncre成绩查询</a>
+                    {{--                    <li><a href="{{ route('jisuanji.index') }}"><span class="glyphicon glyphicon-erase"></span>计算机等级成绩查询</a>--}}
+                    <li><a href="{{ route('ncres.index') }}"><span class="glyphicon glyphicon-erase"></span>计算机（Ncre）成绩查询</a>
                 </ul>
             </div>
         </li>
@@ -125,13 +125,13 @@
     </ul>
     <div class="feeds"><a class="feed feed-xlweibo" href="http://blog.guoq.xin/" target="_blank"><i></i>博客</a> <a
                 class="feed feed-txweibo" href="http://weibo.com/u/3912137536" target="_blank"><i></i>新浪微博</a> <a class="feed feed-rss"
-                                                                                               href="http://www.jianshu.com/u/08986e4feb77"
-                                                                                               target="_blank"><i></i>简书</a>
+                                                                                                                  href="http://www.jianshu.com/u/08986e4feb77"
+                                                                                                                  target="_blank"><i></i>简书</a>
         <a class="feed feed-weixin" data-toggle="popover" data-trigger="hover" data-html="true"
            data-content="<img src='{{ asset('home/images/wx.png') }}' alt=''>" href="javascript:;" target="_blank"><i></i>关注微信</a>
     </div>
     {{--<div class="wall"><a href="readerWall.html" target="_blank">读者墙</a> | <a href="tags.html"--}}
-                                                                             {{--target="_blank">标签云</a></div>--}}
+    {{--target="_blank">标签云</a></div>--}}
 </div>
 <!--/超小屏幕不显示-->
 <div class="visible-xs header-xs"><!--超小屏幕可见-->

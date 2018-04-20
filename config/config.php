@@ -60,9 +60,9 @@ define('QINIU_SECRET_KEY', 'VKyfWX4e7TdHwXbkss6m9gwE9-uGMfsjSvYGUvqS'); // 七�
 define('QINIU_BUCKET', 'guoqing2');                                 // 七牛存储空间
 define('QINIU_URL', 'http://ol0fkmsij.bkt.clouddn.com/');               // 七牛访问url
 //前台域名配置
-define('HOME_URL', 'www.xyxxfb.com');
+define('HOME_URL', 'www.gq1994.top');
 //后台域名配置
-define('ADMIN_URL', 'admin.xyxxfb.com');
+define('ADMIN_URL', 'admin.gq1994.top');
 
 
 // 首页合作机构，投资机构。轮播图，网页页脚信息，过期时间

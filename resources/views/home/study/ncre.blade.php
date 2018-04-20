@@ -18,7 +18,7 @@
 
     <div class="content-wrap"><!--内容-->
         <div class="content">
-            <center><h2>Ncre考试成绩查询</h2></center>
+            <center><h2>计算机（Ncre）考试成绩查询</h2></center>
             <br><br>
             <form id="grade">
                 {{ csrf_field() }}
@@ -51,7 +51,7 @@
                 </table>
                 <div id="R"></div>
             </div>
-
+            <h5><span style="color: red;">注：</span>2017.5.19前将开放全省成绩查询</h5>
             <p>分享到:</p>
             <div class="bdsharebuttonbox col-lg-3 col-md-4 col-sm-4 col-xs-9 pad-clr pad-l30-md pad-l30-sm">
                 <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"
@@ -117,17 +117,16 @@
                 });
 
                 $.ajax({
-                    url: "/ncre",
+                    url: "/ncres",
                     data: data,
                     type: 'post',
                     success: function (data) {
-                        console.log(data);
                         if (data.StatusCode == "200") {
                             var data = data.ResultData;
                             $('#table').show();
                             $("#tr").html("<td>"
                                 + data.zjh + "</td><td>" + status(data.dd) + "</td></tr>");
-                            $("#R").html(span(data.dd));
+                            $("#R").html(span(data.dd, data.zsbh));
                         } else {
                             alert(data.ResultData);
                         }
@@ -152,16 +151,16 @@
             }
         }
 
-        function span(dd) {
+        function span(dd, zsbh) {
             switch (dd) {
                 case -1:
                     return "<span style='color:green;'>该考生未按时参加考试！</span>";
                 case 0:
                     return "<span style='color:blue;'>考试未通过，请继续努力，请注意软件学院网站报名通知！</span>";
                 case 1:
-                    return "<span style='color:red;'>恭喜您已通过该考试，请注意软件学院网站合格证书领取通知！</span>";
+                    return "<span style='color:red;'>恭喜您已通过该考试，请注意软件学院网站合格证书（证书编号：" + zsbh + "）领取通知！</span>";
                 case 3:
-                    return "<span style='color:red;'>恭喜您已通过该考试，并获得优秀的成绩，请注意软件学院网站合格证书领取通知！</span>";
+                    return "<span style='color:red;'>恭喜您已通过该考试，并获得优秀的成绩，请注意软件学院网站合格证书（证书编号：" + zsbh + "）领取通知！</span>";
             }
         }
     </script>

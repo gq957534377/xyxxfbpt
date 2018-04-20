@@ -33,7 +33,7 @@
                     <p class=""><span><strong>价格：</strong></span><h3 style="color: red">{{ $data->price }}元</h3></p>
 
                     <p class=""><span><strong>电话：</strong></span><a target="_blank"
-                                                     href="">{{ $data->name }}</a>
+                                                     href="">{{ $data->tel }}</a>
                     </p>
                     <p class=""><span><strong>QQ：</strong></span>{{ $data->qq }}</p>
                     <p class=""><span><strong>微信：</strong></span>{{ $data->wechat }}</p>
